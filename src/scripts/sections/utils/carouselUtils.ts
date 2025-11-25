@@ -71,10 +71,10 @@ function createCarouselManager(config: CarouselConfig) {
 
     state.instance = new EmblaCarouselWrapper(container, dots, {
       loop: true,
-      autoplay: false,
+      autoplay: false, // Autoplay disabled for better user control
       align: "center",
       slidesToScroll: 1,
-      dragFree: false,
+      dragFree: true, // Enable smooth free dragging for better mobile experience
       ...carouselOptions,
     });
 

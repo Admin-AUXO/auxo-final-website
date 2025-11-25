@@ -271,13 +271,14 @@
 }
 
 .embla__container.carousel-track {
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-x pan-y pinch-zoom;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Carousel track */
 .carousel-track {
   display: flex;
-  transition: transform var(--animation-duration-carousel) cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
   align-items: stretch;
   gap: var(--carousel-gap-mobile);
@@ -285,6 +286,7 @@
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (min-width: 640px) {
@@ -295,12 +297,12 @@
 
 .carousel-track:active {
   cursor: grabbing;
-  transition: transform 0.1s ease-out;
+  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* Smooth slide transitions */
 .carousel-slide {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.35s ease-out;
   opacity: 0.7;
 }
 
@@ -364,11 +366,17 @@
   align-items: center;
   justify-content: center;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  touch-action: manipulation;
 }
 
 .carousel-dot:hover {
   transform: scale(1.1);
+}
+
+.carousel-dot:active {
+  transform: scale(0.95);
+  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .carousel-dot[style*="display: none"] {
@@ -385,7 +393,7 @@
   height: var(--carousel-dot-size);
   border-radius: 50%;
   background-color: var(--carousel-dot-inactive);
-  transition: all var(--animation-duration-carousel) cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   flex-shrink: 0;
   opacity: 0.6;
 }
@@ -583,6 +591,15 @@
   .carousel-dots {
     gap: 0.5rem;
     padding: 0.75rem 0;
+  }
+  
+  /* Enhanced mobile touch interactions */
+  .carousel-track {
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .carousel-slide {
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out;
   }
 }
 
