@@ -1,0 +1,111 @@
+/* Highlight text animations */
+.highlight-text,
+.highlight-cta-text {
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    var(--text-primary) 0%,
+    var(--text-primary) 25%,
+    var(--accent-green) 50%,
+    var(--text-primary) 75%,
+    var(--text-primary) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  padding-bottom: var(--spacing-em-sm);
+  padding-top: var(--spacing-em-xs);
+  overflow: visible;
+  display: block;
+  animation: highlightReveal var(--animation-duration-highlight) ease-out forwards,
+    gradientFill var(--animation-duration-gradient) ease-in-out infinite;
+  animation-play-state: running;
+  animation-fill-mode: forwards;
+}
+
+.highlight-text {
+  animation-delay: var(--delay-highlight);
+}
+
+.highlight-cta-text {
+  animation-delay: var(--delay-cta);
+}
+
+.highlight-line-container {
+  padding-bottom: var(--spacing-em-md);
+  padding-top: var(--spacing-em-sm);
+  overflow: visible;
+}
+
+.highlight-subtitle-container {
+  padding-bottom: var(--spacing-em-md);
+  padding-top: var(--spacing-em-sm);
+  overflow: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .highlight-text,
+  .highlight-cta-text {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    background: var(--text-primary);
+    -webkit-text-fill-color: var(--text-primary);
+  }
+}
+
+/* Underline animations */
+.underline-line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-green),
+    transparent
+  );
+  animation: drawUnderline var(--animation-duration-underline) ease-out forwards;
+  animation-delay: var(--delay-underline);
+}
+
+.underline-animation {
+  margin-top: var(--spacing-xl);
+  height: 0.125rem;
+  position: relative;
+  overflow: hidden;
+  padding-top: var(--spacing-sm);
+}
+
+/* Flow line animation */
+.flow-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-green),
+    transparent
+  );
+  animation: flow var(--animation-duration-flow) ease-in-out infinite;
+}
+
+/* Stroke animation */
+.stroke-animate {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawStroke var(--animation-duration-stroke) ease-out forwards;
+  animation-delay: var(--delay-normal);
+}
+
+.bento-card:hover .stroke-animate {
+  animation: drawStroke var(--animation-duration-stroke) ease-out forwards;
+}
+

@@ -1,0 +1,90 @@
+/* Accordion styles */
+.accordion-header::-webkit-details-marker,
+.accordion-header::marker,
+.service-accordion-header::-webkit-details-marker,
+.service-accordion-header::marker,
+.accordion-summary::-webkit-details-marker,
+.accordion-summary::marker {
+  display: none;
+}
+
+.accordion-content,
+.service-accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--duration-fast) ease-out;
+}
+
+.accordion-item[open] .accordion-content,
+.service-accordion-item[open] .service-accordion-content {
+  max-height: var(--card-min-height-accordion);
+}
+
+.accordion-chevron {
+  transition: transform var(--duration-fast) ease-out;
+}
+
+.accordion-item[open] .accordion-chevron,
+.service-accordion-item[open] .accordion-chevron {
+  transform: rotate(180deg);
+}
+
+/* Accordion icons and labels */
+[class*="-accordion-icon"] {
+  flex-shrink: 0;
+  background: linear-gradient(to bottom right, var(--accent-green-opacity-2), var(--accent-green-opacity-1));
+  border: 2px solid var(--accent-green-opacity-30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--duration-normal) var(--timing-smooth);
+}
+
+[class*="-accordion-section-label"] {
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--font-body);
+}
+
+/* Accordion items */
+[class*="-use-case-item"],
+[class*="-deliverable-item"] {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color-light);
+  border-radius: 0.5rem;
+  transition: all 200ms ease;
+}
+
+[class*="-use-case-item"]:hover,
+[class*="-deliverable-item"]:hover {
+  background: var(--accent-green-opacity-05);
+  border-color: var(--accent-green-opacity-30);
+}
+
+[class*="-use-case-text"],
+[class*="-deliverable-text"] {
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+}
+
+[class*="-accordion-tag"] {
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color-light);
+  border-radius: 0.5rem;
+  font-family: var(--font-body);
+  transition: all 200ms ease;
+}
+
+[class*="-accordion-tag"]:hover {
+  background: var(--accent-green-opacity-05);
+  border-color: var(--accent-green-opacity-30);
+  color: var(--accent-green);
+}
+

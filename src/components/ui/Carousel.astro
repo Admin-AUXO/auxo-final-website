@@ -1,0 +1,59 @@
+---
+export interface Props {
+  containerId: string;
+  trackId: string;
+  dotSelector: string;
+  items: unknown[];
+  wrapperClass?: string;
+  containerClass?: string;
+  trackClass?: string;
+  dotsClass?: string;
+  dotClass?: string;
+  dotsMarginTop?: string;
+  breakpoint?: number;
+  activateOnDesktop?: boolean;
+}
+
+const {
+  containerId,
+  trackId,
+  dotSelector,
+  items,
+  wrapperClass = "",
+  containerClass = "",
+  trackClass = "",
+  dotsClass = "",
+  dotClass = "",
+  dotsMarginTop = "mt-6 sm:mt-8",
+  breakpoint = 1024,
+  activateOnDesktop = false,
+} = Astro.props;
+
+const displayClass = activateOnDesktop
+  ? `hidden ${breakpoint === 1024 ? "lg:block" : breakpoint === 768 ? "md:block" : ""}`
+  : `${breakpoint === 1024 ? "lg:hidden" : breakpoint === 768 ? "md:hidden" : ""}`;
+---
+
+<div class={`${wrapperClass} ${displayClass}`}>
+  <div class={`carousel-container embla ${containerClass}`} id={containerId}>
+    <div class={`carousel-track embla__container ${trackClass}`} id={trackId}>
+      <slot />
+    </div>
+  </div>
+  
+  <div class={`carousel-dots ${dotsClass} w-full ${dotsMarginTop}`} role="tablist" aria-label="Carousel navigation">
+    {items.map((_, index) => (
+      <button
+        type="button"
+        class={`carousel-dot ${dotClass} ${index === 0 ? "active" : ""}`}
+        role="tab"
+        aria-label={`Go to slide ${index + 1}`}
+        aria-selected={index === 0 ? "true" : "false"}
+        aria-current={index === 0 ? "true" : undefined}
+        tabindex={index === 0 ? "0" : "-1"}
+        data-index={index}
+      />
+    ))}
+  </div>
+</div>
+

@@ -1,0 +1,105 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import HighlightText from "../../ui/HighlightText.astro";
+import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+import Carousel from "../../ui/Carousel.astro";
+import { aboutContent } from "../../../data/content/about";
+
+const content = aboutContent.approach;
+const principleIcons = {
+  C: "mdi:target",
+  O: "mdi:view-grid",
+  D: "mdi:rocket-launch",
+  E: "mdi:shield-check",
+};
+---
+
+<SectionContainer
+  id="approach"
+  padding="normal"
+  background="elevated"
+  class="relative approach-section section-divider"
+>
+  <BackgroundDecorations gradients={["dual"]} patterns={["grid"]} />
+  
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-6xl mx-auto w-full">
+      <SectionHeader
+        title={content.title}
+        subtitle={content.description}
+        highlight="CODE"
+        wrapperClass="mb-10 sm:mb-12 lg:mb-16"
+        subtitleClass="text-body-lg sm:text-body-xl"
+      />
+
+      <div class="hidden md:grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 code-principles-desktop">
+        {content.principles.map((principle, index) => (
+          <div
+            class="code-principle-card opacity-0 fade-in-up-delay"
+            style={`animation-delay: ${0.3 + index * 0.15}s`}
+          >
+            <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
+              <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-4 sm:mb-5">
+                  <div class="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-accent-green/10 rounded-lg flex items-center justify-center group-hover:bg-accent-green/20 transition-all duration-300">
+                    <Icon name={principleIcons[principle.letter as keyof typeof principleIcons]} class="w-6 h-6 sm:w-7 sm:h-7 text-accent-green" />
+                  </div>
+                  <h3 class="text-h4 font-bold text-theme-primary font-display">
+                    <span class="text-accent-green code-letter">{principle.letter}</span>
+                    <span class="code-title-rest">{principle.title.slice(principle.letter.length)}</span>
+                  </h3>
+                </div>
+                <p class="text-body-base text-theme-secondary leading-relaxed font-body">
+                  {principle.description}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Carousel
+        containerId="code-carousel-container"
+        trackId="code-carousel-track"
+        dotSelector=".code-carousel-dot"
+        items={content.principles}
+        wrapperClass="md:hidden code-principles-carousel code-principles-carousel-wrapper"
+        dotsClass="code-carousel-dots"
+        dotClass="code-carousel-dot"
+        breakpoint={768}
+        activateOnDesktop={false}
+      >
+        {content.principles.map((principle, index) => (
+          <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
+            <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
+              <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-4 sm:mb-5">
+                  <div class="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-accent-green/10 rounded-lg flex items-center justify-center group-hover:bg-accent-green/20 transition-all duration-300">
+                    <Icon name={principleIcons[principle.letter as keyof typeof principleIcons]} class="w-6 h-6 sm:w-7 sm:h-7 text-accent-green" />
+                  </div>
+                  <h3 class="text-h4 font-bold text-theme-primary font-display">
+                    <span class="text-accent-green code-letter">{principle.letter}</span>
+                    <span class="code-title-rest">{principle.title.slice(principle.letter.length)}</span>
+                  </h3>
+                </div>
+                <p class="text-body-base text-theme-secondary leading-relaxed font-body">
+                  {principle.description}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </Carousel>
+    </div>
+  </div>
+</SectionContainer>
+
+<script>
+  import { initCodeCarousel } from "../../../scripts/sections/about/codeSection";
+  initCodeCarousel();
+</script>
+

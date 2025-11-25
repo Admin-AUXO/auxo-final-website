@@ -1,0 +1,105 @@
+---
+import { Icon } from "astro-icon/components";
+import MethodologyStep from "../../ui/MethodologyStep.astro";
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import {
+  homepageContent,
+  type HomepageContent,
+} from "../../../data/content/homepage";
+import { createUrl } from "../../../utils/url";
+
+const content: HomepageContent["methodology"] = homepageContent.methodology;
+---
+
+<SectionContainer
+  id="methodology"
+  padding="lg"
+  background="card"
+  class="relative min-h-auto md:min-h-[75vh] overflow-x-hidden methodology-section section-divider"
+>
+  <div class="section-pattern-grid absolute inset-0 pointer-events-none z-0"></div>
+  <div class="section-gradient-center absolute inset-0 pointer-events-none z-0"></div>
+  
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-7xl mx-auto w-full overflow-x-hidden">
+      <div class="text-center mb-8 sm:mb-12 lg:mb-16 animate-fade-in">
+        <h2
+          class="text-h2 font-extrabold mb-4 sm:mb-5 lg:mb-6 text-theme-primary transition-colors leading-tight tracking-tight font-display"
+        >
+          {content.title}
+          <span class="text-accent-green">{content.titleHighlight}</span>
+        </h2>
+        <div class="max-w-4xl mx-auto mb-4 sm:mb-6 lg:mb-8">
+          <p
+            class="text-body-xl font-semibold text-theme-secondary leading-relaxed transition-colors font-display"
+          >
+            {content.subtitle.split("\n\n")[0]}
+          </p>
+        </div>
+        <div class="max-w-2xl mx-auto">
+          <p
+            class="text-body-lg text-theme-secondary leading-relaxed transition-colors font-normal font-body"
+          >
+            {content.subtitle.split("\n\n")[1]?.replace(":", "") || ""}
+          </p>
+        </div>
+      </div>
+
+      <div class="hidden lg:block methodology-flow relative overflow-x-visible">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-6 xl:gap-8 overflow-x-visible px-2 max-w-[1400px] mx-auto"
+        >
+          {content.steps.map((step, index) => (
+            <MethodologyStep
+              number={String(step.number)}
+              title={step.title}
+              description={step.description}
+              output={step.output}
+              index={index}
+              variant="flow"
+              isLast={index === content.steps.length - 1}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div class="lg:hidden methodology-accordion">
+        <div class="accordion-container">
+          {content.steps.map((step, index) => (
+            <MethodologyStep
+              number={String(step.number)}
+              title={step.title}
+              description={step.description}
+              output={step.output}
+              index={index}
+              variant="accordion"
+              isLast={index === content.steps.length - 1}
+            />
+          ))}
+        </div>
+      </div>
+      {content.navigationButton && (
+        <div class="text-center mt-8 sm:mt-10 animate-fade-in">
+          <a
+            href={createUrl(content.navigationButton.href)}
+            class="inline-flex items-center gap-2 text-accent-green hover:text-accent-green/80 font-semibold text-body-lg transition-all duration-300 group flex-nowrap whitespace-nowrap font-body"
+          >
+            <span class="whitespace-nowrap">
+              {content.navigationButton.text}
+            </span>
+            <Icon
+              name="mdi:arrow-right"
+              class="w-5 h-5 flex-shrink-0 group-hover:translate-x-2 transition-transform duration-300"
+            />
+          </a>
+        </div>
+      )}
+    </div>
+  </div>
+</SectionContainer>
+
+<script>
+  import { initMethodologySection } from "../../../scripts/sections/home/methodologySection";
+  initMethodologySection();
+</script>
+

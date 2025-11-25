@@ -1,0 +1,281 @@
+:root {
+  /* Colors - Primary */
+  --accent-green: #A3E635;
+  --accent-green-rgb: 163, 230, 53;
+  --bg-primary: #000000;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A0A0;
+  
+  /* Colors - Backgrounds */
+  --bg-secondary: rgb(20, 20, 20);
+  --bg-card: rgb(15, 15, 15);
+  --bg-surface: rgb(25, 25, 25);
+  --bg-elevated: rgb(35, 35, 35);
+  
+  /* Colors - Text */
+  --text-tertiary: rgb(140, 140, 140);
+  --text-on-accent: #000000;
+  
+  /* Colors - Borders */
+  --border-color: rgb(40, 40, 40);
+  --border-color-light: rgb(50, 50, 50);
+  
+  /* Colors - Accent Green Opacity Variants */
+  --accent-green-opacity-01: rgba(var(--accent-green-rgb), 0.01);
+  --accent-green-opacity-015: rgba(var(--accent-green-rgb), 0.015);
+  --accent-green-opacity-02: rgba(var(--accent-green-rgb), 0.02);
+  --accent-green-opacity-025: rgba(var(--accent-green-rgb), 0.025);
+  --accent-green-opacity-03: rgba(var(--accent-green-rgb), 0.03);
+  --accent-green-opacity-04: rgba(var(--accent-green-rgb), 0.04);
+  --accent-green-opacity-05: rgba(var(--accent-green-rgb), 0.05);
+  --accent-green-opacity-06: rgba(var(--accent-green-rgb), 0.06);
+  --accent-green-opacity-08: rgba(var(--accent-green-rgb), 0.08);
+  --accent-green-opacity-1: rgba(var(--accent-green-rgb), 0.1);
+  --accent-green-opacity-12: rgba(var(--accent-green-rgb), 0.12);
+  --accent-green-opacity-15: rgba(var(--accent-green-rgb), 0.15);
+  --accent-green-opacity-18: rgba(var(--accent-green-rgb), 0.18);
+  --accent-green-opacity-2: rgba(var(--accent-green-rgb), 0.2);
+  --accent-green-opacity-22: rgba(var(--accent-green-rgb), 0.22);
+  --accent-green-opacity-25: rgba(var(--accent-green-rgb), 0.25);
+  --accent-green-opacity-30: rgba(var(--accent-green-rgb), 0.3);
+  
+  /* Typography */
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-brand: 'Montserrat', system-ui, sans-serif;
+  --logo-text-color: var(--text-on-accent);
+  
+  /* Timing & Transitions */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --theme-transition: 200ms;
+  --timing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 2.5rem;
+  --spacing-3xl: 3rem;
+  --spacing-em-xs: 0.1em;
+  --spacing-em-sm: 0.2em;
+  --spacing-em-md: 0.5em;
+  
+  /* Grid System */
+  --grid-columns: 12;
+  --grid-max-width: 1280px;
+  --grid-padding-mobile: 1rem;
+  --grid-padding-sm: 1.5rem;
+  --grid-padding-lg: 2rem;
+  --grid-gap-mobile: 1rem;
+  --grid-gap-sm: 1.5rem;
+  --grid-gap-lg: 2rem;
+  
+  /* Transforms */
+  --transform-translate-y-xs: -1px;
+  --transform-translate-y-sm: 0.9375rem;
+  --transform-translate-y-md: 1.875rem;
+  --transform-translate-y-lg: 2.5rem;
+  --transform-translate-y-xl: 30px;
+  --transform-translate-y-card-hover: -4px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-accent: 0 4px 12px rgba(163, 230, 53, 0.3);
+  --shadow-accent-lg: 0 10px 30px rgba(163, 230, 53, 0.2);
+  --shadow-nav-scrolled-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-nav-scrolled-light: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  
+  /* Opacity */
+  --opacity-disabled: 0.5;
+  --opacity-overlay: 0.5;
+  --opacity-backdrop: 0.95;
+  --opacity-nav-scrolled: 0.99;
+  --opacity-card-hover: 0.15;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-dot-active: 4px;
+  
+  /* Blur */
+  --blur-sm: 10px;
+  --blur-md: 12px;
+  
+  /* Z-index Layers */
+  --z-base: 1;
+  --z-dropdown: 9999;
+  --z-dropdown-overlay: 9999;
+  --z-dropdown-menu: 10000;
+  --z-mobile-menu: 10000;
+  --z-navigation: 10001;
+  --z-mobile-menu-button: 10002;
+  --z-modal: 10003;
+  
+  /* Heights */
+  --min-height-card: 300px;
+  --nav-height-mobile: 4rem;
+  --nav-height-sm: 4rem;
+  --nav-height-lg: 4.5rem;
+  --nav-height-xl: 5rem;
+  
+  /* Widths & Sizing */
+  --width-90: 90%;
+  --width-60: 60%;
+  --nav-indicator-width: 75%;
+  --nav-logo-max-width-offset: 100px;
+  --touch-target-min: 44px;
+  
+  /* Patterns */
+  --pattern-size-sm: 20px;
+  --pattern-size-md: 50px;
+  --pattern-bg-size: var(--pattern-size-sm);
+  
+  /* Animation Delays */
+  --delay-fast: 0.1s;
+  --delay-normal: 0.2s;
+  --delay-slow: 0.3s;
+  --delay-slower: 0.4s;
+  --delay-slowest: 0.6s;
+  --delay-typing: 0.8s;
+  --delay-highlight: 0.8s;
+  --delay-cta: 0.3s;
+  --delay-underline: 1.5s;
+  
+  /* Animation Durations */
+  --animation-duration-highlight: 1.2s;
+  --animation-duration-gradient: 3s;
+  --animation-duration-underline: 2s;
+  --animation-duration-flow: 3s;
+  --animation-duration-stroke: 0.6s;
+  --animation-duration-blink: 1s;
+  --animation-duration-fade-in-up: 0.8s;
+  --animation-duration-fade-in-up-slow: 1s;
+  --animation-duration-card-hover: 0.4s;
+  --animation-duration-carousel: 0.3s;
+  --animation-duration-hero-content: 0.6s;
+  
+  /* Carousel Sizing */
+  --carousel-dot-size: 8px;
+  --carousel-dot-size-active: 24px;
+  --carousel-dot-touch-target: 32px;
+  --carousel-slide-max-width-mobile: 380px;
+  --carousel-slide-max-width-tablet: 420px;
+  --carousel-slide-width-mobile: 4.5rem;
+  --carousel-slide-width-tablet: 6rem;
+  --carousel-gap-mobile: 0.75rem;
+  --carousel-gap-tablet: 1rem;
+  --carousel-dots-gap: 0.625rem;
+  --carousel-dots-padding: 0.5rem;
+  
+  /* Card Sizing */
+  --card-min-height-sm: 320px;
+  --card-min-height-lg: 360px;
+  --card-min-height-accordion: 62.5rem;
+  
+  /* Metrics */
+  --metric-min-height: 2.5em;
+  --metric-line-height: 1.25;
+  
+  /* Particle System */
+  --particle-opacity-min: 0.15;
+  --particle-opacity-max: 0.35;
+  --particle-link-opacity: 0.2;
+  --particle-triangle-opacity: 0.08;
+  --particle-cursor-opacity: 0.12;
+}
+
+/* Button Variants */
+:root {
+  --btn-primary-bg: var(--accent-green);
+  --btn-primary-text: var(--text-on-accent);
+  --btn-primary-text-hover: var(--text-on-accent);
+  --btn-primary-bg-hover: rgb(183, 240, 73);
+  --btn-primary-bg-active: rgb(143, 220, 33);
+  --btn-primary-bg-disabled: rgba(163, 230, 53, 0.5);
+  
+  --btn-secondary-bg: var(--bg-surface);
+  --btn-secondary-text: var(--text-primary);
+  --btn-secondary-border: var(--border-color);
+  --btn-secondary-bg-hover: var(--bg-elevated);
+  --btn-secondary-border-hover: var(--accent-green);
+  --btn-secondary-bg-disabled: var(--bg-surface);
+  --btn-secondary-text-disabled: var(--text-tertiary);
+  
+  --btn-ghost-bg: transparent;
+  --btn-ghost-text: var(--text-primary);
+  --btn-ghost-border: transparent;
+  --btn-ghost-bg-hover: var(--bg-surface);
+  --btn-ghost-border-hover: var(--border-color);
+  --btn-ghost-bg-active: var(--bg-elevated);
+  
+  --btn-outline-bg: transparent;
+  --btn-outline-text: var(--text-primary);
+  --btn-outline-border: var(--accent-green);
+  --btn-outline-bg-hover: var(--accent-green);
+  --btn-outline-text-disabled: var(--text-tertiary);
+  --btn-outline-border-disabled: var(--border-color);
+}
+
+/* Light Theme */
+:root.light {
+  --accent-green: #15803D;
+  --bg-primary: #FFFFFF;
+  --text-primary: #111827;
+  --text-secondary: #4B5563;
+  
+  --bg-secondary: rgb(249, 250, 251);
+  --bg-card: rgb(255, 255, 255);
+  --bg-surface: rgb(243, 244, 246);
+  --bg-elevated: rgb(229, 231, 235);
+  
+  --text-tertiary: rgb(107, 114, 128);
+  --text-on-accent: #FFFFFF;
+  
+  --border-color: rgb(229, 231, 235);
+  --border-color-light: rgb(243, 244, 246);
+  
+  --btn-primary-bg: var(--accent-green);
+  --btn-primary-text: var(--text-on-accent);
+  --btn-primary-text-hover: var(--text-on-accent);
+  --btn-primary-bg-hover: rgb(22, 101, 52);
+  --btn-primary-bg-active: rgb(20, 83, 45);
+  --btn-primary-bg-disabled: rgba(21, 128, 61, 0.5);
+  
+  --btn-secondary-bg: var(--bg-surface);
+  --btn-secondary-text: var(--text-primary);
+  --btn-secondary-border: var(--border-color);
+  --btn-secondary-bg-hover: var(--bg-elevated);
+  --btn-secondary-border-hover: var(--accent-green);
+  --btn-secondary-bg-disabled: var(--bg-surface);
+  --btn-secondary-text-disabled: var(--text-tertiary);
+  
+  --btn-ghost-bg: transparent;
+  --btn-ghost-text: var(--text-primary);
+  --btn-ghost-border: transparent;
+  --btn-ghost-bg-hover: var(--bg-surface);
+  --btn-ghost-border-hover: var(--border-color);
+  --btn-ghost-bg-active: var(--bg-elevated);
+  
+  --btn-outline-bg: transparent;
+  --btn-outline-text: var(--text-primary);
+  --btn-outline-border: var(--accent-green);
+  --btn-outline-bg-hover: var(--accent-green);
+  --btn-outline-text-disabled: var(--text-tertiary);
+  --btn-outline-border-disabled: var(--border-color);
+  
+  /* Light theme shadows */
+  --shadow-nav-scrolled-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-nav-scrolled-light: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-accent: 0 4px 12px rgba(21, 128, 61, 0.3);
+  --shadow-accent-lg: 0 10px 30px rgba(21, 128, 61, 0.2);
+}

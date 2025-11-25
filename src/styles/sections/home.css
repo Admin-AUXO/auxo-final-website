@@ -1,0 +1,192 @@
+/* Home Section Styles */
+
+/* Hero Section */
+.hero-headline {
+  opacity: 0;
+  transform: translateY(var(--transform-translate-y-md));
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-headline {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Capabilities Section */
+.symmetric-grid-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+  max-width: 100%;
+}
+
+.capability-card-wrapper {
+  height: 100%;
+  min-height: 340px;
+  display: flex;
+}
+
+.capability-card-wrapper[data-index="0"] {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+}
+
+.capability-card-wrapper[data-index="1"] {
+  grid-column: 3 / span 2;
+  grid-row: 1;
+}
+
+.capability-card-wrapper[data-index="2"] {
+  grid-column: 5 / span 2;
+  grid-row: 1;
+}
+
+.capability-card-wrapper[data-index="3"] {
+  grid-column: 1 / span 2;
+  grid-row: 2;
+}
+
+.capability-card-wrapper[data-index="4"] {
+  grid-column: 3 / span 2;
+  grid-row: 2;
+}
+
+.capability-card-wrapper[data-index="5"] {
+  grid-column: 5 / span 2;
+  grid-row: 2;
+}
+
+@media (min-width: 1280px) {
+  .symmetric-grid-container {
+    gap: 2rem;
+  }
+  
+  .capability-card-wrapper {
+    min-height: 360px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .symmetric-grid-container {
+    gap: 2.5rem;
+  }
+  
+  .capability-card-wrapper {
+    min-height: 380px;
+  }
+}
+
+/* Methodology Section */
+.methodology-section .section-pattern-grid {
+  background-size: var(--pattern-size-md) var(--pattern-size-md);
+}
+
+.methodology-section .section-gradient-center {
+  background: radial-gradient(
+    ellipse 100% 80% at center top,
+    rgba(163, 230, 53, 0.02) 0%,
+    transparent 50%
+  );
+}
+
+@media (max-width: 640px) {
+  .methodology-section .section-pattern-grid {
+    background-size: 35px 35px;
+    opacity: 0.4;
+  }
+
+  .methodology-section .section-gradient-center {
+    background: radial-gradient(
+      ellipse 120% 90% at center top,
+      rgba(163, 230, 53, 0.015) 0%,
+      transparent 45%
+    );
+  }
+}
+
+@media (max-width: 1023px) {
+  .methodology-flow::before {
+    display: none;
+  }
+  
+  :global(.methodology-accordion) {
+    padding: 0 var(--spacing-md);
+  }
+  
+  :global(.accordion-container) {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+}
+
+/* Services Intro Section */
+.services-intro-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse 100% 80% at center top,
+    rgba(163, 230, 53, 0.02) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (max-width: 640px) {
+  .services-intro-section::after {
+    background: radial-gradient(
+      ellipse 120% 90% at center top,
+      rgba(163, 230, 53, 0.015) 0%,
+      transparent 45%
+    );
+  }
+}
+
+/* Final CTA Section */
+.cta-pattern {
+  background-image:
+    linear-gradient(90deg, var(--accent-green) 1px, transparent 1px),
+    linear-gradient(180deg, var(--accent-green) 1px, transparent 1px),
+    radial-gradient(circle, var(--accent-green) 1px, transparent 1px);
+  background-size:
+    var(--pattern-size-md) var(--pattern-size-md),
+    var(--pattern-size-md) var(--pattern-size-md),
+    var(--pattern-size-sm) var(--pattern-size-sm);
+  background-position:
+    0 0,
+    0 0,
+    0 0;
+}
+
+.cta-card {
+  position: relative;
+}
+
+.final-cta-section .section-gradient-hero {
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .cta-pattern {
+    opacity: 0.2;
+  }
+}
+
+/* Services Stage Section */
+.code-edge-pattern {
+  background-image: 
+    linear-gradient(45deg, rgba(163, 230, 53, 0.1) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(163, 230, 53, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+

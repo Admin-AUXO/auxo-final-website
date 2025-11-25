@@ -1,0 +1,83 @@
+---
+import { Icon } from "astro-icon/components";
+import Button from "../../ui/Button.astro";
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import HighlightText from "../../ui/HighlightText.astro";
+import {
+  homepageContent,
+  type HomepageContent,
+} from "../../../data/content/homepage";
+import { createUrl } from "../../../utils/url";
+
+const content: HomepageContent["finalCta"] = homepageContent.finalCta;
+const subtitleParts = content.subtitle.split(" ");
+const subtitleLine1 = subtitleParts.slice(0, 3).join(" ");
+const subtitleLine2 = subtitleParts.slice(3).join(" ");
+---
+
+<SectionContainer
+  id="final-cta"
+  padding="normal"
+  background="surface"
+  class="relative flex items-center overflow-hidden final-cta-section section-divider-top"
+>
+  <div class="section-gradient-hero absolute inset-0 pointer-events-none z-0"></div>
+  <div class="absolute inset-0 cta-pattern opacity-30 z-0"></div>
+
+  <div class="grid-container relative z-content w-full">
+    <div class="col-span-full max-w-4xl mx-auto w-full">
+      <div
+        class="cta-card text-center bg-theme-card backdrop-blur-xl border-2 border-accent-green/50 rounded-2xl shadow-2xl shadow-accent-green/20 p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 transition-all hover:shadow-accent-green/30 hover:border-accent-green/70"
+      >
+        <h2
+          class="text-h2 font-extrabold mb-6 sm:mb-8 lg:mb-10 xl:mb-12 text-theme-primary transition-colors leading-tight tracking-tight fade-in-up font-display"
+        >
+          <HighlightText text={content.title} highlight="next step" />
+        </h2>
+
+        <div
+          class="highlight-subtitle-container mb-6 sm:mb-8 lg:mb-10 xl:mb-12"
+        >
+          <h3
+            class="text-h1 font-extrabold leading-tight tracking-tight highlight-cta-text font-display"
+          >
+            <span class="block">{subtitleLine1}</span>
+            <span class="block">{subtitleLine2}</span>
+          </h3>
+        </div>
+
+        <p
+          class="text-body-lg text-theme-secondary mb-8 sm:mb-10 lg:mb-12 xl:mb-14 max-w-2xl mx-auto leading-[1.75] transition-colors font-normal fade-in-up-delay font-body"
+        >
+          {content.body}
+        </p>
+
+        <div
+          class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center mb-6 sm:mb-8 lg:mb-10 xl:mb-12 fade-in-up-delay-2"
+        >
+          <Button
+            variant="primary"
+            size="lg"
+            href={createUrl(content.ctaHref)}
+            class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all min-h-[44px] cta-button flex-nowrap"
+          >
+            <span class="whitespace-nowrap">{content.ctaText}</span>
+            <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0" />
+          </Button>
+        </div>
+
+        <p
+          class="text-sm text-theme-secondary opacity-80 italic transition-colors font-normal fade-in-up-delay-3 font-body"
+        >
+          {content.reassuranceLine}
+        </p>
+      </div>
+    </div>
+  </div>
+</SectionContainer>
+
+<script>
+  import { initFinalCta } from "../../../scripts/sections/home/finalCta";
+  initFinalCta();
+</script>
+

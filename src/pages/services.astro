@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteData } from "../data/config/site";
+import HeroSection from "../components/sections/services/HeroSection.astro";
+import ServicesStageSection from "../components/sections/services/ServicesStageSection.astro";
+import ImpactSection from "../components/sections/services/ImpactSection.astro";
+import ModelsSection from "../components/sections/services/ModelsSection.astro";
+import ServicesCta from "../components/sections/services/ServicesCta.astro";
+---
+
+<BaseLayout
+  title="Services | AUXO Data Labs"
+  description="Analytics as a Service, built for impact. Discover our eight service offerings aligned to the analytics maturity curve, from Foundation Readiness to Autonomy Readiness Review."
+  showParticles={false}
+>
+  <HeroSection />
+  <ServicesStageSection />
+  <ImpactSection />
+  <ModelsSection />
+  <ServicesCta />
+
+  <script>
+    import { setupServicesPageAnimations } from "../scripts/sections/services/servicesPage";
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setupServicesPageAnimations);
+    } else {
+      setupServicesPageAnimations();
+    }
+
+    document.addEventListener("astro:page-load", setupServicesPageAnimations);
+  </script>
+</BaseLayout>
+
+<style>
+  /* Additional styles for Services page animations */
+  .animate-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+</style>
+

@@ -1,0 +1,57 @@
+.text-h1 {
+  font-size: clamp(2rem, 1.5rem + 2.5vw, 4rem);
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary) !important;
+}
+
+.text-h2 {
+  font-size: clamp(1.75rem, 1.375rem + 1.875vw, 3rem);
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary) !important;
+}
+
+.text-h3 {
+  font-size: clamp(1.5rem, 1.25rem + 1.25vw, 2.5rem);
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary) !important;
+}
+
+.text-h4 {
+  font-size: clamp(1.25rem, 1.125rem + 0.625vw, 2rem);
+  line-height: 1.4;
+  font-weight: 700;
+  color: var(--text-primary) !important;
+}
+
+.text-body-base {
+  font-size: clamp(0.9375rem, 0.875rem + 0.3125vw, 1rem);
+  line-height: 1.75;
+  color: var(--text-primary) !important;
+}
+
+.text-body-lg {
+  font-size: clamp(1rem, 0.9375rem + 0.3125vw, 1.125rem);
+  line-height: 1.75;
+  color: var(--text-primary) !important;
+}
+
+.text-body-xl {
+  font-size: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+  line-height: 1.75;
+  color: var(--text-primary) !important;
+}
+
+.text-display-sm {
+  font-size: clamp(1.5rem, 1.25rem + 1.25vw, 2.5rem);
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary) !important;
+}
+

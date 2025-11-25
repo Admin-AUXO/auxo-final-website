@@ -1,0 +1,202 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { NavItem, DropdownItem } from '../../data/navigation';
+import { createUrl } from '../../utils/url';
+
+interface Props {
+  item: NavItem;
+  index: number;
+  isMobile?: boolean;
+}
+
+const { item, index, isMobile = false } = Astro.props;
+const isModal = item.isModal ?? false;
+---
+
+{isMobile ? (
+  <div class="mobile-dropdown-wrapper">
+    <button
+      type="button"
+      class="mobile-dropdown-btn mobile-nav-link block w-full px-4 py-3.5 min-h-[44px] text-sm text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-lg transition-all duration-fast font-medium touch-manipulation flex items-center justify-between relative group"
+      aria-expanded="false"
+      aria-haspopup="true"
+      aria-label={`${item.name} menu`}
+    >
+      <span class="relative z-10">{item.name}</span>
+      <Icon 
+        name="mdi:chevron-down" 
+        class="w-5 h-5 text-accent-green flex-shrink-0 dropdown-arrow-mobile transition-transform duration-fast relative z-10"
+        aria-hidden="true"
+      />
+      <span class="mobile-nav-active-bg absolute inset-0 bg-accent-green/10 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100"></span>
+      <span class="mobile-nav-active-border absolute inset-0 rounded-lg border border-accent-green/30 opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100"></span>
+    </button>
+    <div class="mobile-dropdown-content hidden">
+      <div class="pt-2 space-y-2">
+        {item.dropdown!.map((sub: DropdownItem) => (
+          <a
+            href={sub.href}
+            class="mobile-nav-link block px-4 py-3 min-h-[44px] text-sm text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-lg transition-all duration-fast font-medium touch-manipulation flex items-center gap-3 ml-4 relative group/item"
+          >
+            <Icon name={sub.icon} class="w-5 h-5 text-accent-green flex-shrink-0 relative z-10" aria-hidden="true" />
+            <span class="relative z-10">{sub.name}</span>
+            <span class="mobile-nav-active-bg absolute inset-0 bg-accent-green/5 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover/item:opacity-100"></span>
+          </a>
+        ))}
+        <a
+          href={item.href}
+          class="mobile-nav-link block px-4 py-3 min-h-[44px] text-sm font-semibold text-accent-green hover:text-theme-primary active:text-theme-primary rounded-lg transition-all duration-fast touch-manipulation flex items-center gap-2 ml-4 border border-accent-green/30 hover:border-accent-green hover:bg-accent-green/10 relative group/item"
+        >
+          <span class="relative z-10">View All {item.name}</span>
+          <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0 relative z-10 group-hover/item:translate-x-1 transition-transform duration-fast" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </div>
+) : isModal ? (
+  <!-- Modal dropdown -->
+  <div class="relative dropdown-container group" data-nav-item={index} data-modal-dropdown="true">
+    <button 
+      class="nav-link dropdown-toggle relative px-4 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-lg hover:bg-theme-surface/50 active:bg-theme-surface flex items-center gap-1.5 min-h-[44px] group-hover:text-theme-primary"
+      aria-expanded="false"
+      aria-haspopup="true"
+      aria-label={`${item.name} menu`}
+      data-dropdown-toggle={index}
+    >
+      <span class="relative z-10">{item.name}</span>
+      <Icon 
+        name="mdi:chevron-down" 
+        class="w-4 h-4 transition-transform duration-fast dropdown-arrow relative z-10"
+        aria-hidden="true"
+      />
+      <span class="nav-indicator absolute bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-accent-green rounded-full transition-all duration-normal group-hover:w-3/4"></span>
+      <span class="nav-active-bg absolute inset-0 bg-accent-green/5 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100"></span>
+    </button>
+
+    <!-- Modal overlay -->
+    <div 
+      class="dropdown-modal-overlay fixed inset-0 bg-black/50 backdrop-blur-md opacity-0 invisible transition-all duration-300 pointer-events-none"
+      data-dropdown-overlay={index}
+      aria-hidden="true"
+    ></div>
+
+    <!-- Modal content -->
+    <div 
+      class="dropdown-modal-menu fixed left-0 right-0 top-0 opacity-0 invisible transition-all duration-300 pointer-events-none transform translate-y-[-20px] max-h-screen"
+      data-dropdown-menu={index}
+      data-dropdown-content
+    >
+      <div class="bg-theme-card border-b-2 border-theme shadow-2xl min-h-screen dropdown-modal-content">
+        <div class="grid-container py-6 lg:py-8">
+          <div class="col-span-full">
+            <div class="flex items-center justify-between mb-4 lg:mb-6">
+              <h2 class="text-xl lg:text-2xl font-extrabold text-theme-primary font-display">
+                {item.name}
+              </h2>
+              <button
+                type="button"
+                class="dropdown-modal-close w-10 h-10 flex items-center justify-center rounded-lg hover:bg-theme-surface text-theme-secondary hover:text-theme-primary transition-all duration-fast min-h-[44px] min-w-[44px]"
+                aria-label="Close menu"
+                data-dropdown-close={index}
+              >
+                <Icon name="mdi:close" class="w-6 h-6" />
+              </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+              {item.dropdown!.map((sub: DropdownItem) => (
+                <a
+                  href={sub.href}
+                  class="group/item flex flex-col gap-2.5 p-4 lg:p-5 rounded-xl hover:bg-theme-surface transition-all duration-fast border-2 border-transparent hover:border-accent-green/30 hover:shadow-lg hover:shadow-accent-green/10"
+                >
+                  <div class="w-10 h-10 lg:w-12 lg:h-12 bg-accent-green/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover/item:bg-accent-green/20 group-hover/item:scale-110 transition-all duration-fast">
+                    <Icon name={sub.icon} class="w-5 h-5 lg:w-6 lg:h-6 text-accent-green" />
+                  </div>
+                  
+                  <div class="flex-1 min-w-0">
+                    <div class="font-bold text-theme-primary text-sm lg:text-base leading-tight group-hover/item:text-accent-green transition-colors duration-fast mb-1 font-display">
+                      {sub.name}
+                    </div>
+                    {sub.description && (
+                      <p class="text-xs lg:text-sm text-theme-secondary leading-relaxed line-clamp-2">
+                        {sub.description}
+                      </p>
+                    )}
+                  </div>
+                  
+                  <div class="flex items-center gap-2 text-accent-green opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 transition-all duration-fast">
+                    <span class="text-xs lg:text-sm font-semibold">Learn more</span>
+                    <Icon name="mdi:arrow-right" class="w-3.5 h-3.5 lg:w-4 lg:h-4" />
+                  </div>
+                </a>
+              ))}
+            </div>
+            
+            <div class="mt-6 lg:mt-8 pt-4 lg:pt-6 border-t border-theme">
+              <a 
+                href={createUrl('services')} 
+                class="inline-flex items-center gap-3 px-5 py-3 text-sm lg:text-base font-bold text-accent-green hover:text-theme-primary bg-accent-green/10 hover:bg-accent-green/20 border-2 border-accent-green/30 hover:border-accent-green rounded-xl transition-all duration-fast group"
+                aria-label="View all services"
+              >
+                <span>View All Services</span>
+                <Icon name="mdi:arrow-right" class="w-4 h-4 lg:w-5 lg:h-5 group-hover:translate-x-1 transition-transform duration-fast" aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+) : (
+  <!-- Standard dropdown -->
+  <div class="relative dropdown-container group" data-nav-item={index}>
+    <button 
+      class="nav-link dropdown-toggle relative px-4 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-lg hover:bg-theme-surface/50 active:bg-theme-surface flex items-center gap-1.5 min-h-[44px] group-hover:text-theme-primary"
+      aria-expanded="false"
+      aria-haspopup="true"
+      aria-label={`${item.name} menu`}
+      data-dropdown-toggle={index}
+    >
+      <span class="relative z-10">{item.name}</span>
+      <Icon 
+        name="mdi:chevron-down" 
+        class="w-4 h-4 transition-transform duration-fast dropdown-arrow relative z-10"
+        aria-hidden="true"
+      />
+      <span class="nav-indicator absolute bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-accent-green rounded-full transition-all duration-normal group-hover:w-3/4"></span>
+      <span class="nav-active-bg absolute inset-0 bg-accent-green/5 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100"></span>
+    </button>
+
+    <div 
+      class="absolute left-0 top-full mt-2 opacity-0 invisible transition-all duration-normal pointer-events-none dropdown-menu z-dropdown transform translate-y-2 w-[280px]"
+      data-dropdown-menu={index}
+      data-dropdown-content
+    >
+      <div class="relative">
+        <div class="absolute -top-2 left-6 w-4 h-4 bg-theme-card border-l border-t border-theme rotate-45"></div>
+        
+        <div class="relative bg-theme-card border border-theme rounded-xl p-4 shadow-2xl backdrop-blur-xl">
+          <div class="space-y-1">
+            {item.dropdown!.map((sub: DropdownItem) => (
+              <a
+                href={sub.href}
+                class="group/item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-theme-surface transition-all duration-fast border border-transparent hover:border-theme-light"
+              >
+                <div class="w-10 h-10 bg-theme-surface rounded-lg flex items-center justify-center flex-shrink-0 group-hover/item:bg-accent-green/10 transition-colors duration-fast">
+                  <Icon name={sub.icon} class="w-5 h-5 text-accent-green" />
+                </div>
+                
+                <div class="flex-1 min-w-0">
+                  <div class="font-semibold text-theme-primary text-sm leading-snug group-hover/item:text-accent-green transition-colors duration-fast">
+                    {sub.name}
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+

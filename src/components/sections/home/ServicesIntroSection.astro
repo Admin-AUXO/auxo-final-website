@@ -1,0 +1,86 @@
+---
+import ServiceCard from "../../ui/ServiceCard.astro";
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+import Carousel from "../../ui/Carousel.astro";
+import CtaButton from "../../ui/CtaButton.astro";
+import {
+  homepageContent,
+  type HomepageContent,
+} from "../../../data/content/homepage";
+import { createUrl } from "../../../utils/url";
+
+const content: HomepageContent["servicesIntro"] = homepageContent.servicesIntro;
+---
+
+<SectionContainer
+  id="services-intro"
+  padding="normal"
+  background="card"
+  class="relative transition-colors pb-8 sm:pb-12 lg:pb-16 services-intro-section section-divider-top"
+>
+  <BackgroundDecorations patterns={["grid"]} />
+  
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-7xl mx-auto w-full">
+      <SectionHeader
+        title={content.title}
+        subtitle={content.subheading}
+        highlight="starting points"
+        wrapperClass="py-4 sm:py-6 lg:py-10 xl:py-12 mb-6 sm:mb-8 lg:mb-12 xl:mb-16"
+        titleClass="text-2xl sm:text-3xl lg:text-h2"
+        subtitleClass="text-base sm:text-lg lg:text-body-xl font-normal"
+      />
+
+      <div class="hidden lg:grid lg:grid-cols-3 lg:gap-6 xl:gap-8 services-grid-desktop">
+        {content.items.map((item, index) => (
+          <ServiceCard
+            icon={item.icon}
+            title={item.title}
+            description={item.description}
+            link={item.link ? createUrl(item.link) : undefined}
+            index={index}
+            variant="grid"
+          />
+        ))}
+      </div>
+
+      <Carousel
+        containerId="services-carousel-container"
+        trackId="services-carousel-track"
+        dotSelector=".services-carousel-dot"
+        items={content.items}
+        wrapperClass="services-carousel-mobile services-carousel-wrapper"
+        dotsClass="services-carousel-dots"
+        dotClass="services-carousel-dot"
+        breakpoint={1024}
+        activateOnDesktop={false}
+      >
+        {content.items.map((item, index) => (
+          <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
+            <ServiceCard
+              icon={item.icon}
+              title={item.title}
+              description={item.description}
+              link={item.link ? createUrl(item.link) : undefined}
+              index={index}
+              variant="carousel"
+            />
+          </div>
+        ))}
+      </Carousel>
+
+      <CtaButton
+        text={content.navigationButton.text}
+        href={createUrl(content.navigationButton.href)}
+        wrapperClass="mt-8 sm:mt-10 lg:mt-12 xl:mt-16 px-4"
+      />
+    </div>
+  </div>
+</SectionContainer>
+
+<script>
+  import { initServicesIntroSection } from "../../../scripts/sections/home/servicesIntroSection";
+  initServicesIntroSection();
+</script>

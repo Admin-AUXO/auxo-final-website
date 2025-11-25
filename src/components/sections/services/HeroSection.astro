@@ -1,0 +1,80 @@
+---
+import { Icon } from "astro-icon/components";
+import Button from "../../ui/Button.astro";
+import { servicesContent } from "../../../data/content/services";
+import { createUrl } from "../../../utils/url";
+
+const content = servicesContent.hero;
+---
+
+<section
+  id="services-hero"
+  class="relative min-h-[90vh] sm:min-h-screen flex flex-col items-center justify-center overflow-hidden pt-16 sm:pt-20 lg:pt-24 pb-12 sm:pb-16 lg:pb-20"
+>
+  <div class="section-gradient-hero absolute inset-0 pointer-events-none z-0"></div>
+  
+  <div class="section-hero-accent-lines absolute inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="section-hero-line section-hero-line-1 absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-green/20 to-transparent"></div>
+    <div class="section-hero-line section-hero-line-2 absolute top-3/4 right-0 w-full h-px bg-gradient-to-l from-transparent via-accent-green/15 to-transparent"></div>
+  </div>
+  
+  <div class="grid-container relative z-content flex-1 flex flex-col items-center justify-center">
+    <div class="col-span-full text-center max-w-6xl mx-auto w-full px-4 sm:px-6">
+      <div class="services-hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">
+        <h1 class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-4 sm:mb-5 lg:mb-6 w-full font-display">
+          <span class="block services-hero-line1 services-hero-intro-text">
+            {content.headlineLine1}
+          </span>
+          
+          <span class="block mt-2 sm:mt-3 lg:mt-4 services-hero-impact-wrapper relative">
+            <span class="inline-block services-hero-line2 services-hero-impact-text text-accent-green relative">
+              {content.headlineLine2}
+              <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent-green/40 rounded-full services-hero-underline"></span>
+            </span>
+            
+            <span class="absolute -inset-4 services-hero-impact-glow bg-accent-green/10 rounded-full blur-2xl opacity-0"></span>
+          </span>
+        </h1>
+      </div>
+
+      <div class="services-hero-description mb-8 sm:mb-10 lg:mb-12 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto opacity-0 services-hero-follow-content">
+        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body">
+          {(() => {
+            const parts = content.description.split("Analytics as a Service");
+            return (
+              <>
+                {parts[0]}
+                {parts[1] && (
+                  <>
+                    <span class="text-accent-green font-semibold">Analytics as a Service</span>
+                    {parts[1]}
+                  </>
+                )}
+              </>
+            );
+          })()}
+        </p>
+      </div>
+
+      {content.ctaText && content.ctaHref && (
+        <div class="services-hero-cta mb-6 sm:mb-8 opacity-0 services-hero-follow-content">
+          <Button
+            variant="primary"
+            size="lg"
+            href={createUrl(content.ctaHref)}
+            class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all min-h-[44px] cta-button flex-nowrap group/btn services-hero-cta-button"
+          >
+            <span class="whitespace-nowrap">{content.ctaText}</span>
+            <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300" />
+          </Button>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initServicesHeroSection } from "../../../scripts/sections/services/servicesHeroSection";
+  initServicesHeroSection();
+</script>
+

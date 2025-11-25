@@ -1,0 +1,39 @@
+---
+export interface Props {
+  class?: string;
+  id?: string;
+  padding?: "sm" | "normal" | "md" | "lg" | "xl";
+  background?: "default" | "card" | "surface" | "elevated" | "accent";
+}
+
+const {
+  class: className = "",
+  id,
+  padding = "md",
+  background = "default",
+} = Astro.props;
+
+const paddingClasses = {
+  sm: "py-6 sm:py-10 md:py-16 lg:py-20",
+  normal: "py-8 sm:py-12 md:py-20 lg:py-24",
+  md: "py-10 sm:py-16 md:py-24 lg:py-28 xl:py-32",
+  lg: "py-12 sm:py-20 md:py-28 lg:py-32 xl:py-36",
+  xl: "py-14 sm:py-24 md:py-32 lg:py-36 xl:py-40",
+};
+
+const backgroundClasses = {
+  default: "bg-theme-primary",
+  card: "bg-theme-card",
+  surface: "bg-theme-surface",
+  elevated: "bg-theme-elevated",
+  accent: "bg-accent-green",
+};
+---
+
+<section
+  id={id}
+  class={`${paddingClasses[padding]} ${backgroundClasses[background]} transition-colors duration-theme ${className}`}
+>
+  <slot />
+</section>
+

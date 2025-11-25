@@ -1,0 +1,33 @@
+---
+export interface Props {
+  gradients?: ("hero" | "center" | "dual" | "top")[];
+  patterns?: ("grid" | "mesh")[];
+  class?: string;
+}
+
+const {
+  gradients = [],
+  patterns = [],
+  class: className = "",
+} = Astro.props;
+
+const gradientClasses = {
+  hero: "section-gradient-hero",
+  center: "section-gradient-center",
+  dual: "section-gradient-dual",
+  top: "section-gradient-top",
+};
+
+const patternClasses = {
+  grid: "section-pattern-grid",
+  mesh: "section-pattern-mesh",
+};
+---
+
+{gradients.map((gradient) => (
+  <div class={`${gradientClasses[gradient]} absolute inset-0 pointer-events-none z-0 ${className}`}></div>
+))}
+{patterns.map((pattern) => (
+  <div class={`${patternClasses[pattern]} absolute inset-0 pointer-events-none z-0 ${className}`}></div>
+))}
+

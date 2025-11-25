@@ -1,0 +1,93 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+import Carousel from "../../ui/Carousel.astro";
+import { servicesContent } from "../../../data/content/services";
+
+const content = servicesContent.impact;
+---
+
+<SectionContainer
+  id="impact"
+  padding="normal"
+  background="card"
+  class="relative impact-section section-divider"
+>
+  <BackgroundDecorations gradients={["center"]} patterns={["mesh"]} />
+  
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-7xl mx-auto w-full">
+      <SectionHeader
+        title="Industries we serve"
+        subtitle={content.description}
+        highlight="we serve"
+        icon="mdi:target"
+        titleClass="text-h2 sm:text-h1"
+        subtitleClass="text-body-md sm:text-body-lg"
+      />
+
+      <div class="mb-8 sm:mb-10 lg:mb-12 opacity-0 fade-in-up-delay">
+        <Carousel
+          containerId="impact-carousel-container"
+          trackId="impact-carousel-track"
+          dotSelector=".impact-carousel .carousel-dot"
+          items={content.industries}
+          wrapperClass="impact-carousel impact-carousel-wrapper"
+          dotsClass="impact-carousel-dots"
+          dotClass="impact-carousel"
+          dotsMarginTop="mt-8"
+          breakpoint={1024}
+          activateOnDesktop={true}
+        >
+          {content.industries.map((industry, index) => (
+            <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
+              <div class="impact-carousel-card lg:impact-carousel-card-desktop">
+                <div class="impact-carousel-card-header">
+                  <div class="impact-carousel-icon">
+                    <Icon name={industry.icon} class="w-10 h-10 text-accent-green" />
+                  </div>
+                  <h3 class="impact-carousel-title">{industry.name}</h3>
+                </div>
+                
+                <p class="impact-carousel-description">{industry.description}</p>
+                
+                <div class="impact-carousel-benefit">
+                  <Icon name="mdi:trending-up" class="w-5 h-5 text-accent-green" />
+                  <span class="impact-carousel-benefit-text">{industry.keyBenefit}</span>
+                </div>
+              
+                <div class="impact-carousel-use-cases">
+                  <p class="impact-carousel-section-label">Key Use Cases</p>
+                  <div class="impact-carousel-use-cases-grid">
+                    {industry.useCases.map((useCase) => (
+                      <div class="impact-carousel-use-case-item">
+                        <Icon name="mdi:check-circle" class="w-4 h-4 text-accent-green flex-shrink-0" />
+                        <span class="impact-carousel-use-case-text">{useCase}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Carousel>
+      </div>
+
+      <div class="opacity-0 fade-in-up-delay-2">
+        <div class="impact-goal-card">
+          <Icon name="mdi:lightbulb" class="impact-goal-icon" />
+          <p class="impact-goal-text">
+            {content.goal}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</SectionContainer>
+
+<script>
+  import { initImpactCarousel } from "../../../scripts/sections/services/impactCarousel";
+  initImpactCarousel();
+</script>

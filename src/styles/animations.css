@@ -1,0 +1,274 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(var(--transform-translate-y-xl));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes highlightReveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--transform-translate-y-lg)) scale(0.95);
+    background-position: 0% 50%;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes drawUnderline {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: var(--width-60);
+    opacity: 1;
+  }
+}
+
+@keyframes flow {
+  0%,
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(100%);
+    opacity: 1;
+  }
+}
+
+@keyframes drawStroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes gradientFill {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes fadeInLine {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInLineRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+    transform: translateX(0);
+  }
+}
+
+@keyframes expandUnderline {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Services Hero Animations */
+@keyframes servicesIntroSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  60% {
+    transform: translateY(-2px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes servicesImpactSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(60px) scale(0.9);
+  }
+  50% {
+    transform: translateX(-5px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes servicesImpactGlow {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+}
+
+/* About Hero Animations */
+@keyframes bridgeIntro {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bridgeSlideLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bridgeSlideRight {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bridgeMiddle {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bridgeLineExpand {
+  0% {
+    width: 0%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--duration-normal) var(--timing-smooth) forwards !important;
+  will-change: opacity !important;
+}
+
+.fade-in-text {
+  opacity: 0;
+  animation: fadeInUp var(--animation-duration-fade-in-up-slow) var(--timing-smooth) forwards;
+  animation-play-state: running;
+  animation-fill-mode: forwards;
+}
+
+.fade-in-up {
+  opacity: 0;
+  animation: fadeInUp var(--animation-duration-fade-in-up) var(--timing-smooth) forwards;
+  animation-play-state: running;
+  animation-fill-mode: forwards;
+}
+
+.fade-in-up-delay {
+  opacity: 0;
+  animation: fadeInUp var(--animation-duration-fade-in-up) var(--timing-smooth) forwards;
+  animation-delay: var(--delay-normal);
+  animation-play-state: running;
+  animation-fill-mode: forwards;
+}
+
+.fade-in-up-delay-2 {
+  opacity: 0;
+  animation: fadeInUp var(--animation-duration-fade-in-up) var(--timing-smooth) forwards;
+  animation-delay: var(--delay-slower);
+  animation-play-state: running;
+  animation-fill-mode: forwards;
+}
+
+.fade-in-up-delay-3 {
+  opacity: 0;
+  animation: fadeInUp var(--animation-duration-fade-in-up) var(--timing-smooth) forwards;
+  animation-delay: var(--delay-slowest);
+  animation-play-state: running;
+  animation-fill-mode: forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .fade-in-text,
+  .fade-in-up,
+  .fade-in-up-delay,
+  .fade-in-up-delay-2,
+  .fade-in-up-delay-3 {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+

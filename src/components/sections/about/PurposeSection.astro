@@ -1,0 +1,42 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import HighlightCard from "../../ui/HighlightCard.astro";
+import HighlightText from "../../ui/HighlightText.astro";
+import { aboutContent } from "../../../data/content/about";
+
+const content = aboutContent.purpose;
+---
+
+<SectionContainer
+  id="purpose"
+  padding="normal"
+  background="card"
+  class="relative purpose-section section-divider"
+>
+  <div class="section-pattern-mesh absolute inset-0 pointer-events-none z-0"></div>
+  <div class="section-gradient-center absolute inset-0 pointer-events-none z-0"></div>
+  
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-5xl mx-auto w-full">
+      <div class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16 opacity-0 fade-in-up">
+        <h2 class="text-h2 font-extrabold mb-3 sm:mb-4 lg:mb-5 xl:mb-6 text-theme-primary leading-tight tracking-tight font-display px-2">
+          <HighlightText text={content.title} highlight="AUXO" />
+        </h2>
+        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body px-4 sm:px-6">
+          <HighlightText text={content.description} highlight="AUXO" highlightClass="text-accent-green font-semibold" />
+        </p>
+      </div>
+
+      <div class="name-origin-card opacity-0 fade-in-up-delay">
+        <HighlightCard
+          title={content.nameOrigin.title}
+          content={content.nameOrigin.description}
+          icon="mdi:lightbulb-on"
+          accentTitle={true}
+        />
+      </div>
+    </div>
+  </div>
+</SectionContainer>
+

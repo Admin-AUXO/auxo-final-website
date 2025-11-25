@@ -1,0 +1,16 @@
+/* TEAM */
+Developer: AUXO Data Labs
+Location: Dubai, United Arab Emirates
+Website: https://auxodata.com
+Email: hello@auxodata.com
+
+/* THANKS */
+Astro: https://astro.build
+Tailwind CSS: https://tailwindcss.com
+
+/* SITE */
+Last update: 2025/11/25
+Standards: HTML5, CSS3, JavaScript ES6+
+Components: Astro, Tailwind CSS
+Software: Visual Studio Code, Git
+

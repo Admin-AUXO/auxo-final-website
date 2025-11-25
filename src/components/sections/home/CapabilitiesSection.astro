@@ -1,0 +1,96 @@
+---
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import CapabilityCard from "../../ui/CapabilityCard.astro";
+import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+import Carousel from "../../ui/Carousel.astro";
+import {
+  homepageContent,
+  type HomepageContent,
+} from "../../../data/content/homepage";
+
+const content: HomepageContent["capabilities"] = homepageContent.capabilities;
+---
+
+<SectionContainer
+  id="capabilities"
+  padding="lg"
+  background="surface"
+  class="relative min-h-auto md:min-h-[85vh] pt-8 sm:pt-12 lg:pt-16 capabilities-section section-divider"
+>
+  <BackgroundDecorations gradients={["hero"]} />
+  
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-[1400px] mx-auto w-full">
+      <SectionHeader
+        title={content.title}
+        subtitle={content.subheading}
+        highlight="Core"
+        wrapperClass="mb-8 sm:mb-10 lg:mb-12 xl:mb-16"
+        titleClass="text-2xl sm:text-3xl lg:text-h2"
+        subtitleClass="text-base sm:text-lg lg:text-body-xl text-accent-green font-bold"
+      />
+
+      <div class="hidden lg:block">
+        <div class="symmetric-grid-container">
+          {content.cards.map((card, index) => (
+            <div class="capability-card-wrapper" data-index={index}>
+              <CapabilityCard
+                icon={card.icon}
+                title={card.title}
+                description={card.description}
+                metric={card.metric}
+                index={index}
+                variant="grid"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="hidden md:grid lg:hidden grid-cols-2 gap-6 col-span-full items-stretch">
+        {content.cards.map((card, index) => (
+          <CapabilityCard
+            icon={card.icon}
+            title={card.title}
+            description={card.description}
+            metric={card.metric}
+            index={index}
+            variant="grid"
+          />
+        ))}
+      </div>
+
+      <Carousel
+        containerId="capabilities-carousel-container"
+        trackId="capabilities-carousel-track"
+        dotSelector=".capabilities-carousel-dot"
+        items={content.cards}
+        wrapperClass="capabilities-carousel capabilities-carousel-wrapper"
+        dotsClass="capabilities-carousel-dots"
+        dotClass="capabilities-carousel-dot"
+        breakpoint={768}
+        activateOnDesktop={false}
+      >
+        {content.cards.map((card, index) => (
+          <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
+            <CapabilityCard
+              icon={card.icon}
+              title={card.title}
+              description={card.description}
+              metric={card.metric}
+              index={index}
+              variant="carousel"
+            />
+          </div>
+        ))}
+      </Carousel>
+    </div>
+  </div>
+</SectionContainer>
+
+<script>
+  import { initCapabilitiesSection } from "../../../scripts/sections/home/capabilitiesSection";
+  initCapabilitiesSection();
+</script>
+

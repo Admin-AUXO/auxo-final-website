@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteData } from "../data/config/site";
+import HeroSection from "../components/sections/home/HeroSection.astro";
+import ValueProposition from "../components/sections/home/ValueProposition.astro";
+import CapabilitiesSection from "../components/sections/home/CapabilitiesSection.astro";
+import ServicesIntroSection from "../components/sections/home/ServicesIntroSection.astro";
+import MethodologySection from "../components/sections/home/MethodologySection.astro";
+import FinalCta from "../components/sections/home/FinalCta.astro";
+---
+
+<BaseLayout
+  title="Data Analytics Consultancy Dubai, UAE | AUXO Data Labs"
+  description={siteData.description}
+>
+  <HeroSection />
+  <ValueProposition />
+  <ServicesIntroSection />
+  <CapabilitiesSection />
+  <MethodologySection />
+  <FinalCta />
+
+  <script>
+    import { setupHomepageAnimations } from "../scripts/homepage";
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setupHomepageAnimations);
+    } else {
+      setupHomepageAnimations();
+    }
+
+    document.addEventListener("astro:page-load", setupHomepageAnimations);
+  </script>
+</BaseLayout>
+

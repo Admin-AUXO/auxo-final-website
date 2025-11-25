@@ -1,0 +1,99 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+import Carousel from "../../ui/Carousel.astro";
+import { aboutContent } from "../../../data/content/about";
+
+const content = aboutContent.mission;
+const missionVisionItems = [
+  { type: "mission", icon: "mdi:target", title: "Mission", content: content.mission },
+  { type: "vision", icon: "mdi:eye", title: "Vision", content: content.vision },
+];
+---
+
+<SectionContainer
+  id="mission-vision"
+  padding="normal"
+  background="default"
+  class="relative mission-vision-section section-divider"
+>
+  <BackgroundDecorations gradients={["hero"]} />
+  
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-7xl mx-auto w-full">
+      <SectionHeader
+        title={content.title}
+        wrapperClass="mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
+      />
+
+      <div class="hidden lg:grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-6xl mx-auto">
+        <div class="mission-card opacity-0 fade-in-up-delay">
+          <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 lg:p-10 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-4 mb-4 sm:mb-6">
+                <Icon name="mdi:target" class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green flex-shrink-0" />
+                <h3 class="text-h4 font-bold text-theme-primary font-display">Mission</h3>
+              </div>
+              <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
+                {content.mission}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="vision-card opacity-0 fade-in-up-delay-2">
+          <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 lg:p-10 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
+            <div class="absolute top-0 left-0 w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-4 mb-4 sm:mb-6">
+                <Icon name="mdi:eye" class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green flex-shrink-0" />
+                <h3 class="text-h4 font-bold text-theme-primary font-display">Vision</h3>
+              </div>
+              <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
+                {content.vision}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Carousel
+        containerId="mission-vision-carousel-container"
+        trackId="mission-vision-carousel-track"
+        dotSelector=".mission-vision-carousel-dot"
+        items={missionVisionItems}
+        wrapperClass="lg:hidden mission-vision-carousel mission-vision-carousel-wrapper"
+        dotsClass="mission-vision-carousel-dots"
+        dotClass="mission-vision-carousel-dot"
+        breakpoint={1024}
+        activateOnDesktop={false}
+      >
+        {missionVisionItems.map((item, index) => (
+          <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
+            <div class={`h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300 ${item.type}-card`}>
+              <div class={`absolute ${item.type === "mission" ? "top-0 right-0" : "top-0 left-0"} w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+              <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-4 sm:mb-6">
+                  <Icon name={item.icon} class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green flex-shrink-0" />
+                  <h3 class="text-h4 font-bold text-theme-primary font-display">{item.title}</h3>
+                </div>
+                <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
+                  {item.content}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </Carousel>
+    </div>
+  </div>
+</SectionContainer>
+
+<script>
+  import { initMissionVisionCarousel } from "../../../scripts/sections/about/missionVisionSection";
+  initMissionVisionCarousel();
+</script>
+

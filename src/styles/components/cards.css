@@ -1,0 +1,125 @@
+/* Service card styles */
+.service-card-redesigned {
+  min-height: 100%;
+}
+
+.service-card-pattern {
+  background-image: linear-gradient(var(--accent-green) 1px, transparent 1px),
+    linear-gradient(90deg, var(--accent-green) 1px, transparent 1px);
+  background-size: var(--pattern-bg-size) var(--pattern-bg-size);
+}
+
+.services-grid-desktop {
+  grid-auto-rows: 1fr;
+}
+
+.services-grid-desktop .service-card-redesigned {
+  min-height: var(--card-min-height-sm);
+}
+
+@media (min-width: 1280px) {
+  .services-grid-desktop .service-card-redesigned {
+    min-height: var(--card-min-height-lg);
+  }
+}
+
+/* Capability card styles */
+.capability-card-redesigned {
+  transition: transform var(--animation-duration-card-hover) cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow var(--animation-duration-card-hover) ease;
+}
+
+.capability-card-redesigned:hover {
+  transform: translateY(var(--transform-translate-y-card-hover));
+}
+
+/* Service showcase card */
+.service-showcase-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.service-showcase-card {
+  position: relative;
+  isolation: isolate;
+}
+
+.service-showcase-card::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--spacing-xs) * -1);
+  background: linear-gradient(
+    135deg,
+    transparent,
+    var(--accent-green),
+    transparent
+  );
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--duration-slow) ease;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.service-showcase-card:hover::before {
+  opacity: var(--opacity-card-hover);
+}
+
+@media (max-width: 1023px) {
+  .service-showcase-item.flex-row-reverse {
+    flex-direction: column;
+  }
+  
+  .services-accordion {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .service-accordion-item {
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* About page card hover effects */
+.mission-card .bg-theme-card,
+.vision-card .bg-theme-card,
+.name-origin-card .bg-theme-surface,
+.code-principle-card .bg-theme-card,
+.partnership-content .bg-theme-card,
+.global-content .bg-theme-surface,
+.team-member-card .bg-theme-surface {
+  transition: all var(--duration-normal) var(--timing-smooth);
+}
+
+.mission-card .bg-theme-card:hover,
+.vision-card .bg-theme-card:hover,
+.name-origin-card .bg-theme-surface:hover,
+.code-principle-card .bg-theme-card:hover,
+.partnership-content .bg-theme-card:hover,
+.global-content .bg-theme-surface:hover,
+.team-member-card .bg-theme-surface:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-card-redesigned,
+  .capability-card-redesigned {
+    transition: none;
+  }
+  
+  .service-card-redesigned:hover,
+  .capability-card-redesigned:hover {
+    transform: none;
+  }
+  
+  .mission-card .bg-theme-card:hover,
+  .vision-card .bg-theme-card:hover,
+  .name-origin-card .bg-theme-surface:hover,
+  .code-principle-card .bg-theme-card:hover,
+  .partnership-content .bg-theme-card:hover,
+  .global-content .bg-theme-surface:hover,
+  .team-member-card .bg-theme-surface:hover {
+    transform: none;
+  }
+}
+

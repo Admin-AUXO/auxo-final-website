@@ -1,0 +1,53 @@
+@tailwind base;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body) !important;
+  color: var(--text-primary) !important;
+  background-color: var(--bg-primary) !important;
+  line-height: 1.6 !important;
+  transition: background-color var(--theme-transition) var(--timing-smooth),
+    color var(--theme-transition) var(--timing-smooth) !important;
+}
+
+[class*="bg-theme"],
+[class*="text-theme"],
+[class*="border-theme"] {
+  transition-property: color, background-color, border-color !important;
+  transition-duration: var(--theme-transition) !important;
+  transition-timing-function: var(--timing-smooth) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.font-body {
+  font-family: var(--font-body) !important;
+}
+
+.font-display {
+  font-family: var(--font-display) !important;
+}
+

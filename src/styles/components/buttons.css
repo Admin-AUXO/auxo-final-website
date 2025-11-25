@@ -1,0 +1,36 @@
+/* Button styles */
+.btn-primary {
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border: 1px solid transparent;
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--duration-fast) var(--timing-smooth);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--btn-primary-bg-hover);
+  color: var(--btn-primary-text-hover);
+  transform: translateY(var(--transform-translate-y-xs));
+  box-shadow: var(--shadow-accent);
+}
+
+.btn-primary:active:not(:disabled) {
+  background-color: var(--btn-primary-bg-active);
+}
+
+.btn-primary:disabled {
+  background-color: var(--btn-primary-bg-disabled);
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: var(--spacing-xs);
+}
+
+.cta-button {
+  transition: all var(--duration-normal) var(--timing-smooth);
+}
+

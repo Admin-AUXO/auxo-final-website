@@ -1,0 +1,400 @@
+---
+import { Icon } from "astro-icon/components";
+import Card from "./Card.astro";
+
+export interface Props {
+  number: string;
+  title: string;
+  description: string;
+  output?: string;
+  index?: number;
+  variant?: "flow" | "timeline" | "accordion";
+  isLast?: boolean;
+}
+
+const {
+  number,
+  title,
+  description,
+  output,
+  index = 0,
+  variant = "flow",
+  isLast = false,
+} = Astro.props;
+
+---
+
+{variant === "flow" ? (
+  <div
+    class="method-step group relative overflow-visible"
+    style={`animation-delay: ${index * 200}ms`}
+    data-step={String(index)}
+  >
+    <Card
+      variant="bordered"
+      padding="lg"
+      class="h-full relative transition-all duration-500 hover:border-accent-green/70 hover:shadow-2xl hover:shadow-accent-green/25 hover:-translate-y-3 flex flex-col overflow-hidden"
+    >
+      <div class="absolute inset-0 bg-gradient-to-br from-accent-green/0 to-accent-green/0 group-hover:from-accent-green/5 group-hover:to-accent-green/10 transition-all duration-500" />
+      <div class="absolute -top-3 -right-3 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-green to-accent-green/80 rounded-full flex items-center justify-center shadow-lg border-2 border-theme-card z-20 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+        <span class="text-on-accent font-extrabold text-h5 font-display">
+          {number}
+        </span>
+      </div>
+      <h3 class="text-h3 font-bold mb-5 sm:mb-6 lg:mb-7 text-theme-primary transition-colors leading-tight group-hover:text-accent-green font-display">
+        <span class="text-accent-green">{title.charAt(0)}</span>
+        <span>{title.slice(1)}</span>
+      </h3>
+      <p class="text-body-lg text-theme-secondary leading-relaxed transition-colors mb-6 sm:mb-7 lg:mb-8 flex-grow font-body">
+        {description}
+      </p>
+      {output && (
+        <div class="mt-auto pt-6 sm:pt-7 lg:pt-8 border-t border-theme-light">
+          <div class="flex items-center gap-3 sm:gap-4">
+            <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-accent-green rounded-full animate-pulse flex-shrink-0" />
+            <div>
+              <p class="text-xs text-theme-secondary uppercase tracking-wider font-semibold mb-1.5 sm:mb-2 font-body">
+                Output
+              </p>
+              <p class="text-body-lg font-bold text-theme-primary whitespace-normal lg:whitespace-pre-line leading-tight font-body">
+                {output}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+      <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-green to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+    </Card>
+    {!isLast && (
+      <div class="absolute top-1/2 right-0 lg:right-0 w-8 h-8 bg-theme-card border-2 border-accent-green rounded-full z-30 transform translate-x-1/2 -translate-y-1/2 group-hover:scale-125 group-hover:bg-accent-green/20 transition-all duration-300 pointer-events-none">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <Icon name="mdi:arrow-right" class="w-4 h-4 text-accent-green" />
+        </div>
+      </div>
+    )}
+  </div>
+) : variant === "accordion" ? (
+  <details class="methodology-accordion-item" data-step={String(index)} open={index === 0}>
+    <summary class="methodology-accordion-summary">
+      <div class="methodology-accordion-header">
+        <div class="methodology-accordion-number">
+          <span>{number}</span>
+        </div>
+        <h3 class="methodology-accordion-title">{title}</h3>
+      </div>
+      <Icon
+        name="mdi:chevron-down"
+        class="methodology-accordion-chevron"
+        aria-hidden="true"
+      />
+    </summary>
+    <div class="methodology-accordion-content">
+      <div class="methodology-accordion-body">
+        <p class="methodology-accordion-description">{description}</p>
+        {output && (
+          <div class="methodology-accordion-output">
+            <div class="methodology-accordion-output-indicator"></div>
+            <div>
+              <p class="methodology-accordion-output-label">Output</p>
+              <p class="methodology-accordion-output-text">{output}</p>
+            </div>
+          </div>
+        )}
+      </div>
+      {!isLast && (
+        <div class="methodology-accordion-connector">
+          <div class="methodology-accordion-line"></div>
+        </div>
+      )}
+    </div>
+  </details>
+) : (
+  <div class="process-step-wrapper" data-step={String(index)}>
+    <Card variant="bordered" padding="md" class="relative transition-all duration-300 hover:border-accent-green/50">
+      <div class="flex items-start gap-4 mb-4">
+        <div class="flex flex-col items-center flex-shrink-0">
+          <div class="w-12 h-12 bg-gradient-to-br from-accent-green to-accent-green/80 rounded-lg flex items-center justify-center shadow-lg relative z-10">
+            <span class="text-on-accent font-extrabold text-h5 font-display">
+              {number}
+            </span>
+          </div>
+          {!isLast && (
+            <div class="process-connector mt-1.5 mb-1.5">
+              <Icon name="mdi:chevron-down" class="w-5 h-5 text-accent-green/40" />
+            </div>
+          )}
+        </div>
+        <div class="flex-1 pt-1.5">
+          <h3 class="text-h4 font-bold text-theme-primary leading-tight mb-3 font-display">
+            <span class="text-accent-green">{title.charAt(0)}</span>
+            <span>{title.slice(1)}</span>
+          </h3>
+          <p class="text-body-base text-theme-secondary leading-relaxed mb-4 font-body">
+            {description}
+          </p>
+          {output && (
+            <div class="pt-4 border-t border-theme-light">
+              <div class="flex items-start gap-2.5">
+                <div class="flex-shrink-0 w-2 h-2 bg-accent-green rounded-full mt-2" />
+                <div class="flex-1">
+                  <p class="text-xs text-theme-secondary uppercase tracking-wider font-semibold mb-1 font-body">
+                    Output
+                  </p>
+                  <p class="text-body-base font-bold text-theme-primary whitespace-normal leading-tight font-body">
+                    {output}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </Card>
+  </div>
+)}
+
+<style>
+    @media (max-width: 1023px) {
+      .methodology-accordion-item {
+      position: relative;
+      background: transparent;
+      border-radius: var(--radius-md);
+      transition: all var(--duration-normal) var(--timing-smooth);
+      overflow: visible;
+      }
+      
+      .methodology-accordion-item[open] {
+      background-color: var(--bg-surface);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      
+      .methodology-accordion-summary {
+      cursor: pointer;
+      list-style: none;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--spacing-md);
+      border-radius: var(--radius-md);
+      transition: all var(--duration-normal) var(--timing-smooth);
+      -webkit-tap-highlight-color: transparent;
+      gap: var(--spacing-md);
+      }
+      
+      .methodology-accordion-summary::-webkit-details-marker,
+      .methodology-accordion-summary::marker {
+      display: none;
+      }
+      
+      .methodology-accordion-summary:hover {
+      background-color: var(--bg-surface);
+      }
+      
+      .methodology-accordion-summary:focus-visible {
+      outline: 2px solid var(--accent-green);
+      outline-offset: 2px;
+      border-radius: var(--radius-md);
+      }
+      
+      .methodology-accordion-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      flex: 1;
+      min-width: 0;
+      }
+      
+      .methodology-accordion-number {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      background: var(--bg-card);
+      border: 2px solid var(--accent-green);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(163, 230, 53, 0.2);
+      transition: all var(--duration-normal) var(--timing-smooth);
+      }
+      
+      .methodology-accordion-item[open] .methodology-accordion-number {
+      background: var(--accent-green);
+      box-shadow: 0 4px 16px rgba(163, 230, 53, 0.4);
+      transform: scale(1.05);
+      }
+      
+      .methodology-accordion-number span {
+      color: var(--accent-green);
+      font-weight: 800;
+      font-size: 1.25rem;
+      font-family: var(--font-display);
+      transition: color var(--duration-normal);
+      }
+      
+      .methodology-accordion-item[open] .methodology-accordion-number span {
+      color: var(--text-on-accent);
+      }
+      
+      .methodology-accordion-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.4;
+      font-family: var(--font-display);
+      transition: color var(--duration-normal);
+      }
+      
+      .methodology-accordion-title::first-letter {
+      color: var(--accent-green);
+      font-size: 1.5em;
+      font-weight: 900;
+      line-height: 0.8;
+      margin-right: 2px;
+      text-shadow: 0 0 8px rgba(163, 230, 53, 0.5);
+      }
+      
+      .methodology-accordion-item[open] .methodology-accordion-title {
+      color: var(--accent-green);
+      }
+      
+      .methodology-accordion-chevron {
+      width: 24px;
+      height: 24px;
+      color: var(--accent-green);
+      flex-shrink: 0;
+      transition: transform var(--duration-normal) var(--timing-smooth);
+      }
+      
+      .methodology-accordion-item[open] .methodology-accordion-chevron {
+      transform: rotate(180deg);
+      }
+      
+      .methodology-accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-out;
+      opacity: 0;
+      padding-left: 72px;
+      padding-right: var(--spacing-md);
+      position: relative;
+      }
+      
+      .methodology-accordion-item[open] .methodology-accordion-content {
+      max-height: 2000px;
+      opacity: 1;
+      padding-top: var(--spacing-md);
+      padding-bottom: var(--spacing-md);
+      }
+      
+      .methodology-accordion-content::before {
+      content: '';
+      position: absolute;
+      left: 40px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-green), transparent);
+      opacity: 0.4;
+      }
+      
+      .methodology-accordion-body {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .methodology-accordion-description {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-family: var(--font-body);
+      margin-bottom: var(--spacing-md);
+      }
+      
+      .methodology-accordion-output {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-sm);
+      padding-top: var(--spacing-md);
+      border-top: 1px solid var(--border-color);
+      }
+      
+      .methodology-accordion-output-indicator {
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      margin-top: 6px;
+      box-shadow: 0 0 8px rgba(163, 230, 53, 0.6);
+      animation: methodologyPulse 2s ease-in-out infinite;
+      }
+      
+      @keyframes methodologyPulse {
+        0%, 100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.7;
+          transform: scale(1.2);
+        }
+      }
+      
+      .methodology-accordion-output-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: var(--spacing-xs);
+      font-family: var(--font-body);
+      }
+      
+      .methodology-accordion-output-text {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.5;
+      font-family: var(--font-body);
+      }
+      
+      .methodology-accordion-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-sm) 0;
+      position: relative;
+      }
+      
+      .methodology-accordion-line {
+      width: 2px;
+      height: var(--spacing-md);
+      background: var(--accent-green);
+      opacity: 0.3;
+      border-radius: 1px;
+      }
+      
+      .methodology-accordion-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 40px;
+      top: 64px;
+      width: 2px;
+      height: calc(100% - 64px + var(--spacing-md));
+      background: linear-gradient(to bottom, var(--accent-green), transparent);
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: 0;
+      }
+      
+      .methodology-accordion-item[open]::after {
+      opacity: 0.4;
+      }
+    }
+</style>
+

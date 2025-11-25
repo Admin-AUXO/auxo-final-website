@@ -1,0 +1,32 @@
+---
+interface Props {
+  item: {
+    name: string;
+    href: string;
+  };
+  isMobile?: boolean;
+}
+
+const { item, isMobile = false } = Astro.props;
+---
+
+{isMobile ? (
+  <a 
+    href={item.href} 
+    class="mobile-nav-link block px-4 py-3.5 min-h-[44px] text-sm text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-lg transition-all duration-fast font-medium touch-manipulation flex items-center relative group"
+  >
+    <span class="relative z-10">{item.name}</span>
+    <span class="mobile-nav-active-bg absolute inset-0 bg-accent-green/10 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100"></span>
+    <span class="mobile-nav-active-border absolute inset-0 rounded-lg border border-accent-green/30 opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100"></span>
+  </a>
+) : (
+  <a 
+    href={item.href} 
+    class="nav-link relative px-4 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-lg hover:bg-theme-surface/50 active:bg-theme-surface min-h-[44px] flex items-center group"
+  >
+    <span class="relative z-10">{item.name}</span>
+    <span class="nav-indicator absolute bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-accent-green rounded-full transition-all duration-normal group-hover:w-3/4"></span>
+    <span class="nav-active-bg absolute inset-0 bg-accent-green/5 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100"></span>
+  </a>
+)}
+

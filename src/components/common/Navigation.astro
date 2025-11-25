@@ -1,0 +1,132 @@
+---
+import ThemeToggle from "../ui/ThemeToggle.astro";
+import Logo from "./Logo.astro";
+import NavLink from "../navigation/NavLink.astro";
+import NavDropdown from "../navigation/NavDropdown.astro";
+import { navItems } from "../../data/navigation";
+import { getBaseUrl, createUrl } from "../../utils/url";
+
+const base = getBaseUrl();
+---
+
+<nav
+  id="main-navigation"
+  class="fixed top-0 left-0 right-0 bg-theme-primary/95 backdrop-blur-xl border-b border-theme/50 transition-all duration-normal shadow-sm nav-scrolled"
+>
+  <div class="grid-container">
+    <div
+      class="col-span-full flex items-center justify-between h-14 sm:h-16 lg:h-18 relative min-w-0 w-full"
+    >
+      <!-- Logo -->
+      <div
+        class="flex-shrink-0 min-w-0 flex items-center overflow-hidden pr-2 lg:pr-0"
+      >
+        <Logo size="md" showText={true} href={base} />
+      </div>
+
+      <!-- Desktop nav -->
+      <div
+        class="hidden lg:flex items-center gap-1 pointer-events-auto flex-shrink-0"
+      >
+        {
+          navItems.map((item, index) =>
+            item.dropdown ? (
+              <NavDropdown item={item} index={index} />
+            ) : (
+              <NavLink item={item} />
+            ),
+          )
+        }
+
+        <div class="ml-2">
+          <ThemeToggle />
+        </div>
+
+        <a
+          href={createUrl("contact")}
+          class="nav-cta ml-3 px-5 py-2.5 text-sm font-semibold border-2 border-accent-green bg-transparent text-accent-green rounded-lg hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 transition-all duration-fast min-h-[44px] flex items-center relative"
+          aria-label="Let's Talk - Contact us"
+        >
+          <span class="font-bold">Let's Talk</span>
+        </a>
+      </div>
+
+      <!-- Mobile controls -->
+      <div
+        class="flex items-center gap-2 sm:gap-3 lg:hidden flex-shrink-0 pointer-events-auto mobile-nav-controls"
+      >
+        <div
+          class="flex items-center justify-center pointer-events-auto flex-shrink-0"
+        >
+          <ThemeToggle />
+        </div>
+        <button
+          type="button"
+          id="mobile-menu-button"
+          class="mobile-menu-button relative text-theme-secondary hover:text-theme-primary p-2 rounded-lg hover:bg-theme-surface active:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-primary pointer-events-auto flex-shrink-0 min-w-[44px] min-h-[44px] w-[44px] h-[44px] flex items-center justify-center touch-manipulation"
+          aria-label="Toggle mobile menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <span class="sr-only">Toggle menu</span>
+          <div class="relative w-6 h-6" aria-hidden="true">
+            <svg
+              class="absolute inset-0 w-6 h-6 menu-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                class="menu-open"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+              <path
+                class="menu-close absolute inset-0 opacity-0"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="mobile-menu lg:hidden bg-theme-card shadow-2xl border-t border-theme/50"
+    aria-hidden="true"
+  >
+    <div class="px-4 sm:px-6 py-4 space-y-2">
+      {
+        navItems.map((item, index) =>
+          item.dropdown ? (
+            <NavDropdown item={item} index={index} isMobile={true} />
+          ) : (
+            <NavLink item={item} isMobile={true} />
+          ),
+        )
+      }
+
+      <a
+        href={createUrl("contact")}
+        class="nav-cta-mobile block mt-4 px-5 py-3.5 min-h-[44px] border-2 border-accent-green bg-transparent text-accent-green font-bold rounded-lg hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 transition-all duration-fast text-center touch-manipulation flex items-center justify-center text-sm relative"
+        aria-label="Let's Talk - Contact us"
+      >
+        <span>Let's Talk</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="h-16 sm:h-18 lg:h-20"></div>
+
+<script>
+  import "../../scripts/navigation";
+</script>

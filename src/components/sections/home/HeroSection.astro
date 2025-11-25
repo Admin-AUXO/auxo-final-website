@@ -1,0 +1,91 @@
+---
+import { Icon } from "astro-icon/components";
+import Button from "../../ui/Button.astro";
+import {
+  homepageContent,
+  type HomepageContent,
+} from "../../../data/content/homepage";
+import { createUrl } from "../../../utils/url";
+
+const content: HomepageContent["hero"] = homepageContent.hero;
+---
+
+<section
+  id="hero"
+  class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-0 pb-6 sm:pb-8"
+>
+  <div
+    class="grid-container relative z-content flex-1 flex flex-col items-center justify-center"
+  >
+    <div class="col-span-full text-center max-w-6xl mx-auto w-full">
+      <div class="hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">
+        <h1
+          class="hero-headline-text text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-4 sm:mb-5 lg:mb-6 w-full font-display"
+        >
+          <span class="block e-part">{content.title}</span>
+          <span class="block mt-2 sm:mt-3 lg:mt-4">
+            <span
+              id="typing-highlight"
+              class="text-accent-green"
+              data-highlight-text={content.titleHighlight}></span>
+          </span>
+        </h1>
+      </div>
+
+      {content.subtitle && (
+        <div class="hero-subtitle mb-6 sm:mb-8 lg:mb-10 max-w-[400px] sm:max-w-[500px] lg:max-w-[600px] mx-auto opacity-0 hero-follow-content">
+          <p class="text-body-lg text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body">
+            {content.subtitle}
+          </p>
+        </div>
+      )}
+
+      <div class="hero-cta mb-6 sm:mb-8 lg:mb-10 opacity-0 hero-follow-content">
+        <div
+          class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto px-4 sm:px-0"
+        >
+          {content.primaryCta.text && (
+            <Button
+              variant="primary"
+              size="lg"
+              href={createUrl(content.primaryCta.href)}
+              class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all min-h-[44px] cta-button flex-nowrap"
+            >
+              <span class="whitespace-nowrap">{content.primaryCta.text}</span>
+              <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0" />
+            </Button>
+          )}
+        </div>
+      </div>
+
+      <div
+        class="relative z-content flex flex-col items-center opacity-0 hero-follow-content mt-6 sm:mt-8 lg:mt-10"
+      >
+        <a
+          href="#services"
+          class="flex flex-col items-center text-theme-secondary hover:text-accent-green transition-colors group"
+          aria-label={content.scrollIndicator}
+        >
+          <span
+            class="text-xs mb-4 sm:mb-5 font-medium uppercase tracking-wider font-body"
+            >{content.scrollIndicator}</span
+          >
+          <div
+            class="animate-bounce bg-accent-green/10 backdrop-blur-sm rounded-full p-1.5 border border-accent-green/20"
+          >
+            <Icon
+              name="mdi:chevron-down"
+              class="w-4 h-4 group-hover:scale-110 transition-transform text-accent-green"
+            />
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initHeroSection } from "../../../scripts/sections/home/heroSection";
+  initHeroSection();
+</script>
+

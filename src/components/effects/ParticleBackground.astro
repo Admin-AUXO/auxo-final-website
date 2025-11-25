@@ -1,0 +1,185 @@
+---
+---
+
+<div
+  id="particle-background"
+  class="fixed inset-0 pointer-events-none"
+  aria-hidden="true"
+  data-particle-container
+>
+  <canvas id="particle-canvas"></canvas>
+</div>
+
+<script>
+  import { GalaxyParticleSystem } from "../../scripts/particle-system";
+  
+  let particleSystem: GalaxyParticleSystem | null = null;
+  let isInitialized = false;
+
+  function initParticleSystem() {
+    if (typeof window === "undefined" || isInitialized) return;
+
+    // Skip if reduced motion
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const canvas = document.getElementById("particle-canvas") as HTMLCanvasElement;
+    const container = document.getElementById("particle-background");
+    
+    if (!canvas || !container) {
+      console.warn("Particle canvas or container not found");
+      return;
+    }
+
+    try {
+      // Make container visible
+      container.style.display = "block";
+      container.style.opacity = "1";
+      container.style.visibility = "visible";
+
+      // Initialize particles
+      particleSystem = new GalaxyParticleSystem(canvas);
+      isInitialized = true;
+    } catch (error) {
+      console.error("Failed to initialize particle system:", error);
+    }
+  }
+
+  function cleanup() {
+    if (particleSystem) {
+      particleSystem.destroy();
+      particleSystem = null;
+    }
+    isInitialized = false;
+  }
+
+  function waitForInit() {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", waitForInit, { once: true });
+      return;
+    }
+
+    const canvas = document.getElementById("particle-canvas");
+    if (!canvas) {
+      setTimeout(waitForInit, 100);
+      return;
+    }
+
+    initParticleSystem();
+  }
+
+  // Initialize on load
+  if (document.readyState !== "loading") {
+    waitForInit();
+  } else {
+    document.addEventListener("DOMContentLoaded", waitForInit, { once: true });
+  }
+
+  // Handle page transitions
+  document.addEventListener("astro:before-swap", () => {
+    cleanup();
+  }, { once: false });
+
+  document.addEventListener("astro:page-load", () => {
+    setTimeout(() => {
+      waitForInit();
+    }, 50);
+  }, { once: false });
+
+  // Watch theme changes
+  const themeObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "class"
+      ) {
+        const html = document.documentElement;
+        if (
+          html.classList.contains("dark") ||
+          html.classList.contains("light")
+        ) {
+          cleanup();
+          setTimeout(() => {
+            waitForInit();
+          }, 100);
+        }
+      }
+    });
+  });
+
+  themeObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+</script>
+
+<style>
+  /* Particle background */
+  #particle-background {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    background-color: transparent !important;
+    will-change: opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+
+  #particle-canvas {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+  }
+
+  /* Navigation above particles */
+  nav#main-navigation {
+    position: relative;
+    z-index: var(--z-navigation) !important;
+  }
+
+  /* Main content above particles */
+  main#main-content.z-content {
+    position: relative !important;
+    z-index: 1 !important;
+    isolation: isolate;
+  }
+
+  /* Footer above particles */
+  footer.z-content {
+    position: relative !important;
+    z-index: 1 !important;
+    background-color: var(--bg-card);
+    isolation: isolate;
+  }
+
+  /* Body stacking context */
+  body {
+    position: relative;
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 767px) {
+    #particle-background {
+      opacity: 0.9;
+    }
+    
+    #particle-canvas {
+      image-rendering: optimizeSpeed;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    #particle-background {
+      display: none;
+    }
+  }
+</style>

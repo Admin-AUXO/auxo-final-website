@@ -1,0 +1,106 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import HighlightCard from "../../ui/HighlightCard.astro";
+import ServiceCard from "../../ui/ServiceCard.astro";
+import HighlightText from "../../ui/HighlightText.astro";
+import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+import Carousel from "../../ui/Carousel.astro";
+import { servicesContent } from "../../../data/content/services";
+import { createUrl } from "../../../utils/url";
+
+const content = servicesContent.stages;
+
+const serviceIcons = [
+  "mdi:layers",
+  "mdi:chart-box",
+  "mdi:chart-line",
+  "mdi:crystal-ball",
+  "mdi:book-open-variant",
+  "mdi:robot",
+  "mdi:brain",
+  "mdi:shield-check",
+];
+---
+
+<SectionContainer
+  id="services-stages"
+  padding="normal"
+  background="default"
+  class="relative services-stages-section"
+>
+  <BackgroundDecorations gradients={["hero"]} />
+  
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-7xl mx-auto w-full">
+      <div class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20 opacity-0 fade-in-up">
+        <h2 class="text-h2 font-extrabold mb-3 sm:mb-4 lg:mb-5 xl:mb-6 leading-tight tracking-tight font-display px-2">
+          Services for <span class="text-accent-green">every stage</span>
+        </h2>
+        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body px-4 sm:px-6">
+          <HighlightText text={content.description} highlight="analytics maturity curve" highlightClass="text-accent-green font-semibold" />
+        </p>
+      </div>
+
+      <div class="hidden lg:grid lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 mb-10 sm:mb-12 lg:mb-16">
+        {content.services.map((service, index) => (
+          <div class="opacity-0 fade-in-up-delay" style={`animation-delay: ${index * 0.1}s`}>
+            <ServiceCard
+              icon={serviceIcons[index]}
+              title={service.name}
+              description={service.description}
+              link={createUrl(service.link)}
+              index={index}
+              variant="grid"
+            />
+          </div>
+        ))}
+      </div>
+
+      <Carousel
+        containerId="services-carousel-container"
+        trackId="services-carousel-track"
+        dotSelector=".services-carousel .carousel-dot"
+        items={content.services}
+        wrapperClass="services-carousel services-carousel-wrapper"
+        dotsClass="services-carousel-dots"
+        dotClass="services-carousel"
+        breakpoint={1024}
+        activateOnDesktop={false}
+      >
+        {content.services.map((service, index) => (
+          <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
+            <ServiceCard
+              icon={serviceIcons[index]}
+              title={service.name}
+              description={service.description}
+              link={createUrl(service.link)}
+              index={index}
+              variant="carousel"
+            />
+          </div>
+        ))}
+      </Carousel>
+
+      <div class="mt-10 sm:mt-12 lg:mt-16 opacity-0 fade-in-up-delay">
+        <div class="bg-gradient-to-br from-accent-green/15 via-accent-green/8 to-transparent border-2 border-accent-green/30 rounded-2xl p-8 sm:p-10 lg:p-12 relative overflow-hidden group hover:border-accent-green/50 hover:shadow-2xl hover:shadow-accent-green/20 transition-all duration-500">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-accent-green/10 rounded-full blur-3xl opacity-60"></div>
+          <div class="absolute bottom-0 left-0 w-48 h-48 bg-accent-green/5 rounded-full blur-2xl opacity-40"></div>
+          <div class="absolute inset-0 opacity-[0.03] code-edge-pattern"></div>
+          
+          <div class="relative z-10">
+            <p class="text-body-lg sm:text-body-xl lg:text-2xl text-theme-primary leading-relaxed font-body text-center">
+              <HighlightText text={content.codeEdge} highlight={["consistent quality", "common language"]} highlightClass="text-accent-green font-bold" />
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</SectionContainer>
+
+<script>
+  import { initServicesCarousel } from "../../../scripts/sections/services/servicesCarousel";
+  initServicesCarousel();
+</script>
