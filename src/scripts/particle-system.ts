@@ -19,19 +19,6 @@ interface Star {
   angle: number;
 }
 
-interface ShootingStar {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  length: number;
-  opacity: number;
-  color: string;
-  life: number;
-  maxLife: number;
-  headRadius: number;
-}
-
 // Constants for better maintainability
 const CONSTANTS = {
   // Device breakpoints
@@ -61,25 +48,6 @@ const CONSTANTS = {
   RADIUS_VARIATION_MIN: 0.8,
   RADIUS_VARIATION_MAX: 0.2,
   
-  // Shooting stars - improved for more frequent, longer, varied spawns
-  SHOOTING_STAR_MIN_INTERVAL: 800,
-  SHOOTING_STAR_MAX_INTERVAL: 2000,
-  SHOOTING_STAR_MIN_TAIL_LENGTH: 150,
-  SHOOTING_STAR_MAX_TAIL_LENGTH: 300,
-  SHOOTING_STAR_MIN_HEAD_RADIUS: 3,
-  SHOOTING_STAR_MAX_HEAD_RADIUS: 6,
-  SHOOTING_STAR_MIN_LIFE: 300,
-  SHOOTING_STAR_MAX_LIFE: 500,
-  SHOOTING_STAR_SPEED_MIN: 0.6,
-  SHOOTING_STAR_SPEED_MAX: 1.2,
-  SHOOTING_STAR_ANGLE_MIN: 0,
-  SHOOTING_STAR_ANGLE_RANGE: Math.PI * 2,
-  SHOOTING_STAR_SPAWN_OFFSET: 50,
-  SHOOTING_STAR_BOUNDS_OFFSET: 100,
-  SHOOTING_STAR_SPAWN_FROM_EDGE_CHANCE: 0.4, // 40% chance to spawn from edge, 60% from anywhere
-  TAIL_WIDTH_FACTOR: 0.8,
-  MIN_TAIL_WIDTH: 2,
-  
   // Opacity ranges
   LIGHT_MODE_OPACITY_MIN: 0.4,
   LIGHT_MODE_OPACITY_RANGE: 0.3,
@@ -93,8 +61,6 @@ const CONSTANTS = {
   ACCENT_STAR_GLOW_DARK: 3,
   REGULAR_STAR_GLOW_LIGHT: 2.5,
   REGULAR_STAR_GLOW_DARK: 2,
-  SHOOTING_STAR_GLOW_LIGHT: 3,
-  SHOOTING_STAR_GLOW_DARK: 2.5,
   
   // Light mode star colors (subtle dark colors for visibility)
   LIGHT_MODE_STAR_COLORS: [
@@ -112,7 +78,6 @@ export class GalaxyParticleSystem {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private stars: Star[] = [];
-  private shootingStars: ShootingStar[] = [];
   private mouseX = 0;
   private mouseY = 0;
   private isMouseActive = false;
@@ -120,8 +85,6 @@ export class GalaxyParticleSystem {
   private resizeObserver: ResizeObserver | null = null;
   private centerX = 0;
   private centerY = 0;
-  private lastShootingStarTime = 0;
-  private shootingStarInterval = 0;
   
   // Configuration
   private config = {
@@ -159,7 +122,6 @@ export class GalaxyParticleSystem {
     this.setupCanvas();
     this.setupEventListeners();
     this.createStars();
-    this.initializeShootingStars();
     this.animate();
   }
 
@@ -191,92 +153,6 @@ export class GalaxyParticleSystem {
 
     // Update theme colors
     this.updateThemeColors();
-    
-    // Set shooting star interval (random between 0.8-2 seconds for more frequent stars)
-    this.shootingStarInterval = 
-      Math.random() * (CONSTANTS.SHOOTING_STAR_MAX_INTERVAL - CONSTANTS.SHOOTING_STAR_MIN_INTERVAL) + 
-      CONSTANTS.SHOOTING_STAR_MIN_INTERVAL;
-  }
-  
-  private initializeShootingStars() {
-    // Create initial shooting stars
-    this.shootingStars = [];
-    this.lastShootingStarTime = Date.now();
-  }
-  
-  private createShootingStar() {
-    const { width, height } = this.cachedLogicalSize;
-    const spawnFromEdge = Math.random() < CONSTANTS.SHOOTING_STAR_SPAWN_FROM_EDGE_CHANCE;
-    
-    let x: number, y: number, vx: number, vy: number;
-    const speed = CONSTANTS.SHOOTING_STAR_SPEED_MIN + 
-      Math.random() * (CONSTANTS.SHOOTING_STAR_SPEED_MAX - CONSTANTS.SHOOTING_STAR_SPEED_MIN);
-    
-    if (spawnFromEdge) {
-      // Spawn from edge (40% chance)
-      const side = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
-      const angle = CONSTANTS.SHOOTING_STAR_ANGLE_MIN + 
-        Math.random() * CONSTANTS.SHOOTING_STAR_ANGLE_RANGE;
-      const cosAngle = Math.cos(angle);
-      const sinAngle = Math.sin(angle);
-      
-      switch (side) {
-        case 0: // Top
-          x = Math.random() * width;
-          y = -CONSTANTS.SHOOTING_STAR_SPAWN_OFFSET;
-          vx = cosAngle * speed;
-          vy = sinAngle * speed;
-          break;
-        case 1: // Right
-          x = width + CONSTANTS.SHOOTING_STAR_SPAWN_OFFSET;
-          y = Math.random() * height;
-          vx = -cosAngle * speed;
-          vy = sinAngle * speed;
-          break;
-        case 2: // Bottom
-          x = Math.random() * width;
-          y = height + CONSTANTS.SHOOTING_STAR_SPAWN_OFFSET;
-          vx = cosAngle * speed;
-          vy = -sinAngle * speed;
-          break;
-        default: // Left
-          x = -CONSTANTS.SHOOTING_STAR_SPAWN_OFFSET;
-          y = Math.random() * height;
-          vx = cosAngle * speed;
-          vy = sinAngle * speed;
-          break;
-      }
-    } else {
-      // Spawn from anywhere on screen (60% chance)
-      // Choose a random point on screen
-      x = Math.random() * width;
-      y = Math.random() * height;
-      
-      // Choose a random direction (full 360 degrees)
-      const angle = Math.random() * Math.PI * 2;
-      vx = Math.cos(angle) * speed;
-      vy = Math.sin(angle) * speed;
-    }
-    
-    const length = CONSTANTS.SHOOTING_STAR_MIN_TAIL_LENGTH + 
-      Math.random() * (CONSTANTS.SHOOTING_STAR_MAX_TAIL_LENGTH - CONSTANTS.SHOOTING_STAR_MIN_TAIL_LENGTH);
-    const headRadius = CONSTANTS.SHOOTING_STAR_MIN_HEAD_RADIUS + 
-      Math.random() * (CONSTANTS.SHOOTING_STAR_MAX_HEAD_RADIUS - CONSTANTS.SHOOTING_STAR_MIN_HEAD_RADIUS);
-    const maxLifeValue = CONSTANTS.SHOOTING_STAR_MIN_LIFE + 
-      Math.random() * (CONSTANTS.SHOOTING_STAR_MAX_LIFE - CONSTANTS.SHOOTING_STAR_MIN_LIFE);
-    
-    this.shootingStars.push({
-      x,
-      y,
-      vx,
-      vy,
-      length,
-      opacity: 1,
-      color: this.accentColor,
-      life: 0,
-      maxLife: maxLifeValue,
-      headRadius,
-    });
   }
 
   private updateThemeColors() {
@@ -549,33 +425,6 @@ export class GalaxyParticleSystem {
   private updateStars() {
     const { width, height } = this.cachedLogicalSize;
     const maxDistance = this.cachedMaxDistance;
-    
-    // Update shooting stars
-    const now = Date.now();
-    if (now - this.lastShootingStarTime > this.shootingStarInterval) {
-      this.createShootingStar();
-      this.lastShootingStarTime = now;
-      this.shootingStarInterval = 
-        Math.random() * (CONSTANTS.SHOOTING_STAR_MAX_INTERVAL - CONSTANTS.SHOOTING_STAR_MIN_INTERVAL) + 
-        CONSTANTS.SHOOTING_STAR_MIN_INTERVAL;
-    }
-    
-    // Update shooting star positions and remove dead ones
-    this.shootingStars = this.shootingStars.filter(shootingStar => {
-      shootingStar.x += shootingStar.vx;
-      shootingStar.y += shootingStar.vy;
-      shootingStar.life++;
-      
-      // Remove if dead or out of bounds
-      const isDead = shootingStar.life >= shootingStar.maxLife;
-      const isOutOfBounds = 
-        shootingStar.x < -CONSTANTS.SHOOTING_STAR_BOUNDS_OFFSET || 
-        shootingStar.x > width + CONSTANTS.SHOOTING_STAR_BOUNDS_OFFSET ||
-        shootingStar.y < -CONSTANTS.SHOOTING_STAR_BOUNDS_OFFSET || 
-        shootingStar.y > height + CONSTANTS.SHOOTING_STAR_BOUNDS_OFFSET;
-      
-      return !isDead && !isOutOfBounds;
-    });
 
     // Optimize: cache values used in loop
     const influenceRadius = Math.min(width, height) * CONSTANTS.MOUSE_INFLUENCE_RADIUS_FACTOR;
@@ -682,11 +531,6 @@ export class GalaxyParticleSystem {
       this.ctx.restore();
     }
 
-    // Draw shooting stars
-    for (const shootingStar of this.shootingStars) {
-      this.drawShootingStar(shootingStar, isLight, accentRgb);
-    }
-
     this.ctx.globalAlpha = 1;
   }
 
@@ -773,74 +617,6 @@ export class GalaxyParticleSystem {
       this.ctx.fill();
     }
   }
-
-  private drawShootingStar(shootingStar: ShootingStar, isLight: boolean, accentRgb: string) {
-    this.ctx.save();
-    
-    // Calculate tail end position
-    const tailX = shootingStar.x - shootingStar.vx * shootingStar.length;
-    const tailY = shootingStar.y - shootingStar.vy * shootingStar.length;
-    
-    // Tail opacity based on life
-    const lifeRatio = shootingStar.life / shootingStar.maxLife;
-    const opacity = shootingStar.opacity * (1 - lifeRatio);
-    
-    // Create gradient for tail
-    const gradient = this.ctx.createLinearGradient(tailX, tailY, shootingStar.x, shootingStar.y);
-    
-    if (isLight) {
-      gradient.addColorStop(0, `rgba(${accentRgb}, ${opacity * 0.2})`);
-      gradient.addColorStop(0.5, `rgba(${accentRgb}, ${opacity * 0.5})`);
-      gradient.addColorStop(1, `rgba(${accentRgb}, ${opacity * 0.7})`);
-    } else {
-      gradient.addColorStop(0, `rgba(${accentRgb}, ${opacity * 0.2})`);
-      gradient.addColorStop(0.5, `rgba(${accentRgb}, ${opacity * 0.5})`);
-      gradient.addColorStop(1, `rgba(${accentRgb}, ${opacity})`);
-    }
-    
-    // Draw tail
-    const tailWidth = Math.max(CONSTANTS.MIN_TAIL_WIDTH, shootingStar.headRadius * CONSTANTS.TAIL_WIDTH_FACTOR);
-    this.ctx.strokeStyle = gradient;
-    this.ctx.lineWidth = tailWidth;
-    this.ctx.lineCap = 'round';
-    this.ctx.beginPath();
-    this.ctx.moveTo(tailX, tailY);
-    this.ctx.lineTo(shootingStar.x, shootingStar.y);
-    this.ctx.stroke();
-    
-    // Draw head
-    this.ctx.globalAlpha = opacity;
-    this.ctx.fillStyle = isLight 
-      ? `rgba(${accentRgb}, ${opacity})`
-      : this.accentColor;
-    this.ctx.beginPath();
-    this.ctx.arc(shootingStar.x, shootingStar.y, shootingStar.headRadius, 0, Math.PI * 2);
-    this.ctx.fill();
-    
-    // Add glow to head
-    const glowRadius = shootingStar.headRadius * (isLight ? CONSTANTS.SHOOTING_STAR_GLOW_LIGHT : CONSTANTS.SHOOTING_STAR_GLOW_DARK);
-    const headGlow = this.ctx.createRadialGradient(
-      shootingStar.x, shootingStar.y, 0,
-      shootingStar.x, shootingStar.y, glowRadius
-    );
-    
-    if (isLight) {
-      headGlow.addColorStop(0, `rgba(${accentRgb}, ${opacity})`);
-      headGlow.addColorStop(0.5, `rgba(${accentRgb}, ${opacity * 0.4})`);
-      headGlow.addColorStop(1, 'transparent');
-    } else {
-      headGlow.addColorStop(0, `rgba(${accentRgb}, ${opacity})`);
-      headGlow.addColorStop(0.5, `rgba(${accentRgb}, ${opacity * 0.3})`);
-      headGlow.addColorStop(1, 'transparent');
-    }
-    
-    this.ctx.fillStyle = headGlow;
-    this.ctx.beginPath();
-    this.ctx.arc(shootingStar.x, shootingStar.y, glowRadius, 0, Math.PI * 2);
-    this.ctx.fill();
-    
-    this.ctx.restore();
-  }
   
   private hexToRgb(hex: string): string {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -864,6 +640,5 @@ export class GalaxyParticleSystem {
       this.resizeObserver = null;
     }
     this.stars = [];
-    this.shootingStars = [];
   }
 }
