@@ -123,7 +123,7 @@ export const servicesContent: ServicesContent = {
       },
       {
         name: "Hospitality & Tourism",
-        icon: "mdi:hotel",
+        icon: "mdi:bed",
         description: "Maximize revenue per guest through advanced demand forecasting, dynamic pricing, and personalized guest experiences. Turn data into exceptional hospitality outcomes.",
         useCases: [
           "Revenue management & pricing",
@@ -171,7 +171,7 @@ export const servicesContent: ServicesContent = {
       },
       {
         name: "Government & Public Sector",
-        icon: "mdi:account-balance",
+        icon: "mdi:scale-balance",
         description: "Improve public service delivery, optimize resource allocation, and enhance policy outcomes with evidence-based analytics. Serve citizens better, faster.",
         useCases: [
           "Resource allocation optimization",

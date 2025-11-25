@@ -11,12 +11,10 @@
 </div>
 
 <script>
-  import { GalaxyParticleSystem } from "../../scripts/particle-system";
-  
-  let particleSystem: GalaxyParticleSystem | null = null;
+  let particleSystem: any = null;
   let isInitialized = false;
 
-  function initParticleSystem() {
+  async function initParticleSystem() {
     if (typeof window === "undefined" || isInitialized) return;
 
     // Skip if reduced motion
@@ -28,11 +26,13 @@
     const container = document.getElementById("particle-background");
     
     if (!canvas || !container) {
-      console.warn("Particle canvas or container not found");
       return;
     }
 
     try {
+      // Lazy load particle system
+      const { GalaxyParticleSystem } = await import("../../scripts/particle-system");
+      
       // Make container visible
       container.style.display = "block";
       container.style.opacity = "1";

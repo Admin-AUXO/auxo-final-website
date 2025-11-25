@@ -145,7 +145,6 @@ function openMobileMenu(): void {
   const { mobileMenu, mobileMenuButton, nav } = getNavElements();
 
   if (!mobileMenu || !mobileMenuButton) {
-    console.warn('Mobile menu elements not found');
     return;
   }
 
@@ -181,7 +180,6 @@ function openMobileMenu(): void {
       focusTrap?.activate();
     } catch (e) {
       // Ignore if no focusable elements
-      console.warn('Focus trap activation failed:', e);
     }
     
     setupMobileDropdowns();
@@ -239,7 +237,6 @@ export function initializeMobileMenu(): void {
   const { mobileMenuButton, mobileMenu } = getNavElements();
   
   if (!mobileMenuButton || !mobileMenu) {
-    console.warn('Mobile menu elements not found');
     return;
   }
 

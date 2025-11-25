@@ -1,4 +1,4 @@
-export { createCarouselManager, type CarouselConfig } from "./carouselUtils";
+export { setupCarouselSection, type CarouselConfig } from "./carouselUtils";
 export {
   initOnReady,
   setupAstroPageLoad,

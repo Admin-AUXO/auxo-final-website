@@ -19,11 +19,22 @@ lerna-debug.log*
 .env.production
 .env.local
 .env.*.local
+.env.development
+.env.test
+
+# build tools cache
+.vite/
+.turbo/
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
 
 # macOS-specific files
 .DS_Store
 .AppleDouble
 .LSOverride
+Icon
+._*
 
 # Windows-specific files
 Thumbs.db
@@ -60,16 +71,26 @@ $RECYCLE.BIN/
 *.sublime-project
 *.sublime-workspace
 
+# Deployment platforms
+.vercel/
+.netlify/
+.firebase/
+.serverless/
+
 # Testing
 coverage/
 .nyc_output/
 *.lcov
 test-results/
 playwright-report/
+junit.xml
 
 # Misc
 *.log
 .cache/
 .temp/
 .tmp/
+*.pid
+*.seed
+*.pid.lock
 
