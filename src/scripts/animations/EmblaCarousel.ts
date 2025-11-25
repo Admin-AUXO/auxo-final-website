@@ -93,7 +93,13 @@ export class EmblaCarouselWrapper {
       const dotElement = dot as HTMLElement;
       const clickHandler = () => {
         if (this.embla) {
+          // Add class to indicate programmatic navigation for faster transition
+          this.container.classList.add('carousel-navigating');
           this.embla.scrollTo(index);
+          // Remove class after transition completes (200ms transition + 50ms buffer)
+          setTimeout(() => {
+            this.container.classList.remove('carousel-navigating');
+          }, 250);
         }
       };
       

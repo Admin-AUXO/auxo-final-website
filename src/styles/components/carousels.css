@@ -289,6 +289,20 @@
   -webkit-overflow-scrolling: touch;
 }
 
+/* Faster transition when navigating via dots */
+.carousel-navigating .carousel-track {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.carousel-navigating .carousel-slide {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important, opacity 0.2s ease-out !important;
+}
+
+/* Ensure proper centering during navigation */
+.carousel-navigating .carousel-slide {
+  scroll-snap-align: center;
+}
+
 @media (min-width: 640px) {
   .carousel-track {
     gap: var(--carousel-gap-tablet);
