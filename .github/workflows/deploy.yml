@@ -50,6 +50,25 @@ jobs:
             echo "Error: dist/index.html not found"
             exit 1
           fi
+          # Verify CSS files are present
+          if [ ! -d "dist/_astro" ]; then
+            echo "Error: dist/_astro directory not found (CSS assets missing)"
+            exit 1
+          fi
+          css_count=$(find dist/_astro -name "*.css" | wc -l)
+          if [ "$css_count" -eq 0 ]; then
+            echo "Warning: No CSS files found in dist/_astro"
+          else
+            echo "Found $css_count CSS file(s) in dist/_astro"
+          fi
+          # Verify public assets are copied
+          if [ ! -f "dist/favicon.svg" ]; then
+            echo "Warning: dist/favicon.svg not found"
+          fi
+          if [ ! -f "dist/manifest.json" ]; then
+            echo "Warning: dist/manifest.json not found"
+          fi
+          echo "Build verification complete"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4

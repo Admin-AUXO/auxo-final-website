@@ -3,6 +3,7 @@ import { Icon } from "astro-icon/components";
 import Button from "../../ui/Button.astro";
 import HighlightText from "../../ui/HighlightText.astro";
 import { aboutContent } from "../../../data/content/about";
+import { createUrl } from "../../../utils/url";
 
 const content = aboutContent.hero;
 const headlineParts = content.headline.split(" ");
@@ -59,7 +60,7 @@ const rightPart = headlineParts.slice(5).join(" ");
           <Button
             variant="primary"
             size="lg"
-            href={content.ctaHref}
+            href={createUrl(content.ctaHref)}
             class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all min-h-[44px] cta-button flex-nowrap group/btn about-hero-cta-button"
           >
             <span class="whitespace-nowrap">{content.ctaText}</span>

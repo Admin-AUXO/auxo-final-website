@@ -4,6 +4,7 @@ import Button from "../../ui/Button.astro";
 import SectionContainer from "../../layouts/SectionContainer.astro";
 import HighlightText from "../../ui/HighlightText.astro";
 import { servicesContent } from "../../../data/content/services";
+import { createUrl } from "../../../utils/url";
 
 const content = servicesContent.cta;
 ---
@@ -30,7 +31,7 @@ const content = servicesContent.cta;
           <Button
             variant="primary"
             size="lg"
-            href={content.ctaHref}
+            href={createUrl(content.ctaHref)}
             class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all min-h-[44px] cta-button flex-nowrap group/btn"
           >
             <span class="whitespace-nowrap">{content.ctaText}</span>

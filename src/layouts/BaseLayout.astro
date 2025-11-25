@@ -3,6 +3,7 @@ import { siteData } from "../data/config/site";
 import Navigation from "../components/common/Navigation.astro";
 import Footer from "../components/common/Footer.astro";
 import ParticleBackground from "../components/effects/ParticleBackground.astro";
+import { createAssetUrl } from "../utils/url";
 import "../styles/tokens.css";
 import "../styles/base.css";
 import "../styles/typography.css";
@@ -44,19 +45,19 @@ const {
     <title>{title || siteData.name}</title>
     
     <!-- Favicons and Icons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate icon" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href={createAssetUrl("/favicon.svg")} />
+    <link rel="alternate icon" href={createAssetUrl("/favicon.svg")} />
+    <link rel="apple-touch-icon" href={createAssetUrl("/apple-touch-icon.svg")} />
+    <link rel="manifest" href={createAssetUrl("/manifest.json")} />
     <meta name="msapplication-TileColor" content={siteData.themeColor} />
-    <meta name="msapplication-config" content="/browserconfig.xml" />
+    <meta name="msapplication-config" content={createAssetUrl("/browserconfig.xml")} />
     
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={siteData.url} />
     <meta property="og:title" content={title || siteData.name} />
     <meta property="og:description" content={description || siteData.description} />
-    <meta property="og:image" content={`${siteData.url}/og-image.svg`} />
+    <meta property="og:image" content={createAssetUrl("/og-image.svg")} />
     <meta property="og:site_name" content={siteData.name} />
     
     <!-- Twitter Card -->
@@ -64,7 +65,7 @@ const {
     <meta name="twitter:url" content={siteData.url} />
     <meta name="twitter:title" content={title || siteData.name} />
     <meta name="twitter:description" content={description || siteData.description} />
-    <meta name="twitter:image" content={`${siteData.url}/og-image.svg`} />
+    <meta name="twitter:image" content={createAssetUrl("/og-image.svg")} />
     
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
