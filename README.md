@@ -54,9 +54,31 @@ The `.github/workflows/deploy.yml` workflow:
 
 ### Environment Variables
 
-If you need to set environment variables:
-- Go to repository Settings → Secrets and variables → Actions
-- Add any required secrets (e.g., `SITE_URL`)
+The project uses the following environment variables:
+
+#### Local Development
+
+Create a `.env` file in the root directory (see `.env.example` for template):
+
+```bash
+# Base path for GitHub Pages deployment
+# Use '/' for root deployment (custom domain or username.github.io)
+# Use '/repo-name/' for subdirectory deployment
+BASE_PATH=/
+
+# Site URL (optional, defaults to https://auxodata.com)
+SITE_URL=https://auxodata.com
+```
+
+#### GitHub Actions (Production)
+
+For GitHub Pages deployment, set these as repository secrets:
+- Go to repository **Settings** → **Secrets and variables** → **Actions**
+- Add secrets:
+  - `BASE_PATH` (optional): Set to `/repo-name/` if deploying to subdirectory, otherwise defaults to `/`
+  - `SITE_URL` (optional): Override the site URL, defaults to `https://auxodata.com`
+
+**Note:** `BASE_URL` is automatically set by Astro based on the `base` config and is available via `import.meta.env.BASE_URL` in your code.
 
 ## Project Structure
 

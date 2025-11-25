@@ -4,6 +4,9 @@ import icon from 'astro-icon';
 
 export default defineConfig({
   site: 'https://auxodata.com',
+  // Base path for GitHub Pages - use '/' for root or '/repo-name/' for subdirectory
+  // If deploying to a subdirectory, set BASE_PATH environment variable in GitHub Actions
+  base: process.env.BASE_PATH || '/',
   output: 'static',
   build: {
     inlineStylesheets: 'auto',
