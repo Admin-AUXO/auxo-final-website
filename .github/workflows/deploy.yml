@@ -53,6 +53,13 @@ jobs:
             echo "Error: dist/index.html not found"
             exit 1
           fi
+          # Verify .nojekyll file exists (prevents Jekyll processing)
+          if [ ! -f "dist/.nojekyll" ]; then
+            echo "Warning: dist/.nojekyll not found - creating it"
+            touch dist/.nojekyll
+          else
+            echo "✓ .nojekyll file found (Jekyll will be skipped)"
+          fi
           # Verify CSS files are present
           if [ ! -d "dist/_astro" ]; then
             echo "Error: dist/_astro directory not found (CSS assets missing)"
