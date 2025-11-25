@@ -12,6 +12,7 @@ export interface Props {
   dotsMarginTop?: string;
   breakpoint?: number;
   activateOnDesktop?: boolean;
+  alwaysVisible?: boolean;
 }
 
 const {
@@ -27,9 +28,12 @@ const {
   dotsMarginTop = "mt-6 sm:mt-8",
   breakpoint = 1024,
   activateOnDesktop = false,
+  alwaysVisible = false,
 } = Astro.props;
 
-const displayClass = activateOnDesktop
+const displayClass = alwaysVisible
+  ? ""
+  : activateOnDesktop
   ? `hidden ${breakpoint === 1024 ? "lg:block" : breakpoint === 768 ? "md:block" : ""}`
   : `${breakpoint === 1024 ? "lg:hidden" : breakpoint === 768 ? "md:hidden" : ""}`;
 ---

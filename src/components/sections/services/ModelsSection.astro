@@ -29,45 +29,60 @@ const modelIcons = [
         <div class="inline-flex items-center justify-center gap-3 mb-4 sm:mb-5">
           <Icon name="mdi:format-list-bulleted" class="w-9 h-9 sm:w-10 sm:h-10 text-accent-green" />
           <h2 class="text-h2 sm:text-h1 font-extrabold leading-tight tracking-tight font-display">
-            <HighlightText text={content.title} highlight="engagement model" />
+            <HighlightText text={content.title} highlight="Engagement Model" />
           </h2>
         </div>
         <p class="text-body-md sm:text-body-lg text-theme-secondary max-w-3xl mx-auto px-4">
-          {content.description}
+          {content.descriptionHighlight ? (
+            <HighlightText text={content.description} highlight={content.descriptionHighlight} />
+          ) : (
+            content.description
+          )}
         </p>
       </div>
 
-      <div class="hidden lg:block mb-8 sm:mb-10 lg:mb-12 opacity-0 fade-in-up-delay">
+      <div class="mb-8 sm:mb-10 lg:mb-12 opacity-0 fade-in-up-delay">
         <div class="models-accordion-container">
-        {content.models.map((model, index) => (
+          {content.models.map((model, index) => (
             <details class="models-accordion-item" data-model={String(index)} open={index === 0}>
               <summary class="models-accordion-summary">
                 <div class="models-accordion-header">
                   <div class="models-accordion-icon">
-                    <Icon name={modelIcons[index]} class="w-6 h-6 text-accent-green" />
+                    <Icon name={modelIcons[index]} class="w-5 h-5 sm:w-6 sm:h-6 text-accent-green" />
                   </div>
                   <div class="models-accordion-title-wrapper">
-                    <h3 class="models-accordion-title">{model.name}</h3>
-                    <p class="models-accordion-subheadline">{model.subheadline}</p>
-                    <p class="models-accordion-description">{model.description}</p>
+                    <h3 class="models-accordion-title mb-1">{model.name}</h3>
+                    <span class="models-accordion-subheadline block">{model.subheadline}</span>
                   </div>
                 </div>
-                <div class="models-accordion-actions">
-                  <Icon
-                    name="mdi:chevron-down"
-                    class="models-accordion-chevron"
-                    aria-hidden="true"
-                  />
-                </div>
+                <Icon
+                  name="mdi:chevron-down"
+                  class="models-accordion-chevron"
+                  aria-hidden="true"
+                />
               </summary>
               <div class="models-accordion-content">
                 <div class="models-accordion-body">
+                  <p class="models-accordion-description mb-4">
+                    {model.descriptionHighlight ? (
+                      <HighlightText text={model.description} highlight={model.descriptionHighlight} />
+                    ) : (
+                      model.description
+                    )}
+                  </p>
+                  
                   <div class="models-accordion-section">
                     <div class="models-accordion-section-header">
-                      <Icon name="mdi:target" class="w-5 h-5 text-accent-green" />
+                      <Icon name="mdi:target" class="w-4 h-4 sm:w-5 sm:h-5 text-accent-green" />
                       <p class="models-accordion-section-label">Best For</p>
                     </div>
-                    <p class="models-accordion-section-content">{model.bestFor}</p>
+                    <p class="models-accordion-section-content">
+                      {model.bestForHighlight ? (
+                        <HighlightText text={model.bestFor} highlight={model.bestForHighlight} />
+                      ) : (
+                        model.bestFor
+                      )}
+                    </p>
                   </div>
                 
                   <div class="models-accordion-section">
@@ -75,7 +90,7 @@ const modelIcons = [
                     <div class="models-accordion-deliverables">
                       {model.deliverables.map((deliverable) => (
                         <div class="models-accordion-deliverable-item">
-                          <Icon name="mdi:check-circle" class="w-4 h-4 text-accent-green flex-shrink-0" />
+                          <Icon name="mdi:check-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-green flex-shrink-0" />
                           <span class="models-accordion-deliverable-text">{deliverable}</span>
                         </div>
                       ))}
@@ -87,65 +102,6 @@ const modelIcons = [
                     <div class="models-accordion-tags">
                       {model.idealFor.map((tag) => (
                         <span class="models-accordion-tag">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </details>
-          ))}
-          </div>
-      </div>
-
-      <div class="lg:hidden mb-8 sm:mb-10 opacity-0 fade-in-up-delay">
-        <div class="models-mobile-accordion-container">
-            {content.models.map((model, index) => (
-            <details class="models-mobile-accordion-item" data-model={String(index)} open={index === 0}>
-              <summary class="models-mobile-accordion-summary">
-                <div class="models-mobile-accordion-header">
-                  <div class="models-mobile-accordion-icon">
-                    <Icon name={modelIcons[index]} class="w-5 h-5 text-accent-green" />
-                  </div>
-                  <div class="models-mobile-accordion-title-wrapper">
-                    <h3 class="models-mobile-accordion-title">{model.name}</h3>
-                    <p class="models-mobile-accordion-subheadline">{model.subheadline}</p>
-                  </div>
-                </div>
-                <Icon
-                  name="mdi:chevron-down"
-                  class="models-mobile-accordion-chevron"
-                  aria-hidden="true"
-                />
-              </summary>
-              <div class="models-mobile-accordion-content">
-                <div class="models-mobile-accordion-body">
-                  <p class="models-mobile-accordion-description">{model.description}</p>
-
-                  <div class="models-mobile-accordion-section">
-                    <div class="models-mobile-accordion-section-header">
-                      <Icon name="mdi:target" class="w-4 h-4 text-accent-green" />
-                      <p class="models-mobile-accordion-section-label">Best For</p>
-                    </div>
-                    <p class="models-mobile-accordion-section-content">{model.bestFor}</p>
-                  </div>
-
-                  <div class="models-mobile-accordion-section">
-                    <p class="models-mobile-accordion-section-label">Key Deliverables</p>
-                    <div class="models-mobile-accordion-deliverables">
-                      {model.deliverables.map((deliverable) => (
-                        <div class="models-mobile-accordion-deliverable-item">
-                          <Icon name="mdi:check-circle" class="w-3.5 h-3.5 text-accent-green flex-shrink-0" />
-                          <span class="models-mobile-accordion-deliverable-text">{deliverable}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div class="models-mobile-accordion-section">
-                    <p class="models-mobile-accordion-section-label">Ideal For</p>
-                    <div class="models-mobile-accordion-tags">
-                      {model.idealFor.map((tag) => (
-                        <span class="models-mobile-accordion-tag">{tag}</span>
                       ))}
                     </div>
                   </div>

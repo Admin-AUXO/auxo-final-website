@@ -1,9 +1,11 @@
 ---
 import { Icon } from "astro-icon/components";
+import HighlightText from "./HighlightText.astro";
 
 export interface Props {
   title: string;
   content: string;
+  contentHighlight?: string | string[];
   icon?: string;
   accentTitle?: boolean;
   class?: string;
@@ -12,6 +14,7 @@ export interface Props {
 const {
   title,
   content,
+  contentHighlight,
   icon,
   accentTitle = false,
   class: className = "",
@@ -35,7 +38,11 @@ const {
       </h3>
     )}
     <p class="text-body-base sm:text-body-lg text-theme-secondary leading-relaxed font-body">
-      {content}
+      {contentHighlight ? (
+        <HighlightText text={content} highlight={contentHighlight} />
+      ) : (
+        content
+      )}
     </p>
   </div>
 </div>

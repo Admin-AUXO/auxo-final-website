@@ -20,6 +20,10 @@
   --border-color: rgb(40, 40, 40);
   --border-color-light: rgb(50, 50, 50);
   
+  /* Carousel dot colors for dark mode */
+  --carousel-dot-inactive: rgb(50, 50, 50);
+  --carousel-dot-inactive-hover: var(--accent-green-opacity-30);
+  
   /* Colors - Accent Green Opacity Variants */
   --accent-green-opacity-01: rgba(var(--accent-green-rgb), 0.01);
   --accent-green-opacity-015: rgba(var(--accent-green-rgb), 0.015);
@@ -88,8 +92,8 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --shadow-accent: 0 4px 12px rgba(163, 230, 53, 0.3);
-  --shadow-accent-lg: 0 10px 30px rgba(163, 230, 53, 0.2);
+  --shadow-accent: 0 4px 12px var(--accent-green-opacity-18);
+  --shadow-accent-lg: 0 10px 30px var(--accent-green-opacity-2);
   --shadow-nav-scrolled-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-nav-scrolled-light: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   
@@ -201,7 +205,7 @@
   --btn-primary-text-hover: var(--text-on-accent);
   --btn-primary-bg-hover: rgb(183, 240, 73);
   --btn-primary-bg-active: rgb(143, 220, 33);
-  --btn-primary-bg-disabled: rgba(163, 230, 53, 0.5);
+  --btn-primary-bg-disabled: var(--accent-green-opacity-30);
   
   --btn-secondary-bg: var(--bg-surface);
   --btn-secondary-text: var(--text-primary);
@@ -229,6 +233,7 @@
 /* Light Theme */
 :root.light {
   --accent-green: #15803D;
+  --accent-green-rgb: 21, 128, 61;
   --bg-primary: #FFFFFF;
   --text-primary: #111827;
   --text-secondary: #4B5563;
@@ -244,12 +249,35 @@
   --border-color: rgb(229, 231, 235);
   --border-color-light: rgb(243, 244, 246);
   
+  /* Carousel dot colors for light mode - ensure visibility */
+  --carousel-dot-inactive: rgb(156, 163, 175);
+  --carousel-dot-inactive-hover: var(--accent-green-opacity-30);
+  
+  /* Accent Green Opacity Variants for Light Mode */
+  --accent-green-opacity-01: rgba(21, 128, 61, 0.01);
+  --accent-green-opacity-015: rgba(21, 128, 61, 0.015);
+  --accent-green-opacity-02: rgba(21, 128, 61, 0.02);
+  --accent-green-opacity-025: rgba(21, 128, 61, 0.025);
+  --accent-green-opacity-03: rgba(21, 128, 61, 0.03);
+  --accent-green-opacity-04: rgba(21, 128, 61, 0.04);
+  --accent-green-opacity-05: rgba(21, 128, 61, 0.05);
+  --accent-green-opacity-06: rgba(21, 128, 61, 0.06);
+  --accent-green-opacity-08: rgba(21, 128, 61, 0.08);
+  --accent-green-opacity-1: rgba(21, 128, 61, 0.1);
+  --accent-green-opacity-12: rgba(21, 128, 61, 0.12);
+  --accent-green-opacity-15: rgba(21, 128, 61, 0.15);
+  --accent-green-opacity-18: rgba(21, 128, 61, 0.18);
+  --accent-green-opacity-2: rgba(21, 128, 61, 0.2);
+  --accent-green-opacity-22: rgba(21, 128, 61, 0.22);
+  --accent-green-opacity-25: rgba(21, 128, 61, 0.25);
+  --accent-green-opacity-30: rgba(21, 128, 61, 0.3);
+  
   --btn-primary-bg: var(--accent-green);
   --btn-primary-text: var(--text-on-accent);
   --btn-primary-text-hover: var(--text-on-accent);
   --btn-primary-bg-hover: rgb(22, 101, 52);
   --btn-primary-bg-active: rgb(20, 83, 45);
-  --btn-primary-bg-disabled: rgba(21, 128, 61, 0.5);
+  --btn-primary-bg-disabled: var(--accent-green-opacity-30);
   
   --btn-secondary-bg: var(--bg-surface);
   --btn-secondary-text: var(--text-primary);
@@ -276,6 +304,6 @@
   /* Light theme shadows */
   --shadow-nav-scrolled-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   --shadow-nav-scrolled-light: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  --shadow-accent: 0 4px 12px rgba(21, 128, 61, 0.3);
-  --shadow-accent-lg: 0 10px 30px rgba(21, 128, 61, 0.2);
+  --shadow-accent: 0 4px 12px var(--accent-green-opacity-18);
+  --shadow-accent-lg: 0 10px 30px var(--accent-green-opacity-2);
 }

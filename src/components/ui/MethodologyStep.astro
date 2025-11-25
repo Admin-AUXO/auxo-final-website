@@ -1,11 +1,13 @@
 ---
 import { Icon } from "astro-icon/components";
 import Card from "./Card.astro";
+import HighlightText from "./HighlightText.astro";
 
 export interface Props {
   number: string;
   title: string;
   description: string;
+  descriptionHighlight?: string | string[];
   output?: string;
   index?: number;
   variant?: "flow" | "timeline" | "accordion";
@@ -16,6 +18,7 @@ const {
   number,
   title,
   description,
+  descriptionHighlight,
   output,
   index = 0,
   variant = "flow",
@@ -46,7 +49,11 @@ const {
         <span>{title.slice(1)}</span>
       </h3>
       <p class="text-body-lg text-theme-secondary leading-relaxed transition-colors mb-6 sm:mb-7 lg:mb-8 flex-grow font-body">
-        {description}
+        {descriptionHighlight ? (
+          <HighlightText text={description} highlight={descriptionHighlight} />
+        ) : (
+          description
+        )}
       </p>
       {output && (
         <div class="mt-auto pt-6 sm:pt-7 lg:pt-8 border-t border-theme-light">
@@ -90,7 +97,13 @@ const {
     </summary>
     <div class="methodology-accordion-content">
       <div class="methodology-accordion-body">
-        <p class="methodology-accordion-description">{description}</p>
+        <p class="methodology-accordion-description">
+          {descriptionHighlight ? (
+            <HighlightText text={description} highlight={descriptionHighlight} />
+          ) : (
+            description
+          )}
+        </p>
         {output && (
           <div class="methodology-accordion-output">
             <div class="methodology-accordion-output-indicator"></div>
@@ -130,7 +143,11 @@ const {
             <span>{title.slice(1)}</span>
           </h3>
           <p class="text-body-base text-theme-secondary leading-relaxed mb-4 font-body">
-            {description}
+            {descriptionHighlight ? (
+              <HighlightText text={description} highlight={descriptionHighlight} />
+            ) : (
+              description
+            )}
           </p>
           {output && (
             <div class="pt-4 border-t border-theme-light">
@@ -159,13 +176,16 @@ const {
       position: relative;
       background: transparent;
       border-radius: var(--radius-md);
-      transition: all var(--duration-normal) var(--timing-smooth);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       overflow: visible;
+      border: 2px solid transparent;
       }
       
       .methodology-accordion-item[open] {
       background-color: var(--bg-surface);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 24px var(--accent-green-opacity-15), 0 0 0 1px var(--accent-green-opacity-1);
+      border-color: var(--accent-green-opacity-18);
+      transform: translateY(-2px);
       }
       
       .methodology-accordion-summary {
@@ -177,9 +197,10 @@ const {
       justify-content: space-between;
       padding: var(--spacing-md);
       border-radius: var(--radius-md);
-      transition: all var(--duration-normal) var(--timing-smooth);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       -webkit-tap-highlight-color: transparent;
       gap: var(--spacing-md);
+      position: relative;
       }
       
       .methodology-accordion-summary::-webkit-details-marker,
@@ -189,6 +210,11 @@ const {
       
       .methodology-accordion-summary:hover {
       background-color: var(--bg-surface);
+      transform: translateX(4px);
+      }
+      
+      .methodology-accordion-summary:active {
+      transform: translateX(4px) scale(0.98);
       }
       
       .methodology-accordion-summary:focus-visible {
@@ -215,14 +241,29 @@ const {
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(163, 230, 53, 0.2);
-      transition: all var(--duration-normal) var(--timing-smooth);
+      box-shadow: 0 2px 8px var(--accent-green-opacity-2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      }
+      
+      .methodology-accordion-number::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, var(--accent-green-opacity-18), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
       }
       
       .methodology-accordion-item[open] .methodology-accordion-number {
       background: var(--accent-green);
-      box-shadow: 0 4px 16px rgba(163, 230, 53, 0.4);
-      transform: scale(1.05);
+      box-shadow: 0 6px 20px var(--accent-green-opacity-30);
+      transform: scale(1.08) rotate(5deg);
+      }
+      
+      .methodology-accordion-item[open] .methodology-accordion-number::before {
+      opacity: 1;
       }
       
       .methodology-accordion-number span {
@@ -252,7 +293,7 @@ const {
       font-weight: 900;
       line-height: 0.8;
       margin-right: 2px;
-      text-shadow: 0 0 8px rgba(163, 230, 53, 0.5);
+      text-shadow: 0 0 8px var(--accent-green-opacity-30);
       }
       
       .methodology-accordion-item[open] .methodology-accordion-title {
@@ -274,10 +315,12 @@ const {
       .methodology-accordion-content {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-out;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease-out, padding 0.4s ease;
       opacity: 0;
       padding-left: 72px;
       padding-right: var(--spacing-md);
+      padding-top: 0;
+      padding-bottom: 0;
       position: relative;
       }
       
@@ -304,7 +347,21 @@ const {
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: var(--spacing-md);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px var(--accent-green-opacity-1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      }
+      
+      .methodology-accordion-body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+      opacity: 0.5;
       }
       
       .methodology-accordion-description {
@@ -330,7 +387,7 @@ const {
       background: var(--accent-green);
       border-radius: 50%;
       margin-top: 6px;
-      box-shadow: 0 0 8px rgba(163, 230, 53, 0.6);
+      box-shadow: 0 0 8px var(--accent-green-opacity-30);
       animation: methodologyPulse 2s ease-in-out infinite;
       }
       

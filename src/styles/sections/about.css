@@ -78,15 +78,15 @@
   background-size: 60px 60px;
   opacity: 0.5;
   background-image: 
-    linear-gradient(rgba(163, 230, 53, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(163, 230, 53, 0.02) 1px, transparent 1px);
+    linear-gradient(var(--accent-green-opacity-02) 1px, transparent 1px),
+    linear-gradient(90deg, var(--accent-green-opacity-02) 1px, transparent 1px);
 }
 
 .code-letter {
   font-size: 1.5em;
   line-height: 1;
   display: inline-block;
-  margin-right: 0.1em;
+  margin-right: 0.02em;
 }
 
 .code-title-rest {
@@ -101,14 +101,14 @@
 
   .code-letter {
     font-size: 1.6em;
-    margin-right: 0.05em;
+    margin-right: 0.01em;
   }
 }
 
 @media (min-width: 641px) {
   .code-letter {
     font-size: 1.4em;
-    margin-right: 0.08em;
+    margin-right: 0.02em;
   }
 }
 
@@ -119,8 +119,8 @@
       0deg,
       transparent,
       transparent 20px,
-      rgba(163, 230, 53, 0.015) 20px,
-      rgba(163, 230, 53, 0.015) 21px
+      var(--accent-green-opacity-015) 20px,
+      var(--accent-green-opacity-015) 21px
     );
   opacity: 0.4;
 }
@@ -129,10 +129,10 @@
   background: 
     linear-gradient(
       45deg,
-      rgba(163, 230, 53, 0.04) 0%,
+      var(--accent-green-opacity-04) 0%,
       transparent 25%,
       transparent 75%,
-      rgba(163, 230, 53, 0.03) 100%
+      var(--accent-green-opacity-03) 100%
     );
 }
 
@@ -146,10 +146,10 @@
     background: 
       linear-gradient(
         45deg,
-        rgba(163, 230, 53, 0.03) 0%,
+        var(--accent-green-opacity-03) 0%,
         transparent 20%,
         transparent 80%,
-        rgba(163, 230, 53, 0.02) 100%
+        var(--accent-green-opacity-02) 100%
       );
   }
 
@@ -165,17 +165,17 @@
     linear-gradient(
       90deg,
       transparent 0%,
-      rgba(163, 230, 53, 0.06) 20%,
-      rgba(163, 230, 53, 0.08) 50%,
-      rgba(163, 230, 53, 0.06) 80%,
+      var(--accent-green-opacity-06) 20%,
+      var(--accent-green-opacity-08) 50%,
+      var(--accent-green-opacity-06) 80%,
       transparent 100%
     ),
     linear-gradient(
       0deg,
       transparent 0%,
-      rgba(163, 230, 53, 0.03) 30%,
-      rgba(163, 230, 53, 0.04) 50%,
-      rgba(163, 230, 53, 0.03) 70%,
+      var(--accent-green-opacity-03) 30%,
+      var(--accent-green-opacity-04) 50%,
+      var(--accent-green-opacity-03) 70%,
       transparent 100%
     );
   background-size: 100% 2px, 2px 100%;
@@ -187,10 +187,10 @@
   background: 
     linear-gradient(
       180deg,
-      rgba(163, 230, 53, 0.02) 0%,
+      var(--accent-green-opacity-02) 0%,
       transparent 40%,
       transparent 60%,
-      rgba(163, 230, 53, 0.02) 100%
+      var(--accent-green-opacity-02) 100%
     );
 }
 
@@ -199,8 +199,8 @@
     background: 
       radial-gradient(
         ellipse 130% 100% at center top,
-        rgba(163, 230, 53, 0.03) 0%,
-        rgba(163, 230, 53, 0.012) 35%,
+        var(--accent-green-opacity-03) 0%,
+        var(--accent-green-opacity-015) 35%,
         transparent 65%
       );
   }
@@ -214,8 +214,8 @@
 /* Global Section */
 .global-section .section-pattern-mesh {
   background-image: 
-    radial-gradient(circle at 1px 1px, rgba(163, 230, 53, 0.06) 1px, transparent 0),
-    radial-gradient(circle at 1px 1px, rgba(163, 230, 53, 0.03) 1px, transparent 0);
+    radial-gradient(circle at 1px 1px, var(--accent-green-opacity-06) 1px, transparent 0),
+    radial-gradient(circle at 1px 1px, var(--accent-green-opacity-03) 1px, transparent 0);
   background-size: 50px 50px, 100px 100px;
   background-position: 0 0, 25px 25px;
   opacity: 0.5;
@@ -225,12 +225,12 @@
   background: 
     radial-gradient(
       circle at 20% 30%,
-      rgba(163, 230, 53, 0.06) 0%,
+      var(--accent-green-opacity-06) 0%,
       transparent 40%
     ),
     radial-gradient(
       circle at 80% 70%,
-      rgba(163, 230, 53, 0.04) 0%,
+      var(--accent-green-opacity-04) 0%,
       transparent 50%
     );
 }

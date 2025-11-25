@@ -26,8 +26,7 @@ const content: HomepageContent["methodology"] = homepageContent.methodology;
         <h2
           class="text-h2 font-extrabold mb-4 sm:mb-5 lg:mb-6 text-theme-primary transition-colors leading-tight tracking-tight font-display"
         >
-          {content.title}
-          <span class="text-accent-green">{content.titleHighlight}</span>
+          {content.title} <span class="text-accent-green">{content.titleHighlight}</span>
         </h2>
         <div class="max-w-4xl mx-auto mb-4 sm:mb-6 lg:mb-8">
           <p
@@ -54,6 +53,7 @@ const content: HomepageContent["methodology"] = homepageContent.methodology;
               number={String(step.number)}
               title={step.title}
               description={step.description}
+              descriptionHighlight={step.descriptionHighlight}
               output={step.output}
               index={index}
               variant="flow"
@@ -70,6 +70,7 @@ const content: HomepageContent["methodology"] = homepageContent.methodology;
               number={String(step.number)}
               title={step.title}
               description={step.description}
+              descriptionHighlight={step.descriptionHighlight}
               output={step.output}
               index={index}
               variant="accordion"

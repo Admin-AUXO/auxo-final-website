@@ -6,7 +6,9 @@ export interface Props {
   title: string;
   subtitle?: string;
   highlight?: string | string[];
+  subtitleHighlight?: string | string[];
   highlightClass?: string;
+  subtitleHighlightClass?: string;
   icon?: string;
   iconClass?: string;
   titleClass?: string;
@@ -20,7 +22,9 @@ const {
   title,
   subtitle,
   highlight,
+  subtitleHighlight,
   highlightClass,
+  subtitleHighlightClass,
   icon,
   iconClass = "w-9 h-9 sm:w-10 sm:h-10 text-accent-green",
   titleClass = "",
@@ -59,7 +63,11 @@ const defaultSubtitleClass = "text-body-lg text-theme-secondary leading-relaxed 
   )}
   {subtitle && (
     <p class={`${defaultSubtitleClass} ${subtitleClass}`}>
-      {subtitle}
+      {subtitleHighlight ? (
+        <HighlightText text={subtitle} highlight={subtitleHighlight} highlightClass={subtitleHighlightClass} />
+      ) : (
+        subtitle
+      )}
     </p>
   )}
 </div>

@@ -88,7 +88,7 @@
 .methodology-section .section-gradient-center {
   background: radial-gradient(
     ellipse 100% 80% at center top,
-    rgba(163, 230, 53, 0.02) 0%,
+    var(--accent-green-opacity-02) 0%,
     transparent 50%
   );
 }
@@ -102,7 +102,7 @@
   .methodology-section .section-gradient-center {
     background: radial-gradient(
       ellipse 120% 90% at center top,
-      rgba(163, 230, 53, 0.015) 0%,
+      var(--accent-green-opacity-015) 0%,
       transparent 45%
     );
   }
@@ -135,7 +135,7 @@
   bottom: 0;
   background: radial-gradient(
     ellipse 100% 80% at center top,
-    rgba(163, 230, 53, 0.02) 0%,
+    var(--accent-green-opacity-02) 0%,
     transparent 50%
   );
   pointer-events: none;
@@ -146,7 +146,7 @@
   .services-intro-section::after {
     background: radial-gradient(
       ellipse 120% 90% at center top,
-      rgba(163, 230, 53, 0.015) 0%,
+      var(--accent-green-opacity-015) 0%,
       transparent 45%
     );
   }
@@ -185,8 +185,8 @@
 /* Services Stage Section */
 .code-edge-pattern {
   background-image: 
-    linear-gradient(45deg, rgba(163, 230, 53, 0.1) 1px, transparent 1px),
-    linear-gradient(-45deg, rgba(163, 230, 53, 0.1) 1px, transparent 1px);
+    linear-gradient(45deg, var(--accent-green-opacity-1) 1px, transparent 1px),
+    linear-gradient(-45deg, var(--accent-green-opacity-1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 

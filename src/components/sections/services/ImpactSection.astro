@@ -3,6 +3,7 @@ import { Icon } from "astro-icon/components";
 import SectionContainer from "../../layouts/SectionContainer.astro";
 import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
 import SectionHeader from "../../ui/SectionHeader.astro";
+import HighlightText from "../../ui/HighlightText.astro";
 import Carousel from "../../ui/Carousel.astro";
 import { servicesContent } from "../../../data/content/services";
 
@@ -20,9 +21,9 @@ const content = servicesContent.impact;
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
       <SectionHeader
-        title="Industries we serve"
+        title={content.title}
         subtitle={content.description}
-        highlight="we serve"
+        highlight="We Serve"
         icon="mdi:target"
         titleClass="text-h2 sm:text-h1"
         subtitleClass="text-body-md sm:text-body-lg"
@@ -32,39 +33,45 @@ const content = servicesContent.impact;
         <Carousel
           containerId="impact-carousel-container"
           trackId="impact-carousel-track"
-          dotSelector=".impact-carousel .carousel-dot"
+          dotSelector=".impact-carousel-dot"
           items={content.industries}
-          wrapperClass="impact-carousel impact-carousel-wrapper"
+          wrapperClass="impact-carousel-wrapper"
+          containerClass="impact-carousel-container"
+          trackClass="impact-carousel-track"
           dotsClass="impact-carousel-dots"
-          dotClass="impact-carousel"
-          dotsMarginTop="mt-8"
-          breakpoint={1024}
-          activateOnDesktop={true}
+          dotClass="impact-carousel-dot"
+          alwaysVisible={true}
         >
           {content.industries.map((industry, index) => (
             <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
-              <div class="impact-carousel-card lg:impact-carousel-card-desktop">
-                <div class="impact-carousel-card-header">
-                  <div class="impact-carousel-icon">
-                    <Icon name={industry.icon} class="w-10 h-10 text-accent-green" />
+              <div class="impact-industry-card">
+                <div class="impact-industry-card-header">
+                  <div class="impact-industry-icon">
+                    <Icon name={industry.icon} class="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-accent-green" />
                   </div>
-                  <h3 class="impact-carousel-title">{industry.name}</h3>
+                  <h3 class="impact-industry-title">{industry.name}</h3>
                 </div>
                 
-                <p class="impact-carousel-description">{industry.description}</p>
+                <p class="impact-industry-description">
+                  {industry.descriptionHighlight ? (
+                    <HighlightText text={industry.description} highlight={industry.descriptionHighlight} />
+                  ) : (
+                    industry.description
+                  )}
+                </p>
                 
-                <div class="impact-carousel-benefit">
-                  <Icon name="mdi:trending-up" class="w-5 h-5 text-accent-green" />
-                  <span class="impact-carousel-benefit-text">{industry.keyBenefit}</span>
+                <div class="impact-industry-benefit">
+                  <Icon name="mdi:trending-up" class="w-4 h-4 sm:w-5 sm:h-5 text-accent-green flex-shrink-0" />
+                  <span class="impact-industry-benefit-text">{industry.keyBenefit}</span>
                 </div>
               
-                <div class="impact-carousel-use-cases">
-                  <p class="impact-carousel-section-label">Key Use Cases</p>
-                  <div class="impact-carousel-use-cases-grid">
+                <div class="impact-industry-use-cases">
+                  <p class="impact-industry-section-label">Key Use Cases</p>
+                  <div class="impact-industry-use-cases-grid">
                     {industry.useCases.map((useCase) => (
-                      <div class="impact-carousel-use-case-item">
-                        <Icon name="mdi:check-circle" class="w-4 h-4 text-accent-green flex-shrink-0" />
-                        <span class="impact-carousel-use-case-text">{useCase}</span>
+                      <div class="impact-industry-use-case-item">
+                        <Icon name="mdi:check-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-green flex-shrink-0" />
+                        <span class="impact-industry-use-case-text">{useCase}</span>
                       </div>
                     ))}
                   </div>
@@ -88,6 +95,6 @@ const content = servicesContent.impact;
 </SectionContainer>
 
 <script>
-  import { initImpactCarousel } from "../../../scripts/sections/services/impactCarousel";
-  initImpactCarousel();
+  import { initImpactSection } from "../../../scripts/sections/services/impactCarousel";
+  initImpactSection();
 </script>

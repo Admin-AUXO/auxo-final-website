@@ -165,10 +165,19 @@
     position: relative;
   }
 
+  /* Light mode adjustments - slightly more visible for galaxy effect */
+  :root.light #particle-background {
+    opacity: 0.9;
+  }
+
   /* Mobile optimizations */
   @media (max-width: 767px) {
     #particle-background {
       opacity: 0.9;
+    }
+    
+    :root.light #particle-background {
+      opacity: 0.85;
     }
     
     #particle-canvas {

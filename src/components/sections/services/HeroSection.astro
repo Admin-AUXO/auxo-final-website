@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import Button from "../../ui/Button.astro";
+import HighlightText from "../../ui/HighlightText.astro";
 import { servicesContent } from "../../../data/content/services";
 import { createUrl } from "../../../utils/url";
 
@@ -23,36 +24,20 @@ const content = servicesContent.hero;
       <div class="services-hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">
         <h1 class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-4 sm:mb-5 lg:mb-6 w-full font-display">
           <span class="block services-hero-line1 services-hero-intro-text">
-            {content.headlineLine1}
+            <HighlightText text={content.headlineLine1} highlight="Analytics" />
           </span>
           
           <span class="block mt-2 sm:mt-3 lg:mt-4 services-hero-impact-wrapper relative">
-            <span class="inline-block services-hero-line2 services-hero-impact-text text-accent-green relative">
-              {content.headlineLine2}
-              <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent-green/40 rounded-full services-hero-underline"></span>
+            <span class="inline-block services-hero-line2 services-hero-impact-text relative">
+              <HighlightText text={content.headlineLine2} highlight="impact" />
             </span>
-            
-            <span class="absolute -inset-4 services-hero-impact-glow bg-accent-green/10 rounded-full blur-2xl opacity-0"></span>
           </span>
         </h1>
       </div>
 
       <div class="services-hero-description mb-8 sm:mb-10 lg:mb-12 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto opacity-0 services-hero-follow-content">
         <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body">
-          {(() => {
-            const parts = content.description.split("Analytics as a Service");
-            return (
-              <>
-                {parts[0]}
-                {parts[1] && (
-                  <>
-                    <span class="text-accent-green font-semibold">Analytics as a Service</span>
-                    {parts[1]}
-                  </>
-                )}
-              </>
-            );
-          })()}
+          {content.description}
         </p>
       </div>
 

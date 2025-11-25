@@ -11,8 +11,8 @@ import { createUrl } from "../../../utils/url";
 
 const content: HomepageContent["finalCta"] = homepageContent.finalCta;
 const subtitleParts = content.subtitle.split(" ");
-const subtitleLine1 = subtitleParts.slice(0, 3).join(" ");
-const subtitleLine2 = subtitleParts.slice(3).join(" ");
+const subtitleLine1 = subtitleParts.slice(0, 3).join(" "); // "Book a 30-minute"
+const subtitleLine2 = subtitleParts.slice(3).join(" "); // "discovery call."
 ---
 
 <SectionContainer
@@ -41,8 +41,8 @@ const subtitleLine2 = subtitleParts.slice(3).join(" ");
           <h3
             class="text-h1 font-extrabold leading-tight tracking-tight highlight-cta-text font-display"
           >
-            <span class="block">{subtitleLine1}</span>
-            <span class="block">{subtitleLine2}</span>
+            <span class="block"><HighlightText text={subtitleLine1} highlight="Book" /></span>
+            <span class="block"><HighlightText text={subtitleLine2} highlight="call" /></span>
           </h3>
         </div>
 
