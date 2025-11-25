@@ -112,7 +112,9 @@ export default defineConfig({
           // Content & Documents
           'book-open',
           'book-open-variant',
+          'file-document',
           'file-document-edit',
+          'file-document-multiple',
           'format-list-bulleted',
           
           // Design & Strategy
@@ -132,6 +134,10 @@ export default defineConfig({
           'linkedin',
           'twitter',
           'email-outline',
+          'message-text-outline',
+          'send',
+          'send-outline',
+          'arrow-top-right',
           
           // Theme & Display
           'moon-waning-crescent',
@@ -144,6 +150,8 @@ export default defineConfig({
           'rocket-launch',
           'cog',
           'clock-outline',
+          'calendar-outline',
+          'cookie',
         ],
       },
     }),

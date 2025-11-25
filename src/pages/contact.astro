@@ -1,0 +1,274 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteData } from "../data/config/site";
+import SectionContainer from "../components/layouts/SectionContainer.astro";
+import SectionHeader from "../components/ui/SectionHeader.astro";
+import { Icon } from "astro-icon/components";
+import BackgroundDecorations from "../components/ui/BackgroundDecorations.astro";
+import { createUrl } from "../utils/url";
+---
+
+<BaseLayout
+  title="Contact Us | AUXO Data Labs"
+  description="Get in touch with AUXO Data Labs. We're here to help transform your data analytics capabilities. Contact us for inquiries, consultations, or partnerships."
+  showParticles={false}
+>
+  <SectionContainer
+    id="contact"
+    padding="lg"
+    background="surface"
+    class="relative min-h-[85vh]"
+  >
+    <BackgroundDecorations gradients={["hero"]} />
+    
+    <div class="grid-container relative z-10">
+      <div class="col-span-full max-w-6xl mx-auto">
+        <!-- Header -->
+        <SectionHeader
+          title="Let's Start a Conversation"
+          subtitle="We're here to help transform your data analytics capabilities. Reach out to discuss your needs, explore opportunities, or learn more about our services."
+          highlight="Conversation"
+          wrapperClass="mb-12 sm:mb-16 lg:mb-20"
+        />
+
+        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
+          <!-- Contact Information -->
+          <div class="space-y-6 lg:space-y-8">
+            <div class="bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6 sm:p-8 lg:p-10 space-y-6 relative overflow-hidden group hover:border-accent-green/30 transition-all duration-normal">
+              <!-- Decorative gradient -->
+              <div class="absolute top-0 right-0 w-64 h-64 bg-accent-green/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-50 group-hover:opacity-75 transition-opacity duration-normal"></div>
+              
+              <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center">
+                    <Icon name="mdi:message-text-outline" class="w-5 h-5 text-accent-green" />
+                  </div>
+              <h3 class="text-xl sm:text-2xl font-bold text-theme-primary font-display">
+                Get in Touch
+              </h3>
+                </div>
+                <p class="text-theme-secondary font-body leading-relaxed mb-6">
+                We typically respond within 24 hours. For urgent matters, please reach out directly via email.
+              </p>
+
+                <div class="space-y-4">
+              <!-- Email -->
+              <a
+                href={`mailto:${siteData.email}?subject=Inquiry from AUXO Website`}
+                    class="flex items-start gap-4 p-5 rounded-xl bg-accent-green/5 border border-accent-green/20 hover:bg-accent-green/10 hover:border-accent-green/40 hover:shadow-lg hover:shadow-accent-green/10 transition-all duration-fast group/item"
+              >
+                    <div class="w-12 h-12 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0 group-hover/item:bg-accent-green/25 group-hover/item:scale-110 transition-all duration-fast">
+                  <Icon name="mdi:email-outline" class="w-6 h-6 text-accent-green" />
+                </div>
+                <div class="flex-1 min-w-0">
+                      <div class="text-sm font-semibold text-theme-secondary mb-1.5 font-body">Email</div>
+                      <div class="text-base sm:text-lg font-semibold text-theme-primary break-all group-hover/item:text-accent-green transition-colors font-body">
+                    {siteData.email}
+                  </div>
+                </div>
+                    <Icon name="mdi:arrow-top-right" class="w-5 h-5 text-accent-green/40 group-hover/item:text-accent-green group-hover/item:translate-x-1 group-hover/item:-translate-y-1 transition-all duration-fast flex-shrink-0" />
+              </a>
+
+              <!-- Location -->
+                  <div class="flex items-start gap-4 p-5 rounded-xl bg-accent-green/5 border border-accent-green/20">
+                <div class="w-12 h-12 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Icon name="mdi:map-marker-outline" class="w-6 h-6 text-accent-green" />
+                </div>
+                <div class="flex-1 min-w-0">
+                      <div class="text-sm font-semibold text-theme-secondary mb-1.5 font-body">Location</div>
+                      <div class="text-base sm:text-lg font-semibold text-theme-primary font-body leading-relaxed">
+                    {siteData.address.street}<br />
+                    {siteData.address.city}, {siteData.address.country}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Response Time -->
+                  <div class="flex items-start gap-4 p-5 rounded-xl bg-accent-green/5 border border-accent-green/20">
+                <div class="w-12 h-12 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Icon name="mdi:clock-outline" class="w-6 h-6 text-accent-green" />
+                </div>
+                <div class="flex-1 min-w-0">
+                      <div class="text-sm font-semibold text-theme-secondary mb-1.5 font-body">Response Time</div>
+                  <div class="text-base sm:text-lg font-semibold text-accent-green font-body">
+                    {siteData.stats.responseTime}
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Social Links -->
+                <div class="pt-6 mt-6 border-t border-accent-green/10">
+                <div class="text-sm font-semibold text-theme-secondary mb-4 font-body">Follow Us</div>
+                <div class="flex gap-3">
+                  <a
+                    href={siteData.social.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="w-12 h-12 bg-accent-green/10 border border-accent-green/30 rounded-xl flex items-center justify-center text-accent-green hover:bg-accent-green hover:text-on-accent hover:border-accent-green hover:shadow-lg hover:shadow-accent-green/30 hover:scale-110 active:scale-95 transition-all duration-fast"
+                    aria-label="Follow AUXO Data Labs on LinkedIn"
+                  >
+                    <Icon name="mdi:linkedin" class="w-6 h-6" />
+                  </a>
+                  <a
+                    href={siteData.social.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="w-12 h-12 bg-accent-green/10 border border-accent-green/30 rounded-xl flex items-center justify-center text-accent-green hover:bg-accent-green hover:text-on-accent hover:border-accent-green hover:shadow-lg hover:shadow-accent-green/30 hover:scale-110 active:scale-95 transition-all duration-fast"
+                    aria-label="Follow AUXO Data Labs on Twitter"
+                  >
+                    <Icon name="mdi:twitter" class="w-6 h-6" />
+                  </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6 sm:p-8 lg:p-10 relative overflow-hidden group hover:border-accent-green/30 transition-all duration-normal">
+            <!-- Decorative gradient -->
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-accent-green/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 opacity-50 group-hover:opacity-75 transition-opacity duration-normal"></div>
+            
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center">
+                  <Icon name="mdi:send-outline" class="w-5 h-5 text-accent-green" />
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-theme-primary font-display">
+              Send us a Message
+            </h3>
+              </div>
+              
+            <form
+              id="contact-form"
+              class="space-y-5"
+            >
+                <div class="form-group">
+                <label
+                  for="name"
+                    class="block text-sm font-semibold text-theme-primary mb-2.5 font-body"
+                >
+                  Name <span class="text-accent-green">*</span>
+                </label>
+                  <div class="relative">
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                      class="w-full px-4 py-3.5 bg-theme-surface border-2 border-accent-green/20 rounded-xl text-theme-primary placeholder-theme-tertiary focus:outline-none focus:border-accent-green focus:ring-2 focus:ring-accent-green/20 transition-all duration-fast font-body min-h-[48px] hover:border-accent-green/30"
+                  placeholder="Your name"
+                />
+                    <div class="absolute inset-0 rounded-xl bg-accent-green/0 pointer-events-none transition-colors duration-fast peer-focus:bg-accent-green/5"></div>
+                  </div>
+              </div>
+
+                <div class="form-group">
+                <label
+                  for="email"
+                    class="block text-sm font-semibold text-theme-primary mb-2.5 font-body"
+                >
+                  Email <span class="text-accent-green">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                    class="w-full px-4 py-3.5 bg-theme-surface border-2 border-accent-green/20 rounded-xl text-theme-primary placeholder-theme-tertiary focus:outline-none focus:border-accent-green focus:ring-2 focus:ring-accent-green/20 transition-all duration-fast font-body min-h-[48px] hover:border-accent-green/30"
+                  placeholder="your.email@example.com"
+                />
+              </div>
+
+                <div class="form-group">
+                <label
+                  for="subject"
+                    class="block text-sm font-semibold text-theme-primary mb-2.5 font-body"
+                >
+                  Subject <span class="text-accent-green">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  required
+                    class="w-full px-4 py-3.5 bg-theme-surface border-2 border-accent-green/20 rounded-xl text-theme-primary placeholder-theme-tertiary focus:outline-none focus:border-accent-green focus:ring-2 focus:ring-accent-green/20 transition-all duration-fast font-body min-h-[48px] hover:border-accent-green/30"
+                  placeholder="What's this about?"
+                />
+              </div>
+
+                <div class="form-group">
+                <label
+                  for="message"
+                    class="block text-sm font-semibold text-theme-primary mb-2.5 font-body"
+                >
+                  Message <span class="text-accent-green">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows="6"
+                    class="w-full px-4 py-3.5 bg-theme-surface border-2 border-accent-green/20 rounded-xl text-theme-primary placeholder-theme-tertiary focus:outline-none focus:border-accent-green focus:ring-2 focus:ring-accent-green/20 transition-all duration-fast resize-y font-body min-h-[140px] hover:border-accent-green/30"
+                  placeholder="Tell us about your project or inquiry..."
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                  class="w-full px-6 py-4 bg-accent-green text-on-accent font-bold rounded-xl hover:bg-accent-green/90 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/80 active:translate-y-0 transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green focus:ring-offset-2 min-h-[52px] text-base sm:text-lg font-body flex items-center justify-center gap-2 group/btn"
+              >
+                  <span>Send Message</span>
+                  <Icon name="mdi:send" class="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-fast" />
+              </button>
+
+                <p class="text-xs text-theme-secondary text-center font-body pt-2">
+                By submitting this form, you agree to our{" "}
+                <a
+                  href={createUrl("legal/privacy-policy")}
+                    class="text-accent-green hover:underline font-medium transition-colors"
+                >
+                  Privacy Policy
+                </a>
+              </p>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </SectionContainer>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form');
+  const email = 'hello@auxodata.com';
+  
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = (document.getElementById('name') as HTMLInputElement)?.value || '';
+      const userEmail = (document.getElementById('email') as HTMLInputElement)?.value || '';
+      const subject = (document.getElementById('subject') as HTMLInputElement)?.value || '';
+      const message = (document.getElementById('message') as HTMLTextAreaElement)?.value || '';
+      
+      const subjectLine = encodeURIComponent(subject);
+      const body = encodeURIComponent(
+        `Name: ${name}\nEmail: ${userEmail}\n\nMessage:\n${message}`
+      );
+      
+      const mailtoLink = `mailto:${email}?subject=${subjectLine}&body=${body}`;
+      window.location.href = mailtoLink;
+    });
+  }
+</script>
+
+<style>
+  input:focus,
+  textarea:focus {
+    background-color: var(--theme-surface);
+  }
+</style>
+

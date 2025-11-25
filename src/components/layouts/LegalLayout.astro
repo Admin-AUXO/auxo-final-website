@@ -1,0 +1,412 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionContainer from "./SectionContainer.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
+import BackgroundDecorations from "../ui/BackgroundDecorations.astro";
+import { Icon } from "astro-icon/components";
+import { createUrl } from "../../utils/url";
+
+export interface Props {
+  title: string;
+  description?: string;
+  lastUpdated?: string;
+}
+
+const {
+  title,
+  description,
+  lastUpdated = "January 2025",
+} = Astro.props;
+
+const legalPages = [
+  { href: createUrl("legal/privacy-policy"), label: "Privacy Policy", icon: "mdi:shield-lock" },
+  { href: createUrl("legal/terms"), label: "Terms of Service", icon: "mdi:file-document" },
+  { href: createUrl("legal/cookie-policy"), label: "Cookie Policy", icon: "mdi:cookie" },
+];
+---
+
+<BaseLayout
+  title={`${title} | AUXO Data Labs`}
+  description={description || `${title} for AUXO Data Labs`}
+  showParticles={false}
+>
+  <SectionContainer
+    id="legal-content"
+    padding="lg"
+    background="surface"
+    class="relative min-h-[85vh]"
+  >
+    <BackgroundDecorations gradients={["hero"]} />
+    
+    <div class="grid-container relative z-10">
+      <div class="col-span-full max-w-6xl mx-auto">
+        <!-- Header -->
+        <SectionHeader
+          title={title}
+          subtitle={description}
+          wrapperClass="mb-8 sm:mb-12"
+        />
+
+        <!-- Last Updated -->
+        <div class="flex items-center gap-2 mb-6 sm:mb-8 text-sm text-theme-secondary font-body bg-theme-card/50 border border-accent-green/10 rounded-xl px-4 py-2.5 w-fit mx-auto sm:mx-0">
+          <Icon name="mdi:calendar-outline" class="w-4 h-4 text-accent-green" />
+          <span>Last updated: <strong class="text-theme-primary">{lastUpdated}</strong></span>
+        </div>
+
+        <!-- Mobile Table of Contents Toggle -->
+        <div class="lg:hidden mb-6">
+          <button
+            id="mobile-toc-toggle"
+            class="w-full flex items-center justify-between gap-3 p-4 bg-theme-card border-2 border-accent-green/20 rounded-xl hover:border-accent-green/40 transition-all duration-fast group"
+            aria-expanded="false"
+            aria-controls="mobile-table-of-contents"
+          >
+            <div class="flex items-center gap-2">
+              <Icon name="mdi:format-list-bulleted" class="w-5 h-5 text-accent-green" />
+              <span class="text-sm font-semibold text-theme-primary font-body">Table of Contents</span>
+            </div>
+            <Icon name="mdi:chevron-down" class="w-5 h-5 text-accent-green transition-transform duration-fast group-aria-expanded:rotate-180" />
+          </button>
+          <div
+            id="mobile-table-of-contents"
+            class="hidden mt-3 bg-theme-card border-2 border-accent-green/20 rounded-xl p-4"
+          >
+            <nav id="table-of-contents-mobile" class="space-y-2 text-sm">
+              <!-- Populated by JavaScript -->
+            </nav>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-[280px_1fr] gap-8 lg:gap-12">
+          <!-- Table of Contents (Desktop) -->
+          <aside class="hidden lg:block">
+            <div class="sticky top-24">
+              <div class="bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6">
+                <h3 class="text-lg font-bold text-theme-primary mb-4 font-display flex items-center gap-2">
+                  <Icon name="mdi:format-list-bulleted" class="w-5 h-5 text-accent-green" />
+                  Contents
+                </h3>
+                <nav id="table-of-contents" class="space-y-2 text-sm">
+                  <!-- Populated by JavaScript -->
+                </nav>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Main Content -->
+          <div class="min-w-0">
+        <!-- Content -->
+            <div class="bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6 sm:p-8 lg:p-10 prose prose-lg max-w-none legal-content">
+          <slot />
+        </div>
+
+        <!-- Legal Pages Navigation -->
+        <div class="mt-10 sm:mt-12 pt-8 border-t border-accent-green/10">
+              <h3 class="text-lg font-bold text-theme-primary mb-6 font-display flex items-center gap-2">
+                <Icon name="mdi:file-document-multiple" class="w-5 h-5 text-accent-green" />
+            Related Legal Documents
+          </h3>
+          <div class="grid sm:grid-cols-3 gap-4">
+            {legalPages.map((page) => (
+              <a
+                href={page.href}
+                    class="flex items-center gap-3 p-4 rounded-xl bg-accent-green/5 border border-accent-green/20 hover:bg-accent-green/10 hover:border-accent-green/40 hover:shadow-lg hover:shadow-accent-green/10 transition-all duration-fast group"
+              >
+                <Icon
+                  name={page.icon}
+                  class="w-5 h-5 text-accent-green flex-shrink-0 group-hover:scale-110 transition-transform"
+                />
+                <span class="text-sm font-semibold text-theme-primary group-hover:text-accent-green transition-colors font-body">
+                  {page.label}
+                </span>
+              </a>
+            ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </SectionContainer>
+</BaseLayout>
+
+<script>
+  // Generate table of contents
+  document.addEventListener('DOMContentLoaded', () => {
+    const toc = document.getElementById('table-of-contents');
+    const tocMobile = document.getElementById('table-of-contents-mobile');
+    const content = document.querySelector('.legal-content');
+    const mobileToggle = document.getElementById('mobile-toc-toggle');
+    const mobileTocContainer = document.getElementById('mobile-table-of-contents');
+    
+    if (!content) return;
+    
+    const headings = content.querySelectorAll('h2, h3');
+    
+    // Function to create TOC link
+    const createTocLink = (heading, index) => {
+      const id = `section-${index + 1}`;
+      heading.id = id;
+      
+      const isH3 = heading.tagName === 'H3';
+      const text = heading.textContent || '';
+      const indent = isH3 ? 'ml-4' : '';
+      
+      const link = document.createElement('a');
+      link.href = `#${id}`;
+      link.className = `flex items-start gap-2 py-2 px-3 rounded-lg text-theme-secondary hover:text-accent-green hover:bg-accent-green/5 transition-all duration-fast group ${indent}`;
+      link.setAttribute('data-target', id);
+      
+      // Create bullet/indicator
+      const indicator = document.createElement('span');
+      indicator.className = 'text-accent-green/60 group-hover:text-accent-green transition-colors mt-0.5 flex-shrink-0';
+      indicator.textContent = isH3 ? '▸' : '●';
+      indicator.style.fontSize = isH3 ? '0.75rem' : '0.5rem';
+      
+      // Create text span
+      const span = document.createElement('span');
+      span.className = 'text-sm font-medium leading-relaxed';
+      span.textContent = text;
+      
+      link.appendChild(indicator);
+      link.appendChild(span);
+      
+      // Smooth scroll
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('data-target');
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.pushState(null, '', `#${targetId}`);
+          
+          // Close mobile TOC after clicking
+          if (mobileTocContainer && !mobileTocContainer.classList.contains('hidden')) {
+            mobileTocContainer.classList.add('hidden');
+            if (mobileToggle) {
+              mobileToggle.setAttribute('aria-expanded', 'false');
+            }
+          }
+        }
+      });
+      
+      return link;
+    };
+    
+    // Populate desktop TOC
+    if (toc) {
+      headings.forEach((heading, index) => {
+        const link = createTocLink(heading, index);
+        toc.appendChild(link.cloneNode(true));
+      });
+    }
+    
+    // Populate mobile TOC
+    if (tocMobile) {
+      headings.forEach((heading, index) => {
+        const link = createTocLink(heading, index);
+        tocMobile.appendChild(link);
+      });
+    }
+    
+    // Mobile TOC toggle
+    if (mobileToggle && mobileTocContainer) {
+      mobileToggle.addEventListener('click', () => {
+        const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+        mobileToggle.setAttribute('aria-expanded', !isExpanded);
+        mobileTocContainer.classList.toggle('hidden');
+      });
+    }
+    
+    // Highlight active section on scroll
+    const observerOptions = {
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Update desktop TOC
+          if (toc) {
+            toc.querySelectorAll('a').forEach(link => {
+              link.classList.remove('text-accent-green', 'bg-accent-green/10', 'font-semibold');
+              link.classList.add('text-theme-secondary');
+            });
+            
+            const activeLink = toc.querySelector(`a[data-target="${entry.target.id}"]`);
+            if (activeLink) {
+              activeLink.classList.remove('text-theme-secondary');
+              activeLink.classList.add('text-accent-green', 'bg-accent-green/10', 'font-semibold');
+            }
+          }
+          
+          // Update mobile TOC
+          if (tocMobile) {
+            tocMobile.querySelectorAll('a').forEach(link => {
+              link.classList.remove('text-accent-green', 'bg-accent-green/10', 'font-semibold');
+              link.classList.add('text-theme-secondary');
+            });
+            
+            const activeLinkMobile = tocMobile.querySelector(`a[data-target="${entry.target.id}"]`);
+            if (activeLinkMobile) {
+              activeLinkMobile.classList.remove('text-theme-secondary');
+              activeLinkMobile.classList.add('text-accent-green', 'bg-accent-green/10', 'font-semibold');
+            }
+          }
+        }
+      });
+    }, observerOptions);
+    
+    headings.forEach(heading => observer.observe(heading));
+  });
+</script>
+
+<style>
+  .legal-content {
+    color: var(--theme-primary);
+  }
+  
+  .legal-content h2 {
+    color: var(--theme-primary);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-top: 3rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--accent-green-opacity-20);
+    font-family: var(--font-display);
+    position: relative;
+    scroll-margin-top: 2rem;
+  }
+  
+  .legal-content h2:first-child {
+    margin-top: 0;
+  }
+  
+  .legal-content h2::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 0;
+    bottom: 0.75rem;
+    width: 4px;
+    background: var(--accent-green);
+    border-radius: 2px;
+    opacity: 0.6;
+  }
+  
+  .legal-content h3 {
+    color: var(--theme-primary);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--accent-green-opacity-30);
+    font-family: var(--font-display);
+    scroll-margin-top: 2rem;
+  }
+  
+  .legal-content p {
+    color: var(--theme-secondary);
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+    font-family: var(--font-body);
+    font-size: 1rem;
+  }
+  
+  .legal-content ul,
+  .legal-content ol {
+    color: var(--theme-secondary);
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+    font-family: var(--font-body);
+  }
+  
+  .legal-content ul {
+    list-style: none;
+    padding-left: 1.5rem;
+  }
+  
+  .legal-content ul li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.8;
+  }
+  
+  .legal-content ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 6px;
+    height: 6px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  
+  .legal-content ol {
+    counter-reset: list-counter;
+  }
+  
+  .legal-content ol li {
+    counter-increment: list-counter;
+    margin-bottom: 0.75rem;
+    line-height: 1.8;
+    position: relative;
+    padding-left: 0.5rem;
+  }
+  
+  .legal-content ol li::marker {
+    color: var(--accent-green);
+    font-weight: 600;
+  }
+  
+  .legal-content li {
+    margin-bottom: 0.75rem;
+  }
+  
+  .legal-content strong {
+    color: var(--theme-primary);
+    font-weight: 600;
+  }
+  
+  .legal-content a {
+    color: var(--accent-green);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  
+  .legal-content a:hover {
+    color: var(--accent-green);
+    opacity: 0.8;
+    text-decoration-thickness: 2px;
+  }
+  
+  /* Section spacing */
+  .legal-content > * + * {
+    margin-top: 0;
+  }
+  
+  /* Better visual separation between major sections */
+  .legal-content h2 + p {
+    margin-top: 1.5rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .legal-content h2::before {
+      display: none;
+    }
+    
+    .legal-content h2 {
+      padding-left: 0;
+    }
+  }
+</style>
+

@@ -1,0 +1,110 @@
+---
+import LegalLayout from "../../components/layouts/LegalLayout.astro";
+import { siteData } from "../../data/config/site";
+import { createUrl } from "../../utils/url";
+---
+
+<LegalLayout
+  title="Terms of Service"
+  description="Read the terms and conditions governing your use of AUXO Data Labs' website and services."
+  lastUpdated="January 2025"
+>
+  <h2>1. Acceptance of Terms</h2>
+  <p>
+    By accessing and using the AUXO Data Labs website and services, you accept and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our website or services.
+  </p>
+
+  <h2>2. Use of Website</h2>
+  <h3>2.1 Permitted Use</h3>
+  <p>
+    You may use our website for lawful purposes only. You agree not to use the website:
+  </p>
+  <ul>
+    <li>In any way that violates any applicable law or regulation</li>
+    <li>To transmit any malicious code or harmful content</li>
+    <li>To attempt to gain unauthorized access to our systems</li>
+    <li>To interfere with or disrupt the website or servers</li>
+    <li>To collect or harvest information about other users</li>
+  </ul>
+
+  <h3>2.2 Intellectual Property</h3>
+  <p>
+    All content on this website, including text, graphics, logos, images, and software, is the property of AUXO Data Labs or its content suppliers and is protected by copyright, trademark, and other intellectual property laws.
+  </p>
+
+  <h2>3. Services</h2>
+  <h3>3.1 Service Description</h3>
+  <p>
+    AUXO Data Labs provides data analytics consultancy services. The specific terms and conditions for our services will be outlined in separate service agreements or contracts.
+  </p>
+
+  <h3>3.2 Service Availability</h3>
+  <p>
+    We strive to ensure our website and services are available, but we do not guarantee uninterrupted or error-free operation. We reserve the right to modify, suspend, or discontinue any part of our services at any time.
+  </p>
+
+  <h2>4. User Accounts</h2>
+  <p>
+    If you create an account with us, you are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.
+  </p>
+
+  <h2>5. Confidentiality</h2>
+  <p>
+    In the course of providing our services, we may have access to your confidential information. We agree to maintain the confidentiality of such information and use it solely for the purpose of providing our services, except as required by law.
+  </p>
+
+  <h2>6. Limitation of Liability</h2>
+  <p>
+    To the maximum extent permitted by law, AUXO Data Labs shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of our website or services.
+  </p>
+
+  <h2>7. Disclaimer of Warranties</h2>
+  <p>
+    Our website and services are provided "as is" and "as available" without warranties of any kind, either express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, or non-infringement.
+  </p>
+
+  <h2>8. Indemnification</h2>
+  <p>
+    You agree to indemnify, defend, and hold harmless AUXO Data Labs, its officers, directors, employees, and agents from any claims, damages, losses, liabilities, and expenses (including legal fees) arising out of or relating to your use of our website or services or your violation of these Terms of Service.
+  </p>
+
+  <h2>9. Third-Party Links</h2>
+  <p>
+    Our website may contain links to third-party websites or services. We are not responsible for the content, privacy policies, or practices of any third-party websites. Your use of third-party websites is at your own risk.
+  </p>
+
+  <h2>10. Modifications to Terms</h2>
+  <p>
+    We reserve the right to modify these Terms of Service at any time. We will notify you of any material changes by posting the updated terms on this page and updating the "Last updated" date. Your continued use of our website or services after such modifications constitutes acceptance of the updated terms.
+  </p>
+
+  <h2>11. Termination</h2>
+  <p>
+    We may terminate or suspend your access to our website or services immediately, without prior notice, for any reason, including if you breach these Terms of Service.
+  </p>
+
+  <h2>12. Governing Law</h2>
+  <p>
+    These Terms of Service shall be governed by and construed in accordance with the laws of the United Arab Emirates, without regard to its conflict of law provisions. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts of Dubai, UAE.
+  </p>
+
+  <h2>13. Severability</h2>
+  <p>
+    If any provision of these Terms of Service is found to be invalid or unenforceable, the remaining provisions shall continue in full force and effect.
+  </p>
+
+  <h2>14. Entire Agreement</h2>
+  <p>
+    These Terms of Service, together with our <a href={createUrl("legal/privacy-policy")}>Privacy Policy</a> and <a href={createUrl("legal/cookie-policy")}>Cookie Policy</a>, constitute the entire agreement between you and AUXO Data Labs regarding your use of our website and services.
+  </p>
+
+  <h2>15. Contact Information</h2>
+  <p>
+    If you have any questions about these Terms of Service, please contact us at:
+  </p>
+  <p>
+    <strong>Email:</strong> <a href={`mailto:${siteData.email}`}>{siteData.email}</a><br />
+    <strong>Address:</strong> {siteData.address.street}, {siteData.address.city}, {siteData.address.country}
+  </p>
+</LegalLayout>
+
