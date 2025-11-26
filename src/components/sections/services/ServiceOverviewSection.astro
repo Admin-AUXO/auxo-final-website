@@ -1,0 +1,144 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import HighlightText from "../../ui/HighlightText.astro";
+import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
+import { ServiceDetail } from "../../../data/content/services";
+
+interface Props {
+  service: ServiceDetail;
+}
+
+const { service } = Astro.props;
+---
+
+<SectionContainer
+  id="service-overview"
+  padding="normal"
+  background="elevated"
+  class="relative service-overview-section section-divider"
+>
+  <BackgroundDecorations gradients={["dual"]} patterns={["grid"]} />
+
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-6xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-12 lg:mb-16">
+        <h2 class="text-h2 font-extrabold mb-4 lg:mb-6 leading-tight tracking-tight font-display text-theme-primary">
+          {service.overview.title}
+        </h2>
+        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body">
+          <HighlightText text={service.overview.description} highlight={service.overview.descriptionHighlight} highlightClass="text-accent-green font-semibold" />
+        </p>
+      </div>
+
+      <!-- Desktop Layout -->
+      <div class="hidden lg:grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16">
+        <!-- Challenges -->
+        <div class="space-y-6">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-red-500/15 rounded-xl flex items-center justify-center">
+              <Icon name="mdi:close" class="w-5 h-5 text-red-500" />
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-theme-primary font-display">Challenges We Solve</h3>
+          </div>
+
+          <div class="space-y-4">
+            {service.overview.challenges.map((challenge, index) => (
+              <div class="flex items-start gap-4 p-4 bg-red-500/5 border border-red-500/20 rounded-xl group hover:border-red-500/30 transition-all duration-300">
+                <div class="w-8 h-8 bg-red-500/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span class="text-sm font-bold text-red-500 font-display">{index + 1}</span>
+                </div>
+                <p class="text-body-base text-theme-secondary leading-relaxed font-body flex-1">
+                  {challenge}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Solutions -->
+        <div class="space-y-6">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center">
+              <Icon name="mdi:check-circle" class="w-5 h-5 text-accent-green" />
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-theme-primary font-display">Our Solutions</h3>
+          </div>
+
+          <div class="space-y-4">
+            {service.overview.solutions.map((solution, index) => (
+              <div class="flex items-start gap-4 p-4 bg-accent-green/5 border border-accent-green/20 rounded-xl group hover:border-accent-green/30 transition-all duration-300">
+                <div class="w-8 h-8 bg-accent-green/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span class="text-sm font-bold text-accent-green font-display">{index + 1}</span>
+                </div>
+                <p class="text-body-base text-theme-secondary leading-relaxed font-body flex-1">
+                  {solution}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Accordion Layout -->
+      <div class="lg:hidden space-y-4">
+        <!-- Challenges Accordion -->
+        <details class="service-accordion-item bg-theme-card border border-red-500/20 rounded-2xl overflow-hidden group">
+          <summary class="service-accordion-summary flex items-center justify-between p-6 cursor-pointer hover:bg-red-500/5 transition-colors duration-300">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-red-500/15 rounded-xl flex items-center justify-center">
+                <Icon name="mdi:close" class="w-5 h-5 text-red-500" />
+              </div>
+              <h3 class="text-lg font-bold text-theme-primary font-display">Challenges We Solve</h3>
+            </div>
+            <Icon name="mdi:chevron-down" class="w-5 h-5 text-theme-secondary transition-transform duration-300 service-accordion-chevron" />
+          </summary>
+
+          <div class="service-accordion-content px-6 pb-6">
+            <div class="space-y-4 pt-4 border-t border-red-500/10">
+              {service.overview.challenges.map((challenge, index) => (
+                <div class="flex items-start gap-4 p-4 bg-red-500/5 border border-red-500/20 rounded-xl">
+                  <div class="w-8 h-8 bg-red-500/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span class="text-sm font-bold text-red-500 font-display">{index + 1}</span>
+                  </div>
+                  <p class="text-body-base text-theme-secondary leading-relaxed font-body flex-1">
+                    {challenge}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </details>
+
+        <!-- Solutions Accordion -->
+        <details class="service-accordion-item bg-theme-card border border-accent-green/20 rounded-2xl overflow-hidden group">
+          <summary class="service-accordion-summary flex items-center justify-between p-6 cursor-pointer hover:bg-accent-green/5 transition-colors duration-300">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center">
+                <Icon name="mdi:check-circle" class="w-5 h-5 text-accent-green" />
+              </div>
+              <h3 class="text-lg font-bold text-theme-primary font-display">Our Solutions</h3>
+            </div>
+            <Icon name="mdi:chevron-down" class="w-5 h-5 text-theme-secondary transition-transform duration-300 service-accordion-chevron" />
+          </summary>
+
+          <div class="service-accordion-content px-6 pb-6">
+            <div class="space-y-4 pt-4 border-t border-accent-green/10">
+              {service.overview.solutions.map((solution, index) => (
+                <div class="flex items-start gap-4 p-4 bg-accent-green/5 border border-accent-green/20 rounded-xl">
+                  <div class="w-8 h-8 bg-accent-green/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span class="text-sm font-bold text-accent-green font-display">{index + 1}</span>
+                  </div>
+                  <p class="text-body-base text-theme-secondary leading-relaxed font-body flex-1">
+                    {solution}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</SectionContainer>

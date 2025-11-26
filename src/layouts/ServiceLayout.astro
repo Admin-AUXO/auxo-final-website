@@ -1,0 +1,44 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import { siteData } from "../data/config/site";
+
+export interface Props {
+  title: string;
+  description: string;
+  serviceName: string;
+  serviceSlug: string;
+  serviceIcon?: string;
+}
+
+const {
+  title,
+  description,
+  serviceName,
+  serviceSlug,
+  serviceIcon = "mdi:cog",
+} = Astro.props;
+---
+
+<BaseLayout
+  title={`${serviceName} | AUXO Data Labs`}
+  description={description}
+  showParticles={false}
+>
+  <slot name="hero" />
+  <slot name="overview" />
+  <slot name="benefits" />
+  <slot name="process" />
+  <slot name="cta" />
+
+  <script>
+    import { setupServicePageAnimations } from "../scripts/sections/services/servicePage";
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setupServicePageAnimations);
+    } else {
+      setupServicePageAnimations();
+    }
+
+    document.addEventListener("astro:page-load", setupServicePageAnimations);
+  </script>
+</BaseLayout>

@@ -26,12 +26,12 @@ export class EmblaCarouselWrapper {
     private options: EmblaCarouselOptions = {}
   ) {
     const {
-      loop = true,
+      loop = false, // Default to no loop
       autoplay = false,
       autoplayInterval = DEFAULT_AUTOPLAY_INTERVAL,
       align = 'center',
-      slidesToScroll = 1,
-      dragFree = false,
+      slidesToScroll = 1, // Always scroll one card at a time
+      dragFree = false, // Disable free dragging - snap to one card per swipe
       onSlideChange,
     } = options;
 
@@ -68,6 +68,25 @@ export class EmblaCarouselWrapper {
       this.onSelect();
     });
 
+    // Disable transitions during drag/swipe for instant response
+    this.embla.on('pointerDown', () => {
+      const track = this.container.querySelector('.carousel-track') as HTMLElement;
+      if (track) {
+        track.style.transition = 'none';
+        this.container.classList.add('dragging');
+      }
+    });
+
+    this.embla.on('pointerUp', () => {
+      const track = this.container.querySelector('.carousel-track') as HTMLElement;
+      if (track) {
+        // Keep transition disabled for instant snap
+        requestAnimationFrame(() => {
+          this.container.classList.remove('dragging');
+        });
+      }
+    });
+
     this.onSelect();
   }
 
@@ -93,13 +112,24 @@ export class EmblaCarouselWrapper {
       const dotElement = dot as HTMLElement;
       const clickHandler = () => {
         if (this.embla) {
-          // Add class to indicate programmatic navigation for faster transition
+          // Add class to disable transitions for instant change
           this.container.classList.add('carousel-navigating');
+          // Temporarily disable transitions on track
+          const track = this.container.querySelector('.carousel-track') as HTMLElement;
+          if (track) {
+            track.style.transition = 'none';
+          }
+          
+          // Instant scroll - Embla will handle the positioning
           this.embla.scrollTo(index);
-          // Remove class after transition completes (200ms transition + 50ms buffer)
-          setTimeout(() => {
+          
+          // Remove class and restore transitions after scroll completes
+          requestAnimationFrame(() => {
+            if (track) {
+              track.style.transition = '';
+            }
             this.container.classList.remove('carousel-navigating');
-          }, 250);
+          });
         }
       };
       
@@ -140,17 +170,45 @@ export class EmblaCarouselWrapper {
 
   goToSlide(index: number): void {
     if (!this.embla) return;
+    // Disable transitions for instant scroll
+    const track = this.container.querySelector('.carousel-track') as HTMLElement;
+    if (track) {
+      track.style.transition = 'none';
+    }
     this.embla.scrollTo(index);
+    requestAnimationFrame(() => {
+      if (track) {
+        track.style.transition = '';
+      }
+    });
   }
 
   next(): void {
     if (!this.embla) return;
+    const track = this.container.querySelector('.carousel-track') as HTMLElement;
+    if (track) {
+      track.style.transition = 'none';
+    }
     this.embla.scrollNext();
+    requestAnimationFrame(() => {
+      if (track) {
+        track.style.transition = '';
+      }
+    });
   }
 
   previous(): void {
     if (!this.embla) return;
+    const track = this.container.querySelector('.carousel-track') as HTMLElement;
+    if (track) {
+      track.style.transition = 'none';
+    }
     this.embla.scrollPrev();
+    requestAnimationFrame(() => {
+      if (track) {
+        track.style.transition = '';
+      }
+    });
   }
 
   destroy(): void {

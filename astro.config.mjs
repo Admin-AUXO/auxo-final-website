@@ -75,7 +75,7 @@ export default defineConfig({
           'chevron-down',
           'close',
           'check-circle',
-          
+
           // Business & Industry
           'office-building',
           'bank',
@@ -83,72 +83,94 @@ export default defineConfig({
           'truck',
           'bed',
           'scale-balance',
-          
+
           // Data & Analytics
           'chart-bar',
           'chart-box',
           'chart-line',
-          'chart-pie',
+          'chart-pie', 'chart-timeline-variant', 'check-circle-outline', 'gesture-swipe-horizontal',
+          'chart-line-variant',
+          'chart-areaspline',
           'database-search',
           'database-cog',
+          'database-plus',
           'trending-up',
-          
+
           // Security & Compliance
           'shield-check',
           'shield-lock',
-          
+          'shield-account',
+
           // Technology & AI
           'robot',
           'robot-industrial',
           'brain',
           'crystal-ball',
-          
+          'cog-play',
+          'ab-testing',
+          'magnify-scan',
+          'text-recognition', 'information-outline',
+
           // People & Teams
           'account-group',
           'account-group-outline',
           'account-tie',
+          'account-cog',
           'handshake',
-          
+          'school',
+
           // Content & Documents
           'book-open',
-          'book-open-variant',
+          'book-open-variant', 'package-variant-closed',
           'file-document',
           'file-document-edit',
           'file-document-multiple',
+          'file-chart', 'check-bold',
           'format-list-bulleted',
-          
+          'clipboard-list',
+          'checkbox-marked',
+
           // Design & Strategy
           'palette',
           'strategy',
           'target',
           'view-grid',
           'layers',
-          
+          'tune',
+
           // Location & Geography
           'map-marker-outline',
+          'map-marker-path',
           'map-search',
           'earth',
           'web',
-          
+
           // Social & Communication
           'linkedin',
           'twitter',
           'email-outline',
+          'email-send',
           'message-text-outline',
           'send',
           'send-outline',
           'arrow-top-right',
-          
+
           // Theme & Display
           'moon-waning-crescent',
           'white-balance-sunny',
           'eye',
           'lightbulb',
           'lightbulb-on',
-          
+
           // Actions & Tools
           'rocket-launch',
           'cog',
+          'cog-sync',
+          'monitor-dashboard',
+          'monitor-eye',
+          'cellphone-cog',
+          'pipe',
+          'quality-high',
           'clock-outline',
           'calendar-outline',
           'cookie',

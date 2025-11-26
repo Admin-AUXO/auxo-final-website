@@ -2,7 +2,7 @@
 <browserconfig>
     <msapplication>
         <tile>
-            <square150x150logo src="/logo.svg"/>
+            <square150x150logo src="/auxo-final-website/logo.svg"/>
             <TileColor>#121212</TileColor>
         </tile>
     </msapplication>

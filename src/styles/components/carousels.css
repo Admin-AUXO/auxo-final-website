@@ -234,6 +234,7 @@
   padding-bottom: 6px;
   margin-top: -6px;
   margin-bottom: -6px;
+  scroll-snap-type: x mandatory; /* Enable snap scrolling - one card per swipe */
 }
 
 .embla {
@@ -246,6 +247,7 @@
 
 .embla__container {
   display: flex;
+  align-items: stretch; /* Ensure all slides have equal height */
   touch-action: pan-y pinch-zoom;
   padding-left: var(--grid-padding-sm);
   padding-right: var(--grid-padding-sm);
@@ -254,8 +256,11 @@
 .embla__slide {
   flex: 0 0 auto;
   min-width: 0;
+  align-self: stretch; /* Stretch to match tallest slide */
   padding-left: var(--carousel-gap-mobile);
   padding-right: var(--carousel-gap-mobile);
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-width: 640px) {
@@ -271,35 +276,32 @@
 }
 
 .embla__container.carousel-track {
-  touch-action: pan-x pan-y pinch-zoom;
+  touch-action: pan-x pinch-zoom; /* Allow horizontal panning for swipe */
   -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory; /* Ensure one card per swipe */
 }
 
-/* Carousel track */
+/* Carousel track - instant transitions */
 .carousel-track {
   display: flex;
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: none !important; /* Instant changes - no transition */
   will-change: transform;
-  align-items: stretch;
+  align-items: stretch; /* Ensure all slides have equal height */
   gap: var(--carousel-gap-mobile);
   cursor: grab;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Instant scrolling */
   -webkit-overflow-scrolling: touch;
 }
 
-/* Faster transition when navigating via dots */
+/* Instant transition when navigating via dots */
 .carousel-navigating .carousel-track {
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: none !important; /* Instant change */
 }
 
 .carousel-navigating .carousel-slide {
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important, opacity 0.2s ease-out !important;
-}
-
-/* Ensure proper centering during navigation */
-.carousel-navigating .carousel-slide {
+  transition: none !important; /* Instant change */
   scroll-snap-align: center;
 }
 
@@ -311,12 +313,21 @@
 
 .carousel-track:active {
   cursor: grabbing;
-  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: none; /* Instant during drag/swipe */
 }
 
-/* Smooth slide transitions */
+/* Carousel slide - unified styles for equal heights and instant transitions */
 .carousel-slide {
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.35s ease-out;
+  scroll-snap-align: center; /* Snap to center of each card */
+  scroll-snap-stop: always; /* Always stop at each card - one card per swipe */
+  width: calc(100vw - var(--carousel-slide-width-mobile));
+  max-width: var(--carousel-slide-max-width-mobile);
+  flex-shrink: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch; /* Ensure all slides stretch to equal height */
+  transition: none; /* Instant changes */
   opacity: 0.7;
 }
 
@@ -324,18 +335,13 @@
   opacity: 1;
 }
 
-/* Enhance slide visibility during drag */
-.carousel-container:active .carousel-slide {
+/* Enhance slide visibility during drag - instant transitions */
+.carousel-container:active .carousel-slide,
+.carousel-container:active .carousel-track,
+.carousel-container.dragging .carousel-slide,
+.carousel-container.dragging .carousel-track {
+  transition: none !important; /* Instant during drag/swipe */
   opacity: 0.9;
-}
-
-/* Carousel slide */
-.carousel-slide {
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
-  width: calc(100vw - var(--carousel-slide-width-mobile));
-  max-width: var(--carousel-slide-max-width-mobile);
-  flex-shrink: 0;
 }
 
 @media (min-width: 640px) {
@@ -345,19 +351,21 @@
   }
 }
 
+/* Ensure cards inside slides stretch to full height */
 .carousel-slide .service-card-redesigned,
-.carousel-slide .glassmorphism-card {
-  min-height: auto;
-  height: auto;
+.carousel-slide .glassmorphism-card,
+.carousel-slide > div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Carousel dots */
+/* Unified Carousel Dots - Simple and Uniform Across All Carousels */
 .carousel-dots {
   display: flex;
   gap: var(--carousel-dots-gap);
   justify-content: center;
   align-items: center;
-  align-content: center;
   padding: var(--carousel-dots-padding) 0;
   width: 100%;
   -webkit-tap-highlight-color: transparent;
@@ -380,7 +388,7 @@
   align-items: center;
   justify-content: center;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   touch-action: manipulation;
 }
 
@@ -390,13 +398,14 @@
 
 .carousel-dot:active {
   transform: scale(0.95);
-  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .carousel-dot[style*="display: none"] {
   display: none;
 }
 
+/* Uniform dot indicator - simple circle */
 .carousel-dot::before {
   content: '';
   position: absolute;
@@ -407,16 +416,17 @@
   height: var(--carousel-dot-size);
   border-radius: 50%;
   background-color: var(--carousel-dot-inactive);
-  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .carousel-dot:hover::before {
-  opacity: 0.8;
+  opacity: 0.7;
   background-color: var(--carousel-dot-inactive-hover);
 }
 
+/* Active dot - simple, uniform style */
 .carousel-dot.active::before,
 .carousel-dot[aria-current="true"]::before,
 .carousel-dot[aria-selected="true"]::before {
@@ -425,14 +435,13 @@
   height: var(--carousel-dot-size-active);
   border-radius: 50%;
   opacity: 1;
-  box-shadow: 0 0 12px var(--accent-green-opacity-30), 0 0 24px var(--accent-green-opacity-2);
+  box-shadow: 0 0 8px var(--accent-green-opacity-30);
 }
 
 .carousel-dot.active:hover::before,
 .carousel-dot[aria-current="true"]:hover::before,
 .carousel-dot[aria-selected="true"]:hover::before {
-  box-shadow: 0 0 16px var(--accent-green-opacity-30), 0 0 32px var(--accent-green-opacity-18);
-  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 0 12px var(--accent-green-opacity-40);
 }
 
 .carousel-dot:focus-visible,
@@ -442,69 +451,8 @@
   border-radius: 50%;
 }
 
-/* Services carousel dots */
-.services-carousel-dot {
-  background: transparent;
-}
-
-.services-carousel-dot.active::before,
-.services-carousel-dot[aria-current="true"]::before,
-.services-carousel-dot[aria-selected="true"]::before {
-  box-shadow: 0 0 16px var(--accent-green-opacity-30), 0 0 32px var(--accent-green-opacity-25);
-  animation: pulseGlow 2s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 16px var(--accent-green-opacity-30), 0 0 32px var(--accent-green-opacity-25);
-  }
-  50% {
-    box-shadow: 0 0 20px var(--accent-green-opacity-30), 0 0 40px var(--accent-green-opacity-18);
-  }
-}
-
-/* Capabilities carousel dots */
-.capabilities-carousel-dot {
-  background: transparent;
-}
-
-.capabilities-carousel-dot::before {
-  border-radius: 0.25rem;
-}
-
-.capabilities-carousel-dot.active::before,
-.capabilities-carousel-dot[aria-current="true"]::before,
-.capabilities-carousel-dot[aria-selected="true"]::before {
-  border-radius: 0.375rem;
-  box-shadow: 0 4px 12px var(--accent-green-opacity-30), 0 0 20px var(--accent-green-opacity-2);
-  transform: translate(-50%, -50%) scale(1.1);
-}
-
-.capabilities-carousel-dot:focus-visible {
-  border-radius: 0.25rem;
-}
-
-
-/* Global metrics carousel dots */
-.global-metrics-carousel-dot.active::before,
-.global-metrics-carousel-dot[aria-current="true"]::before,
-.global-metrics-carousel-dot[aria-selected="true"]::before {
-  box-shadow: 0 0 14px var(--accent-green-opacity-30), 0 0 28px var(--accent-green-opacity-25);
-}
-
-/* Mission vision carousel dots */
-.mission-vision-carousel-dot.active::before,
-.mission-vision-carousel-dot[aria-current="true"]::before,
-.mission-vision-carousel-dot[aria-selected="true"]::before {
-  box-shadow: 0 0 16px var(--accent-green-opacity-30), 0 0 32px var(--accent-green-opacity-25);
-}
-
-/* Code carousel dots */
-.code-carousel-dot.active::before,
-.code-carousel-dot[aria-current="true"]::before,
-.code-carousel-dot[aria-selected="true"]::before {
-  box-shadow: 0 0 14px var(--accent-green-opacity-30), 0 0 28px var(--accent-green-opacity-25);
-}
+/* Unified carousel dots - all carousels use the same simple, uniform style */
+/* All specific carousel dot classes inherit from base .carousel-dot styles */
 
 /* Impact carousel wrapper */
 .impact-carousel-wrapper {
@@ -571,17 +519,7 @@
   }
 }
 
-/* Impact carousel dots */
-.impact-carousel-dot {
-  background: transparent;
-}
-
-.impact-carousel-dot.active::before,
-.impact-carousel-dot[aria-current="true"]::before,
-.impact-carousel-dot[aria-selected="true"]::before {
-  box-shadow: 0 0 16px var(--accent-green-opacity-30), 0 0 32px var(--accent-green-opacity-25);
-  animation: pulseGlow 2s ease-in-out infinite;
-}
+/* All carousel dots now use unified base styles - no specific overrides needed */
 
 /* Responsive improvements */
 @media (max-width: 640px) {

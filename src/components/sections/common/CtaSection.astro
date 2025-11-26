@@ -1,0 +1,228 @@
+---
+import { Icon } from "astro-icon/components";
+import Button from "../../ui/Button.astro";
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import HighlightText from "../../ui/HighlightText.astro";
+import { createUrl } from "../../../utils/url";
+
+interface Props {
+  // Content
+  title: string;
+  titleHighlight?: string | string[];
+  description: string;
+  descriptionHighlight?: string | string[];
+  ctaText: string;
+  ctaHref: string;
+
+  // Optional elements
+  secondaryText?: string;
+  additionalInfo?: string;
+  badge?: string;
+
+  // Visual customization
+  variant?: "standard" | "elevated" | "minimal";
+  background?: "default" | "surface" | "elevated";
+
+  // Layout
+  maxWidth?: "2xl" | "3xl" | "4xl" | "5xl";
+
+  // IDs and classes
+  id?: string;
+  class?: string;
+  contentClass?: string;
+}
+
+const {
+  title,
+  titleHighlight,
+  description,
+  descriptionHighlight,
+  ctaText,
+  ctaHref,
+  secondaryText,
+  additionalInfo,
+  badge,
+  variant = "standard",
+  background = "default",
+  maxWidth = "4xl",
+  id = "cta-section",
+  class: className = "",
+  contentClass = "",
+} = Astro.props;
+
+const maxWidthClasses = {
+  "2xl": "max-w-2xl",
+  "3xl": "max-w-3xl",
+  "4xl": "max-w-4xl",
+  "5xl": "max-w-5xl",
+};
+
+const isElevated = variant === "elevated";
+const isMinimal = variant === "minimal";
+---
+
+<SectionContainer
+  id={id}
+  padding={isElevated ? "xl" : "normal"}
+  background={background}
+  class={`relative overflow-hidden cta-section ${className}`}
+>
+  <!-- Background Decorations -->
+  {!isMinimal && (
+    <>
+      <div class="absolute inset-0 cta-bg-gradient pointer-events-none z-0" data-variant={variant}></div>
+      <div class="absolute inset-0 cta-bg-pattern pointer-events-none z-0 opacity-40" data-variant={variant}></div>
+      {isElevated && (
+        <>
+          <div class="absolute top-0 left-1/4 w-96 h-96 bg-accent-green/5 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl pointer-events-none"></div>
+        </>
+      )}
+    </>
+  )}
+
+  <div class="grid-container relative z-10">
+    <div class={`col-span-full ${maxWidthClasses[maxWidth]} mx-auto w-full text-center`}>
+      <div class={`cta-content space-y-6 lg:space-y-8 ${contentClass}`}>
+        <!-- Badge (optional) -->
+        {badge && (
+          <div class="flex justify-center cta-animate" style="--animation-order: 0;">
+            <span class="inline-flex items-center gap-2 px-4 py-2 bg-accent-green/10 text-accent-green rounded-full text-sm font-semibold border border-accent-green/20 backdrop-blur-sm">
+              <Icon name="mdi:star-circle" class="w-4 h-4" />
+              {badge}
+            </span>
+          </div>
+        )}
+
+        <!-- Title -->
+        <h2 class="text-h2 font-extrabold leading-tight tracking-tight font-display text-theme-primary cta-animate" style="--animation-order: 1;">
+          <HighlightText text={title} highlight={titleHighlight} />
+        </h2>
+
+        <!-- Description -->
+        <div class="space-y-4 cta-animate" style="--animation-order: 2;">
+          <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed font-body mx-auto" class:list={[maxWidthClasses[maxWidth === "4xl" ? "3xl" : "2xl"]]}>
+            <HighlightText text={description} highlight={descriptionHighlight} highlightClass="text-accent-green font-semibold" />
+          </p>
+
+          {secondaryText && (
+            <p class="text-body-base text-theme-secondary/80 leading-relaxed font-body mx-auto max-w-2xl">
+              {secondaryText}
+            </p>
+          )}
+        </div>
+
+        <!-- CTA Button -->
+        <div class="pt-2 flex justify-center cta-animate" style="--animation-order: 3;">
+          <Button
+            variant="primary"
+            size="lg"
+            href={createUrl(ctaHref)}
+            class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all duration-300 min-h-[52px] text-base sm:text-lg group/btn"
+          >
+            <span class="whitespace-nowrap">{ctaText}</span>
+            <Icon name="mdi:arrow-right" class="w-5 h-5 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300" />
+          </Button>
+        </div>
+
+        <!-- Additional Info -->
+        {additionalInfo && (
+          <div class="pt-4 sm:pt-6 border-t border-accent-green/10 cta-animate" style="--animation-order: 4;">
+            <p class="text-sm text-theme-secondary/90 font-body flex items-center justify-center gap-2">
+              <Icon name="mdi:information-outline" class="w-4 h-4 text-accent-green" />
+              <span>{additionalInfo}</span>
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</SectionContainer>
+
+<style>
+  /* Background Gradients */
+  .cta-bg-gradient[data-variant="standard"] {
+    background: radial-gradient(
+      ellipse 120% 80% at 50% 120%,
+      rgba(var(--color-accent-green-rgb), 0.08) 0%,
+      transparent 50%
+    );
+  }
+
+  .cta-bg-gradient[data-variant="elevated"] {
+    background:
+      radial-gradient(
+        ellipse 100% 60% at 50% 0%,
+        rgba(var(--color-accent-green-rgb), 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse 100% 60% at 50% 100%,
+        rgba(var(--color-accent-blue-rgb), 0.08) 0%,
+        transparent 50%
+      );
+  }
+
+  /* Background Pattern */
+  .cta-bg-pattern[data-variant="standard"] {
+    background-image:
+      linear-gradient(rgba(var(--color-accent-green-rgb), 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(var(--color-accent-green-rgb), 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .cta-bg-pattern[data-variant="elevated"] {
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(var(--color-accent-green-rgb), 0.08) 1px, transparent 0);
+    background-size: 32px 32px;
+  }
+
+  /* Animations */
+  .cta-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: ctaFadeInUp 0.6s ease-out forwards;
+    animation-delay: calc(var(--animation-order, 0) * 0.1s + 0.2s);
+  }
+
+  @keyframes ctaFadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .cta-animate {
+      animation: ctaFadeIn 0.3s ease-out forwards;
+    }
+
+    @keyframes ctaFadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  }
+
+  /* Responsive typography adjustments */
+  @media (max-width: 640px) {
+    .cta-content {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  /* Hover effects on section */
+  .cta-section:hover .cta-bg-gradient {
+    opacity: 0.9;
+    transition: opacity 0.6s ease;
+  }
+</style>

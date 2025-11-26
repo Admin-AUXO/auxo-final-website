@@ -1,6 +1,6 @@
-import { setupCarouselSection } from "../utils/carouselUtils";
+import { initCarousel } from "../utils/carouselUtils";
 
-const carouselManager = setupCarouselSection({
+initCarousel({
   containerId: "impact-carousel-container",
   dotSelector: ".impact-carousel-dot",
   breakpoint: 0,
@@ -8,10 +8,10 @@ const carouselManager = setupCarouselSection({
 });
 
 export function initImpactCarousel(): void {
-  carouselManager.init();
+  // Carousel is auto-initialized via initCarousel
 }
 
 export function initImpactSection(): void {
-  carouselManager.init();
+  // Carousel is auto-initialized via initCarousel
 }
 

@@ -1,18 +1,12 @@
-import { setupCarouselSection } from "../utils/carouselUtils";
+import { initCarousel } from "../utils/carouselUtils";
 
-const carouselManager = setupCarouselSection({
+const carouselManager = initCarousel({
   containerId: "capabilities-carousel-container",
-  dotSelector: ".capabilities-carousel .carousel-dot",
+  dotSelector: ".capabilities-carousel-dot",
   breakpoint: 768,
 });
 
-export function cleanupCapabilitiesCarousel(): void {
-  carouselManager.cleanup();
-}
-
 export function initCapabilitiesSection(): void {
-  if (typeof window !== "undefined") {
-    window.addEventListener("resize", () => carouselManager.init());
-  }
+  // Carousel is auto-initialized via initCarousel
 }
 

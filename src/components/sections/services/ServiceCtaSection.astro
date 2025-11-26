@@ -1,0 +1,25 @@
+---
+import CtaSection from "../common/CtaSection.astro";
+import { ServiceDetail } from "../../../data/content/services";
+
+interface Props {
+  service: ServiceDetail;
+}
+
+const { service } = Astro.props;
+---
+
+<CtaSection
+  id="service-cta"
+  title={service.cta.title}
+  titleHighlight={service.cta.title.split(' ').slice(-3)}
+  description={service.cta.description}
+  descriptionHighlight={service.cta.descriptionHighlight}
+  ctaText={service.cta.ctaText}
+  ctaHref={service.cta.ctaHref}
+  variant="elevated"
+  background="elevated"
+  maxWidth="4xl"
+  additionalInfo="Ready to discuss your specific needs? Our team typically responds within 24 hours."
+  class="service-cta-section"
+/>

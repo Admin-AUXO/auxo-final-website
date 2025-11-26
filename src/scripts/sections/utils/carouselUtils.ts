@@ -37,6 +37,11 @@ function createCarouselManager(config: CarouselConfig) {
     resizeTimeout: null,
   };
 
+  // Check for reduced motion preference
+  const prefersReducedMotion = typeof window !== "undefined" 
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+    : false;
+
   function cleanup(): void {
     if (state.instance) {
       state.instance.destroy();
@@ -69,13 +74,14 @@ function createCarouselManager(config: CarouselConfig) {
 
     cleanup();
 
+    // Unified default options - no loop, instant transitions, center alignment, one card per swipe
     state.instance = new EmblaCarouselWrapper(container, dots, {
-      loop: true,
+      loop: false, // No looping by default
       autoplay: false, // Autoplay disabled for better user control
       align: "center",
-      slidesToScroll: 1,
-      dragFree: true, // Enable smooth free dragging for better mobile experience
-      ...carouselOptions,
+      slidesToScroll: 1, // Always scroll one card at a time
+      dragFree: false, // Disable free dragging - snap to one card per swipe
+      ...carouselOptions, // Allow override of defaults
     });
 
     state.resizeHandler = () => {
@@ -113,5 +119,12 @@ export function setupCarouselSection(config: CarouselConfig) {
   }
   
   return carouselManager;
+}
+
+// Unified carousel initialization helper
+export function initCarousel(config: CarouselConfig): ReturnType<typeof setupCarouselSection> {
+  const manager = setupCarouselSection(config);
+  manager.initWithDelay();
+  return manager;
 }
 

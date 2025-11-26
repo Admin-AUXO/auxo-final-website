@@ -10,23 +10,24 @@ const content = servicesContent.hero;
 
 <section
   id="services-hero"
-  class="relative min-h-[90vh] sm:min-h-screen flex flex-col items-center justify-center overflow-hidden pt-16 sm:pt-20 lg:pt-24 pb-12 sm:pb-16 lg:pb-20"
+  class="relative min-h-screen flex items-start justify-center overflow-hidden"
 >
   <div class="section-gradient-hero absolute inset-0 pointer-events-none z-0"></div>
-  
+
   <div class="section-hero-accent-lines absolute inset-0 pointer-events-none z-0 overflow-hidden">
     <div class="section-hero-line section-hero-line-1 absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-green/20 to-transparent"></div>
     <div class="section-hero-line section-hero-line-2 absolute top-3/4 right-0 w-full h-px bg-gradient-to-l from-transparent via-accent-green/15 to-transparent"></div>
   </div>
-  
-  <div class="grid-container relative z-content flex-1 flex flex-col items-center justify-center">
+
+  <!-- Main content - positioned from top -->
+  <div class="grid-container relative z-content w-full pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-20">
     <div class="col-span-full text-center max-w-6xl mx-auto w-full px-4 sm:px-6">
       <div class="services-hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">
         <h1 class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-4 sm:mb-5 lg:mb-6 w-full font-display">
           <span class="block services-hero-line1 services-hero-intro-text">
             <HighlightText text={content.headlineLine1} highlight="Analytics" />
           </span>
-          
+
           <span class="block mt-2 sm:mt-3 lg:mt-4 services-hero-impact-wrapper relative">
             <span class="inline-block services-hero-line2 services-hero-impact-text relative">
               <HighlightText text={content.headlineLine2} highlight="impact" />
@@ -42,7 +43,7 @@ const content = servicesContent.hero;
       </div>
 
       {content.ctaText && content.ctaHref && (
-        <div class="services-hero-cta mb-6 sm:mb-8 opacity-0 services-hero-follow-content">
+        <div class="services-hero-cta opacity-0 services-hero-follow-content">
           <Button
             variant="primary"
             size="lg"
@@ -55,6 +56,30 @@ const content = servicesContent.hero;
         </div>
       )}
     </div>
+  </div>
+
+  <!-- Scroll indicator - positioned at bottom of viewport -->
+  <div
+    class="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 z-content"
+  >
+    <a
+      href="#services-intro"
+      class="flex flex-col items-center text-theme-secondary hover:text-accent-green transition-colors group"
+      aria-label="Scroll to explore services"
+    >
+      <span
+        class="text-xs mb-3 sm:mb-4 font-medium uppercase tracking-wider font-body"
+        >Explore Services</span
+      >
+      <div
+        class="animate-bounce bg-accent-green/10 backdrop-blur-sm rounded-full p-1.5 border border-accent-green/20 group-hover:border-accent-green/40 transition-colors"
+      >
+        <Icon
+          name="mdi:chevron-down"
+          class="w-4 h-4 group-hover:scale-110 transition-transform text-accent-green"
+        />
+      </div>
+    </a>
   </div>
 </section>
 

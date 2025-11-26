@@ -1,12 +1,12 @@
-import { setupCarouselSection } from "../utils/carouselUtils";
+import { initCarousel } from "../utils/carouselUtils";
 
-const carouselManager = setupCarouselSection({
+initCarousel({
   containerId: "global-metrics-carousel-container",
-  dotSelector: ".global-metrics-carousel .carousel-dot",
+  dotSelector: ".global-metrics-carousel-dot",
   breakpoint: 768,
 });
 
 export function initGlobalMetricsCarousel(): void {
-  carouselManager.init();
+  // Carousel is auto-initialized via initCarousel
 }
 

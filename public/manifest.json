@@ -2,25 +2,25 @@
   "name": "AUXO Data Labs",
   "short_name": "AUXO",
   "description": "AUXO is a Dubai-based data analytics consultancy serving sophisticated clients across the GCC, Europe, and global markets.",
-  "start_url": "/",
+  "start_url": "/auxo-final-website/",
   "display": "standalone",
   "background_color": "#121212",
   "theme_color": "#121212",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/auxo-final-website/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "/apple-touch-icon.svg",
+      "src": "/auxo-final-website/apple-touch-icon.svg",
       "sizes": "180x180",
       "type": "image/svg+xml"
     },
     {
-      "src": "/logo.svg",
+      "src": "/auxo-final-website/logo.svg",
       "sizes": "512x512",
       "type": "image/svg+xml"
     }
@@ -28,7 +28,7 @@
   "categories": ["business", "productivity"],
   "lang": "en",
   "dir": "ltr",
-  "scope": "/",
+  "scope": "/auxo-final-website/",
   "prefer_related_applications": false
 }
 

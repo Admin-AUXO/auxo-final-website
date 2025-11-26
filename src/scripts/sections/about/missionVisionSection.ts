@@ -1,12 +1,12 @@
-import { setupCarouselSection } from "../utils/carouselUtils";
+import { initCarousel } from "../utils/carouselUtils";
 
-const carouselManager = setupCarouselSection({
+initCarousel({
   containerId: "mission-vision-carousel-container",
-  dotSelector: ".mission-vision-carousel .carousel-dot",
+  dotSelector: ".mission-vision-carousel-dot",
   breakpoint: 1024,
 });
 
 export function initMissionVisionCarousel(): void {
-  carouselManager.init();
+  // Carousel is auto-initialized via initCarousel
 }
 

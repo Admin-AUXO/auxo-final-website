@@ -1,0 +1,120 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionContainer from "../../layouts/SectionContainer.astro";
+import HighlightText from "../../ui/HighlightText.astro";
+import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
+import Carousel from "../../ui/Carousel.astro";
+import { ServiceDetail } from "../../../data/content/services";
+
+interface Props {
+  service: ServiceDetail;
+}
+
+const { service } = Astro.props;
+---
+
+<SectionContainer
+  id="service-benefits"
+  padding="lg"
+  background="default"
+  class="relative service-benefits-section section-divider overflow-x-hidden"
+>
+  <BackgroundDecorations gradients={["hero"]} />
+
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-6xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-12 lg:mb-16">
+        <h2 class="text-h2 font-extrabold mb-4 lg:mb-6 leading-tight tracking-tight font-display text-theme-primary">
+          {service.benefits.title}
+        </h2>
+        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body">
+          <HighlightText text={service.benefits.description} highlight={service.benefits.descriptionHighlight} highlightClass="text-accent-green font-semibold" />
+        </p>
+      </div>
+
+      <!-- Desktop Features Grid -->
+      <div class="hidden lg:grid lg:grid-cols-4 gap-6 lg:gap-8">
+        {service.benefits.features.map((feature, index) => (
+          <div class="group opacity-0 fade-in-up-delay" style={`animation-delay: ${index * 0.1}s`}>
+            <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl p-6 lg:p-8 relative overflow-hidden transition-all duration-500 hover:border-accent-green/40 hover:shadow-xl hover:shadow-accent-green/10 hover:-translate-y-1">
+              {/* Top accent bar */}
+              <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 group-hover:via-accent-green/60 transition-all duration-500" />
+
+              {/* Background pattern */}
+              <div class="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.04] transition-opacity duration-500 service-card-pattern" />
+
+              <div class="relative z-10">
+                {/* Icon */}
+                <div class="relative inline-flex mb-6">
+                  <div class="absolute -inset-3 bg-accent-green/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div class="relative w-12 h-12 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20 group-hover:bg-accent-green/20 group-hover:border-accent-green/40 transition-all duration-500">
+                    <Icon name={feature.icon} class="w-6 h-6 text-accent-green" />
+                  </div>
+                </div>
+
+                {/* Content */}
+                <h3 class="text-lg lg:text-xl font-bold text-theme-primary leading-tight mb-3 lg:mb-4 group-hover:text-accent-green transition-colors duration-500 font-display">
+                  {feature.title}
+                </h3>
+                <p class="text-body-base text-theme-secondary leading-relaxed font-body">
+                  {feature.description}
+                </p>
+              </div>
+
+              {/* Bottom accent */}
+              <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-green/0 group-hover:bg-accent-green/30 transition-all duration-500" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Mobile Features Carousel -->
+      <div class="lg:hidden">
+        <Carousel
+          containerId="service-benefits-carousel-container"
+          trackId="service-benefits-carousel-track"
+          dotSelector=".service-benefits-carousel-dot"
+          items={service.benefits.features}
+          wrapperClass="service-benefits-carousel-wrapper"
+          dotsClass="service-benefits-carousel-dots"
+          dotClass="service-benefits-carousel-dot"
+          breakpoint={1024}
+          activateOnDesktop={false}
+        >
+          {service.benefits.features.map((feature, index) => (
+            <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
+              <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl p-6 relative overflow-hidden transition-all duration-500 hover:border-accent-green/40 hover:shadow-xl hover:shadow-accent-green/10 flex flex-col">
+                {/* Top accent bar */}
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 hover:via-accent-green/60 transition-all duration-500" />
+
+                {/* Background pattern */}
+                <div class="absolute inset-0 opacity-[0.02] hover:opacity-[0.04] transition-opacity duration-500 service-card-pattern" />
+
+                <div class="relative z-10">
+                  {/* Icon */}
+                  <div class="relative inline-flex mb-6">
+                    <div class="w-12 h-12 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20">
+                      <Icon name={feature.icon} class="w-6 h-6 text-accent-green" />
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <h3 class="text-lg font-bold text-theme-primary leading-tight mb-3 font-display">
+                    {feature.title}
+                  </h3>
+                  <p class="text-body-base text-theme-secondary leading-relaxed font-body flex-grow">
+                    {feature.description}
+                  </p>
+                </div>
+
+                {/* Bottom accent */}
+                <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-green/30" />
+              </div>
+            </div>
+          ))}
+        </Carousel>
+      </div>
+    </div>
+  </div>
+</SectionContainer>
