@@ -22,10 +22,10 @@ const { service } = Astro.props;
   <BackgroundDecorations gradients={["dual"]} patterns={["grid"]} />
 
   <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-6xl mx-auto">
+    <div class="col-span-full max-w-7xl mx-auto">
       <!-- Header -->
-      <div class="text-center mb-12 lg:mb-16">
-        <h2 class="text-h2 font-extrabold mb-4 lg:mb-6 leading-tight tracking-tight font-display text-theme-primary">
+      <div class="text-center mb-16 lg:mb-20">
+        <h2 class="text-h2 font-extrabold mb-6 leading-tight tracking-tight font-display text-theme-primary">
           {service.process.title}
         </h2>
         <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body">
@@ -33,57 +33,102 @@ const { service } = Astro.props;
         </p>
       </div>
 
-      <!-- Desktop Process Steps -->
-      <div class="hidden lg:block relative">
-        {/* Connection line for desktop */}
-        <div class="absolute top-12 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
-          <div class="h-0.5 bg-gradient-to-r from-accent-green/0 via-accent-green/40 to-accent-green/0"></div>
-        </div>
+      <!-- Desktop Two-Column Grid Layout -->
+      <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10 relative">
+        {service.process.steps.map((step, index) => {
+          const animationDelay = `${index * 0.1}s`;
 
-        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16">
-          {service.process.steps.map((step, index) => (
-            <div class="group opacity-0 fade-in-up-delay" style={`animation-delay: ${index * 0.15}s`}>
-              <div class="relative bg-theme-card border border-accent-green/10 rounded-2xl p-6 lg:p-8 transition-all duration-500 hover:border-accent-green/40 hover:shadow-xl hover:shadow-accent-green/10 hover:-translate-y-1">
-                {/* Step number */}
-                <div class="flex items-center gap-4 mb-6">
-                  <div class="relative">
-                    <div class="absolute -inset-2 bg-accent-green/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="relative w-12 h-12 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20 group-hover:bg-accent-green/20 group-hover:border-accent-green/40 transition-all duration-500">
-                      <span class="text-lg font-bold text-accent-green font-display">{step.step}</span>
+          return (
+            <div
+              class="process-card-wrapper opacity-0 fade-in-up-delay"
+              style={`animation-delay: ${animationDelay}`}
+            >
+              <div class="group relative h-full bg-gradient-to-br from-theme-card to-theme-card/95 border border-accent-green/20 rounded-3xl p-8 shadow-xl hover:border-accent-green/60 hover:shadow-2xl hover:shadow-accent-green/20 transition-all duration-500 hover:-translate-y-2 flex flex-col overflow-hidden">
+                {/* Animated gradient background on hover */}
+                <div class="absolute inset-0 bg-gradient-to-br from-accent-green/5 via-transparent to-accent-green/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+
+                {/* Top decorative accent */}
+                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-accent-green/0 via-accent-green/60 to-accent-green/0 rounded-t-3xl"></div>
+
+                {/* Glow effect behind card on hover */}
+                <div class="absolute -inset-0.5 bg-gradient-to-br from-accent-green/20 to-accent-green/5 rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+
+                {/* Header with enhanced step number and title */}
+                <div class="flex items-start gap-6 mb-6 relative z-10">
+                  <div class="relative flex-shrink-0">
+                    {/* Outer glow ring */}
+                    <div class="absolute -inset-2 bg-accent-green/30 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    {/* Step number badge */}
+                    <div class="relative w-16 h-16 bg-gradient-to-br from-accent-green via-accent-green/95 to-accent-green/80 rounded-xl flex items-center justify-center shadow-xl shadow-accent-green/40 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                      <span class="text-2xl font-extrabold text-white font-display">{step.step}</span>
+
+                      {/* Inner shine effect */}
+                      <div class="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-xl opacity-50"></div>
                     </div>
+
+                    {/* Decorative corner accent */}
+                    <div class="absolute -top-1 -right-1 w-3 h-3 bg-accent-green/40 rounded-full blur-sm group-hover:bg-accent-green/60 transition-colors duration-300"></div>
                   </div>
-                  <h3 class="text-xl lg:text-2xl font-bold text-theme-primary group-hover:text-accent-green transition-colors duration-500 font-display">
-                    {step.title}
-                  </h3>
+
+                  <div class="flex-1 pt-2">
+                    <h3 class="text-xl xl:text-2xl font-extrabold text-theme-primary group-hover:text-accent-green transition-colors duration-300 font-display leading-tight mb-1">
+                      {step.title}
+                    </h3>
+                    {/* Subtle underline on hover */}
+                    <div class="h-0.5 w-0 bg-gradient-to-r from-accent-green to-transparent group-hover:w-full transition-all duration-500"></div>
+                  </div>
                 </div>
 
-                {/* Description */}
-                <p class="text-body-base text-theme-secondary leading-relaxed mb-6 font-body">
+                {/* Description with better spacing */}
+                <p class="text-base text-theme-secondary leading-relaxed mb-7 font-body flex-grow relative z-10">
                   {step.description}
                 </p>
 
-                {/* Deliverables */}
-                <div class="space-y-3">
-                  <h4 class="text-sm font-semibold text-theme-primary font-body uppercase tracking-wide">Deliverables</h4>
-                  <ul class="space-y-2">
+                {/* Enhanced Deliverables Section */}
+                <div class="space-y-4 mt-auto relative z-10">
+                  <div class="flex items-center gap-3">
+                    <div class="h-px flex-1 bg-gradient-to-r from-accent-green/40 via-accent-green/20 to-transparent"></div>
+                    <h4 class="text-xs font-extrabold text-accent-green font-body uppercase tracking-widest flex items-center gap-2">
+                      <Icon name="mdi:check-circle-outline" class="w-3.5 h-3.5" />
+                      Deliverables
+                    </h4>
+                    <div class="h-px flex-1 bg-gradient-to-l from-accent-green/40 via-accent-green/20 to-transparent"></div>
+                  </div>
+
+                  <div class="grid grid-cols-1 gap-3">
                     {step.deliverables.map((deliverable) => (
-                      <li class="flex items-center gap-3 text-sm text-theme-secondary font-body">
-                        <div class="w-4 h-4 bg-accent-green/15 rounded-full flex items-center justify-center flex-shrink-0">
-                          <Icon name="mdi:check-circle" class="w-2.5 h-2.5 text-accent-green" />
+                      <div class="flex items-start gap-3.5 group/item">
+                        <div class="relative flex-shrink-0 mt-0.5">
+                          {/* Icon glow on hover */}
+                          <div class="absolute inset-0 bg-accent-green/20 rounded-full blur group-hover/item:blur-md group-hover/item:bg-accent-green/40 transition-all"></div>
+
+                          <div class="relative w-6 h-6 bg-accent-green/15 rounded-full flex items-center justify-center group-hover/item:bg-accent-green/30 group-hover/item:scale-110 transition-all duration-300 border border-accent-green/20">
+                            <Icon name="mdi:check-bold" class="w-3.5 h-3.5 text-accent-green group-hover/item:scale-110 transition-transform" />
+                          </div>
                         </div>
-                        {deliverable}
-                      </li>
+                        <span class="text-sm text-theme-secondary group-hover/item:text-theme-primary transition-colors font-body leading-relaxed">
+                          {deliverable}
+                        </span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
+
+                {/* Decorative corner elements */}
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-accent-green/8 via-accent-green/3 to-transparent rounded-tr-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-accent-green/5 to-transparent rounded-bl-3xl opacity-40 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none"></div>
+
+                {/* Bottom accent line */}
+                <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-green/30 to-transparent rounded-b-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
       <!-- Mobile Process Carousel -->
-      <div class="lg:hidden">
+      <div class="lg:hidden" data-service={service.slug}>
         <Carousel
           containerId="service-process-carousel-container"
           trackId="service-process-carousel-track"
@@ -97,32 +142,30 @@ const { service } = Astro.props;
         >
           {service.process.steps.map((step, index) => (
             <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
-              <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl p-6 transition-all duration-500 hover:border-accent-green/40 hover:shadow-xl hover:shadow-accent-green/10 flex flex-col">
-                {/* Step number */}
-                <div class="flex items-center gap-4 mb-6">
-                  <div class="w-12 h-12 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20">
-                    <span class="text-lg font-bold text-accent-green font-display">{step.step}</span>
-                  </div>
-                  <h3 class="text-xl font-bold text-theme-primary font-display flex-1">
+              <div class="h-full bg-theme-card border border-accent-green/10 rounded-lg transition-all duration-500 hover:border-accent-green/40 hover:shadow-lg hover:shadow-accent-green/10 flex flex-col">
+                {/* Title and Step badge on same line */}
+                <div class="flex items-center justify-between mb-2.5">
+                  <h3 class="font-bold text-theme-primary font-display leading-tight">
                     {step.title}
                   </h3>
+                  <div class="inline-flex w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-accent-green/20 to-accent-green/10 rounded-md items-center justify-center border border-accent-green/30 flex-shrink-0 ml-3">
+                    <span class="text-sm sm:text-base font-extrabold text-accent-green font-display leading-none">{step.step}</span>
+                  </div>
                 </div>
 
                 {/* Description */}
-                <p class="text-body-base text-theme-secondary leading-relaxed mb-6 font-body flex-grow">
+                <p class="text-theme-secondary leading-relaxed font-body flex-grow mb-3">
                   {step.description}
                 </p>
 
                 {/* Deliverables */}
-                <div class="space-y-3 mt-auto">
-                  <h4 class="text-sm font-semibold text-theme-primary font-body uppercase tracking-wide">Deliverables</h4>
-                  <ul class="space-y-2">
+                <div class="space-y-1.5 mt-auto pt-3 border-t border-accent-green/10">
+                  <h4 class="text-xs font-bold text-accent-green font-body uppercase tracking-wide leading-none mb-1.5">Deliverables</h4>
+                  <ul class="space-y-1">
                     {step.deliverables.map((deliverable) => (
-                      <li class="flex items-center gap-3 text-sm text-theme-secondary font-body">
-                        <div class="w-4 h-4 bg-accent-green/15 rounded-full flex items-center justify-center flex-shrink-0">
-                          <Icon name="mdi:check-circle" class="w-2.5 h-2.5 text-accent-green" />
-                        </div>
-                        {deliverable}
+                      <li class="flex items-start gap-1.5 text-theme-secondary font-body leading-snug">
+                        <span class="text-accent-green flex-shrink-0 leading-none mt-0.5">•</span>
+                        <span>{deliverable}</span>
                       </li>
                     ))}
                   </ul>

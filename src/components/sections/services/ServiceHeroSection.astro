@@ -3,6 +3,7 @@ import { Icon } from "astro-icon/components";
 import SectionContainer from "../../layouts/SectionContainer.astro";
 import HighlightText from "../../ui/HighlightText.astro";
 import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
+import Button from "../../ui/Button.astro";
 import { ServiceDetail } from "../../../data/content/services";
 
 interface Props {
@@ -12,147 +13,80 @@ interface Props {
 const { service } = Astro.props;
 ---
 
-<SectionContainer
+<section
   id="service-hero"
-  padding="xl"
-  background="default"
-  class="relative service-hero-section overflow-hidden"
+  class="hero-section service-hero-section"
 >
   <BackgroundDecorations gradients={["hero", "dual"]} patterns={["grid"]} />
 
   <!-- Animated gradient orbs -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-1/4 -left-32 w-96 h-96 bg-accent-green/20 rounded-full blur-3xl animate-pulse-slow"></div>
-    <div class="absolute bottom-1/4 -right-32 w-96 h-96 bg-accent-green/10 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/4 -left-32 w-96 h-96 bg-accent-green/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 -right-32 w-96 h-96 bg-accent-green/10 rounded-full blur-3xl" style="animation-delay: 1s;"></div>
   </div>
 
-  <div class="grid-container relative z-10">
-    <div class="col-span-full">
-      <!-- Mobile-first vertical layout, desktop horizontal -->
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-12 xl:gap-16 min-h-[85vh] lg:min-h-screen py-12 lg:py-20">
-        
-        <!-- Left Content Column -->
-        <div class="flex-1 space-y-6 lg:space-y-8 max-w-2xl lg:max-w-none">
-          
-          <!-- Service Badge with Icon -->
-          <div class="inline-flex items-center gap-2.5 px-4 py-2.5 bg-gradient-to-r from-accent-green/10 via-accent-green/5 to-transparent border border-accent-green/30 rounded-full backdrop-blur-sm shadow-lg shadow-accent-green/10 service-hero-badge">
-            <div class="w-7 h-7 bg-gradient-to-br from-accent-green/30 to-accent-green/10 rounded-lg flex items-center justify-center border border-accent-green/40">
-              <Icon name={service.icon} class="w-4 h-4 text-accent-green" />
-            </div>
-            <span class="text-sm font-semibold text-accent-green font-body">{service.shortDescription}</span>
-          </div>
+  <!-- Main content -->
+  <div class="hero-content">
+    <div class="col-span-full text-center max-w-6xl mx-auto w-full">
 
-          <!-- Main Title Section -->
-          <div class="space-y-4 service-hero-title">
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.1] tracking-tight font-display text-theme-primary">
-              <HighlightText 
-                text={service.hero.title} 
-                highlight={service.hero.title.split(' ').slice(-2)} 
-                highlightClass="bg-gradient-to-r from-accent-green to-accent-green/80 bg-clip-text text-transparent" 
-              />
-            </h1>
-            <p class="text-lg sm:text-xl lg:text-2xl text-theme-secondary leading-relaxed font-body max-w-xl">
-              {service.hero.subtitle}
-            </p>
-          </div>
+      <!-- Main Title Section -->
+      <div class="service-hero-headline mb-5 sm:mb-6 lg:mb-7 w-full">
+        <h1 class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display">
+          <HighlightText
+            text={service.hero.title}
+            highlight={service.hero.title.split(' ').slice(-2)}
+            highlightClass="text-accent-green"
+          />
+        </h1>
+        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto">
+          {service.hero.subtitle}
+        </p>
+      </div>
 
-          <!-- Description with Highlight -->
-          <div class="space-y-5 service-hero-description">
-            <p class="text-base sm:text-lg text-theme-secondary/90 leading-relaxed font-body max-w-2xl">
-              <HighlightText 
-                text={service.hero.description} 
-                highlight={service.hero.descriptionHighlight || []} 
-                highlightClass="text-accent-green font-semibold" 
-              />
-            </p>
-          </div>
+      <!-- Description with Highlight -->
+      <div class="service-hero-description mb-6 sm:mb-7 lg:mb-8 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto service-hero-follow-content hero-follow-content">
+        <p class="text-base sm:text-lg text-theme-secondary/90 leading-relaxed font-body">
+          <HighlightText
+            text={service.hero.description}
+            highlight={service.hero.descriptionHighlight || []}
+            highlightClass="text-accent-green font-semibold"
+          />
+        </p>
+      </div>
 
-          <!-- Key Benefits - Compact Grid -->
-          <div class="service-hero-benefits">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {service.hero.keyBenefits.map((benefit, index) => (
-                <div class="flex items-start gap-2.5 p-3 bg-theme-card/40 backdrop-blur-sm border border-accent-green/10 rounded-lg hover:border-accent-green/20 hover:bg-theme-card/60 transition-all duration-300">
-                  <div class="w-5 h-5 bg-accent-green/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Icon name="mdi:check-circle" class="w-3.5 h-3.5 text-accent-green" />
-                  </div>
-                  <span class="text-sm sm:text-base text-theme-secondary font-body leading-snug">{benefit}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <!-- CTA Button with Enhanced Design -->
-          <div class="pt-2 service-hero-cta">
-            <a
-              href={service.cta.ctaHref}
-              class="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-accent-green to-accent-green/90 text-on-accent font-bold rounded-xl shadow-lg shadow-accent-green/30 hover:shadow-xl hover:shadow-accent-green/40 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent-green focus:ring-offset-2 focus:ring-offset-theme-background min-h-[56px] text-base sm:text-lg font-body relative overflow-hidden"
-            >
-              <span class="relative z-10">{service.cta.ctaText}</span>
-              <Icon name="mdi:arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
-              <!-- Shine effect on hover -->
-              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-            </a>
-          </div>
-        </div>
-
-        <!-- Right Visual Column - Modern Stats Card -->
-        <div class="flex-shrink-0 w-full lg:w-auto lg:max-w-md service-hero-visual">
-          <div class="relative">
-            <!-- Floating decorative elements -->
-            <div class="absolute -top-6 -right-6 w-24 h-24 bg-accent-green/10 rounded-2xl blur-2xl rotate-12"></div>
-            <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-accent-green/5 rounded-full blur-3xl"></div>
-            
-            <!-- Main Stats Card -->
-            <div class="relative bg-theme-card/60 backdrop-blur-md border border-accent-green/20 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-accent-green/10 overflow-hidden">
-              <!-- Animated gradient background -->
-              <div class="absolute inset-0 bg-gradient-to-br from-accent-green/5 via-transparent to-accent-green/10 opacity-50"></div>
-              
-              <!-- Content -->
-              <div class="relative z-10">
-                <!-- Header -->
-                <div class="flex items-center gap-4 mb-6 pb-6 border-b border-accent-green/10">
-                  <div class="w-14 h-14 bg-gradient-to-br from-accent-green/30 to-accent-green/10 rounded-2xl flex items-center justify-center border-2 border-accent-green/30 shadow-lg shadow-accent-green/20">
-                    <Icon name={service.icon} class="w-7 h-7 text-accent-green" />
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-bold text-theme-primary font-display">Overview</h3>
-                    <p class="text-xs text-theme-secondary font-body mt-0.5">Service Metrics</p>
-                  </div>
-                </div>
-
-                <!-- Stats Grid -->
-                <div class="grid grid-cols-2 gap-4">
-                  <!-- Stages Stat -->
-                  <div class="group relative bg-gradient-to-br from-accent-green/15 to-accent-green/5 border border-accent-green/20 rounded-2xl p-5 text-center hover:border-accent-green/30 hover:shadow-lg hover:shadow-accent-green/10 transition-all duration-300 hover:-translate-y-1">
-                    <div class="absolute inset-0 bg-gradient-to-br from-accent-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-                    <div class="relative z-10">
-                      <div class="text-3xl sm:text-4xl font-extrabold text-accent-green font-display mb-2 leading-none">{service.process.steps.length}</div>
-                      <div class="text-xs sm:text-sm text-theme-secondary font-body font-medium">Stages</div>
-                    </div>
-                  </div>
-
-                  <!-- Custom Stat -->
-                  <div class="group relative bg-gradient-to-br from-accent-green/15 to-accent-green/5 border border-accent-green/20 rounded-2xl p-5 text-center hover:border-accent-green/30 hover:shadow-lg hover:shadow-accent-green/10 transition-all duration-300 hover:-translate-y-1">
-                    <div class="absolute inset-0 bg-gradient-to-br from-accent-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-                    <div class="relative z-10">
-                      <div class="text-3xl sm:text-4xl font-extrabold text-accent-green font-display mb-2 leading-none">100%</div>
-                      <div class="text-xs sm:text-sm text-theme-secondary font-body font-medium">Custom</div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Additional Info Badge -->
-                <div class="mt-6 pt-6 border-t border-accent-green/10">
-                  <div class="flex items-center justify-center gap-2 text-xs text-theme-secondary font-body">
-                    <Icon name="mdi:shield-check" class="w-4 h-4 text-accent-green" />
-                    <span>Tailored to your needs</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <!-- CTA Button -->
+      <div class="service-hero-follow-content hero-follow-content">
+        <div class="hero-cta-container">
+          <Button
+            variant="primary"
+            size="lg"
+            href={service.cta.ctaHref}
+            class="hero-cta-button group/btn"
+          >
+            <span class="whitespace-nowrap">{service.cta.ctaText}</span>
+            <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300" />
+          </Button>
         </div>
       </div>
     </div>
   </div>
-</SectionContainer>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll-indicator">
+    <a
+      href="#service-overview"
+      class="hero-scroll-link group"
+      aria-label="Scroll to learn more"
+    >
+      <span class="hero-scroll-text">Learn More</span>
+      <div class="hero-scroll-icon-wrapper">
+        <Icon name="mdi:chevron-down" class="hero-scroll-icon" />
+      </div>
+    </a>
+  </div>
+</section>
+
+<script>
+  import { initServiceHeroSection } from "../../../scripts/sections/services/serviceHeroSection";
+  initServiceHeroSection();
+</script>

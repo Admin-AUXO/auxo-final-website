@@ -4,23 +4,33 @@ import Navigation from "../components/common/Navigation.astro";
 import Footer from "../components/common/Footer.astro";
 import ParticleBackground from "../components/effects/ParticleBackground.astro";
 import { createAssetUrl } from "../utils/url";
+/* Foundation Layer - Design tokens and base styles */
 import "../styles/tokens.css";
 import "../styles/base.css";
 import "../styles/typography.css";
+import "../styles/utilities.css";
+
+/* Animation Layer - All animations consolidated */
 import "../styles/animations.css";
+
+/* Component Layer - Reusable UI components */
 import "../styles/components/base-components.css";
 import "../styles/components/buttons.css";
 import "../styles/components/cards.css";
 import "../styles/components/carousels.css";
+import "../styles/components/carousel-cards.css";
 import "../styles/components/accordions.css";
 import "../styles/components/highlights.css";
 import "../styles/components.css";
 import "../styles/navigation.css";
-import "../styles/utilities.css";
-import "../styles/sections.css";
-import "../styles/sections/services.css";
-import "../styles/sections/home.css";
-import "../styles/sections/about.css";
+
+/* Section Layer - Page-specific sections */
+import "../styles/sections/shared-sections.css";
+import "../styles/sections/hero.css";
+import "../styles/sections/home-sections.css";
+import "../styles/sections/about-sections.css";
+import "../styles/sections/services-sections.css";
+import "../styles/sections/services-individual.css";
 
 export interface Props {
   title?: string;

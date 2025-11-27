@@ -131,6 +131,15 @@
   --nav-height-sm: 4rem;
   --nav-height-lg: 4.5rem;
   --nav-height-xl: 5rem;
+
+  /* Hero Section Padding */
+  --hero-padding-top-mobile: 6rem;
+  --hero-padding-top-sm: 7rem;
+  --hero-padding-top-lg: 8rem;
+  --hero-padding-top-xl: 9rem;
+  --hero-padding-bottom: 5rem;
+  --hero-scroll-indicator-bottom-mobile: 4rem;
+  --hero-scroll-indicator-bottom-sm: 5rem;
   
   /* Widths & Sizing */
   --width-90: 90%;
@@ -157,7 +166,7 @@
   
   /* Animation Durations */
   --animation-duration-highlight: 1.2s;
-  --animation-duration-gradient: 3s;
+  --animation-duration-gradient: 5s;
   --animation-duration-underline: 2s;
   --animation-duration-flow: 3s;
   --animation-duration-stroke: 0.6s;
@@ -172,10 +181,10 @@
   --carousel-dot-size: 8px;
   --carousel-dot-size-active: 24px;
   --carousel-dot-touch-target: 32px;
-  --carousel-slide-max-width-mobile: 380px;
-  --carousel-slide-max-width-tablet: 420px;
-  --carousel-slide-width-mobile: 4.5rem;
-  --carousel-slide-width-tablet: 6rem;
+  --carousel-slide-max-width-mobile: 280px;
+  --carousel-slide-max-width-tablet: 340px;
+  --carousel-slide-width-mobile: 3rem;
+  --carousel-slide-width-tablet: 5rem;
   --carousel-gap-mobile: 0.75rem;
   --carousel-gap-tablet: 1rem;
   --carousel-dots-gap: 0.625rem;

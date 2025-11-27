@@ -74,14 +74,17 @@ const missionVisionItems = [
       >
         {missionVisionItems.map((item, index) => (
           <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
-            <div class={`h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300 ${item.type}-card`}>
+            <div class={`h-full bg-theme-card border border-theme-light rounded-xl relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300 ${item.type}-card`}>
               <div class={`absolute ${item.type === "mission" ? "top-0 right-0" : "top-0 left-0"} w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
-              <div class="relative z-10">
-                <div class="flex items-center gap-4 mb-4 sm:mb-6">
-                  <Icon name={item.icon} class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green flex-shrink-0" />
-                  <h3 class="text-h4 font-bold text-theme-primary font-display">{item.title}</h3>
+              <div class="relative z-10 flex flex-col h-full">
+                {/* Title and Icon on same line */}
+                <div class="flex items-center justify-between mb-2.5">
+                  <h3 class="font-bold text-theme-primary font-display">{item.title}</h3>
+                  <Icon name={item.icon} class="w-8 h-8 sm:w-9 sm:h-9 text-accent-green flex-shrink-0 ml-3" />
                 </div>
-                <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
+
+                {/* Content */}
+                <p class="text-theme-secondary leading-relaxed font-body flex-grow">
                   {item.content}
                 </p>
               </div>

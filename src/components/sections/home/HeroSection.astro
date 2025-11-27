@@ -12,48 +12,47 @@ const content: HomepageContent["hero"] = homepageContent.hero;
 
 <section
   id="hero"
-  class="relative w-full min-h-screen flex items-start justify-center overflow-hidden"
+  class="hero-section"
 >
-  <!-- Main content - positioned from top -->
-  <div
-    class="grid-container relative z-content w-full pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-20"
-  >
-    <div class="col-span-full text-center max-w-6xl mx-auto w-full px-4 sm:px-6">
-      <div class="hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">
+  <!-- Main content -->
+  <div class="hero-content">
+    <div class="col-span-full text-center max-w-6xl mx-auto w-full">
+      <div class="hero-headline mb-5 sm:mb-6 lg:mb-7 w-full">
         <h1
-          class="hero-headline-text text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-4 sm:mb-5 lg:mb-6 w-full font-display"
+          class="hero-headline-text text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display"
         >
-          <span class="block e-part">{content.title}</span>
+          <span class="block home-hero-title">{content.title}</span>
           <span class="block mt-2 sm:mt-3 lg:mt-4">
             <span
               id="typing-highlight"
-              class="text-accent-green"
+              class="text-accent-green home-hero-typing"
               data-highlight-text={content.titleHighlight}></span>
           </span>
         </h1>
       </div>
 
       {content.subtitle && (
-        <div class="hero-subtitle mb-6 sm:mb-8 lg:mb-10 max-w-[400px] sm:max-w-[500px] lg:max-w-[600px] mx-auto opacity-0 hero-follow-content">
+        <div class="hero-subtitle mb-6 sm:mb-7 lg:mb-8 max-w-[400px] sm:max-w-[500px] lg:max-w-[600px] mx-auto hero-follow-content">
           <p class="text-body-lg text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body">
             {content.subtitle}
           </p>
         </div>
       )}
 
-      <div class="hero-cta opacity-0 hero-follow-content">
-        <div
-          class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto px-4 sm:px-0"
-        >
+      <div class="hero-follow-content">
+        <div class="hero-cta-container">
           {content.primaryCta.text && (
             <Button
               variant="primary"
               size="lg"
               href={createUrl(content.primaryCta.href)}
-              class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all min-h-[44px] cta-button flex-nowrap"
+              class="hero-cta-button group/btn"
             >
               <span class="whitespace-nowrap">{content.primaryCta.text}</span>
-              <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0" />
+              <Icon
+                name="mdi:arrow-right"
+                class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300"
+              />
             </Button>
           )}
         </div>
@@ -61,25 +60,18 @@ const content: HomepageContent["hero"] = homepageContent.hero;
     </div>
   </div>
 
-  <!-- Scroll indicator - positioned at bottom of viewport -->
-  <div
-    class="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 z-content hero-scroll-indicator"
-  >
+  <!-- Scroll indicator -->
+  <div class="hero-scroll-indicator">
     <a
       href="#services"
-      class="flex flex-col items-center text-theme-secondary hover:text-accent-green transition-colors group"
+      class="hero-scroll-link group"
       aria-label={content.scrollIndicator}
     >
-      <span
-        class="text-xs mb-3 sm:mb-4 font-medium uppercase tracking-wider font-body"
-        >{content.scrollIndicator}</span
-      >
-      <div
-        class="animate-bounce bg-accent-green/10 backdrop-blur-sm rounded-full p-1.5 border border-accent-green/20 group-hover:border-accent-green/40 transition-colors"
-      >
+      <span class="hero-scroll-text">{content.scrollIndicator}</span>
+      <div class="hero-scroll-icon-wrapper">
         <Icon
           name="mdi:chevron-down"
-          class="w-4 h-4 group-hover:scale-110 transition-transform text-accent-green"
+          class="hero-scroll-icon"
         />
       </div>
     </a>

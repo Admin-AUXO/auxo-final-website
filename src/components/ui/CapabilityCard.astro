@@ -28,7 +28,7 @@ const textAlign = variant === "carousel" ? "text-center" : "";
   variant="glassmorphism"
   padding="lg"
   hover={variant === "grid"}
-  class={`${variant === "carousel" ? "mx-2" : ""} ${variant === "grid" ? "group capability-card-redesigned h-full relative" : ""} border-accent-green/10`}
+  class={`${variant === "carousel" ? "capability-card-carousel" : ""} ${variant === "grid" ? "group capability-card-redesigned h-full relative" : ""} border-accent-green/10`}
   style={variant === "grid" ? `animation-delay: ${index * 100}ms` : undefined}
 >
   {/* Corner decoration */}
@@ -37,55 +37,79 @@ const textAlign = variant === "carousel" ? "text-center" : "";
   )}
 
   <div class="relative z-10 flex flex-col h-full">
-    {/* Header */}
-    <div class={`flex items-start ${variant === "carousel" ? "flex-col items-center gap-3 mb-4 sm:mb-5" : "gap-4 sm:gap-5 mb-5 sm:mb-6 lg:mb-8"}`}>
-      {/* Icon */}
-      <div class={`relative flex-shrink-0 ${variant === "carousel" ? "" : ""}`}>
-        {variant === "grid" && (
-          <div class="absolute -inset-2 bg-accent-green/5 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        )}
-        <div class={`relative ${variant === "carousel" ? "w-11 h-11 sm:w-12 sm:h-12" : "w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16"} bg-gradient-to-br from-accent-green/15 to-accent-green/5 rounded-xl flex items-center justify-center border border-accent-green/20 group-hover:border-accent-green/50 group-hover:from-accent-green/25 group-hover:to-accent-green/10 transition-all duration-500 ${variant === "grid" ? "group-hover:scale-105" : ""}`}>
-          <Icon
-            name={icon}
-            class={`${iconSize} text-accent-green transition-transform duration-500`}
-          />
-        </div>
-      </div>
-      
-      {/* Title */}
-      <div class={`${variant === "carousel" ? "w-full" : "flex-1"} min-w-0`}>
-        <h3
-          class={`${variant === "carousel" ? "text-base sm:text-lg" : "text-lg sm:text-xl lg:text-2xl"} font-bold text-theme-primary leading-tight transition-colors duration-300 font-display ${textAlign} ${variant === "grid" ? "group-hover:text-accent-green" : ""}`}
-        >
-          {title}
-        </h3>
-      </div>
-    </div>
-
-    {/* Description */}
-    <p
-      class={`${variant === "carousel" ? "text-xs sm:text-sm" : "text-sm sm:text-base"} text-theme-secondary leading-relaxed mb-4 sm:mb-5 ${variant === "carousel" ? "" : "lg:mb-6 xl:mb-8"} flex-1 font-body ${textAlign}`}
-    >
-      {description}
-    </p>
-
-    {/* Metric section */}
-    <div class={`mt-auto ${variant === "carousel" ? "pt-4 sm:pt-5" : "pt-5 sm:pt-6 lg:pt-8"} border-t border-accent-green/10 group-hover:border-accent-green/30 transition-colors duration-500`}>
-      <div class="relative">
-        {/* Background glow */}
-        {variant === "grid" && (
-          <div class="absolute inset-0 bg-accent-green/5 rounded-lg blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        )}
-        
-        {/* Metric content */}
-        <div class={`relative bg-gradient-to-br from-accent-green/5 via-accent-green/3 to-transparent rounded-lg ${variant === "carousel" ? "px-3 py-2.5 sm:px-4 sm:py-3" : "px-4 sm:px-5 py-3 sm:py-4"} border border-accent-green/15 group-hover:border-accent-green/40 group-hover:from-accent-green/10 group-hover:via-accent-green/5 transition-all duration-500 ${variant === "grid" ? "group-hover:shadow-md group-hover:shadow-accent-green/5" : ""}`}>
-          <div class={`${textAlign || "text-left"}`}>
-            <span class={`font-mono font-bold ${variant === "carousel" ? "text-xs sm:text-sm" : "text-sm sm:text-base"} text-accent-green whitespace-pre-line leading-tight block`}>
-              {metric}
-            </span>
+    {variant === "carousel" ? (
+      <>
+        {/* Title and Icon on same line for carousel */}
+        <div class="flex items-center justify-between mb-2.5">
+          <h3 class="font-bold text-theme-primary leading-tight transition-colors duration-300 font-display">
+            {title}
+          </h3>
+          <div class="relative w-10 h-10 sm:w-11 sm:h-11 bg-gradient-to-br from-accent-green/15 to-accent-green/5 rounded-xl flex items-center justify-center border border-accent-green/20 group-hover:border-accent-green/50 group-hover:from-accent-green/25 group-hover:to-accent-green/10 transition-all duration-500 flex-shrink-0 ml-3">
+            <Icon
+              name={icon}
+              class="w-5 h-5 sm:w-5.5 sm:h-5.5 text-accent-green transition-transform duration-500"
+            />
           </div>
         </div>
-      </div>
-    </div>
+
+        {/* Description */}
+        <p class="mb-4 text-theme-secondary leading-relaxed flex-1 font-body">
+          {description}
+        </p>
+
+        {/* Metric section */}
+        <div class="mt-auto pt-4 sm:pt-5 border-t border-accent-green/10 group-hover:border-accent-green/30 transition-colors duration-500">
+          <div class="relative">
+            {/* Metric content */}
+            <div class="metric relative bg-gradient-to-br from-accent-green/5 via-accent-green/3 to-transparent rounded-lg px-3 py-2.5 sm:px-4 sm:py-3 border border-accent-green/15 group-hover:border-accent-green/40 group-hover:from-accent-green/10 group-hover:via-accent-green/5 transition-all duration-500">
+              <div class={`${textAlign || "text-left"}`}>
+                <span class="font-mono font-bold text-xs sm:text-sm text-accent-green whitespace-pre-line leading-tight block">
+                  {metric}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    ) : (
+      <>
+        {/* Icon */}
+        <div class="mb-4 sm:mb-5 lg:mb-6">
+          <div class="relative w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-accent-green/15 to-accent-green/5 rounded-xl flex items-center justify-center border border-accent-green/20 group-hover:border-accent-green/50 group-hover:from-accent-green/25 group-hover:to-accent-green/10 transition-all duration-500 group-hover:scale-105">
+            <Icon
+              name={icon}
+              class="w-7 h-7 sm:w-8 sm:h-8 text-accent-green transition-transform duration-500"
+            />
+          </div>
+        </div>
+
+        {/* Title */}
+        <h3 class="text-lg sm:text-xl lg:text-2xl mb-3 sm:mb-4 lg:mb-5 font-bold text-theme-primary leading-tight transition-colors duration-300 font-display group-hover:text-accent-green">
+          {title}
+        </h3>
+
+        {/* Description */}
+        <p class="text-sm sm:text-base mb-4 sm:mb-5 lg:mb-6 xl:mb-8 text-theme-secondary leading-relaxed flex-1 font-body">
+          {description}
+        </p>
+
+        {/* Metric section */}
+        <div class="mt-auto pt-5 sm:pt-6 lg:pt-8 border-t border-accent-green/10 group-hover:border-accent-green/30 transition-colors duration-500">
+          <div class="relative">
+            {/* Background glow */}
+            <div class="absolute inset-0 bg-accent-green/5 rounded-lg blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            {/* Metric content */}
+            <div class="metric relative bg-gradient-to-br from-accent-green/5 via-accent-green/3 to-transparent rounded-lg px-4 sm:px-5 py-3 sm:py-4 border border-accent-green/15 group-hover:border-accent-green/40 group-hover:from-accent-green/10 group-hover:via-accent-green/5 transition-all duration-500 group-hover:shadow-md group-hover:shadow-accent-green/5">
+              <div class={`${textAlign || "text-left"}`}>
+                <span class="font-mono font-bold text-sm sm:text-base text-accent-green whitespace-pre-line leading-tight block">
+                  {metric}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    )}
   </div>
 </Card>

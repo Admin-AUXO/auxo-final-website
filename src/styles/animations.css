@@ -1,3 +1,5 @@
+/* Core Animations */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -10,7 +12,7 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(var(--transform-translate-y-xl));
+    transform: translateY(40px);
   }
   to {
     opacity: 1;
@@ -18,26 +20,142 @@
   }
 }
 
-@keyframes shimmer {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes highlightReveal {
+@keyframes fadeInRight {
   from {
     opacity: 0;
-    transform: translateY(var(--transform-translate-y-lg)) scale(0.95);
-    background-position: 0% 50%;
+    transform: translateX(40px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    background-position: 100% 50%;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scale & Transform */
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cascadeFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    filter: blur(10px);
+  }
+  50% {
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Slide Animations */
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes waveInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-3rem) translateY(0.5rem);
+  }
+  60% {
+    transform: translateX(0.5rem) translateY(-0.25rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes waveInWithGlow {
+  0% {
+    opacity: 0;
+    transform: translateX(3rem) translateY(-0.5rem);
+    filter: drop-shadow(0 0 0 var(--accent-green));
+  }
+  50% {
+    filter: drop-shadow(0 0 1rem var(--accent-green-opacity-25));
+  }
+  70% {
+    transform: translateX(-0.5rem) translateY(0.25rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+    filter: drop-shadow(0 0 0 var(--accent-green));
+  }
+}
+
+/* Line & Underline */
+
+@keyframes expandWidth {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes expandUnderline {
+  to {
+    transform: scaleX(1);
   }
 }
 
@@ -52,30 +170,14 @@
   }
 }
 
-@keyframes flow {
-  0%,
-  100% {
-    transform: translateX(-100%);
+@keyframes lineExpand {
+  from {
     opacity: 0;
+    transform: scaleX(0);
   }
-  50% {
-    transform: translateX(100%);
-    opacity: 1;
-  }
-}
-
-@keyframes drawStroke {
   to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes gradientFill {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
+    opacity: 1;
+    transform: scaleX(1);
   }
 }
 
@@ -107,114 +209,118 @@
   }
 }
 
-@keyframes expandUnderline {
-  to {
-    transform: scaleX(1);
+/* Gradient & Shimmer */
+
+@keyframes shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 
-/* Services Hero Animations */
-@keyframes servicesIntroSlide {
+@keyframes gradientFill {
   0% {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
+    background-position: 0% 50%;
   }
-  60% {
-    transform: translateY(-2px) scale(1.01);
+  50% {
+    background-position: 100% 50%;
   }
   100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes highlightReveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--transform-translate-y-lg)) scale(0.95);
+    background-position: 0% 50%;
+  }
+  to {
     opacity: 1;
     transform: translateY(0) scale(1);
+    background-position: 100% 50%;
   }
 }
 
-@keyframes servicesImpactSlide {
-  0% {
+/* Bounce & Pulse */
+
+@keyframes fadeInUpCentered {
+  from {
     opacity: 0;
-    transform: translateX(60px) scale(0.9);
+    transform: translate(-50%, 1rem);
   }
-  50% {
-    transform: translateX(-5px) scale(1.02);
-  }
-  100% {
+  to {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translate(-50%, 0);
   }
 }
 
-@keyframes servicesImpactGlow {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.1);
-  }
+@keyframes bounce {
+  0%,
   100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-}
-
-/* About Hero Animations */
-@keyframes bridgeIntro {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes bridgeSlideLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
+  50% {
+    transform: translateY(-0.5rem);
   }
 }
 
-@keyframes bridgeSlideRight {
-  0% {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes bridgeMiddle {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  100% {
-    opacity: 1;
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.3;
     transform: scale(1);
   }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+  }
 }
 
-@keyframes bridgeLineExpand {
-  0% {
-    width: 0%;
+@keyframes driftAndPulse {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.2;
+  }
+  25% {
+    transform: translate(1rem, -1rem) scale(1.05);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translate(0.5rem, 1rem) scale(0.95);
+    opacity: 0.15;
+  }
+  75% {
+    transform: translate(-1rem, 0.5rem) scale(1.02);
+    opacity: 0.22;
+  }
+}
+
+/* Flow & Stroke */
+
+@keyframes flow {
+  0%,
+  100% {
+    transform: translateX(-100%);
     opacity: 0;
   }
-  20% {
-    opacity: 0.6;
-  }
-  100% {
-    width: 100%;
+  50% {
+    transform: translateX(100%);
     opacity: 1;
   }
 }
+
+@keyframes drawStroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Utility Classes */
 
 .animate-fade-in {
   animation: fadeIn var(--duration-normal) var(--timing-smooth) forwards !important;
@@ -259,16 +365,26 @@
   animation-fill-mode: forwards;
 }
 
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}
+
+/* Reduced Motion */
+
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after,
   .animate-fade-in,
   .fade-in-text,
   .fade-in-up,
   .fade-in-up-delay,
   .fade-in-up-delay-2,
-  .fade-in-up-delay-3 {
+  .fade-in-up-delay-3,
+  .animate-pulse-slow {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+    transition-duration: 0.01ms !important;
   }
 }
-

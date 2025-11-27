@@ -23,6 +23,11 @@
     gradientFill var(--animation-duration-gradient) ease-in-out infinite;
   animation-play-state: running;
   animation-fill-mode: forwards;
+  /* GPU acceleration for smooth performance on mobile */
+  will-change: opacity, transform;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .highlight-text {
