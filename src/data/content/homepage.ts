@@ -167,7 +167,7 @@ export const homepageContent: HomepageContent = {
         metric: '5x decision velocity\ncompany‑wide',
       },
       {
-        icon: 'mdi:robot-industrial',
+        icon: 'mdi:brain',
         title: 'Pattern Lab',
         description: 'Building, deploying, and monitoring data science and ML solutions.',
         descriptionHighlight: ['Building, deploying'],
@@ -195,7 +195,7 @@ export const homepageContent: HomepageContent = {
     items: [
       {
         number: '01',
-        icon: 'mdi:shield-lock',
+        icon: 'mdi:layers',
         title: 'Foundation Readiness',
         description: 'Assess and prepare your data infrastructure',
         descriptionHighlight: ['Assess and prepare'],
@@ -203,7 +203,7 @@ export const homepageContent: HomepageContent = {
       },
       {
         number: '02',
-        icon: 'mdi:file-document-edit',
+        icon: 'mdi:chart-box',
         title: 'Reporting Reset',
         description: 'Modernize your reporting capabilities',
         descriptionHighlight: ['reporting capabilities'],
@@ -211,7 +211,7 @@ export const homepageContent: HomepageContent = {
       },
       {
         number: '03',
-        icon: 'mdi:chart-bar',
+        icon: 'mdi:chart-line',
         title: 'Performance Diagnostics',
         description: 'Identify and optimize performance bottlenecks',
         descriptionHighlight: ['optimize'],

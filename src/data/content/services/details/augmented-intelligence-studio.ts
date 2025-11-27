@@ -57,7 +57,7 @@ export const augmentedIntelligenceStudio: ServiceDetail = {
       {
         title: "Intelligent Automation",
         description: "AI-driven automation of complex analytical tasks.",
-        icon: "mdi:robot-industrial"
+        icon: "mdi:robot"
       }
     ]
   },

@@ -20,52 +20,52 @@ export const navItems: NavItem[] = [
     href: createUrl('services'),
     isModal: true,
     dropdown: [
-      { 
-        name: 'Foundation Readiness', 
-        href: createUrl('services/foundation-readiness'), 
-        icon: 'mdi:shield-lock',
+      {
+        name: 'Foundation Readiness',
+        href: createUrl('services/foundation-readiness'),
+        icon: 'mdi:layers',
         description: 'Assess and prepare your data infrastructure'
       },
-      { 
-        name: 'Reporting Reset', 
-        href: createUrl('services/reporting-reset'), 
-        icon: 'mdi:file-document-edit',
+      {
+        name: 'Reporting Reset',
+        href: createUrl('services/reporting-reset'),
+        icon: 'mdi:chart-box',
         description: 'Modernize your reporting capabilities'
       },
-      { 
-        name: 'Performance Diagnostics', 
-        href: createUrl('services/performance-diagnostics'), 
-        icon: 'mdi:chart-bar',
+      {
+        name: 'Performance Diagnostics',
+        href: createUrl('services/performance-diagnostics'),
+        icon: 'mdi:chart-line',
         description: 'Identify and optimize performance bottlenecks'
       },
-      { 
-        name: 'Forecasting Lab', 
-        href: createUrl('services/forecasting-lab'), 
-        icon: 'mdi:trending-up',
+      {
+        name: 'Forecasting Lab',
+        href: createUrl('services/forecasting-lab'),
+        icon: 'mdi:crystal-ball',
         description: 'Advanced predictive analytics and forecasting'
       },
-      { 
-        name: 'Decision Playbooks', 
-        href: createUrl('services/decision-playbooks'), 
-        icon: 'mdi:book-open',
+      {
+        name: 'Decision Playbooks',
+        href: createUrl('services/decision-playbooks'),
+        icon: 'mdi:book-open-variant',
         description: 'Structured frameworks for data-driven decisions'
       },
-      { 
-        name: 'Smart Automation', 
-        href: createUrl('services/smart-automation'), 
-        icon: 'mdi:robot-industrial',
+      {
+        name: 'Smart Automation',
+        href: createUrl('services/smart-automation'),
+        icon: 'mdi:robot',
         description: 'Intelligent process automation solutions'
       },
-      { 
-        name: 'Augmented Intelligence Studio', 
-        href: createUrl('services/augmented-intelligence-studio'), 
-        icon: 'mdi:robot-industrial',
+      {
+        name: 'Augmented Intelligence Studio',
+        href: createUrl('services/augmented-intelligence-studio'),
+        icon: 'mdi:brain',
         description: 'AI-powered analytics and insights'
       },
-      { 
-        name: 'Autonomy Readiness Review', 
-        href: createUrl('services/autonomy-readiness-review'), 
-        icon: 'mdi:rocket-launch',
+      {
+        name: 'Autonomy Readiness Review',
+        href: createUrl('services/autonomy-readiness-review'),
+        icon: 'mdi:shield-account',
         description: 'Evaluate and enhance autonomous capabilities'
       },
     ]

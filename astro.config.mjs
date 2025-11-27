@@ -176,10 +176,9 @@ export default defineConfig({
           'clock-check-outline',
           'calendar-outline',
           'calendar-check',
-          'cookie',
 
           // Legal
-          'file-document-multiple',
+          'cookie',
           'information-outline',
         ],
       },
