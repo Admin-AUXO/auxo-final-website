@@ -42,7 +42,7 @@ export const reportingReset: ServiceDetail = {
       {
         title: "Self-Service Analytics",
         description: "Business users can create their own reports and analyses without waiting for IT support.",
-        icon: "mdi:account-cog"
+        icon: "mdi:chart-donut-variant"
       },
       {
         title: "Real-Time Dashboards",
@@ -52,7 +52,7 @@ export const reportingReset: ServiceDetail = {
       {
         title: "Automated Distribution",
         description: "Schedule reports to generate and distribute automatically to stakeholders.",
-        icon: "mdi:email-send"
+        icon: "mdi:file-send"
       },
       {
         title: "Mobile Access",

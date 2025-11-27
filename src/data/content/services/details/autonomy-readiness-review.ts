@@ -4,7 +4,7 @@ export const autonomyReadinessReview: ServiceDetail = {
   slug: "autonomy-readiness-review",
   name: "Autonomy Readiness Review",
   shortDescription: "Prepare your team for self-service analytics",
-  icon: "mdi:shield-check",
+  icon: "mdi:shield-account",
   hero: {
     title: "Enable Self-Service Analytics",
     subtitle: "Autonomy Readiness Review",
@@ -42,7 +42,7 @@ export const autonomyReadinessReview: ServiceDetail = {
       {
         title: "Self-Service Tools",
         description: "User-friendly tools that enable business users to analyze data without technical support.",
-        icon: "mdi:account-cog"
+        icon: "mdi:toolbox"
       },
       {
         title: "Data Governance",

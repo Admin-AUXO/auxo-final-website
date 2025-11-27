@@ -75,32 +75,44 @@ export default defineConfig({
           'home',
           'briefcase',
 
-          // Business
+          // Business & Industries
           'office-building',
           'bank',
           'store',
           'truck',
           'bed',
           'scale-balance',
+          'domain',
+          'palm-tree',
+          'shopping',
+          'finance',
+          'package-variant',
+          'gavel',
 
-          // Data
+          // Data & Analytics
           'chart-bar',
           'chart-box',
           'chart-line',
           'chart-line-variant',
           'chart-areaspline',
           'chart-pie',
+          'chart-timeline-variant',
+          'chart-donut-variant',
           'database-search',
           'database-cog',
           'database-plus',
           'trending-up',
+          'view-dashboard-variant',
+          'server-network',
 
-          // Security
+          // Security & Quality
           'shield-check',
+          'shield-check-outline',
           'shield-lock',
           'shield-account',
+          'shield-star',
 
-          // Technology
+          // Technology & Science
           'robot',
           'robot-industrial',
           'brain',
@@ -109,36 +121,49 @@ export default defineConfig({
           'ab-testing',
           'magnify-scan',
           'text-recognition',
+          'atom',
+          'compass-outline',
+          'function-variant',
+          'head-lightbulb',
+          'auto-fix',
 
-          // People
+          // People & Tools
           'account-group',
           'account-group-outline',
           'account-tie',
           'account-cog',
           'handshake',
           'school',
+          'toolbox',
 
-          // Content
+          // Content & Documents
           'book-open',
           'book-open-variant',
           'file-document',
           'file-document-edit',
           'file-document-multiple',
           'file-chart',
+          'file-tree',
           'check-bold',
           'check-circle-outline',
           'check-circle',
+          'check-decagram',
           'format-list-bulleted',
           'clipboard-list',
+          'clipboard-text-outline',
           'checkbox-marked',
 
-          // Design
+          // Design & Planning
           'palette',
           'strategy',
           'target',
+          'bullseye',
+          'crosshairs-gps',
           'view-grid',
           'layers',
           'tune',
+          'flag-checkered',
+          'hammer-wrench',
 
           // Location
           'map-marker',
@@ -148,24 +173,27 @@ export default defineConfig({
           'earth',
           'web',
 
-          // Social
+          // Social & Communication
           'linkedin',
           'twitter',
           'email',
           'email-outline',
           'email-send',
           'send',
+          'file-send',
 
-          // Display
+          // Display & Vision
           'eye',
+          'telescope',
           'lightbulb',
           'lightbulb-on',
           'moon-waning-crescent',
           'white-balance-sunny',
 
-          // Actions
+          // Actions & Operations
           'rocket-launch',
           'cog',
+          'cogs',
           'cog-sync',
           'monitor-dashboard',
           'monitor-eye',
@@ -176,6 +204,7 @@ export default defineConfig({
           'clock-check-outline',
           'calendar-outline',
           'calendar-check',
+          'waves',
 
           // Legal
           'cookie',

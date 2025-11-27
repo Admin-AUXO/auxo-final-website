@@ -42,7 +42,7 @@ export const forecastingLab: ServiceDetail = {
       {
         title: "Advanced Models",
         description: "Statistical and machine learning models tailored to your specific forecasting needs.",
-        icon: "mdi:brain"
+        icon: "mdi:function-variant"
       },
       {
         title: "Automated Pipelines",

@@ -57,7 +57,7 @@ export const smartAutomation: ServiceDetail = {
       {
         title: "Quality Assurance",
         description: "Automated validation and error detection in data processing.",
-        icon: "mdi:quality-high"
+        icon: "mdi:shield-star"
       }
     ]
   },

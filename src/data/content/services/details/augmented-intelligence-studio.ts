@@ -47,7 +47,7 @@ export const augmentedIntelligenceStudio: ServiceDetail = {
       {
         title: "Predictive Analytics",
         description: "Machine learning models for forecasting and prediction.",
-        icon: "mdi:crystal-ball"
+        icon: "mdi:head-lightbulb"
       },
       {
         title: "Natural Language Processing",
@@ -57,7 +57,7 @@ export const augmentedIntelligenceStudio: ServiceDetail = {
       {
         title: "Intelligent Automation",
         description: "AI-driven automation of complex analytical tasks.",
-        icon: "mdi:robot"
+        icon: "mdi:auto-fix"
       }
     ]
   },

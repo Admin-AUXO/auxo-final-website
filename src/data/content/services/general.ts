@@ -72,7 +72,7 @@ export const servicesGeneral = {
     industries: [
       {
         name: "Real Estate & Property",
-        icon: "mdi:office-building",
+        icon: "mdi:domain",
         description: "Transform property portfolios with predictive analytics and investment optimization",
         descriptionHighlight: ['predictive analytics'],
         useCases: [
@@ -86,7 +86,7 @@ export const servicesGeneral = {
       },
       {
         name: "Hospitality & Tourism",
-        icon: "mdi:bed",
+        icon: "mdi:palm-tree",
         description: "Maximize revenue through demand forecasting and dynamic pricing",
         descriptionHighlight: ['Maximize revenue'],
         useCases: [
@@ -100,7 +100,7 @@ export const servicesGeneral = {
       },
       {
         name: "Retail & Luxury Brands",
-        icon: "mdi:store",
+        icon: "mdi:shopping",
         description: "Elevate customer engagement with predictive analytics and inventory intelligence",
         descriptionHighlight: ['predictive analytics'],
         useCases: [
@@ -114,7 +114,7 @@ export const servicesGeneral = {
       },
       {
         name: "Financial Services",
-        icon: "mdi:bank",
+        icon: "mdi:finance",
         description: "Enhance risk management and optimize portfolios with sophisticated analytics",
         descriptionHighlight: ['sophisticated analytics'],
         useCases: [
@@ -128,7 +128,7 @@ export const servicesGeneral = {
       },
       {
         name: "Logistics & Trade",
-        icon: "mdi:truck",
+        icon: "mdi:package-variant",
         description: "Streamline operations and enhance supply chain visibility with real-time analytics",
         descriptionHighlight: ['real-time analytics'],
         useCases: [
@@ -142,7 +142,7 @@ export const servicesGeneral = {
       },
       {
         name: "Government & Public Sector",
-        icon: "mdi:scale-balance",
+        icon: "mdi:gavel",
         description: "Improve public service delivery and optimize resource allocation with evidence-based analytics",
         descriptionHighlight: ['evidence-based analytics'],
         useCases: [
