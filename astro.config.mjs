@@ -65,6 +65,7 @@ export default defineConfig({
     icon({
       include: {
         // Keep this list in sync with mdi: usages across src
+        // Optimized to include only actively used icons (89 icons)
         mdi: [
           // Navigation
           'arrow-right',
@@ -76,12 +77,6 @@ export default defineConfig({
           'briefcase',
 
           // Business & Industries
-          'office-building',
-          'bank',
-          'store',
-          'truck',
-          'bed',
-          'scale-balance',
           'domain',
           'palm-tree',
           'shopping',
@@ -90,12 +85,10 @@ export default defineConfig({
           'gavel',
 
           // Data & Analytics
-          'chart-bar',
           'chart-box',
           'chart-line',
           'chart-line-variant',
           'chart-areaspline',
-          'chart-pie',
           'chart-timeline-variant',
           'chart-donut-variant',
           'database-search',
@@ -114,7 +107,6 @@ export default defineConfig({
 
           // Technology & Science
           'robot',
-          'robot-industrial',
           'brain',
           'crystal-ball',
           'cog-play',
@@ -131,7 +123,6 @@ export default defineConfig({
           'account-group',
           'account-group-outline',
           'account-tie',
-          'account-cog',
           'handshake',
           'school',
           'toolbox',
@@ -140,7 +131,6 @@ export default defineConfig({
           'book-open',
           'book-open-variant',
           'file-document',
-          'file-document-edit',
           'file-document-multiple',
           'file-chart',
           'file-tree',
@@ -155,11 +145,9 @@ export default defineConfig({
 
           // Design & Planning
           'palette',
-          'strategy',
           'target',
           'bullseye',
           'crosshairs-gps',
-          'view-grid',
           'layers',
           'tune',
           'flag-checkered',
@@ -176,14 +164,11 @@ export default defineConfig({
           // Social & Communication
           'linkedin',
           'twitter',
-          'email',
           'email-outline',
-          'email-send',
           'send',
           'file-send',
 
           // Display & Vision
-          'eye',
           'telescope',
           'lightbulb',
           'lightbulb-on',
