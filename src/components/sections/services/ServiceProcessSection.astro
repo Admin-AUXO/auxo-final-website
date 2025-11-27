@@ -4,7 +4,7 @@ import SectionContainer from "../../layouts/SectionContainer.astro";
 import HighlightText from "../../ui/HighlightText.astro";
 import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
 import Carousel from "../../ui/Carousel.astro";
-import { ServiceDetail } from "../../../data/content/services";
+import type { ServiceDetail } from "../../../data/content/services";
 
 interface Props {
   service: ServiceDetail;
@@ -23,7 +23,6 @@ const { service } = Astro.props;
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto">
-      <!-- Header -->
       <div class="text-center mb-16 lg:mb-20">
         <h2 class="text-h2 font-extrabold mb-6 leading-tight tracking-tight font-display text-theme-primary">
           {service.process.title}
@@ -33,7 +32,6 @@ const { service } = Astro.props;
         </p>
       </div>
 
-      <!-- Desktop Two-Column Grid Layout -->
       <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10 relative">
         {service.process.steps.map((step, index) => {
           const animationDelay = `${index * 0.1}s`;
@@ -127,7 +125,6 @@ const { service } = Astro.props;
         })}
       </div>
 
-      <!-- Mobile Process Carousel -->
       <div class="lg:hidden" data-service={service.slug}>
         <Carousel
           containerId="service-process-carousel-container"

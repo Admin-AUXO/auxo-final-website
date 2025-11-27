@@ -1,29 +1,6 @@
-// IntersectionObserver for fade-in elements
-function setupFadeInObserver(): void {
-  const observerOptions: IntersectionObserverInit = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px",
-  };
+import { setupFadeInObserver } from "../../utils/animationUtils";
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("animate-visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  const fadeElements = document.querySelectorAll(
-    ".fade-in-up, .fade-in-up-delay, .fade-in-up-delay-2, .fade-in-up-delay-3"
-  );
-
-  fadeElements.forEach((el) => {
-    observer.observe(el);
-  });
-}
-
-// Setup smooth scroll for anchor links
+// Smooth scroll for anchor links
 function setupSmoothScroll(): void {
   const anchorLinks = document.querySelectorAll('a[href^="#"]');
   const navHeight = 80;
@@ -54,12 +31,11 @@ function setupSmoothScroll(): void {
   });
 }
 
-// Setup page animations and interactions
+// Page-level animations and interactions
 export function setupPageAnimations(carouselInitFns: (() => void)[] = []): void {
   setupFadeInObserver();
   setupSmoothScroll();
 
-  // Initialize carousels with delay
   if (carouselInitFns.length > 0) {
     setTimeout(() => {
       carouselInitFns.forEach((fn) => fn());

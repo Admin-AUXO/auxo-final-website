@@ -19,17 +19,14 @@ const { service } = Astro.props;
 >
   <BackgroundDecorations gradients={["hero", "dual"]} patterns={["grid"]} />
 
-  <!-- Animated gradient orbs -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
     <div class="absolute top-1/4 -left-32 w-96 h-96 bg-accent-green/20 rounded-full blur-3xl"></div>
     <div class="absolute bottom-1/4 -right-32 w-96 h-96 bg-accent-green/10 rounded-full blur-3xl" style="animation-delay: 1s;"></div>
   </div>
 
-  <!-- Main content -->
   <div class="hero-content">
     <div class="col-span-full text-center max-w-6xl mx-auto w-full">
 
-      <!-- Main Title Section -->
       <div class="service-hero-headline mb-5 sm:mb-6 lg:mb-7 w-full">
         <h1 class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display">
           <HighlightText
@@ -43,7 +40,6 @@ const { service } = Astro.props;
         </p>
       </div>
 
-      <!-- Description with Highlight -->
       <div class="service-hero-description mb-6 sm:mb-7 lg:mb-8 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto service-hero-follow-content hero-follow-content">
         <p class="text-base sm:text-lg text-theme-secondary/90 leading-relaxed font-body">
           <HighlightText
@@ -53,8 +49,6 @@ const { service } = Astro.props;
           />
         </p>
       </div>
-
-      <!-- CTA Button -->
       <div class="service-hero-follow-content hero-follow-content">
         <div class="hero-cta-container">
           <Button
@@ -71,7 +65,6 @@ const { service } = Astro.props;
     </div>
   </div>
 
-  <!-- Scroll indicator -->
   <div class="hero-scroll-indicator">
     <a
       href="#service-overview"

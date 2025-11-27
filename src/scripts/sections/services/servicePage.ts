@@ -1,46 +1,10 @@
 import { setupCarouselSection } from "../utils/carouselUtils";
+import { setupPageAnimations } from "../utils/pageUtils";
 
 // Service page animations and interactions
 export function setupServicePageAnimations() {
-  // Intersection Observer for fade-in animations
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('animate-visible');
-      }
-    });
-  }, observerOptions);
-
-  // Observe all elements with fade-in classes
-  document.querySelectorAll('.fade-in-up, .fade-in-up-delay').forEach((el) => {
-    observer.observe(el);
-  });
-
-  // Smooth scrolling for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (this: HTMLAnchorElement, e: Event) {
-      e.preventDefault();
-      const href = this.getAttribute('href');
-      if (!href) return;
-      
-      const target = document.querySelector(href);
-      if (target) {
-        const headerOffset = 80;
-        const elementPosition = target.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
-    });
-  });
+  // Use consolidated page animations (fade-in and smooth scroll)
+  setupPageAnimations();
 
   // Enhanced hover effects for service cards
   document.querySelectorAll('.service-card-redesigned').forEach(card => {
@@ -211,12 +175,4 @@ export function setupServicePageAnimations() {
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
-
-  // Cleanup function
-  return () => {
-    window.removeEventListener('scroll', onScroll);
-    observer.disconnect();
-    processCarouselManager.cleanup();
-    benefitsCarouselManager.cleanup();
-  };
 }

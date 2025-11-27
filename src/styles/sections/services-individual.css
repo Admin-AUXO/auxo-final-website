@@ -154,7 +154,7 @@ details.group\/details summary::-webkit-details-marker {
 
 .process-step-item button,
 .process-step-item details {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .process-step-item summary {
@@ -167,7 +167,7 @@ details.group\/details summary::-webkit-details-marker {
   background: var(--bg-card);
   border: 2px solid transparent;
   border-radius: 1rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow: hidden;
   position: relative;
 }
@@ -181,7 +181,7 @@ details.group\/details summary::-webkit-details-marker {
   height: 3px;
   background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.25s ease;
 }
 
 .service-accordion-item[open] {
@@ -194,7 +194,7 @@ details.group\/details summary::-webkit-details-marker {
 }
 
 .service-accordion-summary {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   position: relative;
@@ -217,7 +217,7 @@ details.group\/details summary::-webkit-details-marker {
 }
 
 .service-accordion-chevron {
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.2s ease;
   color: var(--text-secondary);
   flex-shrink: 0;
 }
@@ -228,7 +228,7 @@ details.group\/details summary::-webkit-details-marker {
 }
 
 .service-accordion-content {
-  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease-out;
+  transition: max-height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out;
   opacity: 0;
   max-height: 0;
   overflow: hidden;
@@ -337,7 +337,7 @@ details.group\/details summary::-webkit-details-marker {
     padding-right: var(--grid-padding-mobile);
     margin-left: 0;
     margin-right: 0;
-    scroll-behavior: smooth;
+    scroll-behavior: auto; /* Remove smooth scroll for instant response */
     -webkit-overflow-scrolling: touch;
   }
 
@@ -350,7 +350,7 @@ details.group\/details summary::-webkit-details-marker {
     padding-right: 0;
     will-change: transform;
     transform: translateZ(0);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: none; /* No transition during drag - controlled by JS */
   }
 
   .service-process-carousel-wrapper .embla__slide,

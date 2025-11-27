@@ -9,6 +9,7 @@ import TeamSection from "../components/sections/about/TeamSection.astro";
 import PartnershipSection from "../components/sections/about/PartnershipSection.astro";
 import GlobalSection from "../components/sections/about/GlobalSection.astro";
 import AboutCta from "../components/sections/about/AboutCta.astro";
+import "../styles/sections/about-sections.css";
 ---
 
 <BaseLayout
@@ -27,22 +28,9 @@ import AboutCta from "../components/sections/about/AboutCta.astro";
 
   <script>
     import { setupAboutPageAnimations } from "../scripts/sections/about/aboutPage";
+    import { setupSectionInit } from "../scripts/sections/utils/initUtils";
 
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", setupAboutPageAnimations);
-    } else {
-      setupAboutPageAnimations();
-    }
-
-    document.addEventListener("astro:page-load", setupAboutPageAnimations);
+    setupSectionInit(setupAboutPageAnimations);
   </script>
 </BaseLayout>
-
-<style>
-  /* Additional styles for About page animations */
-  .animate-visible {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-  }
-</style>
 

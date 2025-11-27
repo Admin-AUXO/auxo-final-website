@@ -23,7 +23,6 @@ const { service } = Astro.props;
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-6xl mx-auto">
-      <!-- Header -->
       <div class="text-center mb-12 lg:mb-16">
         <h2 class="text-h2 font-extrabold mb-4 lg:mb-6 leading-tight tracking-tight font-display text-theme-primary">
           {service.benefits.title}
@@ -33,7 +32,6 @@ const { service } = Astro.props;
         </p>
       </div>
 
-      <!-- Desktop Features Grid -->
       <div class="hidden lg:grid lg:grid-cols-4 gap-6 lg:gap-8">
         {service.benefits.features.map((feature, index) => (
           <div class="group opacity-0 fade-in-up-delay" style={`animation-delay: ${index * 0.1}s`}>
@@ -69,7 +67,6 @@ const { service } = Astro.props;
         ))}
       </div>
 
-      <!-- Mobile Features Carousel -->
       <div class="lg:hidden">
         <Carousel
           containerId="service-benefits-carousel-container"

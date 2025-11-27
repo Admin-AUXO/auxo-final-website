@@ -1,5 +1,3 @@
-// Galaxy particle system - Optimized for homepage hero section
-
 interface Star {
   x: number;
   y: number;
@@ -19,17 +17,13 @@ interface Star {
   angle: number;
 }
 
-// Constants for better maintainability
 const CONSTANTS = {
-  // Device breakpoints
   MOBILE_BREAKPOINT: 768,
   TABLET_BREAKPOINT: 1024,
-  
-  // Star distribution
+
   ACCENT_STAR_RATIO: 0.15,
   NEBULA_RATIO: 0.05,
-  
-  // Spiral configuration
+
   SPIRAL_TIGHTNESS: 0.3,
   SPIRAL_DISTANCE_FACTOR: 0.8,
   

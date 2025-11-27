@@ -40,20 +40,17 @@ const legalPages = [
     
     <div class="grid-container relative z-10">
       <div class="col-span-full max-w-6xl mx-auto">
-        <!-- Header -->
         <SectionHeader
           title={title}
           subtitle={description}
           wrapperClass="mb-8 sm:mb-12"
         />
 
-        <!-- Last Updated -->
         <div class="flex items-center gap-2 mb-6 sm:mb-8 text-sm text-theme-secondary font-body bg-theme-card/50 border border-accent-green/10 rounded-xl px-4 py-2.5 w-fit mx-auto sm:mx-0">
           <Icon name="mdi:calendar-outline" class="w-4 h-4 text-accent-green" />
           <span>Last updated: <strong class="text-theme-primary">{lastUpdated}</strong></span>
         </div>
 
-        <!-- Mobile Table of Contents Toggle -->
         <div class="lg:hidden mb-6">
           <button
             id="mobile-toc-toggle"
@@ -72,13 +69,11 @@ const legalPages = [
             class="hidden mt-3 bg-theme-card border-2 border-accent-green/20 rounded-xl p-4"
           >
             <nav id="table-of-contents-mobile" class="space-y-2 text-sm">
-              <!-- Populated by JavaScript -->
             </nav>
           </div>
         </div>
 
         <div class="grid lg:grid-cols-[280px_1fr] gap-8 lg:gap-12">
-          <!-- Table of Contents (Desktop) -->
           <aside class="hidden lg:block">
             <div class="sticky top-24">
               <div class="bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6">
@@ -87,20 +82,16 @@ const legalPages = [
                   Contents
                 </h3>
                 <nav id="table-of-contents" class="space-y-2 text-sm">
-                  <!-- Populated by JavaScript -->
                 </nav>
               </div>
             </div>
           </aside>
 
-          <!-- Main Content -->
           <div class="min-w-0">
-        <!-- Content -->
             <div class="bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6 sm:p-8 lg:p-10 prose prose-lg max-w-none legal-content">
           <slot />
         </div>
 
-        <!-- Legal Pages Navigation -->
         <div class="mt-10 sm:mt-12 pt-8 border-t border-accent-green/10">
               <h3 class="text-lg font-bold text-theme-primary mb-6 font-display flex items-center gap-2">
                 <Icon name="mdi:file-document-multiple" class="w-5 h-5 text-accent-green" />
@@ -141,10 +132,10 @@ const legalPages = [
     
     if (!content) return;
     
-    const headings = content.querySelectorAll('h2, h3');
+    const headings = content.querySelectorAll<HTMLHeadingElement>('h2, h3');
     
-    // Function to create TOC link
-    const createTocLink = (heading, index) => {
+    // Create TOC link
+    const createTocLink = (heading: HTMLHeadingElement, index: number) => {
       const id = `section-${index + 1}`;
       heading.id = id;
       
@@ -157,13 +148,13 @@ const legalPages = [
       link.className = `flex items-start gap-2 py-2 px-3 rounded-lg text-theme-secondary hover:text-accent-green hover:bg-accent-green/5 transition-all duration-fast group ${indent}`;
       link.setAttribute('data-target', id);
       
-      // Create bullet/indicator
+      // Bullet/indicator
       const indicator = document.createElement('span');
       indicator.className = 'text-accent-green/60 group-hover:text-accent-green transition-colors mt-0.5 flex-shrink-0';
       indicator.textContent = isH3 ? '▸' : '●';
       indicator.style.fontSize = isH3 ? '0.75rem' : '0.5rem';
       
-      // Create text span
+      // Text span
       const span = document.createElement('span');
       span.className = 'text-sm font-medium leading-relaxed';
       span.textContent = text;
@@ -175,6 +166,7 @@ const legalPages = [
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const targetId = link.getAttribute('data-target');
+        if (!targetId) return;
         const target = document.getElementById(targetId);
         if (target) {
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -193,17 +185,17 @@ const legalPages = [
       return link;
     };
     
-    // Populate desktop TOC
+    // Desktop TOC
     if (toc) {
-      headings.forEach((heading, index) => {
+      headings.forEach((heading: HTMLHeadingElement, index: number) => {
         const link = createTocLink(heading, index);
         toc.appendChild(link.cloneNode(true));
       });
     }
     
-    // Populate mobile TOC
+    // Mobile TOC
     if (tocMobile) {
-      headings.forEach((heading, index) => {
+      headings.forEach((heading: HTMLHeadingElement, index: number) => {
         const link = createTocLink(heading, index);
         tocMobile.appendChild(link);
       });
@@ -213,7 +205,7 @@ const legalPages = [
     if (mobileToggle && mobileTocContainer) {
       mobileToggle.addEventListener('click', () => {
         const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
-        mobileToggle.setAttribute('aria-expanded', !isExpanded);
+        mobileToggle.setAttribute('aria-expanded', (!isExpanded).toString());
         mobileTocContainer.classList.toggle('hidden');
       });
     }
@@ -258,7 +250,7 @@ const legalPages = [
       });
     }, observerOptions);
     
-    headings.forEach(heading => observer.observe(heading));
+    headings.forEach((heading: HTMLHeadingElement) => observer.observe(heading));
   });
 </script>
 

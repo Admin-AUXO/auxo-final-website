@@ -3,10 +3,7 @@ export function getBaseUrl(): string {
   return base.endsWith('/') ? base : `${base}/`;
 }
 
-/**
- * Creates a URL with proper base path handling.
- * Handles anchors (#), external URLs (http/https), and relative paths.
- */
+// Create URL with base path handling
 export function createUrl(path: string): string {
   // Return anchors and external URLs as-is
   if (path.startsWith('#') || path.startsWith('http://') || path.startsWith('https://') || path.startsWith('mailto:')) {
@@ -19,22 +16,18 @@ export function createUrl(path: string): string {
   return `${base}${pathWithSlash}`;
 }
 
-/**
- * Creates a URL for static assets (favicons, manifests, etc.)
- * Public folder assets in Astro are served at the root, so we need to ensure
- * the base path is correctly applied.
- */
+// Create asset URL that respects base path
 export function createAssetUrl(path: string): string {
   const base = getBaseUrl();
-  // Remove leading slash from path if present
+  // Remove leading slash
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   
-  // Handle base URL - if it's root, just return the path with leading slash
+  // Root base: serve from /
   if (base === '/' || base === '') {
     return `/${cleanPath}`;
   }
   
-  // Otherwise, combine base (which already ends with /) with clean path
+  // Non-root base: prefix with base
   return `${base}${cleanPath}`;
 }
 

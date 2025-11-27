@@ -4,8 +4,7 @@ import icon from 'astro-icon';
 
 export default defineConfig({
   site: 'https://auxodata.com',
-  // Base path for GitHub Pages - use '/' for root or '/repo-name/' for subdirectory
-  // If deploying to a subdirectory, set BASE_PATH environment variable in GitHub Actions
+  // Base path; override with BASE_PATH for subdirectory deploys
   base: process.env.BASE_PATH || '/auxo-final-website/',
   output: 'static',
   build: {
@@ -20,21 +19,17 @@ export default defineConfig({
       rollupOptions: {
         output: {
           manualChunks: (id) => {
-            // Split vendor chunks for better caching
+            // Split vendor chunks for caching
             if (id.includes('node_modules')) {
-              // Embla carousel in separate chunk
               if (id.includes('embla-carousel')) {
                 return 'embla';
               }
-              // Floating UI in separate chunk
               if (id.includes('@floating-ui')) {
                 return 'floating-ui';
               }
-              // Iconify in separate chunk
               if (id.includes('@iconify') || id.includes('astro-icon')) {
                 return 'icons';
               }
-              // Other vendor code
               return 'vendor';
             }
           },
@@ -43,7 +38,7 @@ export default defineConfig({
           assetFileNames: '_astro/[name]-[hash].[ext]',
         },
         onwarn(warning, warn) {
-          // Suppress warnings from Astro's internal dependencies
+          // Ignore warnings from Astro internal helpers
           if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.id?.includes('@astrojs/internal-helpers')) {
             return;
           }
@@ -69,14 +64,18 @@ export default defineConfig({
     }),
     icon({
       include: {
+        // Keep this list in sync with mdi: usages across src
         mdi: [
-          // Navigation & UI
+          // Navigation
           'arrow-right',
           'chevron-down',
+          'star-circle',
           'close',
-          'check-circle',
+          'alert-circle',
+          'home',
+          'briefcase',
 
-          // Business & Industry
+          // Business
           'office-building',
           'bank',
           'store',
@@ -84,24 +83,24 @@ export default defineConfig({
           'bed',
           'scale-balance',
 
-          // Data & Analytics
+          // Data
           'chart-bar',
           'chart-box',
           'chart-line',
-          'chart-pie', 'chart-timeline-variant', 'check-circle-outline', 'gesture-swipe-horizontal',
           'chart-line-variant',
           'chart-areaspline',
+          'chart-pie',
           'database-search',
           'database-cog',
           'database-plus',
           'trending-up',
 
-          // Security & Compliance
+          // Security
           'shield-check',
           'shield-lock',
           'shield-account',
 
-          // Technology & AI
+          // Technology
           'robot',
           'robot-industrial',
           'brain',
@@ -109,29 +108,31 @@ export default defineConfig({
           'cog-play',
           'ab-testing',
           'magnify-scan',
-          'text-recognition', 'information-outline',
+          'text-recognition',
 
-          // People & Teams
+          // People
           'account-group',
           'account-group-outline',
           'account-tie',
           'account-cog',
           'handshake',
-          'handshake-outline',
           'school',
 
-          // Content & Documents
+          // Content
           'book-open',
-          'book-open-variant', 'package-variant-closed',
+          'book-open-variant',
           'file-document',
           'file-document-edit',
           'file-document-multiple',
-          'file-chart', 'check-bold',
+          'file-chart',
+          'check-bold',
+          'check-circle-outline',
+          'check-circle',
           'format-list-bulleted',
           'clipboard-list',
           'checkbox-marked',
 
-          // Design & Strategy
+          // Design
           'palette',
           'strategy',
           'target',
@@ -139,7 +140,7 @@ export default defineConfig({
           'layers',
           'tune',
 
-          // Location & Geography
+          // Location
           'map-marker',
           'map-marker-outline',
           'map-marker-path',
@@ -147,26 +148,22 @@ export default defineConfig({
           'earth',
           'web',
 
-          // Social & Communication
+          // Social
           'linkedin',
           'twitter',
           'email',
           'email-outline',
           'email-send',
-          'message-text-outline',
           'send',
-          'send-outline',
-          'arrow-top-right',
 
-          // Theme & Display
-          'moon-waning-crescent',
-          'white-balance-sunny',
+          // Display
           'eye',
           'lightbulb',
           'lightbulb-on',
-          'lightbulb-on-outline',
+          'moon-waning-crescent',
+          'white-balance-sunny',
 
-          // Actions & Tools
+          // Actions
           'rocket-launch',
           'cog',
           'cog-sync',
@@ -179,39 +176,11 @@ export default defineConfig({
           'clock-check-outline',
           'calendar-outline',
           'calendar-check',
-          'calendar-clock',
           'cookie',
-          'help-circle-outline',
 
-          // Process & Workflow Icons
-          'arrow-right-bold',
-          'arrow-right-thin',
-          'chevron-right',
-          'chevron-double-right',
-          'play-circle',
-          'play-circle-outline',
-          'progress-check',
-          'progress-clock',
-          'timeline',
-          'timeline-outline',
-          'timeline-text',
-          'numeric-1-circle',
-          'numeric-2-circle',
-          'numeric-3-circle',
-          'numeric-4-circle',
-          'numeric-5-circle',
-          'numeric-6-circle',
-          'numeric-7-circle',
-          'numeric-8-circle',
-          'numeric-9-circle',
-          'circle-outline',
-          'circle',
-          'radiobox-marked',
-          'dots-horizontal',
-          'dots-vertical',
-          'flag-checkered',
-          'check-all',
-          'check-circle',
+          // Legal
+          'file-document-multiple',
+          'information-outline',
         ],
       },
     }),

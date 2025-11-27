@@ -54,7 +54,6 @@ const isModal = item.isModal ?? false;
     </div>
   </div>
 ) : isModal ? (
-  <!-- Modal dropdown -->
   <div class="relative dropdown-container group" data-nav-item={index} data-modal-dropdown="true">
     <button 
       class="nav-link dropdown-toggle relative px-4 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-lg hover:bg-theme-surface/50 active:bg-theme-surface flex items-center gap-1.5 min-h-[44px] group-hover:text-theme-primary"
@@ -73,14 +72,11 @@ const isModal = item.isModal ?? false;
       <span class="nav-active-bg absolute inset-0 bg-accent-green/5 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100"></span>
     </button>
 
-    <!-- Modal overlay -->
-    <div 
+    <div
       class="dropdown-modal-overlay fixed inset-0 bg-black/50 backdrop-blur-md opacity-0 invisible transition-all duration-300 pointer-events-none"
       data-dropdown-overlay={index}
       aria-hidden="true"
     ></div>
-
-    <!-- Modal content -->
     <div 
       class="dropdown-modal-menu fixed left-0 right-0 top-0 opacity-0 invisible transition-all duration-300 pointer-events-none transform translate-y-[-20px] max-h-screen"
       data-dropdown-menu={index}
@@ -148,7 +144,6 @@ const isModal = item.isModal ?? false;
     </div>
   </div>
 ) : (
-  <!-- Standard dropdown -->
   <div class="relative dropdown-container group" data-nav-item={index}>
     <button 
       class="nav-link dropdown-toggle relative px-4 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-lg hover:bg-theme-surface/50 active:bg-theme-surface flex items-center gap-1.5 min-h-[44px] group-hover:text-theme-primary"

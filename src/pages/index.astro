@@ -7,6 +7,7 @@ import CapabilitiesSection from "../components/sections/home/CapabilitiesSection
 import ServicesIntroSection from "../components/sections/home/ServicesIntroSection.astro";
 import MethodologySection from "../components/sections/home/MethodologySection.astro";
 import FinalCta from "../components/sections/home/FinalCta.astro";
+import "../styles/sections/home-sections.css";
 ---
 
 <BaseLayout
@@ -22,14 +23,9 @@ import FinalCta from "../components/sections/home/FinalCta.astro";
 
   <script>
     import { setupHomepageAnimations } from "../scripts/homepage";
+    import { setupSectionInit } from "../scripts/sections/utils/initUtils";
 
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", setupHomepageAnimations);
-    } else {
-      setupHomepageAnimations();
-    }
-
-    document.addEventListener("astro:page-load", setupHomepageAnimations);
+    setupSectionInit(setupHomepageAnimations);
   </script>
 </BaseLayout>
 

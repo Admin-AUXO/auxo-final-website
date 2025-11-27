@@ -1,9 +1,10 @@
-import EmblaCarousel, { EmblaCarouselType } from 'embla-carousel';
+import EmblaCarousel from 'embla-carousel';
+import type { EmblaCarouselType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
 const DEFAULT_AUTOPLAY_INTERVAL = 3000;
-const TRANSITION_DURATION = 300; // Smooth transition duration in ms
-const SETTLE_DURATION = 150; // Time to wait after drag ends before re-enabling transitions
+const TRANSITION_DURATION = 180; // Fast, smooth transition for button/dot navigation
+const SETTLE_DURATION = 10; // Minimal wait after drag for instant feel
 
 export interface EmblaCarouselOptions {
   loop?: boolean;
@@ -30,12 +31,12 @@ export class EmblaCarouselWrapper {
     private options: EmblaCarouselOptions = {}
   ) {
     const {
-      loop = false, // Default to no loop
+      loop = false,
       autoplay = false,
       autoplayInterval = DEFAULT_AUTOPLAY_INTERVAL,
       align = 'center',
-      slidesToScroll = 1, // Always scroll one card at a time
-      dragFree = false, // Disable free dragging - snap to one card per swipe
+      slidesToScroll = 1,
+      dragFree = false,
       onSlideChange,
     } = options;
 
@@ -58,8 +59,8 @@ export class EmblaCarouselWrapper {
       slidesToScroll,
       dragFree,
       containScroll: 'trimSnaps',
-      duration: 20, // Fast snap duration for responsive feel
-      dragThreshold: 10, // Pixels before drag starts
+      duration: 12, // Fast snap with subtle smoothness
+      dragThreshold: 3, // Low threshold for immediate response
       skipSnaps: false, // Always snap to each slide
     }, plugins);
 
@@ -145,7 +146,7 @@ export class EmblaCarouselWrapper {
           const track = this.container.querySelector('.carousel-track, .embla__container') as HTMLElement;
           if (track) {
             // Use smooth CSS transition for dot clicks
-            track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.4, 0.0, 0.2, 1)`;
+            track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
           }
 
           // Scroll to selected slide
@@ -157,7 +158,7 @@ export class EmblaCarouselWrapper {
               track.style.transition = '';
             }
             this.container.classList.remove('carousel-navigating');
-          }, TRANSITION_DURATION + 50);
+          }, TRANSITION_DURATION + 20);
         }
       };
 
@@ -201,14 +202,14 @@ export class EmblaCarouselWrapper {
     // Use smooth transition for programmatic navigation
     const track = this.container.querySelector('.carousel-track, .embla__container') as HTMLElement;
     if (track) {
-      track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.4, 0.0, 0.2, 1)`;
+      track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
     }
     this.embla.scrollTo(index);
     setTimeout(() => {
       if (track && !this.isDragging) {
         track.style.transition = '';
       }
-    }, TRANSITION_DURATION + 50);
+    }, TRANSITION_DURATION + 20);
   }
 
   next(): void {
@@ -216,14 +217,14 @@ export class EmblaCarouselWrapper {
     // Use smooth transition for next button
     const track = this.container.querySelector('.carousel-track, .embla__container') as HTMLElement;
     if (track) {
-      track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.4, 0.0, 0.2, 1)`;
+      track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
     }
     this.embla.scrollNext();
     setTimeout(() => {
       if (track && !this.isDragging) {
         track.style.transition = '';
       }
-    }, TRANSITION_DURATION + 50);
+    }, TRANSITION_DURATION + 20);
   }
 
   previous(): void {
@@ -231,14 +232,14 @@ export class EmblaCarouselWrapper {
     // Use smooth transition for previous button
     const track = this.container.querySelector('.carousel-track, .embla__container') as HTMLElement;
     if (track) {
-      track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.4, 0.0, 0.2, 1)`;
+      track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
     }
     this.embla.scrollPrev();
     setTimeout(() => {
       if (track && !this.isDragging) {
         track.style.transition = '';
       }
-    }, TRANSITION_DURATION + 50);
+    }, TRANSITION_DURATION + 20);
   }
 
   destroy(): void {

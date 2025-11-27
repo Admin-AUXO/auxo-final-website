@@ -8,9 +8,21 @@ import ServiceOutcomesSection from "../../components/sections/services/ServiceOu
 import ServiceCtaSection from "../../components/sections/services/ServiceCtaSection.astro";
 import { servicesContent } from "../../data/content/services";
 
-const service = servicesContent.details.find(s => s.slug === 'autonomy-readiness-review');
+export async function getStaticPaths() {
+  const { servicesContent } = await import("../../data/content/services");
+  return servicesContent.details.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+
 if (!service) {
-  throw new Error('Autonomy Readiness Review service not found');
+  return new Response(null, {
+    status: 404,
+    statusText: "Service not found",
+  });
 }
 ---
 
@@ -28,3 +40,4 @@ if (!service) {
   <ServiceOutcomesSection service={service} slot="outcomes" />
   <ServiceCtaSection service={service} slot="cta" />
 </ServiceLayout>
+

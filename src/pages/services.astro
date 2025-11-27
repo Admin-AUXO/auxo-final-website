@@ -6,6 +6,7 @@ import ServicesStageSection from "../components/sections/services/ServicesStageS
 import ImpactSection from "../components/sections/services/ImpactSection.astro";
 import ModelsSection from "../components/sections/services/ModelsSection.astro";
 import ServicesCta from "../components/sections/services/ServicesCta.astro";
+import "../styles/sections/services-sections.css";
 ---
 
 <BaseLayout
@@ -21,22 +22,9 @@ import ServicesCta from "../components/sections/services/ServicesCta.astro";
 
   <script>
     import { setupServicesPageAnimations } from "../scripts/sections/services/servicesPage";
+    import { setupSectionInit } from "../scripts/sections/utils/initUtils";
 
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", setupServicesPageAnimations);
-    } else {
-      setupServicesPageAnimations();
-    }
-
-    document.addEventListener("astro:page-load", setupServicesPageAnimations);
+    setupSectionInit(setupServicesPageAnimations);
   </script>
 </BaseLayout>
-
-<style>
-  /* Additional styles for Services page animations */
-  .animate-visible {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-  }
-</style>
 

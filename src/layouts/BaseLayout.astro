@@ -4,16 +4,11 @@ import Navigation from "../components/common/Navigation.astro";
 import Footer from "../components/common/Footer.astro";
 import ParticleBackground from "../components/effects/ParticleBackground.astro";
 import { createAssetUrl } from "../utils/url";
-/* Foundation Layer - Design tokens and base styles */
 import "../styles/tokens.css";
 import "../styles/base.css";
 import "../styles/typography.css";
 import "../styles/utilities.css";
-
-/* Animation Layer - All animations consolidated */
 import "../styles/animations.css";
-
-/* Component Layer - Reusable UI components */
 import "../styles/components/base-components.css";
 import "../styles/components/buttons.css";
 import "../styles/components/cards.css";
@@ -23,14 +18,8 @@ import "../styles/components/accordions.css";
 import "../styles/components/highlights.css";
 import "../styles/components.css";
 import "../styles/navigation.css";
-
-/* Section Layer - Page-specific sections */
 import "../styles/sections/shared-sections.css";
 import "../styles/sections/hero.css";
-import "../styles/sections/home-sections.css";
-import "../styles/sections/about-sections.css";
-import "../styles/sections/services-sections.css";
-import "../styles/sections/services-individual.css";
 
 export interface Props {
   title?: string;
@@ -53,36 +42,31 @@ const {
     <meta name="description" content={description || siteData.description} />
     <meta name="theme-color" content={siteData.themeColor} />
     <title>{title || siteData.name}</title>
-    
-    <!-- Favicons and Icons -->
+
     <link rel="icon" type="image/svg+xml" href={createAssetUrl("/favicon.svg")} />
     <link rel="alternate icon" href={createAssetUrl("/favicon.svg")} />
     <link rel="apple-touch-icon" href={createAssetUrl("/apple-touch-icon.svg")} />
     <link rel="manifest" href={createAssetUrl("/manifest.json")} />
     <meta name="msapplication-TileColor" content={siteData.themeColor} />
     <meta name="msapplication-config" content={createAssetUrl("/browserconfig.xml")} />
-    
-    <!-- Open Graph / Social Media -->
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content={siteData.url} />
     <meta property="og:title" content={title || siteData.name} />
     <meta property="og:description" content={description || siteData.description} />
     <meta property="og:image" content={createAssetUrl("/og-image.svg")} />
     <meta property="og:site_name" content={siteData.name} />
-    
-    <!-- Twitter Card -->
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={siteData.url} />
     <meta name="twitter:title" content={title || siteData.name} />
     <meta name="twitter:description" content={description || siteData.description} />
     <meta name="twitter:image" content={createAssetUrl("/og-image.svg")} />
-    
-    <!-- Preconnect for Performance -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
-    
-    <!-- Canonical URL -->
+
     <link rel="canonical" href={siteData.url} />
   </head>
   <body

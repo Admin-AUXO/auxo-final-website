@@ -1,18 +1,16 @@
 import { state, addTrackedListener, clearDropdownTimer } from './state';
 import { DROPDOWN_LEAVE_DELAY } from './types';
-import { computePosition, autoUpdate, offset, flip, shift, Placement } from '@floating-ui/dom';
+import { computePosition, autoUpdate, offset, flip, shift } from '@floating-ui/dom';
+import type { Placement } from '@floating-ui/dom';
 
 // AutoUpdate cleanup functions
 const autoUpdateCleanups = new Map<HTMLElement, () => void>();
 
 function updateDropdownPosition(button: HTMLElement, menu: HTMLElement): void {
-  // Clean up existing autoUpdate
   const existingCleanup = autoUpdateCleanups.get(menu);
   if (existingCleanup) {
     existingCleanup();
   }
-
-  // Compute position
   computePosition(button, menu, {
     placement: 'bottom-start' as Placement,
     middleware: [
@@ -21,20 +19,15 @@ function updateDropdownPosition(button: HTMLElement, menu: HTMLElement): void {
       shift({ padding: 16 }),
     ],
   }).then(({ x, y, placement }) => {
-    // Apply position
     Object.assign(menu.style, {
       left: `${x}px`,
       top: `${y}px`,
     });
-
-    // Update alignment class
     menu.classList.remove('dropdown-right-aligned');
     if (placement.includes('end') || placement.includes('right')) {
       menu.classList.add('dropdown-right-aligned');
     }
-  });
-
-  // Setup auto-update for scroll/resize
+    });
   const cleanup = autoUpdate(button, menu, () => {
     computePosition(button, menu, {
       placement: 'bottom-start' as Placement,

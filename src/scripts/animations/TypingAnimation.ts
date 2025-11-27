@@ -1,4 +1,3 @@
-// Default animation values
 const DEFAULT_SPEED = 100;
 const DEFAULT_DELETE_SPEED = 50;
 const DEFAULT_PAUSE_BEFORE_DELETE = 2000;
@@ -14,7 +13,6 @@ export interface TypingAnimationOptions {
   onComplete?: () => void;
 }
 
-// Typing animation class
 export class TypingAnimation {
   private charIndex: number = 0;
   private isDeleting: boolean = false;

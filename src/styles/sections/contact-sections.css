@@ -1,0 +1,23 @@
+/* Contact page layout tweaks */
+
+input:focus,
+textarea:focus {
+  background-color: var(--theme-surface);
+}
+
+@media (max-width: 640px) {
+  #contact-main {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  #contact-form {
+    max-width: 28rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+

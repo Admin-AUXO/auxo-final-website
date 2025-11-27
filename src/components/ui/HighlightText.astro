@@ -2,14 +2,14 @@
 // Utility component for highlighting specific text within a string
 export interface Props {
   text: string;
-  highlight: string | string[];
+  highlight?: string | string[];
   highlightClass?: string;
 }
 
 const { text, highlight, highlightClass = "text-accent-green" } = Astro.props;
 
-// Convert single highlight to array
-const highlights = Array.isArray(highlight) ? highlight : [highlight];
+// Convert single highlight to array, safely handling undefined
+const highlights = !highlight ? [] : Array.isArray(highlight) ? highlight : [highlight];
 
 // Split text by highlights - simple approach
 function splitText(text: string, highlights: string[]): Array<{ text: string; isHighlight: boolean }> {

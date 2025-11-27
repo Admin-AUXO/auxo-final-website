@@ -5,6 +5,7 @@ import { Icon } from "astro-icon/components";
 import BackgroundDecorations from "../components/ui/BackgroundDecorations.astro";
 import { createUrl } from "../utils/url";
 import Button from "../components/ui/Button.astro";
+import "../styles/sections/contact-sections.css";
 ---
 
 <BaseLayout
@@ -17,11 +18,10 @@ import Button from "../components/ui/Button.astro";
     id="contact-main"
     class="relative w-full min-h-screen flex items-center justify-center overflow-hidden py-20 sm:py-24 lg:py-28"
   >
-    <BackgroundDecorations gradients={["hero"]} patterns={["dots"]} />
+    <BackgroundDecorations gradients={["hero"]} patterns={["grid"]} />
 
     <div class="grid-container relative z-10 w-full">
       <div class="col-span-full max-w-7xl mx-auto w-full">
-        <!-- Header -->
         <div class="text-center mb-10 sm:mb-12 lg:mb-16">
           <h1 class="text-h1 font-extrabold mb-4 sm:mb-5 leading-tight tracking-tight text-theme-primary font-display opacity-0 fade-in-up">
             Let's <span class="text-accent-green">Connect</span>
@@ -31,7 +31,6 @@ import Button from "../components/ui/Button.astro";
           </p>
         </div>
 
-        <!-- Main CTA Button -->
         <div class="flex justify-center mb-12 sm:mb-16 lg:mb-20 opacity-0 fade-in-up-delay-2">
           <Button
             variant="primary"
@@ -46,9 +45,7 @@ import Button from "../components/ui/Button.astro";
           </Button>
         </div>
 
-        <!-- Contact Content Grid -->
         <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16" id="contact-form">
-          <!-- Left Column - Contact Info -->
           <div class="space-y-6 lg:space-y-8 opacity-0 fade-in-up-delay-3">
             <div class="text-center lg:text-left">
               <h2 class="text-h3 font-extrabold mb-3 text-theme-primary font-display">
@@ -59,9 +56,7 @@ import Button from "../components/ui/Button.astro";
               </p>
             </div>
 
-            <!-- Contact Cards -->
             <div class="space-y-4 max-w-md mx-auto lg:mx-0 lg:max-w-none">
-              <!-- Email -->
               <a
                 href={`mailto:${siteData.email}`}
                 class="flex items-center gap-4 p-4 sm:p-5 rounded-xl bg-theme-card border border-accent-green/20 hover:border-accent-green/40 hover:shadow-lg hover:shadow-accent-green/10 hover:-translate-y-0.5 transition-all duration-300 group"
@@ -78,7 +73,6 @@ import Button from "../components/ui/Button.astro";
                 <Icon name="mdi:arrow-right" class="w-5 h-5 text-accent-green opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all flex-shrink-0" />
               </a>
 
-              <!-- Location -->
               <div class="flex items-center gap-4 p-4 sm:p-5 rounded-xl bg-theme-card border border-accent-green/20">
                 <div class="w-12 h-12 bg-accent-green/15 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Icon name="mdi:map-marker" class="w-6 h-6 text-accent-green" />
@@ -91,7 +85,6 @@ import Button from "../components/ui/Button.astro";
                 </div>
               </div>
 
-              <!-- Response Time -->
               <div class="flex items-center gap-4 p-4 sm:p-5 rounded-xl bg-accent-green/10 border border-accent-green/30">
                 <div class="w-12 h-12 bg-accent-green/20 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Icon name="mdi:clock-check-outline" class="w-6 h-6 text-accent-green" />
@@ -107,16 +100,13 @@ import Button from "../components/ui/Button.astro";
 
           </div>
 
-          <!-- Right Column - Contact Form -->
           <div class="opacity-0 fade-in-up-delay-3 max-w-md mx-auto lg:mx-0 lg:max-w-none w-full">
             <div class="bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6 sm:p-8 relative overflow-hidden group hover:border-accent-green/30 transition-all duration-normal h-full">
-              <!-- Decorative gradients -->
               <div class="absolute top-0 right-0 w-64 h-64 bg-accent-green/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-50 group-hover:opacity-75 transition-opacity duration-normal pointer-events-none"></div>
               <div class="absolute bottom-0 left-0 w-48 h-48 bg-accent-green/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 opacity-30 group-hover:opacity-60 transition-opacity duration-normal pointer-events-none"></div>
 
               <form id="contact-form-element" class="relative z-10 space-y-5">
                 <div class="grid sm:grid-cols-2 gap-4">
-                  <!-- Name -->
                   <div>
                     <label for="name" class="block text-sm font-bold text-theme-primary mb-2 font-body">
                       Name <span class="text-accent-green">*</span>
@@ -131,7 +121,6 @@ import Button from "../components/ui/Button.astro";
                     />
                   </div>
 
-                  <!-- Email -->
                   <div>
                     <label for="email" class="block text-sm font-bold text-theme-primary mb-2 font-body">
                       Email <span class="text-accent-green">*</span>
@@ -147,7 +136,6 @@ import Button from "../components/ui/Button.astro";
                   </div>
                 </div>
 
-                <!-- Company -->
                 <div>
                   <label for="company" class="block text-sm font-bold text-theme-primary mb-2 font-body">
                     Company <span class="text-theme-tertiary text-xs font-normal">(Optional)</span>
@@ -161,7 +149,6 @@ import Button from "../components/ui/Button.astro";
                   />
                 </div>
 
-                <!-- Subject -->
                 <div>
                   <label for="subject" class="block text-sm font-bold text-theme-primary mb-2 font-body">
                     Subject <span class="text-accent-green">*</span>
@@ -176,7 +163,6 @@ import Button from "../components/ui/Button.astro";
                   />
                 </div>
 
-                <!-- Message -->
                 <div>
                   <label for="message" class="block text-sm font-bold text-theme-primary mb-2 font-body">
                     Message <span class="text-accent-green">*</span>
@@ -191,7 +177,6 @@ import Button from "../components/ui/Button.astro";
                   ></textarea>
                 </div>
 
-                <!-- Submit Button -->
                 <button
                   type="submit"
                   class="w-full px-6 py-4 bg-accent-green text-on-accent font-bold rounded-xl hover:bg-accent-green/90 hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/80 active:translate-y-0 transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green focus:ring-offset-2 focus:ring-offset-theme-card min-h-[52px] font-body flex items-center justify-center gap-2 group/btn"
@@ -200,7 +185,6 @@ import Button from "../components/ui/Button.astro";
                   <Icon name="mdi:send" class="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-fast" />
                 </button>
 
-                <!-- Privacy Note -->
                 <p class="text-xs text-theme-secondary text-center font-body pt-1">
                   By submitting, you agree to our{" "}
                   <a href={createUrl("legal/privacy-policy")} class="text-accent-green hover:underline font-medium transition-colors">
@@ -217,150 +201,8 @@ import Button from "../components/ui/Button.astro";
 </BaseLayout>
 
 <script>
-  // Fade-in animations on scroll
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
+  import { setupContactPage } from "../scripts/pages/contactPage";
+  import { setupSectionInit } from "../scripts/sections/utils/initUtils";
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('animate-visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  document.querySelectorAll('.fade-in-up, .fade-in-up-delay, .fade-in-up-delay-2, .fade-in-up-delay-3').forEach((el) => {
-    observer.observe(el);
-  });
-
-  // Smooth scroll for internal links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const href = this.getAttribute('href');
-      if (href && href !== '#') {
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      }
-    });
-  });
-
-  // Form submission
-  const form = document.getElementById('contact-form-element');
-  const email = 'hello@auxodata.com';
-
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const name = (document.getElementById('name') as HTMLInputElement)?.value || '';
-      const userEmail = (document.getElementById('email') as HTMLInputElement)?.value || '';
-      const company = (document.getElementById('company') as HTMLInputElement)?.value || '';
-      const subject = (document.getElementById('subject') as HTMLInputElement)?.value || '';
-      const message = (document.getElementById('message') as HTMLTextAreaElement)?.value || '';
-
-      const subjectLine = encodeURIComponent(subject);
-      const body = encodeURIComponent(
-        `Name: ${name}\nEmail: ${userEmail}${company ? `\nCompany: ${company}` : ''}\n\nMessage:\n${message}`
-      );
-
-      const mailtoLink = `mailto:${email}?subject=${subjectLine}&body=${body}`;
-      window.location.href = mailtoLink;
-    });
-  }
+  setupSectionInit(setupContactPage);
 </script>
-
-<style>
-  /* Enhanced focus states for better UX */
-  input:focus,
-  textarea:focus {
-    background-color: var(--theme-surface);
-  }
-
-  /* Fade-in animations */
-  .fade-in-up,
-  .fade-in-up-delay,
-  .fade-in-up-delay-2,
-  .fade-in-up-delay-3 {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  .fade-in-up.animate-visible,
-  .fade-in-up-delay.animate-visible,
-  .fade-in-up-delay-2.animate-visible,
-  .fade-in-up-delay-3.animate-visible {
-    animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
-  .fade-in-up-delay.animate-visible {
-    animation-delay: 0.15s;
-  }
-
-  .fade-in-up-delay-2.animate-visible {
-    animation-delay: 0.3s;
-  }
-
-  .fade-in-up-delay-3.animate-visible {
-    animation-delay: 0.45s;
-  }
-
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Smooth scroll behavior */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Mobile optimizations */
-  @media (max-width: 640px) {
-    #contact-main {
-      padding-top: 5rem;
-      padding-bottom: 3rem;
-    }
-  }
-
-  /* Enhanced mobile centering */
-  @media (max-width: 1023px) {
-    #contact-form {
-      max-width: 28rem;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-
-  /* Accessibility: Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-
-    .fade-in-up,
-    .fade-in-up-delay,
-    .fade-in-up-delay-2,
-    .fade-in-up-delay-3 {
-      opacity: 1;
-      transform: none;
-      animation: none;
-    }
-
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-</style>
