@@ -29,7 +29,9 @@ const textAlign = variant === "carousel" ? "text-center" : "";
   padding="lg"
   hover={variant === "grid"}
   class={`${variant === "carousel" ? "capability-card-carousel" : ""} ${variant === "grid" ? "group capability-card-redesigned h-full relative" : ""} border-accent-green/10`}
-  style={variant === "grid" ? `animation-delay: ${index * 100}ms` : undefined}
+  data-aos="fade-up"
+  data-aos-duration="600"
+  data-aos-delay={variant === "grid" ? index * 100 : 0}
 >
   {/* Corner decoration */}
   {variant === "grid" && (

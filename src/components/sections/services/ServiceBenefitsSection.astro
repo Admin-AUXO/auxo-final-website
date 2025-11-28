@@ -17,13 +17,17 @@ const { service } = Astro.props;
   id="service-benefits"
   padding="lg"
   background="default"
-  class="relative service-benefits-section section-divider overflow-x-hidden"
+  class="relative service-benefits-section section-divider overflow-hidden"
 >
   <BackgroundDecorations gradients={["hero"]} />
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-6xl mx-auto">
-      <div class="text-center mb-12 lg:mb-16">
+      <div
+        class="text-center mb-12 lg:mb-16"
+        data-aos="fade-down"
+        data-aos-duration="800"
+      >
         <h2 class="text-h2 font-extrabold mb-4 lg:mb-6 leading-tight tracking-tight font-display text-theme-primary">
           {service.benefits.title}
         </h2>
@@ -34,7 +38,12 @@ const { service } = Astro.props;
 
       <div class="hidden lg:grid lg:grid-cols-4 gap-6 lg:gap-8">
         {service.benefits.features.map((feature, index) => (
-          <div class="group opacity-0 fade-in-up-delay" style={`animation-delay: ${index * 0.1}s`}>
+          <div
+            class="group"
+            data-aos="zoom-in"
+            data-aos-duration="600"
+            data-aos-delay={index * 100}
+          >
             <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl p-6 lg:p-8 relative overflow-hidden transition-all duration-500 hover:border-accent-green/40 hover:shadow-xl hover:shadow-accent-green/10 hover:-translate-y-1">
               {/* Top accent bar */}
               <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 group-hover:via-accent-green/60 transition-all duration-500" />

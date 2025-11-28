@@ -1,3 +1,10 @@
+/* Section Container Overflow Protection */
+section,
+[class*="-section"] {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 /* Section Dividers */
 
 .section-divider-top::before,
@@ -276,36 +283,11 @@
   }
 }
 
-/* Follow Content Animations */
-
-.hero-follow-content,
-.services-hero-follow-content,
-.about-hero-follow-content {
-  opacity: 0;
-  transform: translateY(var(--transform-translate-y-sm));
-  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.hero-follow-content.visible,
-.services-hero-follow-content.visible,
-.about-hero-follow-content.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* Follow Content Animations - Now handled by AOS */
 
 /* Reduced Motion */
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-follow-content,
-  .services-hero-follow-content,
-  .about-hero-follow-content {
-    opacity: 1;
-    transform: none;
-    transition: none;
-    animation: none;
-  }
-
   .section-hero-line {
     animation: none;
     opacity: 0.6;

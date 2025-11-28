@@ -18,14 +18,18 @@ const modelIcons = [
   id="models"
   padding="normal"
   background="elevated"
-  class="relative models-section section-divider"
+  class="relative models-section section-divider overflow-hidden"
 >
   <div class="section-gradient-dual absolute inset-0 pointer-events-none z-0"></div>
   <div class="section-pattern-grid absolute inset-0 pointer-events-none z-0"></div>
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-6xl mx-auto w-full">
-      <div class="text-center mb-8 sm:mb-10 lg:mb-12 opacity-0 fade-in-up">
+      <div
+        class="text-center mb-8 sm:mb-10 lg:mb-12"
+        data-aos="fade-down"
+        data-aos-duration="800"
+      >
         <div class="inline-flex items-center justify-center gap-3 mb-4 sm:mb-5">
           <Icon name="mdi:clipboard-text-outline" class="w-9 h-9 sm:w-10 sm:h-10 text-accent-green" />
           <h2 class="text-h2 sm:text-h1 font-extrabold leading-tight tracking-tight font-display">
@@ -41,7 +45,12 @@ const modelIcons = [
         </p>
       </div>
 
-      <div class="mb-8 sm:mb-10 lg:mb-12 opacity-0 fade-in-up-delay">
+      <div
+        class="mb-8 sm:mb-10 lg:mb-12"
+        data-aos="fade-up"
+        data-aos-duration="600"
+        data-aos-delay="100"
+      >
         <div class="models-accordion-container">
           {content.models.map((model, index) => (
             <details class="models-accordion-item" data-model={String(index)} open={index === 0}>

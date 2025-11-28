@@ -24,13 +24,15 @@ const missionVisionItems = [
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
-      <SectionHeader
-        title={content.title}
-        wrapperClass="mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
-      />
+      <div data-aos="fade-down" data-aos-duration="800">
+        <SectionHeader
+          title={content.title}
+          wrapperClass="mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
+        />
+      </div>
 
       <div class="hidden lg:grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-6xl mx-auto">
-        <div class="mission-card opacity-0 fade-in-up-delay">
+        <div class="mission-card" data-aos="fade-right" data-aos-duration="600">
           <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 lg:p-10 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
             <div class="absolute top-0 right-0 w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative z-10">
@@ -45,7 +47,7 @@ const missionVisionItems = [
           </div>
         </div>
 
-        <div class="vision-card opacity-0 fade-in-up-delay-2">
+        <div class="vision-card" data-aos="fade-left" data-aos-duration="600">
           <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 lg:p-10 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
             <div class="absolute top-0 left-0 w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative z-10">

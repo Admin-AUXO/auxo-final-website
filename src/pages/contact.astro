@@ -23,15 +23,15 @@ import "../styles/sections/contact-sections.css";
     <div class="grid-container relative z-10 w-full">
       <div class="col-span-full max-w-7xl mx-auto w-full">
         <div class="text-center mb-10 sm:mb-12 lg:mb-16">
-          <h1 class="text-h1 font-extrabold mb-4 sm:mb-5 leading-tight tracking-tight text-theme-primary font-display opacity-0 fade-in-up">
+          <h1 class="text-h1 font-extrabold mb-4 sm:mb-5 leading-tight tracking-tight text-theme-primary font-display" data-aos="fade-down" data-aos-duration="800">
             Let's <span class="text-accent-green">Connect</span>
           </h1>
-          <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-2xl mx-auto font-body opacity-0 fade-in-up-delay">
+          <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-2xl mx-auto font-body" data-aos="fade-up" data-aos-delay="100">
             Ready to transform your data analytics? Start with a conversation.
           </p>
         </div>
 
-        <div class="flex justify-center mb-12 sm:mb-16 lg:mb-20 opacity-0 fade-in-up-delay-2">
+        <div class="flex justify-center mb-12 sm:mb-16 lg:mb-20" data-aos="zoom-in" data-aos-delay="200">
           <Button
             variant="primary"
             size="lg"
@@ -46,7 +46,7 @@ import "../styles/sections/contact-sections.css";
         </div>
 
         <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16" id="contact-form">
-          <div class="space-y-6 lg:space-y-8 opacity-0 fade-in-up-delay-3">
+          <div class="space-y-6 lg:space-y-8" data-aos="fade-right" data-aos-duration="600" data-aos-delay="300">
             <div class="text-center lg:text-left">
               <h2 class="text-h3 font-extrabold mb-3 text-theme-primary font-display">
                 Reach Out
@@ -100,7 +100,7 @@ import "../styles/sections/contact-sections.css";
 
           </div>
 
-          <div class="opacity-0 fade-in-up-delay-3 max-w-md mx-auto lg:mx-0 lg:max-w-none w-full">
+          <div class="max-w-md mx-auto lg:mx-0 lg:max-w-none w-full" data-aos="fade-left" data-aos-duration="600" data-aos-delay="300">
             <div class="bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6 sm:p-8 relative overflow-hidden group hover:border-accent-green/30 transition-all duration-normal h-full">
               <div class="absolute top-0 right-0 w-64 h-64 bg-accent-green/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-50 group-hover:opacity-75 transition-opacity duration-normal pointer-events-none"></div>
               <div class="absolute bottom-0 left-0 w-48 h-48 bg-accent-green/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 opacity-30 group-hover:opacity-60 transition-opacity duration-normal pointer-events-none"></div>
@@ -203,6 +203,19 @@ import "../styles/sections/contact-sections.css";
 <script>
   import { setupContactPage } from "../scripts/pages/contactPage";
   import { setupSectionInit } from "../scripts/sections/utils/initUtils";
+  import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from "../scripts/forms/emailHandler";
+  import { initNotifications } from "../scripts/utils/notifications";
 
   setupSectionInit(setupContactPage);
+
+  // Initialize EmailJS and notifications
+  initEmailJS();
+  initNotifications();
+
+  // Setup form validation and submission
+  const form = document.getElementById('contact-form-element') as HTMLFormElement;
+  if (form) {
+    form.addEventListener('submit', handleContactFormSubmit);
+    addRealTimeValidation(form);
+  }
 </script>

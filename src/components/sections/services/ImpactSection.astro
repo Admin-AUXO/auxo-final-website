@@ -14,7 +14,7 @@ const content = servicesContent.impact;
   id="impact"
   padding="normal"
   background="card"
-  class="relative impact-section section-divider"
+  class="relative impact-section section-divider overflow-hidden"
 >
   <BackgroundDecorations gradients={["center"]} patterns={["mesh"]} />
   
@@ -29,7 +29,12 @@ const content = servicesContent.impact;
         subtitleClass="text-body-md sm:text-body-lg"
       />
 
-      <div class="mb-8 sm:mb-10 lg:mb-12 opacity-0 fade-in-up-delay">
+      <div
+        class="mb-8 sm:mb-10 lg:mb-12"
+        data-aos="fade-up"
+        data-aos-duration="600"
+        data-aos-delay="100"
+      >
         <Carousel
           containerId="impact-carousel-container"
           trackId="impact-carousel-track"
@@ -83,7 +88,11 @@ const content = servicesContent.impact;
         </Carousel>
       </div>
 
-      <div class="opacity-0 fade-in-up-delay-2">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="600"
+        data-aos-delay="200"
+      >
         <div class="impact-goal-card">
           <Icon name="mdi:lightbulb" class="impact-goal-icon" />
           <p class="impact-goal-text">

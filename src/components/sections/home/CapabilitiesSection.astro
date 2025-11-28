@@ -22,15 +22,17 @@ const content: HomepageContent["capabilities"] = homepageContent.capabilities;
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <SectionHeader
-        title={content.title}
-        subtitle={content.subheading}
-        highlight="Core Capabilities"
-        subtitleHighlight="powering"
-        wrapperClass="mb-8 sm:mb-10 lg:mb-12 xl:mb-16"
-        titleClass="text-2xl sm:text-3xl lg:text-h2"
-        subtitleClass="text-base sm:text-lg lg:text-body-xl font-normal"
-      />
+      <div data-aos="fade-down" data-aos-duration="800">
+        <SectionHeader
+          title={content.title}
+          subtitle={content.subheading}
+          highlight="Core Capabilities"
+          subtitleHighlight="powering"
+          wrapperClass="mb-8 sm:mb-10 lg:mb-12 xl:mb-16"
+          titleClass="text-2xl sm:text-3xl lg:text-h2"
+          subtitleClass="text-base sm:text-lg lg:text-body-xl font-normal"
+        />
+      </div>
 
       <div class="hidden lg:block">
         <div class="symmetric-grid-container">

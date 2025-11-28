@@ -17,13 +17,17 @@ const { service } = Astro.props;
   id="service-process"
   padding="lg"
   background="elevated"
-  class="relative service-process-section section-divider overflow-x-hidden"
+  class="relative service-process-section section-divider overflow-hidden"
 >
   <BackgroundDecorations gradients={["dual"]} patterns={["grid"]} />
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto">
-      <div class="text-center mb-16 lg:mb-20">
+      <div
+        class="text-center mb-16 lg:mb-20"
+        data-aos="fade-down"
+        data-aos-duration="800"
+      >
         <h2 class="text-h2 font-extrabold mb-6 leading-tight tracking-tight font-display text-theme-primary">
           {service.process.title}
         </h2>
@@ -34,12 +38,12 @@ const { service } = Astro.props;
 
       <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10 relative">
         {service.process.steps.map((step, index) => {
-          const animationDelay = `${index * 0.1}s`;
-
           return (
             <div
-              class="process-card-wrapper opacity-0 fade-in-up-delay"
-              style={`animation-delay: ${animationDelay}`}
+              class="process-card-wrapper"
+              data-aos="fade-up"
+              data-aos-duration="600"
+              data-aos-delay={index * 100}
             >
               <div class="group relative h-full bg-gradient-to-br from-theme-card to-theme-card/95 border border-accent-green/20 rounded-3xl p-8 shadow-xl hover:border-accent-green/60 hover:shadow-2xl hover:shadow-accent-green/20 transition-all duration-500 hover:-translate-y-2 flex flex-col overflow-hidden">
                 {/* Animated gradient background on hover */}

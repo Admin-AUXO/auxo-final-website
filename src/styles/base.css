@@ -10,6 +10,8 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
@@ -19,6 +21,8 @@ body {
   line-height: 1.6 !important;
   transition: background-color var(--theme-transition) var(--timing-smooth),
     color var(--theme-transition) var(--timing-smooth) !important;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 [class*="bg-theme"],

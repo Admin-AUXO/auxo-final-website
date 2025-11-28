@@ -84,7 +84,7 @@ const isMinimal = variant === "minimal";
     <div class={`col-span-full ${maxWidthClasses[maxWidth]} mx-auto w-full text-center`}>
       <div class={`cta-content space-y-6 lg:space-y-8 ${contentClass}`}>
         {badge && (
-          <div class="flex justify-center cta-animate" style="--animation-order: 0;">
+          <div class="flex justify-center" data-aos="zoom-in" data-aos-duration="600">
             <span class="inline-flex items-center gap-2 px-4 py-2 bg-accent-green/10 text-accent-green rounded-full text-sm font-semibold border border-accent-green/20 backdrop-blur-sm">
               <Icon name="mdi:star-circle" class="w-4 h-4" />
               {badge}
@@ -92,11 +92,11 @@ const isMinimal = variant === "minimal";
           </div>
         )}
 
-        <h2 class="text-h2 font-extrabold leading-tight tracking-tight font-display text-theme-primary cta-animate" style="--animation-order: 1;">
+        <h2 class="text-h2 font-extrabold leading-tight tracking-tight font-display text-theme-primary" data-aos="fade-down" data-aos-duration="800" data-aos-delay={badge ? "100" : "0"}>
           <HighlightText text={title} highlight={titleHighlight} />
         </h2>
 
-        <div class="space-y-4 cta-animate" style="--animation-order: 2;">
+        <div class="space-y-4" data-aos="fade-up" data-aos-duration="600" data-aos-delay={badge ? "200" : "100"}>
           <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed font-body mx-auto" class:list={[maxWidthClasses[maxWidth === "4xl" ? "3xl" : "2xl"]]}>
             <HighlightText text={description} highlight={descriptionHighlight} highlightClass="text-accent-green font-semibold" />
           </p>
@@ -108,7 +108,7 @@ const isMinimal = variant === "minimal";
           )}
         </div>
 
-        <div class="pt-2 flex justify-center cta-animate" style="--animation-order: 3;">
+        <div class="pt-2 flex justify-center" data-aos="fade-up" data-aos-duration="600" data-aos-delay={badge ? "300" : "200"}>
           <Button
             variant="primary"
             size="lg"
@@ -121,7 +121,7 @@ const isMinimal = variant === "minimal";
         </div>
 
         {additionalInfo && (
-          <div class="pt-4 sm:pt-6 border-t border-accent-green/10 cta-animate" style="--animation-order: 4;">
+          <div class="pt-4 sm:pt-6 border-t border-accent-green/10" data-aos="fade-up" data-aos-duration="600" data-aos-delay={badge ? "400" : "300"}>
             <p class="text-sm text-theme-secondary/90 font-body flex items-center justify-center gap-2">
               <Icon name="mdi:information-outline" class="w-4 h-4 text-accent-green" />
               <span>{additionalInfo}</span>
@@ -171,40 +171,6 @@ const isMinimal = variant === "minimal";
     background-size: 32px 32px;
   }
 
-  /* Animations */
-  .cta-animate {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: ctaFadeInUp 0.6s ease-out forwards;
-    animation-delay: calc(var(--animation-order, 0) * 0.1s + 0.2s);
-  }
-
-  @keyframes ctaFadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .cta-animate {
-      animation: ctaFadeIn 0.3s ease-out forwards;
-    }
-
-    @keyframes ctaFadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-  }
 
   /* Responsive typography */
   @media (max-width: 640px) {

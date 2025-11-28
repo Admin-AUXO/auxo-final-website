@@ -15,14 +15,14 @@ const content: HomepageContent["methodology"] = homepageContent.methodology;
   id="methodology"
   padding="lg"
   background="card"
-  class="relative min-h-auto md:min-h-[75vh] overflow-x-hidden methodology-section section-divider"
+  class="relative min-h-auto md:min-h-[75vh] overflow-hidden methodology-section section-divider"
 >
   <div class="section-pattern-grid absolute inset-0 pointer-events-none z-0"></div>
   <div class="section-gradient-center absolute inset-0 pointer-events-none z-0"></div>
   
   <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-7xl mx-auto w-full overflow-x-hidden">
-      <div class="text-center mb-8 sm:mb-12 lg:mb-16 animate-fade-in">
+    <div class="col-span-full max-w-7xl mx-auto w-full">
+      <div class="text-center mb-8 sm:mb-12 lg:mb-16" data-aos="fade-down" data-aos-duration="800">
         <h2
           class="text-h2 font-extrabold mb-4 sm:mb-5 lg:mb-6 text-theme-primary transition-colors leading-tight tracking-tight font-display"
         >
@@ -80,7 +80,7 @@ const content: HomepageContent["methodology"] = homepageContent.methodology;
         </div>
       </div>
       {content.navigationButton && (
-        <div class="text-center mt-8 sm:mt-10 animate-fade-in">
+        <div class="text-center mt-8 sm:mt-10" data-aos="fade-up" data-aos-duration="600">
           <a
             href={createUrl(content.navigationButton.href)}
             class="inline-flex items-center gap-2 text-accent-green hover:text-accent-green/80 font-semibold text-body-lg transition-all duration-300 group flex-nowrap whitespace-nowrap font-body"

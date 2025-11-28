@@ -20,6 +20,8 @@ import "../styles/components.css";
 import "../styles/navigation.css";
 import "../styles/sections/shared-sections.css";
 import "../styles/sections/hero.css";
+import "aos/dist/aos.css";
+import "notyf/notyf.min.css";
 
 export interface Props {
   title?: string;
@@ -81,5 +83,13 @@ const {
       <slot />
     </main>
     <Footer />
+
+    <script>
+      import { initSmoothScroll } from "../scripts/smoothScroll";
+      import { initScrollAnimations } from "../scripts/scrollAnimations";
+
+      initSmoothScroll();
+      initScrollAnimations();
+    </script>
   </body>
 </html>

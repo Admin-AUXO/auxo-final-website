@@ -28,13 +28,17 @@ const serviceIcons = [
   id="services-stages"
   padding="normal"
   background="default"
-  class="relative services-stages-section"
+  class="relative services-stages-section overflow-x-hidden"
 >
   <BackgroundDecorations gradients={["hero"]} />
   
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-7xl mx-auto w-full">
-      <div class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20 opacity-0 fade-in-up">
+  <div class="grid-container relative z-10 overflow-x-hidden">
+    <div class="col-span-full max-w-7xl mx-auto w-full overflow-x-hidden">
+      <div
+        class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
+        data-aos="fade-down"
+        data-aos-duration="800"
+      >
         <h2 class="text-h2 font-extrabold mb-3 sm:mb-4 lg:mb-5 xl:mb-6 leading-tight tracking-tight font-display px-2">
           Services for <span class="text-accent-green">Every Stage</span>
         </h2>
@@ -45,7 +49,11 @@ const serviceIcons = [
 
       <div class="hidden lg:grid lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 mb-10 sm:mb-12 lg:mb-16">
         {content.services.map((service, index) => (
-          <div class="opacity-0 fade-in-up-delay" style={`animation-delay: ${index * 0.1}s`}>
+          <div
+            data-aos="zoom-in"
+            data-aos-duration="600"
+            data-aos-delay={index * 100}
+          >
             <ServiceCard
               icon={serviceIcons[index]}
               title={service.name}
@@ -83,12 +91,17 @@ const serviceIcons = [
         ))}
       </Carousel>
 
-      <div class="mt-10 sm:mt-12 lg:mt-16 opacity-0 fade-in-up-delay">
-        <div class="bg-gradient-to-br from-accent-green/15 via-accent-green/8 to-transparent border-2 border-accent-green/30 rounded-2xl p-8 sm:p-10 lg:p-12 relative overflow-hidden group hover:border-accent-green/50 hover:shadow-2xl hover:shadow-accent-green/20 transition-all duration-500">
+      <div
+        class="mt-10 sm:mt-12 lg:mt-16 overflow-x-hidden"
+        data-aos="fade-up"
+        data-aos-duration="600"
+        data-aos-delay="200"
+      >
+        <div class="bg-gradient-to-br from-accent-green/15 via-accent-green/8 to-transparent border-2 border-accent-green/30 rounded-2xl p-8 sm:p-10 lg:p-12 relative overflow-hidden group hover:border-accent-green/50 hover:shadow-2xl hover:shadow-accent-green/20 transition-all duration-500 max-w-full">
           <div class="absolute top-0 right-0 w-64 h-64 bg-accent-green/10 rounded-full blur-3xl opacity-60"></div>
           <div class="absolute bottom-0 left-0 w-48 h-48 bg-accent-green/5 rounded-full blur-2xl opacity-40"></div>
           <div class="absolute inset-0 opacity-[0.03] code-edge-pattern"></div>
-          
+
           <div class="relative z-10">
             <p class="text-body-lg sm:text-body-xl lg:text-2xl text-theme-primary leading-relaxed font-body text-center">
               <HighlightText text={content.codeEdge} highlight={["consistent quality", "common language"]} highlightClass="text-accent-green font-bold" />

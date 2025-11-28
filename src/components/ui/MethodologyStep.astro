@@ -30,8 +30,10 @@ const {
 {variant === "flow" ? (
   <div
     class="method-step group relative overflow-visible"
-    style={`animation-delay: ${index * 200}ms`}
     data-step={String(index)}
+    data-aos="fade-up"
+    data-aos-duration="600"
+    data-aos-delay={index * 150}
   >
     <Card
       variant="bordered"
@@ -81,7 +83,7 @@ const {
     )}
   </div>
 ) : variant === "accordion" ? (
-  <details class="methodology-accordion-item" data-step={String(index)} open={index === 0}>
+  <details class="methodology-accordion-item" data-step={String(index)} open={index === 0} data-aos="fade-up" data-aos-duration="600" data-aos-delay={index * 100}>
     <summary class="methodology-accordion-summary">
       <div class="methodology-accordion-header">
         <div class="methodology-accordion-number">

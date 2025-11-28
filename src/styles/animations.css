@@ -320,77 +320,16 @@
   }
 }
 
-/* Utility Classes */
-
-.animate-fade-in {
-  animation: fadeIn var(--duration-normal) var(--timing-smooth) forwards !important;
-  will-change: opacity !important;
-}
-
-.fade-in-text {
-  opacity: 0;
-  animation: fadeInUp var(--animation-duration-fade-in-up-slow) var(--timing-smooth) forwards;
-  animation-play-state: running;
-  animation-fill-mode: forwards;
-}
-
-.fade-in-up {
-  opacity: 0;
-  animation: fadeInUp var(--animation-duration-fade-in-up) var(--timing-smooth) forwards;
-  animation-play-state: running;
-  animation-fill-mode: forwards;
-}
-
-.fade-in-up-delay {
-  opacity: 0;
-  animation: fadeInUp var(--animation-duration-fade-in-up) var(--timing-smooth) forwards;
-  animation-delay: var(--delay-normal);
-  animation-play-state: running;
-  animation-fill-mode: forwards;
-}
-
-.fade-in-up-delay-2 {
-  opacity: 0;
-  animation: fadeInUp var(--animation-duration-fade-in-up) var(--timing-smooth) forwards;
-  animation-delay: var(--delay-slower);
-  animation-play-state: running;
-  animation-fill-mode: forwards;
-}
-
-.fade-in-up-delay-3 {
-  opacity: 0;
-  animation: fadeInUp var(--animation-duration-fade-in-up) var(--timing-smooth) forwards;
-  animation-delay: var(--delay-slowest);
-  animation-play-state: running;
-  animation-fill-mode: forwards;
-}
+/* Utility Classes - All fade-in animations now handled by AOS */
 
 .animate-pulse-slow {
   animation: pulse-slow 8s ease-in-out infinite;
 }
 
-/* Visible state for fade-in animations */
-.animate-visible {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-}
-
 /* Reduced Motion */
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after,
-  .animate-fade-in,
-  .fade-in-text,
-  .fade-in-up,
-  .fade-in-up-delay,
-  .fade-in-up-delay-2,
-  .fade-in-up-delay-3,
   .animate-pulse-slow {
     animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-    transition-duration: 0.01ms !important;
   }
 }

@@ -28,19 +28,33 @@ const { service } = Astro.props;
     <div class="col-span-full text-center max-w-6xl mx-auto w-full">
 
       <div class="service-hero-headline mb-5 sm:mb-6 lg:mb-7 w-full">
-        <h1 class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display">
+        <h1
+          class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display"
+          data-aos="fade-down"
+          data-aos-duration="800"
+        >
           <HighlightText
             text={service.hero.title}
             highlight={service.hero.title.split(' ').slice(-2)}
             highlightClass="text-accent-green"
           />
         </h1>
-        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto">
+        <p
+          class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto"
+          data-aos="fade-up"
+          data-aos-duration="600"
+          data-aos-delay="100"
+        >
           {service.hero.subtitle}
         </p>
       </div>
 
-      <div class="service-hero-description mb-6 sm:mb-7 lg:mb-8 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto service-hero-follow-content hero-follow-content">
+      <div
+        class="service-hero-description mb-6 sm:mb-7 lg:mb-8 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto service-hero-follow-content hero-follow-content"
+        data-aos="fade-up"
+        data-aos-duration="600"
+        data-aos-delay="200"
+      >
         <p class="text-base sm:text-lg text-theme-secondary/90 leading-relaxed font-body">
           <HighlightText
             text={service.hero.description}
@@ -49,7 +63,12 @@ const { service } = Astro.props;
           />
         </p>
       </div>
-      <div class="service-hero-follow-content hero-follow-content">
+      <div
+        class="service-hero-follow-content hero-follow-content"
+        data-aos="fade-up"
+        data-aos-duration="600"
+        data-aos-delay="300"
+      >
         <div class="hero-cta-container">
           <Button
             variant="primary"

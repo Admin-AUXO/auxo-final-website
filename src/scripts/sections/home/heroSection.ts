@@ -10,26 +10,10 @@ const TYPING_START_DELAY = 200;
 
 let titleAnimation: TypingAnimation | null = null;
 
-// Show follow content with staggered animation
+// Show follow content - now handled by AOS, this function is kept for fallback only
 function showFollowContent(): void {
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-  const followElements = document.querySelectorAll(".hero-follow-content");
-
-  followElements.forEach((element, index) => {
-    const el = element as HTMLElement;
-
-    if (prefersReducedMotion) {
-      el.style.opacity = "1";
-      el.style.transform = "translateY(0)";
-    } else {
-      setTimeout(() => {
-        el.style.opacity = "1";
-        el.style.transform = "translateY(0)";
-      }, index * FOLLOW_CONTENT_DELAY);
-    }
-  });
+  // Follow content animations are now handled by AOS data attributes
+  // This function is kept as a no-op for backwards compatibility
 }
 
 function resetAnimationStates(): void {
@@ -38,18 +22,7 @@ function resetAnimationStates(): void {
     typingHighlight.textContent = "";
   }
 
-  const followElements = document.querySelectorAll(".hero-follow-content");
-  const root = document.documentElement;
-  const translateYValue =
-    getComputedStyle(root).getPropertyValue("--transform-translate-y-sm").trim() ||
-    "0.9375rem";
-
-  followElements.forEach((element) => {
-    const el = element as HTMLElement;
-    el.style.opacity = "0";
-    el.style.transform = `translateY(${translateYValue})`;
-    el.style.transition = "";
-  });
+  // Follow content reset removed - now handled by AOS
 }
 
 export function setupHeroAnimations(): void {

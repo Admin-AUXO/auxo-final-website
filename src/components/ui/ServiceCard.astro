@@ -20,7 +20,14 @@ const {
 } = Astro.props;
 ---
 
-<div class="service-card-redesigned group h-full flex flex-col" data-index={index} data-variant={variant}>
+<div
+  class="service-card-redesigned group h-full flex flex-col"
+  data-index={index}
+  data-variant={variant}
+  data-aos="fade-up"
+  data-aos-duration="600"
+  data-aos-delay={index * 100}
+>
   <div class={`relative h-full flex flex-col bg-theme-card border border-accent-green/10 ${variant === "carousel" ? "rounded-lg" : "rounded-2xl"} overflow-hidden transition-all duration-500 hover:border-accent-green/40 ${variant === "carousel" ? "hover:shadow-lg" : "hover:shadow-xl"} hover:shadow-accent-green/10 ${variant === "carousel" ? "" : "hover:-translate-y-1"}`}>
     {/* Top accent bar */}
     <div class={`absolute top-0 left-0 right-0 ${variant === "carousel" ? "h-0.5" : "h-1"} bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 group-hover:via-accent-green/60 transition-all duration-500`} />

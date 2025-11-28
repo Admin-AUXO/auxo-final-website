@@ -12,14 +12,14 @@ const content = aboutContent.purpose;
   id="purpose"
   padding="normal"
   background="card"
-  class="relative purpose-section section-divider"
+  class="relative purpose-section section-divider overflow-hidden"
 >
   <div class="section-pattern-mesh absolute inset-0 pointer-events-none z-0"></div>
   <div class="section-gradient-center absolute inset-0 pointer-events-none z-0"></div>
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-5xl mx-auto w-full">
-      <div class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16 opacity-0 fade-in-up">
+      <div class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16" data-aos="fade-down" data-aos-duration="800">
         <h2 class="text-h2 font-extrabold mb-3 sm:mb-4 lg:mb-5 xl:mb-6 text-theme-primary leading-tight tracking-tight font-display px-2">
           {content.title}
         </h2>
@@ -28,7 +28,7 @@ const content = aboutContent.purpose;
         </p>
       </div>
 
-      <div class="name-origin-card opacity-0 fade-in-up-delay">
+      <div class="name-origin-card" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
         <HighlightCard
           title={content.nameOrigin.title}
           content={content.nameOrigin.description}

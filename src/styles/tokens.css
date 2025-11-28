@@ -133,13 +133,13 @@
   --nav-height-xl: 5rem;
 
   /* Hero Section Padding */
-  --hero-padding-top-mobile: 6rem;
-  --hero-padding-top-sm: 7rem;
-  --hero-padding-top-lg: 8rem;
-  --hero-padding-top-xl: 9rem;
-  --hero-padding-bottom: 5rem;
-  --hero-scroll-indicator-bottom-mobile: 4rem;
-  --hero-scroll-indicator-bottom-sm: 5rem;
+  --hero-padding-top-mobile: 9rem;
+  --hero-padding-top-sm: 5.5rem;
+  --hero-padding-top-lg: 6rem;
+  --hero-padding-top-xl: 6.5rem;
+  --hero-padding-bottom: 0;
+  --hero-scroll-indicator-bottom-mobile: 7.5rem;
+  --hero-scroll-indicator-bottom-sm: 2.5rem;
   
   /* Widths & Sizing */
   --width-90: 90%;

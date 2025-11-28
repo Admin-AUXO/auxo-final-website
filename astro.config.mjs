@@ -11,6 +11,12 @@ export default defineConfig({
     inlineStylesheets: 'auto',
     assets: '_astro',
   },
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+    },
+    remotePatterns: [],
+  },
   vite: {
     build: {
       cssCodeSplit: true,

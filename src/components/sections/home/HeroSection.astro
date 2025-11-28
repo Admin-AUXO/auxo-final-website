@@ -16,7 +16,7 @@ const content: HomepageContent["hero"] = homepageContent.hero;
 >
   <div class="hero-content">
     <div class="col-span-full text-center max-w-6xl mx-auto w-full">
-      <div class="hero-headline mb-5 sm:mb-6 lg:mb-7 w-full">
+      <div class="hero-headline mb-5 sm:mb-6 lg:mb-7 w-full" data-aos="fade-down" data-aos-duration="1000">
         <h1
           class="hero-headline-text text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display"
         >
@@ -31,14 +31,14 @@ const content: HomepageContent["hero"] = homepageContent.hero;
       </div>
 
       {content.subtitle && (
-        <div class="hero-subtitle mb-6 sm:mb-7 lg:mb-8 max-w-[400px] sm:max-w-[500px] lg:max-w-[600px] mx-auto hero-follow-content">
+        <div class="hero-subtitle mb-6 sm:mb-7 lg:mb-8 max-w-[400px] sm:max-w-[500px] lg:max-w-[600px] mx-auto hero-follow-content" data-aos="fade-up" data-aos-delay="200">
           <p class="text-body-lg text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body">
             {content.subtitle}
           </p>
         </div>
       )}
 
-      <div class="hero-follow-content">
+      <div class="hero-follow-content" data-aos="fade-up" data-aos-delay="400">
         <div class="hero-cta-container">
           {content.primaryCta.text && (
             <Button
@@ -59,7 +59,7 @@ const content: HomepageContent["hero"] = homepageContent.hero;
     </div>
   </div>
 
-  <div class="hero-scroll-indicator">
+  <div class="hero-scroll-indicator" data-aos="fade-up" data-aos-delay="600">
     <a
       href="#services"
       class="hero-scroll-link group"

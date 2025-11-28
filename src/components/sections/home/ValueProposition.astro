@@ -20,7 +20,7 @@ const highlightLine2 = highlightParts.slice(2).join("");
   id="value-proposition"
   padding="normal"
   background="surface"
-  class="relative flex items-center transition-colors value-proposition-section section-divider-bottom"
+  class="relative flex items-center overflow-hidden transition-colors value-proposition-section section-divider-bottom"
 >
   <div class="section-gradient-hero absolute inset-0 pointer-events-none z-0"></div>
   
@@ -33,24 +33,26 @@ const highlightLine2 = highlightParts.slice(2).join("");
       >
         {introParagraphs.map((paragraph, index) => (
           <p
-            class="text-body-lg leading-[1.75] text-theme-primary transition-colors font-normal fade-in-text font-body"
-            style={`animation-delay: ${index * 0.4}s;`}
+            class="text-body-lg leading-[1.75] text-theme-primary transition-colors font-normal font-body"
+            data-aos="fade-up"
+            data-aos-duration="600"
+            data-aos-delay={index * 150}
           >
             <HighlightText text={paragraph} highlight="AUXO" />
           </p>
         ))}
       </div>
 
-      <div class="highlight-line-container mb-8 sm:mb-10 lg:mb-12 xl:mb-14">
+      <div class="highlight-line-container mb-8 sm:mb-10 lg:mb-12 xl:mb-14" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300">
         <p
-          class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors highlight-text font-display"
+          class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors font-display"
         >
           <span class="block">{highlightLine1}</span>
           <span class="block">{highlightLine2}</span>
         </p>
       </div>
 
-      <div class="underline-animation">
+      <div class="underline-animation" data-aos="fade-up" data-aos-delay="500">
         <div class="underline-line"></div>
       </div>
     </div>

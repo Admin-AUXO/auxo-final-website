@@ -20,7 +20,7 @@ const principleIcons = {
   id="approach"
   padding="normal"
   background="elevated"
-  class="relative approach-section section-divider"
+  class="relative approach-section section-divider overflow-hidden"
 >
   <BackgroundDecorations gradients={["dual"]} patterns={["grid"]} />
   
@@ -37,8 +37,10 @@ const principleIcons = {
       <div class="hidden md:grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 code-principles-desktop">
         {content.principles.map((principle, index) => (
           <div
-            class="code-principle-card opacity-0 fade-in-up-delay"
-            style={`animation-delay: ${0.3 + index * 0.15}s`}
+            class="code-principle-card"
+            data-aos="fade-up"
+            data-aos-duration="600"
+            data-aos-delay={index * 100}
           >
             <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
               <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
