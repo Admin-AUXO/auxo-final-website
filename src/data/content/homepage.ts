@@ -78,8 +78,8 @@ export const homepageContent: HomepageContent = {
   hero: {
     title: 'Intelligence,',
     titleHighlight: 'Engineered.',
-    subtitle: 'Analytics consultancy for high-growth startups and scale-ups that need confident, compliant decisions—without the overhead.',
-    subtitleHighlight: ['confident, compliant decisions'],
+    subtitle: 'AUXO delivers end-to-end DAAS — Data Analytics as a Service tailored to your organisation.',
+    subtitleHighlight: ['DAAS', 'Data Analytics as a Service'],
     primaryCta: {
       text: 'Book a discovery call',
       href: '/contact/',
