@@ -68,26 +68,26 @@ export interface AboutContent {
 
 export const aboutContent: AboutContent = {
   hero: {
-    headline: "We bridge business strategy and data execution",
+    headline: "We bridge Business strategy and Data execution",
     description: "AUXO Data Labs exists to make analytics a practical, everyday advantage—not an aspirational slide in a board deck.",
     ctaText: "View our Principles",
     ctaHref: "#approach",
   },
   mission: {
     title: "Mission & Vision",
-    mission: "To make intelligence effortless — a world where every decision is clear, confident, and precise",
-    missionHighlight: ['effortless', 'precise'],
-    vision: "To engineer practical data systems and ways of working that turn complexity into simple, reliable decisions for every team, every day",
-    visionHighlight: ['practical data systems', 'reliable decisions'],
+    mission: "Our mission is to close the \"Intelligence Gap\" by delivering decision-grade intelligence with unmatched velocity and precision.",
+    missionHighlight: ['Intelligence Gap', 'decision-grade intelligence', 'unmatched velocity'],
+    vision: "To make intelligence effortless — a world where every decision is clear, confident, and precise",
+    visionHighlight: ['effortless', 'clear, confident, and precise'],
   },
   purpose: {
     title: "What We Do",
-    description: "AUXO is a modern analytics consultancy that blends deep business understanding with hands‑on data engineering and data science to help organizations move from raw data to confident, compliant decisions.",
-    descriptionHighlight: ['deep business understanding', 'confident, compliant decisions'],
+    description: "AUXO helps organizations see what their data is truly saying—transforming raw information into clear, decision-ready intelligence for organization across the GCC, Europe, the US, and beyond.",
+    descriptionHighlight: ['see what their data is truly saying', 'decision-ready intelligence', 'GCC, Europe, the US'],
     nameOrigin: {
       title: "Why AUXO",
-      description: "The name AUXO comes from the idea of augmentation—support that amplifies what is already there rather than trying to replace it. The role is to plug into existing teams, tools, and ambitions, then sharpen priorities, strengthen data foundations, and accelerate how quickly questions turn into answers. It reflects a simple idea: sustainable growth comes from intelligent support and focus, not from adding more noise or complexity.",
-      descriptionHighlight: ['augmentation', 'sustainable growth'],
+      description: "AUXO comes from the Greek word \"to grow\" reflecting how we build the clarity and intelligence that drive lasting performance. The X/O form references 0s and 1s—our reminder that the smallest units of information, when structured well, change everything.",
+      descriptionHighlight: ['Greek word "to grow"', 'X/O form', '0s and 1s'],
     },
   },
   approach: {
