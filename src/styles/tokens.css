@@ -241,8 +241,8 @@
 
 /* Light Theme */
 :root.light {
-  --accent-green: #15803D;
-  --accent-green-rgb: 21, 128, 61;
+  --accent-green: #7CB342;
+  --accent-green-rgb: 124, 179, 66;
   --bg-primary: #FFFFFF;
   --text-primary: #111827;
   --text-secondary: #4B5563;
@@ -263,23 +263,23 @@
   --carousel-dot-inactive-hover: var(--accent-green-opacity-30);
   
   /* Accent Green Opacity Variants for Light Mode */
-  --accent-green-opacity-01: rgba(21, 128, 61, 0.01);
-  --accent-green-opacity-015: rgba(21, 128, 61, 0.015);
-  --accent-green-opacity-02: rgba(21, 128, 61, 0.02);
-  --accent-green-opacity-025: rgba(21, 128, 61, 0.025);
-  --accent-green-opacity-03: rgba(21, 128, 61, 0.03);
-  --accent-green-opacity-04: rgba(21, 128, 61, 0.04);
-  --accent-green-opacity-05: rgba(21, 128, 61, 0.05);
-  --accent-green-opacity-06: rgba(21, 128, 61, 0.06);
-  --accent-green-opacity-08: rgba(21, 128, 61, 0.08);
-  --accent-green-opacity-1: rgba(21, 128, 61, 0.1);
-  --accent-green-opacity-12: rgba(21, 128, 61, 0.12);
-  --accent-green-opacity-15: rgba(21, 128, 61, 0.15);
-  --accent-green-opacity-18: rgba(21, 128, 61, 0.18);
-  --accent-green-opacity-2: rgba(21, 128, 61, 0.2);
-  --accent-green-opacity-22: rgba(21, 128, 61, 0.22);
-  --accent-green-opacity-25: rgba(21, 128, 61, 0.25);
-  --accent-green-opacity-30: rgba(21, 128, 61, 0.3);
+  --accent-green-opacity-01: rgba(124, 179, 66, 0.01);
+  --accent-green-opacity-015: rgba(124, 179, 66, 0.015);
+  --accent-green-opacity-02: rgba(124, 179, 66, 0.02);
+  --accent-green-opacity-025: rgba(124, 179, 66, 0.025);
+  --accent-green-opacity-03: rgba(124, 179, 66, 0.03);
+  --accent-green-opacity-04: rgba(124, 179, 66, 0.04);
+  --accent-green-opacity-05: rgba(124, 179, 66, 0.05);
+  --accent-green-opacity-06: rgba(124, 179, 66, 0.06);
+  --accent-green-opacity-08: rgba(124, 179, 66, 0.08);
+  --accent-green-opacity-1: rgba(124, 179, 66, 0.1);
+  --accent-green-opacity-12: rgba(124, 179, 66, 0.12);
+  --accent-green-opacity-15: rgba(124, 179, 66, 0.15);
+  --accent-green-opacity-18: rgba(124, 179, 66, 0.18);
+  --accent-green-opacity-2: rgba(124, 179, 66, 0.2);
+  --accent-green-opacity-22: rgba(124, 179, 66, 0.22);
+  --accent-green-opacity-25: rgba(124, 179, 66, 0.25);
+  --accent-green-opacity-30: rgba(124, 179, 66, 0.3);
   
   --btn-primary-bg: var(--accent-green);
   --btn-primary-text: var(--text-on-accent);
