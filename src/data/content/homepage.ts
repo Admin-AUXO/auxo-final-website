@@ -87,7 +87,7 @@ export const homepageContent: HomepageContent = {
     scrollIndicator: 'Scroll More',
   },
   problem: {
-    valueProposition: 'Most companies collect data. Few convert it into decisions.\n\nAUXO bridges the gap — connecting business understanding with data intelligence.\n\nBig-firm clarity. Startup agility. Compliant by Design.',
+    valueProposition: 'Most companies collect data. Few convert it into decisions.\n\nAUXO bridges the gap — connecting business understanding with data intelligence.',
   },
   finalCta: {
     title: 'Find your next step',

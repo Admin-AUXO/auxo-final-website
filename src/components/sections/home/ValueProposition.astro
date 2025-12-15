@@ -4,16 +4,8 @@ import {
   type HomepageContent,
 } from "../../../data/content/homepage";
 import SectionContainer from "../../layouts/SectionContainer.astro";
-import HighlightText from "../../ui/HighlightText.astro";
 
 const problemContent: HomepageContent["problem"] = homepageContent.problem;
-const paragraphs = problemContent.valueProposition.split("\n\n");
-const highlightLine = paragraphs[paragraphs.length - 1];
-const introParagraphs = paragraphs.slice(0, -1);
-
-const highlightParts = highlightLine.split(". ");
-const highlightLine1 = highlightParts.slice(0, 2).join(". ") + ".";
-const highlightLine2 = highlightParts.slice(2).join("");
 ---
 
 <SectionContainer
@@ -29,27 +21,12 @@ const highlightLine2 = highlightParts.slice(2).join("");
       class="col-span-full text-center max-w-6xl mx-auto w-full"
     >
       <div
-        class="intro-text space-y-5 sm:space-y-6 lg:space-y-8 xl:space-y-10 mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
+        id="value-proposition-typing"
+        class="hero-typing-text space-y-5 sm:space-y-6 lg:space-y-8 xl:space-y-10 mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
+        data-aos="fade-up"
+        data-aos-duration="600"
       >
-        {introParagraphs.map((paragraph, index) => (
-          <p
-            class="text-body-lg leading-[1.75] text-theme-primary transition-colors font-normal font-body"
-            data-aos="fade-up"
-            data-aos-duration="600"
-            data-aos-delay={index * 150}
-          >
-            <HighlightText text={paragraph} highlight="AUXO" />
-          </p>
-        ))}
-      </div>
-
-      <div class="highlight-line-container mb-8 sm:mb-10 lg:mb-12 xl:mb-14" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300">
-        <p
-          class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors font-display"
-        >
-          <span class="block">{highlightLine1}</span>
-          <span class="block">{highlightLine2}</span>
-        </p>
+        <!-- Content will be populated by typing animation script -->
       </div>
 
       <div class="underline-animation" data-aos="fade-up" data-aos-delay="500">
@@ -60,7 +37,15 @@ const highlightLine2 = highlightParts.slice(2).join("");
 </SectionContainer>
 
 <script>
-  import { initValueProposition } from "../../../scripts/sections/home/valueProposition";
-  initValueProposition();
+  import { initValuePropositionTyping } from "../../../scripts/sections/home/valuePropositionTyping";
+  
+  // Initialize typing animation when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initValuePropositionTyping('value-proposition-typing');
+    });
+  } else {
+    initValuePropositionTyping('value-proposition-typing');
+  }
 </script>
 

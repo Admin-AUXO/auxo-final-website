@@ -169,3 +169,38 @@
     linear-gradient(-45deg, var(--accent-green-opacity-1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
+
+/* Value Proposition Typing Animation */
+.hero-typing-text {
+  font-size: 105%;
+}
+
+.hero-typing-text p {
+  margin: 0;
+  font-size: clamp(1rem, 0.9375rem + 0.3125vw, 1.125rem);
+  line-height: 1.75;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-weight: normal;
+}
+
+.hero-typing-text .auxo-glow {
+  color: var(--accent-green);
+  text-shadow:
+    0 0 6px rgba(var(--accent-green-rgb), 0.35),
+    0 0 14px rgba(var(--accent-green-rgb), 0.25);
+}
+
+.hero-typing-text .typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 6px;
+  background: var(--accent-green);
+  animation: auxoCursorBlink 1s steps(1, end) infinite;
+  vertical-align: -0.1em;
+}
+
+@keyframes auxoCursorBlink {
+  50% { opacity: 0; }
+}
