@@ -40,6 +40,18 @@ const content: HomepageContent["hero"] = homepageContent.hero;
 
       <div class="hero-follow-content" data-aos="fade-up" data-aos-delay="400">
         <div class="hero-cta-container">
+          <Button
+            variant="outline"
+            size="lg"
+            href={createUrl('about')}
+            class="hero-cta-button group/btn"
+          >
+            <span class="whitespace-nowrap">Learn more</span>
+            <Icon
+              name="mdi:arrow-right"
+              class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300"
+            />
+          </Button>
           {content.primaryCta.text && (
             <Button
               variant="primary"

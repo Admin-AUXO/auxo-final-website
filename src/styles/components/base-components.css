@@ -100,6 +100,10 @@
   color: var(--text-secondary);
 }
 
+.hero-subtitle p {
+  font-size: clamp(1.15rem, 1.078125rem + 0.359375vw, 1.29375rem) !important;
+}
+
 .hero-cta {
   color: var(--text-primary);
 }
