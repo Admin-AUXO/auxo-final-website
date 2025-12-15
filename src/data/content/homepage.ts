@@ -76,8 +76,8 @@ export interface HomepageContent {
 
 export const homepageContent: HomepageContent = {
   hero: {
-    title: 'Intelligence',
-    titleHighlight: '',
+    title: 'Intelligence,',
+    titleHighlight: 'Engineered.',
     subtitle: 'AUXO delivers end-to-end DAAS — Data Analytics as a Service tailored to your organisation.',
     subtitleHighlight: ['DAAS', 'Data Analytics as a Service'],
     primaryCta: {
