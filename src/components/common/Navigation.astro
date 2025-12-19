@@ -21,7 +21,7 @@ const contactUrl = createUrl("contact");
         <Logo size="md" showText={true} href={base} />
       </div>
 
-      <div class="hidden lg:flex items-center gap-0.5 pointer-events-auto flex-shrink-0">
+      <div class="hidden lg:flex items-center gap-2 pointer-events-auto flex-shrink-0">
         {navItems.map((item, index) => 
           item.dropdown ? (
             <NavDropdown item={item} index={index} />
@@ -29,12 +29,12 @@ const contactUrl = createUrl("contact");
             <NavLink item={item} />
           )
         )}
-        <div class="ml-0.5">
+        <div class="ml-2">
           <ThemeToggle />
         </div>
         <a 
           href={contactUrl} 
-          class="nav-cta ml-1.5 px-5 py-2.5 text-sm font-semibold border-2 border-accent-green bg-transparent text-accent-green rounded-xl hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 transition-all duration-fast min-h-[44px] flex items-center justify-center relative group/cta" 
+          class="nav-cta ml-3 px-5 py-2.5 text-sm font-semibold border-2 border-accent-green bg-transparent text-accent-green rounded-xl hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 transition-all duration-fast min-h-[44px] flex items-center justify-center relative group/cta" 
           aria-label="Let's Talk - Contact us"
         >
           <span class="relative z-10 font-bold">Let's Talk</span>

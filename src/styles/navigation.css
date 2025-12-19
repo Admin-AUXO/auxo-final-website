@@ -37,7 +37,7 @@
 /* Desktop Navigation Items */
 #main-navigation .hidden.lg\\:flex {
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.5rem;
 }
 
 #main-navigation .nav-link,
@@ -258,12 +258,11 @@
 }
 
 .nav-link[data-nav-item="about"] .nav-active-border {
-  opacity: 1;
+  display: none;
 }
 
 .nav-link[data-nav-item="about"]:hover .nav-active-border {
-  opacity: 1;
-  border-color: var(--accent-green);
+  display: none;
 }
 
 .mobile-nav-link.active .mobile-nav-active-bg,

@@ -112,19 +112,15 @@ const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow 
               <div class="col-span-full">
                 <div class="flex items-center justify-between gap-4 h-16 lg:h-18 px-4 sm:px-6">
                   <div class="flex items-center gap-4 min-w-0 flex-1">
-                    <div class="w-1.5 h-7 lg:h-8 bg-gradient-to-b from-accent-green via-accent-green/70 to-accent-green/40 rounded-full shadow-lg shadow-accent-green/20 flex-shrink-0"></div>
                     <div class="min-w-0 flex-1">
                       <h2 class="text-lg sm:text-xl lg:text-2xl font-extrabold text-theme-primary font-display tracking-tight break-words leading-tight">
                         {item.name}
                       </h2>
-                      <p class="text-xs sm:text-sm text-theme-secondary opacity-75 font-medium leading-tight mt-0.5">
-                        Explore our comprehensive solutions
-                      </p>
                     </div>
                   </div>
                   <button
                     type="button"
-                    class="dropdown-modal-close w-11 h-11 flex items-center justify-center rounded-xl hover:bg-theme-surface/80 active:scale-95 text-theme-secondary hover:text-theme-primary transition-all duration-200 min-h-[44px] min-w-[44px] group/close border border-accent-green/30 hover:border-accent-green/50 flex-shrink-0 relative"
+                    class="dropdown-modal-close w-11 h-11 flex items-center justify-center rounded-xl hover:bg-theme-surface/80 active:scale-95 text-theme-secondary hover:text-theme-primary transition-all duration-200 min-h-[44px] min-w-[44px] group/close flex-shrink-0 relative"
                     aria-label="Close menu"
                     data-dropdown-close={index}
                   >
@@ -142,37 +138,24 @@ const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow 
                   {item.dropdown!.map((sub: DropdownItem, cardIndex: number) => (
                     <a
                       href={sub.href}
-                      class="service-card group/item relative flex flex-col p-5 md:p-5 lg:p-6 rounded-xl bg-gradient-to-br from-theme-surface/80 via-theme-surface/60 to-theme-surface/80 border border-accent-green/30 hover:border-accent-green/50 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-xl hover:shadow-accent-green/10"
+                      class="service-card group/item relative flex flex-col p-6 md:p-7 lg:p-8 rounded-2xl bg-theme-card/50 hover:bg-theme-card transition-all duration-300 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-accent-green/20 hover:-translate-y-1"
                       style={`animation-delay: ${cardIndex * 30}ms`}
                     >
-                      <div class="absolute inset-0 bg-gradient-to-br from-accent-green/6 via-accent-green/2 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                      <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/4 rounded-bl-full opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 blur-xl"></div>
-                      <div class="absolute bottom-0 left-0 w-20 h-20 bg-accent-green/3 rounded-tr-full opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 blur-xl"></div>
+                      <div class="absolute inset-0 bg-gradient-to-br from-accent-green/8 via-accent-green/4 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                      <div class="absolute top-0 right-0 w-32 h-32 bg-accent-green/5 rounded-bl-full opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 blur-2xl"></div>
+                      <div class="absolute bottom-0 left-0 w-24 h-24 bg-accent-green/5 rounded-tr-full opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 blur-2xl"></div>
 
-                      <div class="relative z-10 flex flex-col h-full min-h-0">
-                        <div class="service-icon-wrapper mb-3 flex-shrink-0">
-                          <div class="relative w-14 h-14 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-accent-green/25 via-accent-green/15 to-accent-green/10 rounded-xl flex items-center justify-center group-hover/item:scale-110 group-hover/item:rotate-3 transition-all duration-300 shadow-lg shadow-accent-green/15 border-2 border-accent-green/25 group-hover/item:border-accent-green/40 group-hover/item:shadow-xl group-hover/item:shadow-accent-green/25">
-                            <div class="absolute inset-0 bg-gradient-to-br from-white/15 to-transparent rounded-xl opacity-0 group-hover/item:opacity-100 transition-opacity duration-300"></div>
-                            <Icon name={sub.icon} class="w-7 h-7 md:w-7 md:h-7 lg:w-8 lg:h-8 text-accent-green relative z-10 transition-transform duration-300 group-hover/item:scale-110" />
+                      <div class="relative z-10 flex flex-col items-center text-center h-full min-h-0">
+                        <div class="service-icon-wrapper mb-5 flex-shrink-0 flex justify-center">
+                          <div class="relative w-16 h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 bg-gradient-to-br from-accent-green/20 via-accent-green/12 to-accent-green/8 rounded-2xl flex items-center justify-center group-hover/item:scale-110 group-hover/item:rotate-3 transition-all duration-300 shadow-lg shadow-accent-green/20 group-hover/item:shadow-xl group-hover/item:shadow-accent-green/30">
+                            <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-2xl opacity-0 group-hover/item:opacity-100 transition-opacity duration-300"></div>
+                            <Icon name={sub.icon} class="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-accent-green relative z-10 transition-transform duration-300 group-hover/item:scale-110" />
                           </div>
                         </div>
 
-                        <h3 class="font-bold text-theme-primary text-base md:text-lg lg:text-xl leading-tight group-hover/item:text-accent-green transition-colors duration-300 mb-2 flex-shrink-0 font-display">
+                        <h3 class="font-bold text-theme-primary text-lg md:text-xl lg:text-2xl leading-tight group-hover/item:text-accent-green transition-colors duration-300 font-display text-center">
                           {sub.name}
                         </h3>
-
-                        {sub.description && (
-                          <p class="text-sm md:text-sm lg:text-base text-theme-secondary leading-relaxed mb-3 flex-1 min-h-0 font-medium opacity-90">
-                            {sub.description}
-                          </p>
-                        )}
-
-                        <div class="flex items-center gap-2 text-accent-green mt-auto pt-2.5 flex-shrink-0 border-t border-accent-green/20 group-hover/item:border-accent-green/40 transition-colors duration-300">
-                          <span class="text-sm font-bold group-hover/item:translate-x-0.5 transition-all duration-300">
-                            Explore
-                          </span>
-                          <Icon name="mdi:arrow-right" class="w-4 h-4 md:w-5 md:h-5 group-hover/item:translate-x-1 transition-all duration-300" />
-                        </div>
                       </div>
                     </a>
                   ))}

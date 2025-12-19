@@ -27,9 +27,6 @@ const ACTIVE_BG_CLASSES = "absolute inset-0 opacity-0 transition-opacity duratio
   <a href={item.href} class={DESKTOP_LINK_CLASSES} data-nav-item={item.name.toLowerCase()}>
     <span class="relative z-10">{item.name}</span>
     <span class={`nav-active-bg ${ACTIVE_BG_CLASSES} bg-accent-green/5 rounded-lg`}></span>
-    {item.name.toLowerCase() === 'about' && (
-      <span class={`nav-active-border ${ACTIVE_BG_CLASSES} rounded-lg border border-accent-green/30`}></span>
-    )}
   </a>
 )}
 
