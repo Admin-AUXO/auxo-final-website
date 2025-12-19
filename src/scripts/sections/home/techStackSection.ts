@@ -10,38 +10,45 @@ export function initTechStackSection() {
     const items = Array.from(track.children) as HTMLElement[];
     
     if (items.length > 0) {
+      // Get unique items (first quarter of quadrupled array)
       const uniqueItems = items.slice(0, items.length / 4);
-      const shuffledIndices = Array.from({ length: uniqueItems.length }, (_, i) => i);
       
+      // Fisher-Yates shuffle for true randomization
+      const shuffledIndices = Array.from({ length: uniqueItems.length }, (_, i) => i);
       for (let i = shuffledIndices.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffledIndices[i], shuffledIndices[j]] = [shuffledIndices[j], shuffledIndices[i]];
       }
       
-      const originalIndices = Array.from({ length: uniqueItems.length }, (_, i) => i);
-      const needsReorder = !shuffledIndices.every((val, idx) => val === originalIndices[idx]);
+      // Create shuffled array with all items
+      const shuffledItems = shuffledIndices.map(i => uniqueItems[i]);
       
-      if (needsReorder) {
-        const shuffledItems = shuffledIndices.map(i => uniqueItems[i]);
-        const duplicatedShuffled = [
-          ...shuffledItems,
-          ...shuffledItems.map((el) => el.cloneNode(true) as HTMLElement),
-          ...shuffledItems.map((el) => el.cloneNode(true) as HTMLElement),
-          ...shuffledItems.map((el) => el.cloneNode(true) as HTMLElement)
-        ];
-        
-        duplicatedShuffled.forEach((item, index) => {
-          item.setAttribute('data-index', index.toString());
-        });
-        
-        track.style.animationPlayState = 'paused';
+      // Quadruple duplication for seamless infinite loop
+      const duplicatedShuffled = [
+        ...shuffledItems,
+        ...shuffledItems.map((el) => el.cloneNode(true) as HTMLElement),
+        ...shuffledItems.map((el) => el.cloneNode(true) as HTMLElement),
+        ...shuffledItems.map((el) => el.cloneNode(true) as HTMLElement)
+      ];
+      
+      // Update data-index attributes
+      duplicatedShuffled.forEach((item, index) => {
+        item.setAttribute('data-index', index.toString());
+      });
+      
+      // Smooth transition
+      track.style.opacity = '0';
+      track.style.animationPlayState = 'paused';
+      
+      requestAnimationFrame(() => {
         track.innerHTML = '';
         duplicatedShuffled.forEach(item => track.appendChild(item));
         
         requestAnimationFrame(() => {
+          track.style.opacity = '1';
           track.style.animationPlayState = 'running';
         });
-      }
+      });
       
       hasRandomized = true;
     }

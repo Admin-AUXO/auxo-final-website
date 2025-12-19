@@ -8,7 +8,7 @@ import {
 } from "../../../data/content/homepage";
 
 const content: HomepageContent["techStack"] = homepageContent.techStack;
-// Quadruple duplication for seamless infinite loop
+// Use all items - randomization handled client-side for better control
 const duplicatedItems = [...content.items, ...content.items, ...content.items, ...content.items];
 ---
 
@@ -87,10 +87,14 @@ const duplicatedItems = [...content.items, ...content.items, ...content.items, .
   }
 
   .tech-stack-marquee-track {
-    animation: tech-stack-scroll 5s linear infinite;
+    display: flex;
+    width: max-content;
+    animation: tech-stack-scroll 30s linear infinite;
     will-change: transform;
     backface-visibility: hidden;
     transform: translateZ(0);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .tech-stack-item {
@@ -130,16 +134,20 @@ const duplicatedItems = [...content.items, ...content.items, ...content.items, .
   }
 
   @keyframes tech-stack-scroll {
-    from {
+    0% {
       transform: translateX(0);
     }
-    to {
+    100% {
       transform: translateX(calc(-100% / 4));
     }
   }
 
   .tech-stack-marquee-track.aos-animate {
-    animation: tech-stack-scroll 5s linear infinite;
+    animation: tech-stack-scroll 30s linear infinite;
+  }
+  
+  .tech-stack-marquee-track {
+    transition: opacity 0.3s ease-in;
   }
 
   @media (prefers-reduced-motion: reduce) {
