@@ -1015,12 +1015,14 @@ body:has(.mobile-menu.is-open) {
   background: var(--bg-card);
 }
 
-.view-all-button {
+.view-all-button,
+.view-all-button-top {
   position: relative;
   overflow: hidden;
 }
 
-.view-all-button::before {
+.view-all-button::before,
+.view-all-button-top::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -1029,7 +1031,8 @@ body:has(.mobile-menu.is-open) {
   transition: opacity 0.3s ease;
 }
 
-.view-all-button:hover::before {
+.view-all-button:hover::before,
+.view-all-button-top:hover::before {
   opacity: 1;
 }
 

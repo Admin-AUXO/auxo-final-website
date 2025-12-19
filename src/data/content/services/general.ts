@@ -154,6 +154,20 @@ export const servicesGeneral = {
         keyBenefit: "Improve service efficiency by 20-35% while reducing operational costs",
         keyBenefitHighlight: ['20-35%']
       },
+      {
+        name: "Ecommerce",
+        icon: "mdi:cart",
+        description: "Drive growth through customer analytics, conversion optimization, and inventory intelligence",
+        descriptionHighlight: ['conversion optimization'],
+        useCases: [
+          "Conversion rate optimization",
+          "Customer journey analytics",
+          "Inventory & demand forecasting",
+          "Personalization & recommendations"
+        ],
+        keyBenefit: "Increase conversion rates by 25-40% through data-driven optimization strategies",
+        keyBenefitHighlight: ['25-40%']
+      },
     ],
     goal: "Across every industry, our mission remains constant: deliver clarity and speed to complex decisions that drive measurable impact.",
     goalHighlight: ['measurable impact'],

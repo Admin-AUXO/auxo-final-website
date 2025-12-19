@@ -73,6 +73,49 @@ export default defineConfig({
     }),
     icon({
       include: {
+        'simple-icons': [
+          // Cloud Platforms
+          'amazonaws',
+          'microsoftazure',
+          'googlecloud',
+          'snowflake',
+          'databricks',
+          // Data & Analytics Tools
+          'tableau',
+          'powerbi',
+          'apacheairflow',
+          'apachekafka',
+          'apachespark',
+          'dbt',
+          'fivetran',
+          'looker',
+          'metabase',
+          'apachesuperset',
+          // ML & AI
+          'tensorflow',
+          'pytorch',
+          'huggingface',
+          'scikitlearn',
+          'mlflow',
+          'langchain',
+          'weaviate',
+          'pinecone',
+          // Databases
+          'postgresql',
+          'mongodb',
+          'redis',
+          'elasticsearch',
+          // Development Tools
+          'python',
+          'git',
+          'docker',
+          'kubernetes',
+          'jupyter',
+          'pandas',
+          'numpy',
+          'r',
+          // Modern Tools 2025
+        ],
         mdi: [
           // Navigation
           'arrow-right',
@@ -89,6 +132,7 @@ export default defineConfig({
           'domain',
           'palm-tree',
           'shopping',
+          'cart',
           'finance',
           'package-variant',
           'gavel',
@@ -100,6 +144,7 @@ export default defineConfig({
           'chart-areaspline',
           'chart-timeline-variant',
           'chart-donut-variant',
+          'database',
           'database-search',
           'database-cog',
           'database-plus',
@@ -127,6 +172,19 @@ export default defineConfig({
           'function-variant',
           'head-lightbulb',
           'auto-fix',
+          'flash',
+          'notebook',
+          'source-branch',
+          'docker',
+          'kubernetes',
+          'cloud',
+          'cloud-upload',
+          'workflow',
+          'ray-start-end',
+          'link-variant',
+          'vector-triangle',
+          'chart-box-outline',
+          'water',
 
           // People & Tools
           'account-group',

@@ -24,6 +24,11 @@ export interface ServiceIntroItem {
   link?: string;
 }
 
+export interface TechStackItem {
+  name: string;
+  icon: string;
+}
+
 export interface HomepageContent {
   hero: {
     title: string;
@@ -68,6 +73,11 @@ export interface HomepageContent {
       text: string;
       href: string;
     };
+  };
+  techStack: {
+    title: string;
+    subtitle: string;
+    items: TechStackItem[];
   };
   problem: {
     valueProposition: string;
@@ -222,6 +232,64 @@ export const homepageContent: HomepageContent = {
       text: 'View all Services',
       href: '/services/',
     },
+  },
+  techStack: {
+    title: 'Technologies We Work With',
+    subtitle: 'Modern analytics tools and platforms powering our solutions',
+    items: [
+      // Programming Languages
+      { name: 'Python', icon: 'simple-icons:python' },
+      { name: 'R', icon: 'simple-icons:r' },
+      { name: 'SQL', icon: 'mdi:database' },
+      // Cloud Platforms
+      { name: 'AWS', icon: 'simple-icons:amazonaws' },
+      { name: 'Azure', icon: 'simple-icons:microsoftazure' },
+      { name: 'GCP', icon: 'simple-icons:googlecloud' },
+      { name: 'Snowflake', icon: 'simple-icons:snowflake' },
+      { name: 'Databricks', icon: 'simple-icons:databricks' },
+      // BI & Visualization
+      { name: 'Tableau', icon: 'simple-icons:tableau' },
+      { name: 'Power BI', icon: 'simple-icons:powerbi' },
+      { name: 'Looker', icon: 'simple-icons:looker' },
+      { name: 'Metabase', icon: 'simple-icons:metabase' },
+      { name: 'Apache Superset', icon: 'simple-icons:apachesuperset' },
+      // Data Engineering
+      { name: 'dbt', icon: 'simple-icons:dbt' },
+      { name: 'Airflow', icon: 'simple-icons:apacheairflow' },
+      { name: 'Prefect', icon: 'mdi:cog-sync' },
+      { name: 'Dagster', icon: 'mdi:workflow' },
+      { name: 'Fivetran', icon: 'mdi:cloud-upload' },
+      { name: 'Spark', icon: 'simple-icons:apachespark' },
+      { name: 'Kafka', icon: 'simple-icons:apachekafka' },
+      // ML & AI Frameworks
+      { name: 'TensorFlow', icon: 'simple-icons:tensorflow' },
+      { name: 'PyTorch', icon: 'simple-icons:pytorch' },
+      { name: 'Hugging Face', icon: 'simple-icons:huggingface' },
+      { name: 'Scikit-learn', icon: 'simple-icons:scikitlearn' },
+      { name: 'H2O.ai', icon: 'mdi:water' },
+      { name: 'MLflow', icon: 'simple-icons:mlflow' },
+      { name: 'Ray', icon: 'mdi:ray-start-end' },
+      // Modern AI Tools 2025
+      { name: 'LangChain', icon: 'mdi:link-variant' },
+      { name: 'Weaviate', icon: 'mdi:vector-triangle' },
+      { name: 'Pinecone', icon: 'mdi:database-search' },
+      { name: 'KNIME', icon: 'mdi:chart-box-outline' },
+      { name: 'MindsDB', icon: 'mdi:brain' },
+      { name: 'Chalk', icon: 'mdi:chart-timeline-variant' },
+      // Data Science Tools
+      { name: 'Jupyter', icon: 'simple-icons:jupyter' },
+      { name: 'Pandas', icon: 'simple-icons:pandas' },
+      { name: 'NumPy', icon: 'simple-icons:numpy' },
+      // Databases
+      { name: 'PostgreSQL', icon: 'simple-icons:postgresql' },
+      { name: 'MongoDB', icon: 'simple-icons:mongodb' },
+      { name: 'Redis', icon: 'simple-icons:redis' },
+      { name: 'Elasticsearch', icon: 'simple-icons:elasticsearch' },
+      // DevOps & Infrastructure
+      { name: 'Git', icon: 'simple-icons:git' },
+      { name: 'Docker', icon: 'simple-icons:docker' },
+      { name: 'Kubernetes', icon: 'simple-icons:kubernetes' },
+    ],
   },
 };
 

@@ -101,4 +101,46 @@ const content = servicesContent.impact;
 
 <script>
   import "../../../scripts/sections/services/impactCarousel";
+  
+  // Randomize industries order for each user
+  function randomizeIndustries() {
+    const carouselTrack = document.getElementById('impact-carousel-track');
+    if (!carouselTrack) return;
+    
+    const slides = Array.from(carouselTrack.children) as HTMLElement[];
+    if (slides.length === 0) return;
+    
+    // Fisher-Yates shuffle algorithm
+    for (let i = slides.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [slides[i], slides[j]] = [slides[j], slides[i]];
+    }
+    
+    // Re-append slides in randomized order
+    slides.forEach(slide => carouselTrack.appendChild(slide));
+    
+    // Update data-index attributes
+    slides.forEach((slide, index) => {
+      slide.setAttribute('data-index', index.toString());
+    });
+    
+    // Trigger carousel reinitialization after a short delay
+    setTimeout(() => {
+      const resizeEvent = new Event('resize', { bubbles: true });
+      window.dispatchEvent(resizeEvent);
+    }, 150);
+  }
+  
+  // Wait for DOM and carousel to be ready
+  function initRandomization() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(randomizeIndustries, 200);
+      });
+    } else {
+      setTimeout(randomizeIndustries, 200);
+    }
+  }
+  
+  initRandomization();
 </script>
