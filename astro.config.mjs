@@ -110,7 +110,12 @@ export default defineConfig({
           'pandas',
           'numpy',
           'r',
-          // Modern Tools 2025
+          'grafana',
+          'prometheus',
+          'influxdb',
+          'cockroachlabs',
+          'apachecassandra',
+          'flask',
         ],
         mdi: [
           // Navigation
@@ -181,6 +186,14 @@ export default defineConfig({
           'vector-triangle',
           'chart-box-outline',
           'water',
+          'compare-horizontal',
+          'pipe',
+          'cube',
+          'database-clock',
+          'hexagon',
+          'api',
+          'cog',
+          'rabbit',
 
           // People & Tools
           'account-group',

@@ -8,8 +8,8 @@ import {
 } from "../../../data/content/homepage";
 
 const content: HomepageContent["techStack"] = homepageContent.techStack;
-// Triple duplication for seamless infinite loop
-const duplicatedItems = [...content.items, ...content.items, ...content.items];
+// Quadruple duplication for seamless infinite loop
+const duplicatedItems = [...content.items, ...content.items, ...content.items, ...content.items];
 ---
 
 <SectionContainer
@@ -134,7 +134,7 @@ const duplicatedItems = [...content.items, ...content.items, ...content.items];
       transform: translateX(0);
     }
     to {
-      transform: translateX(calc(-100% / 3));
+      transform: translateX(calc(-100% / 4));
     }
   }
 
