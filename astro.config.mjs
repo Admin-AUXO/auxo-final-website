@@ -87,7 +87,6 @@ export default defineConfig({
           'apachekafka',
           'apachespark',
           'dbt',
-          'fivetran',
           'looker',
           'metabase',
           'apachesuperset',
@@ -97,9 +96,6 @@ export default defineConfig({
           'huggingface',
           'scikitlearn',
           'mlflow',
-          'langchain',
-          'weaviate',
-          'pinecone',
           // Databases
           'postgresql',
           'mongodb',
