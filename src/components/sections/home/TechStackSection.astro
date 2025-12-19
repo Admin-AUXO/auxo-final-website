@@ -89,7 +89,8 @@ const duplicatedItems = [...content.items, ...content.items, ...content.items];
   .tech-stack-marquee-track {
     animation: tech-stack-scroll 5s linear infinite;
     will-change: transform;
-    transition: transform 0.1s ease-out;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   .tech-stack-item {
@@ -129,11 +130,11 @@ const duplicatedItems = [...content.items, ...content.items, ...content.items];
   }
 
   @keyframes tech-stack-scroll {
-    0% {
+    from {
       transform: translateX(0);
     }
-    100% {
-      transform: translateX(-33.333%);
+    to {
+      transform: translateX(calc(-100% / 3));
     }
   }
 

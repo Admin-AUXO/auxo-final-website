@@ -10,7 +10,6 @@ export function initTechStackSection() {
     const items = Array.from(track.children) as HTMLElement[];
     
     if (items.length > 0) {
-      // Get unique items (first third of tripled array)
       const uniqueItems = items.slice(0, items.length / 3);
       const shuffledIndices = Array.from({ length: uniqueItems.length }, (_, i) => i);
       
@@ -24,7 +23,6 @@ export function initTechStackSection() {
       
       if (needsReorder) {
         const shuffledItems = shuffledIndices.map(i => uniqueItems[i]);
-        // Triple duplication for seamless infinite loop
         const duplicatedShuffled = [
           ...shuffledItems,
           ...shuffledItems.map((el) => el.cloneNode(true) as HTMLElement),
@@ -35,8 +33,13 @@ export function initTechStackSection() {
           item.setAttribute('data-index', index.toString());
         });
         
+        track.style.animationPlayState = 'paused';
         track.innerHTML = '';
         duplicatedShuffled.forEach(item => track.appendChild(item));
+        
+        requestAnimationFrame(() => {
+          track.style.animationPlayState = 'running';
+        });
       }
       
       hasRandomized = true;
