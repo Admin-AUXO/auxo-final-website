@@ -8,8 +8,7 @@ import {
 } from "../../../data/content/homepage";
 
 const content: HomepageContent["techStack"] = homepageContent.techStack;
-// Keep original order - randomization will be handled client-side once per page load
-// Duplicate items for seamless loop
+// Randomization handled client-side on page load
 const duplicatedItems = [...content.items, ...content.items];
 ---
 
@@ -138,7 +137,6 @@ const duplicatedItems = [...content.items, ...content.items];
     }
   }
 
-  /* Smooth acceleration and deceleration */
   .tech-stack-marquee-track.aos-animate {
     animation: tech-stack-scroll 5s linear infinite;
   }
@@ -159,22 +157,8 @@ const duplicatedItems = [...content.items, ...content.items];
     }
   }
 
-  /* Pause animation on hover */
   .tech-stack-marquee-wrapper:hover .tech-stack-marquee-track {
     animation-play-state: paused;
-  }
-
-  /* Theme-aware adjustments */
-  @media (prefers-color-scheme: dark) {
-    .tech-stack-icon {
-      color: var(--accent-green);
-    }
-  }
-
-  @media (prefers-color-scheme: light) {
-    .tech-stack-icon {
-      color: var(--accent-green);
-    }
   }
 </style>
 

@@ -38,7 +38,6 @@ textarea:focus {
     overflow: hidden;
   }
 
-  /* Hide scrollbar for Calendly iframe on mobile */
   :global(.calendly-inline-widget iframe) {
     overflow: hidden !important;
     scrollbar-width: none !important;
