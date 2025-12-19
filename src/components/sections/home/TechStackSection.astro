@@ -8,10 +8,9 @@ import {
 } from "../../../data/content/homepage";
 
 const content: HomepageContent["techStack"] = homepageContent.techStack;
-// Shuffle items randomly for variety
-const shuffledItems = [...content.items].sort(() => Math.random() - 0.5);
+// Keep original order - randomization will be handled client-side once per page load
 // Duplicate items for seamless loop
-const duplicatedItems = [...shuffledItems, ...shuffledItems];
+const duplicatedItems = [...content.items, ...content.items];
 ---
 
 <SectionContainer
@@ -47,7 +46,7 @@ const duplicatedItems = [...shuffledItems, ...shuffledItems];
               data-aos="fade-left"
               data-aos-duration="800"
               data-aos-easing="ease-out-cubic"
-              data-aos-delay={50 + (index % shuffledItems.length) * 20}
+              data-aos-delay={50 + (index % content.items.length) * 20}
             >
               <div class="tech-stack-icon-wrapper">
                 <Icon 
@@ -141,7 +140,7 @@ const duplicatedItems = [...shuffledItems, ...shuffledItems];
 
   /* Smooth acceleration and deceleration */
   .tech-stack-marquee-track.aos-animate {
-    animation: tech-stack-scroll 20s linear infinite;
+    animation: tech-stack-scroll 5s linear infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -31,5 +31,21 @@ textarea:focus {
     margin-right: 0;
     width: 100%;
     max-width: 100%;
+    overflow: hidden;
+  }
+
+  .calendly-inline-widget {
+    overflow: hidden;
+  }
+
+  /* Hide scrollbar for Calendly iframe on mobile */
+  :global(.calendly-inline-widget iframe) {
+    overflow: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  :global(.calendly-inline-widget iframe::-webkit-scrollbar) {
+    display: none !important;
   }
 }
