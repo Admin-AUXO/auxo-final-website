@@ -10,22 +10,12 @@ import FinalCta from "../components/sections/home/FinalCta.astro";
 import "../styles/sections/home-sections.css";
 ---
 
-<BaseLayout
-  title="Data Analytics Consultancy Dubai, UAE | AUXO Data Labs"
-  description={siteData.description}
->
+<BaseLayout title="Data Analytics Consultancy Dubai, UAE | AUXO Data Labs" description={siteData.description}>
   <HeroSection />
   <ValueProposition />
   <ServicesIntroSection />
   <CapabilitiesSection />
   <MethodologySection />
   <FinalCta />
-
-  <script>
-    import { setupHomepageAnimations } from "../scripts/homepage";
-    import { setupSectionInit } from "../scripts/sections/utils/initUtils";
-
-    setupSectionInit(setupHomepageAnimations);
-  </script>
 </BaseLayout>
 

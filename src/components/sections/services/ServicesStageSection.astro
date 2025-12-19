@@ -28,31 +28,41 @@ const serviceIcons = [
   id="services-stages"
   padding="normal"
   background="default"
-  class="relative services-stages-section overflow-x-hidden"
+  class="relative services-stages-section"
 >
-  <BackgroundDecorations gradients={["hero"]} />
-  
-  <div class="grid-container relative z-10 overflow-x-hidden">
-    <div class="col-span-full max-w-7xl mx-auto w-full overflow-x-hidden">
+  <div
+    class="absolute inset-0 pointer-events-none z-0"
+    data-aos="fade-in"
+    data-aos-duration="500"
+    data-aos-easing="ease-out-cubic"
+  >
+    <BackgroundDecorations gradients={["hero"]} />
+  </div>
+
+  <div class="grid-container relative z-10 overflow-hidden">
+    <div class="col-span-full max-w-7xl mx-auto w-full overflow-hidden">
       <div
         class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
         data-aos="fade-down"
-        data-aos-duration="800"
+        data-aos-duration="500"
+        data-aos-easing="ease-out-cubic"
       >
-        <h2 class="text-h2 font-extrabold mb-3 sm:mb-4 lg:mb-5 xl:mb-6 leading-tight tracking-tight font-display px-2">
-          Services for <span class="text-accent-green">Every Stage</span>
+        <h2 class="text-h2 font-extrabold mb-4 sm:mb-5 lg:mb-6 leading-tight tracking-tight font-display">
+          Services for <span class="text-accent-green font-black text-[1.05em]">Every Stage</span>
         </h2>
-        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body px-4 sm:px-6">
-          <HighlightText text={content.description} highlight="Eight offerings" highlightClass="text-accent-green font-semibold" />
+        <p class="text-base sm:text-body-lg lg:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body">
+          <HighlightText text={content.description} highlight="Eight" highlightClass="text-accent-green font-bold" />
         </p>
       </div>
 
-      <div class="hidden lg:grid lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 mb-10 sm:mb-12 lg:mb-16">
+      <div class="hidden lg:grid lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 mb-10 sm:mb-12 lg:mb-16 overflow-hidden">
         {content.services.map((service, index) => (
           <div
-            data-aos="zoom-in"
-            data-aos-duration="600"
-            data-aos-delay={index * 100}
+            class="overflow-hidden"
+            data-aos="fade-up"
+            data-aos-duration="400"
+            data-aos-delay={150 + (index * 50)}
+            data-aos-easing="ease-out-cubic"
           >
             <ServiceCard
               icon={serviceIcons[index]}
@@ -78,7 +88,14 @@ const serviceIcons = [
         activateOnDesktop={false}
       >
         {content.services.map((service, index) => (
-          <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
+          <div 
+            class="carousel-slide embla__slide flex-shrink-0" 
+            data-index={index}
+            data-aos="fade-up"
+            data-aos-duration="400"
+            data-aos-delay={250 + (index * 50)}
+            data-aos-easing="ease-out-cubic"
+          >
             <ServiceCard
               icon={serviceIcons[index]}
               title={service.name}
@@ -92,18 +109,17 @@ const serviceIcons = [
       </Carousel>
 
       <div
-        class="mt-10 sm:mt-12 lg:mt-16 overflow-x-hidden"
+        class="mt-10 sm:mt-12 lg:mt-16"
         data-aos="fade-up"
-        data-aos-duration="600"
-        data-aos-delay="200"
+        data-aos-duration="400"
+        data-aos-delay="300"
+        data-aos-easing="ease-out-cubic"
       >
-        <div class="bg-gradient-to-br from-accent-green/15 via-accent-green/8 to-transparent border-2 border-accent-green/30 rounded-2xl p-8 sm:p-10 lg:p-12 relative overflow-hidden group hover:border-accent-green/50 hover:shadow-2xl hover:shadow-accent-green/20 transition-all duration-500 max-w-full">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-accent-green/10 rounded-full blur-3xl opacity-60"></div>
-          <div class="absolute bottom-0 left-0 w-48 h-48 bg-accent-green/5 rounded-full blur-2xl opacity-40"></div>
+        <div class="bg-gradient-to-br from-accent-green/15 via-accent-green/8 to-transparent border-2 border-accent-green/30 p-8 sm:p-10 lg:p-12 relative overflow-hidden group hover:border-accent-green/50 transition-all duration-500">
           <div class="absolute inset-0 opacity-[0.03] code-edge-pattern"></div>
 
           <div class="relative z-10">
-            <p class="text-body-lg sm:text-body-xl lg:text-2xl text-theme-primary leading-relaxed font-body text-center">
+            <p class="text-base sm:text-body-lg lg:text-body-xl xl:text-2xl text-theme-primary leading-relaxed font-body text-center">
               <HighlightText text={content.codeEdge} highlight={["consistent quality", "common language"]} highlightClass="text-accent-green font-bold" />
             </p>
           </div>
@@ -112,6 +128,80 @@ const serviceIcons = [
     </div>
   </div>
 </SectionContainer>
+
+<style>
+  .services-stages-section {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .services-stages-section .grid-container,
+  .services-stages-section .col-span-full {
+    overflow: hidden;
+  }
+
+  .services-stages-section [data-aos] {
+    will-change: transform, opacity;
+    contain: layout style paint;
+  }
+
+  .services-carousel-wrapper,
+  .services-carousel-wrapper .carousel-viewport,
+  .services-carousel-wrapper .carousel-container,
+  .services-carousel-wrapper .carousel-track,
+  .services-carousel-wrapper .embla__container {
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  @media (min-width: 1024px) {
+    .services-carousel-wrapper .carousel-slide,
+    .services-carousel-wrapper .embla__slide {
+      width: calc((100% - 4.5rem) / 4);
+      max-width: calc((100% - 4.5rem) / 4);
+      min-width: calc((100% - 4.5rem) / 4);
+      flex: 0 0 calc((100% - 4.5rem) / 4);
+    }
+
+    .services-carousel-wrapper .carousel-track {
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .services-carousel-wrapper .service-card-redesigned[data-variant="carousel"] {
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .services-carousel-wrapper .service-card-redesigned[data-variant="carousel"]:hover {
+      transform: translateY(-4px);
+      z-index: 10;
+    }
+
+    .service-card-redesigned[data-variant="grid"]:hover {
+      transform: translateY(-4px);
+      z-index: 10;
+    }
+
+    .services-stages-section .hidden.lg\\:grid > div {
+      overflow: hidden;
+      padding-bottom: 4px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .services-carousel-wrapper .carousel-slide,
+    .services-carousel-wrapper .embla__slide {
+      width: calc((100% - 6rem) / 4);
+      max-width: calc((100% - 6rem) / 4);
+      min-width: calc((100% - 6rem) / 4);
+      flex: 0 0 calc((100% - 6rem) / 4);
+    }
+
+    .services-carousel-wrapper .carousel-track {
+      gap: 2rem;
+    }
+  }
+</style>
 
 <script>
   import { initServicesCarousel } from "../../../scripts/sections/services/servicesCarousel";

@@ -3,8 +3,14 @@ import type { EmblaCarouselType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
 const DEFAULT_AUTOPLAY_INTERVAL = 3000;
-const TRANSITION_DURATION = 180; // Fast, smooth transition for button/dot navigation
-const SETTLE_DURATION = 10; // Minimal wait after drag for instant feel
+const TRANSITION_DURATION = 200;
+const TRANSITION_CLEAR_BUFFER = 20;
+const CAROUSEL_TRACK_SELECTOR = '.carousel-track, .embla__container';
+const DRAGGING_CLASS = 'is-dragging';
+const NAVIGATING_CLASS = 'carousel-navigating';
+const TRANSITION_CLASS = 'carousel-transition';
+const DOT_HIDDEN_CLASS = 'carousel-dot-hidden';
+const ACTIVE_CLASS = 'active';
 
 export interface EmblaCarouselOptions {
   loop?: boolean;
@@ -23,13 +29,14 @@ export class EmblaCarouselWrapper {
   private onSlideChangeCallback?: (index: number) => void;
   private dotClickHandlers: Map<number, () => void> = new Map();
   private isDragging = false;
-  private settleTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
     private container: HTMLElement,
     dots: NodeListOf<Element> | null = null,
     private options: EmblaCarouselOptions = {}
   ) {
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
     const {
       loop = false,
       autoplay = false,
@@ -59,9 +66,12 @@ export class EmblaCarouselWrapper {
       slidesToScroll,
       dragFree,
       containScroll: 'trimSnaps',
-      duration: 12, // Fast snap with subtle smoothness
-      dragThreshold: 3, // Low threshold for immediate response
-      skipSnaps: false, // Always snap to each slide
+      duration: isMobile ? 15 : 20,
+      dragThreshold: isMobile ? 5 : 3,
+      skipSnaps: false,
+      watchDrag: true,
+      watchResize: true,
+      watchSlides: true,
     }, plugins);
 
     if (this.dots && this.dots.length > 0) {
@@ -76,47 +86,30 @@ export class EmblaCarouselWrapper {
       this.onSelect();
     });
 
-    // Handle drag start - disable CSS transitions for immediate feedback
     this.embla.on('pointerDown', () => {
       this.isDragging = true;
-      if (this.settleTimeout) {
-        clearTimeout(this.settleTimeout);
-        this.settleTimeout = null;
-      }
-      const track = this.container.querySelector('.carousel-track, .embla__container') as HTMLElement;
-      if (track) {
-        track.style.transition = 'none';
-        this.container.classList.add('is-dragging');
-      }
+      this.container.classList.add(DRAGGING_CLASS);
+      this.container.classList.remove(NAVIGATING_CLASS);
     });
 
-    // Handle drag end - re-enable smooth transitions after settling
     this.embla.on('pointerUp', () => {
       this.isDragging = false;
-      const track = this.container.querySelector('.carousel-track, .embla__container') as HTMLElement;
-      if (track) {
-        // Wait for embla to settle, then re-enable smooth transitions
-        this.settleTimeout = setTimeout(() => {
-          if (!this.isDragging) {
-            track.style.transition = '';
-            this.container.classList.remove('is-dragging');
-          }
-        }, SETTLE_DURATION);
-      }
+      this.container.classList.remove(DRAGGING_CLASS);
     });
 
-    // Handle settle event - ensure clean state after animation completes
     this.embla.on('settle', () => {
       if (!this.isDragging) {
-        const track = this.container.querySelector('.carousel-track, .embla__container') as HTMLElement;
-        if (track) {
-          track.style.transition = '';
-          this.container.classList.remove('is-dragging');
-        }
+        this.container.classList.remove(DRAGGING_CLASS);
+        this.container.classList.remove(NAVIGATING_CLASS);
       }
     });
 
-    this.onSelect();
+    requestAnimationFrame(() => {
+      if (this.embla && this.embla.selectedScrollSnap() !== 0) {
+        this.embla.scrollTo(0);
+      }
+      this.onSelect();
+    });
   }
 
   private onSelect(): void {
@@ -124,10 +117,7 @@ export class EmblaCarouselWrapper {
     
     const selectedIndex = this.embla.selectedScrollSnap();
     this.updateDots(selectedIndex);
-    
-    if (this.onSlideChangeCallback) {
-      this.onSlideChangeCallback(selectedIndex);
-    }
+    this.onSlideChangeCallback?.(selectedIndex);
   }
 
   private setupDots(): void {
@@ -141,30 +131,34 @@ export class EmblaCarouselWrapper {
       const dotElement = dot as HTMLElement;
       const clickHandler = () => {
         if (this.embla) {
-          // Enable smooth transition for dot navigation
-          this.container.classList.add('carousel-navigating');
-          const track = this.container.querySelector('.carousel-track, .embla__container') as HTMLElement;
-          if (track) {
-            // Use smooth CSS transition for dot clicks
-            track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
-          }
-
-          // Scroll to selected slide
+          this.setTransition();
+          this.container.classList.add(NAVIGATING_CLASS);
           this.embla.scrollTo(index);
-
-          // Clean up after transition completes
           setTimeout(() => {
-            if (track && !this.isDragging) {
-              track.style.transition = '';
-            }
-            this.container.classList.remove('carousel-navigating');
-          }, TRANSITION_DURATION + 20);
+            this.clearTransition();
+            this.container.classList.remove(NAVIGATING_CLASS);
+          }, TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
         }
       };
 
       this.dotClickHandlers.set(index, clickHandler);
       dotElement.addEventListener('click', clickHandler);
     });
+  }
+
+  private getTrack(): HTMLElement | null {
+    return this.container.querySelector(CAROUSEL_TRACK_SELECTOR) as HTMLElement | null;
+  }
+
+  private setTransition(): void {
+    const track = this.getTrack();
+    track?.classList.add(TRANSITION_CLASS);
+  }
+
+  private clearTransition(): void {
+    if (!this.isDragging) {
+      this.getTrack()?.classList.remove(TRANSITION_CLASS);
+    }
   }
 
   private updateDots(selectedIndex: number): void {
@@ -175,80 +169,46 @@ export class EmblaCarouselWrapper {
 
     this.dots.forEach((dot, index) => {
       const dotElement = dot as HTMLElement;
+      const isActive = index === validIndex;
       
       if (index >= scrollSnaps.length) {
-        dotElement.style.setProperty('display', 'none', 'important');
+        dotElement.classList.add(DOT_HIDDEN_CLASS);
         return;
       }
       
-      dotElement.style.removeProperty('display');
-      
-      if (index === validIndex) {
-        dotElement.classList.add('active');
-        dotElement.setAttribute('aria-current', 'true');
-        dotElement.setAttribute('aria-selected', 'true');
-        dotElement.setAttribute('tabindex', '0');
-      } else {
-        dotElement.classList.remove('active');
+      dotElement.classList.remove(DOT_HIDDEN_CLASS);
+      dotElement.classList.toggle(ACTIVE_CLASS, isActive);
+      dotElement.setAttribute('aria-current', isActive ? 'true' : 'false');
+      dotElement.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      dotElement.setAttribute('tabindex', isActive ? '0' : '-1');
+      if (!isActive) {
         dotElement.removeAttribute('aria-current');
-        dotElement.setAttribute('aria-selected', 'false');
-        dotElement.setAttribute('tabindex', '-1');
       }
     });
   }
 
   goToSlide(index: number): void {
     if (!this.embla) return;
-    // Use smooth transition for programmatic navigation
-    const track = this.container.querySelector('.carousel-track, .embla__container') as HTMLElement;
-    if (track) {
-      track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
-    }
+    this.setTransition();
     this.embla.scrollTo(index);
-    setTimeout(() => {
-      if (track && !this.isDragging) {
-        track.style.transition = '';
-      }
-    }, TRANSITION_DURATION + 20);
+    setTimeout(() => this.clearTransition(), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
   }
 
   next(): void {
     if (!this.embla) return;
-    // Use smooth transition for next button
-    const track = this.container.querySelector('.carousel-track, .embla__container') as HTMLElement;
-    if (track) {
-      track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
-    }
+    this.setTransition();
     this.embla.scrollNext();
-    setTimeout(() => {
-      if (track && !this.isDragging) {
-        track.style.transition = '';
-      }
-    }, TRANSITION_DURATION + 20);
+    setTimeout(() => this.clearTransition(), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
   }
 
   previous(): void {
     if (!this.embla) return;
-    // Use smooth transition for previous button
-    const track = this.container.querySelector('.carousel-track, .embla__container') as HTMLElement;
-    if (track) {
-      track.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
-    }
+    this.setTransition();
     this.embla.scrollPrev();
-    setTimeout(() => {
-      if (track && !this.isDragging) {
-        track.style.transition = '';
-      }
-    }, TRANSITION_DURATION + 20);
+    setTimeout(() => this.clearTransition(), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
   }
 
   destroy(): void {
-    // Clear any pending timeouts
-    if (this.settleTimeout) {
-      clearTimeout(this.settleTimeout);
-      this.settleTimeout = null;
-    }
-
     if (this.dots && this.dotClickHandlers.size > 0) {
       this.dots.forEach((dot, index) => {
         const handler = this.dotClickHandlers.get(index);
@@ -259,16 +219,10 @@ export class EmblaCarouselWrapper {
       this.dotClickHandlers.clear();
     }
 
-    if (this.autoplay) {
-      this.autoplay.stop();
-      this.autoplay = null;
-    }
-
-    if (this.embla) {
-      this.embla.destroy();
-      this.embla = null;
-    }
-
+    this.autoplay?.stop();
+    this.autoplay = null;
+    this.embla?.destroy();
+    this.embla = null;
     this.dots = null;
   }
 }

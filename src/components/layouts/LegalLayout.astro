@@ -18,11 +18,11 @@ const {
   lastUpdated = "January 2025",
 } = Astro.props;
 
-const legalPages = [
+const LEGAL_PAGES = [
   { href: createUrl("legal/privacy-policy"), label: "Privacy Policy", icon: "mdi:shield-lock" },
   { href: createUrl("legal/terms"), label: "Terms of Service", icon: "mdi:file-document" },
   { href: createUrl("legal/cookie-policy"), label: "Cookie Policy", icon: "mdi:cookie" },
-];
+] as const;
 ---
 
 <BaseLayout
@@ -98,10 +98,10 @@ const legalPages = [
             Related Legal Documents
           </h3>
           <div class="grid sm:grid-cols-3 gap-4">
-            {legalPages.map((page) => (
+            {LEGAL_PAGES.map((page) => (
               <a
                 href={page.href}
-                    class="flex items-center gap-3 p-4 rounded-xl bg-accent-green/5 border border-accent-green/20 hover:bg-accent-green/10 hover:border-accent-green/40 hover:shadow-lg hover:shadow-accent-green/10 transition-all duration-fast group"
+                class="flex items-center gap-3 p-4 rounded-xl bg-accent-green/5 border border-accent-green/20 hover:bg-accent-green/10 hover:border-accent-green/40 hover:shadow-lg hover:shadow-accent-green/10 transition-all duration-fast group"
               >
                 <Icon
                   name={page.icon}
@@ -112,7 +112,7 @@ const legalPages = [
                 </span>
               </a>
             ))}
-              </div>
+          </div>
             </div>
           </div>
         </div>
@@ -122,7 +122,6 @@ const legalPages = [
 </BaseLayout>
 
 <script>
-  // Generate table of contents
   document.addEventListener('DOMContentLoaded', () => {
     const toc = document.getElementById('table-of-contents');
     const tocMobile = document.getElementById('table-of-contents-mobile');
@@ -134,27 +133,35 @@ const legalPages = [
     
     const headings = content.querySelectorAll<HTMLHeadingElement>('h2, h3');
     
-    // Create TOC link
+    const updateActiveLink = (container: HTMLElement | null, targetId: string) => {
+      if (!container) return;
+      const links = container.querySelectorAll('a');
+      links.forEach(link => {
+        link.classList.remove('text-accent-green', 'bg-accent-green/10', 'font-semibold');
+        link.classList.add('text-theme-secondary');
+      });
+      const activeLink = container.querySelector(`a[data-target="${targetId}"]`);
+      if (activeLink) {
+        activeLink.classList.remove('text-theme-secondary');
+        activeLink.classList.add('text-accent-green', 'bg-accent-green/10', 'font-semibold');
+      }
+    };
+
     const createTocLink = (heading: HTMLHeadingElement, index: number) => {
       const id = `section-${index + 1}`;
       heading.id = id;
-      
       const isH3 = heading.tagName === 'H3';
       const text = heading.textContent || '';
-      const indent = isH3 ? 'ml-4' : '';
       
       const link = document.createElement('a');
       link.href = `#${id}`;
-      link.className = `flex items-start gap-2 py-2 px-3 rounded-lg text-theme-secondary hover:text-accent-green hover:bg-accent-green/5 transition-all duration-fast group ${indent}`;
+      link.className = `flex items-start gap-2 py-2 px-3 rounded-lg text-theme-secondary hover:text-accent-green hover:bg-accent-green/5 transition-all duration-fast group ${isH3 ? 'ml-4' : ''}`;
       link.setAttribute('data-target', id);
       
-      // Bullet/indicator
       const indicator = document.createElement('span');
-      indicator.className = 'text-accent-green/60 group-hover:text-accent-green transition-colors mt-0.5 flex-shrink-0';
+      indicator.className = `text-accent-green/60 group-hover:text-accent-green transition-colors mt-0.5 flex-shrink-0`;
       indicator.textContent = isH3 ? '▸' : '●';
-      indicator.style.fontSize = isH3 ? '0.75rem' : '0.5rem';
       
-      // Text span
       const span = document.createElement('span');
       span.className = 'text-sm font-medium leading-relaxed';
       span.textContent = text;
@@ -162,22 +169,15 @@ const legalPages = [
       link.appendChild(indicator);
       link.appendChild(span);
       
-      // Smooth scroll
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        const targetId = link.getAttribute('data-target');
-        if (!targetId) return;
-        const target = document.getElementById(targetId);
+        const target = document.getElementById(id);
         if (target) {
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          history.pushState(null, '', `#${targetId}`);
-          
-          // Close mobile TOC after clicking
+          history.pushState(null, '', `#${id}`);
           if (mobileTocContainer && !mobileTocContainer.classList.contains('hidden')) {
             mobileTocContainer.classList.add('hidden');
-            if (mobileToggle) {
-              mobileToggle.setAttribute('aria-expanded', 'false');
-            }
+            mobileToggle?.setAttribute('aria-expanded', 'false');
           }
         }
       });
@@ -185,72 +185,34 @@ const legalPages = [
       return link;
     };
     
-    // Desktop TOC
     if (toc) {
-      headings.forEach((heading: HTMLHeadingElement, index: number) => {
-        const link = createTocLink(heading, index);
-        toc.appendChild(link.cloneNode(true));
+      headings.forEach((heading, index) => {
+        toc.appendChild(createTocLink(heading, index).cloneNode(true) as HTMLElement);
       });
     }
     
-    // Mobile TOC
     if (tocMobile) {
-      headings.forEach((heading: HTMLHeadingElement, index: number) => {
-        const link = createTocLink(heading, index);
-        tocMobile.appendChild(link);
+      headings.forEach((heading, index) => {
+        tocMobile.appendChild(createTocLink(heading, index));
       });
     }
     
-    // Mobile TOC toggle
-    if (mobileToggle && mobileTocContainer) {
-      mobileToggle.addEventListener('click', () => {
-        const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
-        mobileToggle.setAttribute('aria-expanded', (!isExpanded).toString());
-        mobileTocContainer.classList.toggle('hidden');
-      });
-    }
-    
-    // Highlight active section on scroll
-    const observerOptions = {
-      rootMargin: '-20% 0px -60% 0px',
-      threshold: 0
-    };
+    mobileToggle?.addEventListener('click', () => {
+      const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+      mobileToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+      mobileTocContainer?.classList.toggle('hidden');
+    });
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Update desktop TOC
-          if (toc) {
-            toc.querySelectorAll('a').forEach(link => {
-              link.classList.remove('text-accent-green', 'bg-accent-green/10', 'font-semibold');
-              link.classList.add('text-theme-secondary');
-            });
-            
-            const activeLink = toc.querySelector(`a[data-target="${entry.target.id}"]`);
-            if (activeLink) {
-              activeLink.classList.remove('text-theme-secondary');
-              activeLink.classList.add('text-accent-green', 'bg-accent-green/10', 'font-semibold');
-            }
-          }
-          
-          // Update mobile TOC
-          if (tocMobile) {
-            tocMobile.querySelectorAll('a').forEach(link => {
-              link.classList.remove('text-accent-green', 'bg-accent-green/10', 'font-semibold');
-              link.classList.add('text-theme-secondary');
-            });
-            
-            const activeLinkMobile = tocMobile.querySelector(`a[data-target="${entry.target.id}"]`);
-            if (activeLinkMobile) {
-              activeLinkMobile.classList.remove('text-theme-secondary');
-              activeLinkMobile.classList.add('text-accent-green', 'bg-accent-green/10', 'font-semibold');
-            }
-          }
+          updateActiveLink(toc, entry.target.id);
+          updateActiveLink(tocMobile, entry.target.id);
         }
       });
-    }, observerOptions);
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
     
-    headings.forEach((heading: HTMLHeadingElement) => observer.observe(heading));
+    headings.forEach(heading => observer.observe(heading));
   });
 </script>
 
@@ -348,17 +310,12 @@ const legalPages = [
     counter-increment: list-counter;
     margin-bottom: 0.75rem;
     line-height: 1.8;
-    position: relative;
     padding-left: 0.5rem;
   }
   
   .legal-content ol li::marker {
     color: var(--accent-green);
     font-weight: 600;
-  }
-  
-  .legal-content li {
-    margin-bottom: 0.75rem;
   }
   
   .legal-content strong {
@@ -380,17 +337,13 @@ const legalPages = [
     text-decoration-thickness: 2px;
   }
   
-  /* Section spacing */
   .legal-content > * + * {
     margin-top: 0;
   }
   
-  /* Better visual separation between major sections */
   .legal-content h2 + p {
     margin-top: 1.5rem;
   }
-  
-  /* Responsive adjustments */
   @media (max-width: 1024px) {
     .legal-content h2::before {
       display: none;

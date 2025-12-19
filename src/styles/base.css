@@ -12,6 +12,13 @@ html {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   max-width: 100vw;
+  /* Hide scrollbar but allow scrolling */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 body {
@@ -23,14 +30,34 @@ body {
     color var(--theme-transition) var(--timing-smooth) !important;
   overflow-x: hidden;
   max-width: 100vw;
+  overflow-y: auto;
+  /* Hide scrollbar but allow scrolling */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+section,
+[class*="-section"] {
+  overflow-anchor: none;
+}
+
+[data-aos] {
+  opacity: 0;
+  transition-property: opacity, transform;
+}
+
+[data-aos].aos-animate {
+  opacity: 1;
 }
 
 [class*="bg-theme"],
 [class*="text-theme"],
 [class*="border-theme"] {
-  transition-property: color, background-color, border-color !important;
-  transition-duration: var(--theme-transition) !important;
-  transition-timing-function: var(--timing-smooth) !important;
+  transition: var(--transition-colors) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -55,3 +82,8 @@ body {
   font-family: var(--font-display) !important;
 }
 
+/* Hide main page scrollbar but allow scrolling */
+html,
+body {
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}

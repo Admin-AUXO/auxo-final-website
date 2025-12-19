@@ -34,3 +34,11 @@ export function clearDropdownTimer(): void {
   }
 }
 
+export function resetState(): void {
+  state.openDropdown = null;
+  state.isMobileMenuOpen = false;
+  state.dropdownHoverState = false;
+  state.isTransitioning = false;
+  clearDropdownTimer();
+}
+

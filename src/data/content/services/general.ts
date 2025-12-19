@@ -250,6 +250,6 @@ export const servicesGeneral = {
     description: "Ready to start? If you already have a sense of where analytics needs to help—or just a list of pain points—this is the place to start the conversation. Share your context, and you'll get a clear view of which mix of Strategy Blueprint, Data Foundations, and ongoing Analytics as a Service makes sense for your situation.",
     descriptionHighlight: ['clear view', 'Analytics as a Service'],
     ctaText: "Book a discovery call",
-    ctaHref: "/contact",
+    ctaHref: "/contact/",
   },
 };

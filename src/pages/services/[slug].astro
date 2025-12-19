@@ -6,7 +6,6 @@ import ServiceBenefitsSection from "../../components/sections/services/ServiceBe
 import ServiceProcessSection from "../../components/sections/services/ServiceProcessSection.astro";
 import ServiceOutcomesSection from "../../components/sections/services/ServiceOutcomesSection.astro";
 import ServiceCtaSection from "../../components/sections/services/ServiceCtaSection.astro";
-import { servicesContent } from "../../data/content/services";
 
 export async function getStaticPaths() {
   const { servicesContent } = await import("../../data/content/services");
@@ -19,20 +18,11 @@ export async function getStaticPaths() {
 const { service } = Astro.props;
 
 if (!service) {
-  return new Response(null, {
-    status: 404,
-    statusText: "Service not found",
-  });
+  return new Response(null, { status: 404, statusText: "Service not found" });
 }
 ---
 
-<ServiceLayout
-  title={`${service.name} | AUXO Data Labs`}
-  description={service.hero.description}
-  serviceName={service.name}
-  serviceSlug={service.slug}
-  serviceIcon={service.icon}
->
+<ServiceLayout title={`${service.name} | AUXO Data Labs`} description={service.hero.description} serviceName={service.name}>
   <ServiceHeroSection service={service} slot="hero" />
   <ServiceOverviewSection service={service} slot="overview" />
   <ServiceBenefitsSection service={service} slot="benefits" />

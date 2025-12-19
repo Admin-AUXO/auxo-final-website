@@ -6,7 +6,3 @@ initCarousel({
   breakpoint: 768,
 });
 
-export function initCodeCarousel(): void {
-  // Carousel is auto-initialized via initCarousel
-}
-

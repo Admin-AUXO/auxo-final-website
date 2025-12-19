@@ -1,30 +1,17 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import { siteData } from "../data/config/site";
 import "../styles/sections/services-individual.css";
 
 export interface Props {
   title: string;
   description: string;
   serviceName: string;
-  serviceSlug: string;
-  serviceIcon?: string;
 }
 
-const {
-  title,
-  description,
-  serviceName,
-  serviceSlug,
-  serviceIcon = "mdi:cog",
-} = Astro.props;
+const { title, description, serviceName } = Astro.props;
 ---
 
-<BaseLayout
-  title={`${serviceName} | AUXO Data Labs`}
-  description={description}
-  showParticles={false}
->
+<BaseLayout title={`${serviceName} | AUXO Data Labs`} description={description} showParticles={false}>
   <slot name="hero" />
   <slot name="overview" />
   <slot name="benefits" />
@@ -34,7 +21,6 @@ const {
   <script>
     import { setupServicePageAnimations } from "../scripts/sections/services/servicePage";
     import { setupSectionInit } from "../scripts/sections/utils/initUtils";
-
     setupSectionInit(setupServicePageAnimations);
   </script>
 </BaseLayout>

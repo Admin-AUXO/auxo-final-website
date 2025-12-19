@@ -1,11 +1,15 @@
-/* Section Container Overflow Protection */
 section,
 [class*="-section"] {
   overflow-x: hidden;
   max-width: 100vw;
 }
 
-/* Section Dividers */
+section.dropdown-modal-content,
+section.mobile-menu,
+[class*="-section"].dropdown-modal-content,
+[class*="-section"].mobile-menu {
+  overflow-y: auto;
+}
 
 .section-divider-top::before,
 .section-divider-bottom::after,
@@ -75,8 +79,6 @@ section,
     );
   }
 }
-
-/* Section Gradients */
 
 .section-gradient-hero {
   background:
@@ -177,8 +179,6 @@ section,
   }
 }
 
-/* Section Patterns */
-
 .section-pattern-grid {
   background-image:
     linear-gradient(var(--accent-green-opacity-015) 1px, transparent 1px),
@@ -208,8 +208,6 @@ section,
     opacity: 0.3;
   }
 }
-
-/* CTA Patterns */
 
 .section-cta-pattern {
   background-image:
@@ -252,25 +250,15 @@ section,
   }
 }
 
-/* Hero Accent Lines */
-
 .section-hero-accent-lines {
   opacity: 0.6;
 }
 
 .section-hero-line {
-  animation: fadeInLine 2s ease-out forwards;
-}
-
-.section-hero-line-1 {
-  animation-delay: 0.6s;
-  transform: translateX(-100%);
-}
-
-.section-hero-line-2 {
-  animation-delay: 1.3s;
-  transform: translateX(100%);
-  animation-name: fadeInLineRight;
+  contain: layout style paint;
+  will-change: opacity, transform;
+  position: absolute;
+  width: 100%;
 }
 
 @media (max-width: 640px) {
@@ -282,10 +270,6 @@ section,
     height: 0.5px;
   }
 }
-
-/* Follow Content Animations - Now handled by AOS */
-
-/* Reduced Motion */
 
 @media (prefers-reduced-motion: reduce) {
   .section-hero-line {

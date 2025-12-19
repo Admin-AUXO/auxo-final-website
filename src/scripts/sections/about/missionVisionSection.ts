@@ -6,7 +6,3 @@ initCarousel({
   breakpoint: 1024,
 });
 
-export function initMissionVisionCarousel(): void {
-  // Carousel is auto-initialized via initCarousel
-}
-

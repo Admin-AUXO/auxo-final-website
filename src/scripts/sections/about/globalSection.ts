@@ -6,7 +6,3 @@ initCarousel({
   breakpoint: 768,
 });
 
-export function initGlobalMetricsCarousel(): void {
-  // Carousel is auto-initialized via initCarousel
-}
-

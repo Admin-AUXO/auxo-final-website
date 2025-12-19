@@ -38,7 +38,7 @@ const displayClass = alwaysVisible
   : `${breakpoint === 1024 ? "lg:hidden" : breakpoint === 768 ? "md:hidden" : ""}`;
 ---
 
-<div class={`${wrapperClass} ${displayClass}`}>
+<div class={`carousel-viewport ${wrapperClass} ${displayClass}`}>
   <div class={`carousel-container embla ${containerClass}`} id={containerId}>
     <div class={`carousel-track embla__container ${trackClass}`} id={trackId}>
       <slot />

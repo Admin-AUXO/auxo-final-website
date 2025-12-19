@@ -27,7 +27,6 @@ const CONSTANTS = {
   SPIRAL_TIGHTNESS: 0.3,
   SPIRAL_DISTANCE_FACTOR: 0.8,
   
-  // Physics
   SPIRAL_CORRECTION_STRENGTH: 0.00005,
   PULL_STRENGTH: 0.0001,
   DISTANCE_THRESHOLD: 10,
@@ -36,19 +35,16 @@ const CONSTANTS = {
   MOUSE_INFLUENCE_RADIUS_FACTOR: 0.3,
   BRIGHTNESS_MULTIPLIER: 1.5,
   
-  // Twinkle
   TWINKLE_AMPLITUDE: 0.3,
   TWINKLE_OFFSET: 0.7,
   RADIUS_VARIATION_MIN: 0.8,
   RADIUS_VARIATION_MAX: 0.2,
   
-  // Opacity ranges
   LIGHT_MODE_OPACITY_MIN: 0.4,
   LIGHT_MODE_OPACITY_RANGE: 0.3,
   DARK_MODE_OPACITY_MIN: 0.3,
   DARK_MODE_OPACITY_RANGE: 0.4,
   
-  // Glow multipliers
   NEBULA_GLOW_LIGHT: 3,
   NEBULA_GLOW_DARK: 2,
   ACCENT_STAR_GLOW_LIGHT: 4,
@@ -56,15 +52,13 @@ const CONSTANTS = {
   REGULAR_STAR_GLOW_LIGHT: 2.5,
   REGULAR_STAR_GLOW_DARK: 2,
   
-  // Light mode star colors (subtle dark colors for visibility)
   LIGHT_MODE_STAR_COLORS: [
-    '#1F2937', // Dark gray
-    '#374151', // Medium-dark gray
-    '#4B5563', // Medium gray
-    '#6B7280', // Lighter gray
+    '#1F2937',
+    '#374151',
+    '#4B5563',
+    '#6B7280',
   ],
   
-  // Boundary wrap offset
   BOUNDARY_OFFSET: 50,
 } as const;
 
@@ -80,7 +74,6 @@ export class GalaxyParticleSystem {
   private centerX = 0;
   private centerY = 0;
   
-  // Configuration
   private config = {
     starCount: 0,
     accentStarRatio: CONSTANTS.ACCENT_STAR_RATIO,
@@ -91,7 +84,6 @@ export class GalaxyParticleSystem {
     mouseInfluence: 0,
   };
 
-  // Theme colors and cached values
   private accentColor = '#A3E635';
   private accentColorRgb: string = '';
   private starColors: string[] = [];
@@ -100,7 +92,6 @@ export class GalaxyParticleSystem {
   private textPrimary = '#FFFFFF';
   private textSecondary = '#A0A0A0';
   
-  // Cached canvas size
   private cachedLogicalSize = { width: 0, height: 0 };
   private cachedMaxDistance = 0;
 
@@ -124,28 +115,32 @@ export class GalaxyParticleSystem {
     const isMobile = width < CONSTANTS.MOBILE_BREAKPOINT;
     const isTablet = width < CONSTANTS.TABLET_BREAKPOINT && width >= CONSTANTS.MOBILE_BREAKPOINT;
 
-    // Set config based on device for optimal performance
     if (isMobile) {
-      this.config.starCount = 80;
-      this.config.speed = 0.1;
-      this.config.rotationSpeed = 0.0001;
-      this.config.twinkleSpeed = 0.02;
-      this.config.mouseInfluence = 0.3;
+      Object.assign(this.config, {
+        starCount: 80,
+        speed: 0.1,
+        rotationSpeed: 0.0001,
+        twinkleSpeed: 0.02,
+        mouseInfluence: 0.3,
+      });
     } else if (isTablet) {
-      this.config.starCount = 150;
-      this.config.speed = 0.15;
-      this.config.rotationSpeed = 0.00015;
-      this.config.twinkleSpeed = 0.025;
-      this.config.mouseInfluence = 0.5;
+      Object.assign(this.config, {
+        starCount: 150,
+        speed: 0.15,
+        rotationSpeed: 0.00015,
+        twinkleSpeed: 0.025,
+        mouseInfluence: 0.5,
+      });
     } else {
-      this.config.starCount = 250;
-      this.config.speed = 0.2;
-      this.config.rotationSpeed = 0.0002;
-      this.config.twinkleSpeed = 0.03;
-      this.config.mouseInfluence = 0.8;
+      Object.assign(this.config, {
+        starCount: 250,
+        speed: 0.2,
+        rotationSpeed: 0.0002,
+        twinkleSpeed: 0.03,
+        mouseInfluence: 0.8,
+      });
     }
 
-    // Update theme colors
     this.updateThemeColors();
   }
 
@@ -156,47 +151,33 @@ export class GalaxyParticleSystem {
     this.textPrimary = computedStyle.getPropertyValue('--text-primary').trim() || '#FFFFFF';
     this.textSecondary = computedStyle.getPropertyValue('--text-secondary').trim() || '#A0A0A0';
     
-    // Cache RGB value for accent color (used frequently)
     this.accentColorRgb = this.hexToRgb(this.accentColor);
-    
-    // Detect light mode
     this.isLightMode = root.classList.contains('light');
     
-    // Set star colors based on theme
-    if (this.isLightMode) {
-      // For light mode: use subtle dark colors for galaxy effect
-      this.starColors = [...CONSTANTS.LIGHT_MODE_STAR_COLORS];
-    } else {
-      // For dark mode: use lighter variations of text colors
-      this.starColors = [
-        this.textPrimary,
-        this.lightenColor(this.textPrimary, 0.1),
-        this.lightenColor(this.textPrimary, 0.2),
-        this.textSecondary,
-      ];
-    }
+    this.starColors = this.isLightMode
+      ? [...CONSTANTS.LIGHT_MODE_STAR_COLORS]
+      : [
+          this.textPrimary,
+          this.lightenColor(this.textPrimary, 0.1),
+          this.lightenColor(this.textPrimary, 0.2),
+          this.textSecondary,
+        ];
     
-    // Create nebula colors from accent color
-    if (this.isLightMode) {
-      // For light mode: use softer, more transparent accent colors
-      this.nebulaColors = [
-        this.accentColor,
-        this.adjustBrightness(this.accentColor, 0.8),
-        this.adjustBrightness(this.accentColor, 0.6),
-        this.blendColors(this.accentColor, '#6B7280', 0.3),
-      ];
-    } else {
-      // For dark mode: use accent color variations
-      this.nebulaColors = [
-        this.accentColor,
-        this.adjustBrightness(this.accentColor, 0.7),
-        this.adjustBrightness(this.accentColor, 0.5),
-        this.adjustBrightness(this.accentColor, 0.3),
-      ];
-    }
+    this.nebulaColors = this.isLightMode
+      ? [
+          this.accentColor,
+          this.adjustBrightness(this.accentColor, 0.8),
+          this.adjustBrightness(this.accentColor, 0.6),
+          this.blendColors(this.accentColor, '#6B7280', 0.3),
+        ]
+      : [
+          this.accentColor,
+          this.adjustBrightness(this.accentColor, 0.7),
+          this.adjustBrightness(this.accentColor, 0.5),
+          this.adjustBrightness(this.accentColor, 0.3),
+        ];
   }
 
-  // Optimized color utility methods
   private hexToRgbValues(hex: string): [number, number, number] {
     const cleanHex = hex.replace('#', '');
     return [
@@ -217,7 +198,6 @@ export class GalaxyParticleSystem {
   
   private lightenColor(color: string, factor: number): string {
     const [r, g, b] = this.hexToRgbValues(color);
-    // Blend with white (255, 255, 255)
     return this.rgbToHex(
       r + (255 - r) * factor,
       g + (255 - g) * factor,
@@ -243,19 +223,15 @@ export class GalaxyParticleSystem {
       
       this.canvas.width = rect.width * dpr;
       this.canvas.height = rect.height * dpr;
-      
       this.ctx.scale(dpr, dpr);
       this.canvas.style.width = `${rect.width}px`;
       this.canvas.style.height = `${rect.height}px`;
-      
-      // Update cached values
       this.updateCanvasCache();
     };
 
     resize();
     window.addEventListener('resize', resize, { passive: true });
     
-    // Watch container size changes
     if (this.canvas.parentElement) {
       this.resizeObserver = new ResizeObserver(resize);
       this.resizeObserver.observe(this.canvas.parentElement);
@@ -297,7 +273,6 @@ export class GalaxyParticleSystem {
         type = 'star';
       }
 
-      // Create spiral distribution
       const angle = Math.random() * Math.PI * 2;
       const distance = Math.random() * maxDistance * CONSTANTS.SPIRAL_DISTANCE_FACTOR;
       const spiralAngle = angle + (distance / maxDistance) * Math.PI * 2 * CONSTANTS.SPIRAL_TIGHTNESS;
@@ -306,8 +281,6 @@ export class GalaxyParticleSystem {
       
       const x = this.centerX + cosSpiral * distance;
       const y = this.centerY + sinSpiral * distance;
-
-      // Set size based on type
       let baseRadius: number;
       if (type === 'nebula') {
         baseRadius = Math.random() * 3 + 2;
@@ -317,29 +290,21 @@ export class GalaxyParticleSystem {
         baseRadius = Math.random() * 1 + 0.5;
       }
 
-      // Set rotation speed
       const rotationSpeed = (Math.random() - 0.5) * this.config.rotationSpeed;
-      
-      // Set orbital velocity
       const orbitalSpeed = this.config.speed * (0.5 + Math.random() * 0.5);
       const perpAngle = spiralAngle + Math.PI / 2;
       const vx = Math.cos(perpAngle) * orbitalSpeed;
       const vy = Math.sin(perpAngle) * orbitalSpeed;
 
-      // Adjust opacity based on theme
       const baseOpacity = this.isLightMode 
         ? Math.random() * CONSTANTS.LIGHT_MODE_OPACITY_RANGE + CONSTANTS.LIGHT_MODE_OPACITY_MIN
         : Math.random() * CONSTANTS.DARK_MODE_OPACITY_RANGE + CONSTANTS.DARK_MODE_OPACITY_MIN;
 
-      // Select color based on type
-      let color: string;
-      if (type === 'accent-star') {
-        color = this.accentColor;
-      } else if (type === 'nebula') {
-        color = this.nebulaColors[Math.floor(Math.random() * this.nebulaColors.length)];
-      } else {
-        color = this.starColors[Math.floor(Math.random() * this.starColors.length)];
-      }
+      const color = type === 'accent-star'
+        ? this.accentColor
+        : type === 'nebula'
+        ? this.nebulaColors[Math.floor(Math.random() * this.nebulaColors.length)]
+        : this.starColors[Math.floor(Math.random() * this.starColors.length)];
 
       this.stars.push({
         x,
@@ -363,7 +328,6 @@ export class GalaxyParticleSystem {
   }
 
   private setupEventListeners() {
-    // Track mouse position with throttling for performance
     let rafId: number | null = null;
     const handleMouseMove = (e: MouseEvent) => {
       if (rafId === null) {
@@ -385,12 +349,10 @@ export class GalaxyParticleSystem {
     document.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
 
-    // Watch for theme changes
     const themeObserver = new MutationObserver(() => {
       const wasLightMode = this.isLightMode;
       this.updateThemeColors();
       
-      // Update all stars when theme changes
       this.stars.forEach(star => {
         if (star.type === 'accent-star') {
           star.color = this.accentColor;
@@ -400,7 +362,6 @@ export class GalaxyParticleSystem {
           star.color = this.starColors[Math.floor(Math.random() * this.starColors.length)];
         }
         
-        // Adjust opacity when switching themes
         if (wasLightMode !== this.isLightMode) {
           star.baseOpacity = this.isLightMode 
             ? Math.random() * CONSTANTS.LIGHT_MODE_OPACITY_RANGE + CONSTANTS.LIGHT_MODE_OPACITY_MIN
@@ -420,23 +381,18 @@ export class GalaxyParticleSystem {
     const { width, height } = this.cachedLogicalSize;
     const maxDistance = this.cachedMaxDistance;
 
-    // Optimize: cache values used in loop
     const influenceRadius = Math.min(width, height) * CONSTANTS.MOUSE_INFLUENCE_RADIUS_FACTOR;
     const boundaryOffset = CONSTANTS.BOUNDARY_OFFSET;
     const widthWithOffset = width + boundaryOffset;
     const heightWithOffset = height + boundaryOffset;
 
     this.stars.forEach((star) => {
-      // Update rotation
       star.rotation += star.rotationSpeed;
-      
-      // Update twinkle effect
       star.twinklePhase += star.twinkleSpeed;
       const twinkle = Math.sin(star.twinklePhase) * CONSTANTS.TWINKLE_AMPLITUDE + CONSTANTS.TWINKLE_OFFSET;
       star.opacity = star.baseOpacity * twinkle;
       star.radius = star.baseRadius * (CONSTANTS.RADIUS_VARIATION_MIN + twinkle * CONSTANTS.RADIUS_VARIATION_MAX);
 
-      // Handle mouse interaction
       if (this.isMouseActive) {
         const dx = this.mouseX - star.x;
         const dy = this.mouseY - star.y;
@@ -448,52 +404,36 @@ export class GalaxyParticleSystem {
           const influence = (1 - distance / influenceRadius) * this.config.mouseInfluence;
           const angle = Math.atan2(dy, dx);
           
-          // Push away from mouse
           star.vx -= Math.cos(angle) * influence * CONSTANTS.MOUSE_INFLUENCE_MULTIPLIER;
           star.vy -= Math.sin(angle) * influence * CONSTANTS.MOUSE_INFLUENCE_MULTIPLIER;
-          
-          // Brighten near mouse
           star.opacity = Math.min(star.baseOpacity * CONSTANTS.BRIGHTNESS_MULTIPLIER, 1);
         }
       }
 
-      // Update position
       star.x += star.vx;
       star.y += star.vy;
 
-      // Maintain spiral structure
       const dx = star.x - this.centerX;
       const dy = star.y - this.centerY;
-      const currentDistanceSq = dx * dx + dy * dy;
+      const currentDistance = Math.sqrt(dx * dx + dy * dy);
       const targetDistance = star.distanceFromCenter;
-      const distanceDiff = Math.sqrt(currentDistanceSq) - targetDistance;
       
-      if (Math.abs(distanceDiff) > CONSTANTS.DISTANCE_THRESHOLD) {
+      if (Math.abs(currentDistance - targetDistance) > CONSTANTS.DISTANCE_THRESHOLD) {
         const pullAngle = Math.atan2(dy, dx);
-        const targetX = this.centerX + Math.cos(pullAngle) * targetDistance;
-        const targetY = this.centerY + Math.sin(pullAngle) * targetDistance;
-        
-        star.vx += (targetX - star.x) * CONSTANTS.PULL_STRENGTH;
-        star.vy += (targetY - star.y) * CONSTANTS.PULL_STRENGTH;
+        star.vx += (this.centerX + Math.cos(pullAngle) * targetDistance - star.x) * CONSTANTS.PULL_STRENGTH;
+        star.vy += (this.centerY + Math.sin(pullAngle) * targetDistance - star.y) * CONSTANTS.PULL_STRENGTH;
       }
 
-      // Update spiral angle
       star.angle += star.rotationSpeed * 10;
       const spiralAngle = star.angle + (star.distanceFromCenter / maxDistance) * Math.PI * 2 * CONSTANTS.SPIRAL_TIGHTNESS;
-      
-      // Apply spiral correction
-      const targetX = this.centerX + Math.cos(spiralAngle) * star.distanceFromCenter;
-      const targetY = this.centerY + Math.sin(spiralAngle) * star.distanceFromCenter;
-      star.vx += (targetX - star.x) * CONSTANTS.SPIRAL_CORRECTION_STRENGTH;
-      star.vy += (targetY - star.y) * CONSTANTS.SPIRAL_CORRECTION_STRENGTH;
+      star.vx += (this.centerX + Math.cos(spiralAngle) * star.distanceFromCenter - star.x) * CONSTANTS.SPIRAL_CORRECTION_STRENGTH;
+      star.vy += (this.centerY + Math.sin(spiralAngle) * star.distanceFromCenter - star.y) * CONSTANTS.SPIRAL_CORRECTION_STRENGTH;
 
-      // Wrap around boundaries
       if (star.x < -boundaryOffset) star.x = widthWithOffset;
       if (star.x > widthWithOffset) star.x = -boundaryOffset;
       if (star.y < -boundaryOffset) star.y = heightWithOffset;
       if (star.y > heightWithOffset) star.y = -boundaryOffset;
 
-      // Apply damping
       star.vx *= CONSTANTS.DAMPING_FACTOR;
       star.vy *= CONSTANTS.DAMPING_FACTOR;
     });
@@ -501,15 +441,11 @@ export class GalaxyParticleSystem {
 
   private draw() {
     const { width, height } = this.cachedLogicalSize;
-
-    // Clear canvas
     this.ctx.clearRect(0, 0, width, height);
 
-    // Cache theme-dependent values
     const isLight = this.isLightMode;
     const accentRgb = this.accentColorRgb;
 
-    // Draw stars - optimized rendering
     for (const star of this.stars) {
       this.ctx.save();
       this.ctx.globalAlpha = star.opacity;
@@ -570,7 +506,6 @@ export class GalaxyParticleSystem {
     this.ctx.arc(star.x, star.y, glowRadius, 0, Math.PI * 2);
     this.ctx.fill();
     
-    // Draw core
     this.ctx.fillStyle = isLight 
       ? `rgba(${accentRgb}, ${star.opacity})`
       : this.accentColor;
@@ -581,23 +516,17 @@ export class GalaxyParticleSystem {
 
   private drawRegularStar(star: Star, isLight: boolean) {
     const starRgb = this.hexToRgb(star.color);
-    this.ctx.fillStyle = isLight 
-      ? `rgba(${starRgb}, ${star.opacity})`
-      : star.color;
+    this.ctx.fillStyle = isLight ? `rgba(${starRgb}, ${star.opacity})` : star.color;
     this.ctx.beginPath();
     this.ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
     this.ctx.fill();
     
-    // Add glow for larger stars
     if (star.radius > 1) {
       const glowRadius = star.radius * (isLight ? CONSTANTS.REGULAR_STAR_GLOW_LIGHT : CONSTANTS.REGULAR_STAR_GLOW_DARK);
       
       if (isLight) {
         this.ctx.globalAlpha = star.opacity * 0.2;
-        const glowGradient = this.ctx.createRadialGradient(
-          star.x, star.y, star.radius,
-          star.x, star.y, glowRadius
-        );
+        const glowGradient = this.ctx.createRadialGradient(star.x, star.y, star.radius, star.x, star.y, glowRadius);
         glowGradient.addColorStop(0, `rgba(${starRgb}, ${star.opacity * 0.3})`);
         glowGradient.addColorStop(0.4, `rgba(${starRgb}, ${star.opacity * 0.1})`);
         glowGradient.addColorStop(1, 'transparent');

@@ -29,33 +29,36 @@ const subtitleLine2 = subtitleParts.slice(3).join(" "); // "discovery call."
       <div
         class="cta-card text-center bg-theme-card backdrop-blur-xl border-2 border-accent-green/50 rounded-2xl shadow-2xl shadow-accent-green/20 p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 transition-all hover:shadow-accent-green/30 hover:border-accent-green/70"
         data-aos="zoom-in"
-        data-aos-duration="800"
+        data-aos-duration="400"
       >
         <h2
           class="text-h2 font-extrabold mb-6 sm:mb-8 lg:mb-10 xl:mb-12 text-theme-primary transition-colors leading-tight tracking-tight font-display"
           data-aos="fade-down"
-          data-aos-delay="200"
+          data-aos-delay="50"
+          data-aos-duration="400"
         >
-          <HighlightText text={content.title} highlight="next step" />
+          <HighlightText text={content.title} highlight="next step" highlightClass="text-accent-green font-black text-[1.05em]" />
         </h2>
 
         <div
           class="highlight-subtitle-container mb-6 sm:mb-8 lg:mb-10 xl:mb-12"
           data-aos="fade-up"
-          data-aos-delay="300"
+          data-aos-delay="100"
+          data-aos-duration="400"
         >
           <h3
             class="text-h1 font-extrabold leading-tight tracking-tight highlight-cta-text font-display"
           >
-            <span class="block"><HighlightText text={subtitleLine1} highlight="Book" /></span>
-            <span class="block"><HighlightText text={subtitleLine2} highlight="call" /></span>
+            <span class="block"><HighlightText text={subtitleLine1} highlight="Book" highlightClass="text-accent-green font-black" /></span>
+            <span class="block"><HighlightText text={subtitleLine2} highlight="call" highlightClass="text-accent-green font-black" /></span>
           </h3>
         </div>
 
         <p
-          class="text-body-lg text-theme-secondary mb-8 sm:mb-10 lg:mb-12 xl:mb-14 max-w-2xl mx-auto leading-[1.75] transition-colors font-normal font-body"
+          class="text-base sm:text-body-lg text-theme-secondary mb-8 sm:mb-10 lg:mb-12 xl:mb-14 max-w-2xl mx-auto leading-[1.75] transition-colors font-normal font-body"
           data-aos="fade-up"
-          data-aos-delay="400"
+          data-aos-delay="150"
+          data-aos-duration="400"
         >
           {content.body}
         </p>
@@ -63,7 +66,8 @@ const subtitleLine2 = subtitleParts.slice(3).join(" "); // "discovery call."
         <div
           class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center mb-6 sm:mb-8 lg:mb-10 xl:mb-12"
           data-aos="fade-up"
-          data-aos-delay="500"
+          data-aos-delay="200"
+          data-aos-duration="400"
         >
           <Button
             variant="primary"
@@ -79,7 +83,8 @@ const subtitleLine2 = subtitleParts.slice(3).join(" "); // "discovery call."
         <p
           class="text-sm text-theme-secondary opacity-80 italic transition-colors font-normal font-body"
           data-aos="fade-up"
-          data-aos-delay="600"
+          data-aos-delay="250"
+          data-aos-duration="400"
         >
           {content.reassuranceLine}
         </p>
@@ -87,9 +92,4 @@ const subtitleLine2 = subtitleParts.slice(3).join(" "); // "discovery call."
     </div>
   </div>
 </SectionContainer>
-
-<script>
-  import { initFinalCta } from "../../../scripts/sections/home/finalCta";
-  initFinalCta();
-</script>
 

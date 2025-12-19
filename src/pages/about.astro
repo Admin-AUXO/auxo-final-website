@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { siteData } from "../data/config/site";
 import HeroSection from "../components/sections/about/HeroSection.astro";
 import MissionVisionSection from "../components/sections/about/MissionVisionSection.astro";
 import PurposeSection from "../components/sections/about/PurposeSection.astro";
@@ -29,7 +28,6 @@ import "../styles/sections/about-sections.css";
   <script>
     import { setupAboutPageAnimations } from "../scripts/sections/about/aboutPage";
     import { setupSectionInit } from "../scripts/sections/utils/initUtils";
-
     setupSectionInit(setupAboutPageAnimations);
   </script>
 </BaseLayout>

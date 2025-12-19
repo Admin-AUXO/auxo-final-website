@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { siteData } from "../data/config/site";
 import HeroSection from "../components/sections/services/HeroSection.astro";
 import ServicesStageSection from "../components/sections/services/ServicesStageSection.astro";
 import ImpactSection from "../components/sections/services/ImpactSection.astro";
@@ -23,7 +22,6 @@ import "../styles/sections/services-sections.css";
   <script>
     import { setupServicesPageAnimations } from "../scripts/sections/services/servicesPage";
     import { setupSectionInit } from "../scripts/sections/utils/initUtils";
-
     setupSectionInit(setupServicesPageAnimations);
   </script>
 </BaseLayout>

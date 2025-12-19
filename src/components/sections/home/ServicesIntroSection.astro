@@ -4,7 +4,8 @@ import SectionContainer from "../../layouts/SectionContainer.astro";
 import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
 import SectionHeader from "../../ui/SectionHeader.astro";
 import Carousel from "../../ui/Carousel.astro";
-import CtaButton from "../../ui/CtaButton.astro";
+import Button from "../../ui/Button.astro";
+import { Icon } from "astro-icon/components";
 import {
   homepageContent,
   type HomepageContent,
@@ -27,11 +28,8 @@ const content: HomepageContent["servicesIntro"] = homepageContent.servicesIntro;
       <SectionHeader
         title={content.title}
         subtitle={content.subheading}
-        highlight="Common Starting Points"
+        highlight="Starting Points"
         subtitleHighlight="begin"
-        wrapperClass="py-4 sm:py-6 lg:py-10 xl:py-12 mb-6 sm:mb-8 lg:mb-12 xl:mb-16"
-        titleClass="text-2xl sm:text-3xl lg:text-h2"
-        subtitleClass="text-base sm:text-lg lg:text-body-xl font-normal"
       />
 
       <div class="hidden lg:grid lg:grid-cols-3 lg:gap-6 xl:gap-8 services-grid-desktop">
@@ -72,16 +70,21 @@ const content: HomepageContent["servicesIntro"] = homepageContent.servicesIntro;
         ))}
       </Carousel>
 
-      <CtaButton
-        text={content.navigationButton.text}
-        href={createUrl(content.navigationButton.href)}
-        wrapperClass="mt-8 sm:mt-10 lg:mt-12 xl:mt-16 px-4"
-      />
+      <div class="text-center mt-8 sm:mt-10 lg:mt-12 xl:mt-16 px-4">
+        <Button
+          variant="primary"
+          size="lg"
+          href={createUrl(content.navigationButton.href)}
+          class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all min-h-[48px] sm:min-h-[44px] flex-nowrap px-6 sm:px-8"
+        >
+          <span class="whitespace-nowrap">{content.navigationButton.text}</span>
+          <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0" />
+        </Button>
+      </div>
     </div>
   </div>
 </SectionContainer>
 
 <script>
-  import { initServicesIntroSection } from "../../../scripts/sections/home/servicesIntroSection";
-  initServicesIntroSection();
+  import "../../../scripts/sections/home/servicesIntroSection";
 </script>

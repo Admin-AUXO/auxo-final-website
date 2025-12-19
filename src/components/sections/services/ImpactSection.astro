@@ -23,16 +23,13 @@ const content = servicesContent.impact;
       <SectionHeader
         title={content.title}
         subtitle={content.description}
-        highlight="We Serve"
+        highlight="Serve"
         icon="mdi:bullseye"
-        titleClass="text-h2 sm:text-h1"
-        subtitleClass="text-body-md sm:text-body-lg"
       />
 
       <div
         class="mb-8 sm:mb-10 lg:mb-12"
         data-aos="fade-up"
-        data-aos-duration="600"
         data-aos-delay="100"
       >
         <Carousel
@@ -50,7 +47,6 @@ const content = servicesContent.impact;
           {content.industries.map((industry, index) => (
             <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
               <div class="impact-industry-card">
-                {/* Title and Icon on same line - icon on right */}
                 <div class="impact-industry-card-header flex items-center justify-between">
                   <h3 class="impact-industry-title">{industry.name}</h3>
                   <div class="impact-industry-icon ml-3">
@@ -90,7 +86,6 @@ const content = servicesContent.impact;
 
       <div
         data-aos="fade-up"
-        data-aos-duration="600"
         data-aos-delay="200"
       >
         <div class="impact-goal-card">
@@ -105,6 +100,5 @@ const content = servicesContent.impact;
 </SectionContainer>
 
 <script>
-  import { initImpactSection } from "../../../scripts/sections/services/impactCarousel";
-  initImpactSection();
+  import "../../../scripts/sections/services/impactCarousel";
 </script>

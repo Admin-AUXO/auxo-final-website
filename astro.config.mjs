@@ -1,10 +1,10 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
+import react from '@astrojs/react';
 import icon from 'astro-icon';
 
 export default defineConfig({
   site: 'https://auxodata.com',
-  // Base path; override with BASE_PATH for subdirectory deploys
   base: process.env.BASE_PATH || '/auxo-final-website/',
   output: 'static',
   build: {
@@ -18,6 +18,11 @@ export default defineConfig({
     remotePatterns: [],
   },
   vite: {
+    optimizeDeps: {
+      include: ['@heroui/react', 'framer-motion', 'embla-carousel', '@floating-ui/dom', 'lenis'],
+      exclude: ['@heroui/theme'],
+      force: false, // Set to true if you need to force re-optimization
+    },
     build: {
       cssCodeSplit: true,
       minify: 'esbuild',
@@ -25,17 +30,12 @@ export default defineConfig({
       rollupOptions: {
         output: {
           manualChunks: (id) => {
-            // Split vendor chunks for caching
             if (id.includes('node_modules')) {
-              if (id.includes('embla-carousel')) {
-                return 'embla';
-              }
-              if (id.includes('@floating-ui')) {
-                return 'floating-ui';
-              }
-              if (id.includes('@iconify') || id.includes('astro-icon')) {
-                return 'icons';
-              }
+              if (id.includes('embla-carousel')) return 'embla';
+              if (id.includes('@floating-ui')) return 'floating-ui';
+              if (id.includes('@iconify') || id.includes('astro-icon')) return 'icons';
+              if (id.includes('@heroui')) return 'heroui';
+              if (id.includes('framer-motion')) return 'framer-motion';
               return 'vendor';
             }
           },
@@ -44,7 +44,6 @@ export default defineConfig({
           assetFileNames: '_astro/[name]-[hash].[ext]',
         },
         onwarn(warning, warn) {
-          // Ignore warnings from Astro internal helpers
           if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.id?.includes('@astrojs/internal-helpers')) {
             return;
           }
@@ -63,24 +62,28 @@ export default defineConfig({
       treeShaking: true,
     },
     logLevel: 'warn',
+    ssr: {
+      noExternal: ['@heroui/react'],
+    },
   },
   integrations: [
+    react(),
     tailwind({
       applyBaseStyles: false,
     }),
     icon({
       include: {
-        // Keep this list in sync with mdi: usages across src
-        // Optimized to include only actively used icons (89 icons)
         mdi: [
           // Navigation
           'arrow-right',
           'chevron-down',
+          'chevron-right',
           'star-circle',
           'close',
           'alert-circle',
           'home',
           'briefcase',
+          'view-grid',
 
           // Business & Industries
           'domain',

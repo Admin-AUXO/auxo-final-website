@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import Button from "../../ui/Button.astro";
+import HeroLayout from "../../ui/HeroLayout.astro";
 import {
   homepageContent,
   type HomepageContent,
@@ -8,88 +9,60 @@ import {
 import { createUrl } from "../../../utils/url";
 
 const content: HomepageContent["hero"] = homepageContent.hero;
+
+const cta = content.primaryCta?.text
+  ? {
+      text: content.primaryCta.text,
+      href: createUrl(content.primaryCta.href),
+      variant: "primary" as const,
+    }
+  : {
+      text: "Learn more",
+      href: createUrl("about"),
+      variant: "primary" as const,
+    };
 ---
 
-<section
+<HeroLayout
   id="hero"
-  class="hero-section"
+  scrollHref="#services"
+  scrollText={content.scrollIndicator}
+  scrollAriaLabel={content.scrollIndicator}
 >
-  <div class="hero-content">
-    <div class="col-span-full text-center max-w-6xl mx-auto w-full">
-      <div class="hero-headline mb-5 sm:mb-6 lg:mb-7 w-full" data-aos="fade-down" data-aos-duration="1000">
-        <h1
-          class="hero-headline-text text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display"
-        >
-          <span class="block home-hero-title">{content.title}</span>
-          <span class="block mt-2 sm:mt-3 lg:mt-4">
-            <span
-              id="typing-highlight"
-              class="text-accent-green home-hero-typing"
-              data-highlight-text={content.titleHighlight}></span>
-          </span>
-        </h1>
-      </div>
+  <div class="hero-headline mb-6 sm:mb-8 lg:mb-10 w-full" data-aos="fade-down" data-aos-duration="500">
+    <h1
+      class="hero-headline-text text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-4 sm:mb-6 lg:mb-8 w-full font-display"
+    >
+      <span class="block home-hero-title">{content.title}</span>
+      <span class="block mt-2 sm:mt-3 lg:mt-4" data-aos="fade-up" data-aos-delay="150" data-aos-duration="500">
+        <span class="highlight-gradient home-hero-highlight inline-block">{content.titleHighlight}</span>
+      </span>
+    </h1>
+  </div>
 
-      {content.subtitle && (
-        <div class="hero-subtitle mb-6 sm:mb-7 lg:mb-8 max-w-[400px] sm:max-w-[500px] lg:max-w-[600px] mx-auto hero-follow-content" data-aos="fade-up" data-aos-delay="200">
-          <p class="text-body-lg text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body">
-            {content.subtitle}
-          </p>
-        </div>
-      )}
+  {content.subtitle && (
+    <div class="hero-subtitle mb-8 sm:mb-10 lg:mb-12 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto hero-follow-content" data-aos="fade-up" data-aos-delay="250" data-aos-duration="400">
+      <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body">
+        {content.subtitle}
+      </p>
+    </div>
+  )}
 
-      <div class="hero-follow-content" data-aos="fade-up" data-aos-delay="400">
-        <div class="hero-cta-container">
-          <Button
-            variant="outline"
-            size="lg"
-            href={createUrl('about')}
-            class="hero-cta-button group/btn"
-          >
-            <span class="whitespace-nowrap">Learn more</span>
-            <Icon
-              name="mdi:arrow-right"
-              class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300"
-            />
-          </Button>
-          {content.primaryCta.text && (
-            <Button
-              variant="primary"
-              size="lg"
-              href={createUrl(content.primaryCta.href)}
-              class="hero-cta-button group/btn"
-            >
-              <span class="whitespace-nowrap">{content.primaryCta.text}</span>
-              <Icon
-                name="mdi:arrow-right"
-                class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300"
-              />
-            </Button>
-          )}
-        </div>
-      </div>
+  <div class="hero-follow-content" data-aos="fade-up" data-aos-delay="350" data-aos-duration="400">
+    <div class="hero-cta-container">
+      <Button
+        variant={cta.variant}
+        size="lg"
+        href={cta.href}
+        class="hero-cta-button group/btn"
+      >
+        <span class="whitespace-nowrap">{cta.text}</span>
+        <Icon
+          name="mdi:arrow-right"
+          class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300"
+        />
+      </Button>
     </div>
   </div>
-
-  <div class="hero-scroll-indicator" data-aos="fade-up" data-aos-delay="600">
-    <a
-      href="#services"
-      class="hero-scroll-link group"
-      aria-label={content.scrollIndicator}
-    >
-      <span class="hero-scroll-text">{content.scrollIndicator}</span>
-      <div class="hero-scroll-icon-wrapper">
-        <Icon
-          name="mdi:chevron-down"
-          class="hero-scroll-icon"
-        />
-      </div>
-    </a>
-  </div>
-</section>
-
-<script>
-  import { initHeroSection } from "../../../scripts/sections/home/heroSection";
-  initHeroSection();
-</script>
+</HeroLayout>
 

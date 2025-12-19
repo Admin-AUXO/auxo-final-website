@@ -9,6 +9,12 @@ interface Props {
   service: ServiceDetail;
 }
 
+type OutcomeMetric = {
+  label: string;
+  value: string;
+  description: string;
+};
+
 const { service } = Astro.props;
 ---
 
@@ -25,12 +31,11 @@ const { service } = Astro.props;
       <div
         class="text-center mb-12 lg:mb-16"
         data-aos="fade-down"
-        data-aos-duration="800"
       >
         <h2 class="text-h2 font-extrabold mb-4 lg:mb-6 leading-tight tracking-tight font-display text-theme-primary">
           {service.outcomes.title}
         </h2>
-        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body">
+        <p class="text-base sm:text-body-lg lg:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body">
           <HighlightText
             text={service.outcomes.description}
             highlight={service.outcomes.descriptionHighlight || []}
@@ -40,30 +45,20 @@ const { service } = Astro.props;
       </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-        {service.outcomes.metrics.map((metric, index) => (
+        {service.outcomes.metrics.map((metric: OutcomeMetric, index: number) => (
           <div
             class="group"
             data-aos="zoom-in"
-            data-aos-duration="600"
-            data-aos-delay={index * 100}
+            data-aos-delay={index * 50}
           >
-            <div class="h-full bg-gradient-to-br from-accent-green/10 via-accent-green/5 to-transparent border-2 border-accent-green/30 rounded-2xl p-6 lg:p-8 text-center relative overflow-hidden transition-all duration-500 hover:border-accent-green/50 hover:shadow-xl hover:shadow-accent-green/20 hover:-translate-y-1">
-              {/* Decorative elements */}
-              <div class="absolute top-0 right-0 w-16 h-16 bg-accent-green/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div class="absolute bottom-0 left-0 w-12 h-12 bg-accent-green/5 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
+            <div class="h-full bg-gradient-to-br from-accent-green/10 via-accent-green/5 to-transparent border-2 border-accent-green/30 rounded-2xl p-6 lg:p-8 text-center relative overflow-hidden transition-all duration-500 hover:border-accent-green/50 hover:-translate-y-1">
               <div class="relative z-10">
-                {/* Value */}
                 <div class="text-3xl lg:text-4xl font-extrabold text-accent-green mb-2 lg:mb-3 font-display">
                   {metric.value}
                 </div>
-
-                {/* Label */}
                 <h3 class="text-lg lg:text-xl font-bold text-theme-primary mb-3 lg:mb-4 font-display">
                   {metric.label}
                 </h3>
-
-                {/* Description */}
                 <p class="text-body-sm text-theme-secondary leading-relaxed font-body">
                   {metric.description}
                 </p>

@@ -18,6 +18,25 @@ const {
   index = 0,
   variant = "grid",
 } = Astro.props;
+
+const isCarousel = variant === "carousel";
+const iconConfig = {
+  carousel: { container: "w-9 h-9 sm:w-10 sm:h-10", icon: "w-4.5 h-4.5 sm:w-5 sm:h-5", scale: "group-hover:scale-105" },
+  grid: { container: "w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16", icon: "w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8", scale: "group-hover:scale-110 group-hover:rotate-6" },
+};
+const titleConfig = {
+  carousel: "font-extrabold text-theme-primary tracking-tight group-hover:text-accent-green transition-colors duration-500 font-display",
+  grid: "text-xl sm:text-2xl lg:text-3xl leading-tight mb-2 sm:mb-2.5 lg:mb-4 font-extrabold text-theme-primary tracking-tight group-hover:text-accent-green transition-colors duration-500 font-display",
+};
+const descriptionConfig = {
+  carousel: "mb-3 text-theme-secondary font-normal flex-grow font-body",
+  grid: "text-base sm:text-lg leading-relaxed mb-3.5 sm:mb-4 lg:mb-6 xl:mb-8 text-theme-secondary font-normal flex-grow font-body",
+};
+const linkConfig = {
+  carousel: "inline-flex items-center gap-1.5 text-accent-green hover:text-accent-green/80 font-semibold mt-auto transition-all duration-300 group/link w-fit font-body border-b border-accent-green/20 hover:border-accent-green/60 pb-0.5",
+  grid: "inline-flex items-center gap-1.5 text-accent-green hover:text-accent-green/80 font-semibold text-sm sm:text-base transition-all duration-300 group/link w-fit font-body border-b border-accent-green/20 hover:border-accent-green/60 pb-0.5",
+};
+const iconSizeConfig = iconConfig[variant];
 ---
 
 <div
@@ -25,92 +44,41 @@ const {
   data-index={index}
   data-variant={variant}
   data-aos="fade-up"
-  data-aos-duration="600"
-  data-aos-delay={index * 100}
+  data-aos-duration="400"
+  data-aos-delay={index * 50}
 >
-  <div class={`relative h-full flex flex-col bg-theme-card border border-accent-green/10 ${variant === "carousel" ? "rounded-lg" : "rounded-2xl"} overflow-hidden transition-all duration-500 hover:border-accent-green/40 ${variant === "carousel" ? "hover:shadow-lg" : "hover:shadow-xl"} hover:shadow-accent-green/10 ${variant === "carousel" ? "" : "hover:-translate-y-1"}`}>
-    {/* Top accent bar */}
-    <div class={`absolute top-0 left-0 right-0 ${variant === "carousel" ? "h-0.5" : "h-1"} bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 group-hover:via-accent-green/60 transition-all duration-500`} />
-
-    {/* Background pattern */}
+  <div class={`relative h-full flex flex-col bg-theme-card border border-accent-green/10 overflow-hidden transition-all duration-500 hover:border-accent-green/40 ${isCarousel ? "hover:shadow-lg hover:shadow-accent-green/15" : "hover:shadow-xl hover:shadow-accent-green/20 hover:-translate-y-1"}`}>
+    <div class={`absolute top-0 left-0 right-0 ${isCarousel ? "h-0.5" : "h-1"} bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 group-hover:via-accent-green/60 transition-all duration-500`} />
     <div class="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.04] transition-opacity duration-500 service-card-pattern" />
-
-    {/* Content - all in one container for carousel */}
-    <div class={`relative z-10 flex-grow flex flex-col ${variant === "carousel" ? "gap-0" : "px-6 pt-6 pb-6 sm:px-8 sm:pt-8 sm:pb-8 lg:px-10 lg:pt-10 lg:pb-10"}`}>
-      {variant === "carousel" ? (
+    <div class={`relative z-10 flex-grow flex flex-col ${isCarousel ? "gap-0" : "px-6 pt-6 pb-6 sm:px-8 sm:pt-8 sm:pb-8 lg:px-10 lg:pt-10 lg:pb-10"}`}>
+      {isCarousel ? (
         <>
-          {/* Title and Icon on same line for carousel */}
           <div class="flex items-center justify-between mb-2">
-            <h3 class="font-extrabold text-theme-primary tracking-tight group-hover:text-accent-green transition-colors duration-500 font-display">
-              {title}
-            </h3>
-            <div class="relative w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-accent-green/20 to-accent-green/5 rounded-lg flex items-center justify-center border border-accent-green/25 group-hover:border-accent-green/50 group-hover:from-accent-green/30 group-hover:to-accent-green/10 transition-all duration-500 group-hover:scale-105 flex-shrink-0 ml-3">
-              <Icon
-                name={icon}
-                class="w-4.5 h-4.5 sm:w-5 sm:h-5 text-accent-green transition-transform duration-500"
-              />
+            <h3 class={titleConfig.carousel}>{title}</h3>
+            <div class={`relative ${iconSizeConfig.container} bg-gradient-to-br from-accent-green/20 to-accent-green/5 flex items-center justify-center border border-accent-green/25 group-hover:border-accent-green/50 group-hover:from-accent-green/30 group-hover:to-accent-green/10 group-hover:shadow-md group-hover:shadow-accent-green/20 transition-all duration-500 ${iconSizeConfig.scale} flex-shrink-0 ml-3`}>
+              <Icon name={icon} class={`${iconSizeConfig.icon} text-accent-green transition-transform duration-500`} />
             </div>
           </div>
-
-          {/* Description */}
-          <p class="mb-3 text-theme-secondary font-normal flex-grow font-body">
-            {description}
-          </p>
-
-          {/* CTA link */}
-          {link && (
-            <a
-              href={link}
-              class="inline-flex items-center gap-1.5 text-accent-green hover:text-accent-green/80 font-semibold mt-auto transition-all duration-300 group/link w-fit font-body border-b border-accent-green/20 hover:border-accent-green/60 pb-0.5"
-            >
-              <span>Learn more</span>
-              <Icon
-                name="mdi:arrow-right"
-                class="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform duration-300"
-              />
-            </a>
-          )}
+          <p class={descriptionConfig.carousel}>{description}</p>
         </>
       ) : (
         <>
-          {/* Icon */}
           <div class="mb-4">
-            <div class="relative w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-accent-green/20 to-accent-green/5 rounded-lg flex items-center justify-center border border-accent-green/25 group-hover:border-accent-green/50 group-hover:from-accent-green/30 group-hover:to-accent-green/10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-              <Icon
-                name={icon}
-                class="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-accent-green transition-transform duration-500"
-              />
+            <div class={`relative ${iconSizeConfig.container} bg-gradient-to-br from-accent-green/20 to-accent-green/5 flex items-center justify-center border border-accent-green/25 group-hover:border-accent-green/50 group-hover:from-accent-green/30 group-hover:to-accent-green/10 group-hover:shadow-lg group-hover:shadow-accent-green/25 transition-all duration-500 ${iconSizeConfig.scale}`}>
+              <Icon name={icon} class={`${iconSizeConfig.icon} text-accent-green transition-transform duration-500`} />
             </div>
           </div>
-
-          {/* Title */}
-          <h3 class="text-xl sm:text-2xl lg:text-3xl leading-tight mb-2 sm:mb-2.5 lg:mb-4 font-extrabold text-theme-primary tracking-tight group-hover:text-accent-green transition-colors duration-500 font-display">
-            {title}
-          </h3>
-
-          {/* Description */}
-          <p class="text-base sm:text-lg leading-relaxed mb-3.5 sm:mb-4 lg:mb-6 xl:mb-8 text-theme-secondary font-normal flex-grow font-body">
-            {description}
-          </p>
-
-          {/* CTA link */}
-          {link && (
-            <a
-              href={link}
-              class="inline-flex items-center gap-1.5 text-accent-green hover:text-accent-green/80 font-semibold text-sm sm:text-base transition-all duration-300 group/link w-fit font-body border-b border-accent-green/20 hover:border-accent-green/60 pb-0.5"
-            >
-              <span>Learn more</span>
-              <Icon
-                name="mdi:arrow-right"
-                class="w-4 h-4 group-hover/link:translate-x-1 transition-transform duration-300"
-              />
-            </a>
-          )}
+          <h3 class={titleConfig.grid}>{title}</h3>
+          <p class={descriptionConfig.grid}>{description}</p>
         </>
       )}
+      {link && (
+        <a href={link} class={isCarousel ? linkConfig.carousel : linkConfig.grid}>
+          <span>Learn more</span>
+          <Icon name="mdi:arrow-right" class={`${isCarousel ? "w-3.5 h-3.5" : "w-4 h-4"} group-hover/link:translate-x-1 transition-transform duration-300`} />
+        </a>
+      )}
     </div>
-
-    {/* Bottom accent */}
     <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-green/0 group-hover:bg-accent-green/30 transition-all duration-500" />
   </div>
 </div>

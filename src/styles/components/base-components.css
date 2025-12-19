@@ -1,6 +1,5 @@
 @tailwind components;
 
-/* Screen reader only */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -8,12 +7,11 @@
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border-width: 0;
 }
 
-/* Theme utilities */
 .bg-theme-primary {
   background-color: var(--bg-primary);
   color: var(--text-primary);
@@ -45,20 +43,10 @@
   border-color: var(--border-color-light);
 }
 
-/* Font utilities */
-.font-body {
-  font-family: var(--font-body);
-}
-
-.font-display {
-  font-family: var(--font-display);
-}
-
 .font-brand {
   font-family: var(--font-brand);
 }
 
-/* Glassmorphism */
 .glassmorphism-card {
   background-color: var(--bg-card);
   backdrop-filter: blur(var(--blur-sm));
@@ -66,19 +54,14 @@
   opacity: var(--opacity-backdrop);
 }
 
-/* Typing cursor */
 .typing-cursor {
   animation: blink var(--animation-duration-blink) infinite;
   margin-left: var(--spacing-xs);
 }
 
 @keyframes blink {
-  0%, 50% {
-    opacity: 1;
-  }
-  51%, 100% {
-    opacity: 0;
-  }
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -87,11 +70,7 @@
   }
 }
 
-/* Hero text utilities */
-.e-part {
-  color: var(--text-primary);
-}
-
+.e-part,
 .hero-headline-text {
   color: var(--text-primary);
 }
@@ -101,7 +80,7 @@
 }
 
 .hero-subtitle p {
-  font-size: clamp(1.15rem, 1.078125rem + 0.359375vw, 1.29375rem) !important;
+  font-size: clamp(1.15rem, 1.0781rem + 0.3594vw, 1.2937rem) !important;
 }
 
 .hero-cta {
@@ -109,7 +88,7 @@
 }
 
 .metric-highlight {
-  font-family: "Courier New", "Monaco", monospace;
+  font-family: "Courier New", Monaco, monospace;
 }
 
 @media (min-width: 1024px) {
@@ -120,4 +99,3 @@
     align-items: center;
   }
 }
-

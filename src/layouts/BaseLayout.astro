@@ -3,6 +3,9 @@ import { siteData } from "../data/config/site";
 import Navigation from "../components/common/Navigation.astro";
 import Footer from "../components/common/Footer.astro";
 import ParticleBackground from "../components/effects/ParticleBackground.astro";
+import ScrollProgressBar from "../components/ui/ScrollProgressBar.astro";
+// HeroUIProvider is only needed if using HeroUI navbar - currently using custom navigation
+// import HeroUIProvider from "../components/providers/HeroUIProvider";
 import { createAssetUrl } from "../utils/url";
 import "../styles/tokens.css";
 import "../styles/base.css";
@@ -13,10 +16,8 @@ import "../styles/components/base-components.css";
 import "../styles/components/buttons.css";
 import "../styles/components/cards.css";
 import "../styles/components/carousels.css";
-import "../styles/components/carousel-cards.css";
 import "../styles/components/accordions.css";
 import "../styles/components/highlights.css";
-import "../styles/components.css";
 import "../styles/navigation.css";
 import "../styles/sections/shared-sections.css";
 import "../styles/sections/hero.css";
@@ -29,11 +30,10 @@ export interface Props {
   showParticles?: boolean;
 }
 
-const {
-  title,
-  description,
-  showParticles = true,
-} = Astro.props;
+const { title, description, showParticles = true } = Astro.props;
+const pageTitle = title || siteData.name;
+const pageDescription = description || siteData.description;
+const ogImage = createAssetUrl("/og-image.svg");
 ---
 
 <!doctype html>
@@ -41,9 +41,9 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description || siteData.description} />
+    <meta name="description" content={pageDescription} />
     <meta name="theme-color" content={siteData.themeColor} />
-    <title>{title || siteData.name}</title>
+    <title>{pageTitle}</title>
 
     <link rel="icon" type="image/svg+xml" href={createAssetUrl("/favicon.svg")} />
     <link rel="alternate icon" href={createAssetUrl("/favicon.svg")} />
@@ -54,16 +54,16 @@ const {
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={siteData.url} />
-    <meta property="og:title" content={title || siteData.name} />
-    <meta property="og:description" content={description || siteData.description} />
-    <meta property="og:image" content={createAssetUrl("/og-image.svg")} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:site_name" content={siteData.name} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={siteData.url} />
-    <meta name="twitter:title" content={title || siteData.name} />
-    <meta name="twitter:description" content={description || siteData.description} />
-    <meta name="twitter:image" content={createAssetUrl("/og-image.svg")} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImage} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -71,15 +71,11 @@ const {
 
     <link rel="canonical" href={siteData.url} />
   </head>
-  <body
-    class="min-h-screen flex flex-col relative bg-primary transition-colors duration-normal"
-  >
+  <body class="min-h-screen flex flex-col relative bg-primary transition-colors duration-normal">
+    <ScrollProgressBar />
     {showParticles && <ParticleBackground />}
     <Navigation />
-    <main
-      id="main-content"
-      class="flex-1 relative z-content"
-    >
+    <main id="main-content" class="flex-1 relative z-content">
       <slot />
     </main>
     <Footer />
@@ -87,7 +83,6 @@ const {
     <script>
       import { initSmoothScroll } from "../scripts/smoothScroll";
       import { initScrollAnimations } from "../scripts/scrollAnimations";
-
       initSmoothScroll();
       initScrollAnimations();
     </script>

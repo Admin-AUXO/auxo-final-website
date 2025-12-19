@@ -22,22 +22,22 @@ const content: HomepageContent["methodology"] = homepageContent.methodology;
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
-      <div class="text-center mb-8 sm:mb-12 lg:mb-16" data-aos="fade-down" data-aos-duration="800">
+      <div class="text-center mb-8 sm:mb-12 lg:mb-16" data-aos="fade-down">
         <h2
-          class="text-h2 font-extrabold mb-4 sm:mb-5 lg:mb-6 text-theme-primary transition-colors leading-tight tracking-tight font-display"
+          class="text-h2 font-extrabold mb-5 sm:mb-6 lg:mb-8 text-theme-primary transition-colors leading-tight tracking-tight font-display"
         >
-          {content.title} <span class="text-accent-green">{content.titleHighlight}</span>
+          {content.title} <span class="text-accent-green font-black text-[1.1em]">{content.titleHighlight}</span>
         </h2>
-        <div class="max-w-4xl mx-auto mb-4 sm:mb-6 lg:mb-8">
+        <div class="max-w-4xl mx-auto mb-5 sm:mb-6 lg:mb-8">
           <p
-            class="text-body-xl font-semibold text-theme-secondary leading-relaxed transition-colors font-display"
+            class="text-body-lg sm:text-body-xl font-bold text-theme-primary leading-relaxed transition-colors font-display"
           >
             {content.subtitle.split("\n\n")[0]}
           </p>
         </div>
         <div class="max-w-2xl mx-auto">
           <p
-            class="text-body-lg text-theme-secondary leading-relaxed transition-colors font-normal font-body"
+            class="text-base sm:text-body-lg text-theme-secondary leading-relaxed transition-colors font-body"
           >
             {content.subtitle.split("\n\n")[1]?.replace(":", "") || ""}
           </p>
@@ -80,10 +80,10 @@ const content: HomepageContent["methodology"] = homepageContent.methodology;
         </div>
       </div>
       {content.navigationButton && (
-        <div class="text-center mt-8 sm:mt-10" data-aos="fade-up" data-aos-duration="600">
+        <div class="text-center mt-8 sm:mt-10" data-aos="fade-up">
           <a
             href={createUrl(content.navigationButton.href)}
-            class="inline-flex items-center gap-2 text-accent-green hover:text-accent-green/80 font-semibold text-body-lg transition-all duration-300 group flex-nowrap whitespace-nowrap font-body"
+            class="inline-flex items-center gap-2 text-accent-green hover:text-accent-green/80 font-semibold text-base sm:text-body-lg transition-all duration-300 group flex-nowrap whitespace-nowrap font-body"
           >
             <span class="whitespace-nowrap">
               {content.navigationButton.text}
@@ -98,9 +98,4 @@ const content: HomepageContent["methodology"] = homepageContent.methodology;
     </div>
   </div>
 </SectionContainer>
-
-<script>
-  import { initMethodologySection } from "../../../scripts/sections/home/methodologySection";
-  initMethodologySection();
-</script>
 

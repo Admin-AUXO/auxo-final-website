@@ -1,96 +1,72 @@
 import { state, addTrackedListener, clearDropdownTimer } from './state';
 import { DROPDOWN_LEAVE_DELAY } from './types';
+import { lockScroll, unlockScroll } from './utils';
 import { computePosition, autoUpdate, offset, flip, shift } from '@floating-ui/dom';
 import type { Placement } from '@floating-ui/dom';
 
-// AutoUpdate cleanup functions
 const autoUpdateCleanups = new Map<HTMLElement, () => void>();
+
+const DROPDOWN_POSITION_CONFIG = {
+  placement: 'bottom-start' as Placement,
+  middleware: [offset(8), flip(), shift({ padding: 16 })],
+};
+
+const SELECTORS = {
+  MODAL_MENU: '.dropdown-modal-menu',
+  STANDARD_MENU: '.dropdown-menu',
+  TOGGLE: '.dropdown-toggle',
+  ARROW: '.dropdown-arrow',
+  OVERLAY: '.dropdown-modal-overlay',
+} as const;
+
+function applyPosition({ x, y, placement }: { x: number; y: number; placement: string }, menu: HTMLElement): void {
+  Object.assign(menu.style, { left: `${x}px`, top: `${y}px` });
+  menu.classList.toggle('dropdown-right-aligned', placement.includes('end') || placement.includes('right'));
+}
 
 function updateDropdownPosition(button: HTMLElement, menu: HTMLElement): void {
   const existingCleanup = autoUpdateCleanups.get(menu);
-  if (existingCleanup) {
-    existingCleanup();
-  }
-  computePosition(button, menu, {
-    placement: 'bottom-start' as Placement,
-    middleware: [
-      offset(8),
-      flip(),
-      shift({ padding: 16 }),
-    ],
-  }).then(({ x, y, placement }) => {
-    Object.assign(menu.style, {
-      left: `${x}px`,
-      top: `${y}px`,
-    });
-    menu.classList.remove('dropdown-right-aligned');
-    if (placement.includes('end') || placement.includes('right')) {
-      menu.classList.add('dropdown-right-aligned');
-    }
-    });
-  const cleanup = autoUpdate(button, menu, () => {
-    computePosition(button, menu, {
-      placement: 'bottom-start' as Placement,
-      middleware: [
-        offset(8),
-        flip(),
-        shift({ padding: 16 }),
-      ],
-    }).then(({ x, y, placement }) => {
-      Object.assign(menu.style, {
-        left: `${x}px`,
-        top: `${y}px`,
-      });
+  existingCleanup?.();
 
-      menu.classList.remove('dropdown-right-aligned');
-      if (placement.includes('end') || placement.includes('right')) {
-        menu.classList.add('dropdown-right-aligned');
-      }
-    });
+  computePosition(button, menu, DROPDOWN_POSITION_CONFIG).then((pos) => applyPosition(pos, menu));
+
+  const cleanup = autoUpdate(button, menu, () => {
+    computePosition(button, menu, DROPDOWN_POSITION_CONFIG).then((pos) => applyPosition(pos, menu));
   });
 
   autoUpdateCleanups.set(menu, cleanup);
+}
+
+function getDropdownElements(dropdown: HTMLElement, isModal: boolean) {
+  return {
+    menu: dropdown.querySelector(isModal ? SELECTORS.MODAL_MENU : SELECTORS.STANDARD_MENU) as HTMLElement,
+    button: dropdown.querySelector(SELECTORS.TOGGLE) as HTMLElement,
+    arrow: dropdown.querySelector(SELECTORS.ARROW) as HTMLElement,
+    overlay: dropdown.querySelector(SELECTORS.OVERLAY) as HTMLElement,
+  };
 }
 
 function closeDropdown(dropdown: HTMLElement): void {
   if (state.isTransitioning) return;
 
   const isModal = dropdown.hasAttribute('data-modal-dropdown');
-  const menu = dropdown.querySelector(isModal ? '.dropdown-modal-menu' : '.dropdown-menu') as HTMLElement;
-  const button = dropdown.querySelector('.dropdown-toggle') as HTMLElement;
-  const arrow = dropdown.querySelector('.dropdown-arrow') as HTMLElement;
-  const overlay = dropdown.querySelector('.dropdown-modal-overlay') as HTMLElement;
+  const { menu, button, arrow, overlay } = getDropdownElements(dropdown, isModal);
 
-  if (menu && button && arrow) {
-    // Clean up autoUpdate
-    const cleanup = autoUpdateCleanups.get(menu);
-    if (cleanup) {
-      cleanup();
-      autoUpdateCleanups.delete(menu);
-    }
+  if (!menu || !button || !arrow) return;
 
-    menu.classList.remove('open');
-    button.classList.remove('active');
-    button.setAttribute('aria-expanded', 'false');
-    arrow.classList.remove('open');
-    
-    // Reset position styles
-    menu.style.left = '';
-    menu.style.top = '';
-    
-    if (overlay) {
-      overlay.classList.remove('open');
-      overlay.setAttribute('aria-hidden', 'true');
-    }
-    
-    if (isModal) {
-      document.body.style.overflow = '';
-    }
-    
-    if (state.openDropdown === dropdown) {
-      state.openDropdown = null;
-    }
-  }
+  const cleanup = autoUpdateCleanups.get(menu);
+  cleanup?.();
+  autoUpdateCleanups.delete(menu);
+
+  menu.classList.remove('open');
+  button.setAttribute('aria-expanded', 'false');
+  arrow.classList.remove('open');
+  menu.style.cssText = '';
+  overlay?.classList.remove('open');
+  overlay?.setAttribute('aria-hidden', 'true');
+  
+  if (isModal) unlockScroll();
+  if (state.openDropdown === dropdown) state.openDropdown = null;
 }
 
 function openDropdownMenu(dropdown: HTMLElement): void {
@@ -99,24 +75,19 @@ function openDropdownMenu(dropdown: HTMLElement): void {
   }
 
   const isModal = dropdown.hasAttribute('data-modal-dropdown');
-  const menu = dropdown.querySelector(isModal ? '.dropdown-modal-menu' : '.dropdown-menu') as HTMLElement;
-  const button = dropdown.querySelector('.dropdown-toggle') as HTMLElement;
-  const arrow = dropdown.querySelector('.dropdown-arrow') as HTMLElement;
-  const overlay = dropdown.querySelector('.dropdown-modal-overlay') as HTMLElement;
+  const { menu, button, arrow, overlay } = getDropdownElements(dropdown, isModal);
 
   if (!menu || !button || !arrow) return;
 
   menu.classList.add('open');
-  button.classList.add('active');
   button.setAttribute('aria-expanded', 'true');
   arrow.classList.add('open');
   
   if (isModal && overlay) {
     overlay.classList.add('open');
     overlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    } else {
-    // Use Floating UI for positioning
+    lockScroll();
+  } else {
     updateDropdownPosition(button, menu);
   }
   
@@ -133,100 +104,97 @@ function scheduleDropdownClose(dropdown: HTMLElement): void {
   }, DROPDOWN_LEAVE_DELAY);
 }
 
-export function initializeDropdowns(): void {
-  document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-    const newToggle = toggle.cloneNode(true) as HTMLElement;
-    toggle.parentNode?.replaceChild(newToggle, toggle);
+function setupToggleClickHandler(toggle: HTMLElement): void {
+  const newToggle = toggle.cloneNode(true) as HTMLElement;
+  toggle.parentNode?.replaceChild(newToggle, toggle);
 
-    addTrackedListener(newToggle, 'click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const dropdown = newToggle.closest('.dropdown-container') as HTMLElement;
-      if (!dropdown) return;
+  addTrackedListener(newToggle, 'click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const dropdown = newToggle.closest('.dropdown-container') as HTMLElement;
+    if (!dropdown) return;
 
-      const isModal = dropdown.hasAttribute('data-modal-dropdown');
-      const menu = dropdown.querySelector(isModal ? '.dropdown-modal-menu' : '.dropdown-menu') as HTMLElement;
-      if (!menu) return;
+    const isModal = dropdown.hasAttribute('data-modal-dropdown');
+    const menu = dropdown.querySelector(isModal ? SELECTORS.MODAL_MENU : SELECTORS.STANDARD_MENU) as HTMLElement;
+    if (!menu) return;
 
-      const isOpen = menu.classList.contains('open');
-
-      if (isOpen) {
-        closeDropdown(dropdown);
-      } else {
-        openDropdownMenu(dropdown);
-      }
-    }, { capture: false });
-  });
-
-  // Handle overlay clicks
-  document.querySelectorAll('.dropdown-modal-overlay').forEach(overlay => {
-    addTrackedListener(overlay, 'click', () => {
-      const dropdown = overlay.closest('.dropdown-container') as HTMLElement;
-      if (dropdown) {
-        closeDropdown(dropdown);
-      }
-    });
-  });
-
-  // Handle close button clicks
-  document.querySelectorAll('[data-dropdown-close]').forEach(closeBtn => {
-    addTrackedListener(closeBtn, 'click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const index = (closeBtn as HTMLElement).getAttribute('data-dropdown-close');
-      if (index) {
-        const dropdown = document.querySelector(`[data-nav-item="${index}"]`) as HTMLElement;
-        if (dropdown) {
-          closeDropdown(dropdown);
-        }
-      }
-    });
-  });
-
-  document.querySelectorAll('.dropdown-container').forEach(container => {
-    const containerEl = container as HTMLElement;
-    const isModal = containerEl.hasAttribute('data-modal-dropdown');
-    const menu = containerEl.querySelector(isModal ? '.dropdown-modal-menu' : '.dropdown-menu') as HTMLElement;
-
-    // Apply hover behavior for non-modal dropdowns
-    if (!isModal) {
-      addTrackedListener(containerEl, 'mouseleave', (e) => {
-        if (state.openDropdown === containerEl && !state.isTransitioning) {
-          const relatedTarget = (e as MouseEvent).relatedTarget as HTMLElement;
-          if (relatedTarget && menu?.contains(relatedTarget)) return;
-          scheduleDropdownClose(containerEl);
-        }
-      });
-
-      addTrackedListener(containerEl, 'mouseenter', () => {
-        clearDropdownTimer();
-        state.dropdownHoverState = true;
-      });
-
-      if (menu) {
-        addTrackedListener(menu, 'mouseenter', () => {
-          clearDropdownTimer();
-          state.dropdownHoverState = true;
-        });
-
-        addTrackedListener(menu, 'mouseleave', (e) => {
-          const relatedTarget = (e as MouseEvent).relatedTarget as HTMLElement;
-          if (relatedTarget && containerEl.contains(relatedTarget)) return;
-
-          state.dropdownHoverState = false;
-          if (state.openDropdown === containerEl && !state.isTransitioning) {
-            scheduleDropdownClose(containerEl);
-          }
-        });
-      }
-    }
+    menu.classList.contains('open') ? closeDropdown(dropdown) : openDropdownMenu(dropdown);
   });
 }
 
-export function closeAllDropdowns(): void {
-  if (state.openDropdown) {
-    closeDropdown(state.openDropdown);
+function setupHoverHandlers(container: HTMLElement, menu: HTMLElement): void {
+  const handleMouseEnter = () => {
+    clearDropdownTimer();
+    state.dropdownHoverState = true;
+  };
+
+  const handleContainerMouseLeave = (e: Event) => {
+    if (state.openDropdown === container && !state.isTransitioning) {
+      const relatedTarget = (e as MouseEvent).relatedTarget as HTMLElement;
+      if (relatedTarget && menu?.contains(relatedTarget)) return;
+      scheduleDropdownClose(container);
+    }
+  };
+
+  const handleMenuMouseLeave = (e: Event) => {
+    const relatedTarget = (e as MouseEvent).relatedTarget as HTMLElement;
+    if (relatedTarget && (menu?.contains(relatedTarget) || container.contains(relatedTarget))) return;
+    if (state.openDropdown === container && !state.isTransitioning) {
+      state.dropdownHoverState = false;
+      scheduleDropdownClose(container);
+    }
+  };
+
+  addTrackedListener(container, 'mouseenter', handleMouseEnter);
+  addTrackedListener(container, 'mouseleave', handleContainerMouseLeave);
+  addTrackedListener(menu, 'mouseenter', handleMouseEnter);
+  addTrackedListener(menu, 'mouseleave', handleMenuMouseLeave);
+}
+
+export function initializeDropdowns(): void {
+  if (typeof document === 'undefined') return;
+  
+  try {
+    document.querySelectorAll('.dropdown-toggle').forEach(toggle => 
+      setupToggleClickHandler(toggle as HTMLElement)
+    );
+
+    document.querySelectorAll('.dropdown-modal-overlay').forEach(overlay => {
+      addTrackedListener(overlay, 'click', () => {
+        const dropdown = overlay.closest('.dropdown-container') as HTMLElement;
+        if (dropdown) closeDropdown(dropdown);
+      });
+    });
+
+    document.querySelectorAll('[data-dropdown-close]').forEach(closeBtn => {
+      addTrackedListener(closeBtn, 'click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const index = (closeBtn as HTMLElement).getAttribute('data-dropdown-close');
+        if (index) {
+          const dropdown = document.querySelector(`[data-nav-item="${index}"]`) as HTMLElement;
+          if (dropdown) closeDropdown(dropdown);
+        }
+      });
+    });
+
+    document.querySelectorAll('.dropdown-container').forEach(container => {
+      const containerEl = container as HTMLElement;
+      const isModal = containerEl.hasAttribute('data-modal-dropdown');
+      const menu = containerEl.querySelector(isModal ? SELECTORS.MODAL_MENU : SELECTORS.STANDARD_MENU) as HTMLElement;
+      if (!isModal && menu) {
+        setupHoverHandlers(containerEl, menu);
+      }
+    });
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.warn('Dropdown initialization error:', error);
+    }
   }
+}
+
+export function closeAllDropdowns(): void {
+  if (state.openDropdown) closeDropdown(state.openDropdown);
 }
 
 export function setupDropdownCloseHandlers(): void {

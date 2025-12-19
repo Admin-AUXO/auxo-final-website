@@ -1,4 +1,12 @@
-/* Capabilities Section */
+.home-hero-highlight {
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.home-hero-highlight::after {
+  display: none;
+}
+
 .symmetric-grid-container {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -63,7 +71,6 @@
   }
 }
 
-/* Methodology Section */
 .methodology-section .section-pattern-grid {
   background-size: var(--pattern-size-md) var(--pattern-size-md);
 }
@@ -79,15 +86,6 @@
 @media (max-width: 640px) {
   .methodology-section .section-pattern-grid {
     background-size: 35px 35px;
-    opacity: 0.4;
-  }
-
-  .methodology-section .section-gradient-center {
-    background: radial-gradient(
-      ellipse 120% 90% at center top,
-      var(--accent-green-opacity-015) 0%,
-      transparent 45%
-    );
   }
 }
 
@@ -108,14 +106,10 @@
   }
 }
 
-/* Services Intro Section */
 .services-intro-section::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: radial-gradient(
     ellipse 100% 80% at center top,
     var(--accent-green-opacity-02) 0%,
@@ -135,7 +129,6 @@
   }
 }
 
-/* Final CTA Section */
 .cta-pattern {
   background-image:
     linear-gradient(90deg, var(--accent-green) 1px, transparent 1px),
@@ -162,7 +155,6 @@
   }
 }
 
-/* Services Stage Section */
 .code-edge-pattern {
   background-image:
     linear-gradient(45deg, var(--accent-green-opacity-1) 1px, transparent 1px),
@@ -170,37 +162,122 @@
   background-size: 20px 20px;
 }
 
-/* Value Proposition Typing Animation */
 .hero-typing-text {
-  font-size: 105%;
+  font-size: 100%;
+  overflow: visible;
+  position: relative;
+  min-height: calc(2em * 3 + 3rem * 2);
 }
 
 .hero-typing-text p {
   margin: 0;
-  font-size: clamp(1rem, 0.9375rem + 0.3125vw, 1.125rem);
-  line-height: 1.75;
-  color: var(--text-primary);
-  font-family: var(--font-body);
-  font-weight: normal;
+  font-family: var(--font-display);
+  min-height: 2em;
+  text-align: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  animation: fadeInText 0.3s ease-out forwards;
+}
+
+.hero-typing-text p:first-child {
+  font-weight: 500;
+  animation-delay: 0s;
+}
+
+.hero-typing-text p:nth-child(2) {
+  animation-delay: 1.8s;
+}
+
+.hero-typing-text p:last-child {
+  font-weight: 700;
+  animation-delay: 2s;
 }
 
 .hero-typing-text .auxo-glow {
-  color: var(--accent-green);
-  text-shadow:
-    0 0 6px rgba(var(--accent-green-rgb), 0.35),
-    0 0 14px rgba(var(--accent-green-rgb), 0.25);
+  padding: 0 0.15em;
+}
+
+.hero-typing-text .auxo-glow::after {
+  opacity: 0.6;
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scaleX(1.02);
+  }
 }
 
 .hero-typing-text .typing-cursor {
   display: inline-block;
-  width: 2px;
-  height: 1em;
-  margin-left: 6px;
-  background: var(--accent-green);
-  animation: auxoCursorBlink 1s steps(1, end) infinite;
-  vertical-align: -0.1em;
+  width: 3px;
+  height: 1.1em;
+  margin-left: 8px;
+  background: linear-gradient(180deg, var(--accent-green) 0%, var(--accent-green-secondary) 100%);
+  animation: auxoCursorBlink 0.9s steps(1, end) infinite;
+  vertical-align: -0.12em;
+  border-radius: 1px;
+}
+
+.hero-typing-text .temp-cursor {
+  margin-left: 4px;
 }
 
 @keyframes auxoCursorBlink {
   50% { opacity: 0; }
+}
+
+@media (min-width: 640px) {
+  .hero-typing-text .auxo-glow::after {
+    height: 4px;
+    bottom: -3px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-typing-text p {
+    max-width: 1000px;
+  }
+
+  .hero-typing-text .auxo-glow::after {
+    height: 5px;
+    bottom: -4px;
+  }
+}
+
+.value-proposition-section {
+  overflow: hidden;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.value-proposition-section .hero-typing-text {
+  overflow: visible;
+  position: relative;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-typing-text p {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-typing-text .auxo-glow::after {
+    animation: none;
+  }
+
+  .hero-typing-text .typing-cursor {
+    animation: none;
+  }
 }

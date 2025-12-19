@@ -1,11 +1,10 @@
 import { setupPageAnimations } from "../sections/utils/pageUtils";
 
-// Contact form handler
 function setupContactForm(): void {
   const form = document.getElementById("contact-form-element");
-  const email = "hello@auxodata.com";
-
   if (!form) return;
+
+  const email = "hello@auxodata.com";
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -21,12 +20,10 @@ function setupContactForm(): void {
       `Name: ${name}\nEmail: ${userEmail}${company ? `\nCompany: ${company}` : ""}\n\nMessage:\n${message}`
     );
 
-    const mailtoLink = `mailto:${email}?subject=${subjectLine}&body=${body}`;
-    window.location.href = mailtoLink;
+    window.location.href = `mailto:${email}?subject=${subjectLine}&body=${body}`;
   });
 }
 
-// Contact page setup
 export function setupContactPage(): void {
   setupPageAnimations();
   setupContactForm();

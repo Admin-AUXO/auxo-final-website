@@ -18,19 +18,14 @@ const problemContent: HomepageContent["problem"] = homepageContent.problem;
   
   <div class="grid-container relative z-10">
     <div
-      class="col-span-full text-center max-w-6xl mx-auto w-full"
+      class="col-span-full text-center max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8"
     >
       <div
         id="value-proposition-typing"
-        class="hero-typing-text space-y-5 sm:space-y-6 lg:space-y-8 xl:space-y-10 mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
+        class="hero-typing-text space-y-6 sm:space-y-8 lg:space-y-10"
         data-aos="fade-up"
-        data-aos-duration="600"
+        data-aos-duration="500"
       >
-        <!-- Content will be populated by typing animation script -->
-      </div>
-
-      <div class="underline-animation" data-aos="fade-up" data-aos-delay="500">
-        <div class="underline-line"></div>
       </div>
     </div>
   </div>
@@ -39,7 +34,6 @@ const problemContent: HomepageContent["problem"] = homepageContent.problem;
 <script>
   import { initValuePropositionTyping } from "../../../scripts/sections/home/valuePropositionTyping";
   
-  // Initialize typing animation when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       initValuePropositionTyping('value-proposition-typing');

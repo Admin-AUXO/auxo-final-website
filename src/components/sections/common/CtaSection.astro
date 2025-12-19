@@ -84,7 +84,7 @@ const isMinimal = variant === "minimal";
     <div class={`col-span-full ${maxWidthClasses[maxWidth]} mx-auto w-full text-center`}>
       <div class={`cta-content space-y-6 lg:space-y-8 ${contentClass}`}>
         {badge && (
-          <div class="flex justify-center" data-aos="zoom-in" data-aos-duration="600">
+          <div class="flex justify-center" data-aos="zoom-in" data-aos-duration="400">
             <span class="inline-flex items-center gap-2 px-4 py-2 bg-accent-green/10 text-accent-green rounded-full text-sm font-semibold border border-accent-green/20 backdrop-blur-sm">
               <Icon name="mdi:star-circle" class="w-4 h-4" />
               {badge}
@@ -92,11 +92,11 @@ const isMinimal = variant === "minimal";
           </div>
         )}
 
-        <h2 class="text-h2 font-extrabold leading-tight tracking-tight font-display text-theme-primary" data-aos="fade-down" data-aos-duration="800" data-aos-delay={badge ? "100" : "0"}>
+        <h2 class="text-h2 font-extrabold leading-tight tracking-tight font-display text-theme-primary" data-aos="fade-down" data-aos-duration="500" data-aos-delay={badge ? "50" : "0"}>
           <HighlightText text={title} highlight={titleHighlight} />
         </h2>
 
-        <div class="space-y-4" data-aos="fade-up" data-aos-duration="600" data-aos-delay={badge ? "200" : "100"}>
+        <div class="space-y-4" data-aos="fade-up" data-aos-duration="400" data-aos-delay={badge ? "100" : "50"}>
           <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed font-body mx-auto" class:list={[maxWidthClasses[maxWidth === "4xl" ? "3xl" : "2xl"]]}>
             <HighlightText text={description} highlight={descriptionHighlight} highlightClass="text-accent-green font-semibold" />
           </p>
@@ -108,7 +108,7 @@ const isMinimal = variant === "minimal";
           )}
         </div>
 
-        <div class="pt-2 flex justify-center" data-aos="fade-up" data-aos-duration="600" data-aos-delay={badge ? "300" : "200"}>
+        <div class="pt-2 flex justify-center" data-aos="fade-up" data-aos-duration="400" data-aos-delay={badge ? "150" : "100"}>
           <Button
             variant="primary"
             size="lg"
@@ -121,7 +121,7 @@ const isMinimal = variant === "minimal";
         </div>
 
         {additionalInfo && (
-          <div class="pt-4 sm:pt-6 border-t border-accent-green/10" data-aos="fade-up" data-aos-duration="600" data-aos-delay={badge ? "400" : "300"}>
+          <div class="pt-4 sm:pt-6 border-t border-accent-green/10" data-aos="fade-up" data-aos-duration="400" data-aos-delay={badge ? "200" : "150"}>
             <p class="text-sm text-theme-secondary/90 font-body flex items-center justify-center gap-2">
               <Icon name="mdi:information-outline" class="w-4 h-4 text-accent-green" />
               <span>{additionalInfo}</span>

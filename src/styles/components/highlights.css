@@ -1,4 +1,44 @@
-/* Highlight text animations - Special gradient text effect */
+.highlight-gradient {
+  position: relative;
+  background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-green-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  display: inline-block;
+}
+
+.highlight-gradient::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-green), var(--accent-green-secondary), transparent);
+  border-radius: 2px;
+  opacity: 0.5;
+}
+
+@media (min-width: 640px) {
+  .highlight-gradient::after {
+    height: 4px;
+    bottom: -3px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .highlight-gradient::after {
+    height: 5px;
+    bottom: -4px;
+  }
+}
+
+.highlight-simple {
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
 .highlight-text,
 .highlight-cta-text {
   background: linear-gradient(
@@ -19,7 +59,6 @@
   overflow: visible;
   display: block;
   animation: gradientFill var(--animation-duration-gradient) ease-in-out infinite;
-  /* GPU acceleration for smooth performance on mobile */
   will-change: background-position;
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
@@ -39,6 +78,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .highlight-gradient::after {
+    animation: none;
+  }
+
   .highlight-text,
   .highlight-cta-text {
     animation: none;
@@ -49,13 +92,15 @@
   }
 }
 
-/* Underline animations */
 .underline-line {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
-  width: 0;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  width: var(--width-60);
   height: 100%;
+  contain: layout;
+  will-change: transform;
   background: linear-gradient(
     90deg,
     transparent,
@@ -74,7 +119,6 @@
   padding-top: var(--spacing-sm);
 }
 
-/* Flow line animation */
 .flow-line {
   position: absolute;
   top: 0;
@@ -90,7 +134,6 @@
   animation: flow var(--animation-duration-flow) ease-in-out infinite;
 }
 
-/* Stroke animation */
 .stroke-animate {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
@@ -101,4 +144,3 @@
 .bento-card:hover .stroke-animate {
   animation: drawStroke var(--animation-duration-stroke) ease-out forwards;
 }
-

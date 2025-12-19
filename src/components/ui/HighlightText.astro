@@ -1,5 +1,4 @@
 ---
-// Utility component for highlighting specific text within a string
 export interface Props {
   text: string;
   highlight?: string | string[];
@@ -8,21 +7,17 @@ export interface Props {
 
 const { text, highlight, highlightClass = "text-accent-green" } = Astro.props;
 
-// Convert single highlight to array, safely handling undefined
 const highlights = !highlight ? [] : Array.isArray(highlight) ? highlight : [highlight];
 
-// Split text by highlights - simple approach
 function splitText(text: string, highlights: string[]): Array<{ text: string; isHighlight: boolean }> {
   if (highlights.length === 0) return [{ text, isHighlight: false }];
   
-  let remaining = text;
-  const parts: Array<{ text: string; isHighlight: boolean }> = [];
+  let parts: Array<{ text: string; isHighlight: boolean }> = [{ text, isHighlight: false }];
   
-  // Process each highlight term
-  highlights.forEach((highlightText) => {
+  for (const highlightText of highlights) {
     const newParts: Array<{ text: string; isHighlight: boolean }> = [];
     
-    for (const part of parts.length > 0 ? parts : [{ text: remaining, isHighlight: false }]) {
+    for (const part of parts) {
       if (part.isHighlight) {
         newParts.push(part);
         continue;
@@ -35,24 +30,20 @@ function splitText(text: string, highlights: string[]): Array<{ text: string; is
       if (index === -1) {
         newParts.push(part);
       } else {
-        // Add text before highlight
         if (index > 0) {
           newParts.push({ text: part.text.substring(0, index), isHighlight: false });
         }
-        // Add highlighted text
         newParts.push({ text: part.text.substring(index, index + highlightText.length), isHighlight: true });
-        // Add text after highlight
         if (index + highlightText.length < part.text.length) {
           newParts.push({ text: part.text.substring(index + highlightText.length), isHighlight: false });
         }
       }
     }
     
-    parts.length = 0;
-    parts.push(...newParts);
-  });
+    parts = newParts;
+  }
   
-  return parts.length > 0 ? parts : [{ text, isHighlight: false }];
+  return parts;
 }
 
 const parts = splitText(text, highlights);

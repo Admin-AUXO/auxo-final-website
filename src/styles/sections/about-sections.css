@@ -1,10 +1,5 @@
-/* Approach Section */
 .approach-section .section-pattern-grid {
   background-size: 60px 60px;
-  opacity: 0.5;
-  background-image:
-    linear-gradient(var(--accent-green-opacity-02) 1px, transparent 1px),
-    linear-gradient(90deg, var(--accent-green-opacity-02) 1px, transparent 1px);
 }
 
 .code-letter {
@@ -21,7 +16,6 @@
 @media (max-width: 640px) {
   .approach-section .section-pattern-grid {
     background-size: 40px 40px;
-    opacity: 0.3;
   }
 
   .code-letter {
@@ -37,7 +31,6 @@
   }
 }
 
-/* Partnership Section */
 .partnership-pattern {
   background-image:
     repeating-linear-gradient(
@@ -78,13 +71,8 @@
       );
   }
 
-  .partnership-section::before,
-  .partnership-section::after {
-    height: 0.5px;
-  }
 }
 
-/* Team Section */
 .team-accent-bars {
   background:
     linear-gradient(
@@ -130,20 +118,11 @@
       );
   }
 
-  .team-section::before,
-  .team-section::after {
-    height: 0.5px;
-  }
 }
 
-/* Global Section */
 .global-section .section-pattern-mesh {
-  background-image:
-    radial-gradient(circle at 1px 1px, var(--accent-green-opacity-06) 1px, transparent 0),
-    radial-gradient(circle at 1px 1px, var(--accent-green-opacity-03) 1px, transparent 0);
   background-size: 50px 50px, 100px 100px;
   background-position: 0 0, 25px 25px;
-  opacity: 0.5;
 }
 
 .global-section .section-gradient-dual {
@@ -163,7 +142,6 @@
 @media (max-width: 640px) {
   .global-section .section-pattern-mesh {
     background-size: 40px 40px;
-    opacity: 0.3;
   }
 }
 

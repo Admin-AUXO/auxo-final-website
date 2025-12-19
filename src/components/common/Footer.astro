@@ -1,11 +1,13 @@
 ---
 import { Icon } from "astro-icon/components";
 import Logo from "./Logo.astro";
-import { siteData } from "../../data/config/site";
+import FooterContactInfo from "./FooterContactInfo.astro";
+import FooterSocialLinks from "./FooterSocialLinks.astro";
 import { getBaseUrl, createUrl } from "../../utils/url";
 
 const base = getBaseUrl();
 const currentYear = new Date().getFullYear();
+const privacyUrl = createUrl("legal/privacy-policy");
 
 interface FooterLink {
   href: string;
@@ -19,45 +21,15 @@ interface FooterSection {
 }
 
 const legalLinks: FooterLink[] = [
-  { href: createUrl("legal/privacy-policy"), label: "Privacy Policy" },
+  { href: privacyUrl, label: "Privacy Policy" },
   { href: createUrl("legal/terms"), label: "Terms of Service" },
   { href: createUrl("legal/cookie-policy"), label: "Cookie Policy" },
 ];
 
 const footerSections: FooterSection[] = [
-  {
-    title: "Learn",
-    icon: "mdi:book-open",
-    links: [
-      { href: createUrl("about"), label: "About Us" },
-      { href: createUrl("services"), label: "Services" },
-    ],
-  },
-  {
-    title: "Engage",
-    icon: "mdi:handshake",
-    links: [
-      { href: createUrl("contact"), label: "Contact Us" },
-    ],
-  },
-  {
-    title: "Legal",
-    icon: "mdi:shield-check",
-    links: legalLinks,
-  },
-];
-
-const socialLinks = [
-  { 
-    href: siteData.social.linkedin, 
-    icon: "mdi:linkedin", 
-    label: "Follow AUXO Data Labs on LinkedIn" 
-  },
-  { 
-    href: siteData.social.twitter, 
-    icon: "mdi:twitter", 
-    label: "Follow AUXO Data Labs on Twitter" 
-  },
+  { title: "Learn", icon: "mdi:book-open", links: [{ href: createUrl("about"), label: "About Us" }, { href: createUrl("services"), label: "Services" }] },
+  { title: "Engage", icon: "mdi:handshake", links: [{ href: createUrl("contact"), label: "Contact Us" }] },
+  { title: "Legal", icon: "mdi:shield-check", links: legalLinks },
 ];
 ---
 
@@ -97,26 +69,7 @@ const socialLinks = [
         ))}
       </nav>
 
-      <div class="pt-2">
-        <p
-          class="text-xs font-semibold text-theme-secondary uppercase tracking-wider mb-3 font-body text-center"
-        >
-          Follow Us
-        </p>
-        <div class="flex gap-2.5 justify-center">
-          {socialLinks.map((social) => (
-            <a
-              href={social.href}
-              class="w-10 h-10 bg-accent-green/10 border border-accent-green/30 rounded-lg flex items-center justify-center text-accent-green min-w-[40px] min-h-[40px] hover:bg-accent-green hover:text-on-accent hover:border-accent-green hover:shadow-lg hover:shadow-accent-green/30 hover:scale-110 active:scale-95 transition-all duration-fast"
-              aria-label={social.label}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Icon name={social.icon} class="w-5 h-5" />
-            </a>
-          ))}
-        </div>
-      </div>
+      <FooterSocialLinks size="sm" class="pt-2" />
     </div>
 
     <div class="hidden sm:grid sm:grid-cols-12 lg:grid-cols-12 gap-6 lg:gap-10 col-span-full">
@@ -124,72 +77,10 @@ const socialLinks = [
         <Logo size="lg" showText={true} href={base} class="items-start" />
 
         <div class="space-y-4">
-          <a
-            href={`mailto:${siteData.email}?subject=Inquiry from AUXO Website`}
-            class="flex items-center gap-3 group"
-          >
-            <div
-              class="w-12 h-12 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-accent-green/25 transition-colors"
-            >
-              <Icon name="mdi:email-outline" class="w-6 h-6 text-accent-green" />
-            </div>
-            <div class="flex-1 min-w-0">
-              <div
-                class="text-base font-semibold text-theme-primary break-all group-hover:text-accent-green transition-colors font-body"
-              >
-                {siteData.email}
-              </div>
-              <div class="flex items-center gap-2 mt-1">
-                <Icon
-                  name="mdi:clock-outline"
-                  class="w-3.5 h-3.5 text-theme-secondary"
-                />
-                <span
-                  class="text-xs text-theme-secondary font-body"
-                >
-                  Response within <span class="font-medium text-accent-green"
-                    >24 hours</span
-                  >
-                </span>
-              </div>
-            </div>
-          </a>
-
-          <div class="flex items-center gap-3 text-theme-secondary">
-            <div
-              class="w-12 h-12 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0"
-            >
-              <Icon name="mdi:map-marker-outline" class="w-6 h-6 text-accent-green" />
-            </div>
-            <span class="text-base font-body">
-              {siteData.address.city}, {siteData.address.country}
-            </span>
-          </div>
+          <FooterContactInfo />
         </div>
 
-        <div class="pt-2">
-          <p
-            class="text-xs font-semibold text-theme-secondary uppercase tracking-wider mb-4 font-body"
-          >
-            Follow Us
-          </p>
-          <div class="flex gap-4">
-            {socialLinks.map((social) => (
-              <a
-                href={social.href}
-                class="group relative w-14 h-14 lg:w-16 lg:h-16 bg-accent-green/10 hover:bg-accent-green hover:text-on-accent border border-accent-green/30 hover:border-accent-green hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-1 rounded-xl flex items-center justify-center text-accent-green active:scale-95 active:translate-y-0 transition-all duration-fast focus:outline-none focus:ring-[3px] focus:ring-accent-green/50 touch-target-large lg:min-w-[64px] lg:min-h-[64px]"
-                aria-label={social.label}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon
-                  name={social.icon}
-                  class="w-7 h-7 lg:w-8 lg:h-8 group-hover:scale-110 transition-transform"
-                />
-              </a>
-            ))}
-          </div>
-        </div>
+        <FooterSocialLinks size="lg" class="pt-2" />
       </section>
 
       <section class="sm:col-span-12 lg:col-span-7 mt-0 mb-0 sm:mt-0 sm:mb-auto">
@@ -227,68 +118,26 @@ const socialLinks = [
     </div>
   </div>
 
-  <div
-    class="col-span-full pt-1 sm:border-t sm:border-theme sm:pt-5 mt-1 sm:mt-6 pb-10 sm:pb-8 text-theme-secondary text-xs font-medium transition-colors"
-  >
+  <div class="col-span-full pt-1 sm:border-t sm:border-theme sm:pt-5 mt-1 sm:mt-6 pb-10 sm:pb-8 text-theme-secondary text-xs font-medium transition-colors">
     <div class="flex flex-col items-center gap-2 sm:hidden">
-      <a
-        href={createUrl("legal/privacy-policy")}
-        class="text-xs text-accent-green font-medium flex items-center font-body"
-        aria-label="Privacy Policy"
-      >
-        Privacy
-      </a>
-      <p
-        class="text-xs flex items-center font-body"
-      >
-        © {currentYear} AUXO
-      </p>
-      <a
-        href={createUrl("legal/privacy-policy")}
-        class="flex items-center gap-1 text-xs text-accent-green font-medium font-body"
-        aria-label="PDPL Compliant"
-      >
-        <Icon
-          name="mdi:shield-check"
-          class="w-3.5 h-3.5 text-accent-green flex-shrink-0"
-        />
+      <a href={privacyUrl} class="text-xs text-accent-green font-medium flex items-center font-body" aria-label="Privacy Policy">Privacy</a>
+      <p class="text-xs flex items-center font-body">© {currentYear} AUXO</p>
+      <a href={privacyUrl} class="flex items-center gap-1 text-xs text-accent-green font-medium font-body" aria-label="PDPL Compliant">
+        <Icon name="mdi:shield-check" class="w-3.5 h-3.5 text-accent-green flex-shrink-0" />
         <span>PDPL</span>
       </a>
     </div>
-
-    <div
-      class="hidden sm:flex sm:flex-row items-center justify-center gap-3 sm:gap-4 lg:gap-5 flex-wrap"
-    >
-      <p class="text-center font-body">
-        © {currentYear} AUXO Data Labs. All rights reserved.
-      </p>
-
+    <div class="hidden sm:flex sm:flex-row items-center justify-center gap-3 sm:gap-4 lg:gap-5 flex-wrap">
+      <p class="text-center font-body">© {currentYear} AUXO Data Labs. All rights reserved.</p>
       <span class="text-theme-tertiary" aria-hidden="true">•</span>
-
-      <span
-        class="flex items-center gap-2 whitespace-nowrap font-body"
-      >
-        <Icon
-          name="mdi:map-marker-outline"
-          class="w-4 h-4 text-accent-green flex-shrink-0 transition-colors"
-        />
+      <span class="flex items-center gap-2 whitespace-nowrap font-body">
+        <Icon name="mdi:map-marker-outline" class="w-4 h-4 text-accent-green flex-shrink-0 transition-colors" />
         <span>Dubai, UAE</span>
       </span>
-
       <span class="text-theme-tertiary" aria-hidden="true">•</span>
-
-      <a
-        href={createUrl("legal/privacy-policy")}
-        class="flex items-center gap-2 whitespace-nowrap px-3 py-1.5 bg-accent-green/10 border border-accent-green rounded-lg hover:bg-accent-green/20 transition-all duration-fast group min-h-[44px] font-body"
-        aria-label="View Privacy Policy - PDPL Compliant"
-      >
-        <Icon
-          name="mdi:shield-check"
-          class="w-4 h-4 text-accent-green flex-shrink-0 transition-colors group-hover:scale-110"
-        />
-        <span class="text-xs font-semibold text-accent-green"
-          >PDPL Compliant</span
-        >
+      <a href={privacyUrl} class="flex items-center gap-2 whitespace-nowrap px-3 py-1.5 bg-accent-green/10 border border-accent-green rounded-lg hover:bg-accent-green/20 transition-all duration-fast group min-h-[44px] font-body" aria-label="View Privacy Policy - PDPL Compliant">
+        <Icon name="mdi:shield-check" class="w-4 h-4 text-accent-green flex-shrink-0 transition-colors group-hover:scale-110" />
+        <span class="text-xs font-semibold text-accent-green">PDPL Compliant</span>
       </a>
     </div>
   </div>

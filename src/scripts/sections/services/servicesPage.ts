@@ -1,7 +1,7 @@
-import { initServicesCarousel } from "./servicesCarousel";
+import "./servicesCarousel";
 import { setupPageAnimations } from "../utils/pageUtils";
 
 export function setupServicesPageAnimations() {
-  setupPageAnimations([initServicesCarousel]);
+  setupPageAnimations();
 }
 

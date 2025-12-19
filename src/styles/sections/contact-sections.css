@@ -1,8 +1,6 @@
-/* Contact page layout tweaks */
-
 input:focus,
 textarea:focus {
-  background-color: var(--theme-surface);
+  background-color: var(--bg-surface);
 }
 
 @media (max-width: 640px) {
@@ -19,5 +17,3 @@ textarea:focus {
     margin-right: auto;
   }
 }
-
-

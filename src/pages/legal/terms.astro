@@ -1,6 +1,6 @@
 ---
 import LegalLayout from "../../components/layouts/LegalLayout.astro";
-import { siteData } from "../../data/config/site";
+import LegalContact from "../../components/legal/LegalContact.astro";
 import { createUrl } from "../../utils/url";
 ---
 
@@ -98,13 +98,6 @@ import { createUrl } from "../../utils/url";
     These Terms of Service, together with our <a href={createUrl("legal/privacy-policy")}>Privacy Policy</a> and <a href={createUrl("legal/cookie-policy")}>Cookie Policy</a>, constitute the entire agreement between you and AUXO Data Labs regarding your use of our website and services.
   </p>
 
-  <h2>15. Contact Information</h2>
-  <p>
-    If you have any questions about these Terms of Service, please contact us at:
-  </p>
-  <p>
-    <strong>Email:</strong> <a href={`mailto:${siteData.email}`}>{siteData.email}</a><br />
-    <strong>Address:</strong> {siteData.address.street}, {siteData.address.city}, {siteData.address.country}
-  </p>
+  <LegalContact email="hello@auxodata.com" title="Contact Information" intro="If you have any questions about these Terms of Service, please contact us at:" />
 </LegalLayout>
 

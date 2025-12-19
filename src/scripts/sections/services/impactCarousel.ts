@@ -7,11 +7,3 @@ initCarousel({
   activateOnDesktop: true,
 });
 
-export function initImpactCarousel(): void {
-  // Carousel is auto-initialized via initCarousel
-}
-
-export function initImpactSection(): void {
-  // Carousel is auto-initialized via initCarousel
-}
-

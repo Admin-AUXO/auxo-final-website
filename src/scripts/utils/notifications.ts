@@ -1,101 +1,54 @@
-/**
- * Toast Notifications using Notyf
- * Beautiful notification system for user feedback
- */
-
 import { Notyf } from 'notyf';
 
 let notyf: Notyf | null = null;
 
-/**
- * Initialize Notyf toast notifications
- */
 export function initNotifications() {
   if (notyf) return notyf;
 
   notyf = new Notyf({
     duration: 4000,
-    position: {
-      x: 'right',
-      y: 'bottom',
-    },
+    position: { x: 'right', y: 'bottom' },
     dismissible: true,
     ripple: true,
     types: [
       {
         type: 'success',
-        background: '#A3E635', // accent-green
-        icon: {
-          className: 'notyf__icon--success',
-          tagName: 'i',
-        },
+        background: '#A3E635',
+        icon: { className: 'notyf__icon--success', tagName: 'i' },
       },
       {
         type: 'error',
-        background: '#EF4444', // red-500
-        icon: {
-          className: 'notyf__icon--error',
-          tagName: 'i',
-        },
+        background: '#EF4444',
+        icon: { className: 'notyf__icon--error', tagName: 'i' },
       },
-      {
-        type: 'warning',
-        background: '#F59E0B', // amber-500
-        icon: false,
-      },
-      {
-        type: 'info',
-        background: '#3B82F6', // blue-500
-        icon: false,
-      },
+      { type: 'warning', background: '#F59E0B', icon: false },
+      { type: 'info', background: '#3B82F6', icon: false },
     ],
   });
 
-  console.log('✓ Notifications initialized');
   return notyf;
 }
 
-/**
- * Show success notification
- */
+function getNotyfInstance() {
+  return notyf || initNotifications();
+}
+
 export function showSuccess(message: string) {
-  const notyfInstance = notyf || initNotifications();
-  notyfInstance.success(message);
+  getNotyfInstance().success(message);
 }
 
-/**
- * Show error notification
- */
 export function showError(message: string) {
-  const notyfInstance = notyf || initNotifications();
-  notyfInstance.error(message);
+  getNotyfInstance().error(message);
 }
 
-/**
- * Show warning notification
- */
 export function showWarning(message: string) {
-  const notyfInstance = notyf || initNotifications();
-  notyfInstance.open({
-    type: 'warning',
-    message: message,
-  });
+  getNotyfInstance().open({ type: 'warning', message });
 }
 
-/**
- * Show info notification
- */
 export function showInfo(message: string) {
-  const notyfInstance = notyf || initNotifications();
-  notyfInstance.open({
-    type: 'info',
-    message: message,
-  });
+  getNotyfInstance().open({ type: 'info', message });
 }
 
-/**
- * Dismiss all notifications
- */
 export function dismissAll() {
   notyf?.dismissAll();
 }

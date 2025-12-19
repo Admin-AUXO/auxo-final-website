@@ -19,16 +19,16 @@ const content = aboutContent.purpose;
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-5xl mx-auto w-full">
-      <div class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16" data-aos="fade-down" data-aos-duration="800">
+      <div class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16" data-aos="fade-down">
         <h2 class="text-h2 font-extrabold mb-3 sm:mb-4 lg:mb-5 xl:mb-6 text-theme-primary leading-tight tracking-tight font-display px-2">
           {content.title}
         </h2>
-        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body px-4 sm:px-6">
-          <HighlightText text={content.description} highlight="AUXO" highlightClass="text-accent-green font-semibold" />
+        <p class="text-base sm:text-body-lg lg:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body px-4 sm:px-6">
+          <HighlightText text={content.description} highlight="AUXO" highlightClass="text-accent-green font-black" />
         </p>
       </div>
 
-      <div class="name-origin-card" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
+      <div class="name-origin-card" data-aos="fade-up" data-aos-delay="100">
         <HighlightCard
           title={content.nameOrigin.title}
           content={content.nameOrigin.description}

@@ -1,0 +1,53 @@
+---
+import { Icon } from "astro-icon/components";
+
+export interface Props {
+  /** Section id */
+  id: string;
+  /** Extra classes for the hero section */
+  class?: string;
+  /** Anchor to scroll to (e.g. "#services") */
+  scrollHref?: string;
+  /** Visible label under the chevron */
+  scrollText?: string;
+  /** aria-label for the scroll link */
+  scrollAriaLabel?: string;
+  /** Hide the scroll indicator entirely */
+  hideScrollIndicator?: boolean;
+}
+
+const {
+  id,
+  class: className = "",
+  scrollHref,
+  scrollText = "Scroll",
+  scrollAriaLabel = scrollText,
+  hideScrollIndicator = false,
+} = Astro.props;
+---
+
+<section id={id} class={`hero-section ${className}`}>
+  <slot name="background" />
+
+  <div class="hero-content">
+    <div class="col-span-full text-center max-w-6xl mx-auto w-full">
+      <slot />
+      
+      {!hideScrollIndicator && scrollHref && (
+        <div class="hero-scroll-indicator" data-aos="fade-up" data-aos-delay="400" data-aos-duration="400">
+          <a
+            href={scrollHref}
+            class="hero-scroll-link group"
+            aria-label={scrollAriaLabel}
+          >
+            <span class="hero-scroll-text">{scrollText}</span>
+            <div class="hero-scroll-icon-wrapper">
+              <Icon name="mdi:chevron-down" class="hero-scroll-icon" />
+            </div>
+          </a>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+

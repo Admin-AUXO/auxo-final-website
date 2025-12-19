@@ -1,30 +1,24 @@
 :root {
-  /* Colors - Primary */
   --accent-green: #A3E635;
   --accent-green-rgb: 163, 230, 53;
-  --bg-primary: #000000;
-  --text-primary: #FFFFFF;
+  --bg-primary: #000;
+  --text-primary: #FFF;
   --text-secondary: #A0A0A0;
   
-  /* Colors - Backgrounds */
   --bg-secondary: rgb(20, 20, 20);
   --bg-card: rgb(15, 15, 15);
   --bg-surface: rgb(25, 25, 25);
   --bg-elevated: rgb(35, 35, 35);
   
-  /* Colors - Text */
   --text-tertiary: rgb(140, 140, 140);
-  --text-on-accent: #000000;
+  --text-on-accent: #000;
   
-  /* Colors - Borders */
   --border-color: rgb(40, 40, 40);
   --border-color-light: rgb(50, 50, 50);
   
-  /* Carousel dot colors for dark mode */
   --carousel-dot-inactive: rgb(50, 50, 50);
   --carousel-dot-inactive-hover: var(--accent-green-opacity-30);
   
-  /* Colors - Accent Green Opacity Variants */
   --accent-green-opacity-01: rgba(var(--accent-green-rgb), 0.01);
   --accent-green-opacity-015: rgba(var(--accent-green-rgb), 0.015);
   --accent-green-opacity-02: rgba(var(--accent-green-rgb), 0.02);
@@ -43,20 +37,22 @@
   --accent-green-opacity-25: rgba(var(--accent-green-rgb), 0.25);
   --accent-green-opacity-30: rgba(var(--accent-green-rgb), 0.3);
   
-  /* Typography */
+  --accent-green-secondary: rgba(var(--accent-green-rgb), 0.8);
+  --scrollbar-thumb: var(--accent-green-opacity-30);
+  --scrollbar-thumb-hover: var(--accent-green-opacity-30);
+  --overlay-white: rgba(255, 255, 255, 0.1);
+  
   --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-brand: 'Montserrat', system-ui, sans-serif;
   --logo-text-color: var(--text-on-accent);
   
-  /* Timing & Transitions */
   --duration-fast: 150ms;
   --duration-normal: 300ms;
   --duration-slow: 500ms;
   --theme-transition: 200ms;
   --timing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   
-  /* Spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
@@ -68,7 +64,6 @@
   --spacing-em-sm: 0.2em;
   --spacing-em-md: 0.5em;
   
-  /* Grid System */
   --grid-columns: 12;
   --grid-max-width: 1280px;
   --grid-padding-mobile: 1rem;
@@ -78,7 +73,6 @@
   --grid-gap-sm: 1.5rem;
   --grid-gap-lg: 2rem;
   
-  /* Transforms */
   --transform-translate-y-xs: -1px;
   --transform-translate-y-sm: 0.9375rem;
   --transform-translate-y-md: 1.875rem;
@@ -86,7 +80,6 @@
   --transform-translate-y-xl: 30px;
   --transform-translate-y-card-hover: -4px;
   
-  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -97,63 +90,57 @@
   --shadow-nav-scrolled-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-nav-scrolled-light: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   
-  /* Opacity */
   --opacity-disabled: 0.5;
   --opacity-overlay: 0.5;
   --opacity-backdrop: 0.95;
   --opacity-nav-scrolled: 0.99;
   --opacity-card-hover: 0.15;
   
-  /* Border Radius */
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-dot-active: 4px;
   
-  /* Blur */
   --blur-sm: 10px;
   --blur-md: 12px;
   
-  /* Z-index Layers */
+  /* Z-Index Hierarchy - Consolidated and Optimized */
   --z-base: 1;
-  --z-dropdown: 9999;
-  --z-dropdown-overlay: 9999;
-  --z-dropdown-menu: 10000;
-  --z-mobile-menu: 10000;
-  --z-navigation: 10001;
-  --z-mobile-menu-button: 10002;
-  --z-modal: 10003;
+  --z-navigation: 1000;
+  --z-navigation-scrolled: 1001;
+  --z-mobile-menu-button: 1002;
+  --z-dropdown: 2000;
+  --z-dropdown-overlay: 3000;
+  --z-dropdown-menu: 3001;
+  --z-mobile-overlay: 4000;
+  --z-mobile-menu: 4001;
+  --z-modal: 5000;
   
-  /* Heights */
   --min-height-card: 300px;
   --nav-height-mobile: 4rem;
   --nav-height-sm: 4rem;
   --nav-height-lg: 4.5rem;
   --nav-height-xl: 5rem;
 
-  /* Hero Section Padding */
-  --hero-padding-top-mobile: 9rem;
-  --hero-padding-top-sm: 5.5rem;
-  --hero-padding-top-lg: 6rem;
-  --hero-padding-top-xl: 6.5rem;
+  --hero-padding-top-mobile: 6rem;
+  --hero-padding-top-sm: 5rem;
+  --hero-padding-top-lg: 5.5rem;
+  --hero-padding-top-xl: 6rem;
   --hero-padding-bottom: 0;
   --hero-scroll-indicator-bottom-mobile: 7.5rem;
   --hero-scroll-indicator-bottom-sm: 2.5rem;
   
-  /* Widths & Sizing */
   --width-90: 90%;
   --width-60: 60%;
   --nav-indicator-width: 75%;
   --nav-logo-max-width-offset: 100px;
   --touch-target-min: 44px;
   
-  /* Patterns */
   --pattern-size-sm: 20px;
   --pattern-size-md: 50px;
   --pattern-bg-size: var(--pattern-size-sm);
   
-  /* Animation Delays */
   --delay-fast: 0.1s;
   --delay-normal: 0.2s;
   --delay-slow: 0.3s;
@@ -164,20 +151,16 @@
   --delay-cta: 0.3s;
   --delay-underline: 1.5s;
   
-  /* Animation Durations */
   --animation-duration-highlight: 1.2s;
   --animation-duration-gradient: 5s;
   --animation-duration-underline: 2s;
   --animation-duration-flow: 3s;
   --animation-duration-stroke: 0.6s;
   --animation-duration-blink: 1s;
-  --animation-duration-fade-in-up: 0.8s;
-  --animation-duration-fade-in-up-slow: 1s;
   --animation-duration-card-hover: 0.4s;
   --animation-duration-carousel: 0.3s;
-  --animation-duration-hero-content: 0.6s;
+  --animation-duration-hero-content: 0.5s;
   
-  /* Carousel Sizing */
   --carousel-dot-size: 8px;
   --carousel-dot-size-active: 24px;
   --carousel-dot-touch-target: 32px;
@@ -190,30 +173,24 @@
   --carousel-dots-gap: 0.625rem;
   --carousel-dots-padding: 0.5rem;
   
-  /* Card Sizing */
   --card-min-height-sm: 320px;
   --card-min-height-lg: 360px;
   --card-min-height-accordion: 62.5rem;
   
-  /* Metrics */
   --metric-min-height: 2.5em;
   --metric-line-height: 1.25;
   
-  /* Particle System */
   --particle-opacity-min: 0.15;
   --particle-opacity-max: 0.35;
   --particle-link-opacity: 0.2;
   --particle-triangle-opacity: 0.08;
   --particle-cursor-opacity: 0.12;
-}
 
-/* Button Variants */
-:root {
   --btn-primary-bg: var(--accent-green);
   --btn-primary-text: var(--text-on-accent);
   --btn-primary-text-hover: var(--text-on-accent);
-  --btn-primary-bg-hover: rgb(183, 240, 73);
-  --btn-primary-bg-active: rgb(143, 220, 33);
+  --btn-primary-bg-hover: rgba(var(--accent-green-rgb), 0.85);
+  --btn-primary-bg-active: rgba(var(--accent-green-rgb), 0.75);
   --btn-primary-bg-disabled: var(--accent-green-opacity-30);
   
   --btn-secondary-bg: var(--bg-surface);
@@ -237,13 +214,21 @@
   --btn-outline-bg-hover: var(--accent-green);
   --btn-outline-text-disabled: var(--text-tertiary);
   --btn-outline-border-disabled: var(--border-color);
+  
+  --transition-base: all var(--duration-normal) var(--timing-smooth);
+  --transition-fast: all var(--duration-fast) var(--timing-smooth);
+  --transition-slow: all var(--duration-slow) var(--timing-smooth);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: var(--spacing-xs);
+  --hover-lift-distance: -2px;
+  --hover-lift-distance-sm: -1px;
+  --hover-scale-amount: 1.02;
 }
 
-/* Light Theme */
 :root.light {
   --accent-green: #7CB342;
   --accent-green-rgb: 124, 179, 66;
-  --bg-primary: #FFFFFF;
+  --bg-primary: #FFF;
   --text-primary: #111827;
   --text-secondary: #4B5563;
   
@@ -253,16 +238,14 @@
   --bg-elevated: rgb(229, 231, 235);
   
   --text-tertiary: rgb(107, 114, 128);
-  --text-on-accent: #FFFFFF;
+  --text-on-accent: #FFF;
   
   --border-color: rgb(229, 231, 235);
   --border-color-light: rgb(243, 244, 246);
   
-  /* Carousel dot colors for light mode - ensure visibility */
   --carousel-dot-inactive: rgb(156, 163, 175);
   --carousel-dot-inactive-hover: var(--accent-green-opacity-30);
   
-  /* Accent Green Opacity Variants for Light Mode */
   --accent-green-opacity-01: rgba(124, 179, 66, 0.01);
   --accent-green-opacity-015: rgba(124, 179, 66, 0.015);
   --accent-green-opacity-02: rgba(124, 179, 66, 0.02);
@@ -281,38 +264,11 @@
   --accent-green-opacity-25: rgba(124, 179, 66, 0.25);
   --accent-green-opacity-30: rgba(124, 179, 66, 0.3);
   
-  --btn-primary-bg: var(--accent-green);
-  --btn-primary-text: var(--text-on-accent);
-  --btn-primary-text-hover: var(--text-on-accent);
-  --btn-primary-bg-hover: rgb(22, 101, 52);
-  --btn-primary-bg-active: rgb(20, 83, 45);
-  --btn-primary-bg-disabled: var(--accent-green-opacity-30);
+  --btn-primary-bg-hover: rgba(var(--accent-green-rgb), 0.85);
+  --btn-primary-bg-active: rgba(var(--accent-green-rgb), 0.75);
   
-  --btn-secondary-bg: var(--bg-surface);
-  --btn-secondary-text: var(--text-primary);
-  --btn-secondary-border: var(--border-color);
-  --btn-secondary-bg-hover: var(--bg-elevated);
-  --btn-secondary-border-hover: var(--accent-green);
-  --btn-secondary-bg-disabled: var(--bg-surface);
-  --btn-secondary-text-disabled: var(--text-tertiary);
-  
-  --btn-ghost-bg: transparent;
-  --btn-ghost-text: var(--text-primary);
-  --btn-ghost-border: transparent;
-  --btn-ghost-bg-hover: var(--bg-surface);
-  --btn-ghost-border-hover: var(--border-color);
-  --btn-ghost-bg-active: var(--bg-elevated);
-  
-  --btn-outline-bg: transparent;
-  --btn-outline-text: var(--text-primary);
-  --btn-outline-border: var(--accent-green);
-  --btn-outline-bg-hover: var(--accent-green);
-  --btn-outline-text-disabled: var(--text-tertiary);
-  --btn-outline-border-disabled: var(--border-color);
-  
-  /* Light theme shadows */
-  --shadow-nav-scrolled-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  --shadow-nav-scrolled-light: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  --shadow-accent: 0 4px 12px var(--accent-green-opacity-18);
-  --shadow-accent-lg: 0 10px 30px var(--accent-green-opacity-2);
+  --accent-green-secondary: rgba(var(--accent-green-rgb), 0.8);
+  --scrollbar-thumb: var(--accent-green-opacity-30);
+  --scrollbar-thumb-hover: var(--accent-green-opacity-30);
+  --overlay-white: rgba(255, 255, 255, 0.1);
 }

@@ -1,12 +1,47 @@
 export function getNavElements() {
-  return {
-    nav: document.getElementById('main-navigation'),
-    mobileMenu: document.getElementById('mobile-menu'),
-    mobileMenuButton: document.getElementById('mobile-menu-button'),
-    menuOpen: document.querySelector('.menu-open'),
-    menuClose: document.querySelector('.menu-close'),
-    logoLink: document.querySelector('[data-nav-home]') as HTMLAnchorElement | null,
-  };
+  if (typeof document === 'undefined') {
+    return {
+      nav: null,
+      mobileMenu: null,
+      mobileMenuButton: null,
+      mobileMenuOverlay: null,
+      mobileMenuCloseBtn: null,
+      mobileMenuCloseBtnHeader: null,
+      menuOpen: null,
+      menuClose: null,
+      logoLink: null,
+    };
+  }
+  
+  try {
+    return {
+      nav: document.getElementById('main-navigation'),
+      mobileMenu: document.getElementById('mobile-menu'),
+      mobileMenuButton: document.getElementById('mobile-menu-button'),
+      mobileMenuOverlay: document.getElementById('mobile-menu-overlay'),
+      mobileMenuCloseBtn: document.getElementById('mobile-menu-close'),
+      mobileMenuCloseBtnHeader: document.getElementById('mobile-menu-close-header'),
+      menuOpen: document.querySelector('.menu-open'),
+      menuClose: document.querySelector('.menu-close'),
+      logoLink: document.querySelector('[data-nav-home]') as HTMLAnchorElement | null,
+    };
+  } catch (error) {
+    // Return null values if there's any error accessing the DOM
+    if (import.meta.env.DEV) {
+      console.warn('Error getting nav elements:', error);
+    }
+    return {
+      nav: null,
+      mobileMenu: null,
+      mobileMenuButton: null,
+      mobileMenuOverlay: null,
+      mobileMenuCloseBtn: null,
+      mobileMenuCloseBtnHeader: null,
+      menuOpen: null,
+      menuClose: null,
+      logoLink: null,
+    };
+  }
 }
 
 export function resetDropdownStyles(content: HTMLElement): void {
@@ -14,16 +49,38 @@ export function resetDropdownStyles(content: HTMLElement): void {
   content.style.opacity = '';
   content.style.overflow = '';
   content.style.display = '';
+
+  // Reset child item animations
+  const childItems = content.querySelectorAll('.mobile-nav-link');
+  childItems.forEach((item) => {
+    (item as HTMLElement).style.opacity = '';
+    (item as HTMLElement).style.transform = '';
+  });
 }
 
 export function findDropdownContent(buttonEl: HTMLElement): HTMLElement | null {
   let content = buttonEl.nextElementSibling as HTMLElement;
-
-  if (!content || !content.classList.contains('mobile-dropdown-content')) {
-    const parent = buttonEl.parentElement;
-    content = parent?.querySelector('.mobile-dropdown-content') as HTMLElement || null;
+  if (!content?.classList.contains('mobile-dropdown-content')) {
+    content = buttonEl.parentElement?.querySelector('.mobile-dropdown-content') as HTMLElement || null;
   }
-
   return content?.classList.contains('mobile-dropdown-content') ? content : null;
+}
+
+export function lockScroll(): void {
+  const scrollY = window.scrollY;
+  document.body.setAttribute('data-scroll-y', scrollY.toString());
+  document.documentElement.style.setProperty('--scroll-y', scrollY.toString());
+  document.documentElement.classList.add('scroll-locked');
+  document.body.classList.add('scroll-locked');
+}
+
+export function unlockScroll(): void {
+  const scrollY = document.body.getAttribute('data-scroll-y');
+  if (scrollY) {
+    window.scrollTo(0, parseInt(scrollY, 10));
+    document.body.removeAttribute('data-scroll-y');
+  }
+  document.documentElement.classList.remove('scroll-locked');
+  document.body.classList.remove('scroll-locked');
 }
 

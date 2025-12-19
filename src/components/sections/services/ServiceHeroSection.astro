@@ -1,10 +1,10 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "../../layouts/SectionContainer.astro";
 import HighlightText from "../../ui/HighlightText.astro";
 import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
 import Button from "../../ui/Button.astro";
-import { ServiceDetail } from "../../../data/content/services";
+import HeroLayout from "../../ui/HeroLayout.astro";
+import type { ServiceDetail } from "../../../data/content/services";
 
 interface Props {
   service: ServiceDetail;
@@ -13,92 +13,68 @@ interface Props {
 const { service } = Astro.props;
 ---
 
-<section
+<HeroLayout
   id="service-hero"
-  class="hero-section service-hero-section"
+  class="service-hero-section"
+  scrollHref="#service-overview"
+  scrollText="Learn More"
+  scrollAriaLabel="Scroll to learn more"
 >
-  <BackgroundDecorations gradients={["hero", "dual"]} patterns={["grid"]} />
+  <Fragment slot="background">
+    <BackgroundDecorations gradients={["hero", "dual"]} patterns={["grid"]} />
 
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-1/4 -left-32 w-96 h-96 bg-accent-green/20 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-1/4 -right-32 w-96 h-96 bg-accent-green/10 rounded-full blur-3xl" style="animation-delay: 1s;"></div>
+    <div class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+  </Fragment>
+
+  <div class="service-hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">
+    <h1
+      class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display"
+      data-aos="fade-down"
+      data-aos-duration="500"
+    >
+      <HighlightText
+        text={service.hero.title}
+        highlight={service.hero.title.split(' ').slice(-2)}
+        highlightClass="text-accent-green"
+      />
+    </h1>
+    <p
+      class="text-base sm:text-body-lg lg:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto"
+      data-aos="fade-up"
+      data-aos-delay="100"
+    >
+      {service.hero.subtitle}
+    </p>
   </div>
 
-  <div class="hero-content">
-    <div class="col-span-full text-center max-w-6xl mx-auto w-full">
-
-      <div class="service-hero-headline mb-5 sm:mb-6 lg:mb-7 w-full">
-        <h1
-          class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display"
-          data-aos="fade-down"
-          data-aos-duration="800"
-        >
-          <HighlightText
-            text={service.hero.title}
-            highlight={service.hero.title.split(' ').slice(-2)}
-            highlightClass="text-accent-green"
-          />
-        </h1>
-        <p
-          class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto"
-          data-aos="fade-up"
-          data-aos-duration="600"
-          data-aos-delay="100"
-        >
-          {service.hero.subtitle}
-        </p>
-      </div>
-
-      <div
-        class="service-hero-description mb-6 sm:mb-7 lg:mb-8 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto service-hero-follow-content hero-follow-content"
-        data-aos="fade-up"
-        data-aos-duration="600"
-        data-aos-delay="200"
+  <div
+    class="service-hero-description mb-8 sm:mb-10 lg:mb-12 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto service-hero-follow-content hero-follow-content"
+    data-aos="fade-up"
+    data-aos-delay="200"
+  >
+    <p class="text-sm sm:text-base lg:text-lg text-theme-secondary/90 leading-relaxed font-body">
+      <HighlightText
+        text={service.hero.description}
+        highlight={service.hero.descriptionHighlight || []}
+        highlightClass="text-accent-green font-semibold"
+      />
+    </p>
+  </div>
+  <div
+    class="service-hero-follow-content hero-follow-content"
+    data-aos="fade-up"
+    data-aos-delay="300"
+  >
+    <div class="hero-cta-container">
+      <Button
+        variant="primary"
+        size="lg"
+        href={service.cta.ctaHref}
+        class="hero-cta-button group/btn"
       >
-        <p class="text-base sm:text-lg text-theme-secondary/90 leading-relaxed font-body">
-          <HighlightText
-            text={service.hero.description}
-            highlight={service.hero.descriptionHighlight || []}
-            highlightClass="text-accent-green font-semibold"
-          />
-        </p>
-      </div>
-      <div
-        class="service-hero-follow-content hero-follow-content"
-        data-aos="fade-up"
-        data-aos-duration="600"
-        data-aos-delay="300"
-      >
-        <div class="hero-cta-container">
-          <Button
-            variant="primary"
-            size="lg"
-            href={service.cta.ctaHref}
-            class="hero-cta-button group/btn"
-          >
-            <span class="whitespace-nowrap">{service.cta.ctaText}</span>
-            <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300" />
-          </Button>
-        </div>
-      </div>
+        <span class="whitespace-nowrap">{service.cta.ctaText}</span>
+        <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300" />
+      </Button>
     </div>
   </div>
-
-  <div class="hero-scroll-indicator">
-    <a
-      href="#service-overview"
-      class="hero-scroll-link group"
-      aria-label="Scroll to learn more"
-    >
-      <span class="hero-scroll-text">Learn More</span>
-      <div class="hero-scroll-icon-wrapper">
-        <Icon name="mdi:chevron-down" class="hero-scroll-icon" />
-      </div>
-    </a>
-  </div>
-</section>
-
-<script>
-  import { initServiceHeroSection } from "../../../scripts/sections/services/serviceHeroSection";
-  initServiceHeroSection();
-</script>
+</HeroLayout>

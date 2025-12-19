@@ -14,11 +14,7 @@ export interface Props {
   titleClass?: string;
   subtitleClass?: string;
   wrapperClass?: string;
-  animationDelay?: string;
   center?: boolean;
-  aosAnimation?: string;
-  aosDuration?: string;
-  aosDelay?: string;
 }
 
 const {
@@ -26,54 +22,36 @@ const {
   subtitle,
   highlight,
   subtitleHighlight,
-  highlightClass,
-  subtitleHighlightClass,
+  highlightClass = "text-accent-green font-bold",
+  subtitleHighlightClass = "text-accent-green font-semibold",
   icon,
   iconClass = "w-9 h-9 sm:w-10 sm:h-10 text-accent-green",
   titleClass = "",
   subtitleClass = "",
   wrapperClass = "",
-  animationDelay = "0s",
   center = true,
-  aosAnimation = "fade-down",
-  aosDuration = "800",
-  aosDelay = "0",
 } = Astro.props;
 
 const textAlignClass = center ? "text-center" : "";
-const defaultTitleClass = "text-h2 font-extrabold mb-3 sm:mb-4 lg:mb-5 xl:mb-6 text-theme-primary leading-tight tracking-tight font-display px-2";
-const defaultSubtitleClass = "text-body-lg text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body px-4 sm:px-6";
+const defaultTitleClass = "text-h2 font-extrabold mb-4 sm:mb-5 lg:mb-6 text-theme-primary leading-tight tracking-tight font-display";
+const defaultSubtitleClass = "text-base sm:text-body-lg lg:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body";
 ---
 
-<div
-  class={`${textAlignClass} mb-8 sm:mb-10 lg:mb-12 ${wrapperClass}`}
-  data-aos={aosAnimation}
-  data-aos-duration={aosDuration}
-  data-aos-delay={aosDelay}
->
+<div class={`${textAlignClass} mb-10 sm:mb-12 lg:mb-16 ${wrapperClass}`} data-aos="fade-down">
   {icon && (
-    <div class="inline-flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-5 sm:mb-6">
+    <div class="inline-flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-6">
       <Icon name={icon} class={iconClass} />
-      <h2 class={`${defaultTitleClass} ${titleClass}`}>
-        {highlight ? (
-          <HighlightText text={title} highlight={highlight} highlightClass={highlightClass} />
-        ) : (
-          title
-        )}
-      </h2>
     </div>
   )}
-  {!icon && (
-    <h2 class={`${defaultTitleClass} ${titleClass}`}>
-      {highlight ? (
-        <HighlightText text={title} highlight={highlight} highlightClass={highlightClass} />
-      ) : (
-        title
-      )}
-    </h2>
-  )}
+  <h2 class={`${defaultTitleClass} ${titleClass}`}>
+    {highlight ? (
+      <HighlightText text={title} highlight={highlight} highlightClass={highlightClass} />
+    ) : (
+      title
+    )}
+  </h2>
   {subtitle && (
-    <p class={`${defaultSubtitleClass} ${subtitleClass}`}>
+    <p class={`${defaultSubtitleClass} ${subtitleClass} mt-4`}>
       {subtitleHighlight ? (
         <HighlightText text={subtitle} highlight={subtitleHighlight} highlightClass={subtitleHighlightClass} />
       ) : (

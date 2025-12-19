@@ -1,0 +1,22 @@
+---
+import { siteData } from "../../data/config/site";
+
+export interface Props {
+  email?: string;
+  title?: string;
+  intro?: string;
+}
+
+const { 
+  email = siteData.privacyEmail,
+  title = "Contact Us",
+  intro = "If you have any questions, please contact us at:"
+} = Astro.props;
+---
+
+<h2>{title}</h2>
+<p>{intro}</p>
+<p>
+  <strong>Email:</strong> <a href={`mailto:${email}`}>{email}</a><br />
+  <strong>Address:</strong> {siteData.address.street}, {siteData.address.city}, {siteData.address.country}
+</p>

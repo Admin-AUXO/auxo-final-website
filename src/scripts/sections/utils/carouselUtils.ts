@@ -1,7 +1,7 @@
 import { EmblaCarouselWrapper, type EmblaCarouselOptions } from "../../animations";
 import { setupSectionInit } from "./initUtils";
 
-const DEFAULT_INIT_DELAY = 100;
+const DEFAULT_INIT_DELAY = 0;
 const DEFAULT_RESIZE_DEBOUNCE_DELAY = 250;
 
 export interface CarouselConfig {
@@ -37,7 +37,6 @@ function createCarouselManager(config: CarouselConfig) {
     resizeTimeout: null,
   };
 
-  // Check reduced motion preference
   const prefersReducedMotion = typeof window !== "undefined" 
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
     : false;
@@ -96,7 +95,11 @@ function createCarouselManager(config: CarouselConfig) {
   }
 
   function initWithDelay(): void {
-    setTimeout(init, initDelay);
+    if (initDelay <= 0) {
+      requestAnimationFrame(init);
+    } else {
+      setTimeout(init, initDelay);
+    }
   }
 
   return {
@@ -120,10 +123,7 @@ export function setupCarouselSection(config: CarouselConfig) {
   return carouselManager;
 }
 
-// Helper to initialize a carousel
-export function initCarousel(config: CarouselConfig): ReturnType<typeof setupCarouselSection> {
-  const manager = setupCarouselSection(config);
-  manager.initWithDelay();
-  return manager;
+export function initCarousel(config: CarouselConfig) {
+  return setupCarouselSection(config);
 }
 

@@ -1,7 +1,3 @@
-/* Individual Service Page Animations - Now handled by AOS */
-/* All animations moved to AOS data attributes for better performance and consistency */
-
-/* Process Stepper */
 .process-stepper-wrapper {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -9,7 +5,7 @@
   overflow-y: visible;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  scrollbar-color: rgba(34, 197, 94, 0.3) transparent;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
 .process-stepper-wrapper::-webkit-scrollbar {
@@ -21,12 +17,12 @@
 }
 
 .process-stepper-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(34, 197, 94, 0.3);
+  background: var(--scrollbar-thumb);
   border-radius: 3px;
 }
 
 .process-stepper-wrapper::-webkit-scrollbar-thumb:hover {
-  background: rgba(34, 197, 94, 0.5);
+  background: var(--scrollbar-thumb-hover);
 }
 
 .process-step-item {
@@ -34,11 +30,6 @@
   min-width: 150px;
 }
 
-.process-step-item.fade-in-up-delay {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
 
 .process-step-item .group:hover {
   z-index: 20;
@@ -95,84 +86,6 @@ details.group\/details summary::-webkit-details-marker {
   -webkit-user-select: none;
 }
 
-/* Service Accordion */
-.service-accordion-item {
-  background: var(--bg-card);
-  border: 2px solid transparent;
-  border-radius: 1rem;
-  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  overflow: hidden;
-  position: relative;
-}
-
-.service-accordion-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.service-accordion-item[open] {
-  border-color: var(--accent-green-opacity-30);
-  box-shadow: 0 8px 32px var(--accent-green-opacity-2), 0 0 0 1px var(--accent-green-opacity-1);
-}
-
-.service-accordion-item[open]::before {
-  opacity: 1;
-}
-
-.service-accordion-summary {
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  position: relative;
-  padding: 1rem 1.25rem;
-  min-height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  border-radius: 1rem;
-}
-
-.service-accordion-summary:hover {
-  background-color: var(--bg-surface);
-  transform: translateX(4px);
-}
-
-.service-accordion-summary:active {
-  transform: translateX(4px) scale(0.98);
-}
-
-.service-accordion-chevron {
-  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.2s ease;
-  color: var(--text-secondary);
-  flex-shrink: 0;
-}
-
-.service-accordion-item[open] .service-accordion-chevron {
-  transform: rotate(180deg);
-  color: var(--accent-green);
-}
-
-.service-accordion-content {
-  transition: max-height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out;
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-}
-
-.service-accordion-item[open] .service-accordion-content {
-  max-height: 800px;
-  opacity: 1;
-}
-
-/* Mobile Responsive */
 @media (max-width: 640px) {
   .service-hero-section {
     padding-top: 1rem;
@@ -238,20 +151,18 @@ details.group\/details summary::-webkit-details-marker {
   .service-benefits-section {
     overflow-x: hidden;
     width: 100%;
-    max-width: 100vw;
+    max-width: 100%;
     position: relative;
   }
 
   .service-process-carousel-wrapper,
   .service-benefits-carousel-wrapper {
     overflow: hidden;
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(-1 * var(--grid-padding-mobile));
-    margin-right: calc(-1 * var(--grid-padding-mobile));
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
     position: relative;
-    contain: layout style paint;
-    will-change: scroll-position;
   }
 
   .service-process-carousel-wrapper .carousel-container,
@@ -270,7 +181,7 @@ details.group\/details summary::-webkit-details-marker {
     padding-right: var(--grid-padding-mobile);
     margin-left: 0;
     margin-right: 0;
-    scroll-behavior: auto; /* Remove smooth scroll for instant response */
+    scroll-behavior: auto;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -281,16 +192,15 @@ details.group\/details summary::-webkit-details-marker {
     gap: 1rem;
     padding-left: 0;
     padding-right: 0;
-    will-change: transform;
     transform: translateZ(0);
-    transition: none; /* No transition during drag - controlled by JS */
+    transition: none;
   }
 
   .service-process-carousel-wrapper .embla__slide,
   .service-benefits-carousel-wrapper .embla__slide {
     flex: 0 0 auto;
-    width: calc(100vw - var(--carousel-slide-width-mobile));
-    max-width: var(--carousel-slide-max-width-mobile);
+    width: calc(100% - (var(--carousel-gap-mobile) * 2)) !important;
+    max-width: calc(100% - (var(--carousel-gap-mobile) * 2)) !important;
     min-width: 0;
     height: auto;
     align-self: stretch;
@@ -315,29 +225,16 @@ details.group\/details summary::-webkit-details-marker {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: 400px;
-    contain: layout;
+    height: auto;
+    min-height: auto;
   }
 
   .service-process-carousel-wrapper .embla__container,
   .service-benefits-carousel-wrapper .embla__container {
     align-items: stretch;
   }
-
-  .service-accordion-item[open] .service-accordion-content {
-    max-height: 600px;
-  }
-
-  .service-accordion-content {
-    padding: 0 1rem 1rem;
-  }
-
-  .service-accordion-summary {
-    padding: 1rem;
-  }
 }
 
-/* Tablet Responsive */
 @media (min-width: 641px) and (max-width: 1023px) {
   .service-hero-section {
     min-height: auto;
@@ -370,8 +267,10 @@ details.group\/details summary::-webkit-details-marker {
 
   .service-process-carousel-wrapper,
   .service-benefits-carousel-wrapper {
-    margin-left: calc(-1 * var(--grid-padding-sm));
-    margin-right: calc(-1 * var(--grid-padding-sm));
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: 100%;
   }
 
   .service-process-carousel-wrapper .embla__container.carousel-track,
@@ -383,15 +282,14 @@ details.group\/details summary::-webkit-details-marker {
 
   .service-process-carousel-wrapper .embla__slide,
   .service-benefits-carousel-wrapper .embla__slide {
-    width: calc(100vw - var(--carousel-slide-width-tablet));
-    max-width: var(--carousel-slide-max-width-tablet);
+    width: calc(100% - (var(--carousel-gap-tablet) * 2)) !important;
+    max-width: calc(100% - (var(--carousel-gap-tablet) * 2)) !important;
     padding-left: var(--carousel-gap-tablet);
     padding-right: var(--carousel-gap-tablet);
     align-self: stretch;
   }
 }
 
-/* Desktop Responsive */
 @media (min-width: 1024px) {
   .service-hero-section {
     min-height: 100vh;
@@ -406,7 +304,6 @@ details.group\/details summary::-webkit-details-marker {
   }
 }
 
-/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   .service-hero-headline,
   .service-overview-section .overview-header,

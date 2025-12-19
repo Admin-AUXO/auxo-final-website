@@ -1,4 +1,3 @@
-/* Accordion styles */
 .accordion-header::-webkit-details-marker,
 .accordion-header::marker,
 .service-accordion-header::-webkit-details-marker,
@@ -10,18 +9,27 @@
 
 .accordion-content,
 .service-accordion-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease-out;
+  opacity: 0;
+  contain: layout;
+  min-height: 0;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-out, padding 0.3s ease;
-  opacity: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+}
+
+.accordion-content > *,
+.service-accordion-content > * {
+  overflow: hidden;
+  min-height: 0;
 }
 
 .accordion-item[open] .accordion-content,
 .service-accordion-item[open] .service-accordion-content {
-  max-height: var(--card-min-height-accordion);
+  grid-template-rows: 1fr;
   opacity: 1;
+  max-height: none;
 }
 
 .accordion-chevron {
@@ -35,7 +43,6 @@
   color: var(--accent-green);
 }
 
-/* Accordion icons and labels */
 [class*="-accordion-icon"] {
   flex-shrink: 0;
   background: linear-gradient(to bottom right, var(--accent-green-opacity-2), var(--accent-green-opacity-1));
@@ -61,7 +68,6 @@
   background: linear-gradient(to bottom right, var(--accent-green-opacity-03), var(--accent-green-opacity-02));
   border-color: var(--accent-green-opacity-30);
   transform: scale(1.05);
-  box-shadow: 0 4px 12px var(--accent-green-opacity-2);
 }
 
 [class*="-accordion-item"][open] [class*="-accordion-icon"]::before {
@@ -76,7 +82,6 @@
   font-family: var(--font-body);
 }
 
-/* Accordion items */
 [class*="-use-case-item"],
 [class*="-deliverable-item"] {
   display: flex;
@@ -148,10 +153,63 @@
   border-color: var(--accent-green-opacity-30);
   color: var(--accent-green);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px var(--accent-green-opacity-15);
 }
 
 [class*="-accordion-tag"]:hover::before {
   opacity: 1;
 }
 
+.service-accordion-item {
+  background: var(--bg-card);
+  border: 2px solid transparent;
+  border-radius: 1rem;
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+  position: relative;
+}
+
+.service-accordion-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.service-accordion-item[open] {
+  border-color: var(--accent-green-opacity-30);
+}
+
+.service-accordion-item[open]::before {
+  opacity: 1;
+}
+
+.service-accordion-summary {
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.service-accordion-summary:hover {
+  background-color: var(--bg-surface);
+  transform: translateX(4px);
+}
+
+.service-accordion-summary:active {
+  transform: translateX(4px) scale(0.98);
+}
+
+.service-accordion-chevron {
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.2s ease;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.service-accordion-item[open] .service-accordion-chevron {
+  transform: rotate(180deg);
+  color: var(--accent-green);
+}

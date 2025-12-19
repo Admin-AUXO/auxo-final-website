@@ -6,34 +6,30 @@ import { Icon } from "astro-icon/components";
 import { createUrl } from "../utils/url";
 ---
 
-<BaseLayout
-  title="404 - Page Not Found | AUXO Data Labs"
-  description="The page you're looking for doesn't exist."
-  showParticles={false}
->
+<BaseLayout title="404 - Page Not Found | AUXO Data Labs" description="The page you're looking for doesn't exist." showParticles={false}>
   <section class="relative min-h-screen flex items-center justify-center py-20 overflow-hidden">
     <BackgroundDecorations gradients={["hero"]} patterns={["grid"]} />
     
     <div class="relative z-10 text-center max-w-3xl mx-auto px-4 w-full">
-      <div class="mb-8 opacity-0 fade-in-up">
+      <div class="mb-8" data-aos="fade-up" data-aos-duration="400">
         <div class="inline-flex items-center justify-center w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-accent-green/10 border-2 border-accent-green/20 mb-6">
           <Icon name="mdi:alert-circle" class="w-12 h-12 sm:w-16 sm:h-16 text-accent-green" />
         </div>
       </div>
 
-      <h1 class="text-6xl sm:text-7xl lg:text-8xl font-extrabold mb-4 sm:mb-6 text-theme-primary font-display opacity-0 fade-in-up-delay">
+      <h1 class="text-6xl sm:text-7xl lg:text-8xl font-extrabold mb-4 sm:mb-6 text-theme-primary font-display" data-aos="fade-up" data-aos-delay="50" data-aos-duration="400">
         404
       </h1>
       
-      <h2 class="text-h2 sm:text-h1 font-extrabold mb-4 sm:mb-6 text-theme-primary font-display opacity-0 fade-in-up-delay-2">
+      <h2 class="text-h2 sm:text-h1 font-extrabold mb-4 sm:mb-6 text-theme-primary font-display" data-aos="fade-up" data-aos-delay="100" data-aos-duration="400">
         Page Not Found
       </h2>
       
-      <p class="text-body-lg sm:text-body-xl text-theme-secondary mb-8 sm:mb-12 leading-relaxed max-w-2xl mx-auto font-body opacity-0 fade-in-up-delay-2">
+      <p class="text-body-lg sm:text-body-xl text-theme-secondary mb-8 sm:mb-12 leading-relaxed max-w-2xl mx-auto font-body" data-aos="fade-up" data-aos-delay="150" data-aos-duration="400">
         The page you're looking for doesn't exist or has been moved. Let's get you back on track.
       </p>
 
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-12 opacity-0 fade-in-up-delay-3">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-12" data-aos="fade-up" data-aos-delay="200" data-aos-duration="400">
         <Button variant="primary" href={createUrl("")} size="lg" class="w-full sm:w-auto">
           <Icon name="mdi:home" class="w-5 h-5" />
           <span>Go Home</span>
@@ -44,7 +40,7 @@ import { createUrl } from "../utils/url";
         </Button>
       </div>
 
-      <div class="opacity-0 fade-in-up-delay-3">
+      <div data-aos="fade-up" data-aos-delay="250" data-aos-duration="400">
         <p class="text-sm text-theme-tertiary mb-4 font-body">Quick Links:</p>
         <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
           <a href={createUrl("about")} class="text-accent-green hover:text-accent-green/80 hover:underline transition-colors font-medium font-body">
@@ -65,9 +61,7 @@ import { createUrl } from "../utils/url";
 </BaseLayout>
 
 <script>
-  import { setupPageAnimations } from "../scripts/sections/utils/pageUtils";
-  import { setupSectionInit } from "../scripts/sections/utils/initUtils";
-
-  setupSectionInit(setupPageAnimations);
+  import { setupSmoothScroll } from "../scripts/sections/utils/pageUtils";
+  setupSmoothScroll();
 </script>
 

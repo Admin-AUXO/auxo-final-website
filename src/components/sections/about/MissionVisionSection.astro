@@ -24,15 +24,13 @@ const missionVisionItems = [
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
-      <div data-aos="fade-down" data-aos-duration="800">
-        <SectionHeader
-          title={content.title}
-          wrapperClass="mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
-        />
-      </div>
+      <SectionHeader
+        title={content.title}
+        highlight={["Mission", "Vision"]}
+      />
 
       <div class="hidden lg:grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-6xl mx-auto">
-        <div class="mission-card" data-aos="fade-right" data-aos-duration="600">
+        <div class="mission-card" data-aos="fade-right" data-aos-delay="100">
           <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 lg:p-10 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
             <div class="absolute top-0 right-0 w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative z-10">
@@ -47,7 +45,7 @@ const missionVisionItems = [
           </div>
         </div>
 
-        <div class="vision-card" data-aos="fade-left" data-aos-duration="600">
+        <div class="vision-card" data-aos="fade-left" data-aos-delay="100">
           <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 lg:p-10 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
             <div class="absolute top-0 left-0 w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative z-10">
@@ -79,13 +77,10 @@ const missionVisionItems = [
             <div class={`h-full bg-theme-card border border-theme-light rounded-xl relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300 ${item.type}-card`}>
               <div class={`absolute ${item.type === "mission" ? "top-0 right-0" : "top-0 left-0"} w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
               <div class="relative z-10 flex flex-col h-full">
-                {/* Title and Icon on same line */}
                 <div class="flex items-center justify-between mb-2.5">
                   <h3 class="font-bold text-theme-primary font-display">{item.title}</h3>
                   <Icon name={item.icon} class="w-8 h-8 sm:w-9 sm:h-9 text-accent-green flex-shrink-0 ml-3" />
                 </div>
-
-                {/* Content */}
                 <p class="text-theme-secondary leading-relaxed font-body flex-grow">
                   {item.content}
                 </p>
@@ -99,7 +94,6 @@ const missionVisionItems = [
 </SectionContainer>
 
 <script>
-  import { initMissionVisionCarousel } from "../../../scripts/sections/about/missionVisionSection";
-  initMissionVisionCarousel();
+  import "../../../scripts/sections/about/missionVisionSection";
 </script>
 

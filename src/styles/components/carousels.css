@@ -1,4 +1,8 @@
-/* Carousel base styles */
+.carousel-viewport {
+  position: relative;
+  width: 100%;
+}
+
 .services-carousel-mobile,
 .capabilities-carousel,
 .global-metrics-carousel,
@@ -7,24 +11,13 @@
 .impact-carousel-wrapper {
   position: relative;
   padding: 0;
-  margin: 0 calc(-1 * var(--grid-padding-mobile));
+  width: 100%;
 }
 
-@media (min-width: 640px) {
-  .services-carousel-mobile,
-  .capabilities-carousel,
-  .global-metrics-carousel,
-  .mission-vision-carousel,
-  .code-principles-carousel,
-  .impact-carousel-wrapper {
-    margin: 0 calc(-1 * var(--grid-padding-sm));
-  }
-}
-
-/* Services carousel wrapper - ultra-compact */
 .services-carousel-wrapper {
   position: relative;
   padding: 0.75rem 0;
+  padding-top: 1.25rem;
   margin-top: 0.5rem;
   margin-bottom: 1.5rem;
 }
@@ -33,12 +26,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    var(--accent-green-opacity-03) 0%,
-    var(--accent-green-opacity-01) 50%,
-    var(--accent-green-opacity-03) 100%
-  );
+  background: linear-gradient(135deg, var(--accent-green-opacity-03) 0%, var(--accent-green-opacity-01) 50%, var(--accent-green-opacity-03) 100%);
   border-radius: 1rem;
   pointer-events: none;
   z-index: 0;
@@ -46,80 +34,33 @@
 }
 
 .services-carousel-wrapper:hover::before {
-  background: linear-gradient(
-    135deg,
-    var(--accent-green-opacity-05) 0%,
-    var(--accent-green-opacity-02) 50%,
-    var(--accent-green-opacity-05) 100%
-  );
+  background: linear-gradient(135deg, var(--accent-green-opacity-05) 0%, var(--accent-green-opacity-02) 50%, var(--accent-green-opacity-05) 100%);
 }
 
 @media (max-width: 640px) {
   .services-carousel-wrapper {
     padding: 0.5rem 0;
-    margin-top: 0.5rem;
+    padding-top: 1rem;
     margin-bottom: 1rem;
   }
 
   .services-carousel-wrapper::before {
-    background: linear-gradient(
-      135deg,
-      var(--accent-green-opacity-025) 0%,
-      var(--accent-green-opacity-01) 50%,
-      var(--accent-green-opacity-025) 100%
-    );
+    background: linear-gradient(135deg, var(--accent-green-opacity-025) 0%, var(--accent-green-opacity-01) 50%, var(--accent-green-opacity-025) 100%);
     border-radius: 0.75rem;
   }
-
-  .services-carousel-wrapper .carousel-slide {
-    padding: 0 0.375rem;
-  }
 }
 
-@media (max-width: 1023px) and (min-width: 641px) {
-  .services-carousel-wrapper {
-    padding: 0.625rem 0;
-  }
-
-  .services-carousel-wrapper .carousel-slide {
-    padding: 0 0.5rem;
-  }
-}
-
-/* Service process carousel wrapper - ultra-compact for mobile */
 .service-process-carousel-wrapper {
   position: relative;
-  padding: 0.5rem 0;
-  margin-top: 0.25rem;
-  margin-bottom: 1rem;
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
-@media (max-width: 640px) {
-  .service-process-carousel-wrapper {
-    padding: 0.375rem 0;
-    margin-bottom: 0.75rem;
-  }
-
-  /* Remove extra padding from process carousel slides on mobile */
-  .service-process-carousel-wrapper .carousel-slide,
-  .service-process-carousel-wrapper .embla__slide {
-    padding-left: 0.375rem;
-    padding-right: 0.375rem;
-  }
-}
-
-@media (min-width: 640px) {
-  .service-process-carousel-wrapper .carousel-slide,
-  .service-process-carousel-wrapper .embla__slide {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-}
-
-/* Capabilities carousel wrapper */
 .capabilities-carousel-wrapper {
   position: relative;
   padding: 1rem 0;
+  padding-top: 1.5rem;
   margin-top: 2rem;
   margin-bottom: 1rem;
   overflow: visible;
@@ -133,12 +74,7 @@
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--accent-green-opacity-30),
-    transparent
-  );
+  background: linear-gradient(to right, transparent, var(--accent-green-opacity-30), transparent);
   border-radius: 2px;
   pointer-events: none;
   z-index: 1;
@@ -148,43 +84,27 @@
 .capabilities-carousel-wrapper:hover::before {
   width: 80px;
   height: 4px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--accent-green-opacity-50),
-    transparent
-  );
+  background: linear-gradient(to right, transparent, var(--accent-green-opacity-50), transparent);
 }
 
 .capabilities-carousel-wrapper::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    var(--accent-green-opacity-02) 0%,
-    transparent 20%,
-    transparent 80%,
-    var(--accent-green-opacity-02) 100%
-  );
+  background: linear-gradient(180deg, var(--accent-green-opacity-02) 0%, transparent 20%, transparent 80%, var(--accent-green-opacity-02) 100%);
   pointer-events: none;
   z-index: 0;
   transition: opacity 0.3s ease;
 }
 
 .capabilities-carousel-wrapper:hover::after {
-  background: linear-gradient(
-    180deg,
-    var(--accent-green-opacity-04) 0%,
-    transparent 20%,
-    transparent 80%,
-    var(--accent-green-opacity-04) 100%
-  );
+  background: linear-gradient(180deg, var(--accent-green-opacity-04) 0%, transparent 20%, transparent 80%, var(--accent-green-opacity-04) 100%);
 }
 
 @media (max-width: 640px) {
   .capabilities-carousel-wrapper {
     padding: 0.75rem 0;
+    padding-top: 1.25rem;
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
   }
@@ -195,131 +115,90 @@
   }
 
   .capabilities-carousel-wrapper::after {
-    background: linear-gradient(
-      180deg,
-      var(--accent-green-opacity-015) 0%,
-      transparent 15%,
-      transparent 85%,
-      var(--accent-green-opacity-015) 100%
-    );
+    background: linear-gradient(180deg, var(--accent-green-opacity-015) 0%, transparent 15%, transparent 85%, var(--accent-green-opacity-015) 100%);
   }
 }
 
-/* Shared carousel wrapper styles */
-[class*="-carousel-wrapper"] .carousel-container {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  margin-top: -6px;
-  margin-bottom: -6px;
-}
-
-[class*="-carousel-wrapper"] .carousel-dots {
-  position: relative;
-  z-index: 1;
-}
-
-/* Enhanced wrapper hover effects */
-[class*="-carousel-wrapper"]:hover .carousel-slide {
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* Smooth fade for non-active slides */
-[class*="-carousel-wrapper"] .carousel-slide:not([data-index="0"]) {
-  opacity: 0.95;
-}
-
-[class*="-carousel-wrapper"]:hover .carousel-slide:not([data-index="0"]) {
-  opacity: 0.85;
-}
-
-/* Carousel icons */
-[class*="-carousel-icon"] {
-  flex-shrink: 0;
-  background: linear-gradient(to bottom right, var(--accent-green-opacity-2), var(--accent-green-opacity-1));
-  border: 2px solid var(--accent-green-opacity-30);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--duration-normal) var(--timing-smooth);
-}
-
-[class*="-carousel-section-label"] {
-  font-weight: 700;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-family: var(--font-body);
-}
-
-/* Carousel container base */
 .carousel-container {
   position: relative;
   width: 100%;
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  margin-top: -6px;
-  margin-bottom: -6px;
+  contain: layout style paint;
 }
 
 .embla {
   overflow: hidden;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  margin-top: -6px;
-  margin-bottom: -6px;
 }
 
-/* Embla container - flex layout with equal height slides */
 .embla__container {
   display: flex;
-  align-items: stretch; /* All slides stretch to match tallest */
-  touch-action: pan-y pinch-zoom;
+  align-items: stretch;
+  touch-action: pan-x pinch-zoom;
   padding-left: var(--grid-padding-sm);
   padding-right: var(--grid-padding-sm);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  will-change: transform;
 }
 
-/* Individual slide wrapper - maintains equal height */
-.embla__slide {
-  flex: 0 0 auto;
-  min-width: 0;
-  align-self: stretch; /* Stretch to match tallest slide */
-  padding-left: var(--carousel-gap-mobile);
-  padding-right: var(--carousel-gap-mobile);
-  display: flex;
-  flex-direction: column;
+@media (max-width: 639px) {
+  .embla__container {
+    padding-left: var(--grid-padding-mobile);
+    padding-right: var(--grid-padding-mobile);
+  }
 }
 
-@media (min-width: 640px) {
+@media (min-width: 640px) and (max-width: 1023px) {
   .embla__container {
     padding-left: var(--grid-padding-lg);
     padding-right: var(--grid-padding-lg);
   }
+}
 
-  .embla__slide {
-    padding-left: var(--carousel-gap-tablet);
-    padding-right: var(--carousel-gap-tablet);
+@media (min-width: 1024px) {
+  .embla__container {
+    padding-left: var(--grid-padding-lg);
+    padding-right: var(--grid-padding-lg);
   }
 }
 
-/* Touch actions for horizontal swiping only */
+.embla__slide {
+  flex: 0 0 auto;
+  min-width: 0;
+  align-self: stretch;
+  padding-left: var(--carousel-gap-mobile);
+  padding-right: var(--carousel-gap-mobile);
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 2rem);
+  max-width: 320px;
+}
+
+.embla__slide:first-child {
+  padding-left: 0;
+}
+
+@media (min-width: 640px) {
+  .embla__slide {
+    padding-left: var(--carousel-gap-tablet);
+    padding-right: var(--carousel-gap-tablet);
+    width: calc(100vw - 4rem);
+    max-width: 380px;
+  }
+
+  .embla__slide:first-child {
+    padding-left: 0;
+  }
+}
+
 .embla__container.carousel-track {
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-x pinch-zoom;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Carousel track - default state with no transition */
 .carousel-track {
   display: flex;
-  will-change: transform;
-  align-items: stretch; /* Equal height for all children */
+  align-items: stretch;
   gap: var(--carousel-gap-mobile);
   cursor: grab;
   user-select: none;
@@ -327,12 +206,7 @@
   -webkit-overflow-scrolling: touch;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-}
-
-/* Fast, smooth transition when navigating via dots */
-.carousel-navigating .carousel-track,
-.carousel-navigating .embla__container {
-  transition: transform 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
 @media (min-width: 640px) {
@@ -341,42 +215,33 @@
   }
 }
 
-/* Active dragging state */
+.carousel-navigating .carousel-track,
+.carousel-navigating .embla__container {
+  transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
 .carousel-track:active,
 .carousel-container.is-dragging .carousel-track,
 .carousel-container.is-dragging .embla__container {
   cursor: grabbing;
-  transition: none !important; /* No transition during drag */
-  transform: translateZ(0); /* Force GPU acceleration for smoother dragging */
-  will-change: transform;
+  transition: none;
+  transform: translateZ(0);
 }
 
-/* Carousel slide - one card at a time, equal heights */
 .carousel-slide {
-  width: calc(100vw - var(--carousel-slide-width-mobile));
-  max-width: var(--carousel-slide-max-width-mobile);
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  align-self: stretch; /* Match tallest slide height */
+  align-self: stretch;
   opacity: 1;
   transition: opacity 150ms ease-out;
 }
 
-/* Visual feedback during drag */
 .carousel-container.is-dragging .carousel-slide {
   opacity: 0.95;
-  transition: none !important;
+  transition: none;
 }
 
-@media (min-width: 640px) {
-  .carousel-slide {
-    width: calc(100vw - var(--carousel-slide-width-tablet));
-    max-width: var(--carousel-slide-max-width-tablet);
-  }
-}
-
-/* Ensure all card types stretch to full height */
 .carousel-slide .service-card-redesigned,
 .carousel-slide .glassmorphism-card,
 .carousel-slide .impact-industry-card,
@@ -387,7 +252,6 @@
   flex-direction: column;
 }
 
-/* Make card content flex-grow to fill available space */
 .carousel-slide .service-card-redesigned > div,
 .carousel-slide .glassmorphism-card > div {
   flex: 1;
@@ -395,7 +259,6 @@
   flex-direction: column;
 }
 
-/* Unified Carousel Dots - Simple and Uniform Across All Carousels */
 .carousel-dots {
   display: flex;
   gap: var(--carousel-dots-gap);
@@ -405,6 +268,7 @@
   width: 100%;
   -webkit-tap-highlight-color: transparent;
   flex-wrap: nowrap;
+  margin-top: 1.5rem;
 }
 
 .carousel-dot {
@@ -436,11 +300,6 @@
   transition: transform 0.08s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.carousel-dot[style*="display: none"] {
-  display: none;
-}
-
-/* Uniform dot indicator - simple circle */
 .carousel-dot::before {
   content: '';
   position: absolute;
@@ -461,7 +320,6 @@
   background-color: var(--carousel-dot-inactive-hover);
 }
 
-/* Active dot - simple, uniform style */
 .carousel-dot.active::before,
 .carousel-dot[aria-current="true"]::before,
 .carousel-dot[aria-selected="true"]::before {
@@ -470,13 +328,6 @@
   height: var(--carousel-dot-size-active);
   border-radius: 50%;
   opacity: 1;
-  box-shadow: 0 0 8px var(--accent-green-opacity-30);
-}
-
-.carousel-dot.active:hover::before,
-.carousel-dot[aria-current="true"]:hover::before,
-.carousel-dot[aria-selected="true"]:hover::before {
-  box-shadow: 0 0 12px var(--accent-green-opacity-40);
 }
 
 .carousel-dot:focus-visible,
@@ -486,13 +337,10 @@
   border-radius: 50%;
 }
 
-/* Unified carousel dots - all carousels use the same simple, uniform style */
-/* All specific carousel dot classes inherit from base .carousel-dot styles */
-
-/* Impact carousel wrapper */
 .impact-carousel-wrapper {
   position: relative;
   padding: 1.5rem 0;
+  padding-top: 2rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
 }
@@ -501,12 +349,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    var(--accent-green-opacity-03) 0%,
-    var(--accent-green-opacity-01) 50%,
-    var(--accent-green-opacity-03) 100%
-  );
+  background: linear-gradient(135deg, var(--accent-green-opacity-03) 0%, var(--accent-green-opacity-01) 50%, var(--accent-green-opacity-03) 100%);
   border-radius: 1rem;
   pointer-events: none;
   z-index: 0;
@@ -514,51 +357,22 @@
 }
 
 .impact-carousel-wrapper:hover::before {
-  background: linear-gradient(
-    135deg,
-    var(--accent-green-opacity-05) 0%,
-    var(--accent-green-opacity-02) 50%,
-    var(--accent-green-opacity-05) 100%
-  );
+  background: linear-gradient(135deg, var(--accent-green-opacity-05) 0%, var(--accent-green-opacity-02) 50%, var(--accent-green-opacity-05) 100%);
 }
 
 @media (max-width: 640px) {
   .impact-carousel-wrapper {
     padding: 0.75rem 0;
+    padding-top: 1.25rem;
     margin-top: 0.75rem;
     margin-bottom: 1.5rem;
   }
 
   .impact-carousel-wrapper::before {
-    background: linear-gradient(
-      135deg,
-      var(--accent-green-opacity-025) 0%,
-      var(--accent-green-opacity-01) 50%,
-      var(--accent-green-opacity-025) 100%
-    );
+    background: linear-gradient(135deg, var(--accent-green-opacity-025) 0%, var(--accent-green-opacity-01) 50%, var(--accent-green-opacity-025) 100%);
     border-radius: 0.75rem;
   }
 
-  .impact-carousel-wrapper .carousel-slide {
-    padding: 0 0.5rem;
-  }
-}
-
-@media (max-width: 1023px) and (min-width: 641px) {
-  .impact-carousel-wrapper {
-    padding: 1rem 0;
-  }
-
-  .impact-carousel-wrapper .carousel-slide {
-    padding: 0 0.75rem;
-  }
-}
-
-/* All carousel dots now use unified base styles - no specific overrides needed */
-
-/* Enhanced mobile interactions and responsive improvements */
-@media (max-width: 640px) {
-  /* Larger touch targets for mobile */
   .carousel-dot {
     min-width: 44px;
     min-height: 44px;
@@ -581,37 +395,22 @@
     padding: 0.75rem 0;
   }
 
-  /* Better mobile swipe behavior */
   .carousel-container {
-    touch-action: pan-y;
+    touch-action: pan-x;
   }
 
-  /* Ensure one card per swipe on mobile */
-  .embla__container {
-    scroll-snap-type: x mandatory;
-  }
-
-  .carousel-slide,
-  .embla__slide {
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
-  }
-
-  /* Improved touch feedback */
   .carousel-container.is-dragging {
     user-select: none;
     -webkit-user-select: none;
   }
 }
 
-/* Tablet improvements */
 @media (min-width: 641px) and (max-width: 1023px) {
   .carousel-slide {
     transition: opacity 150ms ease-out;
   }
 }
 
-/* Desktop hover effects */
 @media (min-width: 1024px) {
   .carousel-slide {
     opacity: 0.92;
@@ -622,20 +421,18 @@
     opacity: 0.95;
   }
 
-  /* Subtle scale on active/center card for desktop */
   .carousel-slide[data-index] {
     opacity: 1;
   }
 }
 
-/* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
   .carousel-track,
   .embla__container,
   .carousel-slide,
   .embla__slide,
   .carousel-dot::before {
-    transition: none !important;
+    transition: none;
   }
 
   .carousel-dot:hover {
@@ -650,11 +447,10 @@
 
   .carousel-navigating .carousel-track,
   .carousel-navigating .embla__container {
-    transition: none !important;
+    transition: none;
   }
 }
 
-/* Performance optimizations */
 .carousel-container,
 .carousel-track,
 .embla__container {
@@ -662,16 +458,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* GPU acceleration for smooth animations */
 .carousel-track,
 .embla__container,
 .carousel-slide,
 .embla__slide {
   transform: translateZ(0);
-  will-change: transform;
 }
 
-/* Impact industry cards equal height support */
 .carousel-slide .impact-industry-card,
 .embla__slide .impact-industry-card {
   height: 100%;
@@ -680,10 +473,271 @@
 }
 
 .impact-industry-card .impact-industry-description {
-  flex: 1; /* Description grows to fill available space */
+  flex: 1;
 }
 
 .impact-industry-card .impact-industry-use-cases {
-  margin-top: auto; /* Push to bottom */
+  margin-top: auto;
 }
 
+.service-card-redesigned[data-variant="carousel"] {
+  min-height: 220px;
+}
+
+.service-card-redesigned[data-variant="carousel"] > div {
+  padding: 1.25rem;
+}
+
+.service-card-redesigned[data-variant="carousel"] h3 {
+  font-size: 1.0625rem;
+  line-height: 1.3;
+}
+
+.service-card-redesigned[data-variant="carousel"] p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.service-card-redesigned[data-variant="carousel"] a {
+  font-size: 0.875rem;
+}
+
+@media (min-width: 640px) {
+  .service-card-redesigned[data-variant="carousel"] {
+    min-height: 240px;
+  }
+
+  .service-card-redesigned[data-variant="carousel"] > div {
+    padding: 1.5rem;
+  }
+
+  .service-card-redesigned[data-variant="carousel"] h3 {
+    font-size: 1.125rem;
+  }
+
+  .service-card-redesigned[data-variant="carousel"] p {
+    font-size: 1.0625rem;
+  }
+
+  .service-card-redesigned[data-variant="carousel"] a {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .service-card-redesigned[data-variant="carousel"] {
+    min-height: 260px;
+  }
+}
+
+.carousel-slide .glassmorphism-card.capability-card-carousel {
+  min-height: 260px;
+  padding: 1.25rem;
+}
+
+.capability-card-carousel h3 {
+  font-size: 1.0625rem;
+  line-height: 1.3;
+}
+
+.capability-card-carousel p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.capability-card-carousel .metric span {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+@media (min-width: 640px) {
+  .carousel-slide .glassmorphism-card.capability-card-carousel {
+    min-height: 280px;
+    padding: 1.5rem;
+  }
+
+  .capability-card-carousel h3 {
+    font-size: 1.125rem;
+  }
+
+  .capability-card-carousel p {
+    font-size: 1.0625rem;
+  }
+
+  .capability-card-carousel .metric span {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .carousel-slide .glassmorphism-card.capability-card-carousel {
+    min-height: 300px;
+  }
+}
+
+.code-principles-carousel .carousel-slide > div {
+  min-height: 200px;
+  padding: 1.25rem;
+}
+
+.code-principles-carousel h3 {
+  font-size: 1.125rem;
+  line-height: 1.3;
+}
+
+.code-principles-carousel p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 640px) {
+  .code-principles-carousel .carousel-slide > div {
+    min-height: 220px;
+    padding: 1.5rem;
+  }
+
+  .code-principles-carousel h3 {
+    font-size: 1.1875rem;
+  }
+
+  .code-principles-carousel p {
+    font-size: 1.0625rem;
+  }
+}
+
+.global-metrics-carousel .carousel-slide .global-metric-card {
+  min-height: 180px;
+  padding: 1.25rem;
+}
+
+.global-metrics-carousel .global-metric-card p:first-of-type {
+  font-size: 1.1875rem;
+  line-height: 1.3;
+}
+
+.global-metrics-carousel .global-metric-card p:last-of-type {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 640px) {
+  .global-metrics-carousel .carousel-slide .global-metric-card {
+    min-height: 200px;
+    padding: 1.5rem;
+  }
+
+  .global-metrics-carousel .global-metric-card p:first-of-type {
+    font-size: 1.25rem;
+  }
+
+  .global-metrics-carousel .global-metric-card p:last-of-type {
+    font-size: 1.0625rem;
+  }
+}
+
+.mission-vision-carousel .carousel-slide > div {
+  min-height: 180px;
+  padding: 1.25rem;
+}
+
+.mission-vision-carousel h3 {
+  font-size: 1.1875rem;
+  line-height: 1.3;
+}
+
+.mission-vision-carousel p {
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+@media (min-width: 640px) {
+  .mission-vision-carousel .carousel-slide > div {
+    min-height: 200px;
+    padding: 1.5rem;
+  }
+
+  .mission-vision-carousel h3 {
+    font-size: 1.25rem;
+  }
+
+  .mission-vision-carousel p {
+    font-size: 1.0625rem;
+  }
+}
+
+.service-process-carousel-wrapper .carousel-slide > div {
+  min-height: auto;
+  padding: 0;
+}
+
+.service-process-carousel-wrapper .carousel-slide h3 {
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.service-process-carousel-wrapper .carousel-slide p {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.service-process-carousel-wrapper .carousel-slide h4 {
+  font-size: 0.6875rem;
+}
+
+.service-process-carousel-wrapper .carousel-slide li {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+@media (min-width: 640px) {
+  .service-process-carousel-wrapper .carousel-slide > div {
+    min-height: auto;
+    padding: 0;
+  }
+
+  .service-process-carousel-wrapper .carousel-slide h3 {
+    font-size: 1.0625rem;
+  }
+
+  .service-process-carousel-wrapper .carousel-slide p {
+    font-size: 1rem;
+  }
+
+  .service-process-carousel-wrapper .carousel-slide h4 {
+    font-size: 0.75rem;
+  }
+
+  .service-process-carousel-wrapper .carousel-slide li {
+    font-size: 0.9375rem;
+  }
+}
+
+.service-benefits-carousel-wrapper .carousel-slide > div {
+  min-height: auto;
+  padding: 0;
+}
+
+.service-benefits-carousel-wrapper .carousel-slide h3 {
+  font-size: 1.0625rem;
+  line-height: 1.3;
+}
+
+.service-benefits-carousel-wrapper .carousel-slide p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 640px) {
+  .service-benefits-carousel-wrapper .carousel-slide > div {
+    min-height: auto;
+    padding: 0;
+  }
+
+  .service-benefits-carousel-wrapper .carousel-slide h3 {
+    font-size: 1.125rem;
+  }
+
+  .service-benefits-carousel-wrapper .carousel-slide p {
+    font-size: 1.0625rem;
+  }
+}

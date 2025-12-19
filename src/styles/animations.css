@@ -1,18 +1,8 @@
-/* Core Animations */
-
-@keyframes fadeIn {
+/* Typing animation (used for value proposition) */
+@keyframes fadeInText {
   from {
     opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(0.625rem);
   }
   to {
     opacity: 1;
@@ -20,253 +10,57 @@
   }
 }
 
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeInFromTop {
-  from {
-    opacity: 0;
-    transform: translateY(-1.5rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Scale & Transform */
-
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes popIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  70% {
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes cascadeFadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(1.5rem);
-    filter: blur(10px);
-  }
-  50% {
-    filter: blur(5px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-/* Slide Animations */
-
-@keyframes slideInFromLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-2rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInFromRight {
-  from {
-    opacity: 0;
-    transform: translateX(2rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes waveInFromLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-3rem) translateY(0.5rem);
-  }
-  60% {
-    transform: translateX(0.5rem) translateY(-0.25rem);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) translateY(0);
-  }
-}
-
-@keyframes waveInWithGlow {
-  0% {
-    opacity: 0;
-    transform: translateX(3rem) translateY(-0.5rem);
-    filter: drop-shadow(0 0 0 var(--accent-green));
-  }
-  50% {
-    filter: drop-shadow(0 0 1rem var(--accent-green-opacity-25));
-  }
-  70% {
-    transform: translateX(-0.5rem) translateY(0.25rem);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) translateY(0);
-    filter: drop-shadow(0 0 0 var(--accent-green));
-  }
-}
-
-/* Line & Underline */
-
+/* Expand animations (for decorative elements) */
 @keyframes expandWidth {
   from {
-    width: 0;
+    transform: scaleX(0);
+    transform-origin: left;
   }
-  to {
-    width: 100%;
-  }
-}
-
-@keyframes expandUnderline {
   to {
     transform: scaleX(1);
+    transform-origin: left;
   }
 }
 
 @keyframes drawUnderline {
   from {
-    width: 0;
-    opacity: 0;
-  }
-  to {
-    width: var(--width-60);
-    opacity: 1;
-  }
-}
-
-@keyframes lineExpand {
-  from {
-    opacity: 0;
     transform: scaleX(0);
+    transform-origin: left;
+    opacity: 0;
   }
   to {
-    opacity: 1;
     transform: scaleX(1);
-  }
-}
-
-@keyframes fadeInLine {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  50% {
+    transform-origin: left;
     opacity: 1;
   }
-  100% {
-    opacity: 0.6;
-    transform: translateX(0);
-  }
 }
 
-@keyframes fadeInLineRight {
-  0% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.6;
-    transform: translateX(0);
-  }
-}
-
-/* Gradient & Shimmer */
-
-@keyframes shimmer {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
+/* Background and gradient animations */
 @keyframes gradientFill {
-  0% {
-    background-position: 0% 50%;
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes flow {
+  0%, 100% {
+    transform: translateX(-100%);
+    opacity: 0;
   }
   50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes highlightReveal {
-  from {
-    opacity: 0;
-    transform: translateY(var(--transform-translate-y-lg)) scale(0.95);
-    background-position: 0% 50%;
-  }
-  to {
+    transform: translateX(100%);
     opacity: 1;
-    transform: translateY(0) scale(1);
-    background-position: 100% 50%;
   }
 }
 
-/* Bounce & Pulse */
-
-@keyframes fadeInUpCentered {
-  from {
-    opacity: 0;
-    transform: translate(-50%, 1rem);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
+@keyframes drawStroke {
+  to { stroke-dashoffset: 0; }
 }
 
+/* Continuous animations */
 @keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-0.5rem);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.5rem); }
 }
 
 @keyframes pulse-slow {
@@ -281,8 +75,7 @@
 }
 
 @keyframes driftAndPulse {
-  0%,
-  100% {
+  0%, 100% {
     transform: translate(0, 0) scale(1);
     opacity: 0.2;
   }
@@ -300,36 +93,34 @@
   }
 }
 
-/* Flow & Stroke */
-
-@keyframes flow {
-  0%,
-  100% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  50% {
-    transform: translateX(100%);
-    opacity: 1;
-  }
-}
-
-@keyframes drawStroke {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* Utility Classes - All fade-in animations now handled by AOS */
-
+/* Animation utility classes */
 .animate-pulse-slow {
-  animation: pulse-slow 8s ease-in-out infinite;
+  animation: pulse-slow var(--animation-duration-gradient) ease-in-out infinite;
 }
 
-/* Reduced Motion */
+.animation-delay-1s {
+  animation-delay: 1s;
+}
 
+.animation-delay-500ms {
+  animation-delay: var(--delay-normal);
+}
+
+.animation-delay-200ms {
+  animation-delay: var(--delay-fast);
+}
+
+.animation-delay-dynamic {
+  animation-delay: var(--animation-delay, 0ms);
+}
+
+/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .animate-pulse-slow {
-    animation: none !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

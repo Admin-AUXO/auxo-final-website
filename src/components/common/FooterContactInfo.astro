@@ -1,0 +1,30 @@
+---
+import { Icon } from "astro-icon/components";
+import { siteData } from "../../data/config/site";
+
+const iconContainerClass = "w-12 h-12 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0";
+---
+
+<a href={`mailto:${siteData.email}?subject=Inquiry from AUXO Website`} class="flex items-center gap-3 group">
+  <div class={`${iconContainerClass} group-hover:bg-accent-green/25 transition-colors`}>
+    <Icon name="mdi:email-outline" class="w-6 h-6 text-accent-green" />
+  </div>
+  <div class="flex-1 min-w-0">
+    <div class="text-base font-semibold text-theme-primary break-all group-hover:text-accent-green transition-colors font-body">
+      {siteData.email}
+    </div>
+    <div class="flex items-center gap-2 mt-1">
+      <Icon name="mdi:clock-outline" class="w-3.5 h-3.5 text-theme-secondary" />
+      <span class="text-xs text-theme-secondary font-body">
+        Response within <span class="font-medium text-accent-green">24 hours</span>
+      </span>
+    </div>
+  </div>
+</a>
+
+<div class="flex items-center gap-3 text-theme-secondary">
+  <div class={iconContainerClass}>
+    <Icon name="mdi:map-marker-outline" class="w-6 h-6 text-accent-green" />
+  </div>
+  <span class="text-base font-body">{siteData.address.city}, {siteData.address.country}</span>
+</div>

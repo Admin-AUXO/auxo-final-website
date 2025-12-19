@@ -28,15 +28,14 @@ const modelIcons = [
       <div
         class="text-center mb-8 sm:mb-10 lg:mb-12"
         data-aos="fade-down"
-        data-aos-duration="800"
       >
         <div class="inline-flex items-center justify-center gap-3 mb-4 sm:mb-5">
           <Icon name="mdi:clipboard-text-outline" class="w-9 h-9 sm:w-10 sm:h-10 text-accent-green" />
-          <h2 class="text-h2 sm:text-h1 font-extrabold leading-tight tracking-tight font-display">
+          <h2 class="text-h2 font-extrabold leading-tight tracking-tight font-display">
             <HighlightText text={content.title} highlight="Engagement Model" />
           </h2>
         </div>
-        <p class="text-body-md sm:text-body-lg text-theme-secondary max-w-3xl mx-auto px-4">
+        <p class="text-base sm:text-body-lg text-theme-secondary max-w-3xl mx-auto px-4">
           {content.descriptionHighlight ? (
             <HighlightText text={content.description} highlight={content.descriptionHighlight} />
           ) : (
@@ -48,7 +47,6 @@ const modelIcons = [
       <div
         class="mb-8 sm:mb-10 lg:mb-12"
         data-aos="fade-up"
-        data-aos-duration="600"
         data-aos-delay="100"
       >
         <div class="models-accordion-container">
