@@ -25,9 +25,15 @@ export function initTechStackSection() {
     track.innerHTML = '';
     shuffledItems.forEach((item, index) => {
       item.setAttribute('data-index', index.toString());
+      item.setAttribute('data-aos', 'fade-left');
+      item.setAttribute('data-aos-duration', '400');
+      item.setAttribute('data-aos-easing', 'ease-out-cubic');
       item.setAttribute('data-aos-delay', String(30 + (index % uniqueItems.length) * 10));
       track.appendChild(item);
     });
+    
+    // Refresh AOS after DOM manipulation
+    AOS.refresh();
   };
 
   // Wait for AOS to initialize the animation
@@ -37,7 +43,7 @@ export function initTechStackSection() {
     }
   };
 
-  // Randomize items first
+  // Randomize items first, then wait for AOS
   randomizeItems();
 
   // Listen for AOS animation start
@@ -46,9 +52,11 @@ export function initTechStackSection() {
   });
 
   // Also check if already animated
-  if (track.classList.contains('aos-animate')) {
-    startAnimation();
-  }
+  setTimeout(() => {
+    if (track.classList.contains('aos-animate')) {
+      startAnimation();
+    }
+  }, 200);
 
   // Pause on hover
   const wrapper = track.closest('.tech-stack-marquee-wrapper');
