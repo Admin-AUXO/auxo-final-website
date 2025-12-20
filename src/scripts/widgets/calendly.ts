@@ -13,18 +13,14 @@ let isScriptLoading = false;
 let intersectionObserver: IntersectionObserver | null = null;
 let themeChangeTimeout: number | null = null;
 let lastTheme: string | null = null;
-let scrollbarFixInterval: number | null = null;
 
 function getCssVar(name: string, fallback: string): string {
-  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  return value || fallback;
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
 }
 
 function getCalendlyUrl(): string {
   const html = document.documentElement;
-  const hasDark = html.classList.contains('dark');
-  const hasLight = html.classList.contains('light');
-  const isDark = hasDark || (!hasLight && !hasDark);
+  const isDark = html.classList.contains('dark') || (!html.classList.contains('light') && !html.classList.contains('dark'));
   
   const accentGreen = getCssVar('--accent-green', '#A3E635').replace('#', '');
   const bgPrimary = getCssVar('--bg-primary', isDark ? '#000000' : '#FFFFFF').replace('#', '');
@@ -33,71 +29,48 @@ function getCalendlyUrl(): string {
   return `${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=${accentGreen}&background_color=${bgPrimary}&text_color=${textPrimary}`;
 }
 
-function waitForThemeReady(callback: () => void): void {
+function ensureThemeReady(): void {
   const html = document.documentElement;
-  const hasTheme = html.classList.contains('dark') || html.classList.contains('light');
-  
-  function ensureDarkDefault(): void {
-    if (!html.classList.contains('dark') && !html.classList.contains('light')) {
-      html.classList.add('dark');
-    }
+  if (!html.classList.contains('dark') && !html.classList.contains('light')) {
+    html.classList.add('dark');
   }
+}
+
+function waitForThemeAndCssVars(callback: () => void): void {
+  ensureThemeReady();
   
-  function checkCssVars(): boolean {
+  const checkReady = (): boolean => {
+    const html = document.documentElement;
+    const hasTheme = html.classList.contains('dark') || html.classList.contains('light');
     const bgPrimary = getComputedStyle(html).getPropertyValue('--bg-primary').trim();
     const textPrimary = getComputedStyle(html).getPropertyValue('--text-primary').trim();
     const accentGreen = getComputedStyle(html).getPropertyValue('--accent-green').trim();
-    return !!(bgPrimary && textPrimary && accentGreen);
+    return hasTheme && !!(bgPrimary && textPrimary && accentGreen);
+  };
+  
+  if (checkReady()) {
+    requestAnimationFrame(() => requestAnimationFrame(callback));
+    return;
   }
   
-  function executeCallback(): void {
-    ensureDarkDefault();
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (checkCssVars()) {
-          callback();
-        } else {
-          setTimeout(executeCallback, 50);
-        }
-      });
-    });
-  }
+  let attempts = 0;
+  const maxAttempts = 40;
+  const checkInterval = setInterval(() => {
+    attempts++;
+    if (checkReady() || attempts >= maxAttempts) {
+      clearInterval(checkInterval);
+      requestAnimationFrame(() => requestAnimationFrame(callback));
+    }
+  }, 50);
   
-  ensureDarkDefault();
-  
-  if (hasTheme && checkCssVars()) {
-    setTimeout(executeCallback, 100);
-  } else if (hasTheme) {
-    let attempts = 0;
-    const maxAttempts = 20;
-    const checkInterval = setInterval(() => {
-      attempts++;
-      if (checkCssVars() || attempts >= maxAttempts) {
-        clearInterval(checkInterval);
-        executeCallback();
-      }
-    }, 50);
-  } else {
-    let resolved = false;
-    const observer = new MutationObserver(() => {
-      ensureDarkDefault();
-      if ((html.classList.contains('dark') || html.classList.contains('light')) && !resolved) {
-        resolved = true;
-        observer.disconnect();
-        setTimeout(executeCallback, 100);
-      }
-    });
-    observer.observe(html, { attributes: true, attributeFilter: ['class'] });
-    
-    setTimeout(() => {
-      if (!resolved) {
-        resolved = true;
-        observer.disconnect();
-        ensureDarkDefault();
-        executeCallback();
-      }
-    }, 500);
-  }
+  const observer = new MutationObserver(() => {
+    if (checkReady()) {
+      observer.disconnect();
+      clearInterval(checkInterval);
+      requestAnimationFrame(() => requestAnimationFrame(callback));
+    }
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 }
 
 function loadCalendlyScript(callback: () => void): void {
@@ -132,47 +105,25 @@ function loadCalendlyScript(callback: () => void): void {
   document.body.appendChild(script);
 }
 
+function hideScrollbars(element: HTMLElement): void {
+  element.style.setProperty('overflow', 'hidden', 'important');
+  element.style.setProperty('scrollbar-width', 'none', 'important');
+  element.style.setProperty('-ms-overflow-style', 'none', 'important');
+}
+
 function applyScrollbarFix(): void {
   const widget = document.getElementById(WIDGET_ID);
   if (!widget) return;
 
   const container = widget.closest('.calendly-inline-widget-container') as HTMLElement;
-  if (container) {
-    container.style.setProperty('overflow', 'hidden', 'important');
-    container.style.setProperty('scrollbar-width', 'none', 'important');
-    container.style.setProperty('-ms-overflow-style', 'none', 'important');
-  }
+  if (container) hideScrollbars(container);
 
   const iframe = widget.querySelector('iframe');
-  if (iframe) {
-    iframe.style.setProperty('overflow', 'hidden', 'important');
-    iframe.style.setProperty('scrollbar-width', 'none', 'important');
-    iframe.style.setProperty('-ms-overflow-style', 'none', 'important');
-  }
+  if (iframe) hideScrollbars(iframe as HTMLElement);
   
-  const widgetDivs = widget.querySelectorAll('.calendly-inline-widget > div, .calendly-inline-widget > div > div');
-  widgetDivs.forEach((div) => {
-    const el = div as HTMLElement;
-    el.style.setProperty('overflow', 'hidden', 'important');
-    el.style.setProperty('scrollbar-width', 'none', 'important');
-    el.style.setProperty('-ms-overflow-style', 'none', 'important');
+  widget.querySelectorAll('.calendly-inline-widget > div, .calendly-inline-widget > div > div').forEach((div) => {
+    hideScrollbars(div as HTMLElement);
   });
-}
-
-function startScrollbarFix(): void {
-  if (scrollbarFixInterval) {
-    clearInterval(scrollbarFixInterval);
-  }
-  
-  applyScrollbarFix();
-  scrollbarFixInterval = window.setInterval(applyScrollbarFix, 200);
-  
-  setTimeout(() => {
-    if (scrollbarFixInterval) {
-      clearInterval(scrollbarFixInterval);
-      scrollbarFixInterval = null;
-    }
-  }, 3000);
 }
 
 function initWidget(forceReinit = false): void {
@@ -205,28 +156,26 @@ function initWidget(forceReinit = false): void {
     win.Calendly.initInlineWidget({ url, parentElement: widget });
     isInitialized = true;
     
-    startScrollbarFix();
+    const fixInterval = setInterval(() => {
+      applyScrollbarFix();
+    }, 100);
     
-    if (intersectionObserver) {
-      intersectionObserver.disconnect();
-      intersectionObserver = null;
-    }
+    setTimeout(() => {
+      clearInterval(fixInterval);
+      applyScrollbarFix();
+    }, 5000);
   }
 }
 
 function handleThemeChange(): void {
   const html = document.documentElement;
-  const currentTheme = html.classList.contains('dark') ? 'dark' : html.classList.contains('light') ? 'light' : null;
+  const currentTheme = html.classList.contains('dark') ? 'dark' : html.classList.contains('light') ? 'light' : 'dark';
   const win = window as CalendlyWindow;
-  
-  if (!currentTheme) return;
   
   if (currentTheme !== lastTheme && win.Calendly && isInitialized) {
     lastTheme = currentTheme;
     
-    if (themeChangeTimeout) {
-      clearTimeout(themeChangeTimeout);
-    }
+    if (themeChangeTimeout) clearTimeout(themeChangeTimeout);
     
     themeChangeTimeout = window.setTimeout(() => {
       const widget = document.getElementById(WIDGET_ID);
@@ -243,27 +192,16 @@ export function setupCalendly(): void {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
   
   function initialize(): void {
+    ensureThemeReady();
     const html = document.documentElement;
-    if (!html.classList.contains('dark') && !html.classList.contains('light')) {
-      html.classList.add('dark');
-    }
     lastTheme = html.classList.contains('dark') ? 'dark' : html.classList.contains('light') ? 'light' : 'dark';
 
-    const themeObserver = new MutationObserver((mutations) => {
-      for (const mutation of mutations) {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          handleThemeChange();
-          break;
-        }
-      }
-    });
+    const themeObserver = new MutationObserver(() => handleThemeChange());
     themeObserver.observe(html, { attributes: true, attributeFilter: ['class'] });
 
     const widget = document.getElementById(WIDGET_ID);
     if (!widget) {
-      if (import.meta.env.DEV) {
-        console.warn('Calendly widget container not found');
-      }
+      if (import.meta.env.DEV) console.warn('Calendly widget container not found');
       return;
     }
 
@@ -284,17 +222,15 @@ export function setupCalendly(): void {
           if (entries[0]?.isIntersecting && !hasInitialized && !isInitialized) {
             hasInitialized = true;
             initWidget();
-            if (intersectionObserver) {
-              intersectionObserver.disconnect();
-              intersectionObserver = null;
-            }
+            intersectionObserver?.disconnect();
+            intersectionObserver = null;
           }
         }, { rootMargin: '100px' });
         intersectionObserver.observe(widget);
       }
     };
     
-    waitForThemeReady(initWithTheme);
+    waitForThemeAndCssVars(initWithTheme);
 
     let currentPath = window.location.pathname;
     document.addEventListener('astro:page-load', () => {
@@ -304,21 +240,15 @@ export function setupCalendly(): void {
         lastTheme = null;
         currentPath = newPath;
         
-        if (scrollbarFixInterval) {
-          clearInterval(scrollbarFixInterval);
-          scrollbarFixInterval = null;
+        if (intersectionObserver) {
+          intersectionObserver.disconnect();
+          intersectionObserver = null;
         }
         
         const widget = document.getElementById(WIDGET_ID);
         if (widget) {
           widget.innerHTML = '';
-          if (intersectionObserver) {
-            intersectionObserver.disconnect();
-            intersectionObserver = null;
-          }
-          waitForThemeReady(() => {
-            initWidget();
-          });
+          waitForThemeAndCssVars(() => initWidget());
         }
       }
     });
