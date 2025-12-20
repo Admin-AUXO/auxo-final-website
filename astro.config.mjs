@@ -251,6 +251,7 @@ export default defineConfig({
           'waves',
           'cookie',
           'information-outline',
+          'pipe',
         ],
       },
     }),
