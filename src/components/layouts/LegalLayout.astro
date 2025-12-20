@@ -203,7 +203,7 @@ const LEGAL_PAGES = [
       mobileTocContainer?.classList.toggle('hidden');
     });
     
-    import("../../scripts/utils/observers").then(({ observeMultiple }) => {
+    import("../../scripts/utils/observers.js").then(({ observeMultiple }) => {
       observeMultiple(
         Array.from(headings),
         (entry) => {

@@ -45,7 +45,7 @@
     
     if (!progressBar || !progressFill) return;
 
-    const { getLenis } = await import('../../scripts/smoothScroll');
+    const { getLenis } = await import('../../scripts/smoothScroll.js');
     const lenis = getLenis();
 
     function updateProgress(): void {

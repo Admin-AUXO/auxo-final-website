@@ -18,7 +18,7 @@
     if (!canvas || !container) return;
 
     try {
-      const { GalaxyParticleSystem } = await import("../../scripts/particle-system");
+      const { GalaxyParticleSystem } = await import("../../scripts/particle-system.js");
       Object.assign(container.style, { display: "block", opacity: "1", visibility: "visible" });
       particleSystem = new GalaxyParticleSystem(canvas);
       isInitialized = true;
@@ -57,7 +57,7 @@
   document.addEventListener("astro:before-swap", cleanup);
   document.addEventListener("astro:page-load", () => setTimeout(waitForInit, 50));
 
-  import("../../scripts/utils/observers").then(({ observeThemeChange }) => {
+  import("../../scripts/utils/observers.js").then(({ observeThemeChange }) => {
     observeThemeChange(() => {
       cleanup();
       setTimeout(waitForInit, 100);
