@@ -1,35 +1,56 @@
 interface CalendlyWindow extends Window {
   Calendly?: {
-    initInlineWidget: (options: { url: string; parentElement: HTMLElement }) => void;
+    initBadgeWidget: (options: {
+      url: string;
+      text: string;
+      color: string;
+      textColor: string;
+      branding: boolean;
+    }) => void;
+    initPopupWidget: (options: { url: string }) => void;
   };
 }
 
-const WIDGET_ID = 'calendly-widget';
 const CALENDLY_URL = 'https://calendly.com/admin-auxodata/30min';
 const SCRIPT_URL = 'https://assets.calendly.com/assets/external/widget.js';
-const SCROLLBAR_FIX_DURATION = 5000;
+const CSS_URL = 'https://assets.calendly.com/assets/external/widget.css';
 const THEME_CHANGE_DELAY = 300;
 
 let isInitialized = false;
 let isScriptLoading = false;
-let intersectionObserver: IntersectionObserver | null = null;
 let themeChangeTimeout: number | null = null;
 let lastTheme: string | null = null;
-let resizeObserver: ResizeObserver | null = null;
 
 function getCssVar(name: string, fallback: string): string {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
 }
 
-function getCalendlyUrl(): string {
+function isDarkTheme(): boolean {
   const html = document.documentElement;
-  const isDark = html.classList.contains('dark') || (!html.classList.contains('light') && !html.classList.contains('dark'));
-  
+  return html.classList.contains('dark') || (!html.classList.contains('light') && !html.classList.contains('dark'));
+}
+
+function getCalendlyUrl(): string {
+  const isDark = isDarkTheme();
   const accentGreen = getCssVar('--accent-green', '#A3E635').replace('#', '');
   const bgPrimary = getCssVar('--bg-primary', isDark ? '#000000' : '#FFFFFF').replace('#', '');
   const textPrimary = getCssVar('--text-primary', isDark ? '#FFFFFF' : '#000000').replace('#', '');
-    
-  return `${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=${accentGreen}&background_color=${bgPrimary}&text_color=${textPrimary}`;
+  
+  const params = new URLSearchParams({
+    hide_gdpr_banner: '1',
+    primary_color: accentGreen,
+    background_color: bgPrimary,
+    text_color: textPrimary
+  });
+  
+  return `${CALENDLY_URL}?${params.toString()}`;
+}
+
+function getButtonColors(): { color: string; textColor: string } {
+  return {
+    color: getCssVar('--accent-green', '#A3E635'),
+    textColor: isDarkTheme() ? '#000000' : '#FFFFFF'
+  };
 }
 
 function ensureThemeReady(): void {
@@ -47,26 +68,25 @@ function waitForThemeAndCssVars(callback: () => void): void {
     const hasTheme = html.classList.contains('dark') || html.classList.contains('light');
     if (!hasTheme) return false;
     
-    const computedStyle = getComputedStyle(html);
-    const bgPrimary = computedStyle.getPropertyValue('--bg-primary').trim();
-    const textPrimary = computedStyle.getPropertyValue('--text-primary').trim();
-    const accentGreen = computedStyle.getPropertyValue('--accent-green').trim();
-    
-    return !!(bgPrimary && textPrimary && accentGreen);
+    const style = getComputedStyle(html);
+    return !!(style.getPropertyValue('--bg-primary').trim() && 
+             style.getPropertyValue('--text-primary').trim() && 
+             style.getPropertyValue('--accent-green').trim());
   };
   
+  const executeCallback = () => requestAnimationFrame(() => requestAnimationFrame(callback));
+  
   if (checkReady()) {
-    requestAnimationFrame(() => requestAnimationFrame(callback));
+    executeCallback();
     return;
   }
   
   let attempts = 0;
   const maxAttempts = 50;
   const checkInterval = setInterval(() => {
-    attempts++;
-    if (checkReady() || attempts >= maxAttempts) {
+    if (checkReady() || ++attempts >= maxAttempts) {
       clearInterval(checkInterval);
-      requestAnimationFrame(() => requestAnimationFrame(callback));
+      executeCallback();
     }
   }, 50);
   
@@ -74,9 +94,10 @@ function waitForThemeAndCssVars(callback: () => void): void {
     if (checkReady()) {
       observer.disconnect();
       clearInterval(checkInterval);
-      requestAnimationFrame(() => requestAnimationFrame(callback));
+      executeCallback();
     }
   });
+  
   observer.observe(document.documentElement, { 
     attributes: true, 
     attributeFilter: ['class']
@@ -87,13 +108,13 @@ function waitForThemeAndCssVars(callback: () => void): void {
       if (checkReady()) {
         observer.disconnect();
         clearInterval(checkInterval);
-        requestAnimationFrame(() => requestAnimationFrame(callback));
+        executeCallback();
       }
     }, { once: true });
   }
 }
 
-function loadCalendlyScript(callback: () => void): void {
+function loadCalendlyResources(callback: () => void): void {
   const win = window as CalendlyWindow;
   if (win.Calendly) {
     callback();
@@ -112,6 +133,12 @@ function loadCalendlyScript(callback: () => void): void {
   }
 
   isScriptLoading = true;
+  
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = CSS_URL;
+  document.head.appendChild(link);
+  
   const script = document.createElement('script');
   script.src = SCRIPT_URL;
   script.async = true;
@@ -125,122 +152,27 @@ function loadCalendlyScript(callback: () => void): void {
   document.body.appendChild(script);
 }
 
-function hideScrollbars(element: HTMLElement): void {
-  if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
-  element.style.setProperty('overflow', 'hidden', 'important');
-  element.style.setProperty('overflow-x', 'hidden', 'important');
-  element.style.setProperty('overflow-y', 'hidden', 'important');
-  element.style.setProperty('scrollbar-width', 'none', 'important');
-  element.style.setProperty('-ms-overflow-style', 'none', 'important');
-}
-
-function applyScrollbarFixRecursive(element: HTMLElement): void {
-  hideScrollbars(element);
-  Array.from(element.children).forEach((child) => {
-    if (child instanceof HTMLElement) {
-      applyScrollbarFixRecursive(child);
-    }
-  });
-}
-
-function applyScrollbarFix(): void {
-  const widget = document.getElementById(WIDGET_ID);
-  if (!widget) return;
-
-  const container = widget.closest('.calendly-inline-widget-container') as HTMLElement;
-  if (container) {
-    applyScrollbarFixRecursive(container);
-  }
-
-  applyScrollbarFixRecursive(widget);
-}
-
-function calculateContainerHeight(contentHeight: number, container: HTMLElement): number {
-  const padding = 20;
-  const minHeight = 700;
-  const newHeight = Math.max(contentHeight + padding, minHeight);
-  const maxHeightValue = getComputedStyle(container).maxHeight;
-  const maxHeight = maxHeightValue === 'none' ? Infinity : parseInt(maxHeightValue, 10);
-  return Math.min(newHeight, maxHeight || Infinity);
-}
-
-function updateContainerHeight(height: number): void {
-  const widget = document.getElementById(WIDGET_ID);
-  const container = widget?.closest('.calendly-inline-widget-container') as HTMLElement;
-  
-  if (container && height > 0) {
-    const finalHeight = calculateContainerHeight(height, container);
-    container.style.height = `${finalHeight}px`;
-    applyScrollbarFix();
-  }
-}
-
-function handleCalendlyResize(event: MessageEvent): void {
-  const allowedOrigins = ['https://calendly.com', 'https://assets.calendly.com'];
-  if (!allowedOrigins.includes(event.origin)) return;
-  if (event.data?.event === 'calendly.event_height' && event.data.height) {
-    updateContainerHeight(event.data.height);
-  }
-}
-
-function setupResizeListener(): void {
-  if (typeof window === 'undefined') return;
-  window.addEventListener('message', handleCalendlyResize);
-  
-  const widget = document.getElementById(WIDGET_ID);
-  if (!widget || typeof ResizeObserver === 'undefined') return;
-  
-  const iframe = widget.querySelector('iframe');
-  if (iframe) {
-    resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.contentRect.height > 0) {
-          updateContainerHeight(entry.contentRect.height);
-        }
-      }
-    });
-    resizeObserver.observe(iframe);
-  }
-}
-
-function initWidget(forceReinit = false): void {
-  const widget = document.getElementById(WIDGET_ID);
-  if (!widget) return;
-
+function initPopupWidget(): void {
   const win = window as CalendlyWindow;
-  const hasContent = widget.querySelector('.calendly-inline-widget > div');
-
-  if (!forceReinit && isInitialized && hasContent) return;
-  if (hasContent && !forceReinit) {
-    isInitialized = true;
-    return;
-  }
-
   if (!win.Calendly) {
-    loadCalendlyScript(() => initWidget(forceReinit));
+    loadCalendlyResources(() => initPopupWidget());
     return;
   }
 
-  if (forceReinit) {
-    widget.innerHTML = '';
-    isInitialized = false;
-  }
+  if (isInitialized) return;
 
-  if (!isInitialized) {
-    const url = getCalendlyUrl();
-    widget.setAttribute('data-url', url);
-    widget.setAttribute('data-resize', 'true');
-    win.Calendly.initInlineWidget({ url, parentElement: widget });
-    isInitialized = true;
-    
-    setupResizeListener();
-    
-    const fixInterval = setInterval(applyScrollbarFix, 100);
-    setTimeout(() => {
-      clearInterval(fixInterval);
-      applyScrollbarFix();
-    }, SCROLLBAR_FIX_DURATION);
-  }
+  const url = getCalendlyUrl();
+  const { color, textColor } = getButtonColors();
+
+  win.Calendly.initBadgeWidget({
+    url,
+    text: 'Schedule time with me',
+    color,
+    textColor,
+    branding: false
+  });
+
+  isInitialized = true;
 }
 
 function getCurrentTheme(): string {
@@ -260,14 +192,30 @@ function handleThemeChange(): void {
     if (themeChangeTimeout) clearTimeout(themeChangeTimeout);
     
     themeChangeTimeout = window.setTimeout(() => {
-      const widget = document.getElementById(WIDGET_ID);
-      if (widget?.querySelector('.calendly-inline-widget > div')) {
-        initWidget(true);
+      const badge = document.querySelector('.calendly-badge-widget');
+      if (badge) {
+        badge.remove();
+        isInitialized = false;
+        initPopupWidget();
       }
     }, THEME_CHANGE_DELAY);
   } else if (!lastTheme) {
     lastTheme = currentTheme;
   }
+}
+
+export function openCalendlyPopup(): void {
+  const win = window as CalendlyWindow;
+  if (!win.Calendly) {
+    loadCalendlyResources(() => {
+      const url = getCalendlyUrl();
+      win.Calendly?.initPopupWidget({ url });
+    });
+    return;
+  }
+  
+  const url = getCalendlyUrl();
+  win.Calendly.initPopupWidget({ url });
 }
 
 export function setupCalendly(): void {
@@ -280,63 +228,21 @@ export function setupCalendly(): void {
     const themeObserver = new MutationObserver(handleThemeChange);
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-    const widget = document.getElementById(WIDGET_ID);
-    if (!widget) {
-      if (import.meta.env.DEV) console.warn('Calendly widget container not found');
-      return;
-    }
+    waitForThemeAndCssVars(() => {
+      initPopupWidget();
+      setupPopupTriggers();
+    });
+  }
 
-    if (widget.querySelector('.calendly-inline-widget > div')) {
-      isInitialized = true;
-      return;
-    }
-
-    const rect = widget.getBoundingClientRect();
-    const isVisible = rect.top < window.innerHeight + 100 && rect.bottom > -100;
-    
-    const initWithTheme = () => {
-      if (isVisible) {
-        initWidget();
-      } else {
-        let hasInitialized = false;
-        intersectionObserver = new IntersectionObserver((entries) => {
-          if (entries[0]?.isIntersecting && !hasInitialized && !isInitialized) {
-            hasInitialized = true;
-            initWidget();
-            intersectionObserver?.disconnect();
-            intersectionObserver = null;
-          }
-        }, { rootMargin: '100px' });
-        intersectionObserver.observe(widget);
-      }
-    };
-    
-    waitForThemeAndCssVars(initWithTheme);
-
-    let currentPath = window.location.pathname;
-    document.addEventListener('astro:page-load', () => {
-      const newPath = window.location.pathname;
-      if (newPath !== currentPath && (newPath === '/contact/' || newPath === '/contact')) {
-        isInitialized = false;
-        lastTheme = null;
-        currentPath = newPath;
-        
-        if (intersectionObserver) {
-          intersectionObserver.disconnect();
-          intersectionObserver = null;
-        }
-        
-        if (resizeObserver) {
-          resizeObserver.disconnect();
-          resizeObserver = null;
-        }
-        
-        const widget = document.getElementById(WIDGET_ID);
-        if (widget) {
-          widget.innerHTML = '';
-          waitForThemeAndCssVars(() => initWidget());
-        }
-      }
+  function setupPopupTriggers(): void {
+    const triggers = document.querySelectorAll('[data-calendly-trigger]');
+    triggers.forEach((trigger) => {
+      if (trigger.hasAttribute('data-trigger-initialized')) return;
+      trigger.setAttribute('data-trigger-initialized', 'true');
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        openCalendlyPopup();
+      });
     });
   }
 
@@ -345,4 +251,10 @@ export function setupCalendly(): void {
   } else {
     initialize();
   }
+
+  document.addEventListener('astro:page-load', () => {
+    waitForThemeAndCssVars(() => {
+      setupPopupTriggers();
+    });
+  });
 }
