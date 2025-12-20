@@ -62,7 +62,6 @@ const CONSTANTS = {
   BOUNDARY_OFFSET: 50,
 } as const;
 
-import { observeThemeChange } from './utils/observers';
 
 export class GalaxyParticleSystem {
   private canvas: HTMLCanvasElement;
@@ -329,7 +328,7 @@ export class GalaxyParticleSystem {
     }
   }
 
-  private themeUnsubscribe: (() => void) | null = null;
+  private themeObserver: MutationObserver | null = null;
 
   private setupEventListeners() {
     let rafId: number | null = null;
@@ -353,26 +352,41 @@ export class GalaxyParticleSystem {
     document.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
 
-    this.themeUnsubscribe = observeThemeChange((isDark, wasDark) => {
-      const wasLightMode = !wasDark;
-      this.updateThemeColors();
-      
-      this.stars.forEach(star => {
-        if (star.type === 'accent-star') {
-          star.color = this.accentColor;
-        } else if (star.type === 'nebula') {
-          star.color = this.nebulaColors[Math.floor(Math.random() * this.nebulaColors.length)];
-        } else {
-          star.color = this.starColors[Math.floor(Math.random() * this.starColors.length)];
-        }
+    let lastTheme: 'dark' | 'light' = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    
+    this.themeObserver = new MutationObserver(() => {
+      const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      if (lastTheme !== currentTheme) {
+        const wasDark = lastTheme === 'dark';
+        const isDark = currentTheme === 'dark';
+        const wasLightMode = !wasDark;
         
-        if (wasLightMode !== this.isLightMode) {
-          star.baseOpacity = this.isLightMode 
-            ? Math.random() * CONSTANTS.LIGHT_MODE_OPACITY_RANGE + CONSTANTS.LIGHT_MODE_OPACITY_MIN
-            : Math.random() * CONSTANTS.DARK_MODE_OPACITY_RANGE + CONSTANTS.DARK_MODE_OPACITY_MIN;
-          star.opacity = star.baseOpacity;
-        }
-      });
+        this.updateThemeColors();
+        
+        this.stars.forEach(star => {
+          if (star.type === 'accent-star') {
+            star.color = this.accentColor;
+          } else if (star.type === 'nebula') {
+            star.color = this.nebulaColors[Math.floor(Math.random() * this.nebulaColors.length)];
+          } else {
+            star.color = this.starColors[Math.floor(Math.random() * this.starColors.length)];
+          }
+          
+          if (wasLightMode !== this.isLightMode) {
+            star.baseOpacity = this.isLightMode 
+              ? Math.random() * CONSTANTS.LIGHT_MODE_OPACITY_RANGE + CONSTANTS.LIGHT_MODE_OPACITY_MIN
+              : Math.random() * CONSTANTS.DARK_MODE_OPACITY_RANGE + CONSTANTS.DARK_MODE_OPACITY_MIN;
+            star.opacity = star.baseOpacity;
+          }
+        });
+        
+        lastTheme = currentTheme;
+      }
+    });
+    
+    this.themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
     });
   }
 
@@ -561,9 +575,9 @@ export class GalaxyParticleSystem {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;
     }
-    if (this.themeUnsubscribe) {
-      this.themeUnsubscribe();
-      this.themeUnsubscribe = null;
+    if (this.themeObserver) {
+      this.themeObserver.disconnect();
+      this.themeObserver = null;
     }
     this.stars = [];
   }

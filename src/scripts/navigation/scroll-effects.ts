@@ -14,7 +14,7 @@ export function setupScrollEffects(): void {
     const { nav } = getNavElements();
     if (!nav) return;
 
-    const navElement = nav; // Store in const for type narrowing
+    const navElement = nav;
 
     function handleScroll(): void {
       if (state.isScrolling) return;

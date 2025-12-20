@@ -39,14 +39,14 @@
 </style>
 
 <script>
-  async function initScrollProgressBar(): Promise<void> {
+  function initScrollProgressBar(): void {
     const progressBar = document.getElementById('scroll-progress-bar');
     const progressFill = progressBar?.querySelector('.scroll-progress-bar-fill') as HTMLElement;
     
     if (!progressBar || !progressFill) return;
 
-    const { getLenis } = await import('../../scripts/smoothScroll');
-    const lenis = getLenis();
+    // Access global lenis instance directly
+    const lenis = (window as any).lenis;
 
     function updateProgress(): void {
       const windowHeight = window.innerHeight;

@@ -65,12 +65,26 @@
     }
   });
 
-  import("../../scripts/utils/observers").then(({ observeThemeChange }) => {
-    observeThemeChange(() => {
-      cleanup();
-      setTimeout(waitForInit, 100);
+  // Inline theme change observer
+  (function observeThemeChange() {
+    if (typeof window === 'undefined') return;
+    
+    let lastTheme: 'dark' | 'light' = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    
+    const themeObserver = new MutationObserver(() => {
+      const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      if (lastTheme !== currentTheme) {
+        cleanup();
+        setTimeout(waitForInit, 100);
+        lastTheme = currentTheme;
+      }
     });
-  });
+    
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
 </script>
 
 <style>
