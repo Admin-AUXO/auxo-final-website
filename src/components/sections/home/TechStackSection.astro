@@ -2,14 +2,15 @@
 import { Icon } from "astro-icon/components";
 import SectionContainer from "../../layouts/SectionContainer.astro";
 import SectionHeader from "../../ui/SectionHeader.astro";
-import {
-  homepageContent,
-  type HomepageContent,
-} from "../../../data/content/homepage";
+import type { HomepageContent } from "../../../data/content/homepage";
 
-const content: HomepageContent["techStack"] = homepageContent.techStack;
-// Use all items - randomization handled client-side for better control
-const duplicatedItems = [...content.items, ...content.items, ...content.items, ...content.items];
+interface Props {
+  content: HomepageContent["techStack"];
+}
+
+const { content } = Astro.props;
+const items = Array.isArray(content?.items) ? content.items : [];
+const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
 ---
 
 <SectionContainer
@@ -22,44 +23,37 @@ const duplicatedItems = [...content.items, ...content.items, ...content.items, .
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
-      <div class="mb-8 sm:mb-12 lg:mb-16">
+      <div class="mb-8 sm:mb-12 lg:mb-16" data-aos="fade-down" data-aos-duration="600" data-aos-easing="ease-out-cubic">
         <SectionHeader
-          title={content.title}
-          subtitle={content.subtitle}
+          title={content?.title || ''}
+          subtitle={content?.subtitle || ''}
           highlight="Technologies"
         />
       </div>
 
-      <div 
-        class="tech-stack-marquee-wrapper overflow-hidden relative py-4 sm:py-6"
-        data-aos="fade-up"
-        data-aos-duration="600"
-        data-aos-easing="ease-out-cubic"
-        data-aos-delay="50"
-      >
-        <div class="tech-stack-marquee-track flex gap-8 sm:gap-12 lg:gap-16" id="tech-stack-track">
-          {duplicatedItems.map((item, index) => (
-            <div
-              class="tech-stack-item flex-shrink-0 flex items-center justify-center gap-3 px-4 sm:px-6 py-2 rounded-lg transition-all duration-300"
-              data-index={index}
-              data-aos="fade-left"
-              data-aos-duration="800"
-              data-aos-easing="ease-out-cubic"
-              data-aos-delay={50 + (index % content.items.length) * 20}
-            >
-              <div class="tech-stack-icon-wrapper">
+      {items.length > 0 ? (
+        <div class="tech-stack-marquee-wrapper relative py-4 sm:py-6">
+          <div class="tech-stack-marquee-track flex gap-8 sm:gap-12 lg:gap-16" id="tech-stack-track">
+            {duplicatedItems.map((item, index) => (
+              <div
+                class="tech-stack-item flex-shrink-0 flex items-center justify-center gap-3 px-4 sm:px-6 py-2 rounded-lg transition-all duration-300"
+              >
                 <Icon 
                   name={item.icon} 
                   class="tech-stack-icon w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12" 
                 />
+                <span class="tech-stack-name text-base sm:text-lg lg:text-xl font-semibold whitespace-nowrap">
+                  {item.name}
+                </span>
               </div>
-              <span class="tech-stack-name text-base sm:text-lg lg:text-xl font-semibold whitespace-nowrap">
-                {item.name}
-              </span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div class="py-4 sm:py-6 text-center text-theme-secondary">
+          <p>Tech stack items coming soon...</p>
+        </div>
+      )}
     </div>
   </div>
 </SectionContainer>
@@ -67,38 +61,29 @@ const duplicatedItems = [...content.items, ...content.items, ...content.items, .
 <style>
   .tech-stack-section {
     position: relative;
+    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
   }
 
   .tech-stack-marquee-wrapper {
-    mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 5%,
-      black 95%,
-      transparent 100%
-    );
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 5%,
-      black 95%,
-      transparent 100%
-    );
+    position: relative;
+    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
   }
 
   .tech-stack-marquee-track {
     display: flex;
     width: max-content;
-    animation: tech-stack-scroll 90s linear infinite;
+    animation: tech-stack-scroll 60s linear infinite;
     will-change: transform;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   .tech-stack-item {
-    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
   }
 
   .tech-stack-item:hover {
@@ -106,21 +91,12 @@ const duplicatedItems = [...content.items, ...content.items, ...content.items, .
     background-color: var(--accent-green-opacity-05);
   }
 
-  .tech-stack-icon-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-  }
-
-
   .tech-stack-icon {
     color: var(--accent-green);
-    transition: color 0.3s ease, filter 0.3s ease;
+    transition: filter 0.3s ease;
   }
 
   .tech-stack-item:hover .tech-stack-icon {
-    color: var(--accent-green);
     filter: brightness(1.2);
   }
 
@@ -138,24 +114,13 @@ const duplicatedItems = [...content.items, ...content.items, ...content.items, .
       transform: translateX(0);
     }
     100% {
-      transform: translateX(calc(-100% / 4));
+      transform: translateX(-50%);
     }
-  }
-
-  .tech-stack-marquee-track.aos-animate {
-    animation: tech-stack-scroll 90s linear infinite;
-  }
-  
-  .tech-stack-marquee-track {
-    transition: opacity 0.3s ease-in;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .tech-stack-marquee-track {
       animation: none;
-    }
-    
-    .tech-stack-marquee-track {
       overflow-x: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
@@ -172,5 +137,7 @@ const duplicatedItems = [...content.items, ...content.items, ...content.items, .
 </style>
 
 <script>
-  import "../../../scripts/sections/home/techStackSection";
+  import { initTechStackSection } from "../../../scripts/sections/home/techStackSection";
+  import { setupSectionInit } from "../../../scripts/sections/utils/initUtils";
+  setupSectionInit(initTechStackSection);
 </script>

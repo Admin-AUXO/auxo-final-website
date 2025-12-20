@@ -3,7 +3,7 @@
 .service-accordion-header::-webkit-details-marker,
 .service-accordion-header::marker,
 .accordion-summary::-webkit-details-marker,
-.accordion-summary::marker {
+.service-accordion-summary::marker {
   display: none;
 }
 
@@ -11,7 +11,8 @@
 .service-accordion-content {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease-out;
+  transition: grid-template-rows var(--animation-duration-normal) var(--easing-standard),
+              opacity var(--animation-duration-fast) var(--easing-standard);
   opacity: 0;
   contain: layout;
   min-height: 0;
@@ -32,13 +33,15 @@
   max-height: none;
 }
 
-.accordion-chevron {
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+.accordion-chevron,
+.service-accordion-chevron {
+  transition: transform var(--animation-duration-normal) var(--easing-standard),
+              color var(--duration-normal) var(--easing-standard);
   color: var(--text-secondary);
 }
 
 .accordion-item[open] .accordion-chevron,
-.service-accordion-item[open] .accordion-chevron {
+.service-accordion-item[open] .service-accordion-chevron {
   transform: rotate(180deg);
   color: var(--accent-green);
 }
@@ -50,7 +53,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition-base);
   position: relative;
   overflow: hidden;
 }
@@ -61,12 +64,11 @@
   inset: 0;
   background: radial-gradient(circle at center, var(--accent-green-opacity-18), transparent);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity var(--animation-duration-normal) var(--easing-standard);
 }
 
 [class*="-accordion-item"][open] [class*="-accordion-icon"] {
   background: linear-gradient(to bottom right, var(--accent-green-opacity-03), var(--accent-green-opacity-02));
-  border-color: var(--accent-green-opacity-30);
   transform: scale(1.05);
 }
 
@@ -90,7 +92,7 @@
   background: var(--bg-surface);
   border: 1px solid var(--border-color-light);
   border-radius: 0.5rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition-base);
   position: relative;
   overflow: hidden;
 }
@@ -106,7 +108,7 @@
   background: var(--accent-green);
   transform: scaleY(0);
   transform-origin: bottom;
-  transition: transform 0.3s ease;
+  transition: transform var(--duration-normal) var(--easing-standard);
 }
 
 [class*="-use-case-item"]:hover,
@@ -134,7 +136,7 @@
   border: 1px solid var(--border-color-light);
   border-radius: 0.5rem;
   font-family: var(--font-body);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition-base);
   position: relative;
   overflow: hidden;
 }
@@ -145,7 +147,7 @@
   inset: 0;
   background: linear-gradient(135deg, var(--accent-green-opacity-1), transparent);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-normal) var(--easing-standard);
 }
 
 [class*="-accordion-tag"]:hover {
@@ -163,7 +165,7 @@
   background: var(--bg-card);
   border: 2px solid transparent;
   border-radius: 1rem;
-  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: var(--transition-base);
   overflow: hidden;
   position: relative;
 }
@@ -177,7 +179,7 @@
   height: 3px;
   background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity var(--duration-normal) var(--easing-standard);
 }
 
 .service-accordion-item[open] {
@@ -189,7 +191,7 @@
 }
 
 .service-accordion-summary {
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: var(--transition-base);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -201,15 +203,4 @@
 
 .service-accordion-summary:active {
   transform: translateX(4px) scale(0.98);
-}
-
-.service-accordion-chevron {
-  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.2s ease;
-  color: var(--text-secondary);
-  flex-shrink: 0;
-}
-
-.service-accordion-item[open] .service-accordion-chevron {
-  transform: rotate(180deg);
-  color: var(--accent-green);
 }

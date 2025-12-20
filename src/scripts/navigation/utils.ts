@@ -12,36 +12,18 @@ export function getNavElements() {
       logoLink: null,
     };
   }
-  
-  try {
-    return {
-      nav: document.getElementById('main-navigation'),
-      mobileMenu: document.getElementById('mobile-menu'),
-      mobileMenuButton: document.getElementById('mobile-menu-button'),
-      mobileMenuOverlay: document.getElementById('mobile-menu-overlay'),
-      mobileMenuCloseBtn: document.getElementById('mobile-menu-close'),
-      mobileMenuCloseBtnHeader: document.getElementById('mobile-menu-close-header'),
-      menuOpen: document.querySelector('.menu-open'),
-      menuClose: document.querySelector('.menu-close'),
-      logoLink: document.querySelector('[data-nav-home]') as HTMLAnchorElement | null,
-    };
-  } catch (error) {
-    // Return null values if there's any error accessing the DOM
-    if (import.meta.env.DEV) {
-      console.warn('Error getting nav elements:', error);
-    }
-    return {
-      nav: null,
-      mobileMenu: null,
-      mobileMenuButton: null,
-      mobileMenuOverlay: null,
-      mobileMenuCloseBtn: null,
-      mobileMenuCloseBtnHeader: null,
-      menuOpen: null,
-      menuClose: null,
-      logoLink: null,
-    };
-  }
+
+  return {
+    nav: document.getElementById('main-navigation'),
+    mobileMenu: document.getElementById('mobile-menu'),
+    mobileMenuButton: document.getElementById('mobile-menu-button'),
+    mobileMenuOverlay: document.getElementById('mobile-menu-overlay'),
+    mobileMenuCloseBtn: document.getElementById('mobile-menu-close'),
+    mobileMenuCloseBtnHeader: document.getElementById('mobile-menu-close-header'),
+    menuOpen: document.querySelector('.menu-open'),
+    menuClose: document.querySelector('.menu-close'),
+    logoLink: document.querySelector('[data-nav-home]') as HTMLAnchorElement | null,
+  };
 }
 
 export function resetDropdownStyles(content: HTMLElement): void {
@@ -50,7 +32,6 @@ export function resetDropdownStyles(content: HTMLElement): void {
   content.style.overflow = '';
   content.style.display = '';
 
-  // Reset child item animations
   const childItems = content.querySelectorAll('.mobile-nav-link');
   childItems.forEach((item) => {
     (item as HTMLElement).style.opacity = '';

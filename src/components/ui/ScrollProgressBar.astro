@@ -39,16 +39,19 @@
 </style>
 
 <script>
-  function initScrollProgressBar(): void {
+  async function initScrollProgressBar(): Promise<void> {
     const progressBar = document.getElementById('scroll-progress-bar');
     const progressFill = progressBar?.querySelector('.scroll-progress-bar-fill') as HTMLElement;
     
     if (!progressBar || !progressFill) return;
 
+    const { getLenis } = await import('../../scripts/smoothScroll');
+    const lenis = getLenis();
+
     function updateProgress(): void {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollTop = lenis?.scroll || window.scrollY || document.documentElement.scrollTop;
       
       const totalScrollableHeight = documentHeight - windowHeight;
       const scrollProgress = totalScrollableHeight > 0 
@@ -59,18 +62,22 @@
       progressFill.style.setProperty('--scroll-progress-width', progressValue);
     }
 
-    let ticking = false;
-    function requestTick(): void {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          updateProgress();
-          ticking = false;
-        });
-        ticking = true;
+    if (lenis) {
+      lenis.on('scroll', updateProgress);
+    } else {
+      let ticking = false;
+      function requestTick(): void {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            updateProgress();
+            ticking = false;
+          });
+          ticking = true;
+        }
       }
+      window.addEventListener('scroll', requestTick, { passive: true });
     }
 
-    window.addEventListener('scroll', requestTick, { passive: true });
     window.addEventListener('resize', updateProgress, { passive: true });
     updateProgress();
   }

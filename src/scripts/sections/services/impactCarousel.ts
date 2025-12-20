@@ -1,9 +1,5 @@
-import { initCarousel } from "../utils/carouselUtils";
+import { initCarouselById } from "../utils/carouselConfigs";
+import { setupSectionInit } from "../utils/initUtils";
 
-initCarousel({
-  containerId: "impact-carousel-container",
-  dotSelector: ".impact-carousel-dot",
-  breakpoint: 0,
-  activateOnDesktop: true,
-});
+setupSectionInit(() => initCarouselById("impact-carousel-container"));
 

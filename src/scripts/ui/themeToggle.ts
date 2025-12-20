@@ -136,23 +136,13 @@ function handleAstroPageLoad(): void {
 export function initThemeToggle(): void {
   if (!document.getElementById("theme-toggle")) return;
 
-  const init = () => applyTheme(getTheme());
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
-
+  applyTheme(getTheme());
   setupThemeToggles();
   setupThemePreferenceListener();
   handleAstroPageLoad();
 
   requestAnimationFrame(() => {
-    const toggles = document.querySelectorAll("#theme-toggle");
-    if (toggles.length > 0) {
-      updateIcon(getTheme());
-    }
+    updateIcon(getTheme());
   });
 }
 

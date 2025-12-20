@@ -1,15 +1,15 @@
 import { CountUp } from 'countup.js';
+import { observeOnce } from './observers';
 
 export function initCountUpAnimations() {
   const counters = document.querySelectorAll('[data-countup]');
   if (counters.length === 0) return;
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-
-        const target = entry.target as HTMLElement;
+  counters.forEach((counter) => {
+    observeOnce(
+      counter,
+      () => {
+        const target = counter as HTMLElement;
         const endValue = parseInt(target.getAttribute('data-countup') || '0', 10);
         const duration = parseFloat(target.getAttribute('data-countup-duration') || '2');
         const decimals = parseInt(target.getAttribute('data-countup-decimals') || '0', 10);
@@ -31,14 +31,10 @@ export function initCountUpAnimations() {
         } else {
           console.error('CountUp error:', countUp.error);
         }
-
-        observer.unobserve(target);
-      });
-    },
-    { threshold: 0.3, rootMargin: '0px' }
-  );
-
-  counters.forEach((counter) => observer.observe(counter));
+      },
+      { threshold: 0.3, rootMargin: '0px' }
+    );
+  });
 }
 
 export function createCountUp(

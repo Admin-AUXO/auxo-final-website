@@ -20,6 +20,9 @@
   padding-top: 1.25rem;
   margin-top: 0.5rem;
   margin-bottom: 1.5rem;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
 }
 
 .services-carousel-wrapper::before {
@@ -30,7 +33,7 @@
   border-radius: 1rem;
   pointer-events: none;
   z-index: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-normal) var(--easing-standard);
 }
 
 .services-carousel-wrapper:hover::before {
@@ -78,7 +81,8 @@
   border-radius: 2px;
   pointer-events: none;
   z-index: 1;
-  transition: width 0.3s ease, height 0.3s ease;
+  transition: width var(--duration-normal) var(--easing-standard),
+              height var(--duration-normal) var(--easing-standard);
 }
 
 .capabilities-carousel-wrapper:hover::before {
@@ -94,7 +98,7 @@
   background: linear-gradient(180deg, var(--accent-green-opacity-02) 0%, transparent 20%, transparent 80%, var(--accent-green-opacity-02) 100%);
   pointer-events: none;
   z-index: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-normal) var(--easing-standard);
 }
 
 .capabilities-carousel-wrapper:hover::after {
@@ -122,13 +126,23 @@
 .carousel-container {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
   -webkit-overflow-scrolling: touch;
   contain: layout style paint;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.carousel-container::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .embla {
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .embla__container {
@@ -139,6 +153,7 @@
   padding-right: var(--grid-padding-sm);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  overflow: visible !important;
 }
 
 @media (max-width: 639px) {
@@ -207,6 +222,7 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   will-change: transform;
+  overflow: visible !important;
 }
 
 @media (min-width: 640px) {
@@ -217,7 +233,7 @@
 
 .carousel-navigating .carousel-track,
 .carousel-navigating .embla__container {
-  transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform var(--duration-normal) var(--easing-standard);
 }
 
 .carousel-track:active,
@@ -234,7 +250,7 @@
   flex-direction: column;
   align-self: stretch;
   opacity: 1;
-  transition: opacity 150ms ease-out;
+  transition: opacity var(--duration-fast) var(--easing-standard);
 }
 
 .carousel-container.is-dragging .carousel-slide {
@@ -287,7 +303,7 @@
   align-items: center;
   justify-content: center;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform var(--duration-fast) var(--easing-standard);
   touch-action: manipulation;
 }
 
@@ -297,7 +313,7 @@
 
 .carousel-dot:active {
   transform: scale(0.95);
-  transition: transform 0.08s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform var(--duration-fast) var(--easing-standard);
 }
 
 .carousel-dot::before {
@@ -310,7 +326,7 @@
   height: var(--carousel-dot-size);
   border-radius: 50%;
   background-color: var(--carousel-dot-inactive);
-  transition: all 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: var(--transition-base);
   flex-shrink: 0;
   opacity: 0.5;
 }
@@ -326,7 +342,6 @@
   background-color: var(--accent-green);
   width: var(--carousel-dot-size-active);
   height: var(--carousel-dot-size-active);
-  border-radius: 50%;
   opacity: 1;
 }
 
@@ -343,6 +358,16 @@
   padding-top: 2rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+
+.impact-carousel-section {
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  width: 100%;
 }
 
 .impact-carousel-wrapper::before {
@@ -353,7 +378,7 @@
   border-radius: 1rem;
   pointer-events: none;
   z-index: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-normal) var(--easing-standard);
 }
 
 .impact-carousel-wrapper:hover::before {
@@ -405,16 +430,11 @@
   }
 }
 
-@media (min-width: 641px) and (max-width: 1023px) {
-  .carousel-slide {
-    transition: opacity 150ms ease-out;
-  }
-}
 
 @media (min-width: 1024px) {
   .carousel-slide {
     opacity: 0.92;
-    transition: opacity 180ms ease-out;
+    transition: opacity var(--duration-normal) var(--easing-standard);
   }
 
   .carousel-container:hover .carousel-slide {

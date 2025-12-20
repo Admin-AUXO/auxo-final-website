@@ -11,7 +11,7 @@ export interface NavItem {
   name: string;
   href: string;
   dropdown?: DropdownItem[];
-  isModal?: boolean; // Full-width modal dropdowns
+  isModal?: boolean;
 }
 
 export const navItems: NavItem[] = [

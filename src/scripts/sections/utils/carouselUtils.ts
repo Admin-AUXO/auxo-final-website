@@ -1,5 +1,6 @@
 import { EmblaCarouselWrapper, type EmblaCarouselOptions } from "../../animations";
 import { setupSectionInit } from "./initUtils";
+import { observeOnce } from "../../utils/observers";
 
 const DEFAULT_INIT_DELAY = 0;
 const DEFAULT_RESIZE_DEBOUNCE_DELAY = 250;
@@ -18,6 +19,7 @@ interface CarouselState {
   instance: EmblaCarouselWrapper | null;
   resizeHandler: (() => void) | null;
   resizeTimeout: NodeJS.Timeout | null;
+  observer: ResizeObserver | null;
 }
 
 function createCarouselManager(config: CarouselConfig) {
@@ -35,11 +37,8 @@ function createCarouselManager(config: CarouselConfig) {
     instance: null,
     resizeHandler: null,
     resizeTimeout: null,
+    observer: null,
   };
-
-  const prefersReducedMotion = typeof window !== "undefined" 
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
-    : false;
 
   function cleanup(): void {
     if (state.instance) {
@@ -53,6 +52,10 @@ function createCarouselManager(config: CarouselConfig) {
     if (state.resizeTimeout) {
       clearTimeout(state.resizeTimeout);
       state.resizeTimeout = null;
+    }
+    if (state.observer) {
+      state.observer.disconnect();
+      state.observer = null;
     }
   }
 
@@ -69,7 +72,23 @@ function createCarouselManager(config: CarouselConfig) {
     const container = document.getElementById(containerId) as HTMLElement;
     const dots = document.querySelectorAll(dotSelector);
 
-    if (!container || dots.length === 0) return;
+    if (!container) {
+      console.warn(`Carousel container not found: ${containerId}`);
+      return;
+    }
+
+    if (dots.length === 0) {
+      console.warn(`Carousel dots not found: ${dotSelector}`);
+      return;
+    }
+
+    const isVisible = container.offsetParent !== null;
+    if (!isVisible) {
+      observeOnce(container, () => {
+        init();
+      }, { threshold: 0 });
+      return;
+    }
 
     cleanup();
 
@@ -92,13 +111,30 @@ function createCarouselManager(config: CarouselConfig) {
     };
 
     window.addEventListener("resize", state.resizeHandler);
+
+    if (typeof ResizeObserver !== 'undefined') {
+      state.observer = new ResizeObserver(() => {
+        if (state.instance?.embla && container.offsetParent !== null) {
+          state.instance.embla.reInit();
+        }
+      });
+      state.observer.observe(container);
+    }
   }
 
   function initWithDelay(): void {
-    if (initDelay <= 0) {
-      requestAnimationFrame(init);
+    const attemptInit = () => {
+      if (initDelay <= 0) {
+        requestAnimationFrame(() => requestAnimationFrame(init));
+      } else {
+        setTimeout(init, initDelay);
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', attemptInit, { once: true });
     } else {
-      setTimeout(init, initDelay);
+      attemptInit();
     }
   }
 
@@ -122,8 +158,3 @@ export function setupCarouselSection(config: CarouselConfig) {
   
   return carouselManager;
 }
-
-export function initCarousel(config: CarouselConfig) {
-  return setupCarouselSection(config);
-}
-

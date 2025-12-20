@@ -8,7 +8,10 @@ import TeamSection from "../components/sections/about/TeamSection.astro";
 import PartnershipSection from "../components/sections/about/PartnershipSection.astro";
 import GlobalSection from "../components/sections/about/GlobalSection.astro";
 import AboutCta from "../components/sections/about/AboutCta.astro";
+import { getAboutContent } from "../lib/sanity/data";
 import "../styles/sections/about-sections.css";
+
+const aboutContent = await getAboutContent();
 ---
 
 <BaseLayout
@@ -16,19 +19,19 @@ import "../styles/sections/about-sections.css";
   description="Learn about AUXO Data Labs - a modern analytics consultancy that bridges business strategy and data execution. Discover our mission, vision, and approach."
   showParticles={false}
 >
-  <HeroSection />
-  <MissionVisionSection />
-  <PurposeSection />
-  <ApproachSection />
-  <TeamSection />
-  <PartnershipSection />
-  <GlobalSection />
-  <AboutCta />
+  <HeroSection content={aboutContent.hero} />
+  <MissionVisionSection content={aboutContent.mission} />
+  <PurposeSection content={aboutContent.purpose} />
+  <ApproachSection content={aboutContent.approach} />
+  <TeamSection content={aboutContent.team} />
+  <PartnershipSection content={aboutContent.partnership} />
+  <GlobalSection content={aboutContent.global} />
+  <AboutCta content={aboutContent.cta} />
 
   <script>
-    import { setupAboutPageAnimations } from "../scripts/sections/about/aboutPage";
+    import { setupPageAnimations } from "../scripts/sections/utils/pageUtils";
     import { setupSectionInit } from "../scripts/sections/utils/initUtils";
-    setupSectionInit(setupAboutPageAnimations);
+    setupSectionInit(setupPageAnimations);
   </script>
 </BaseLayout>
 

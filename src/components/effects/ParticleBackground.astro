@@ -57,19 +57,12 @@
   document.addEventListener("astro:before-swap", cleanup);
   document.addEventListener("astro:page-load", () => setTimeout(waitForInit, 50));
 
-  const themeObserver = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.type === "attributes" && mutation.attributeName === "class") {
-        const html = document.documentElement;
-        if (html.classList.contains("dark") || html.classList.contains("light")) {
-          cleanup();
-          setTimeout(waitForInit, 100);
-        }
-      }
+  import("../../scripts/utils/observers").then(({ observeThemeChange }) => {
+    observeThemeChange(() => {
+      cleanup();
+      setTimeout(waitForInit, 100);
     });
   });
-
-  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 </script>
 
 <style>

@@ -1,8 +1,4 @@
 ---
-// Option to use HeroUI navbar - uncomment to use
-// import NavigationHeroUI from "./NavigationHeroUI.astro";
-// <NavigationHeroUI client:load />
-
 import ThemeToggle from "../ui/ThemeToggle.astro";
 import Logo from "./Logo.astro";
 import NavLink from "../navigation/NavLink.astro";
@@ -14,7 +10,7 @@ const base = getBaseUrl();
 const contactUrl = createUrl("contact");
 ---
 
-<nav id="main-navigation" class="fixed top-0 left-0 right-0 bg-theme-primary/98 backdrop-blur-md border-b border-accent-green/30 transition-all duration-normal nav-scrolled">
+<nav id="main-navigation" class="fixed top-0 left-0 right-0 backdrop-blur-md border-b border-accent-green/30 transition-all duration-normal">
   <div class="grid-container">
     <div class="col-span-full flex items-center justify-between h-14 sm:h-16 lg:h-18 relative min-w-0 w-full">
       <div class="flex-shrink-0 min-w-0 flex items-center overflow-hidden pr-2 lg:pr-0">
@@ -60,12 +56,9 @@ const contactUrl = createUrl("contact");
     </div>
   </div>
 
-  <!-- Mobile Menu Overlay -->
   <div id="mobile-menu-overlay" class="mobile-menu-overlay lg:hidden fixed inset-0 bg-black/70 opacity-0 invisible transition-all duration-normal pointer-events-none" aria-hidden="true"></div>
 
-  <!-- Mobile Menu Modal -->
   <div id="mobile-menu" class="mobile-menu lg:hidden fixed inset-0 opacity-0 invisible transition-all duration-normal pointer-events-none" aria-hidden="true">
-    <!-- Mobile Menu Header -->
     <div class="mobile-menu-header flex-shrink-0 bg-theme-primary border-b border-accent-green/30">
       <div class="grid-container">
         <div class="col-span-full flex items-center justify-between h-14 sm:h-16 relative min-w-0 w-full">
@@ -109,10 +102,8 @@ const contactUrl = createUrl("contact");
       </div>
     </div>
 
-    <!-- Mobile Menu Content -->
     <div class="mobile-menu-content flex-1 overflow-y-auto bg-theme-card">
       <div class="px-5 sm:px-7 py-4">
-        <!-- Main Navigation Items -->
         <div class="space-y-3">
           {navItems.map((item, index) =>
             item.dropdown ? (
@@ -123,7 +114,6 @@ const contactUrl = createUrl("contact");
           )}
         </div>
 
-        <!-- CTA Section -->
         <div class="space-y-5 mt-6">
           <div class="text-center">
             <p class="text-base text-theme-secondary mb-6 font-medium">Ready to transform your business?</p>
@@ -140,7 +130,6 @@ const contactUrl = createUrl("contact");
             </a>
           </div>
 
-          <!-- Additional Info -->
           <div class="text-center pt-5">
             <p class="text-sm text-theme-secondary">
               Need help? <a href="mailto:hello@auxo.com" class="text-accent-green hover:underline font-medium transition-colors duration-fast">hello@auxo.com</a>
@@ -151,7 +140,6 @@ const contactUrl = createUrl("contact");
     </div>
   </div>
 
-  <!-- Mobile Menu Close Button (positioned where menu button is) - hidden, using header button instead -->
   <button
     type="button"
     id="mobile-menu-close"
@@ -170,14 +158,11 @@ const contactUrl = createUrl("contact");
 <script>
   import { initializeNavigationComponents } from "../../scripts/navigation";
   
-  // Initialize navigation when this component loads
   if (typeof window !== 'undefined') {
-    // Use requestAnimationFrame to ensure DOM is fully ready
     requestAnimationFrame(() => {
       try {
         initializeNavigationComponents();
       } catch (error) {
-        // Silently handle initialization errors to prevent console spam
         if (import.meta.env.DEV) {
           console.warn('Navigation initialization warning:', error);
         }

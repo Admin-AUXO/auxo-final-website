@@ -5,9 +5,22 @@ import HighlightText from "../../ui/HighlightText.astro";
 import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
 import SectionHeader from "../../ui/SectionHeader.astro";
 import Carousel from "../../ui/Carousel.astro";
-import { aboutContent } from "../../../data/content/about";
 
-const content = aboutContent.approach;
+interface Props {
+  content: {
+    title: string;
+    description: string;
+    descriptionHighlight?: string | string[];
+    principles: {
+      letter: string;
+      title: string;
+      description: string;
+      descriptionHighlight?: string | string[];
+    }[];
+  };
+}
+
+const { content } = Astro.props;
 const principleIcons = {
   C: "mdi:crosshairs-gps",
   O: "mdi:file-tree",
@@ -38,7 +51,9 @@ const principleIcons = {
           <div
             class="code-principle-card"
             data-aos="fade-up"
-            data-aos-delay={index * 50}
+            data-aos-delay={index * 100}
+            data-aos-duration="500"
+            data-aos-easing="ease-out-cubic"
           >
             <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
               <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

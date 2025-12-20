@@ -1,8 +1,5 @@
-import { initCarousel } from "../utils/carouselUtils";
+import { initCarouselById } from "../utils/carouselConfigs";
+import { setupSectionInit } from "../utils/initUtils";
 
-initCarousel({
-  containerId: "mission-vision-carousel-container",
-  dotSelector: ".mission-vision-carousel-dot",
-  breakpoint: 1024,
-});
+setupSectionInit(() => initCarouselById("mission-vision-carousel-container"));
 

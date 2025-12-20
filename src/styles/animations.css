@@ -1,80 +1,15 @@
-/* Typing animation (used for value proposition) */
-@keyframes fadeInText {
-  from {
-    opacity: 0;
-    transform: translateY(0.625rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Expand animations (for decorative elements) */
-@keyframes expandWidth {
-  from {
-    transform: scaleX(0);
-    transform-origin: left;
-  }
-  to {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-}
-
-@keyframes drawUnderline {
-  from {
-    transform: scaleX(0);
-    transform-origin: left;
-    opacity: 0;
-  }
-  to {
-    transform: scaleX(1);
-    transform-origin: left;
-    opacity: 1;
-  }
-}
-
-/* Background and gradient animations */
-@keyframes gradientFill {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes flow {
-  0%, 100% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  50% {
-    transform: translateX(100%);
-    opacity: 1;
-  }
-}
-
-@keyframes drawStroke {
-  to { stroke-dashoffset: 0; }
-}
-
-/* Continuous animations */
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-0.5rem); }
-}
-
-@keyframes pulse-slow {
+@keyframes pulse {
   0%, 100% {
     opacity: 0.3;
     transform: scale(1);
   }
   50% {
     opacity: 0.5;
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 }
 
-@keyframes driftAndPulse {
+@keyframes drift {
   0%, 100% {
     transform: translate(0, 0) scale(1);
     opacity: 0.2;
@@ -93,28 +28,14 @@
   }
 }
 
-/* Animation utility classes */
-.animate-pulse-slow {
-  animation: pulse-slow var(--animation-duration-gradient) ease-in-out infinite;
+.animate-pulse {
+  animation: pulse var(--animation-duration-gradient) var(--easing-standard) infinite;
 }
 
-.animation-delay-1s {
-  animation-delay: 1s;
+.animate-drift {
+  animation: drift var(--animation-duration-gradient) var(--easing-standard) infinite;
 }
 
-.animation-delay-500ms {
-  animation-delay: var(--delay-normal);
-}
-
-.animation-delay-200ms {
-  animation-delay: var(--delay-fast);
-}
-
-.animation-delay-dynamic {
-  animation-delay: var(--animation-delay, 0ms);
-}
-
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

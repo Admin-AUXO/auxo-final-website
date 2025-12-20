@@ -91,9 +91,47 @@ For GitHub Pages deployment, set these as repository secrets:
 - `public/` - Static assets served directly
 - `.github/workflows/` - GitHub Actions workflows
 
+## Performance Optimizations
+
+### Sanity CMS Caching
+- **In-memory caching**: Sanity data is cached for 30 minutes to reduce API calls
+- **Request deduplication**: Concurrent requests for the same data are deduplicated
+- **CDN enabled**: Production builds use Sanity's CDN for faster content delivery
+- **Build-time optimization**: All content is fetched at build time for static generation
+
+### Code Optimizations
+- **Code splitting**: JavaScript bundles are split by feature for optimal loading
+- **Tree shaking**: Unused code is eliminated during build
+- **CSS optimization**: Stylesheets are minified and code-split
+- **Asset optimization**: Images and assets are optimized during build
+- **Critical CSS**: Above-the-fold CSS is inlined for faster First Contentful Paint
+- **Font optimization**: `font-display: swap` ensures text is visible immediately
+- **Lazy loading**: Below-the-fold components load on-demand using Intersection Observer
+- **Service Worker**: Offline support and intelligent caching for repeat visits
+
+## Sanity CMS Integration
+
+The site uses Sanity CMS for content management. Content can be managed through:
+- Homepage content
+- Services pages
+- About page
+- Site configuration
+- Navigation
+- Footer sections
+
+### Environment Variables for Sanity
+
+Add these to your `.env` file:
+```bash
+SANITY_PROJECT_ID=your-project-id
+SANITY_DATASET=production
+SANITY_API_TOKEN=your-api-token
+```
+
 ## Notes
 
 - The `.nojekyll` file in `public/` prevents Jekyll processing (required for Astro)
 - Security headers are implemented via meta tags in the HTML head section
 - GitHub Pages doesn't support custom HTTP headers via `_headers` file
+- All content is managed through Sanity CMS - ensure content is published before building
 

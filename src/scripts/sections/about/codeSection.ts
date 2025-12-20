@@ -1,8 +1,5 @@
-import { initCarousel } from "../utils/carouselUtils";
+import { initCarouselById } from "../utils/carouselConfigs";
+import { setupSectionInit } from "../utils/initUtils";
 
-initCarousel({
-  containerId: "code-carousel-container",
-  dotSelector: ".code-carousel-dot",
-  breakpoint: 768,
-});
+setupSectionInit(() => initCarouselById("code-carousel-container"));
 

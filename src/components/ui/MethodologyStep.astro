@@ -31,9 +31,10 @@ const {
   <div
     class="method-step group relative overflow-visible"
     data-step={String(index)}
-    data-aos="fade-up"
-    data-aos-duration="400"
-    data-aos-delay={index * 50}
+    data-aos="zoom-in"
+    data-aos-duration="600"
+    data-aos-delay={200 + (index * 100)}
+    data-aos-easing="ease-out-cubic"
   >
     <Card
       variant="bordered"
@@ -83,7 +84,7 @@ const {
     )}
   </div>
 ) : variant === "accordion" ? (
-  <details class="methodology-accordion-item" data-step={String(index)} open={index === 0} data-aos="fade-up" data-aos-duration="400" data-aos-delay={index * 50}>
+  <details class="methodology-accordion-item" data-step={String(index)} open={index === 0} data-aos="fade-up" data-aos-duration="600" data-aos-delay={200 + (index * 100)} data-aos-easing="ease-out-cubic">
     <summary class="methodology-accordion-summary">
       <div class="methodology-accordion-header">
         <div class="methodology-accordion-number">

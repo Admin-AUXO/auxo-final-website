@@ -1,8 +1,5 @@
-import { initCarousel } from "../utils/carouselUtils";
+import { initCarouselById } from "../utils/carouselConfigs";
+import { setupSectionInit } from "../utils/initUtils";
 
-initCarousel({
-  containerId: "global-metrics-carousel-container",
-  dotSelector: ".global-metrics-carousel-dot",
-  breakpoint: 768,
-});
+setupSectionInit(() => initCarouselById("global-metrics-carousel-container"));
 

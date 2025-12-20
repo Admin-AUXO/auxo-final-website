@@ -29,7 +29,7 @@ export function initNotifications() {
   return notyf;
 }
 
-function getNotyfInstance() {
+function getNotyfInstance(): Notyf {
   return notyf || initNotifications();
 }
 

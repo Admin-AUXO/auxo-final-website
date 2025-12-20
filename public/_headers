@@ -1,29 +1,7 @@
-/*
-  # Security Headers - Protection against common attacks
-  # NOTE: GitHub Pages doesn't support custom HTTP headers via _headers file.
-  # These headers are implemented via meta tags in BaseLayout.astro.
-  # Keep this file for reference if migrating to Cloudflare Pages, Netlify, or Vercel.
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  X-XSS-Protection: 1; mode=block
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=()
-  
-  # Content Security Policy - Prevents XSS, clickjacking, and data injection attacks
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://fonts.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;
-  
-  # Strict Transport Security - Forces HTTPS connections
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  
-  # Additional Security Headers
-  Cross-Origin-Embedder-Policy: require-corp
-  Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Resource-Policy: same-origin
-  Origin-Agent-Cluster: ?1
-  
-  # Remove server information
-  X-Powered-By: 
-  Server: 
+# Security Headers
+# GitHub Pages doesn't support custom HTTP headers via _headers file.
+# These headers are for reference if migrating to Cloudflare Pages, Netlify, or Vercel.
+# Security headers are implemented via meta tags in BaseLayout.astro. 
 
 # HTML files - No cache for dynamic content
 /*.html

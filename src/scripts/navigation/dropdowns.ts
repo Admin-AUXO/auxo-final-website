@@ -12,12 +12,15 @@ const DROPDOWN_POSITION_CONFIG = {
 };
 
 const SELECTORS = {
-  MODAL_MENU: '.dropdown-modal-menu',
+  MODAL_MENU: '[data-dropdown-menu]',
   STANDARD_MENU: '.dropdown-menu',
   TOGGLE: '.dropdown-toggle',
-  ARROW: '.dropdown-arrow',
+  ARROW: '.dropdown-arrow, .dropdown-chevron',
   OVERLAY: '.dropdown-modal-overlay',
 } as const;
+
+const STANDARD_DROPDOWN_ANIMATION_DURATION = 400;
+const MODAL_DROPDOWN_ANIMATION_DURATION = 400;
 
 function applyPosition({ x, y, placement }: { x: number; y: number; placement: string }, menu: HTMLElement): void {
   Object.assign(menu.style, { left: `${x}px`, top: `${y}px` });
@@ -58,14 +61,25 @@ function closeDropdown(dropdown: HTMLElement): void {
   cleanup?.();
   autoUpdateCleanups.delete(menu);
 
+  state.isTransitioning = true;
   menu.classList.remove('open');
   button.setAttribute('aria-expanded', 'false');
   arrow.classList.remove('open');
-  menu.style.cssText = '';
   overlay?.classList.remove('open');
   overlay?.setAttribute('aria-hidden', 'true');
   
-  if (isModal) unlockScroll();
+  const duration = isModal ? MODAL_DROPDOWN_ANIMATION_DURATION : STANDARD_DROPDOWN_ANIMATION_DURATION;
+  
+  if (isModal) {
+    document.body.classList.remove('dropdown-open');
+  }
+  
+  setTimeout(() => {
+    menu.style.cssText = '';
+    if (isModal) unlockScroll();
+    state.isTransitioning = false;
+  }, duration);
+  
   if (state.openDropdown === dropdown) state.openDropdown = null;
 }
 
@@ -79,18 +93,28 @@ function openDropdownMenu(dropdown: HTMLElement): void {
 
   if (!menu || !button || !arrow) return;
 
-  menu.classList.add('open');
-  button.setAttribute('aria-expanded', 'true');
-  arrow.classList.add('open');
+  state.isTransitioning = true;
   
   if (isModal && overlay) {
     overlay.classList.add('open');
     overlay.setAttribute('aria-hidden', 'false');
     lockScroll();
+    document.body.classList.add('dropdown-open');
   } else {
     updateDropdownPosition(button, menu);
   }
-  
+
+  requestAnimationFrame(() => {
+    menu.classList.add('open');
+    button.setAttribute('aria-expanded', 'true');
+    arrow.classList.add('open');
+    
+    const duration = isModal ? MODAL_DROPDOWN_ANIMATION_DURATION : STANDARD_DROPDOWN_ANIMATION_DURATION;
+    setTimeout(() => {
+      state.isTransitioning = false;
+    }, duration);
+  });
+
   state.openDropdown = dropdown;
   state.dropdownHoverState = true;
 }
@@ -105,21 +129,27 @@ function scheduleDropdownClose(dropdown: HTMLElement): void {
 }
 
 function setupToggleClickHandler(toggle: HTMLElement): void {
-  const newToggle = toggle.cloneNode(true) as HTMLElement;
-  toggle.parentNode?.replaceChild(newToggle, toggle);
-
-  addTrackedListener(newToggle, 'click', (e) => {
+  addTrackedListener(toggle, 'click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const dropdown = newToggle.closest('.dropdown-container') as HTMLElement;
+    e.stopImmediatePropagation();
+
+    const dropdown = toggle.closest('.dropdown-container') as HTMLElement;
     if (!dropdown) return;
 
     const isModal = dropdown.hasAttribute('data-modal-dropdown');
-    const menu = dropdown.querySelector(isModal ? SELECTORS.MODAL_MENU : SELECTORS.STANDARD_MENU) as HTMLElement;
+    const menuSelector = isModal ? SELECTORS.MODAL_MENU : SELECTORS.STANDARD_MENU;
+    const menu = dropdown.querySelector(menuSelector) as HTMLElement;
     if (!menu) return;
 
-    menu.classList.contains('open') ? closeDropdown(dropdown) : openDropdownMenu(dropdown);
-  });
+    const isCurrentlyOpen = menu.classList.contains('open');
+    
+    if (isCurrentlyOpen) {
+      closeDropdown(dropdown);
+    } else {
+      openDropdownMenu(dropdown);
+    }
+  }, { capture: true });
 }
 
 function setupHoverHandlers(container: HTMLElement, menu: HTMLElement): void {
@@ -153,28 +183,17 @@ function setupHoverHandlers(container: HTMLElement, menu: HTMLElement): void {
 
 export function initializeDropdowns(): void {
   if (typeof document === 'undefined') return;
-  
-  try {
-    document.querySelectorAll('.dropdown-toggle').forEach(toggle => 
-      setupToggleClickHandler(toggle as HTMLElement)
-    );
 
-    document.querySelectorAll('.dropdown-modal-overlay').forEach(overlay => {
-      addTrackedListener(overlay, 'click', () => {
-        const dropdown = overlay.closest('.dropdown-container') as HTMLElement;
-        if (dropdown) closeDropdown(dropdown);
-      });
+  try {
+    document.querySelectorAll(SELECTORS.TOGGLE).forEach(toggle => {
+      setupToggleClickHandler(toggle as HTMLElement);
     });
 
-    document.querySelectorAll('[data-dropdown-close]').forEach(closeBtn => {
-      addTrackedListener(closeBtn, 'click', (e) => {
-        e.preventDefault();
+    document.querySelectorAll(SELECTORS.OVERLAY).forEach(overlay => {
+      addTrackedListener(overlay, 'click', (e) => {
         e.stopPropagation();
-        const index = (closeBtn as HTMLElement).getAttribute('data-dropdown-close');
-        if (index) {
-          const dropdown = document.querySelector(`[data-nav-item="${index}"]`) as HTMLElement;
-          if (dropdown) closeDropdown(dropdown);
-        }
+        const dropdown = overlay.closest('.dropdown-container') as HTMLElement;
+        if (dropdown) closeDropdown(dropdown);
       });
     });
 
@@ -200,10 +219,17 @@ export function closeAllDropdowns(): void {
 export function setupDropdownCloseHandlers(): void {
   addTrackedListener(document, 'click', (e) => {
     const target = e.target as HTMLElement;
-    if (state.openDropdown && !state.openDropdown.contains(target)) {
+    if (!state.openDropdown) return;
+
+    const isToggle = target.closest(SELECTORS.TOGGLE);
+    const isOverlay = target.closest(SELECTORS.OVERLAY);
+    const isDropdownContent = target.closest('.dropdown-modal-content, .dropdown-menu');
+
+    if (isToggle || isOverlay || isDropdownContent) return;
+    if (!state.openDropdown.contains(target)) {
       closeDropdown(state.openDropdown);
     }
-  });
+  }, { capture: false });
 
   addTrackedListener(document, 'keydown', (e) => {
     if ((e as KeyboardEvent).key === 'Escape' && state.openDropdown) {
@@ -211,4 +237,3 @@ export function setupDropdownCloseHandlers(): void {
     }
   });
 }
-

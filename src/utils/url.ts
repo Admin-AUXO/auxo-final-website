@@ -15,13 +15,14 @@ export function createUrl(path: string): string {
 }
 
 export function createAssetUrl(path: string): string {
-  const base = getBaseUrl();
+  const base = import.meta.env.BASE_URL || '/';
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   
   if (base === '/' || base === '') {
     return `/${cleanPath}`;
   }
   
-  return `${base}${cleanPath}`;
+  const baseWithoutTrailing = base.endsWith('/') ? base.slice(0, -1) : base;
+  return `${baseWithoutTrailing}/${cleanPath}`;
 }
 

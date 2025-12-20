@@ -4,12 +4,11 @@ import Navigation from "../components/common/Navigation.astro";
 import Footer from "../components/common/Footer.astro";
 import ParticleBackground from "../components/effects/ParticleBackground.astro";
 import ScrollProgressBar from "../components/ui/ScrollProgressBar.astro";
-// HeroUIProvider is only needed if using HeroUI navbar - currently using custom navigation
-// import HeroUIProvider from "../components/providers/HeroUIProvider";
 import { createAssetUrl } from "../utils/url";
 import "../styles/tokens.css";
 import "../styles/base.css";
 import "../styles/typography.css";
+import "../styles/backgrounds.css";
 import "../styles/utilities.css";
 import "../styles/animations.css";
 import "../styles/components/base-components.css";
@@ -67,9 +66,88 @@ const ogImage = createAssetUrl("/og-image.svg");
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap&subset=latin" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap&subset=latin" rel="stylesheet" /></noscript>
+    <style is:inline>
+      @font-face{font-family:'Plus Jakarta Sans';font-display:swap}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden!important;overflow-y:hidden!important;max-width:100vw;max-height:100vh;scrollbar-width:none!important;-ms-overflow-style:none!important}html::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}html::-webkit-scrollbar-track{display:none!important;background:transparent!important}html::-webkit-scrollbar-thumb{display:none!important;background:transparent!important}html.loaded{overflow-y:auto;max-height:none;scrollbar-width:none!important;-ms-overflow-style:none!important}body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;color:#FFF;background-color:#000;line-height:1.6;overflow-x:hidden!important;max-width:100vw;overflow-y:auto;scrollbar-width:none!important;-ms-overflow-style:none!important}body::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}body::-webkit-scrollbar-track{display:none!important;background:transparent!important}body::-webkit-scrollbar-thumb{display:none!important;background:transparent!important}body.loading{overflow:hidden;height:100vh}html,body{-webkit-overflow-scrolling:touch}#main-navigation{position:fixed;top:0;left:0;right:0;z-index:1000;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}.min-h-screen{min-height:100vh}.flex{display:flex}.flex-col{flex-direction:column}.relative{position:relative}.bg-primary{background-color:#000}.text-primary{color:#FFF}[data-lazy-load]{opacity:0;transition:opacity .3s ease-in}[data-lazy-load].lazy-loaded{opacity:1}@supports(view-transition-name:none){::view-transition-old(root),::view-transition-new(root){animation-duration:0.5s;animation-timing-function:cubic-bezier(0.4,0,0.2,1)}::view-transition-old(main-content),::view-transition-new(main-content){animation-duration:0.5s;animation-timing-function:cubic-bezier(0.34,1.56,0.64,1)}}
+    </style>
+    <link rel="preconnect" href="https://cdn.sanity.io" />
+    <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+    <link rel="preconnect" href="https://assets.calendly.com" crossorigin />
+    <link rel="dns-prefetch" href="https://assets.calendly.com" />
+    <link rel="preconnect" href="https://calendly.com" crossorigin />
+    <link rel="dns-prefetch" href="https://calendly.com" />
 
     <link rel="canonical" href={siteData.url} />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <script>
+      import { initViewTransitions } from "../scripts/viewTransitions";
+      initViewTransitions();
+    </script>
+    <script is:inline define:vars={{ baseUrl: import.meta.env.BASE_URL }}>
+      (function() {
+        const root = document.documentElement;
+        const body = document.body;
+        
+        function applyThemeImmediate() {
+          const stored = localStorage.getItem('theme');
+          const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          const theme = stored || (prefersLight ? 'light' : 'dark');
+          root.classList.remove('dark', 'light');
+          root.classList.add(theme);
+        }
+        
+        function enableScroll() {
+          root.classList.remove('loading');
+          root.classList.add('loaded');
+          body.classList.remove('loading');
+        }
+        
+        applyThemeImmediate();
+        root.classList.add('loading');
+        body.classList.add('loading');
+        
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', enableScroll);
+        } else {
+          setTimeout(enableScroll, 0);
+        }
+        
+        window.addEventListener('load', enableScroll);
+        setTimeout(enableScroll, 100);
+      })();
+      
+      const blockedPatterns = ['fbevents', 'facebook.net', 'connect.facebook.net', 'ERR_BLOCKED_BY_CLIENT', 'segment.io', 'analytics.js'];
+      
+      window.addEventListener('error', function(e) {
+        const target = e.target || e.currentTarget;
+        const message = e.message || '';
+        const filename = e.filename || '';
+        const url = (target && target.src) || '';
+        
+        if (blockedPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+      }, true);
+      
+      window.addEventListener('unhandledrejection', function(e) {
+        const reason = String(e.reason || '');
+        if (reason.includes('facebook.net') || reason.includes('fbevents') || reason.includes('ERR_BLOCKED_BY_CLIENT')) {
+          e.preventDefault();
+        }
+      }, true);
+      
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          const base = baseUrl === '/' ? '' : baseUrl.replace(/\/$/, '');
+          navigator.serviceWorker.register(`${base}/sw.js`)
+            .catch(() => {});
+        });
+      }
+    </script>
   </head>
   <body class="min-h-screen flex flex-col relative bg-primary transition-colors duration-normal">
     <ScrollProgressBar />
@@ -83,8 +161,29 @@ const ogImage = createAssetUrl("/og-image.svg");
     <script>
       import { initSmoothScroll } from "../scripts/smoothScroll";
       import { initScrollAnimations } from "../scripts/scrollAnimations";
-      initSmoothScroll();
-      initScrollAnimations();
+      import { initLazyLoading } from "../scripts/utils/lazyLoad";
+      
+      const initScripts = () => {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(() => {
+            initSmoothScroll();
+            initScrollAnimations();
+            initLazyLoading();
+          }, { timeout: 2000 });
+        } else {
+          setTimeout(() => {
+            initSmoothScroll();
+            initScrollAnimations();
+            initLazyLoading();
+          }, 1);
+        }
+      };
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initScripts);
+      } else {
+        initScripts();
+      }
     </script>
   </body>
 </html>

@@ -1,7 +1,9 @@
 ---
 import { Icon } from 'astro-icon/components';
 import type { NavItem, DropdownItem } from '../../data/navigation';
+import { navItems } from '../../data/navigation';
 import { createUrl } from '../../utils/url';
+import NavLink from './NavLink.astro';
 
 interface Props {
   item: NavItem;
@@ -18,10 +20,10 @@ const MOBILE_LINK_BASE = "mobile-nav-link";
 const MOBILE_ACTIVE_BG = "mobile-nav-active-bg absolute inset-0 bg-accent-green/10 rounded-xl opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
 const MOBILE_ACTIVE_BG_SUBTLE = "mobile-nav-active-bg absolute inset-0 bg-accent-green/5 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover/item:opacity-100";
 const MOBILE_ACTIVE_BORDER = "mobile-nav-active-border absolute inset-0 rounded-xl border border-accent-green/30 opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
-const NAV_INDICATOR = "nav-indicator absolute bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-accent-green rounded-full transition-all duration-normal group-hover:w-3/4";
 const NAV_ACTIVE_BG = "nav-active-bg absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
 const ICON_BASE = "w-5 h-5 text-accent-green flex-shrink-0 relative z-10";
-const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow relative z-10";
+const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow dropdown-chevron relative z-10 text-accent-green";
+const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-col h-full rounded-2xl bg-theme-card border-2 border-accent-green/20 hover:border-accent-green/50 transition-all duration-500 overflow-hidden shadow-md hover:shadow-2xl hover:shadow-accent-green/25 hover:-translate-y-2";
 ---
 
 {isMobile ? (
@@ -44,7 +46,6 @@ const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow 
     </button>
     <div class="mobile-dropdown-content hidden">
       <div class="space-y-2">
-        <!-- View All Button - At Top -->
         <div class="mobile-dropdown-view-all-wrapper">
           <a
             href={item.href}
@@ -56,7 +57,6 @@ const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow 
           </a>
         </div>
 
-        <!-- Service Links -->
         {item.dropdown!.map((sub: DropdownItem, subIndex: number) => (
           <a href={sub.href} class={MOBILE_LINK_BASE} style={`animation-delay: ${subIndex * 50}ms`}>
             <div class="w-8 h-8 bg-gradient-to-br from-accent-green/15 to-accent-green/10 rounded-lg flex items-center justify-center flex-shrink-0 relative z-10 group-hover/item:from-accent-green/25 group-hover/item:to-accent-green/20 group-hover/item:scale-110 transition-all duration-normal shadow-sm border border-accent-green/20">
@@ -75,7 +75,7 @@ const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow 
 ) : isModal ? (
   <div class="relative dropdown-container group" data-nav-item={index} data-modal-dropdown="true">
     <button 
-      class={NAV_BUTTON_BASE}
+      class={`${NAV_BUTTON_BASE} dropdown-services-toggle`}
       aria-expanded="false"
       aria-haspopup="true"
       aria-label={`${item.name} menu`}
@@ -84,19 +84,19 @@ const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow 
       <span class="relative z-10">{item.name}</span>
       <Icon 
         name="mdi:chevron-down" 
-        class={`${CHEVRON_ICON} text-accent-green`}
+        class={CHEVRON_ICON}
         aria-hidden="true"
       />
       <span class={NAV_ACTIVE_BG}></span>
     </button>
 
     <div
-      class="dropdown-modal-overlay fixed inset-0 bg-black/60 backdrop-blur-sm opacity-0 invisible transition-opacity duration-300 pointer-events-none"
+      class="dropdown-modal-overlay fixed left-0 right-0 bottom-0 bg-black/60 opacity-0 invisible pointer-events-none"
       data-dropdown-overlay={index}
       aria-hidden="true"
     ></div>
     <div
-      class="dropdown-modal-menu fixed left-0 right-0 top-0 opacity-0 invisible transition-all duration-300 pointer-events-none"
+      class="dropdown-modal-menu fixed left-0 right-0 bottom-0 opacity-0 invisible pointer-events-none"
       data-dropdown-menu={index}
       data-dropdown-content
     >
@@ -107,84 +107,82 @@ const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow 
           <div class="dropdown-bg-pattern"></div>
         </div>
         <div class="dropdown-modal-content">
-          <header class="dropdown-modal-header flex-shrink-0">
+          <header class="dropdown-modal-header flex-shrink-0 border-b border-accent-green/30 bg-theme-card">
             <div class="grid-container">
-              <div class="col-span-full">
-                <div class="flex items-center justify-between gap-4 h-16 lg:h-18 px-4 sm:px-6">
-                  <div class="flex items-center gap-4 min-w-0 flex-1">
-                    <div class="min-w-0 flex-1">
-                      <h2 class="text-lg sm:text-xl lg:text-2xl font-extrabold text-theme-primary font-display tracking-tight break-words leading-tight">
-                        {item.name}
-                      </h2>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <a
-                      href={createUrl('services')}
-                      class="view-all-button-top inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold text-on-accent bg-accent-green hover:bg-accent-green/90 border-2 border-accent-green rounded-xl transition-all duration-300 group shadow-lg shadow-accent-green/20 hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 active:scale-95 whitespace-nowrap relative"
-                      aria-label="View all services"
-                    >
-                      <span class="relative z-10">View All Services</span>
-                      <Icon name="mdi:arrow-right" class="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0 relative z-10" aria-hidden="true" />
-                      <span class="absolute inset-0 bg-white/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-fast"></span>
-                    </a>
-                  <button
-                    type="button"
-                    class="dropdown-modal-close w-11 h-11 flex items-center justify-center rounded-xl hover:bg-theme-surface/80 active:scale-95 text-theme-secondary hover:text-theme-primary transition-all duration-200 min-h-[44px] min-w-[44px] group/close flex-shrink-0 relative"
-                    aria-label="Close menu"
-                    data-dropdown-close={index}
+              <div class="col-span-full flex items-center justify-between h-14 sm:h-16 lg:h-18 relative min-w-0 w-full">
+                <p class="text-xs sm:text-sm text-theme-secondary opacity-70 text-left hidden lg:block flex-1">
+                  Need help choosing? <a href={createUrl('contact')} class="text-accent-green hover:underline font-medium transition-colors duration-fast">Contact our team</a>
+                </p>
+                <div class="hidden lg:flex items-center gap-2 pointer-events-auto flex-shrink-0 ml-auto">
+                  <a
+                    href={createUrl('services')}
+                    class="nav-cta inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold border-2 border-accent-green bg-transparent text-accent-green rounded-xl hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 transition-all duration-fast min-h-[44px] whitespace-nowrap relative group/cta"
+                    aria-label="View all services"
                   >
-                    <Icon name="mdi:close" class="w-5 h-5 group-hover/close:rotate-90 transition-transform duration-200 relative z-10" />
-                    <span class="absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 group-hover/close:opacity-100 transition-opacity duration-fast"></span>
-                  </button>
-                  </div>
+                    <span class="relative z-10">View All Services</span>
+                    <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0 group-hover/cta:translate-x-1 transition-transform duration-300 relative z-10" aria-hidden="true" />
+                    <span class="absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 group-hover/cta:opacity-100 transition-opacity duration-fast"></span>
+                  </a>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 w-full lg:hidden py-3">
+                  <p class="text-xs sm:text-sm text-theme-secondary opacity-70 text-center sm:text-left">
+                    Need help choosing? <a href={createUrl('contact')} class="text-accent-green hover:underline font-medium transition-colors duration-fast">Contact our team</a>
+                  </p>
+                  <a
+                    href={createUrl('services')}
+                    class="nav-cta inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold border-2 border-accent-green bg-transparent text-accent-green rounded-xl hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 transition-all duration-fast min-h-[44px] whitespace-nowrap relative group/cta"
+                    aria-label="View all services"
+                  >
+                    <span class="relative z-10">View All Services</span>
+                    <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0 group-hover/cta:translate-x-1 transition-transform duration-300 relative z-10" aria-hidden="true" />
+                    <span class="absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 group-hover/cta:opacity-100 transition-opacity duration-fast"></span>
+                  </a>
                 </div>
               </div>
             </div>
           </header>
-          <main class="dropdown-modal-content-main p-4 md:p-5 lg:p-6 overflow-y-auto">
+          <main class="dropdown-modal-content-main overflow-y-auto">
             <div class="grid-container">
-              <div class="col-span-full">
-                <div class="services-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-5">
+              <div class="col-span-full max-w-7xl mx-auto w-full">
+                <div class="services-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                   {item.dropdown!.map((sub: DropdownItem, cardIndex: number) => (
                     <a
                       href={sub.href}
-                      class="service-card group/item relative flex flex-col p-6 md:p-7 lg:p-8 rounded-2xl bg-theme-card/50 hover:bg-theme-card transition-all duration-300 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-accent-green/20 hover:-translate-y-1"
-                      style={`animation-delay: ${cardIndex * 30}ms`}
+                      class={SERVICE_CARD_BASE}
+                      style={`animation-delay: ${cardIndex * 50}ms`}
                     >
-                      <div class="absolute inset-0 bg-gradient-to-br from-accent-green/8 via-accent-green/4 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                      <div class="absolute top-0 right-0 w-32 h-32 bg-accent-green/5 rounded-bl-full opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 blur-2xl"></div>
-                      <div class="absolute bottom-0 left-0 w-24 h-24 bg-accent-green/5 rounded-tr-full opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 blur-2xl"></div>
-
-                      <div class="relative z-10 flex flex-col items-center text-center h-full min-h-0">
-                        <div class="service-icon-wrapper mb-5 flex-shrink-0 flex justify-center">
-                          <div class="relative w-16 h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 bg-gradient-to-br from-accent-green/20 via-accent-green/12 to-accent-green/8 rounded-2xl flex items-center justify-center group-hover/item:scale-110 group-hover/item:rotate-3 transition-all duration-300 shadow-lg shadow-accent-green/20 group-hover/item:shadow-xl group-hover/item:shadow-accent-green/30">
-                            <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-2xl opacity-0 group-hover/item:opacity-100 transition-opacity duration-300"></div>
-                            <Icon name={sub.icon} class="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-accent-green relative z-10 transition-transform duration-300 group-hover/item:scale-110" />
+                      <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent-green/0 via-accent-green/40 to-accent-green/0 group-hover/item:via-accent-green/70 group-hover/item:h-[3px] transition-all duration-500"></div>
+                      <div class="absolute inset-0 opacity-[0.03] group-hover/item:opacity-[0.06] transition-opacity duration-500 dropdown-card-pattern"></div>
+                      <div class="absolute top-2 right-2 w-2 h-2 rounded-full bg-accent-green/20 group-hover/item:bg-accent-green/40 group-hover/item:scale-150 transition-all duration-500 opacity-0 group-hover/item:opacity-100"></div>
+                      <div class="absolute top-0 left-0 w-8 h-8 bg-gradient-to-br from-accent-green/10 to-transparent rounded-br-xl opacity-0 group-hover/item:opacity-100 transition-opacity duration-500"></div>
+                      <div class="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-accent-green/10 to-transparent rounded-tl-xl opacity-0 group-hover/item:opacity-100 transition-opacity duration-500"></div>
+                      <div class="relative z-10 flex-grow flex flex-col items-center justify-center text-center px-6 py-8 sm:px-7 sm:py-9 lg:px-8 lg:py-10">
+                        <div class="mb-4 sm:mb-5 lg:mb-6 flex-shrink-0">
+                          <div class="relative w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-accent-green/25 via-accent-green/15 to-accent-green/5 flex items-center justify-center border-2 border-accent-green/30 group-hover/item:border-accent-green/60 group-hover/item:from-accent-green/35 group-hover/item:via-accent-green/20 group-hover/item:to-accent-green/10 group-hover/item:shadow-xl group-hover/item:shadow-accent-green/30 transition-all duration-500 group-hover/item:scale-110 group-hover/item:rotate-3 rounded-2xl relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-accent-green/10 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-500"></div>
+                            <Icon name={sub.icon} class="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 text-accent-green transition-transform duration-500 group-hover/item:scale-110 relative z-10" />
                           </div>
                         </div>
-
-                        <h3 class="font-bold text-theme-primary text-lg md:text-xl lg:text-2xl leading-tight group-hover/item:text-accent-green transition-colors duration-300 font-display text-center">
+                        <h3 class="font-extrabold text-theme-primary text-base sm:text-lg lg:text-xl leading-tight group-hover/item:text-accent-green transition-colors duration-500 font-display text-center mb-2">
                           {sub.name}
                         </h3>
+                        {sub.description && (
+                          <p class="text-xs sm:text-sm text-theme-secondary font-normal leading-relaxed opacity-75 group-hover/item:opacity-90 mt-1 text-center px-1">
+                            {sub.description}
+                          </p>
+                        )}
+                        <div class="mt-4 sm:mt-5 opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 flex items-center gap-1.5 text-accent-green text-xs sm:text-sm font-semibold">
+                          <span>Explore more</span>
+                          <Icon name="mdi:arrow-right" class="w-4 h-4 group-hover/item:translate-x-1 transition-transform duration-300" />
+                        </div>
                       </div>
+                      <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-accent-green/0 group-hover/item:bg-accent-green/40 group-hover/item:h-[3px] transition-all duration-500"></div>
                     </a>
                   ))}
                 </div>
               </div>
             </div>
           </main>
-          <footer class="dropdown-modal-footer flex-shrink-0 border-t border-accent-green/30 bg-theme-card">
-            <div class="grid-container">
-              <div class="col-span-full">
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 py-4 px-4 sm:px-6">
-                  <p class="text-xs sm:text-sm text-theme-secondary opacity-70 text-center">
-                    Need help choosing? <a href={createUrl('contact')} class="text-accent-green hover:underline font-medium transition-colors duration-fast">Contact our team</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </footer>
         </div>
       </div>
     </div>
@@ -192,7 +190,7 @@ const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow 
 ) : (
   <div class="relative dropdown-container group" data-nav-item={index}>
     <button 
-      class={NAV_BUTTON_BASE}
+      class={`${NAV_BUTTON_BASE} dropdown-services-toggle`}
       aria-expanded="false"
       aria-haspopup="true"
       aria-label={`${item.name} menu`}
@@ -201,14 +199,14 @@ const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow 
       <span class="relative z-10">{item.name}</span>
       <Icon 
         name="mdi:chevron-down" 
-        class={`${CHEVRON_ICON} text-accent-green`}
+        class={CHEVRON_ICON}
         aria-hidden="true"
       />
       <span class={NAV_ACTIVE_BG}></span>
     </button>
 
     <div 
-      class="absolute left-0 top-full mt-2 opacity-0 invisible transition-all duration-normal pointer-events-none dropdown-menu z-dropdown transform translate-y-2 w-[300px]"
+      class="absolute left-0 top-full mt-2 opacity-0 invisible transition-all duration-normal pointer-events-none dropdown-menu transform translate-y-2 w-[300px]"
       data-dropdown-menu={index}
       data-dropdown-content
     >

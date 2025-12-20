@@ -1,15 +1,16 @@
 import AOS from 'aos';
 
-const DEFAULT_REFRESH_DELAY = 100;
+const REFRESH_DELAY = 100;
+const SCROLL_OFFSET = 80;
 
-export function initScrollAnimations() {
+export function initScrollAnimations(): void {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   AOS.init({
-    duration: 400,
+    duration: 500,
     easing: 'ease-out-cubic',
     once: true,
-    offset: 80,
+    offset: SCROLL_OFFSET,
     delay: 0,
     disable: prefersReducedMotion,
     startEvent: 'DOMContentLoaded',
@@ -23,18 +24,15 @@ export function initScrollAnimations() {
     anchorPlacement: 'top-bottom',
   });
 
-  // Refresh AOS on Astro page transitions
-  if (typeof document !== 'undefined') {
-    document.addEventListener('astro:page-load', () => {
-      refreshScrollAnimationsWithDelay();
-    });
-  }
+  document.addEventListener('astro:page-load', () => {
+    refreshScrollAnimationsWithDelay();
+  });
 }
 
-export function refreshScrollAnimations() {
+export function refreshScrollAnimations(): void {
   AOS.refresh();
 }
 
-export function refreshScrollAnimationsWithDelay(delay: number = DEFAULT_REFRESH_DELAY) {
+export function refreshScrollAnimationsWithDelay(delay: number = REFRESH_DELAY): void {
   setTimeout(() => AOS.refresh(), delay);
 }

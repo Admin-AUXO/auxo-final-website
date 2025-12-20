@@ -62,6 +62,8 @@ const CONSTANTS = {
   BOUNDARY_OFFSET: 50,
 } as const;
 
+import { observeThemeChange } from './utils/observers';
+
 export class GalaxyParticleSystem {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
@@ -327,6 +329,8 @@ export class GalaxyParticleSystem {
     }
   }
 
+  private themeUnsubscribe: (() => void) | null = null;
+
   private setupEventListeners() {
     let rafId: number | null = null;
     const handleMouseMove = (e: MouseEvent) => {
@@ -349,8 +353,8 @@ export class GalaxyParticleSystem {
     document.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
 
-    const themeObserver = new MutationObserver(() => {
-      const wasLightMode = this.isLightMode;
+    this.themeUnsubscribe = observeThemeChange((isDark, wasDark) => {
+      const wasLightMode = !wasDark;
       this.updateThemeColors();
       
       this.stars.forEach(star => {
@@ -369,11 +373,6 @@ export class GalaxyParticleSystem {
           star.opacity = star.baseOpacity;
         }
       });
-    });
-
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
     });
   }
 
@@ -561,6 +560,10 @@ export class GalaxyParticleSystem {
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;
+    }
+    if (this.themeUnsubscribe) {
+      this.themeUnsubscribe();
+      this.themeUnsubscribe = null;
     }
     this.stars = [];
   }

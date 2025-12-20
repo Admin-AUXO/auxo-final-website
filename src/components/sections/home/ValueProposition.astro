@@ -1,11 +1,12 @@
 ---
-import {
-  homepageContent,
-  type HomepageContent,
-} from "../../../data/content/homepage";
+import type { HomepageContent } from "../../../data/content/homepage";
 import SectionContainer from "../../layouts/SectionContainer.astro";
 
-const problemContent: HomepageContent["problem"] = homepageContent.problem;
+interface Props {
+  content: HomepageContent["problem"];
+}
+
+const { content: problemContent } = Astro.props;
 ---
 
 <SectionContainer
@@ -24,7 +25,9 @@ const problemContent: HomepageContent["problem"] = homepageContent.problem;
         id="value-proposition-typing"
         class="hero-typing-text space-y-6 sm:space-y-8 lg:space-y-10"
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="800"
+        data-aos-easing="ease-out-cubic"
+        data-aos-delay="100"
       >
       </div>
     </div>

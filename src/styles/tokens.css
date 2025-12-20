@@ -51,7 +51,7 @@
   --duration-normal: 300ms;
   --duration-slow: 500ms;
   --theme-transition: 200ms;
-  --timing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --timing-smooth: var(--easing-standard);
   
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
@@ -105,14 +105,17 @@
   --blur-sm: 10px;
   --blur-md: 12px;
   
-  /* Z-Index Hierarchy - Consolidated and Optimized */
+  /* Z-Index Hierarchy - Simple, clear levels */
   --z-base: 1;
+  --z-content: 1;
+  --z-elevated: 2;
+  --z-interactive: 10;
   --z-navigation: 1000;
   --z-navigation-scrolled: 1001;
-  --z-mobile-menu-button: 1002;
   --z-dropdown: 2000;
-  --z-dropdown-overlay: 3000;
-  --z-dropdown-menu: 3001;
+  --z-dropdown-overlay: 2998;
+  --z-dropdown-nav: 2999;
+  --z-dropdown-menu: 3000;
   --z-mobile-overlay: 4000;
   --z-mobile-menu: 4001;
   --z-modal: 5000;
@@ -146,20 +149,19 @@
   --delay-slow: 0.3s;
   --delay-slower: 0.4s;
   --delay-slowest: 0.6s;
-  --delay-typing: 0.8s;
-  --delay-highlight: 0.8s;
-  --delay-cta: 0.3s;
-  --delay-underline: 1.5s;
   
-  --animation-duration-highlight: 1.2s;
+  --animation-duration-fast: 0.2s;
+  --animation-duration-normal: 0.4s;
+  --animation-duration-slow: 0.6s;
+  --animation-duration-slower: 1s;
+  --animation-duration-slowest: 2s;
   --animation-duration-gradient: 5s;
-  --animation-duration-underline: 2s;
-  --animation-duration-flow: 3s;
-  --animation-duration-stroke: 0.6s;
-  --animation-duration-blink: 1s;
-  --animation-duration-card-hover: 0.4s;
-  --animation-duration-carousel: 0.3s;
-  --animation-duration-hero-content: 0.5s;
+  --animation-duration-counter: 2s;
+  
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
   
   --carousel-dot-size: 8px;
   --carousel-dot-size-active: 24px;

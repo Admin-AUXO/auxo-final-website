@@ -5,85 +5,57 @@ import { createFocusTrap } from 'focus-trap';
 
 let focusTrap: ReturnType<typeof createFocusTrap> | null = null;
 
-/**
- * Calculate the exact height needed for dropdown content
- * Uses a more reliable method that measures the actual rendered content
- */
 function calculateDropdownHeight(content: HTMLElement): number {
-  // Store original state
-  const originalDisplay = content.style.display;
-  const originalMaxHeight = content.style.maxHeight;
-  const originalVisibility = content.style.visibility;
-  const originalOverflow = content.style.overflow;
-  const originalOpacity = content.style.opacity;
+  const styles = {
+    display: content.style.display,
+    maxHeight: content.style.maxHeight,
+    visibility: content.style.visibility,
+    overflow: content.style.overflow,
+    opacity: content.style.opacity,
+  };
   
-  // Make content fully visible for accurate measurement
-  content.style.display = 'block';
-  content.style.maxHeight = 'none';
-  content.style.visibility = 'hidden';
-  content.style.overflow = 'visible';
-  content.style.opacity = '0';
-  content.style.height = 'auto';
+  Object.assign(content.style, {
+    display: 'block',
+    maxHeight: 'none',
+    visibility: 'hidden',
+    overflow: 'visible',
+    opacity: '0',
+    height: 'auto',
+  });
   
-  // Force reflow
   void content.offsetHeight;
   
-  // Get the inner container (the div with space-y-2)
   const innerDiv = content.querySelector('div:first-child');
-  let height = 0;
+  const height = innerDiv 
+    ? (() => {
+        const computed = window.getComputedStyle(innerDiv);
+        const marginTop = parseFloat(computed.marginTop) || 0;
+        const marginBottom = parseFloat(computed.marginBottom) || 0;
+        return innerDiv.scrollHeight + marginTop + marginBottom;
+      })()
+    : content.scrollHeight;
   
-  // Measure the inner div which contains all the actual content
-  if (innerDiv) {
-    // Get computed styles to account for any margins
-    const computed = window.getComputedStyle(innerDiv);
-    const marginTop = parseFloat(computed.marginTop) || 0;
-    const marginBottom = parseFloat(computed.marginBottom) || 0;
-    
-    // Use scrollHeight which includes all content and spacing
-    height = innerDiv.scrollHeight + marginTop + marginBottom;
-  } else {
-    // Fallback to content scrollHeight
-    height = content.scrollHeight;
-  }
-  
-  // Restore original state
-  content.style.display = originalDisplay;
-  content.style.maxHeight = originalMaxHeight;
-  content.style.visibility = originalVisibility;
-  content.style.overflow = originalOverflow;
-  content.style.opacity = originalOpacity;
-  
-  // Add 1px buffer for rounding - no need for extra padding
+  Object.assign(content.style, styles);
   return Math.ceil(height) + 1;
 }
 
-/**
- * Animate dropdown opening with smooth transition
- */
 function animateDropdownOpen(content: HTMLElement, icon: Element | null, buttonEl: HTMLElement): void {
-  // Remove hidden class and ensure it's display block
   content.classList.remove('hidden');
   content.style.display = 'block';
   
-  // Calculate exact height needed
   const targetHeight = calculateDropdownHeight(content);
   content.style.setProperty('--dropdown-max-height', `${targetHeight}px`);
-  
-  // Reset any previous animation states
   content.classList.remove('dropdown-opening', 'dropdown-closing');
   
-  // Start animation in next frame
   requestAnimationFrame(() => {
     content.classList.add('dropdown-opening');
     
-    // Make all items visible immediately (no stagger animation for better UX)
     const childItems = content.querySelectorAll('.mobile-nav-link');
     childItems.forEach((item) => {
       (item as HTMLElement).style.opacity = '1';
       (item as HTMLElement).style.transform = 'translateX(0)';
     });
     
-    // Auto-scroll to keep dropdown button visible when it opens
     setTimeout(() => {
       const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
       if (menuContent) {
@@ -92,16 +64,13 @@ function animateDropdownOpen(content: HTMLElement, icon: Element | null, buttonE
           const wrapperRect = wrapper.getBoundingClientRect();
           const menuRect = menuContent.getBoundingClientRect();
           
-          // Check if button is above viewport
           if (wrapperRect.top < menuRect.top) {
             const scrollAmount = menuContent.scrollTop + (wrapperRect.top - menuRect.top) - 16;
             menuContent.scrollTo({
               top: Math.max(0, scrollAmount),
               behavior: 'smooth'
             });
-          }
-          // Check if button is below viewport (after dropdown expands)
-          else if (wrapperRect.bottom > menuRect.bottom) {
+          } else if (wrapperRect.bottom > menuRect.bottom) {
             const scrollAmount = menuContent.scrollTop + (wrapperRect.bottom - menuRect.bottom) + 16;
             menuContent.scrollTo({
               top: Math.min(menuContent.scrollHeight - menuContent.clientHeight, scrollAmount),
@@ -112,7 +81,6 @@ function animateDropdownOpen(content: HTMLElement, icon: Element | null, buttonE
       }
     }, 200);
     
-    // Clean up after animation completes
     setTimeout(() => resetDropdownStyles(content), DROPDOWN_ANIMATION_DURATION);
   });
   
@@ -120,22 +88,15 @@ function animateDropdownOpen(content: HTMLElement, icon: Element | null, buttonE
   buttonEl.setAttribute('aria-expanded', 'true');
 }
 
-/**
- * Animate dropdown closing
- */
 function animateDropdownClose(content: HTMLElement, icon: Element | null, buttonEl: HTMLElement): void {
-  // Get current height before closing
   const currentHeight = content.scrollHeight;
   content.style.setProperty('--dropdown-max-height', `${currentHeight}px`);
   
-  // Reset animation states
   content.classList.remove('dropdown-opening', 'dropdown-closing');
   content.classList.add('dropdown-opening');
   
-  // Force reflow
   void content.offsetHeight;
   
-  // Start closing animation
   requestAnimationFrame(() => {
     content.classList.remove('dropdown-opening');
     content.classList.add('dropdown-closing');
@@ -150,9 +111,6 @@ function animateDropdownClose(content: HTMLElement, icon: Element | null, button
   buttonEl.setAttribute('aria-expanded', 'false');
 }
 
-/**
- * Toggle mobile dropdown state
- */
 function toggleMobileDropdown(buttonEl: HTMLElement): void {
   const content = findDropdownContent(buttonEl);
   if (!content) return;
@@ -167,9 +125,6 @@ function toggleMobileDropdown(buttonEl: HTMLElement): void {
   }
 }
 
-/**
- * Setup mobile dropdown event handlers
- */
 export function setupMobileDropdowns(): void {
   document.querySelectorAll('#mobile-menu .mobile-dropdown-btn').forEach(button => {
     if ((button as HTMLElement).dataset.initialized === 'true') return;
@@ -269,9 +224,7 @@ function openMobileMenu(): void {
   requestAnimationFrame(() => {
     try {
       focusTrap?.activate();
-    } catch (e) {
-      // Silently handle focus trap errors
-    }
+    } catch (e) {}
     
     setupMobileDropdowns();
     setupLinkHandlers();
@@ -323,7 +276,6 @@ function handleKeyboard(e: Event): void {
     }
   }
   
-  // Handle dropdown navigation with arrow keys
   if (keyboardEvent.key === 'ArrowDown' || keyboardEvent.key === 'ArrowUp') {
     const activeElement = document.activeElement as HTMLElement;
     if (activeElement?.classList.contains('mobile-dropdown-btn')) {

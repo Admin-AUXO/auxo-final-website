@@ -8,9 +8,11 @@ export default defineConfig({
   base: process.env.BASE_PATH || '/auxo-final-website/',
   output: 'static',
   build: {
-    inlineStylesheets: 'auto',
+    inlineStylesheets: 'never',
     assets: '_astro',
+    assetsPrefix: '',
   },
+  compressHTML: true,
   image: {
     service: {
       entrypoint: 'astro/assets/services/sharp',
@@ -19,9 +21,8 @@ export default defineConfig({
   },
   vite: {
     optimizeDeps: {
-      include: ['@heroui/react', 'framer-motion', 'embla-carousel', '@floating-ui/dom', 'lenis'],
+      include: ['@heroui/react', 'framer-motion', 'embla-carousel', '@floating-ui/dom', 'lenis', 'aos'],
       exclude: ['@heroui/theme'],
-      force: false, // Set to true if you need to force re-optimization
     },
     build: {
       cssCodeSplit: true,
@@ -62,6 +63,22 @@ export default defineConfig({
       treeShaking: true,
     },
     logLevel: 'warn',
+    customLogger: {
+      info: console.info.bind(console),
+      warn: (msg, options) => {
+        if (typeof msg === 'string' && msg.includes('@astrojs/internal-helpers/remote') && 
+            (msg.includes('isRemoteAllowed') || msg.includes('matchHostname') || 
+             msg.includes('matchPathname') || msg.includes('matchPort') || 
+             msg.includes('matchProtocol'))) {
+          return;
+        }
+        console.warn(msg, options);
+      },
+      error: console.error.bind(console),
+      clearScreen: () => {},
+      hasErrorLogged: () => false,
+      hasWarned: false,
+    },
     ssr: {
       noExternal: ['@heroui/react'],
     },
@@ -74,13 +91,11 @@ export default defineConfig({
     icon({
       include: {
         'simple-icons': [
-          // Cloud Platforms
           'amazonaws',
           'microsoftazure',
           'googlecloud',
           'snowflake',
           'databricks',
-          // Data & Analytics Tools
           'tableau',
           'powerbi',
           'apacheairflow',
@@ -90,18 +105,15 @@ export default defineConfig({
           'looker',
           'metabase',
           'apachesuperset',
-          // ML & AI
           'tensorflow',
           'pytorch',
           'huggingface',
           'scikitlearn',
           'mlflow',
-          // Databases
           'postgresql',
           'mongodb',
           'redis',
           'elasticsearch',
-          // Development Tools
           'python',
           'git',
           'docker',
@@ -118,7 +130,6 @@ export default defineConfig({
           'flask',
         ],
         mdi: [
-          // Navigation
           'arrow-right',
           'chevron-down',
           'chevron-right',
@@ -128,8 +139,6 @@ export default defineConfig({
           'home',
           'briefcase',
           'view-grid',
-
-          // Business & Industries
           'domain',
           'palm-tree',
           'shopping',
@@ -137,8 +146,6 @@ export default defineConfig({
           'finance',
           'package-variant',
           'gavel',
-
-          // Data & Analytics
           'chart-box',
           'chart-line',
           'chart-line-variant',
@@ -152,15 +159,11 @@ export default defineConfig({
           'trending-up',
           'view-dashboard-variant',
           'server-network',
-
-          // Security & Quality
           'shield-check',
           'shield-check-outline',
           'shield-lock',
           'shield-account',
           'shield-star',
-
-          // Technology & Science
           'robot',
           'brain',
           'crystal-ball',
@@ -194,16 +197,12 @@ export default defineConfig({
           'api',
           'cog',
           'rabbit',
-
-          // People & Tools
           'account-group',
           'account-group-outline',
           'account-tie',
           'handshake',
           'school',
           'toolbox',
-
-          // Content & Documents
           'book-open',
           'book-open-variant',
           'file-document',
@@ -218,8 +217,6 @@ export default defineConfig({
           'clipboard-list',
           'clipboard-text-outline',
           'checkbox-marked',
-
-          // Design & Planning
           'palette',
           'target',
           'bullseye',
@@ -228,30 +225,22 @@ export default defineConfig({
           'tune',
           'flag-checkered',
           'hammer-wrench',
-
-          // Location
           'map-marker',
           'map-marker-outline',
           'map-marker-path',
           'map-search',
           'earth',
           'web',
-
-          // Social & Communication
           'linkedin',
           'twitter',
           'email-outline',
           'send',
           'file-send',
-
-          // Display & Vision
           'telescope',
           'lightbulb',
           'lightbulb-on',
           'moon-waning-crescent',
           'white-balance-sunny',
-
-          // Actions & Operations
           'rocket-launch',
           'cog',
           'cogs',
@@ -266,8 +255,6 @@ export default defineConfig({
           'calendar-outline',
           'calendar-check',
           'waves',
-
-          // Legal
           'cookie',
           'information-outline',
         ],

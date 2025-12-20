@@ -8,7 +8,11 @@
     "preview": "astro preview",
     "deploy": "npm run build",
     "lint:css": "stylelint \"src/styles/**/*.css\"",
-    "lint:css:fix": "stylelint \"src/styles/**/*.css\" --fix"
+    "lint:css:fix": "stylelint \"src/styles/**/*.css\" --fix",
+    "cleanup:techstack": "tsx scripts/cleanup-techstack.ts",
+    "finalize:techstack": "tsx scripts/finalize-techstack.ts",
+    "dedupe:techstack": "tsx scripts/remove-duplicate-icons.ts",
+    "publish:sanity": "tsx scripts/publish-sanity-content.ts"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
@@ -18,6 +22,8 @@
     "@heroui/react": "^2.8.6",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/simple-icons": "^1.2.63",
+    "@sanity/client": "^7.13.2",
+    "@sanity/image-url": "^2.0.2",
     "aos": "^3.0.0-beta.6",
     "astro": "^5.14.6",
     "astro-icon": "^1.1.5",
@@ -27,7 +33,7 @@
     "embla-carousel-autoplay": "^8.6.0",
     "focus-trap": "^7.6.6",
     "framer-motion": "^12.23.26",
-    "gsap": "^3.12.5",
+    "groq": "^5.0.1",
     "lenis": "^1.1.9",
     "notyf": "^3.10.0",
     "react": "^19.2.3",
@@ -37,11 +43,16 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@sanity/cli": "^5.0.1",
     "@types/aos": "^3.0.7",
+    "@types/node-fetch": "^2.6.13",
     "cssnano": "^7.1.2",
+    "dotenv": "^17.2.3",
+    "node-fetch": "^3.3.2",
     "postcss-preset-env": "^10.5.0",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }

@@ -5,7 +5,10 @@ import ServicesStageSection from "../components/sections/services/ServicesStageS
 import ImpactSection from "../components/sections/services/ImpactSection.astro";
 import ModelsSection from "../components/sections/services/ModelsSection.astro";
 import ServicesCta from "../components/sections/services/ServicesCta.astro";
+import { getServicesContent } from "../lib/sanity/data";
 import "../styles/sections/services-sections.css";
+
+const servicesContent = await getServicesContent();
 ---
 
 <BaseLayout
@@ -13,16 +16,16 @@ import "../styles/sections/services-sections.css";
   description="Analytics as a Service, built for impact. Discover our eight service offerings aligned to the analytics maturity curve, from Foundation Readiness to Autonomy Readiness Review."
   showParticles={false}
 >
-  <HeroSection />
-  <ServicesStageSection />
-  <ImpactSection />
-  <ModelsSection />
-  <ServicesCta />
+  <HeroSection content={servicesContent.hero} />
+  <ServicesStageSection content={servicesContent.stages} />
+  <ImpactSection content={servicesContent.impact} />
+  <ModelsSection content={servicesContent.models} />
+  <ServicesCta content={servicesContent.cta} />
 
   <script>
-    import { setupServicesPageAnimations } from "../scripts/sections/services/servicesPage";
+    import { setupPageAnimations } from "../scripts/sections/utils/pageUtils";
     import { setupSectionInit } from "../scripts/sections/utils/initUtils";
-    setupSectionInit(setupServicesPageAnimations);
+    setupSectionInit(setupPageAnimations);
   </script>
 </BaseLayout>
 

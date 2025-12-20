@@ -3,9 +3,21 @@ import { Icon } from "astro-icon/components";
 import SectionContainer from "../../layouts/SectionContainer.astro";
 import HighlightCard from "../../ui/HighlightCard.astro";
 import HighlightText from "../../ui/HighlightText.astro";
-import { aboutContent } from "../../../data/content/about";
 
-const content = aboutContent.purpose;
+interface Props {
+  content: {
+    title: string;
+    description: string;
+    descriptionHighlight?: string | string[];
+    nameOrigin: {
+      title: string;
+      description: string;
+      descriptionHighlight?: string | string[];
+    };
+  };
+}
+
+const { content } = Astro.props;
 ---
 
 <SectionContainer
@@ -19,7 +31,7 @@ const content = aboutContent.purpose;
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-5xl mx-auto w-full">
-      <div class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16" data-aos="fade-down">
+      <div class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16" data-aos="fade-down" data-aos-duration="600" data-aos-easing="ease-out-cubic">
         <h2 class="text-h2 font-extrabold mb-3 sm:mb-4 lg:mb-5 xl:mb-6 text-theme-primary leading-tight tracking-tight font-display px-2">
           {content.title}
         </h2>
@@ -28,7 +40,7 @@ const content = aboutContent.purpose;
         </p>
       </div>
 
-      <div class="name-origin-card" data-aos="fade-up" data-aos-delay="100">
+      <div class="name-origin-card" data-aos="fade-up" data-aos-delay="150" data-aos-duration="500" data-aos-easing="ease-out-cubic">
         <HighlightCard
           title={content.nameOrigin.title}
           content={content.nameOrigin.description}

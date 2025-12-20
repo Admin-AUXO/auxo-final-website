@@ -203,16 +203,18 @@ const LEGAL_PAGES = [
       mobileTocContainer?.classList.toggle('hidden');
     });
     
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          updateActiveLink(toc, entry.target.id);
-          updateActiveLink(tocMobile, entry.target.id);
-        }
-      });
-    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
-    
-    headings.forEach(heading => observer.observe(heading));
+    import("../../scripts/utils/observers").then(({ observeMultiple }) => {
+      observeMultiple(
+        Array.from(headings),
+        (entry) => {
+          if (entry.isIntersecting) {
+            updateActiveLink(toc, entry.target.id);
+            updateActiveLink(tocMobile, entry.target.id);
+          }
+        },
+        { rootMargin: '-20% 0px -60% 0px', threshold: 0 }
+      );
+    });
   });
 </script>
 

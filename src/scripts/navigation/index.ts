@@ -1,5 +1,5 @@
-import { state, eventListeners, resetState } from './state';
-import { getNavElements, unlockScroll } from './utils';
+import { eventListeners, resetState } from './state';
+import { unlockScroll, getNavElements } from './utils';
 import { initializeMobileMenu, closeMobileMenu } from './mobile-menu';
 import { initializeDropdowns, setupDropdownCloseHandlers, closeAllDropdowns } from './dropdowns';
 import { setupScrollEffects } from './scroll-effects';
@@ -9,21 +9,13 @@ export function cleanupNavigation(): void {
   closeMobileMenu();
   resetState();
   unlockScroll();
-  
+
   eventListeners.forEach(({ element, event, handler, options }) => {
     try {
       element.removeEventListener(event, handler, options);
     } catch (e) {}
   });
   eventListeners.length = 0;
-}
-
-export function initializeNavigation(): void {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeNavigationComponents);
-  } else {
-    initializeNavigationComponents();
-  }
 }
 
 export function initializeNavigationComponents(): void {
@@ -34,39 +26,24 @@ export function initializeNavigationComponents(): void {
     }
 
     initializeDropdowns();
-    setupDropdownCloseHandlers();
     setupScrollEffects();
+    setupDropdownCloseHandlers();
   } catch (error) {
-    // Prevent console errors from breaking the page
     if (import.meta.env.DEV) {
       console.warn('Navigation initialization error:', error);
     }
   }
 }
 
-// Only auto-initialize if not in an Astro component script context
-// Components should call initializeNavigation() explicitly
 if (typeof document !== 'undefined' && typeof window !== 'undefined') {
-  // Check if we're in a browser environment and not in an Astro component
+  const init = () => requestAnimationFrame(initializeNavigationComponents);
+
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    // DOM is already ready, initialize immediately
-    requestAnimationFrame(() => {
-      initializeNavigationComponents();
-    });
+    init();
   } else {
-    // Wait for DOM to be ready
-    document.addEventListener('DOMContentLoaded', () => {
-      requestAnimationFrame(() => {
-        initializeNavigationComponents();
-      });
-    });
+    document.addEventListener('DOMContentLoaded', init);
   }
-  
-  // Handle Astro page transitions
-  if (typeof window !== 'undefined') {
-    document.addEventListener('astro:before-swap', cleanupNavigation);
-    document.addEventListener('astro:page-load', () => {
-      requestAnimationFrame(initializeNavigationComponents);
-    });
-  }
+
+  document.addEventListener('astro:before-swap', cleanupNavigation);
+  document.addEventListener('astro:page-load', init);
 }

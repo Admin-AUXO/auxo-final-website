@@ -6,16 +6,22 @@ import ServiceBenefitsSection from "../../components/sections/services/ServiceBe
 import ServiceProcessSection from "../../components/sections/services/ServiceProcessSection.astro";
 import ServiceOutcomesSection from "../../components/sections/services/ServiceOutcomesSection.astro";
 import ServiceCtaSection from "../../components/sections/services/ServiceCtaSection.astro";
+import { getServicesContent, getServiceDetailBySlug } from "../../lib/sanity/data";
 
 export async function getStaticPaths() {
-  const { servicesContent } = await import("../../data/content/services");
+  const servicesContent = await getServicesContent();
   return servicesContent.details.map((service) => ({
     params: { slug: service.slug },
-    props: { service },
   }));
 }
 
-const { service } = Astro.props;
+const { slug } = Astro.params;
+
+if (!slug) {
+  return new Response(null, { status: 404, statusText: "Service not found" });
+}
+
+const service = await getServiceDetailBySlug(slug);
 
 if (!service) {
   return new Response(null, { status: 404, statusText: "Service not found" });

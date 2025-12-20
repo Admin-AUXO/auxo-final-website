@@ -1,8 +1,17 @@
 ---
 import CtaSection from "../common/CtaSection.astro";
-import { aboutContent } from "../../../data/content/about";
 
-const content = aboutContent.cta;
+interface Props {
+  content: {
+    title: string;
+    description: string;
+    descriptionHighlight?: string | string[];
+    ctaText: string;
+    ctaHref: string;
+  };
+}
+
+const { content } = Astro.props;
 ---
 
 <CtaSection

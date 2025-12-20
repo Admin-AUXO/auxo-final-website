@@ -2,7 +2,7 @@ const HERO_LINES = [
   "Most companies collect data. Few convert it into decisions.",
   "",
   "AUXO bridges the gap — connecting business understanding with data intelligence."
-];
+] as const;
 
 const TYPING_SPEED = 28;
 const LINE_PAUSE = 400;
@@ -31,15 +31,13 @@ export function initValuePropositionTyping(containerId: string): void {
   `;
 
   container.appendChild(placeholder);
-  void container.offsetHeight;
-
   const reservedHeight = placeholder.offsetHeight;
+  placeholder.remove();
+
   if (reservedHeight > 0) {
     container.style.setProperty('--typing-min-height', `${reservedHeight}px`);
     container.classList.add("typing-container");
   }
-
-  placeholder.remove();
 
   const line1Element = document.createElement('p');
   const line2Element = document.createElement('p');
@@ -60,27 +58,29 @@ export function initValuePropositionTyping(containerId: string): void {
   const rendered: string[] = ["", "", ""];
   let isPausing = false;
 
+  function renderLine(lineIndex: number, content: string, isTyping: boolean): void {
+    const cursorHTML = isTyping ? '<span class="typing-cursor temp-cursor"></span>' : '';
+
+    if (lineIndex === 0) {
+      line1Element.innerHTML = content + cursorHTML;
+    } else if (lineIndex === 2) {
+      const auxoIndex = content.indexOf("AUXO");
+      if (auxoIndex >= 0 && content.length >= auxoIndex + 4) {
+        const beforeAuxo = content.slice(0, auxoIndex);
+        const afterAuxo = content.slice(auxoIndex + 4);
+        line3Element.innerHTML = `${beforeAuxo}<span class="highlight-gradient auxo-glow">AUXO</span>${afterAuxo}${cursorHTML}`;
+      } else {
+        line3Element.innerHTML = content + cursorHTML;
+      }
+    }
+  }
+
   const timer = window.setInterval(() => {
     if (isPausing) return;
 
     rendered[lineIndex] = HERO_LINES[lineIndex].slice(0, charIndex + 1);
     const isTyping = charIndex < HERO_LINES[lineIndex].length;
-    const cursorHTML = isTyping ? '<span class="typing-cursor temp-cursor"></span>' : '';
-
-    if (lineIndex === 0) {
-      line1Element.innerHTML = rendered[0] + cursorHTML;
-    } else if (lineIndex === 2) {
-      const line3 = rendered[2];
-      const auxoIndex = line3.indexOf("AUXO");
-
-      if (auxoIndex >= 0 && line3.length >= auxoIndex + 4) {
-        const beforeAuxo = line3.slice(0, auxoIndex);
-        const afterAuxo = line3.slice(auxoIndex + 4);
-        line3Element.innerHTML = `${beforeAuxo}<span class="highlight-gradient auxo-glow">AUXO</span>${afterAuxo}${cursorHTML}`;
-      } else {
-        line3Element.innerHTML = line3 + cursorHTML;
-      }
-    }
+    renderLine(lineIndex, rendered[lineIndex], isTyping);
 
     charIndex++;
 
@@ -98,7 +98,6 @@ export function initValuePropositionTyping(containerId: string): void {
         cursor.className = 'typing-cursor';
         cursor.setAttribute('aria-hidden', 'true');
         line3Element.appendChild(cursor);
-        return;
       }
     }
   }, TYPING_SPEED);

@@ -3,7 +3,9 @@
   width: 100%;
   height: 100svh;
   min-height: 100svh;
-  overflow: hidden;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
   display: flex;
   flex-direction: column;
   justify-content: center;

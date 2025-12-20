@@ -20,12 +20,10 @@
   opacity: 0.5;
 }
 
-/* Remove underline for "Engineered" in hero section */
 .highlight-gradient.home-hero-highlight::after {
   display: none;
 }
 
-/* Remove underline for "AUXO" in value proposition section */
 .highlight-gradient.auxo-glow::after,
 .hero-typing-text .highlight-gradient.auxo-glow::after {
   display: none;

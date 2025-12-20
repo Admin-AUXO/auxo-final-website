@@ -23,7 +23,7 @@ export interface EmblaCarouselOptions {
 }
 
 export class EmblaCarouselWrapper {
-  private embla: EmblaCarouselType | null = null;
+  private _embla: EmblaCarouselType | null = null;
   private autoplay: ReturnType<typeof Autoplay> | null = null;
   private dots: NodeListOf<Element> | null = null;
   private onSlideChangeCallback?: (index: number) => void;
@@ -60,70 +60,74 @@ export class EmblaCarouselWrapper {
       plugins.push(this.autoplay);
     }
 
-    this.embla = EmblaCarousel(container, {
+    this._embla = EmblaCarousel(container, {
       loop,
       align,
       slidesToScroll,
       dragFree,
       containScroll: 'trimSnaps',
       duration: isMobile ? 15 : 20,
-      dragThreshold: isMobile ? 5 : 3,
+      dragThreshold: isMobile ? 10 : 5,
       skipSnaps: false,
       watchDrag: true,
       watchResize: true,
       watchSlides: true,
+      axis: 'x',
     }, plugins);
+    
 
     if (this.dots && this.dots.length > 0) {
       this.setupDots();
     }
 
-    this.embla.on('select', () => {
+    this._embla.on('select', () => {
       this.onSelect();
     });
 
-    this.embla.on('reInit', () => {
+    this._embla.on('reInit', () => {
       this.onSelect();
     });
 
-    this.embla.on('pointerDown', () => {
+    this._embla.on('pointerDown', () => {
       this.isDragging = true;
       this.container.classList.add(DRAGGING_CLASS);
       this.container.classList.remove(NAVIGATING_CLASS);
     });
 
-    this.embla.on('pointerUp', () => {
+    this._embla.on('pointerUp', () => {
       this.isDragging = false;
       this.container.classList.remove(DRAGGING_CLASS);
     });
 
-    this.embla.on('settle', () => {
+    this._embla.on('settle', () => {
       if (!this.isDragging) {
         this.container.classList.remove(DRAGGING_CLASS);
         this.container.classList.remove(NAVIGATING_CLASS);
       }
     });
 
-    requestAnimationFrame(() => {
-      if (this.embla && this.embla.selectedScrollSnap() !== 0) {
-        this.embla.scrollTo(0);
-      }
+    if (this._embla && this._embla.selectedScrollSnap() !== 0) {
+      requestAnimationFrame(() => {
+        this._embla?.scrollTo(0);
+        this.onSelect();
+      });
+    } else {
       this.onSelect();
-    });
+    }
   }
 
   private onSelect(): void {
-    if (!this.embla) return;
+    if (!this._embla) return;
     
-    const selectedIndex = this.embla.selectedScrollSnap();
+    const selectedIndex = this._embla.selectedScrollSnap();
     this.updateDots(selectedIndex);
     this.onSlideChangeCallback?.(selectedIndex);
   }
 
   private setupDots(): void {
-    if (!this.dots || !this.embla) return;
+    if (!this.dots || !this._embla) return;
 
-    const scrollSnaps = this.embla.scrollSnapList();
+    const scrollSnaps = this._embla.scrollSnapList();
 
     this.dots.forEach((dot, index) => {
       if (index >= scrollSnaps.length) return;
@@ -162,9 +166,9 @@ export class EmblaCarouselWrapper {
   }
 
   private updateDots(selectedIndex: number): void {
-    if (!this.dots || !this.embla) return;
+    if (!this.dots || !this._embla) return;
 
-    const scrollSnaps = this.embla.scrollSnapList();
+    const scrollSnaps = this._embla.scrollSnapList();
     const validIndex = Math.min(selectedIndex, scrollSnaps.length - 1);
 
     this.dots.forEach((dot, index) => {
@@ -187,24 +191,28 @@ export class EmblaCarouselWrapper {
     });
   }
 
+  get embla(): EmblaCarouselType | null {
+    return this._embla;
+  }
+
   goToSlide(index: number): void {
-    if (!this.embla) return;
+    if (!this._embla) return;
     this.setTransition();
-    this.embla.scrollTo(index);
+    this._embla.scrollTo(index);
     setTimeout(() => this.clearTransition(), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
   }
 
   next(): void {
-    if (!this.embla) return;
+    if (!this._embla) return;
     this.setTransition();
-    this.embla.scrollNext();
+    this._embla.scrollNext();
     setTimeout(() => this.clearTransition(), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
   }
 
   previous(): void {
-    if (!this.embla) return;
+    if (!this._embla) return;
     this.setTransition();
-    this.embla.scrollPrev();
+    this._embla.scrollPrev();
     setTimeout(() => this.clearTransition(), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
   }
 
@@ -221,8 +229,8 @@ export class EmblaCarouselWrapper {
 
     this.autoplay?.stop();
     this.autoplay = null;
-    this.embla?.destroy();
-    this.embla = null;
+    this._embla?.destroy();
+    this._embla = null;
     this.dots = null;
   }
 }

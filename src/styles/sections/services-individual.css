@@ -1,3 +1,14 @@
+.service-hero-section,
+.service-overview-section,
+.service-process-section,
+.service-benefits-section,
+.service-outcomes-section,
+.service-cta-section {
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+
 .process-stepper-wrapper {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -55,7 +66,7 @@ details.group\/details summary::-webkit-details-marker {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-  overflow: hidden;
+  overflow: hidden !important;
   text-overflow: ellipsis;
 }
 
@@ -149,7 +160,9 @@ details.group\/details summary::-webkit-details-marker {
 
   .service-process-section,
   .service-benefits-section {
-    overflow-x: hidden;
+    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
     width: 100%;
     max-width: 100%;
     position: relative;
@@ -157,7 +170,9 @@ details.group\/details summary::-webkit-details-marker {
 
   .service-process-carousel-wrapper,
   .service-benefits-carousel-wrapper {
-    overflow: hidden;
+    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
     width: 100%;
     max-width: 100%;
     margin-left: 0;
@@ -167,7 +182,9 @@ details.group\/details summary::-webkit-details-marker {
 
   .service-process-carousel-wrapper .carousel-container,
   .service-benefits-carousel-wrapper .carousel-container {
-    overflow: hidden;
+    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
     width: 100%;
     max-width: 100%;
     transform: translateZ(0);

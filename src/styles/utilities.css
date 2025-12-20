@@ -1,3 +1,5 @@
+/* stylelint-disable-next-line at-rule-no-unknown */
+/* Tailwind CSS directive - valid in PostCSS context */
 @tailwind utilities;
 
 .grid-container {
@@ -113,7 +115,7 @@
 
 .process-connection-line {
   background: transparent;
-  transition: background var(--duration-normal) var(--timing-smooth);
+  transition: background var(--duration-normal) var(--easing-standard);
 }
 
 .process-step-group:hover ~ .process-connection-line,
@@ -130,7 +132,7 @@
 }
 
 .carousel-transition {
-  transition: transform 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform var(--duration-normal) var(--easing-standard);
 }
 
 .carousel-dot-hidden {
@@ -165,76 +167,50 @@
 
 .method-step {
   opacity: 0;
-  transition: opacity var(--duration-normal) var(--timing-smooth);
+  transition: opacity var(--duration-normal) var(--easing-standard);
 }
 
 .method-step.opacity-visible {
   opacity: 1;
 }
 
-.transition-base {
-  transition: all var(--duration-normal) var(--timing-smooth);
-}
-
-.transition-fast {
-  transition: all var(--duration-fast) var(--timing-smooth);
-}
-
-.transition-slow {
-  transition: all var(--duration-slow) var(--timing-smooth);
-}
-
-.transition-transform {
-  transition: transform var(--duration-normal) var(--timing-smooth);
-}
-
-.transition-opacity {
-  transition: opacity var(--duration-normal) var(--timing-smooth);
-}
-
+.transition-base { transition: var(--transition-base); }
+.transition-fast { transition: var(--transition-fast); }
+.transition-slow { transition: var(--transition-slow); }
+.transition-transform { transition: transform var(--duration-normal) var(--easing-standard); }
+.transition-opacity { transition: opacity var(--duration-normal) var(--easing-standard); }
 .transition-colors {
-  transition: color var(--duration-normal) var(--timing-smooth),
-              background-color var(--duration-normal) var(--timing-smooth),
-              border-color var(--duration-normal) var(--timing-smooth);
-}
-
-.focus-ring {
-  outline: 2px solid var(--accent-green);
-  outline-offset: var(--spacing-xs);
-  border-radius: var(--radius-sm);
+  transition: color var(--duration-normal) var(--easing-standard),
+              background-color var(--duration-normal) var(--easing-standard),
+              border-color var(--duration-normal) var(--easing-standard);
 }
 
 .focus-ring:focus-visible {
   outline: 2px solid var(--accent-green);
   outline-offset: var(--spacing-xs);
+  border-radius: var(--radius-sm);
 }
 
-.hover-lift {
-  transition: transform var(--duration-normal) var(--timing-smooth);
+.hover-lift,
+.hover-lift-sm,
+.hover-scale {
+  transition: transform var(--duration-normal) var(--easing-standard);
 }
 
 .hover-lift:hover {
-  transform: translateY(-2px);
-}
-
-.hover-lift-sm {
-  transition: transform var(--duration-normal) var(--timing-smooth);
+  transform: translateY(var(--hover-lift-distance));
 }
 
 .hover-lift-sm:hover {
-  transform: translateY(-1px);
-}
-
-.hover-scale {
-  transition: transform var(--duration-normal) var(--timing-smooth);
+  transform: translateY(var(--hover-lift-distance-sm));
 }
 
 .hover-scale:hover {
-  transform: scale(1.02);
+  transform: scale(var(--hover-scale-amount));
 }
 
 .hover-glow {
-  transition: box-shadow var(--duration-normal) var(--timing-smooth);
+  transition: box-shadow var(--duration-normal) var(--easing-standard);
 }
 
 .hover-glow:hover {
@@ -243,19 +219,19 @@
 }
 
 .smooth-appear {
-  animation: fadeInUp 0.6s var(--timing-smooth) backwards;
+  animation: fadeInUp var(--animation-duration-slow) var(--easing-standard) backwards;
 }
 
 .smooth-appear-delay-1 {
-  animation-delay: 0.1s;
+  animation-delay: var(--delay-fast);
 }
 
 .smooth-appear-delay-2 {
-  animation-delay: 0.2s;
+  animation-delay: var(--delay-normal);
 }
 
 .smooth-appear-delay-3 {
-  animation-delay: 0.3s;
+  animation-delay: var(--delay-slow);
 }
 
 .interactive-element {

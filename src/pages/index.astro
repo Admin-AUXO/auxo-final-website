@@ -8,16 +8,29 @@ import ServicesIntroSection from "../components/sections/home/ServicesIntroSecti
 import MethodologySection from "../components/sections/home/MethodologySection.astro";
 import TechStackSection from "../components/sections/home/TechStackSection.astro";
 import FinalCta from "../components/sections/home/FinalCta.astro";
+import { getHomepageContent } from "../lib/sanity/data";
 import "../styles/sections/home-sections.css";
+
+const homepageContent = await getHomepageContent();
 ---
 
 <BaseLayout title="Data Analytics Consultancy Dubai, UAE | AUXO Data Labs" description={siteData.description}>
-  <HeroSection />
-  <ValueProposition />
-  <ServicesIntroSection />
-  <TechStackSection />
-  <CapabilitiesSection />
-  <MethodologySection />
-  <FinalCta />
+  <HeroSection content={homepageContent.hero} />
+  <ValueProposition content={homepageContent.problem} />
+  <div data-lazy-load>
+    <ServicesIntroSection content={homepageContent.servicesIntro} />
+  </div>
+  <div data-lazy-load>
+    <TechStackSection content={homepageContent.techStack} />
+  </div>
+  <div data-lazy-load>
+    <CapabilitiesSection content={homepageContent.capabilities} />
+  </div>
+  <div data-lazy-load>
+    <MethodologySection content={homepageContent.methodology} />
+  </div>
+  <div data-lazy-load>
+    <FinalCta content={homepageContent.finalCta} />
+  </div>
 </BaseLayout>
 

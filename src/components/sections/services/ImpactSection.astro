@@ -5,9 +5,27 @@ import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
 import SectionHeader from "../../ui/SectionHeader.astro";
 import HighlightText from "../../ui/HighlightText.astro";
 import Carousel from "../../ui/Carousel.astro";
-import { servicesContent } from "../../../data/content/services";
 
-const content = servicesContent.impact;
+interface Props {
+  content: {
+    title: string;
+    description: string;
+    descriptionHighlight?: string | string[];
+    industries: {
+      name: string;
+      description: string;
+      descriptionHighlight?: string | string[];
+      icon: string;
+      useCases: string[];
+      keyBenefit: string;
+      keyBenefitHighlight?: string | string[];
+    }[];
+    goal: string;
+    goalHighlight?: string | string[];
+  };
+}
+
+const { content } = Astro.props;
 ---
 
 <SectionContainer
@@ -28,9 +46,11 @@ const content = servicesContent.impact;
       />
 
       <div
-        class="mb-8 sm:mb-10 lg:mb-12"
+        class="mb-8 sm:mb-10 lg:mb-12 impact-carousel-section"
         data-aos="fade-up"
-        data-aos-delay="100"
+        data-aos-delay="150"
+        data-aos-duration="500"
+        data-aos-easing="ease-out-cubic"
       >
         <Carousel
           containerId="impact-carousel-container"
@@ -86,7 +106,9 @@ const content = servicesContent.impact;
 
       <div
         data-aos="fade-up"
-        data-aos-delay="200"
+        data-aos-delay="250"
+        data-aos-duration="500"
+        data-aos-easing="ease-out-cubic"
       >
         <div class="impact-goal-card">
           <Icon name="mdi:lightbulb" class="impact-goal-icon" />
@@ -102,45 +124,54 @@ const content = servicesContent.impact;
 <script>
   import "../../../scripts/sections/services/impactCarousel";
   
-  // Randomize industries order for each user
   function randomizeIndustries() {
+    const carouselSection = document.querySelector('.impact-carousel-section') as HTMLElement;
+    const carouselContainer = document.getElementById('impact-carousel-container') as HTMLElement;
     const carouselTrack = document.getElementById('impact-carousel-track');
-    if (!carouselTrack) return;
+    
+    if (!carouselTrack || !carouselContainer) return;
+    
+    if (carouselSection) {
+      carouselSection.style.setProperty('overflow', 'hidden', 'important');
+      carouselSection.style.setProperty('overflow-x', 'hidden', 'important');
+      carouselSection.style.setProperty('overflow-y', 'hidden', 'important');
+    }
+    carouselContainer.style.setProperty('overflow', 'hidden', 'important');
+    carouselContainer.style.setProperty('overflow-x', 'hidden', 'important');
+    carouselContainer.style.setProperty('overflow-y', 'hidden', 'important');
     
     const slides = Array.from(carouselTrack.children) as HTMLElement[];
     if (slides.length === 0) return;
     
-    // Fisher-Yates shuffle algorithm
     for (let i = slides.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [slides[i], slides[j]] = [slides[j], slides[i]];
     }
     
-    // Re-append slides in randomized order
-    slides.forEach(slide => carouselTrack.appendChild(slide));
-    
-    // Update data-index attributes
     slides.forEach((slide, index) => {
+      carouselTrack.appendChild(slide);
       slide.setAttribute('data-index', index.toString());
     });
     
-    // Trigger carousel reinitialization after a short delay
-    setTimeout(() => {
-      const resizeEvent = new Event('resize', { bubbles: true });
-      window.dispatchEvent(resizeEvent);
-    }, 150);
+    requestAnimationFrame(() => {
+      window.dispatchEvent(new Event('resize', { bubbles: true }));
+      // CSS rules with !important will handle overflow, so we can clear inline styles
+      if (carouselSection && carouselSection instanceof HTMLElement) {
+        carouselSection.style.removeProperty('overflow');
+        carouselSection.style.removeProperty('overflow-x');
+        carouselSection.style.removeProperty('overflow-y');
+      }
+      if (carouselContainer instanceof HTMLElement) {
+        carouselContainer.style.removeProperty('overflow');
+        carouselContainer.style.removeProperty('overflow-x');
+        carouselContainer.style.removeProperty('overflow-y');
+      }
+    });
   }
   
-  // Wait for DOM and carousel to be ready
-  function initRandomization() {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        setTimeout(randomizeIndustries, 200);
-      });
-    } else {
-      setTimeout(randomizeIndustries, 200);
-    }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(randomizeIndustries, 200));
+  } else {
+    setTimeout(randomizeIndustries, 200);
   }
-  
-  initRandomization();
 </script>

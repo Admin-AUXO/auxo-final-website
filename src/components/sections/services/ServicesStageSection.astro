@@ -7,10 +7,25 @@ import HighlightText from "../../ui/HighlightText.astro";
 import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
 import SectionHeader from "../../ui/SectionHeader.astro";
 import Carousel from "../../ui/Carousel.astro";
-import { servicesContent } from "../../../data/content/services";
 import { createUrl } from "../../../utils/url";
 
-const content = servicesContent.stages;
+interface Props {
+  content: {
+    title: string;
+    description: string;
+    descriptionHighlight?: string | string[];
+    services: {
+      name: string;
+      description: string;
+      descriptionHighlight?: string | string[];
+      link: string;
+    }[];
+    codeEdge: string;
+    codeEdgeHighlight?: string | string[];
+  };
+}
+
+const { content } = Astro.props;
 
 const serviceIcons = [
   "mdi:layers",
@@ -44,7 +59,7 @@ const serviceIcons = [
       <div
         class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
         data-aos="fade-down"
-        data-aos-duration="500"
+        data-aos-duration="600"
         data-aos-easing="ease-out-cubic"
       >
         <h2 class="text-h2 font-extrabold mb-4 sm:mb-5 lg:mb-6 leading-tight tracking-tight font-display">
@@ -60,8 +75,8 @@ const serviceIcons = [
           <div
             class="overflow-hidden"
             data-aos="fade-up"
-            data-aos-duration="400"
-            data-aos-delay={150 + (index * 50)}
+            data-aos-duration="500"
+            data-aos-delay={150 + (index * 75)}
             data-aos-easing="ease-out-cubic"
           >
             <ServiceCard
@@ -92,8 +107,8 @@ const serviceIcons = [
             class="carousel-slide embla__slide flex-shrink-0" 
             data-index={index}
             data-aos="fade-up"
-            data-aos-duration="400"
-            data-aos-delay={250 + (index * 50)}
+            data-aos-duration="500"
+            data-aos-delay={200 + (index * 75)}
             data-aos-easing="ease-out-cubic"
           >
             <ServiceCard
@@ -111,8 +126,8 @@ const serviceIcons = [
       <div
         class="mt-10 sm:mt-12 lg:mt-16"
         data-aos="fade-up"
-        data-aos-duration="400"
-        data-aos-delay="300"
+        data-aos-duration="500"
+        data-aos-delay="400"
         data-aos-easing="ease-out-cubic"
       >
         <div class="bg-gradient-to-br from-accent-green/15 via-accent-green/8 to-transparent border-2 border-accent-green/30 p-8 sm:p-10 lg:p-12 relative overflow-hidden group hover:border-accent-green/50 transition-all duration-500">
@@ -131,35 +146,32 @@ const serviceIcons = [
 
 <style>
   .services-stages-section {
-    overflow: hidden;
-    position: relative;
-  }
-
-  .services-stages-section .grid-container,
-  .services-stages-section .col-span-full {
-    overflow: hidden;
+    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
   }
 
   .services-stages-section [data-aos] {
     will-change: transform, opacity;
-    contain: layout style paint;
   }
 
   .services-carousel-wrapper,
   .services-carousel-wrapper .carousel-viewport,
-  .services-carousel-wrapper .carousel-container,
+  .services-carousel-wrapper .carousel-container {
+    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+  }
+
   .services-carousel-wrapper .carousel-track,
   .services-carousel-wrapper .embla__container {
-    overflow-x: hidden;
-    overflow-y: hidden;
+    overflow: visible !important;
   }
 
   @media (min-width: 1024px) {
     .services-carousel-wrapper .carousel-slide,
     .services-carousel-wrapper .embla__slide {
       width: calc((100% - 4.5rem) / 4);
-      max-width: calc((100% - 4.5rem) / 4);
-      min-width: calc((100% - 4.5rem) / 4);
       flex: 0 0 calc((100% - 4.5rem) / 4);
     }
 
@@ -168,23 +180,10 @@ const serviceIcons = [
       justify-content: center;
     }
 
-    .services-carousel-wrapper .service-card-redesigned[data-variant="carousel"] {
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    }
-
-    .services-carousel-wrapper .service-card-redesigned[data-variant="carousel"]:hover {
-      transform: translateY(-4px);
-      z-index: 10;
-    }
-
+    .services-carousel-wrapper .service-card-redesigned[data-variant="carousel"]:hover,
     .service-card-redesigned[data-variant="grid"]:hover {
       transform: translateY(-4px);
       z-index: 10;
-    }
-
-    .services-stages-section .hidden.lg\\:grid > div {
-      overflow: hidden;
-      padding-bottom: 4px;
     }
   }
 
@@ -192,8 +191,6 @@ const serviceIcons = [
     .services-carousel-wrapper .carousel-slide,
     .services-carousel-wrapper .embla__slide {
       width: calc((100% - 6rem) / 4);
-      max-width: calc((100% - 6rem) / 4);
-      min-width: calc((100% - 6rem) / 4);
       flex: 0 0 calc((100% - 6rem) / 4);
     }
 
@@ -204,6 +201,10 @@ const serviceIcons = [
 </style>
 
 <script>
-  import { initServicesCarousel } from "../../../scripts/sections/services/servicesCarousel";
-  initServicesCarousel();
+  import { setupCarouselSection } from "../../../scripts/sections/utils/carouselUtils";
+  setupCarouselSection({
+    containerId: "services-carousel-container",
+    dotSelector: ".services-carousel-dot",
+    breakpoint: 1024,
+  });
 </script>

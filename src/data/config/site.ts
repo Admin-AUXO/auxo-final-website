@@ -29,5 +29,5 @@ export const siteData = {
   },
   privacyEmail: 'privacy@auxodata.com',
   themeColor: '#121212',
-};
+} as const;
 
