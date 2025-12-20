@@ -93,9 +93,9 @@ const isMinimal = variant === "minimal";
           </p>
 
           {secondaryText && (
-            <p class="text-body-base text-theme-secondary/80 leading-relaxed font-body mx-auto max-w-2xl">
-              {secondaryText}
-            </p>
+          <p class="text-body-lg text-theme-secondary/80 leading-relaxed font-body mx-auto max-w-2xl">
+            {secondaryText}
+          </p>
           )}
         </div>
 
@@ -113,7 +113,7 @@ const isMinimal = variant === "minimal";
 
         {additionalInfo && (
           <div class="pt-4 sm:pt-6 border-t border-accent-green/10" data-aos="fade-up" data-aos-duration="500" data-aos-easing="ease-out-cubic" data-aos-delay={badge ? "400" : "300"}>
-            <p class="text-sm text-theme-secondary/90 font-body flex items-center justify-center gap-2">
+            <p class="text-body-base text-theme-secondary/90 font-body flex items-center justify-center gap-2">
               <Icon name="mdi:information-outline" class="w-4 h-4 text-accent-green" />
               <span>{additionalInfo}</span>
             </p>
@@ -131,8 +131,6 @@ const isMinimal = variant === "minimal";
   .service-cta-section,
   .final-cta-section {
     overflow: hidden !important;
-    overflow-x: hidden !important;
-    overflow-y: hidden !important;
   }
 
   .cta-bg-gradient[data-variant="standard"] {

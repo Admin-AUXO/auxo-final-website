@@ -23,13 +23,11 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
-      <div class="mb-8 sm:mb-12 lg:mb-16" data-aos="fade-down" data-aos-duration="600" data-aos-easing="ease-out-cubic">
-        <SectionHeader
-          title={content?.title || ''}
-          subtitle={content?.subtitle || ''}
-          highlight="Technologies"
-        />
-      </div>
+      <SectionHeader
+        title={content?.title || ''}
+        subtitle={content?.subtitle || ''}
+        highlight="Technologies"
+      />
 
       {items.length > 0 ? (
         <div class="tech-stack-marquee-wrapper relative py-4 sm:py-6">
@@ -42,7 +40,7 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
                   name={item.icon} 
                   class="tech-stack-icon w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12" 
                 />
-                <span class="tech-stack-name text-base sm:text-lg lg:text-xl font-semibold whitespace-nowrap">
+                <span class="tech-stack-name text-body-lg sm:text-[1.1875rem] lg:text-xl font-semibold whitespace-nowrap">
                   {item.name}
                 </span>
               </div>
@@ -60,17 +58,11 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
 
 <style>
   .tech-stack-section {
-    position: relative;
-    overflow: hidden !important;
-    overflow-x: hidden !important;
-    overflow-y: hidden !important;
+    overflow: hidden;
   }
 
   .tech-stack-marquee-wrapper {
-    position: relative;
-    overflow: hidden !important;
-    overflow-x: hidden !important;
-    overflow-y: hidden !important;
+    overflow: hidden;
     mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
   }

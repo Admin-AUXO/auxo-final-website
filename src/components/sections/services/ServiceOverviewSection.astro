@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import SectionContainer from "../../layouts/SectionContainer.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
 import HighlightText from "../../ui/HighlightText.astro";
 import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
 import type { ServiceDetail } from "../../../data/content/services";
@@ -22,17 +23,11 @@ const { service } = Astro.props;
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-6xl mx-auto">
-      <div
-        class="text-center mb-12 lg:mb-16"
-        data-aos="fade-down"
-      >
-        <h2 class="text-h2 font-extrabold mb-4 lg:mb-6 leading-tight tracking-tight font-display text-theme-primary">
-          {service.overview.title}
-        </h2>
-        <p class="text-base sm:text-body-lg lg:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body">
-          <HighlightText text={service.overview.description} highlight={service.overview.descriptionHighlight} highlightClass="text-accent-green font-semibold" />
-        </p>
-      </div>
+      <SectionHeader
+        title={service.overview.title}
+        subtitle={service.overview.description}
+        subtitleHighlight={service.overview.descriptionHighlight}
+      />
 
       <div class="hidden lg:grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16">
         <div
@@ -44,7 +39,7 @@ const { service } = Astro.props;
             <div class="w-10 h-10 bg-red-500/15 rounded-xl flex items-center justify-center">
               <Icon name="mdi:close" class="w-5 h-5 text-red-500" />
             </div>
-            <h3 class="text-xl sm:text-2xl font-bold text-theme-primary font-display">Challenges We Solve</h3>
+            <h3 class="text-h4 font-bold text-theme-primary font-display">Challenges We Solve</h3>
           </div>
 
           <div class="space-y-4">
@@ -53,7 +48,7 @@ const { service } = Astro.props;
                 <div class="w-8 h-8 bg-red-500/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
                   <span class="text-sm font-bold text-red-500 font-display">{index + 1}</span>
                 </div>
-                <p class="text-body-base text-theme-secondary leading-relaxed font-body flex-1">
+                <p class="text-body-lg text-theme-secondary leading-relaxed font-body flex-1">
                   {challenge}
                 </p>
               </div>
@@ -70,7 +65,7 @@ const { service } = Astro.props;
             <div class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center">
               <Icon name="mdi:check-circle" class="w-5 h-5 text-accent-green" />
             </div>
-            <h3 class="text-xl sm:text-2xl font-bold text-theme-primary font-display">Our Solutions</h3>
+            <h3 class="text-h4 font-bold text-theme-primary font-display">Our Solutions</h3>
           </div>
 
           <div class="space-y-4">
@@ -79,7 +74,7 @@ const { service } = Astro.props;
                 <div class="w-8 h-8 bg-accent-green/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
                   <span class="text-sm font-bold text-accent-green font-display">{index + 1}</span>
                 </div>
-                <p class="text-body-base text-theme-secondary leading-relaxed font-body flex-1">
+                <p class="text-body-lg text-theme-secondary leading-relaxed font-body flex-1">
                   {solution}
                 </p>
               </div>
@@ -95,7 +90,7 @@ const { service } = Astro.props;
               <div class="w-10 h-10 bg-red-500/15 rounded-xl flex items-center justify-center">
                 <Icon name="mdi:close" class="w-5 h-5 text-red-500" />
               </div>
-              <h3 class="text-lg font-bold text-theme-primary font-display">Challenges We Solve</h3>
+              <h3 class="text-h4 font-bold text-theme-primary font-display">Challenges We Solve</h3>
             </div>
             <Icon name="mdi:chevron-down" class="w-5 h-5 text-theme-secondary transition-transform duration-300 service-accordion-chevron" />
           </summary>
@@ -107,7 +102,7 @@ const { service } = Astro.props;
                   <div class="w-8 h-8 bg-red-500/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
                     <span class="text-sm font-bold text-red-500 font-display">{index + 1}</span>
                   </div>
-                  <p class="text-body-base text-theme-secondary leading-relaxed font-body flex-1">
+                  <p class="text-body-lg text-theme-secondary leading-relaxed font-body flex-1">
                     {challenge}
                   </p>
                 </div>
@@ -122,7 +117,7 @@ const { service } = Astro.props;
               <div class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center">
                 <Icon name="mdi:check-circle" class="w-5 h-5 text-accent-green" />
               </div>
-              <h3 class="text-lg font-bold text-theme-primary font-display">Our Solutions</h3>
+              <h3 class="text-h4 font-bold text-theme-primary font-display">Our Solutions</h3>
             </div>
             <Icon name="mdi:chevron-down" class="w-5 h-5 text-theme-secondary transition-transform duration-300 service-accordion-chevron" />
           </summary>
@@ -134,7 +129,7 @@ const { service } = Astro.props;
                   <div class="w-8 h-8 bg-accent-green/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
                     <span class="text-sm font-bold text-accent-green font-display">{index + 1}</span>
                   </div>
-                  <p class="text-body-base text-theme-secondary leading-relaxed font-body flex-1">
+                  <p class="text-body-lg text-theme-secondary leading-relaxed font-body flex-1">
                     {solution}
                   </p>
                 </div>

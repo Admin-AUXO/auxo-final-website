@@ -1,5 +1,5 @@
 import { CountUp } from 'countup.js';
-import { observeOnce } from './observers';
+import { observeOnce } from './observers.js';
 
 export function initCountUpAnimations() {
   const counters = document.querySelectorAll('[data-countup]');

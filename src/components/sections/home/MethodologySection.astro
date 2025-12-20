@@ -2,6 +2,7 @@
 import { Icon } from "astro-icon/components";
 import MethodologyStep from "../../ui/MethodologyStep.astro";
 import SectionContainer from "../../layouts/SectionContainer.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
 import type { HomepageContent } from "../../../data/content/homepage";
 import { createUrl } from "../../../utils/url";
 
@@ -23,27 +24,11 @@ const { content } = Astro.props;
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
-      <div class="text-center mb-8 sm:mb-12 lg:mb-16" data-aos="fade-down" data-aos-duration="700" data-aos-easing="ease-out-cubic">
-        <h2
-          class="text-h2 font-extrabold mb-5 sm:mb-6 lg:mb-8 text-theme-primary transition-colors leading-tight tracking-tight font-display"
-        >
-          {content.title} <span class="text-accent-green font-black text-[1.1em]">{content.titleHighlight}</span>
-        </h2>
-        <div class="max-w-4xl mx-auto mb-5 sm:mb-6 lg:mb-8" data-aos="fade-up" data-aos-delay="150" data-aos-duration="600" data-aos-easing="ease-out-cubic">
-          <p
-            class="text-body-lg sm:text-body-xl font-bold text-theme-primary leading-relaxed transition-colors font-display"
-          >
-            {content.subtitle.split("\n\n")[0]}
-          </p>
-        </div>
-        <div class="max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="250" data-aos-duration="600" data-aos-easing="ease-out-cubic">
-          <p
-            class="text-base sm:text-body-lg text-theme-secondary leading-relaxed transition-colors font-body"
-          >
-            {content.subtitle.split("\n\n")[1]?.replace(":", "") || ""}
-          </p>
-        </div>
-      </div>
+      <SectionHeader
+        title={`${content.title} ${content.titleHighlight}`}
+        subtitle={content.subtitle.replace(/\n\n/g, " ").replace(":", "")}
+        highlight={content.titleHighlight}
+      />
 
       <div class="hidden lg:block methodology-flow relative overflow-x-visible">
         <div

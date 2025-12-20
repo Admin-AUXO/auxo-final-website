@@ -20,14 +20,11 @@
   opacity: 0.5;
 }
 
-.highlight-gradient.home-hero-highlight::after {
+.highlight-gradient.home-hero-highlight::after,
+.hero-typing-text .highlight-gradient::after {
   display: none;
 }
 
-.highlight-gradient.auxo-glow::after,
-.hero-typing-text .highlight-gradient.auxo-glow::after {
-  display: none;
-}
 
 @media (min-width: 640px) {
   .highlight-gradient::after {

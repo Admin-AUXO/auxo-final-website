@@ -1,6 +1,7 @@
 ---
 import type { HomepageContent } from "../../../data/content/homepage";
 import SectionContainer from "../../layouts/SectionContainer.astro";
+import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
 
 interface Props {
   content: HomepageContent["problem"];
@@ -11,24 +12,26 @@ const { content: problemContent } = Astro.props;
 
 <SectionContainer
   id="value-proposition"
-  padding="normal"
+  padding="lg"
   background="surface"
-  class="relative flex items-center overflow-hidden transition-colors value-proposition-section section-divider-bottom"
+  class="relative flex items-center overflow-hidden transition-colors value-proposition-section section-divider min-h-auto md:min-h-[60vh] lg:min-h-[70vh]"
 >
-  <div class="section-gradient-hero absolute inset-0 pointer-events-none z-0"></div>
+  <BackgroundDecorations gradients={["hero", "center"]} patterns={["grid"]} />
   
   <div class="grid-container relative z-10">
-    <div
-      class="col-span-full text-center max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8"
-    >
+    <div class="col-span-full max-w-7xl mx-auto w-full">
       <div
-        id="value-proposition-typing"
-        class="hero-typing-text space-y-6 sm:space-y-8 lg:space-y-10"
+        class="text-center py-6 sm:py-10 lg:py-14 xl:py-16 px-4 sm:px-6 lg:px-8"
         data-aos="fade-up"
         data-aos-duration="800"
         data-aos-easing="ease-out-cubic"
         data-aos-delay="100"
       >
+        <div
+          id="value-proposition-typing"
+          class="hero-typing-text space-y-6 sm:space-y-8 lg:space-y-10 max-w-5xl mx-auto"
+        >
+        </div>
       </div>
     </div>
   </div>
@@ -38,9 +41,7 @@ const { content: problemContent } = Astro.props;
   import { initValuePropositionTyping } from "../../../scripts/sections/home/valuePropositionTyping.js";
   
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      initValuePropositionTyping('value-proposition-typing');
-    });
+    document.addEventListener('DOMContentLoaded', initValuePropositionTyping.bind(null, 'value-proposition-typing'));
   } else {
     initValuePropositionTyping('value-proposition-typing');
   }

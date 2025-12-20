@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import SectionContainer from "../../layouts/SectionContainer.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
 import HighlightText from "../../ui/HighlightText.astro";
 import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
 import Carousel from "../../ui/Carousel.astro";
@@ -29,17 +30,11 @@ const { service } = Astro.props;
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <div
-        class="text-center mb-12 lg:mb-16"
-        data-aos="fade-down"
-      >
-        <h2 class="text-h2 font-extrabold mb-4 lg:mb-6 leading-tight tracking-tight font-display text-theme-primary">
-          {service.benefits.title}
-        </h2>
-        <p class="text-base sm:text-body-lg lg:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body">
-          <HighlightText text={service.benefits.description} highlight={service.benefits.descriptionHighlight} highlightClass="text-accent-green font-semibold" />
-        </p>
-      </div>
+      <SectionHeader
+        title={service.benefits.title}
+        subtitle={service.benefits.description}
+        subtitleHighlight={service.benefits.descriptionHighlight}
+      />
 
       <div class="hidden lg:grid lg:grid-cols-4 gap-6 lg:gap-8">
         {service.benefits.features.map((feature: BenefitFeature, index: number) => (
@@ -58,10 +53,10 @@ const { service } = Astro.props;
                   </div>
                 </div>
 
-                <h3 class="text-lg lg:text-xl font-bold text-theme-primary leading-tight mb-3 lg:mb-4 group-hover:text-accent-green transition-colors duration-500 font-display">
+                <h3 class="text-h4 font-bold text-theme-primary leading-tight mb-3 lg:mb-4 group-hover:text-accent-green transition-colors duration-500 font-display">
                   {feature.title}
                 </h3>
-                <p class="text-body-base text-theme-secondary leading-relaxed font-body">
+                <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
                   {feature.description}
                 </p>
               </div>

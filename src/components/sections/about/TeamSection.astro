@@ -41,7 +41,7 @@ const { content } = Astro.props;
             <HighlightText text={content.title} highlight="AUXO" highlightClass="text-accent-green font-black" />
           </h2>
         </div>
-        <p class="text-base sm:text-body-lg lg:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body px-4 sm:px-6">
+        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body px-4 sm:px-6">
           <HighlightText text={content.description} highlight={["consultants", "data engineers", "data scientists"]} highlightClass="text-accent-green font-bold" />
         </p>
       </div>
@@ -64,10 +64,10 @@ const { content } = Astro.props;
                   <h4 class="text-xl font-bold text-theme-primary mb-2 font-display">
                     {member.name}
                   </h4>
-                  <p class="text-accent-green font-semibold mb-4 text-sm sm:text-base font-body">
+                  <p class="text-accent-green font-semibold mb-4 text-body-base sm:text-body-lg font-body">
                     {member.role}
                   </p>
-                  <p class="text-body-base text-theme-secondary leading-relaxed font-body">
+                  <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
                     {member.bio}
                   </p>
                 </div>
@@ -95,10 +95,10 @@ const { content } = Astro.props;
                   <h4 class="text-xl font-bold text-theme-primary mb-2 font-display">
                     {advisor.name}
                   </h4>
-                  <p class="text-accent-green font-semibold mb-4 text-sm sm:text-base font-body">
+                  <p class="text-accent-green font-semibold mb-4 text-body-base sm:text-body-lg font-body">
                     {advisor.role}
                   </p>
-                  <p class="text-body-base text-theme-secondary leading-relaxed font-body">
+                  <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
                     {advisor.bio}
                   </p>
                 </div>

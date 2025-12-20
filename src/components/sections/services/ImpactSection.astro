@@ -132,13 +132,9 @@ const { content } = Astro.props;
     if (!carouselTrack || !carouselContainer) return;
     
     if (carouselSection) {
-      carouselSection.style.setProperty('overflow', 'hidden', 'important');
-      carouselSection.style.setProperty('overflow-x', 'hidden', 'important');
-      carouselSection.style.setProperty('overflow-y', 'hidden', 'important');
+      carouselSection.style.overflow = 'hidden';
     }
-    carouselContainer.style.setProperty('overflow', 'hidden', 'important');
-    carouselContainer.style.setProperty('overflow-x', 'hidden', 'important');
-    carouselContainer.style.setProperty('overflow-y', 'hidden', 'important');
+    carouselContainer.style.overflow = 'hidden';
     
     const slides = Array.from(carouselTrack.children) as HTMLElement[];
     if (slides.length === 0) return;
@@ -155,17 +151,6 @@ const { content } = Astro.props;
     
     requestAnimationFrame(() => {
       window.dispatchEvent(new Event('resize', { bubbles: true }));
-      // CSS rules with !important will handle overflow, so we can clear inline styles
-      if (carouselSection && carouselSection instanceof HTMLElement) {
-        carouselSection.style.removeProperty('overflow');
-        carouselSection.style.removeProperty('overflow-x');
-        carouselSection.style.removeProperty('overflow-y');
-      }
-      if (carouselContainer instanceof HTMLElement) {
-        carouselContainer.style.removeProperty('overflow');
-        carouselContainer.style.removeProperty('overflow-x');
-        carouselContainer.style.removeProperty('overflow-y');
-      }
     });
   }
   

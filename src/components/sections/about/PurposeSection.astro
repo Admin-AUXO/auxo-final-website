@@ -1,8 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
 import SectionContainer from "../../layouts/SectionContainer.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
 import HighlightCard from "../../ui/HighlightCard.astro";
-import HighlightText from "../../ui/HighlightText.astro";
 
 interface Props {
   content: {
@@ -31,14 +31,12 @@ const { content } = Astro.props;
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-5xl mx-auto w-full">
-      <div class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16" data-aos="fade-down" data-aos-duration="600" data-aos-easing="ease-out-cubic">
-        <h2 class="text-h2 font-extrabold mb-3 sm:mb-4 lg:mb-5 xl:mb-6 text-theme-primary leading-tight tracking-tight font-display px-2">
-          {content.title}
-        </h2>
-        <p class="text-base sm:text-body-lg lg:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body px-4 sm:px-6">
-          <HighlightText text={content.description} highlight="AUXO" highlightClass="text-accent-green font-black" />
-        </p>
-      </div>
+      <SectionHeader
+        title={content.title}
+        subtitle={content.description}
+        highlight="AUXO"
+        subtitleHighlight={content.descriptionHighlight}
+      />
 
       <div class="name-origin-card" data-aos="fade-up" data-aos-delay="150" data-aos-duration="500" data-aos-easing="ease-out-cubic">
         <HighlightCard

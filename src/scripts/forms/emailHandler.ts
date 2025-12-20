@@ -1,6 +1,6 @@
 import emailjs from '@emailjs/browser';
-import { validateContactForm, getFormData, showFieldError, hideFieldError } from './validation';
-import { showSuccess, showError } from '../utils/notifications';
+import { validateContactForm, getFormData, showFieldError, hideFieldError } from './validation.js';
+import { showSuccess, showError } from '../utils/notifications.js';
 
 const EMAILJS_CONFIG = {
   serviceId: 'YOUR_SERVICE_ID',

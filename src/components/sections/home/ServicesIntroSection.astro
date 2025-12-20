@@ -20,20 +20,18 @@ const { content } = Astro.props;
   id="services-intro"
   padding="normal"
   background="card"
-  class="relative transition-colors pb-8 sm:pb-12 lg:pb-16 services-intro-section section-divider-top overflow-hidden"
+  class="relative transition-colors services-intro-section section-divider-top overflow-hidden"
 >
   <BackgroundDecorations patterns={["grid"]} />
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
-      <div data-aos="fade-down" data-aos-duration="600" data-aos-easing="ease-out-cubic">
-        <SectionHeader
-          title={content.title}
-          subtitle={content.subheading}
-          highlight="Starting Points"
-          subtitleHighlight="begin"
-        />
-      </div>
+      <SectionHeader
+        title={content.title}
+        subtitle={content.subheading}
+        highlight="Starting Points"
+        subtitleHighlight="begin"
+      />
 
       <div class="hidden lg:grid lg:grid-cols-3 lg:gap-6 xl:gap-8 services-grid-desktop">
         {content.items.map((item, index) => (
@@ -75,7 +73,7 @@ const { content } = Astro.props;
         ))}
       </Carousel>
 
-      <div class="text-center mt-8 sm:mt-10 lg:mt-12 xl:mt-16 px-4" data-aos="fade-up" data-aos-delay="450" data-aos-duration="600" data-aos-easing="ease-out-cubic">
+      <div class="text-center mt-8 sm:mt-10 lg:mt-12 px-4" data-aos="fade-up" data-aos-delay="450" data-aos-duration="600" data-aos-easing="ease-out-cubic">
         <Button
           variant="primary"
           size="lg"
