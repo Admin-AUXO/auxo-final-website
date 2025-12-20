@@ -164,22 +164,42 @@ function setupCalendarButton(button: HTMLElement): void {
     return false;
   };
 
+  const handleMouseDown = (e: MouseEvent) => {
+    if (e.button === 0) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    }
+  };
+
+  button.addEventListener('mousedown', handleMouseDown, { capture: true, passive: false });
   button.addEventListener('click', handleClick, { capture: true, passive: false });
+  button.addEventListener('auxclick', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+  }, { capture: true, passive: false });
   
   if (button instanceof HTMLAnchorElement) {
     button.removeAttribute('href');
     button.removeAttribute('target');
+    button.setAttribute('role', 'button');
     button.style.cursor = 'pointer';
+    button.onclick = () => false;
   }
 
-  button.setAttribute('role', 'button');
+  if (!button.hasAttribute('role')) {
+    button.setAttribute('role', 'button');
+  }
   button.setAttribute('tabindex', '0');
   
   button.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
       handleClick(e);
     }
-  });
+  }, { capture: true });
 
   initializedButtons.add(button);
 }
@@ -198,6 +218,10 @@ function setupCalendarButtons(): void {
   links.forEach((link) => {
     if (!link.hasAttribute('data-google-calendar-open') && !initializedButtons.has(link)) {
       link.setAttribute('data-google-calendar-open', '');
+      link.removeAttribute('href');
+      link.removeAttribute('target');
+      link.setAttribute('role', 'button');
+      link.onclick = () => false;
       setupCalendarButton(link);
     }
   });
@@ -205,6 +229,33 @@ function setupCalendarButtons(): void {
 
 function initializeGoogleCalendar(): void {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+  const handleGlobalClick = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    const button = target.closest<HTMLElement>('[data-google-calendar-open]');
+    if (button) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      
+      if (!initializedButtons.has(button)) {
+        setupCalendarButton(button);
+      }
+      openCalendarPopup();
+      return false;
+    }
+  };
+
+  document.addEventListener('click', handleGlobalClick, { capture: true, passive: false });
+  document.addEventListener('mousedown', (e) => {
+    const target = e.target as HTMLElement;
+    const button = target.closest<HTMLElement>('[data-google-calendar-open]');
+    if (button && e.button === 0) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    }
+  }, { capture: true, passive: false });
 
   setupCalendarButtons();
 
@@ -215,7 +266,7 @@ function initializeGoogleCalendar(): void {
   }
 
   document.addEventListener('astro:page-load', () => {
-    setTimeout(setupCalendarButtons, 200);
+    setTimeout(setupCalendarButtons, 100);
   }, { once: false });
 
   if (document.readyState === 'loading') {
@@ -225,15 +276,6 @@ function initializeGoogleCalendar(): void {
   }
 
   window.addEventListener('load', setupCalendarButtons, { once: true });
-
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    const button = target.closest<HTMLElement>('[data-google-calendar-open]');
-    if (button && !initializedButtons.has(button)) {
-      setupCalendarButton(button);
-      button.click();
-    }
-  }, { capture: true });
 }
 
 export function setupGoogleCalendar(): void {

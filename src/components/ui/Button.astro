@@ -67,7 +67,12 @@ const tagProps = (href && !isGoogleCalendar)
   : {
       type,
       disabled,
-      ...(isGoogleCalendar ? { 'data-google-calendar-open': '' } : {}),
+      ...(isGoogleCalendar ? { 
+        'data-google-calendar-open': '',
+        'href': undefined,
+        'target': undefined,
+        'onclick': 'return false;'
+      } : {}),
     };
 ---
 
