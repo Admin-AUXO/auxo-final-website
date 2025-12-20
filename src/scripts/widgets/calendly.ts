@@ -201,6 +201,7 @@ function initWidget(forceReinit = false): void {
   if (!isInitialized) {
     const url = getCalendlyUrl();
     widget.setAttribute('data-url', url);
+    widget.setAttribute('data-resize', 'true');
     win.Calendly.initInlineWidget({ url, parentElement: widget });
     isInitialized = true;
     
