@@ -4,6 +4,7 @@ import Button from "../../ui/Button.astro";
 import SectionContainer from "../../layouts/SectionContainer.astro";
 import HighlightText from "../../ui/HighlightText.astro";
 import { createUrl } from "../../../utils/url";
+import { shouldOpenCalendly } from "../../../utils/ctaRules";
 
 interface Props {
   title: string;
@@ -43,7 +44,11 @@ const {
   calendly = false,
 } = Astro.props;
 
-const shouldOpenCalendly = calendly || /book|schedule|meeting|call|talk|get started|let's talk/i.test(ctaText);
+const shouldOpenCalendlyBtn = calendly || shouldOpenCalendly({
+  text: ctaText,
+  href: ctaHref,
+  context: 'cta-section'
+});
 
 const maxWidthClasses = {
   "2xl": "max-w-2xl",
@@ -107,8 +112,8 @@ const isMinimal = variant === "minimal";
           <Button
             variant="primary"
             size="lg"
-            href={shouldOpenCalendly ? undefined : createUrl(ctaHref)}
-            calendly={shouldOpenCalendly}
+            href={shouldOpenCalendlyBtn ? undefined : createUrl(ctaHref)}
+            calendly={shouldOpenCalendlyBtn}
             class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all duration-300 min-h-[52px] text-base sm:text-lg group/btn"
           >
             <span class="whitespace-nowrap">{ctaText}</span>

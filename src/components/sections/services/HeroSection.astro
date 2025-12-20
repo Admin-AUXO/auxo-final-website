@@ -4,6 +4,7 @@ import Button from "../../ui/Button.astro";
 import HighlightText from "../../ui/HighlightText.astro";
 import HeroLayout from "../../ui/HeroLayout.astro";
 import { createUrl } from "../../../utils/url";
+import { shouldOpenCalendly } from "../../../utils/ctaRules";
 
 interface Props {
   content: {
@@ -18,7 +19,11 @@ interface Props {
 }
 
 const { content } = Astro.props;
-const shouldOpenCalendly = content.ctaText ? /book|schedule|meeting|call|talk|get started|let's talk/i.test(content.ctaText) : false;
+const shouldOpenCalendlyBtn = content.ctaText ? shouldOpenCalendly({
+  text: content.ctaText,
+  href: content.ctaHref,
+  context: 'hero'
+}) : false;
 ---
 
 <HeroLayout
@@ -79,8 +84,8 @@ const shouldOpenCalendly = content.ctaText ? /book|schedule|meeting|call|talk|ge
         <Button
           variant="primary"
           size="lg"
-          href={shouldOpenCalendly ? undefined : createUrl(content.ctaHref)}
-          calendly={shouldOpenCalendly}
+          href={shouldOpenCalendlyBtn ? undefined : createUrl(content.ctaHref)}
+          calendly={shouldOpenCalendlyBtn}
           class="hero-cta-button group/btn"
         >
           <span class="whitespace-nowrap">{content.ctaText}</span>

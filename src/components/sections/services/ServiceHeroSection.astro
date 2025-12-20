@@ -5,13 +5,18 @@ import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
 import Button from "../../ui/Button.astro";
 import HeroLayout from "../../ui/HeroLayout.astro";
 import type { ServiceDetail } from "../../../data/content/services";
+import { shouldOpenCalendly } from "../../../utils/ctaRules";
 
 interface Props {
   service: ServiceDetail;
 }
 
 const { service } = Astro.props;
-const shouldOpenCalendly = /book|schedule|meeting|call|talk|get started|let's talk/i.test(service.cta.ctaText);
+const shouldOpenCalendlyBtn = shouldOpenCalendly({
+  text: service.cta.ctaText,
+  href: service.cta.ctaHref,
+  context: 'service'
+});
 ---
 
 <HeroLayout
@@ -70,8 +75,8 @@ const shouldOpenCalendly = /book|schedule|meeting|call|talk|get started|let's ta
       <Button
         variant="primary"
         size="lg"
-        href={shouldOpenCalendly ? undefined : service.cta.ctaHref}
-        calendly={shouldOpenCalendly}
+        href={shouldOpenCalendlyBtn ? undefined : service.cta.ctaHref}
+        calendly={shouldOpenCalendlyBtn}
         class="hero-cta-button group/btn"
       >
         <span class="whitespace-nowrap">{service.cta.ctaText}</span>

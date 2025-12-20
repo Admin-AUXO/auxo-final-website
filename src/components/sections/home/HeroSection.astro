@@ -4,6 +4,7 @@ import Button from "../../ui/Button.astro";
 import HeroLayout from "../../ui/HeroLayout.astro";
 import type { HomepageContent } from "../../../data/content/homepage";
 import { createUrl } from "../../../utils/url";
+import { shouldOpenCalendly } from "../../../utils/ctaRules";
 
 interface Props {
   content: HomepageContent["hero"];
@@ -13,13 +14,17 @@ const { content } = Astro.props;
 
 const ctaText = content.primaryCta?.text || "Learn more";
 const ctaHref = content.primaryCta?.href || "about";
-const shouldOpenCalendly = /book|schedule|meeting|call|talk|get started|let's talk/i.test(ctaText);
+const shouldOpenCalendlyBtn = shouldOpenCalendly({
+  text: ctaText,
+  href: ctaHref,
+  context: 'hero'
+});
 
 const cta = {
   text: ctaText,
-  href: shouldOpenCalendly ? undefined : createUrl(ctaHref),
+  href: shouldOpenCalendlyBtn ? undefined : createUrl(ctaHref),
   variant: "primary" as const,
-  calendly: shouldOpenCalendly,
+  calendly: shouldOpenCalendlyBtn,
 };
 ---
 
