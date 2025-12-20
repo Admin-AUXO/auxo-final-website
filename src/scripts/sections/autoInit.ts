@@ -16,7 +16,12 @@ export function autoInitCarousels(): void {
   if (isInitialized) return;
   isInitialized = true;
   
+  if (typeof document === 'undefined') return;
+  
   CAROUSEL_CONTAINERS.forEach((containerId) => {
-    setupSectionInit(() => initCarouselById(containerId));
+    const container = document.getElementById(containerId);
+    if (container) {
+      setupSectionInit(() => initCarouselById(containerId));
+    }
   });
 }
