@@ -1,5 +1,6 @@
 interface CalendlyWindow extends Window {
   Calendly?: {
+    initInlineWidget: (options: { url: string; parentElement: HTMLElement }) => void;
     initBadgeWidget: (options: {
       url: string;
       text: string;
@@ -7,13 +8,14 @@ interface CalendlyWindow extends Window {
       textColor: string;
       branding: boolean;
     }) => void;
-    initPopupWidget: (options: { url: string }) => void;
   };
 }
 
 const CALENDLY_URL = 'https://calendly.com/admin-auxodata/30min';
 const SCRIPT_URL = 'https://assets.calendly.com/assets/external/widget.js';
 const CSS_URL = 'https://assets.calendly.com/assets/external/widget.css';
+const MODAL_ID = 'calendly-modal';
+const WIDGET_ID = 'calendly-widget';
 const THEME_CHANGE_DELAY = 300;
 
 let isInitialized = false;
@@ -25,13 +27,16 @@ function getCssVar(name: string, fallback: string): string {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
 }
 
-function isDarkTheme(): boolean {
+function getCurrentTheme(): string {
   const html = document.documentElement;
-  return html.classList.contains('dark') || (!html.classList.contains('light') && !html.classList.contains('dark'));
+  if (html.classList.contains('dark')) return 'dark';
+  if (html.classList.contains('light')) return 'light';
+  return 'dark';
 }
 
 function getCalendlyUrl(): string {
-  const isDark = isDarkTheme();
+  const isDark = getCurrentTheme() === 'dark';
+  
   const accentGreen = getCssVar('--accent-green', '#A3E635').replace('#', '');
   const bgPrimary = getCssVar('--bg-primary', isDark ? '#000000' : '#FFFFFF').replace('#', '');
   const textPrimary = getCssVar('--text-primary', isDark ? '#FFFFFF' : '#000000').replace('#', '');
@@ -46,11 +51,13 @@ function getCalendlyUrl(): string {
   return `${CALENDLY_URL}?${params.toString()}`;
 }
 
-function getButtonColors(): { color: string; textColor: string } {
-  return {
-    color: getCssVar('--accent-green', '#A3E635'),
-    textColor: isDarkTheme() ? '#000000' : '#FFFFFF'
-  };
+function getButtonColor(): string {
+  return getCssVar('--accent-green', '#A3E635');
+}
+
+function getButtonTextColor(): string {
+  const isDark = getCurrentTheme() === 'dark';
+  return isDark ? '#000000' : '#FFFFFF';
 }
 
 function ensureThemeReady(): void {
@@ -68,25 +75,26 @@ function waitForThemeAndCssVars(callback: () => void): void {
     const hasTheme = html.classList.contains('dark') || html.classList.contains('light');
     if (!hasTheme) return false;
     
-    const style = getComputedStyle(html);
-    return !!(style.getPropertyValue('--bg-primary').trim() && 
-             style.getPropertyValue('--text-primary').trim() && 
-             style.getPropertyValue('--accent-green').trim());
+    const computedStyle = getComputedStyle(html);
+    const bgPrimary = computedStyle.getPropertyValue('--bg-primary').trim();
+    const textPrimary = computedStyle.getPropertyValue('--text-primary').trim();
+    const accentGreen = computedStyle.getPropertyValue('--accent-green').trim();
+    
+    return !!(bgPrimary && textPrimary && accentGreen);
   };
   
-  const executeCallback = () => requestAnimationFrame(() => requestAnimationFrame(callback));
-  
   if (checkReady()) {
-    executeCallback();
+    requestAnimationFrame(() => requestAnimationFrame(callback));
     return;
   }
   
   let attempts = 0;
   const maxAttempts = 50;
   const checkInterval = setInterval(() => {
-    if (checkReady() || ++attempts >= maxAttempts) {
+    attempts++;
+    if (checkReady() || attempts >= maxAttempts) {
       clearInterval(checkInterval);
-      executeCallback();
+      requestAnimationFrame(() => requestAnimationFrame(callback));
     }
   }, 50);
   
@@ -94,10 +102,9 @@ function waitForThemeAndCssVars(callback: () => void): void {
     if (checkReady()) {
       observer.disconnect();
       clearInterval(checkInterval);
-      executeCallback();
+      requestAnimationFrame(() => requestAnimationFrame(callback));
     }
   });
-  
   observer.observe(document.documentElement, { 
     attributes: true, 
     attributeFilter: ['class']
@@ -108,7 +115,7 @@ function waitForThemeAndCssVars(callback: () => void): void {
       if (checkReady()) {
         observer.disconnect();
         clearInterval(checkInterval);
-        executeCallback();
+        requestAnimationFrame(() => requestAnimationFrame(callback));
       }
     }, { once: true });
   }
@@ -152,34 +159,79 @@ function loadCalendlyResources(callback: () => void): void {
   document.body.appendChild(script);
 }
 
-function initPopupWidget(): void {
+function initModalWidget(): void {
+  const widget = document.getElementById(WIDGET_ID);
+  if (!widget) return;
+
   const win = window as CalendlyWindow;
   if (!win.Calendly) {
-    loadCalendlyResources(() => initPopupWidget());
+    loadCalendlyResources(() => initModalWidget());
+    return;
+  }
+
+  const hasContent = widget.querySelector('.calendly-inline-widget > div');
+  if (hasContent) return;
+
+  const url = getCalendlyUrl();
+  widget.setAttribute('data-url', url);
+  win.Calendly.initInlineWidget({ url, parentElement: widget });
+}
+
+function openModal(): void {
+  const modal = document.getElementById(MODAL_ID);
+  if (!modal) return;
+
+  document.body.style.overflow = 'hidden';
+  modal.classList.remove('hidden');
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden', 'false');
+  
+  waitForThemeAndCssVars(() => {
+    initModalWidget();
+  });
+}
+
+function closeModal(): void {
+  const modal = document.getElementById(MODAL_ID);
+  if (!modal) return;
+
+  document.body.style.overflow = '';
+  modal.classList.remove('show');
+  modal.classList.add('hidden');
+  modal.setAttribute('aria-hidden', 'true');
+}
+
+function initFloatingButton(): void {
+  const win = window as CalendlyWindow;
+  if (!win.Calendly) {
+    loadCalendlyResources(() => initFloatingButton());
     return;
   }
 
   if (isInitialized) return;
 
   const url = getCalendlyUrl();
-  const { color, textColor } = getButtonColors();
+  const buttonColor = getButtonColor();
+  const buttonTextColor = getButtonTextColor();
 
   win.Calendly.initBadgeWidget({
     url,
-    text: 'Schedule time with me',
-    color,
-    textColor,
+    text: '',
+    color: buttonColor,
+    textColor: buttonTextColor,
     branding: false
   });
 
-  isInitialized = true;
-}
+  const badge = document.querySelector('.calendly-badge-widget');
+  if (badge) {
+    badge.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
+    });
+  }
 
-function getCurrentTheme(): string {
-  const html = document.documentElement;
-  if (html.classList.contains('dark')) return 'dark';
-  if (html.classList.contains('light')) return 'light';
-  return 'dark';
+  isInitialized = true;
 }
 
 function handleThemeChange(): void {
@@ -196,7 +248,13 @@ function handleThemeChange(): void {
       if (badge) {
         badge.remove();
         isInitialized = false;
-        initPopupWidget();
+        initFloatingButton();
+      }
+      
+      const widget = document.getElementById(WIDGET_ID);
+      if (widget) {
+        widget.innerHTML = '';
+        initModalWidget();
       }
     }, THEME_CHANGE_DELAY);
   } else if (!lastTheme) {
@@ -204,18 +262,15 @@ function handleThemeChange(): void {
   }
 }
 
-export function openCalendlyPopup(): void {
-  const win = window as CalendlyWindow;
-  if (!win.Calendly) {
-    loadCalendlyResources(() => {
-      const url = getCalendlyUrl();
-      win.Calendly?.initPopupWidget({ url });
+function setupCalendlyButtons(): void {
+  const buttons = document.querySelectorAll('[data-calendly-open]');
+  buttons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
     });
-    return;
-  }
-  
-  const url = getCalendlyUrl();
-  win.Calendly.initPopupWidget({ url });
+  });
 }
 
 export function setupCalendly(): void {
@@ -228,21 +283,34 @@ export function setupCalendly(): void {
     const themeObserver = new MutationObserver(handleThemeChange);
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-    waitForThemeAndCssVars(() => {
-      initPopupWidget();
-      setupPopupTriggers();
-    });
-  }
-
-  function setupPopupTriggers(): void {
-    const triggers = document.querySelectorAll('[data-calendly-trigger]');
-    triggers.forEach((trigger) => {
-      if (trigger.hasAttribute('data-trigger-initialized')) return;
-      trigger.setAttribute('data-trigger-initialized', 'true');
-      trigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        openCalendlyPopup();
+    const modal = document.getElementById(MODAL_ID);
+    if (modal) {
+      const closeButtons = modal.querySelectorAll('[data-calendly-close]');
+      closeButtons.forEach((btn) => {
+        btn.addEventListener('click', closeModal);
       });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal || (e.target as HTMLElement).classList.contains('calendly-modal-overlay')) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
+          closeModal();
+        }
+      });
+    }
+
+    setupCalendlyButtons();
+    
+    document.addEventListener('astro:page-load', () => {
+      setupCalendlyButtons();
+    });
+
+    waitForThemeAndCssVars(() => {
+      initFloatingButton();
     });
   }
 
@@ -251,10 +319,8 @@ export function setupCalendly(): void {
   } else {
     initialize();
   }
+}
 
-  document.addEventListener('astro:page-load', () => {
-    waitForThemeAndCssVars(() => {
-      setupPopupTriggers();
-    });
-  });
+export function openCalendlyModal(): void {
+  openModal();
 }

@@ -4,6 +4,7 @@ import Navigation from "../components/common/Navigation.astro";
 import Footer from "../components/common/Footer.astro";
 import ParticleBackground from "../components/effects/ParticleBackground.astro";
 import ScrollProgressBar from "../components/ui/ScrollProgressBar.astro";
+import CalendlyModal from "../components/widgets/CalendlyModal.astro";
 import { createAssetUrl } from "../utils/url";
 import "../styles/tokens.css";
 import "../styles/base.css";
@@ -161,7 +162,9 @@ const ogImage = createAssetUrl("/og-image.svg");
     </script>
     <script>
       import { setupServiceWorkerClearing } from "../scripts/utils/serviceWorker";
+      import { setupCalendly } from "../scripts/widgets/calendly";
       setupServiceWorkerClearing();
+      setupCalendly();
     </script>
   </head>
   <body class="min-h-screen flex flex-col relative bg-primary transition-colors duration-normal">

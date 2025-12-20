@@ -130,7 +130,7 @@ export default defineConfig({
           'flask',
         ],
         mdi: [
-          'arrow-right','calendar-clock','calendar-plus',
+          'arrow-right','calendar-clock','calendar-plus','video-outline',
           'chevron-down',
           'chevron-right',
           'star-circle',

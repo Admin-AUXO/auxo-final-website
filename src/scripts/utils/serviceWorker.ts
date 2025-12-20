@@ -35,19 +35,27 @@ export async function clearServiceWorkerCache(): Promise<void> {
 }
 
 function isHardRefreshKeyPressed(event: KeyboardEvent): boolean {
-  return (event.ctrlKey || event.metaKey) && event.shiftKey && 
-         (event.key === 'R' || event.key === 'F5' || event.keyCode === 116);
+  return (
+    (event.ctrlKey || event.metaKey) &&
+    event.shiftKey &&
+    (event.key === 'R' || event.key === 'F5' || event.keyCode === 116)
+  );
 }
 
 function shouldClearPeriodically(): boolean {
   const lastClear = localStorage.getItem(LAST_CLEAR_KEY);
   if (!lastClear) return true;
-  return Date.now() - parseInt(lastClear, 10) >= CACHE_CLEAR_INTERVAL;
+
+  const lastClearTime = parseInt(lastClear, 10);
+  const now = Date.now();
+  return now - lastClearTime >= CACHE_CLEAR_INTERVAL;
 }
 
 function detectHardRefresh(): boolean {
   const navEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
-  return navEntry?.type === 'reload';
+  if (!navEntry) return false;
+  
+  return navEntry.type === 'reload';
 }
 
 export function setupServiceWorkerClearing(): void {
