@@ -3,14 +3,15 @@ import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import icon from 'astro-icon';
 
+const basePath = process.env.BASE_PATH || '/auxo-final-website/';
+
 export default defineConfig({
   site: 'https://auxodata.com',
-  base: process.env.BASE_PATH || '/auxo-final-website/',
+  base: basePath,
   output: 'static',
   build: {
     inlineStylesheets: 'never',
     assets: '_astro',
-    assetsPrefix: '',
   },
   compressHTML: true,
   image: {
