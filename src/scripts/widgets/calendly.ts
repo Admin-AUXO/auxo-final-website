@@ -189,6 +189,13 @@ function openModal(): void {
   modal.classList.add('show');
   modal.setAttribute('aria-hidden', 'false');
   
+  const badge = document.querySelector('.calendly-badge-widget');
+  if (badge) {
+    (badge as HTMLElement).style.opacity = '0';
+    (badge as HTMLElement).style.pointerEvents = 'none';
+    (badge as HTMLElement).style.zIndex = '9999';
+  }
+  
   waitForThemeAndCssVars(() => {
     initModalWidget();
   });
@@ -202,6 +209,13 @@ function closeModal(): void {
   modal.classList.remove('show');
   modal.classList.add('hidden');
   modal.setAttribute('aria-hidden', 'true');
+  
+  const badge = document.querySelector('.calendly-badge-widget');
+  if (badge) {
+    (badge as HTMLElement).style.opacity = '';
+    (badge as HTMLElement).style.pointerEvents = '';
+    (badge as HTMLElement).style.zIndex = '';
+  }
 }
 
 function attachBadgeClickHandler(): void {
