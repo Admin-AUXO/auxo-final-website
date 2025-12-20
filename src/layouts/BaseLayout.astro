@@ -171,7 +171,27 @@ const ogImage = createAssetUrl("/og-image.svg");
     <script>
       import { initSmoothScroll } from "../scripts/smoothScroll";
       import { initScrollAnimations } from "../scripts/scrollAnimations";
-      import { initLazyLoading } from "../scripts/utils/lazyLoad";
+      
+      function initLazyLoading() {
+        const lazyElements = document.querySelectorAll('[data-lazy-load]');
+        if (lazyElements.length === 0) return;
+
+        lazyElements.forEach((element) => {
+          const observer = new IntersectionObserver((entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                const el = entry.target as HTMLElement;
+                el.classList.add('lazy-loaded');
+                el.removeAttribute('data-lazy-load');
+                observer.unobserve(el);
+                observer.disconnect();
+              }
+            }
+          }, { rootMargin: '50px', threshold: 0.01 });
+          
+          observer.observe(element);
+        });
+      }
       
       const initScripts = () => {
         if ('requestIdleCallback' in window) {
