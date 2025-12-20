@@ -28,7 +28,7 @@ export function initCountUpAnimations() {
 
         if (!countUp.error) {
           countUp.start();
-        } else {
+        } else if (import.meta.env.DEV) {
           console.error('CountUp error:', countUp.error);
         }
       },

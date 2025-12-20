@@ -5,6 +5,6 @@ export {
   setupAstroPageLoad,
   setupAstroCleanup,
   setupSectionInit,
+  setupPageAnimations,
 } from "./initUtils";
-export { setupPageAnimations } from "./pageUtils";
 

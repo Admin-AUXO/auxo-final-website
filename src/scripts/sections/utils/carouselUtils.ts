@@ -72,13 +72,11 @@ function createCarouselManager(config: CarouselConfig) {
     const container = document.getElementById(containerId) as HTMLElement;
     const dots = document.querySelectorAll(dotSelector);
 
-    if (!container) {
-      console.warn(`Carousel container not found: ${containerId}`);
-      return;
-    }
-
-    if (dots.length === 0) {
-      console.warn(`Carousel dots not found: ${dotSelector}`);
+    if (!container || dots.length === 0) {
+      if (import.meta.env.DEV) {
+        if (!container) console.warn(`Carousel container not found: ${containerId}`);
+        if (dots.length === 0) console.warn(`Carousel dots not found: ${dotSelector}`);
+      }
       return;
     }
 

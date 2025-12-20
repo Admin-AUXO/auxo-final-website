@@ -929,6 +929,12 @@ body.dropdown-open .dropdown-container[data-modal-dropdown="true"] .dropdown-tog
   }
 }
 
+@media (min-width: 640px) and (max-width: 1023px) {
+  .dropdown-modal-overlay {
+    top: var(--nav-height-sm) !important;
+  }
+}
+
 .dropdown-modal-overlay.open {
   opacity: 1 !important;
   visibility: visible !important;
@@ -1086,10 +1092,18 @@ body.dropdown-open .dropdown-container[data-modal-dropdown="true"] .dropdown-tog
   flex-direction: column !important;
   position: relative !important;
   z-index: var(--z-content) !important;
-  padding: 2rem 1.25rem !important;
+  padding: 1.5rem 1rem !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: contain !important;
 }
 
 @media (min-width: 640px) {
+  .dropdown-modal-content-main {
+    padding: 2rem 1.5rem !important;
+  }
+}
+
+@media (min-width: 768px) {
   .dropdown-modal-content-main {
     padding: 2.5rem 2rem !important;
   }
@@ -1128,12 +1142,41 @@ body.dropdown-open .dropdown-container[data-modal-dropdown="true"] .dropdown-tog
   opacity: 1 !important;
 }
 
+.dropdown-modal-header .col-span-full {
+  min-height: 3.5rem !important;
+}
+
+@media (min-width: 640px) {
+  .dropdown-modal-header .col-span-full {
+    min-height: 4rem !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .dropdown-modal-header .col-span-full {
+    min-height: 4.5rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dropdown-modal-header .col-span-full {
+    min-height: 4.5rem !important;
+  }
+}
+
 .dropdown-modal-header .grid-container {
   padding-left: var(--grid-padding-mobile) !important;
   padding-right: var(--grid-padding-mobile) !important;
 }
 
 @media (min-width: 640px) {
+  .dropdown-modal-header .grid-container {
+    padding-left: var(--grid-padding-sm) !important;
+    padding-right: var(--grid-padding-sm) !important;
+  }
+}
+
+@media (min-width: 768px) {
   .dropdown-modal-header .grid-container {
     padding-left: var(--grid-padding-sm) !important;
     padding-right: var(--grid-padding-sm) !important;
@@ -1152,7 +1195,7 @@ body.dropdown-open .dropdown-container[data-modal-dropdown="true"] .dropdown-tog
   display: grid !important;
   align-items: stretch !important;
   align-content: stretch !important;
-  gap: 1.5rem !important;
+  gap: 1rem !important;
   width: 100% !important;
   max-width: 100% !important;
   grid-auto-rows: 1fr !important;
@@ -1162,9 +1205,15 @@ body.dropdown-open .dropdown-container[data-modal-dropdown="true"] .dropdown-tog
   z-index: var(--z-content) !important;
 }
 
+@media (min-width: 640px) {
+  .services-grid {
+    gap: 1.25rem !important;
+  }
+}
+
 @media (min-width: 768px) {
   .services-grid {
-    gap: 2rem !important;
+    gap: 1.5rem !important;
   }
 }
 
@@ -1177,6 +1226,7 @@ body.dropdown-open .dropdown-container[data-modal-dropdown="true"] .dropdown-tog
 .dropdown-service-card {
   position: relative !important;
   height: 100% !important;
+  min-height: 200px !important;
   animation: fadeInUp 0.4s ease-out backwards !important;
   display: flex !important;
   flex-direction: column !important;
@@ -1185,6 +1235,24 @@ body.dropdown-open .dropdown-container[data-modal-dropdown="true"] .dropdown-tog
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
   z-index: var(--z-content) !important;
   background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-surface) 100%) !important;
+}
+
+@media (min-width: 640px) {
+  .dropdown-service-card {
+    min-height: 220px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .dropdown-service-card {
+    min-height: 240px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dropdown-service-card {
+    min-height: 280px !important;
+  }
 }
 
 .dropdown-service-card:focus-visible {
@@ -1209,8 +1277,20 @@ body.dropdown-open .dropdown-container[data-modal-dropdown="true"] .dropdown-tog
   background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(var(--accent-green-rgb), 0.08) 50%, var(--bg-surface) 100%) !important;
 }
 
+@media (min-width: 768px) {
+  .dropdown-service-card:hover {
+    transform: translateY(-8px) scale(1.03) !important;
+  }
+}
+
 .dropdown-service-card:active {
   transform: translateY(-3px) scale(1.01) !important;
+}
+
+@media (min-width: 768px) {
+  .dropdown-service-card:active {
+    transform: translateY(-4px) scale(1.015) !important;
+  }
 }
 
 

@@ -22,3 +22,9 @@ export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): vo
   }
 }
 
+export function setupPageAnimations(): void {
+  import('../../scrollAnimations').then(({ refreshScrollAnimationsWithDelay }) => {
+    refreshScrollAnimationsWithDelay();
+  });
+}
+

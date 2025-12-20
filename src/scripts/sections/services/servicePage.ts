@@ -1,8 +1,8 @@
-import { setupCarouselSection } from "../utils/carouselUtils";
-import { setupPageAnimations } from "../utils/pageUtils";
-import { setupCounterAnimations } from "./counterAnimations";
-import { setupAccordions } from "./accordions";
-import { setupParallax } from "./parallax";
+import { setupCarouselSection } from "../utils/carouselUtils.js";
+import { setupPageAnimations } from "../utils/initUtils.js";
+import { setupCounterAnimations } from "./counterAnimations.js";
+import { setupAccordions } from "./accordions.js";
+import { setupParallax } from "./parallax.js";
 
 const CAROUSEL_CONFIG = {
   breakpoint: 1024,

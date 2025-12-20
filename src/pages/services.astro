@@ -23,8 +23,7 @@ const servicesContent = await getServicesContent();
   <ServicesCta content={servicesContent.cta} />
 
   <script>
-    import { setupPageAnimations } from "../scripts/sections/utils/pageUtils";
-    import { setupSectionInit } from "../scripts/sections/utils/initUtils";
+    import { setupPageAnimations, setupSectionInit } from "../scripts/sections/utils/initUtils.js";
     setupSectionInit(setupPageAnimations);
   </script>
 </BaseLayout>
