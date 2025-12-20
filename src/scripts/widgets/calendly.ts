@@ -223,10 +223,7 @@ function initFloatingButton(): void {
     return;
   }
 
-  if (isInitialized) {
-    attachBadgeClickHandler();
-    return;
-  }
+  if (isInitialized) return;
 
   const url = getCalendlyUrl();
   const buttonColor = getButtonColor();
@@ -240,18 +237,14 @@ function initFloatingButton(): void {
     branding: false
   });
 
-  let attempts = 0;
-  const maxAttempts = 20;
-  const checkBadge = setInterval(() => {
-    attempts++;
-    const badge = document.querySelector('.calendly-badge-widget');
-    if (badge || attempts >= maxAttempts) {
-      clearInterval(checkBadge);
-      if (badge) {
-        attachBadgeClickHandler();
-      }
-    }
-  }, 100);
+  const badge = document.querySelector('.calendly-badge-widget');
+  if (badge) {
+    badge.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
+    });
+  }
 
   isInitialized = true;
 }
@@ -284,9 +277,6 @@ function handleThemeChange(): void {
   }
   
   attachBadgeClickHandler();
-  } else if (!lastTheme) {
-    lastTheme = currentTheme;
-  }
 }
 
 function setupCalendlyButtons(): void {
