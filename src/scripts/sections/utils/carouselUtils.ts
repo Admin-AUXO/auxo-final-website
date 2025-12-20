@@ -9,6 +9,7 @@ export interface CarouselConfig {
   dotSelector: string;
   breakpoint: number;
   activateOnDesktop?: boolean;
+  resizeDebounceDelay?: number;
   carouselOptions?: Partial<EmblaCarouselOptions>;
 }
 

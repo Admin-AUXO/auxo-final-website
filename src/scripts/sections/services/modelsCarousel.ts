@@ -1,4 +1,3 @@
-import { initCarouselById } from "../utils/carouselConfigs";
-import { setupSectionInit } from "../utils/initUtils";
+import { initCarouselById, setupSectionInit } from "../utils";
 
 setupSectionInit(() => initCarouselById("models-carousel-container"));
