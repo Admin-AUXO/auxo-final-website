@@ -59,32 +59,77 @@ function makeFullscreen(popup: Window | null): void {
 }
 
 function openCalendarPopup(): void {
+  const width = window.screen.width;
+  const height = window.screen.height;
+  const left = 0;
+  const top = 0;
+  
+  const features = [
+    `width=${width}`,
+    `height=${height}`,
+    `left=${left}`,
+    `top=${top}`,
+    'resizable=yes',
+    'scrollbars=yes',
+    'menubar=no',
+    'toolbar=no',
+    'location=no',
+    'status=no'
+  ].join(',');
+
   const popup = window.open(
     CALENDAR_URL,
-    'Google Calendar',
-    'width=' + window.screen.width + ',height=' + window.screen.height + ',left=0,top=0,resizable=yes,scrollbars=yes'
+    'GoogleCalendar',
+    features
   );
 
   if (popup) {
+    popup.focus();
     setTimeout(() => makeFullscreen(popup), 100);
     
     const checkClosed = setInterval(() => {
       if (popup.closed) {
         clearInterval(checkClosed);
       } else {
-        makeFullscreen(popup);
+        try {
+          makeFullscreen(popup);
+        } catch (e) {
+        }
       }
     }, 500);
+  } else {
+    if (import.meta.env.DEV) {
+      console.warn('Popup blocked. Please allow popups for this site.');
+    }
   }
 }
 
 function setupCalendarButton(button: HTMLElement): void {
   if (initializedButtons.has(button)) return;
 
-  button.addEventListener('click', (e) => {
+  const handleClick = (e: MouseEvent | KeyboardEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    e.stopImmediatePropagation();
     openCalendarPopup();
+    return false;
+  };
+
+  button.addEventListener('click', handleClick, { capture: true, passive: false });
+  
+  if (button instanceof HTMLAnchorElement) {
+    button.removeAttribute('href');
+    button.removeAttribute('target');
+    button.style.cursor = 'pointer';
+  }
+
+  button.setAttribute('role', 'button');
+  button.setAttribute('tabindex', '0');
+  
+  button.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      handleClick(e);
+    }
   });
 
   initializedButtons.add(button);
@@ -99,6 +144,14 @@ function setupCalendarButtons(): void {
       setupCalendarButton(button);
     }
   });
+
+  const links = document.querySelectorAll<HTMLAnchorElement>('a[href*="calendar.app.google"], a[href*="calendar.google.com"]');
+  links.forEach((link) => {
+    if (!link.hasAttribute('data-google-calendar-open') && !initializedButtons.has(link)) {
+      link.setAttribute('data-google-calendar-open', '');
+      setupCalendarButton(link);
+    }
+  });
 }
 
 function initializeGoogleCalendar(): void {
@@ -109,12 +162,7 @@ function initializeGoogleCalendar(): void {
   const html = document.documentElement;
   if (html) {
     const themeObserver = new MutationObserver(() => {
-      const buttons = document.querySelectorAll<HTMLElement>('[data-google-calendar-open]');
-      buttons.forEach((button) => {
-        if (!initializedButtons.has(button)) {
-          setupCalendarButton(button);
-        }
-      });
+      setupCalendarButtons();
     });
     themeObserver.observe(html, { attributes: true, attributeFilter: ['class'] });
   }
@@ -132,6 +180,15 @@ function initializeGoogleCalendar(): void {
   }
 
   window.addEventListener('load', setupCalendarButtons);
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const button = target.closest<HTMLElement>('[data-google-calendar-open]');
+    if (button && !initializedButtons.has(button)) {
+      setupCalendarButton(button);
+      button.click();
+    }
+  }, { capture: true });
 }
 
 export function setupGoogleCalendar(): void {
