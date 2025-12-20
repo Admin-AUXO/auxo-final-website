@@ -7,22 +7,7 @@ import ScrollProgressBar from "../components/ui/ScrollProgressBar.astro";
 import FloatingCalendarButton from "../components/widgets/FloatingCalendarButton.astro";
 import CalendarModal from "../components/widgets/CalendarModal.astro";
 import { createAssetUrl } from "../utils/url";
-import "../styles/tokens.css";
-import "../styles/base.css";
-import "../styles/typography.css";
-import "../styles/backgrounds.css";
-import "../styles/utilities.css";
-import "../styles/animations.css";
-import "../styles/components/base-components.css";
-import "../styles/components/buttons.css";
-import "../styles/components/cards.css";
-import "../styles/components/carousels.css";
-import "../styles/components/accordions.css";
-import "../styles/components/highlights.css";
-import "../styles/navigation.css";
-import "../styles/sections/shared-sections.css";
-import "../styles/sections/hero.css";
-import "../styles/widgets/google-calendar.css";
+import "../styles/global.css";
 import "aos/dist/aos.css";
 import "notyf/notyf.min.css";
 
@@ -73,7 +58,7 @@ const ogImage = createAssetUrl("/og-image.svg");
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap&subset=latin" rel="stylesheet" media="print" onload="this.media='all'" />
     <noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap&subset=latin" rel="stylesheet" /></noscript>
     <style is:inline>
-      @font-face{font-family:'Plus Jakarta Sans';font-display:swap}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden!important;overflow-y:hidden!important;max-width:100vw;max-height:100vh;scrollbar-width:none!important;-ms-overflow-style:none!important}html::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}html::-webkit-scrollbar-track{display:none!important;background:transparent!important}html::-webkit-scrollbar-thumb{display:none!important;background:transparent!important}html.loaded{overflow-y:auto;max-height:none;scrollbar-width:none!important;-ms-overflow-style:none!important}body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;color:#FFF;background-color:#000;line-height:1.6;overflow-x:hidden!important;max-width:100vw;overflow-y:auto;scrollbar-width:none!important;-ms-overflow-style:none!important}body::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}body::-webkit-scrollbar-track{display:none!important;background:transparent!important}body::-webkit-scrollbar-thumb{display:none!important;background:transparent!important}body.loading{overflow:hidden;height:100vh}html,body{-webkit-overflow-scrolling:touch}#main-navigation{position:fixed;top:0;left:0;right:0;z-index:1000;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}.min-h-screen{min-height:100vh}.flex{display:flex}.flex-col{flex-direction:column}.relative{position:relative}.bg-primary{background-color:#000}.text-primary{color:#FFF}[data-lazy-load]{opacity:0;transition:opacity .3s ease-in}[data-lazy-load].lazy-loaded{opacity:1}@supports(view-transition-name:none){::view-transition-old(root),::view-transition-new(root){animation-duration:0.5s;animation-timing-function:cubic-bezier(0.4,0,0.2,1)}::view-transition-old(main-content),::view-transition-new(main-content){animation-duration:0.5s;animation-timing-function:cubic-bezier(0.34,1.56,0.64,1)}}
+      @font-face{font-family:'Plus Jakarta Sans';font-display:swap}*{margin:0;padding:0;box-sizing:border-box}*::-webkit-scrollbar,html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0;background:transparent}*::-webkit-scrollbar-track,html::-webkit-scrollbar-track,body::-webkit-scrollbar-track{display:none;background:transparent}*::-webkit-scrollbar-thumb,html::-webkit-scrollbar-thumb,body::-webkit-scrollbar-thumb{display:none;background:transparent}html{scroll-behavior:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;overflow-y:hidden;max-width:100vw;max-height:100vh;scrollbar-width:none;-ms-overflow-style:none}html.loaded{overflow-y:auto;max-height:none}html,body{-webkit-overflow-scrolling:touch}body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;color:#FFF;background-color:#000;line-height:1.6;overflow-x:hidden;max-width:100vw;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}body.loading{overflow:hidden;height:100vh}#main-navigation{position:fixed;top:0;left:0;right:0;z-index:1000;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}section,[class*="-section"]{overflow:hidden;overflow-x:hidden;overflow-y:hidden}.hero-section{min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}.min-h-screen{min-height:100vh}.flex{display:flex}.flex-col{flex-direction:column}.relative{position:relative}.bg-primary{background-color:#000}.text-primary{color:#FFF}[data-lazy-load]{opacity:0;transition:opacity .3s ease-in}[data-lazy-load].lazy-loaded{opacity:1}@supports(view-transition-name:none){::view-transition-old(root),::view-transition-new(root){animation-duration:0.5s;animation-timing-function:cubic-bezier(0.4,0,0.2,1)}::view-transition-old(main-content),::view-transition-new(main-content){animation-duration:0.5s;animation-timing-function:cubic-bezier(0.34,1.56,0.64,1)}}
     </style>
     <link rel="preconnect" href="https://cdn.sanity.io" />
     <link rel="dns-prefetch" href="https://cdn.sanity.io" />

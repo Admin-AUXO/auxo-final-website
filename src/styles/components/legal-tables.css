@@ -1,0 +1,22 @@
+.legal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.legal-table thead tr {
+  background-color: var(--accent-green-opacity-10);
+}
+
+.legal-table th {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid var(--accent-green-opacity-20);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.legal-table td {
+  padding: 0.75rem;
+  border: 1px solid var(--accent-green-opacity-20);
+}

@@ -6,59 +6,49 @@
   box-sizing: border-box;
 }
 
-*::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
+*::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#main-content::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  background: transparent;
 }
 
-*::-webkit-scrollbar-track {
-  display: none !important;
-  background: transparent !important;
+*::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+#main-content::-webkit-scrollbar-track {
+  display: none;
+  background: transparent;
 }
 
-*::-webkit-scrollbar-thumb {
-  display: none !important;
-  background: transparent !important;
+*::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+#main-content::-webkit-scrollbar-thumb {
+  display: none;
+  background: transparent;
 }
 
 html {
   scroll-behavior: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
+  overflow-x: hidden;
+  overflow-y: hidden;
   max-width: 100vw;
   max-height: 100vh;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   width: 100%;
   height: 100%;
-}
-
-html::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-}
-
-html::-webkit-scrollbar-track {
-  display: none !important;
-  background: transparent !important;
-}
-
-html::-webkit-scrollbar-thumb {
-  display: none !important;
-  background: transparent !important;
 }
 
 html.loaded {
   overflow-y: auto;
   max-height: none;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -74,30 +64,13 @@ body {
   line-height: 1.6;
   transition: background-color var(--theme-transition) var(--timing-smooth),
     color var(--theme-transition) var(--timing-smooth);
-  overflow-x: hidden !important;
+  overflow-x: hidden;
   max-width: 100vw;
   overflow-y: auto;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   position: relative;
   width: 100%;
-}
-
-body::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-}
-
-body::-webkit-scrollbar-track {
-  display: none !important;
-  background: transparent !important;
-}
-
-body::-webkit-scrollbar-thumb {
-  display: none !important;
-  background: transparent !important;
 }
 
 body.loading {
@@ -106,28 +79,11 @@ body.loading {
 }
 
 #main-content {
-  overflow-x: hidden !important;
+  overflow-x: hidden;
   max-width: 100vw;
   width: 100%;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-#main-content::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-}
-
-#main-content::-webkit-scrollbar-track {
-  display: none !important;
-  background: transparent !important;
-}
-
-#main-content::-webkit-scrollbar-thumb {
-  display: none !important;
-  background: transparent !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 section,
