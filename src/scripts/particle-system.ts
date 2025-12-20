@@ -182,14 +182,15 @@ export class GalaxyParticleSystem {
   private hexToRgbValues(hex: string): [number, number, number] {
     const cleanHex = hex.replace('#', '');
     return [
-      parseInt(cleanHex.substring(0, 2), 16),
-      parseInt(cleanHex.substring(2, 4), 16),
-      parseInt(cleanHex.substring(4, 6), 16),
+      parseInt(cleanHex.slice(0, 2), 16),
+      parseInt(cleanHex.slice(2, 4), 16),
+      parseInt(cleanHex.slice(4, 6), 16),
     ];
   }
 
   private rgbToHex(r: number, g: number, b: number): string {
-    return `#${Math.floor(r).toString(16).padStart(2, '0')}${Math.floor(g).toString(16).padStart(2, '0')}${Math.floor(b).toString(16).padStart(2, '0')}`;
+    const toHex = (n: number) => Math.floor(n).toString(16).padStart(2, '0');
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
   }
 
   private adjustBrightness(color: string, factor: number): string {

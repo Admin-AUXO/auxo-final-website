@@ -5,6 +5,7 @@ import Footer from "../components/common/Footer.astro";
 import ParticleBackground from "../components/effects/ParticleBackground.astro";
 import ScrollProgressBar from "../components/ui/ScrollProgressBar.astro";
 import FloatingCalendarButton from "../components/widgets/FloatingCalendarButton.astro";
+import CalendarModal from "../components/widgets/CalendarModal.astro";
 import { createAssetUrl } from "../utils/url";
 import "../styles/tokens.css";
 import "../styles/base.css";
@@ -103,27 +104,20 @@ const ogImage = createAssetUrl("/og-image.svg");
         const root = document.documentElement;
         const body = document.body;
         
-        function applyThemeImmediate() {
-          if (!root) return;
-          const stored = localStorage.getItem('theme');
-          const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-          const theme = stored || (prefersLight ? 'light' : 'dark');
-          root.classList.remove('dark', 'light');
-          root.classList.add(theme);
-        }
+        const stored = localStorage.getItem('theme');
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        const theme = stored || (prefersLight ? 'light' : 'dark');
+        root.classList.remove('dark', 'light');
+        root.classList.add(theme);
         
-        function enableScroll() {
-          if (!root || !body) return;
+        root.classList.add('loading');
+        body.classList.add('loading');
+        
+        const enableScroll = () => {
           root.classList.remove('loading');
           root.classList.add('loaded');
           body.classList.remove('loading');
-        }
-        
-        applyThemeImmediate();
-        if (root && body) {
-          root.classList.add('loading');
-          body.classList.add('loading');
-        }
+        };
         
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', enableScroll);
@@ -137,7 +131,7 @@ const ogImage = createAssetUrl("/og-image.svg");
       
       const blockedPatterns = ['fbevents', 'facebook.net', 'connect.facebook.net', 'ERR_BLOCKED_BY_CLIENT', 'segment.io', 'analytics.js'];
       
-      window.addEventListener('error', function(e) {
+      window.addEventListener('error', (e) => {
         const target = e.target || e.currentTarget;
         const message = e.message || '';
         const filename = e.filename || '';
@@ -146,29 +140,19 @@ const ogImage = createAssetUrl("/og-image.svg");
         if (blockedPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
           e.preventDefault();
           e.stopPropagation();
-          return false;
         }
       }, true);
       
-      window.addEventListener('unhandledrejection', function(e) {
+      window.addEventListener('unhandledrejection', (e) => {
         const reason = String(e.reason || '');
         if (reason.includes('facebook.net') || reason.includes('fbevents') || reason.includes('ERR_BLOCKED_BY_CLIENT')) {
           e.preventDefault();
         }
       }, true);
       
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          const base = baseUrl === '/' ? '' : baseUrl.replace(/\/$/, '');
-          navigator.serviceWorker.register(`${base}/sw.js`)
-            .catch(() => {});
-        });
-      }
     </script>
     <script>
-      import { setupServiceWorkerClearing } from "../scripts/utils/serviceWorker";
       import { setupGoogleCalendar } from "../scripts/widgets/googleCalendar";
-      setupServiceWorkerClearing();
       setupGoogleCalendar();
     </script>
   </head>
@@ -181,6 +165,7 @@ const ogImage = createAssetUrl("/og-image.svg");
     </main>
     <Footer />
     <FloatingCalendarButton />
+    <CalendarModal />
 
     <script>
       import { initSmoothScroll } from "../scripts/smoothScroll";
@@ -192,15 +177,14 @@ const ogImage = createAssetUrl("/og-image.svg");
 
         lazyElements.forEach((element) => {
           const observer = new IntersectionObserver((entries) => {
-            for (const entry of entries) {
+            entries.forEach((entry) => {
               if (entry.isIntersecting) {
                 const el = entry.target as HTMLElement;
                 el.classList.add('lazy-loaded');
                 el.removeAttribute('data-lazy-load');
                 observer.unobserve(el);
-                observer.disconnect();
               }
-            }
+            });
           }, { rootMargin: '50px', threshold: 0.01 });
           
           observer.observe(element);
@@ -208,18 +192,16 @@ const ogImage = createAssetUrl("/og-image.svg");
       }
       
       const initScripts = () => {
+        const runInit = () => {
+          initSmoothScroll();
+          initScrollAnimations();
+          initLazyLoading();
+        };
+        
         if ('requestIdleCallback' in window) {
-          requestIdleCallback(() => {
-            initSmoothScroll();
-            initScrollAnimations();
-            initLazyLoading();
-          }, { timeout: 2000 });
+          requestIdleCallback(runInit, { timeout: 2000 });
         } else {
-          setTimeout(() => {
-            initSmoothScroll();
-            initScrollAnimations();
-            initLazyLoading();
-          }, 1);
+          setTimeout(runInit, 1);
         }
       };
       

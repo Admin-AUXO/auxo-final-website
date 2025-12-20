@@ -13,7 +13,9 @@ export function cleanupNavigation(): void {
   eventListeners.forEach(({ element, event, handler, options }) => {
     try {
       element.removeEventListener(event, handler, options);
-    } catch (e) {}
+    } catch (e) {
+      // Ignore removal errors
+    }
   });
   eventListeners.length = 0;
 }

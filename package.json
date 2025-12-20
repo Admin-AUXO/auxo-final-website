@@ -12,11 +12,7 @@
     "lint:css": "stylelint \"src/styles/**/*.css\"",
     "lint:css:fix": "stylelint \"src/styles/**/*.css\" --fix",
     "lint": "npm run type-check && npm run lint:css",
-    "validate": "npm run type-check && npm run lint:css",
-    "cleanup:techstack": "tsx scripts/cleanup-techstack.ts",
-    "finalize:techstack": "tsx scripts/finalize-techstack.ts",
-    "dedupe:techstack": "tsx scripts/remove-duplicate-icons.ts",
-    "publish:sanity": "tsx scripts/publish-sanity-content.ts"
+    "validate": "npm run type-check && npm run lint:css"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
@@ -51,6 +47,7 @@
     "@sanity/cli": "^5.0.1",
     "@types/aos": "^3.0.7",
     "@types/node-fetch": "^2.6.13",
+    "@vite-pwa/astro": "^1.2.0",
     "cssnano": "^7.1.2",
     "dotenv": "^17.2.3",
     "node-fetch": "^3.3.2",

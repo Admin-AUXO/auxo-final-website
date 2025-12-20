@@ -1,13 +1,13 @@
 let lastPagePath = typeof window !== 'undefined' ? window.location.pathname : '';
 
 export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): void {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initFn, { once: true });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFn, { once: true });
   } else {
     initFn();
   }
 
-  document.addEventListener("astro:page-load", () => {
+  document.addEventListener('astro:page-load', () => {
     const currentPath = window.location.pathname;
     if (currentPath !== lastPagePath) {
       initFn();
@@ -16,7 +16,7 @@ export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): vo
   });
 
   if (cleanupFn) {
-    document.addEventListener("astro:before-swap", cleanupFn);
+    document.addEventListener('astro:before-swap', cleanupFn);
   }
 }
 

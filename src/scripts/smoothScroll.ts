@@ -28,35 +28,30 @@ export function initSmoothScroll() {
 
   rafId = requestAnimationFrame(raf);
   
-  if (typeof window !== 'undefined') {
-    (window as any).lenis = lenis;
-    
-    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener('click', (e) => {
-        const href = anchor.getAttribute('href');
-        if (!href || href === '#') return;
-        
-        const target = document.querySelector(href);
-        if (target && lenis && target instanceof HTMLElement) {
-          e.preventDefault();
-          lenis.scrollTo(target, {
-            offset: -80,
-            duration: 1.5,
-          });
-        }
-      });
-    });
-
-    let lastPath = window.location.pathname;
-    document.addEventListener('astro:page-load', () => {
-      const currentPath = window.location.pathname;
-      if (lenis && currentPath !== lastPath) {
-        lenis.scrollTo(0, { immediate: true });
-        setTimeout(() => lenis?.scrollTo(0, { immediate: true }), 100);
-        lastPath = currentPath;
+  (window as any).lenis = lenis;
+  
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
+      const href = anchor.getAttribute('href');
+      if (!href || href === '#') return;
+      
+      const target = document.querySelector(href);
+      if (target && lenis && target instanceof HTMLElement) {
+        e.preventDefault();
+        lenis.scrollTo(target, { offset: -80, duration: 1.5 });
       }
     });
-  }
+  });
+
+  let lastPath = window.location.pathname;
+  document.addEventListener('astro:page-load', () => {
+    const currentPath = window.location.pathname;
+    if (lenis && currentPath !== lastPath) {
+      lenis.scrollTo(0, { immediate: true });
+      setTimeout(() => lenis?.scrollTo(0, { immediate: true }), 100);
+      lastPath = currentPath;
+    }
+  });
 }
 
 export function stopSmoothScroll() {
@@ -70,8 +65,8 @@ export function startSmoothScroll() {
 export function scrollToElement(target: string | HTMLElement, options?: { offset?: number; duration?: number }) {
   if (!lenis) return;
   lenis.scrollTo(target, {
-    offset: options?.offset || 0,
-    duration: options?.duration || 1.2,
+    offset: options?.offset ?? 0,
+    duration: options?.duration ?? 1.2,
   });
 }
 

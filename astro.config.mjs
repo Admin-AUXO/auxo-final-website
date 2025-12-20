@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import icon from 'astro-icon';
+import AstroPWA from '@vite-pwa/astro';
 
 const basePath = process.env.BASE_PATH || '/auxo-final-website/';
 
@@ -69,6 +70,70 @@ export default defineConfig({
     react(),
     tailwind({
       applyBaseStyles: false,
+    }),
+    AstroPWA({
+      registerType: 'autoUpdate',
+      base: basePath,
+      scope: basePath,
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,webp,woff,woff2}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/cdn\.sanity\.io\/.*/i,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'sanity-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 * 7,
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+              },
+            },
+          },
+        ],
+      },
+      manifest: {
+        name: 'AUXO Data Labs',
+        short_name: 'AUXO',
+        description: 'AUXO is a Dubai-based data analytics consultancy serving sophisticated clients across the GCC, Europe, and global markets.',
+        theme_color: '#121212',
+        background_color: '#121212',
+        display: 'standalone',
+        start_url: basePath,
+        scope: basePath,
+        icons: [
+          {
+            src: `${basePath}favicon.svg`,
+            sizes: 'any',
+            type: 'image/svg+xml',
+            purpose: 'any maskable',
+          },
+          {
+            src: `${basePath}apple-touch-icon.svg`,
+            sizes: '180x180',
+            type: 'image/svg+xml',
+          },
+          {
+            src: `${basePath}logo.svg`,
+            sizes: '512x512',
+            type: 'image/svg+xml',
+          },
+        ],
+      },
+      devOptions: {
+        enabled: false,
+        type: 'module',
+      },
     }),
     icon({
       include: {
