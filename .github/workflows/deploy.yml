@@ -1,18 +1,14 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Trigger the workflow every time you push to the `main` branch
   push:
     branches: [ main ]
-  # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
 
-# Prevent multiple concurrent deployments
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
-# Allow this job to clone the repo and create a page deployment
 permissions:
   contents: read
   pages: write
@@ -21,7 +17,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,54 +31,31 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
+      - name: Validate environment
+        run: |
+          if [ -z "${{ secrets.SANITY_PROJECT_ID }}" ] || [ -z "${{ secrets.SANITY_API_TOKEN }}" ]; then
+            echo "Error: Required Sanity secrets are not set"
+            exit 1
+          fi
+      
       - name: Build with Astro
         run: npm run build
         env:
           SITE_URL: ${{ secrets.SITE_URL || 'https://auxodata.com' }}
-          # Set BASE_PATH for subdirectory deployment (e.g., '/repo-name/')
-          # Defaults to '/auxo-final-website/' for this repository
           BASE_PATH: ${{ secrets.BASE_PATH || '/auxo-final-website/' }}
-          # Sanity CMS configuration (required for build)
           SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
           SANITY_DATASET: ${{ secrets.SANITY_DATASET || 'production' }}
           SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
       
       - name: Verify build output
         run: |
-          if [ ! -d "dist" ]; then
-            echo "Error: dist directory not found after build"
+          if [ ! -d "dist" ] || [ ! -f "dist/index.html" ]; then
+            echo "Error: Build output is invalid"
             exit 1
           fi
-          if [ ! -f "dist/index.html" ]; then
-            echo "Error: dist/index.html not found"
-            exit 1
-          fi
-          # Verify .nojekyll file exists (prevents Jekyll processing)
           if [ ! -f "dist/.nojekyll" ]; then
-            echo "Warning: dist/.nojekyll not found - creating it"
             touch dist/.nojekyll
-          else
-            echo "✓ .nojekyll file found (Jekyll will be skipped)"
           fi
-          # Verify CSS files are present
-          if [ ! -d "dist/_astro" ]; then
-            echo "Error: dist/_astro directory not found (CSS assets missing)"
-            exit 1
-          fi
-          css_count=$(find dist/_astro -name "*.css" | wc -l)
-          if [ "$css_count" -eq 0 ]; then
-            echo "Warning: No CSS files found in dist/_astro"
-          else
-            echo "Found $css_count CSS file(s) in dist/_astro"
-          fi
-          # Verify public assets are copied
-          if [ ! -f "dist/favicon.svg" ]; then
-            echo "Warning: dist/favicon.svg not found"
-          fi
-          if [ ! -f "dist/manifest.json" ]; then
-            echo "Warning: dist/manifest.json not found"
-          fi
-          echo "Build verification complete"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4

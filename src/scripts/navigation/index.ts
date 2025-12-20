@@ -38,10 +38,10 @@ export function initializeNavigationComponents(): void {
 if (typeof document !== 'undefined' && typeof window !== 'undefined') {
   const init = () => requestAnimationFrame(initializeNavigationComponents);
 
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  if (document.readyState !== 'loading') {
     init();
   } else {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', init, { once: true });
   }
 
   document.addEventListener('astro:before-swap', cleanupNavigation);

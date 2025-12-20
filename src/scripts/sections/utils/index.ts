@@ -1,10 +1,4 @@
 export { setupCarouselSection, type CarouselConfig } from "./carouselUtils";
-export { initAllCarousels } from "./carouselConfigs";
-export {
-  initOnReady,
-  setupAstroPageLoad,
-  setupAstroCleanup,
-  setupSectionInit,
-  setupPageAnimations,
-} from "./initUtils";
+export { initAllCarousels, initCarouselById } from "./carouselConfigs";
+export { setupSectionInit, setupPageAnimations } from "./initUtils";
 

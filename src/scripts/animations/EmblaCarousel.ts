@@ -74,7 +74,6 @@ export class EmblaCarouselWrapper {
       watchSlides: true,
       axis: 'x',
     }, plugins);
-    
 
     if (this.dots && this.dots.length > 0) {
       this.setupDots();

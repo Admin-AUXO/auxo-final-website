@@ -1,41 +1,31 @@
-export function initOnReady(initFn: () => void): void {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initFn, { once: true });
-  } else {
-    initFn();
-  }
-}
-
-export function setupAstroPageLoad(initFn: () => void): void {
-  document.addEventListener("astro:page-load", initFn);
-}
-
-export function setupAstroCleanup(cleanupFn: () => void): void {
-  document.addEventListener("astro:before-swap", cleanupFn);
-}
-
 let lastPagePath = typeof window !== 'undefined' ? window.location.pathname : '';
 
 export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): void {
-  initOnReady(initFn);
-  
-  const pageLoadHandler = () => {
-    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+  const runInit = () => {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initFn, { once: true });
+    } else {
+      initFn();
+    }
+  };
+
+  runInit();
+
+  document.addEventListener("astro:page-load", () => {
+    const currentPath = window.location.pathname;
     if (currentPath !== lastPagePath) {
       initFn();
       lastPagePath = currentPath;
     }
-  };
-  
-  setupAstroPageLoad(pageLoadHandler);
+  });
+
   if (cleanupFn) {
-    setupAstroCleanup(cleanupFn);
+    document.addEventListener("astro:before-swap", cleanupFn);
   }
 }
 
 export function setupPageAnimations(): void {
-  import('../../scrollAnimations').then(({ refreshScrollAnimationsWithDelay }) => {
-    refreshScrollAnimationsWithDelay();
-  });
+  if (typeof window === 'undefined') return;
+  import('../../scrollAnimations').then((m) => m.refreshScrollAnimationsWithDelay()).catch(() => {});
 }
 

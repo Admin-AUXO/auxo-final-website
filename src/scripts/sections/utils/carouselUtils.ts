@@ -2,15 +2,12 @@ import { EmblaCarouselWrapper, type EmblaCarouselOptions } from "../../animation
 import { setupSectionInit } from "./initUtils";
 import { observeOnce } from "../../utils/observers";
 
-const DEFAULT_INIT_DELAY = 0;
 const DEFAULT_RESIZE_DEBOUNCE_DELAY = 250;
 
 export interface CarouselConfig {
   containerId: string;
   dotSelector: string;
   breakpoint: number;
-  initDelay?: number;
-  resizeDebounceDelay?: number;
   activateOnDesktop?: boolean;
   carouselOptions?: Partial<EmblaCarouselOptions>;
 }
@@ -27,7 +24,6 @@ function createCarouselManager(config: CarouselConfig) {
     containerId,
     dotSelector,
     breakpoint,
-    initDelay = DEFAULT_INIT_DELAY,
     resizeDebounceDelay = DEFAULT_RESIZE_DEBOUNCE_DELAY,
     activateOnDesktop = false,
     carouselOptions = {},
@@ -41,10 +37,8 @@ function createCarouselManager(config: CarouselConfig) {
   };
 
   function cleanup(): void {
-    if (state.instance) {
-      state.instance.destroy();
-      state.instance = null;
-    }
+    state.instance?.destroy();
+    state.instance = null;
     if (state.resizeHandler) {
       window.removeEventListener("resize", state.resizeHandler);
       state.resizeHandler = null;
@@ -53,10 +47,8 @@ function createCarouselManager(config: CarouselConfig) {
       clearTimeout(state.resizeTimeout);
       state.resizeTimeout = null;
     }
-    if (state.observer) {
-      state.observer.disconnect();
-      state.observer = null;
-    }
+    state.observer?.disconnect();
+    state.observer = null;
   }
 
   function init(): void {
@@ -69,7 +61,7 @@ function createCarouselManager(config: CarouselConfig) {
       return;
     }
 
-    const container = document.getElementById(containerId) as HTMLElement;
+    const container = document.getElementById(containerId);
     const dots = document.querySelectorAll(dotSelector);
 
     if (!container || dots.length === 0) {
@@ -80,11 +72,8 @@ function createCarouselManager(config: CarouselConfig) {
       return;
     }
 
-    const isVisible = container.offsetParent !== null;
-    if (!isVisible) {
-      observeOnce(container, () => {
-        init();
-      }, { threshold: 0 });
+    if (container.offsetParent === null) {
+      observeOnce(container, init, { threshold: 0 });
       return;
     }
 
@@ -100,12 +89,8 @@ function createCarouselManager(config: CarouselConfig) {
     });
 
     state.resizeHandler = () => {
-      if (state.resizeTimeout) {
-        clearTimeout(state.resizeTimeout);
-      }
-      state.resizeTimeout = setTimeout(() => {
-        init();
-      }, resizeDebounceDelay);
+      if (state.resizeTimeout) clearTimeout(state.resizeTimeout);
+      state.resizeTimeout = setTimeout(init, resizeDebounceDelay);
     };
 
     window.addEventListener("resize", state.resizeHandler);
@@ -121,38 +106,19 @@ function createCarouselManager(config: CarouselConfig) {
   }
 
   function initWithDelay(): void {
-    const attemptInit = () => {
-      if (initDelay <= 0) {
-        requestAnimationFrame(() => requestAnimationFrame(init));
-      } else {
-        setTimeout(init, initDelay);
-      }
-    };
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', attemptInit, { once: true });
-    } else {
-      attemptInit();
-    }
+    requestAnimationFrame(() => requestAnimationFrame(init));
   }
 
-  return {
-    init,
-    initWithDelay,
-    cleanup,
-  };
+  return { init: initWithDelay, cleanup };
 }
 
 export function setupCarouselSection(config: CarouselConfig) {
-  const carouselManager = createCarouselManager(config);
+  const manager = createCarouselManager(config);
+  setupSectionInit(manager.init, manager.cleanup);
   
   if (typeof window !== "undefined") {
-    setupSectionInit(
-      () => carouselManager.initWithDelay(),
-      () => carouselManager.cleanup()
-    );
-    window.addEventListener("beforeunload", () => carouselManager.cleanup());
+    window.addEventListener("beforeunload", manager.cleanup);
   }
   
-  return carouselManager;
+  return manager;
 }
