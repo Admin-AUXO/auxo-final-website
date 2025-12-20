@@ -109,10 +109,8 @@ import "../styles/sections/contact-sections.css";
   import { refreshScrollAnimationsWithDelay } from "../scripts/scrollAnimations";
   import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from "../scripts/forms/emailHandler";
   import { initNotifications } from "../scripts/utils/notifications";
-  import { setupCalendly } from "../scripts/utils/calendly";
 
   setupSectionInit(() => refreshScrollAnimationsWithDelay());
-  setupCalendly();
   initEmailJS();
   initNotifications();
 
@@ -120,6 +118,145 @@ import "../styles/sections/contact-sections.css";
   if (form) {
     form.addEventListener('submit', handleContactFormSubmit);
     addRealTimeValidation(form);
+  }
+
+  (function setupCalendly() {
+    if (typeof window === 'undefined') return;
+    
+    const WIDGET_ID = 'calendly-widget';
+    const CALENDLY_URL = 'https://calendly.com/admin-auxodata/30min';
+    let isInitialized = false;
+    let isScriptLoading = false;
+    let intersectionObserver: IntersectionObserver | null = null;
+
+    function getCssVar(name: string): string {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function getCalendlyUrl(): string {
+      const accentGreen = (getCssVar('--accent-green') || '#A3E635').replace('#', '');
+      const bgPrimary = (getCssVar('--bg-primary') || '#000000').replace('#', '');
+      const textPrimary = (getCssVar('--text-primary') || '#FFFFFF').replace('#', '');
+      return `${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=${accentGreen}&background_color=${bgPrimary}&text_color=${textPrimary}`;
+    }
+
+    function loadCalendlyScript(callback: () => void): void {
+      if (window.Calendly) {
+        callback();
+        return;
+      }
+
+      if (isScriptLoading) {
+        const check = setInterval(() => {
+          if (window.Calendly) {
+            clearInterval(check);
+            callback();
+          }
+        }, 100);
+        setTimeout(() => clearInterval(check), 10000);
+        return;
+      }
+
+      isScriptLoading = true;
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      script.onload = () => {
+        isScriptLoading = false;
+        setTimeout(callback, 100);
+      };
+      script.onerror = () => {
+        isScriptLoading = false;
+      };
+      document.body.appendChild(script);
+    }
+
+    function initWidget(): void {
+      const widget = document.getElementById(WIDGET_ID);
+      if (!widget || isInitialized) return;
+
+      if (widget.querySelector('.calendly-inline-widget > div')) {
+        isInitialized = true;
+        return;
+      }
+
+      if (!window.Calendly) {
+        loadCalendlyScript(initWidget);
+        return;
+      }
+
+      const url = getCalendlyUrl();
+      widget.setAttribute('data-url', url);
+      window.Calendly.initInlineWidget({ url, parentElement: widget });
+      isInitialized = true;
+      
+      if (intersectionObserver) {
+        intersectionObserver.disconnect();
+        intersectionObserver = null;
+      }
+    }
+
+    function handleThemeChange(): void {
+      if (window.Calendly && isInitialized) {
+        const widget = document.getElementById(WIDGET_ID);
+        if (widget && widget.querySelector('.calendly-inline-widget > div')) {
+          isInitialized = false;
+          widget.innerHTML = '';
+          setTimeout(initWidget, 300);
+        }
+      }
+    }
+
+    const themeObserver = new MutationObserver(() => {
+      const html = document.documentElement;
+      if (html.classList.contains('dark') || html.classList.contains('light')) {
+        handleThemeChange();
+      }
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    const widget = document.getElementById(WIDGET_ID);
+    if (widget) {
+      if (widget.querySelector('.calendly-inline-widget > div')) {
+        isInitialized = true;
+        return;
+      }
+
+      const rect = widget.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight + 100 && rect.bottom > -100;
+      
+      if (isVisible) {
+        initWidget();
+      } else {
+        intersectionObserver = new IntersectionObserver((entries) => {
+          if (entries[0]?.isIntersecting && !isInitialized) {
+            initWidget();
+          }
+        }, { rootMargin: '100px' });
+        intersectionObserver.observe(widget);
+      }
+    }
+
+    document.addEventListener('astro:page-load', () => {
+      isInitialized = false;
+      const widget = document.getElementById(WIDGET_ID);
+      if (widget) {
+        widget.innerHTML = '';
+        if (intersectionObserver) {
+          intersectionObserver.disconnect();
+          intersectionObserver = null;
+        }
+        initWidget();
+      }
+    });
+  })();
+
+  declare global {
+    interface Window {
+      Calendly?: {
+        initInlineWidget: (options: { url: string; parentElement: HTMLElement }) => void;
+      };
+    }
   }
 </script>
 
