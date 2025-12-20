@@ -99,10 +99,13 @@ const ogImage = createAssetUrl("/og-image.svg");
     </script>
     <script is:inline define:vars={{ baseUrl: import.meta.env.BASE_URL }}>
       (function() {
+        if (typeof document === 'undefined' || !document.documentElement || !document.body) return;
+        
         const root = document.documentElement;
         const body = document.body;
         
         function applyThemeImmediate() {
+          if (!root) return;
           const stored = localStorage.getItem('theme');
           const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
           const theme = stored || (prefersLight ? 'light' : 'dark');
@@ -111,14 +114,17 @@ const ogImage = createAssetUrl("/og-image.svg");
         }
         
         function enableScroll() {
+          if (!root || !body) return;
           root.classList.remove('loading');
           root.classList.add('loaded');
           body.classList.remove('loading');
         }
         
         applyThemeImmediate();
-        root.classList.add('loading');
-        body.classList.add('loading');
+        if (root && body) {
+          root.classList.add('loading');
+          body.classList.add('loading');
+        }
         
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', enableScroll);

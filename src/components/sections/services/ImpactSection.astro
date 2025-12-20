@@ -126,12 +126,12 @@ const { content } = Astro.props;
   autoInitCarousels();
   
   function randomizeIndustries() {
-    const carouselSection = document.querySelector('.impact-carousel-section') as HTMLElement;
-    const carouselContainer = document.getElementById('impact-carousel-container') as HTMLElement;
     const carouselTrack = document.getElementById('impact-carousel-track');
+    const carouselContainer = document.getElementById('impact-carousel-container');
     
     if (!carouselTrack || !carouselContainer) return;
     
+    const carouselSection = document.querySelector('.impact-carousel-section') as HTMLElement;
     if (carouselSection) {
       carouselSection.style.overflow = 'hidden';
     }

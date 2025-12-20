@@ -64,10 +64,16 @@ function ensureThemeReady(): void {
 }
 
 function waitForThemeAndCssVars(callback: () => void): void {
+  if (typeof document === 'undefined' || !document.documentElement) {
+    callback();
+    return;
+  }
+  
   ensureThemeReady();
   
   const checkReady = (): boolean => {
     const html = document.documentElement;
+    if (!html || !html.classList) return false;
     if (!html.classList.contains('dark') && !html.classList.contains('light')) return false;
     
     const computedStyle = getComputedStyle(html);
@@ -92,27 +98,30 @@ function waitForThemeAndCssVars(callback: () => void): void {
     }
   }, CHECK_INTERVAL);
   
-  const observer = new MutationObserver(() => {
-    if (checkReady()) {
-      observer.disconnect();
-      clearInterval(checkInterval);
-      requestAnimationFrame(() => requestAnimationFrame(callback));
-    }
-  });
-  
-  observer.observe(document.documentElement, { 
-    attributes: true, 
-    attributeFilter: ['class']
-  });
-  
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+  const html = document.documentElement;
+  if (html) {
+    const observer = new MutationObserver(() => {
       if (checkReady()) {
         observer.disconnect();
         clearInterval(checkInterval);
         requestAnimationFrame(() => requestAnimationFrame(callback));
       }
-    }, { once: true });
+    });
+    
+    observer.observe(html, { 
+      attributes: true, 
+      attributeFilter: ['class']
+    });
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        if (checkReady()) {
+          observer.disconnect();
+          clearInterval(checkInterval);
+          requestAnimationFrame(() => requestAnimationFrame(callback));
+        }
+      }, { once: true });
+    }
   }
 }
 
@@ -175,7 +184,9 @@ function openModal(): void {
   const modal = document.getElementById(MODAL_ID);
   if (!modal) return;
 
-  document.body.style.overflow = 'hidden';
+  if (document.body) {
+    document.body.style.overflow = 'hidden';
+  }
   modal.classList.remove('hidden');
   modal.classList.add('show');
   modal.setAttribute('aria-hidden', 'false');
@@ -195,7 +206,9 @@ function closeModal(): void {
   const modal = document.getElementById(MODAL_ID);
   if (!modal) return;
 
-  document.body.style.overflow = '';
+  if (document.body) {
+    document.body.style.overflow = '';
+  }
   modal.classList.remove('show');
   modal.classList.add('hidden');
   modal.setAttribute('aria-hidden', 'true');
@@ -334,8 +347,11 @@ export function setupCalendly(): void {
       ensureThemeReady();
       lastTheme = getCurrentTheme();
 
-      const themeObserver = new MutationObserver(handleThemeChange);
-      themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      const html = document.documentElement;
+      if (html) {
+        const themeObserver = new MutationObserver(handleThemeChange);
+        themeObserver.observe(html, { attributes: true, attributeFilter: ['class'] });
+      }
 
       const modal = document.getElementById(MODAL_ID);
       if (modal) {
@@ -345,7 +361,8 @@ export function setupCalendly(): void {
         });
 
         modal.addEventListener('click', (e) => {
-          if (e.target === modal || (e.target as HTMLElement).classList.contains('calendly-modal-overlay')) {
+          const target = e.target as HTMLElement;
+          if (e.target === modal || (target?.classList?.contains('calendly-modal-overlay'))) {
             closeModal();
           }
         });
