@@ -204,6 +204,18 @@ function closeModal(): void {
   modal.setAttribute('aria-hidden', 'true');
 }
 
+function attachBadgeClickHandler(): void {
+  const badge = document.querySelector('.calendly-badge-widget');
+  if (badge && !badge.hasAttribute('data-calendly-handler-attached')) {
+    badge.setAttribute('data-calendly-handler-attached', 'true');
+    badge.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
+    });
+  }
+}
+
 function initFloatingButton(): void {
   const win = window as CalendlyWindow;
   if (!win.Calendly) {
@@ -211,7 +223,10 @@ function initFloatingButton(): void {
     return;
   }
 
-  if (isInitialized) return;
+  if (isInitialized) {
+    attachBadgeClickHandler();
+    return;
+  }
 
   const url = getCalendlyUrl();
   const buttonColor = getButtonColor();
@@ -225,14 +240,18 @@ function initFloatingButton(): void {
     branding: false
   });
 
-  const badge = document.querySelector('.calendly-badge-widget');
-  if (badge) {
-    badge.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      openModal();
-    });
-  }
+  let attempts = 0;
+  const maxAttempts = 20;
+  const checkBadge = setInterval(() => {
+    attempts++;
+    const badge = document.querySelector('.calendly-badge-widget');
+    if (badge || attempts >= maxAttempts) {
+      clearInterval(checkBadge);
+      if (badge) {
+        attachBadgeClickHandler();
+      }
+    }
+  }, 100);
 
   isInitialized = true;
 }
@@ -265,6 +284,9 @@ function handleThemeChange(): void {
   }
   
   attachBadgeClickHandler();
+  } else if (!lastTheme) {
+    lastTheme = currentTheme;
+  }
 }
 
 function setupCalendlyButtons(): void {
