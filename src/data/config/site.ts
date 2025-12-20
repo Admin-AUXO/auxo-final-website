@@ -28,7 +28,6 @@ export const siteData = {
     responseTime: '<24hrs',
   },
   privacyEmail: 'privacy@auxodata.com',
-  // themeColor should match --bg-primary from CSS tokens
-  themeColor: '#000000', // Dark theme default, will be overridden by CSS
+  themeColor: '#000000',
 } as const;
 

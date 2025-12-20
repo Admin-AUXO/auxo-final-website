@@ -45,8 +45,7 @@
     
     if (!progressBar || !progressFill) return;
 
-    // Access global lenis instance directly
-    const lenis = (window as any).lenis;
+    const lenis = window.lenis;
 
     function updateProgress(): void {
       const windowHeight = window.innerHeight;

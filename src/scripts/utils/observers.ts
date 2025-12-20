@@ -32,7 +32,9 @@ function initThemeObserver(): void {
             try {
               callback(isDark, wasDark);
             } catch (error) {
-              console.error('Theme observer callback error:', error);
+              if (import.meta.env.DEV) {
+                console.error('Theme observer callback error:', error);
+              }
             }
           });
           

@@ -22,6 +22,12 @@ export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): vo
 
 export function setupPageAnimations(): void {
   if (typeof window === 'undefined') return;
-  import('../../scrollAnimations').then((m) => m.refreshScrollAnimationsWithDelay()).catch(() => {});
+  import('../../scrollAnimations')
+    .then((m) => m.refreshScrollAnimationsWithDelay())
+    .catch((error) => {
+      if (import.meta.env.DEV) {
+        console.error('Failed to refresh scroll animations:', error);
+      }
+    });
 }
 

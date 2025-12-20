@@ -6,7 +6,7 @@
 </div>
 
 <script>
-  let particleSystem: any = null;
+  let particleSystem: InstanceType<typeof import("../../scripts/particle-system").GalaxyParticleSystem> | null = null;
   let isInitialized = false;
 
   async function initParticleSystem() {
@@ -23,7 +23,9 @@
       particleSystem = new GalaxyParticleSystem(canvas);
       isInitialized = true;
     } catch (error) {
-      console.error("Failed to initialize particle system:", error);
+      if (import.meta.env.DEV) {
+        console.error("Failed to initialize particle system:", error);
+      }
     }
   }
 
@@ -65,7 +67,6 @@
     }
   });
 
-  // Inline theme change observer
   (function observeThemeChange() {
     if (typeof window === 'undefined') return;
     

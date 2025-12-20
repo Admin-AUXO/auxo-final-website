@@ -141,7 +141,7 @@ export const servicesQuery = groq`*[_type == "services"][0]{
   }
 }`;
 
-export const serviceDetailsQuery = groq`*[_type == "serviceDetail"]{
+export const serviceDetailsQuery = groq`*[_type == "serviceDetail"] | order(name asc){
   slug,
   name,
   shortDescription,

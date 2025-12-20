@@ -5,7 +5,7 @@ const dataset = import.meta.env.SANITY_DATASET || 'production';
 const token = import.meta.env.SANITY_API_TOKEN;
 
 if (!projectId || !dataset || !token) {
-  throw new Error('Sanity configuration missing. Required: SANITY_PROJECT_ID, SANITY_DATASET, SANITY_API_TOKEN');
+  throw new Error('Missing Sanity configuration: SANITY_PROJECT_ID, SANITY_DATASET, SANITY_API_TOKEN');
 }
 
 export const sanityClient = createClient({

@@ -8,17 +8,42 @@ const TYPING_SPEED = 35;
 const LINE_PAUSE = 600;
 const CHAR_DELAY_VARIANCE = 5;
 
+let activeAnimationFrameId: number | null = null;
+let activeTimeoutId: NodeJS.Timeout | null = null;
+
 export function initValuePropositionTyping(containerId: string): void {
+  if (activeAnimationFrameId !== null) {
+    cancelAnimationFrame(activeAnimationFrameId);
+    activeAnimationFrameId = null;
+  }
+  if (activeTimeoutId !== null) {
+    clearTimeout(activeTimeoutId);
+    activeTimeoutId = null;
+  }
+  
   const container = document.getElementById(containerId);
   if (!container) return;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reducedMotion) {
-    container.innerHTML = `
-      <p>${HERO_LINES[0]}</p>
-      <p>&nbsp;</p>
-      <p>${HERO_LINES[2].replace('AUXO', '<span class="highlight-gradient">AUXO</span>')}</p>
-    `;
+    const p1 = document.createElement('p');
+    p1.textContent = HERO_LINES[0];
+    const p2 = document.createElement('p');
+    p2.innerHTML = '&nbsp;';
+    const p3 = document.createElement('p');
+    const auxoText = HERO_LINES[2];
+    const auxoIndex = auxoText.indexOf('AUXO');
+    if (auxoIndex >= 0) {
+      p3.appendChild(document.createTextNode(auxoText.slice(0, auxoIndex)));
+      const span = document.createElement('span');
+      span.className = 'highlight-gradient';
+      span.textContent = 'AUXO';
+      p3.appendChild(span);
+      p3.appendChild(document.createTextNode(auxoText.slice(auxoIndex + 4)));
+    } else {
+      p3.textContent = auxoText;
+    }
+    container.append(p1, p2, p3);
     return;
   }
 
@@ -48,7 +73,7 @@ export function initValuePropositionTyping(containerId: string): void {
   const line2Element = document.createElement('p');
   const line3Element = document.createElement('p');
 
-  line2Element.innerHTML = '&nbsp;';
+  line2Element.innerHTML = '&nbsp;'; // Non-breaking space requires innerHTML
 
   container.appendChild(line1Element);
   container.appendChild(line2Element);
@@ -60,19 +85,32 @@ export function initValuePropositionTyping(containerId: string): void {
   let isPausing = false;
 
   function renderLine(lineIndex: number, content: string, isTyping: boolean): void {
-    const cursorHTML = isTyping ? '<span class="typing-cursor temp-cursor"></span>' : '';
     const targetElement = lineIndex === 0 ? line1Element : line3Element;
-
+    targetElement.textContent = '';
+    
     if (lineIndex === 0) {
-      targetElement.innerHTML = content + cursorHTML;
+      targetElement.textContent = content;
+      if (isTyping) {
+        const cursor = document.createElement('span');
+        cursor.className = 'typing-cursor temp-cursor';
+        targetElement.appendChild(cursor);
+      }
     } else if (lineIndex === 2) {
       const auxoIndex = content.indexOf("AUXO");
       if (auxoIndex >= 0 && content.length >= auxoIndex + 4) {
-        const beforeAuxo = content.slice(0, auxoIndex);
-        const afterAuxo = content.slice(auxoIndex + 4);
-        targetElement.innerHTML = `${beforeAuxo}<span class="highlight-gradient">AUXO</span>${afterAuxo}${cursorHTML}`;
+        targetElement.appendChild(document.createTextNode(content.slice(0, auxoIndex)));
+        const span = document.createElement('span');
+        span.className = 'highlight-gradient';
+        span.textContent = 'AUXO';
+        targetElement.appendChild(span);
+        targetElement.appendChild(document.createTextNode(content.slice(auxoIndex + 4)));
       } else {
-        targetElement.innerHTML = content + cursorHTML;
+        targetElement.textContent = content;
+      }
+      if (isTyping) {
+        const cursor = document.createElement('span');
+        cursor.className = 'typing-cursor temp-cursor';
+        targetElement.appendChild(cursor);
       }
     }
   }
@@ -102,12 +140,13 @@ export function initValuePropositionTyping(containerId: string): void {
       if (charIndex > HERO_LINES[lineIndex].length) {
         if (lineIndex < HERO_LINES.length - 1) {
           isPausing = true;
-          setTimeout(() => {
+          activeTimeoutId = setTimeout(() => {
             lineIndex++;
             charIndex = 0;
             isPausing = false;
             lastTypedTime = performance.now();
-            animationFrameId = requestAnimationFrame(typeNextChar);
+            activeAnimationFrameId = requestAnimationFrame(typeNextChar);
+            animationFrameId = activeAnimationFrameId;
           }, LINE_PAUSE);
           return;
         } else {
@@ -120,9 +159,22 @@ export function initValuePropositionTyping(containerId: string): void {
       }
     }
 
-    animationFrameId = requestAnimationFrame(typeNextChar);
+    activeAnimationFrameId = requestAnimationFrame(typeNextChar);
+    animationFrameId = activeAnimationFrameId;
   }
 
-  animationFrameId = requestAnimationFrame(typeNextChar);
+  activeAnimationFrameId = requestAnimationFrame(typeNextChar);
+  animationFrameId = activeAnimationFrameId;
+}
+
+export function cleanupValuePropositionTyping(): void {
+  if (activeAnimationFrameId !== null) {
+    cancelAnimationFrame(activeAnimationFrameId);
+    activeAnimationFrameId = null;
+  }
+  if (activeTimeoutId !== null) {
+    clearTimeout(activeTimeoutId);
+    activeTimeoutId = null;
+  }
 }
 

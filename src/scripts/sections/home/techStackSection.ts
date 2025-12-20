@@ -26,7 +26,9 @@ function randomizeTrackItems(track: HTMLElement): void {
     ...shuffledItems.map((el) => el.cloneNode(true) as HTMLElement)
   ];
 
-  track.innerHTML = '';
+  while (track.firstChild) {
+    track.removeChild(track.firstChild);
+  }
   duplicatedShuffled.forEach(item => track.appendChild(item));
 }
 

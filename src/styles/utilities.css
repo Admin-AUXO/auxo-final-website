@@ -168,7 +168,6 @@
   min-height: var(--typing-min-height, auto);
 }
 
-/* Animation delay utilities */
 .animation-delay-0 { animation-delay: 0ms; }
 .animation-delay-50 { animation-delay: 50ms; }
 .animation-delay-100 { animation-delay: 100ms; }
@@ -202,7 +201,6 @@
   opacity: 1;
 }
 
-/* Transition utilities */
 .transition-base { transition: var(--transition-base); }
 .transition-fast { transition: var(--transition-fast); }
 .transition-slow { transition: var(--transition-slow); }

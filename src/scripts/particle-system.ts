@@ -53,7 +53,6 @@ const CONSTANTS = {
   REGULAR_STAR_GLOW_LIGHT: 2.5,
   REGULAR_STAR_GLOW_DARK: 2,
   
-  // Light mode star colors - will be overridden by CSS variables
   LIGHT_MODE_STAR_COLORS: [
     '#1F2937',
     '#374151',
@@ -87,7 +86,6 @@ export class GalaxyParticleSystem {
     mouseInfluence: 0,
   };
 
-  // Default fallback colors - will be overridden by CSS variables
   private accentColor = '#A3E635';
   private accentColorRgb: string = '';
   private starColors: string[] = [];
@@ -152,7 +150,6 @@ export class GalaxyParticleSystem {
     const root = document.documentElement;
     const computedStyle = getComputedStyle(root);
     
-    // Get colors from CSS custom properties (best practice)
     this.accentColor = computedStyle.getPropertyValue('--accent-green').trim() || '#A3E635';
     this.textPrimary = computedStyle.getPropertyValue('--text-primary').trim() || '#FFFFFF';
     this.textSecondary = computedStyle.getPropertyValue('--text-secondary').trim() || '#A0A0A0';
@@ -160,7 +157,6 @@ export class GalaxyParticleSystem {
     this.accentColorRgb = this.hexToRgb(this.accentColor);
     this.isLightMode = root.classList.contains('light');
     
-    // Use CSS variables for star colors when available
     const starColor1 = computedStyle.getPropertyValue('--star-color-1')?.trim();
     const starColor2 = computedStyle.getPropertyValue('--star-color-2')?.trim();
     const starColor3 = computedStyle.getPropertyValue('--star-color-3')?.trim();
@@ -179,8 +175,6 @@ export class GalaxyParticleSystem {
           this.lightenColor(this.textPrimary, 0.2),
           this.textSecondary,
         ];
-    
-    // Use text-secondary for blending (works for both themes)
     const blendColor = this.textSecondary;
     this.nebulaColors = this.isLightMode
       ? [

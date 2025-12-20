@@ -62,7 +62,7 @@ const ogImage = createAssetUrl("/og-image.svg");
     <link rel="preconnect" href="https://calendar.app.google" crossorigin />
     <link rel="dns-prefetch" href="https://calendar.app.google" />
 
-    <link rel="canonical" href={siteData.url} />
+    <link rel="canonical" href={`${siteData.url}${Astro.url.pathname}`} />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <script>

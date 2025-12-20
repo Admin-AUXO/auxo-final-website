@@ -11,7 +11,12 @@ import type { HomepageContent } from '../../data/content/homepage';
 import type { ServicesContent, ServiceDetail } from '../../data/content/services/types';
 import type { AboutContent } from '../../data/content/about';
 
-const fetchWithError = async <T>(query: string, cacheKey: string, errorMsg: string, params?: Record<string, any>): Promise<T> => {
+const fetchWithError = async <T>(
+  query: string,
+  cacheKey: string,
+  errorMsg: string,
+  params?: Record<string, unknown>
+): Promise<T> => {
   return sanityCache.get(cacheKey, async () => {
     const data = await sanityClient.fetch<T>(query, params || {});
     if (!data) {
@@ -44,9 +49,20 @@ export async function getServicesContent(): Promise<ServicesContent> {
 }
 
 export async function getServiceDetailBySlug(slug: string): Promise<ServiceDetail | null> {
+  if (!slug || typeof slug !== 'string') {
+    return null;
+  }
+
   return sanityCache.get(`service:${slug}`, async () => {
-    const data = await sanityClient.fetch<ServiceDetail>(serviceDetailBySlugQuery, { slug });
-    return data || null;
+    try {
+      const data = await sanityClient.fetch<ServiceDetail>(serviceDetailBySlugQuery, { slug });
+      return data || null;
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.error(`Error fetching service detail for slug "${slug}":`, error);
+      }
+      return null;
+    }
   });
 }
 

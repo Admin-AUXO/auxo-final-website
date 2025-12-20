@@ -49,11 +49,11 @@ export function validateField(fieldName: keyof ContactFormData, value: any) {
   }
 }
 
-export function getFormData(form: HTMLFormElement): Record<string, any> {
+export function getFormData(form: HTMLFormElement): Record<string, string> {
   const formData = new FormData(form);
-  const data: Record<string, any> = {};
+  const data: Record<string, string> = {};
   formData.forEach((value, key) => {
-    data[key] = value;
+    data[key] = typeof value === 'string' ? value : String(value);
   });
   return data;
 }

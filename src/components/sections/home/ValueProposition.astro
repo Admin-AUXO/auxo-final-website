@@ -38,12 +38,16 @@ const { content: problemContent } = Astro.props;
 </SectionContainer>
 
 <script>
-  import { initValuePropositionTyping } from "../../../scripts/sections/home/valuePropositionTyping";
+  import { initValuePropositionTyping, cleanupValuePropositionTyping } from "../../../scripts/sections/home/valuePropositionTyping";
+  
+  const init = () => initValuePropositionTyping('value-proposition-typing');
   
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initValuePropositionTyping.bind(null, 'value-proposition-typing'));
+    document.addEventListener('DOMContentLoaded', init, { once: true });
   } else {
-    initValuePropositionTyping('value-proposition-typing');
+    init();
   }
+  
+  document.addEventListener('astro:before-swap', cleanupValuePropositionTyping);
 </script>
 

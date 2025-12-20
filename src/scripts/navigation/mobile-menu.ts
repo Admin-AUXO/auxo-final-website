@@ -224,7 +224,9 @@ function openMobileMenu(): void {
   requestAnimationFrame(() => {
     try {
       focusTrap?.activate();
-    } catch (e) {}
+    } catch {
+      // Focus trap activation may fail in some edge cases, silently continue
+    }
     
     setupMobileDropdowns();
     setupLinkHandlers();

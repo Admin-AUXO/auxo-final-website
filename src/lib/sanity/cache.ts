@@ -5,7 +5,7 @@ type CacheEntry<T> = {
 
 class SanityCache {
   private cache = new Map<string, CacheEntry<any>>();
-  private readonly TTL = 1000 * 60 * 30;
+  private readonly TTL = 1000 * 60 * 30; // 30 minutes
   private pendingRequests = new Map<string, Promise<any>>();
 
   async get<T>(key: string, fetcher: () => Promise<T>): Promise<T> {

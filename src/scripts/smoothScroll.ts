@@ -28,7 +28,7 @@ export function initSmoothScroll() {
 
   rafId = requestAnimationFrame(raf);
   
-  (window as any).lenis = lenis;
+  window.lenis = lenis;
   
   document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {

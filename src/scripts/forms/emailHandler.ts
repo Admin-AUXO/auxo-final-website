@@ -73,8 +73,8 @@ export async function handleContactFormSubmit(event: Event) {
       showSuccess('Message sent successfully! We\'ll get back to you soon.');
       form.reset();
 
-      if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', 'form_submission', {
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'form_submission', {
           event_category: 'Contact',
           event_label: 'Contact Form',
         });
@@ -83,7 +83,9 @@ export async function handleContactFormSubmit(event: Event) {
       throw new Error('Failed to send message');
     }
   } catch (error) {
-    console.error('EmailJS Error:', error);
+    if (import.meta.env.DEV) {
+      console.error('EmailJS Error:', error);
+    }
     if (error instanceof Error && error.message.includes('not configured')) {
       showError(error.message);
     } else {

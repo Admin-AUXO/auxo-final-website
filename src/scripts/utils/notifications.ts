@@ -5,7 +5,6 @@ let notyf: Notyf | null = null;
 export function initNotifications() {
   if (notyf) return notyf;
 
-  // Get colors from CSS custom properties (best practice)
   const root = document.documentElement;
   const computedStyle = getComputedStyle(root);
   
