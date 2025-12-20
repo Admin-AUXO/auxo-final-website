@@ -22,7 +22,9 @@ function getCssVar(name: string, fallback: string): string {
 
 function getCalendlyUrl(): string {
   const html = document.documentElement;
-  const isDark = html.classList.contains('dark');
+  const hasDark = html.classList.contains('dark');
+  const hasLight = html.classList.contains('light');
+  const isDark = hasDark || (!hasLight && !hasDark);
   
   const accentGreen = getCssVar('--accent-green', '#A3E635').replace('#', '');
   const bgPrimary = getCssVar('--bg-primary', isDark ? '#000000' : '#FFFFFF').replace('#', '');
@@ -35,6 +37,12 @@ function waitForThemeReady(callback: () => void): void {
   const html = document.documentElement;
   const hasTheme = html.classList.contains('dark') || html.classList.contains('light');
   
+  function ensureDarkDefault(): void {
+    if (!html.classList.contains('dark') && !html.classList.contains('light')) {
+      html.classList.add('dark');
+    }
+  }
+  
   function checkCssVars(): boolean {
     const bgPrimary = getComputedStyle(html).getPropertyValue('--bg-primary').trim();
     const textPrimary = getComputedStyle(html).getPropertyValue('--text-primary').trim();
@@ -43,6 +51,7 @@ function waitForThemeReady(callback: () => void): void {
   }
   
   function executeCallback(): void {
+    ensureDarkDefault();
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (checkCssVars()) {
@@ -53,6 +62,8 @@ function waitForThemeReady(callback: () => void): void {
       });
     });
   }
+  
+  ensureDarkDefault();
   
   if (hasTheme && checkCssVars()) {
     setTimeout(executeCallback, 100);
@@ -69,6 +80,7 @@ function waitForThemeReady(callback: () => void): void {
   } else {
     let resolved = false;
     const observer = new MutationObserver(() => {
+      ensureDarkDefault();
       if ((html.classList.contains('dark') || html.classList.contains('light')) && !resolved) {
         resolved = true;
         observer.disconnect();
@@ -81,6 +93,7 @@ function waitForThemeReady(callback: () => void): void {
       if (!resolved) {
         resolved = true;
         observer.disconnect();
+        ensureDarkDefault();
         executeCallback();
       }
     }, 500);
@@ -236,7 +249,10 @@ export function setupCalendly(): void {
   
   function initialize(): void {
     const html = document.documentElement;
-    lastTheme = html.classList.contains('dark') ? 'dark' : html.classList.contains('light') ? 'light' : null;
+    if (!html.classList.contains('dark') && !html.classList.contains('light')) {
+      html.classList.add('dark');
+    }
+    lastTheme = html.classList.contains('dark') ? 'dark' : html.classList.contains('light') ? 'light' : 'dark';
 
     const themeObserver = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
