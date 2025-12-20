@@ -14,8 +14,11 @@ function makeFullscreen(popup: Window | null): void {
   if (!popup || popup.closed) return;
 
   try {
+    const screenWidth = window.screen.availWidth || window.screen.width;
+    const screenHeight = window.screen.availHeight || window.screen.height;
+    
     popup.moveTo(0, 0);
-    popup.resizeTo(window.screen.width, window.screen.height);
+    popup.resizeTo(screenWidth, screenHeight);
     
     const checkInterval = setInterval(() => {
       if (popup.closed) {
@@ -24,6 +27,17 @@ function makeFullscreen(popup: Window | null): void {
       }
       
       try {
+        const currentWidth = screenWidth;
+        const currentHeight = screenHeight;
+        
+        if (popup.outerWidth !== currentWidth || popup.outerHeight !== currentHeight) {
+          popup.resizeTo(currentWidth, currentHeight);
+        }
+        
+        if (popup.screenX !== 0 || popup.screenY !== 0) {
+          popup.moveTo(0, 0);
+        }
+        
         const popupDoc = popup.document;
         if (popupDoc) {
           const currentTheme = getCurrentTheme();
@@ -51,22 +65,22 @@ function makeFullscreen(popup: Window | null): void {
         }
       } catch (e) {
       }
-    }, 100);
+    }, 200);
 
-    setTimeout(() => clearInterval(checkInterval), 5000);
+    setTimeout(() => clearInterval(checkInterval), 10000);
   } catch (e) {
   }
 }
 
 function openCalendarPopup(): void {
-  const width = window.screen.width;
-  const height = window.screen.height;
+  const screenWidth = window.screen.availWidth || window.screen.width;
+  const screenHeight = window.screen.availHeight || window.screen.height;
   const left = 0;
   const top = 0;
   
   const features = [
-    `width=${width}`,
-    `height=${height}`,
+    `width=${screenWidth}`,
+    `height=${screenHeight}`,
     `left=${left}`,
     `top=${top}`,
     'resizable=yes',
@@ -85,7 +99,21 @@ function openCalendarPopup(): void {
 
   if (popup) {
     popup.focus();
-    setTimeout(() => makeFullscreen(popup), 100);
+    
+    const attemptFullscreen = () => {
+      try {
+        if (popup && !popup.closed) {
+          popup.moveTo(0, 0);
+          popup.resizeTo(screenWidth, screenHeight);
+        }
+      } catch (e) {
+      }
+    };
+    
+    setTimeout(attemptFullscreen, 50);
+    setTimeout(attemptFullscreen, 150);
+    setTimeout(attemptFullscreen, 300);
+    setTimeout(attemptFullscreen, 500);
     
     const checkClosed = setInterval(() => {
       if (popup.closed) {
@@ -97,6 +125,8 @@ function openCalendarPopup(): void {
         }
       }
     }, 500);
+    
+    setTimeout(() => clearInterval(checkClosed), 15000);
   } else {
     if (import.meta.env.DEV) {
       console.warn('Popup blocked. Please allow popups for this site.');
