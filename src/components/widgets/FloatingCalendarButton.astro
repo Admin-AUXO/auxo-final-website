@@ -17,8 +17,8 @@ import { Icon } from "astro-icon/components";
 <style>
   .floating-calendar-btn {
     position: fixed !important;
-    bottom: 1rem !important;
-    right: 1rem !important;
+    bottom: var(--spacing-md, 1rem) !important;
+    right: var(--spacing-md, 1rem) !important;
     z-index: 9998 !important;
     width: 3.5rem !important;
     height: 3.5rem !important;
@@ -27,18 +27,18 @@ import { Icon } from "astro-icon/components";
     max-width: 3.5rem !important;
     max-height: 3.5rem !important;
     border-radius: 50% !important;
-    background-color: var(--accent-green, #7CB342) !important;
-    color: #000 !important;
-    border: 2px solid rgba(163, 230, 53, 0.3) !important;
-    box-shadow: 0 4px 20px rgba(163, 230, 53, 0.4), 0 0 0 3px rgba(163, 230, 53, 0.2) !important;
+    background-color: var(--accent-green) !important;
+    color: var(--text-on-accent) !important;
+    border: 2px solid var(--accent-green-opacity-30) !important;
+    box-shadow: 0 4px 20px var(--accent-green-opacity-2), 0 0 0 3px var(--accent-green-opacity-1) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
     pointer-events: auto !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
+    transition: all var(--duration-normal) var(--easing-standard) !important;
+    backdrop-filter: blur(var(--blur-nav)) !important;
+    -webkit-backdrop-filter: blur(var(--blur-nav)) !important;
     touch-action: manipulation !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -53,13 +53,13 @@ import { Icon } from "astro-icon/components";
     width: 1.5rem;
     height: 1.5rem;
     pointer-events: none;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform var(--duration-normal) var(--easing-standard);
   }
 
   .floating-calendar-btn:hover {
-    border-color: rgba(163, 230, 53, 0.5) !important;
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 0 8px 32px rgba(163, 230, 53, 0.5), 0 0 0 4px rgba(163, 230, 53, 0.3) !important;
+    border-color: var(--accent-green-opacity-30) !important;
+    transform: translateY(var(--transform-translate-y-card-hover)) scale(1.05) !important;
+    box-shadow: 0 8px 32px var(--accent-green-opacity-30), 0 0 0 4px var(--accent-green-opacity-25) !important;
     cursor: pointer !important;
     pointer-events: auto !important;
   }
@@ -69,24 +69,24 @@ import { Icon } from "astro-icon/components";
   }
 
   .floating-calendar-btn:active {
-    transform: translateY(-2px) scale(1.02) !important;
-    box-shadow: 0 4px 16px rgba(163, 230, 53, 0.4), 0 0 0 3px rgba(163, 230, 53, 0.25) !important;
+    transform: translateY(var(--hover-lift-distance-sm)) scale(1.02) !important;
+    box-shadow: 0 4px 16px var(--accent-green-opacity-2), 0 0 0 3px var(--accent-green-opacity-25) !important;
     cursor: pointer !important;
     pointer-events: auto !important;
   }
 
   .floating-calendar-btn:focus-visible {
-    outline: 2px solid var(--accent-green, #7CB342) !important;
-    outline-offset: 4px !important;
-    border-color: rgba(163, 230, 53, 0.6) !important;
+    outline: var(--focus-ring-width) solid var(--accent-green) !important;
+    outline-offset: var(--spacing-xs) !important;
+    border-color: var(--accent-green-opacity-30) !important;
     cursor: pointer !important;
     pointer-events: auto !important;
   }
 
   @media (min-width: 640px) and (max-width: 1023px) {
     .floating-calendar-btn {
-      bottom: 1.5rem;
-      right: 1.5rem;
+      bottom: var(--spacing-lg, 1.5rem);
+      right: var(--spacing-lg, 1.5rem);
       width: 4rem;
       height: 4rem;
       min-width: 4rem;
@@ -103,8 +103,8 @@ import { Icon } from "astro-icon/components";
 
   @media (min-width: 1024px) {
     .floating-calendar-btn {
-      bottom: 2rem;
-      right: 2rem;
+      bottom: var(--spacing-xl, 2rem);
+      right: var(--spacing-xl, 2rem);
       width: 4rem;
       height: 4rem;
       min-width: 4rem;
@@ -121,8 +121,8 @@ import { Icon } from "astro-icon/components";
 
   @media (max-width: 639px) {
     .floating-calendar-btn {
-      bottom: 1rem;
-      right: 1rem;
+      bottom: var(--spacing-md, 1rem);
+      right: var(--spacing-md, 1rem);
       width: 3.5rem;
       height: 3.5rem;
       min-width: 3.5rem;
@@ -139,8 +139,8 @@ import { Icon } from "astro-icon/components";
 
   @media (max-height: 600px) and (max-width: 1023px) {
     .floating-calendar-btn {
-      bottom: 0.75rem;
-      right: 0.75rem;
+      bottom: var(--spacing-sm, 0.75rem);
+      right: var(--spacing-sm, 0.75rem);
       width: 3rem;
       height: 3rem;
       min-width: 3rem;

@@ -5,6 +5,15 @@ let notyf: Notyf | null = null;
 export function initNotifications() {
   if (notyf) return notyf;
 
+  // Get colors from CSS custom properties (best practice)
+  const root = document.documentElement;
+  const computedStyle = getComputedStyle(root);
+  
+  const accentGreen = computedStyle.getPropertyValue('--accent-green').trim() || '#A3E635';
+  const errorColor = computedStyle.getPropertyValue('--error-color')?.trim() || '#EF4444';
+  const warningColor = computedStyle.getPropertyValue('--warning-color')?.trim() || '#F59E0B';
+  const infoColor = computedStyle.getPropertyValue('--info-color')?.trim() || '#3B82F6';
+
   notyf = new Notyf({
     duration: 4000,
     position: { x: 'right', y: 'bottom' },
@@ -13,16 +22,16 @@ export function initNotifications() {
     types: [
       {
         type: 'success',
-        background: '#A3E635',
+        background: accentGreen,
         icon: { className: 'notyf__icon--success', tagName: 'i' },
       },
       {
         type: 'error',
-        background: '#EF4444',
+        background: errorColor,
         icon: { className: 'notyf__icon--error', tagName: 'i' },
       },
-      { type: 'warning', background: '#F59E0B', icon: false },
-      { type: 'info', background: '#3B82F6', icon: false },
+      { type: 'warning', background: warningColor, icon: false },
+      { type: 'info', background: infoColor, icon: false },
     ],
   });
 

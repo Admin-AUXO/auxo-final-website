@@ -20,9 +20,9 @@
   .scroll-progress-bar-fill {
     height: 100%;
     width: var(--scroll-progress-width, 0%);
-    background: linear-gradient(90deg, var(--accent-green) 0%, #7CB342 100%);
+    background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-green) 100%);
     transform-origin: left;
-    transition: width 0.1s ease-out;
+    transition: width var(--duration-fast) ease-out;
   }
 
   @media (max-width: 640px) {

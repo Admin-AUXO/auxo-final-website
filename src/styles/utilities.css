@@ -1,6 +1,22 @@
 /* stylelint-disable-next-line at-rule-no-unknown */
 @tailwind utilities;
 
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.relative {
+  position: relative;
+}
+
 .grid-container {
   width: 100%;
   max-width: var(--grid-max-width, 1280px);
@@ -152,6 +168,7 @@
   min-height: var(--typing-min-height, auto);
 }
 
+/* Animation delay utilities */
 .animation-delay-0 { animation-delay: 0ms; }
 .animation-delay-50 { animation-delay: 50ms; }
 .animation-delay-100 { animation-delay: 100ms; }
@@ -185,6 +202,7 @@
   opacity: 1;
 }
 
+/* Transition utilities */
 .transition-base { transition: var(--transition-base); }
 .transition-fast { transition: var(--transition-fast); }
 .transition-slow { transition: var(--transition-slow); }
@@ -197,7 +215,7 @@
 }
 
 .focus-ring:focus-visible {
-  outline: 2px solid var(--accent-green);
+  outline: var(--focus-ring-width) solid var(--accent-green);
   outline-offset: var(--spacing-xs);
   border-radius: var(--radius-sm);
 }

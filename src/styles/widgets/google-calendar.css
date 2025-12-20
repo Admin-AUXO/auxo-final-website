@@ -10,9 +10,9 @@
 }
 
 :global([data-google-calendar-open]:focus-visible) {
-  outline: 2px solid var(--accent-green, #7CB342);
-  outline-offset: 2px;
-  border-radius: 0.5rem;
+  outline: var(--focus-ring-width) solid var(--accent-green);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-md);
 }
 
 :global(a[data-google-calendar-open]) {

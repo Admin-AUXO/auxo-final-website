@@ -70,8 +70,8 @@
       rgba(0, 0, 0, 0.85) 50%,
       rgba(var(--accent-green-rgb), 0.03) 100%
     ) !important;
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(var(--blur-nav)) !important;
+    -webkit-backdrop-filter: blur(var(--blur-nav)) !important;
   }
 
   .light .calendar-modal-overlay {
@@ -93,7 +93,7 @@
     border: 1px solid var(--accent-green-opacity-30) !important;
     box-shadow: 
       0 0 0 1px var(--accent-green-opacity-15),
-      0 20px 60px rgba(0, 0, 0, 0.5),
+      0 20px 60px var(--overlay-black-75),
       0 0 40px var(--accent-green-opacity-08) !important;
     z-index: 1 !important;
   }

@@ -1,7 +1,5 @@
 .models-section {
-  overflow: hidden !important;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
+  overflow: hidden;
 }
 
 .models-section .section-pattern-grid {
@@ -28,8 +26,8 @@
   min-height: auto;
   background: var(--bg-card);
   border: 2px solid var(--border-color-light);
-  border-radius: 1rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius-xl);
+  transition: all var(--animation-duration-normal) var(--easing-standard);
   overflow: hidden;
   position: relative;
 }
@@ -43,7 +41,7 @@
   height: 3px;
   background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity var(--animation-duration-normal) ease;
 }
 
 .models-accordion-item[open] {
@@ -62,7 +60,7 @@
 
 @media (max-width: 640px) {
   .models-accordion-item {
-    border-radius: 0.875rem;
+    border-radius: var(--radius-lg);
     border-width: 1.5px;
   }
 }
@@ -84,7 +82,7 @@
 .models-accordion-icon {
   width: 48px;
   height: 48px;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   flex-shrink: 0;
 }
 
@@ -111,7 +109,7 @@
   color: var(--text-primary);
   line-height: 1.35;
   font-family: var(--font-display);
-  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--duration-normal) var(--easing-standard);
   font-size: clamp(1.125rem, 1rem + 0.625vw, 1.5rem);
 }
 
@@ -144,7 +142,7 @@
 .models-accordion-chevron {
   width: 20px;
   height: 20px;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+  transition: transform var(--animation-duration-normal) var(--easing-standard), color var(--duration-normal) ease;
   color: var(--text-secondary);
   flex-shrink: 0;
 }
@@ -164,7 +162,7 @@
 .models-accordion-content {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-out;
+  transition: grid-template-rows var(--animation-duration-normal) var(--easing-standard), opacity var(--duration-normal) ease-out;
   opacity: 0;
   contain: layout;
   min-height: 0;
@@ -184,7 +182,7 @@
 }
 
 .models-accordion-summary {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--duration-normal) var(--easing-standard);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   position: relative;
@@ -194,7 +192,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  border-radius: 1rem;
+  border-radius: var(--radius-xl);
 }
 
 @media (min-width: 640px) {
@@ -213,7 +211,7 @@
   background: var(--accent-green);
   transform: scaleY(0);
   transform-origin: bottom;
-  transition: transform 0.3s ease;
+  transition: transform var(--duration-normal) ease;
   border-radius: 0 2px 2px 0;
 }
 
@@ -395,17 +393,8 @@
 }
 
 @media (min-width: 1024px) {
-  .models-accordion-tags {
-    padding-left: 0;
-  }
-
-  .models-accordion-tag {
-    padding: 0.5rem 0.875rem;
-    font-size: 0.8125rem;
-  }
-
   .models-accordion-item {
-    border-radius: 1.25rem;
+    border-radius: var(--radius-2xl);
   }
 
   .models-accordion-summary {
@@ -417,20 +406,28 @@
     gap: 1.5rem;
   }
 
-  .models-accordion-deliverables {
-    grid-template-columns: repeat(2, 1fr);
+  .models-accordion-section {
     gap: 1rem;
   }
 
-  .models-accordion-section {
+  .models-accordion-deliverables {
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+    padding-left: 0;
+  }
+
+  .models-accordion-tags {
+    padding-left: 0;
+  }
+
+  .models-accordion-tag {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
   }
 }
 
 .impact-section {
-  overflow: hidden !important;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
+  overflow: hidden;
 }
 
 .impact-section .section-pattern-mesh {
@@ -460,7 +457,7 @@
   transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
   height: 100%;
   position: relative;
-  overflow: hidden !important;
+  overflow: hidden;
 }
 
 .impact-industry-card::before {
@@ -472,7 +469,7 @@
   height: 3px;
   background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity var(--animation-duration-normal) ease;
 }
 
 .impact-industry-card:hover {
@@ -497,13 +494,13 @@
 .impact-industry-icon {
   width: 48px;
   height: 48px;
-  border-radius: 0.875rem;
+    border-radius: var(--radius-lg);
   background: linear-gradient(to bottom right, var(--accent-green-opacity-25), var(--accent-green-opacity-15));
   border: 2px solid var(--accent-green-opacity-30);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--animation-duration-normal) var(--easing-standard);
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
@@ -545,8 +542,8 @@
   padding: 0.875rem 1.125rem;
   background: linear-gradient(to right, var(--accent-green-opacity-15), var(--accent-green-opacity-08));
   border: 1px solid var(--accent-green-opacity-18);
-  border-radius: 0.625rem;
-  transition: all 0.3s ease;
+  border-radius: var(--radius-lg);
+  transition: all var(--duration-normal) ease;
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
@@ -560,8 +557,8 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(var(--accent-green-rgb), 0.2), transparent);
-  transition: left 0.6s ease;
+  background: linear-gradient(90deg, transparent, var(--accent-green-opacity-2), transparent);
+  transition: left var(--animation-duration-slow) ease;
 }
 
 .impact-industry-card:hover .impact-industry-benefit {
@@ -612,8 +609,8 @@
   padding: 0.625rem;
   background: var(--bg-surface);
   border: 1px solid var(--border-color-light);
-  border-radius: 0.5rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius-md);
+  transition: all var(--duration-normal) var(--easing-standard);
   position: relative;
   overflow: hidden;
 }
@@ -628,7 +625,7 @@
   background: var(--accent-green);
   transform: scaleY(0);
   transform-origin: bottom;
-  transition: transform 0.3s ease;
+  transition: transform var(--duration-normal) ease;
 }
 
 .impact-industry-use-case-item:hover {
@@ -716,7 +713,7 @@
   .impact-industry-icon {
     width: 64px;
     height: 64px;
-    border-radius: 1rem;
+    border-radius: var(--radius-xl);
   }
 
   .impact-industry-title {
@@ -749,12 +746,12 @@
 .impact-goal-card {
   background: linear-gradient(to bottom right, var(--accent-green-opacity-1), var(--accent-green-opacity-05));
   border: 2px solid var(--accent-green-opacity-25);
-  border-radius: 1rem;
+  border-radius: var(--radius-xl);
   padding: 1.5rem;
   text-align: center;
   position: relative;
   overflow: hidden;
-  transition: all 0.4s ease;
+  transition: all var(--animation-duration-normal) ease;
 }
 
 .impact-goal-card::before {
@@ -764,10 +761,10 @@
   right: 0;
   width: 120px;
   height: 120px;
-  background: radial-gradient(circle, rgba(var(--accent-green-rgb), 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--accent-green-opacity-15) 0%, transparent 70%);
   border-radius: 50%;
   transform: translate(30%, -30%);
-  transition: transform 0.4s ease;
+  transition: transform var(--animation-duration-normal) ease;
 }
 
 .impact-goal-card:hover {

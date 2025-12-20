@@ -1,9 +1,24 @@
+/* 
+ * Global CSS Import Order
+ * Following Astro CSS best practices:
+ * 1. Design tokens (variables, colors, spacing)
+ * 2. Base styles (reset, typography, base elements)
+ * 3. Utilities (helper classes, grid system)
+ * 4. Components (reusable UI components)
+ * 5. Sections (page-specific styles)
+ * 6. Widgets (third-party integrations)
+ */
+
+/* Design tokens and base styles */
 @import './tokens.css';
 @import './base.css';
 @import './typography.css';
 @import './backgrounds.css';
 @import './utilities.css';
 @import './animations.css';
+@import './view-transitions.css';
+
+/* Component styles */
 @import './components/base-components.css';
 @import './components/buttons.css';
 @import './components/cards.css';
@@ -11,7 +26,18 @@
 @import './components/accordions.css';
 @import './components/highlights.css';
 @import './components/legal-tables.css';
+
+/* Navigation */
 @import './navigation.css';
+
+/* Section styles */
 @import './sections/shared-sections.css';
 @import './sections/hero.css';
+@import './sections/home-sections.css';
+@import './sections/about-sections.css';
+@import './sections/services-sections.css';
+@import './sections/services-individual.css';
+@import './sections/contact-sections.css';
+
+/* Widgets */
 @import './widgets/google-calendar.css';

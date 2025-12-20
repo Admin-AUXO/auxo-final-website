@@ -20,9 +20,7 @@
   padding-top: 1.25rem;
   margin-top: 0.5rem;
   margin-bottom: 1.5rem;
-  overflow: hidden !important;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
+  overflow: hidden;
 }
 
 .services-carousel-wrapper::before {
@@ -30,7 +28,7 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, var(--accent-green-opacity-03) 0%, var(--accent-green-opacity-01) 50%, var(--accent-green-opacity-03) 100%);
-  border-radius: 1rem;
+  border-radius: var(--radius-xl);
   pointer-events: none;
   z-index: 0;
   transition: opacity var(--duration-normal) var(--easing-standard);
@@ -49,7 +47,7 @@
 
   .services-carousel-wrapper::before {
     background: linear-gradient(135deg, var(--accent-green-opacity-025) 0%, var(--accent-green-opacity-01) 50%, var(--accent-green-opacity-025) 100%);
-    border-radius: 0.75rem;
+    border-radius: var(--radius-lg);
   }
 }
 
@@ -126,9 +124,7 @@
 .carousel-container {
   position: relative;
   width: 100%;
-  overflow: hidden !important;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
+  overflow: hidden;
   -webkit-overflow-scrolling: touch;
   contain: layout style paint;
   scrollbar-width: none;
@@ -142,7 +138,7 @@
 }
 
 .embla {
-  overflow: hidden !important;
+  overflow: hidden;
 }
 
 .embla__container {
@@ -153,7 +149,7 @@
   padding-right: var(--grid-padding-sm);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  overflow: visible !important;
+  overflow: visible;
 }
 
 @media (max-width: 639px) {
@@ -222,7 +218,7 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   will-change: transform;
-  overflow: visible !important;
+  overflow: visible;
 }
 
 @media (min-width: 640px) {
@@ -347,7 +343,7 @@
 
 .carousel-dot:focus-visible,
 .carousel-dot[tabindex="0"]:focus {
-  outline: 2px solid var(--accent-green);
+  outline: var(--focus-ring-width) solid var(--accent-green);
   outline-offset: var(--spacing-xs);
   border-radius: 50%;
 }
@@ -358,15 +354,11 @@
   padding-top: 2rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
-  overflow: hidden !important;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
+  overflow: hidden;
 }
 
 .impact-carousel-section {
-  overflow: hidden !important;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
+  overflow: hidden;
   width: 100%;
 }
 
@@ -375,7 +367,7 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, var(--accent-green-opacity-03) 0%, var(--accent-green-opacity-01) 50%, var(--accent-green-opacity-03) 100%);
-  border-radius: 1rem;
+  border-radius: var(--radius-xl);
   pointer-events: none;
   z-index: 0;
   transition: opacity var(--duration-normal) var(--easing-standard);
@@ -395,7 +387,7 @@
 
   .impact-carousel-wrapper::before {
     background: linear-gradient(135deg, var(--accent-green-opacity-025) 0%, var(--accent-green-opacity-01) 50%, var(--accent-green-opacity-025) 100%);
-    border-radius: 0.75rem;
+    border-radius: var(--radius-lg);
   }
 
   .carousel-dot {

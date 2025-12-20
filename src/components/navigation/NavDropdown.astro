@@ -152,7 +152,7 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
                     <a
                       href={sub.href}
                       class={SERVICE_CARD_BASE}
-                      style={`animation-delay: ${cardIndex * 50}ms`}
+                      style={`--card-index: ${cardIndex}`}
                     >
                       <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent-green/0 via-accent-green/40 to-accent-green/0 group-hover/item:via-accent-green/70 group-hover/item:h-[3px] transition-all duration-500"></div>
                       <div class="absolute inset-0 opacity-[0.03] group-hover/item:opacity-[0.06] transition-opacity duration-500 dropdown-card-pattern"></div>
@@ -181,8 +181,7 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
                       </div>
                       <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-accent-green/0 group-hover/item:bg-accent-green/40 group-hover/item:h-[3px] transition-all duration-500"></div>
                     </a>
-                    );
-                  })}
+                  ))}
                 </div>
               </div>
             </div>

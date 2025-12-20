@@ -1,5 +1,5 @@
 .approach-section {
-  overflow: hidden !important;
+  overflow: hidden;
 }
 
 .approach-section .section-pattern-grid {
@@ -125,9 +125,7 @@
 }
 
 .global-section {
-  overflow: hidden !important;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
+  overflow: hidden;
 }
 
 .global-section .section-pattern-mesh {
@@ -170,9 +168,7 @@
   .partnership-section,
   .global-section,
   .about-cta-section {
-    overflow: hidden !important;
-    overflow-x: hidden !important;
-    overflow-y: hidden !important;
+    overflow: hidden;
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
   }
