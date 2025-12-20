@@ -123,7 +123,6 @@ function setupCalendarButton(button: HTMLElement): void {
   const currentTheme = getCurrentTheme();
 
   try {
-    const existingContent = button.innerHTML;
     button.innerHTML = '';
     
     (window as any).calendar.schedulingButton.load({
@@ -140,7 +139,8 @@ function setupCalendarButton(button: HTMLElement): void {
       const calendarIframe = button.querySelector('iframe');
       
       if (calendarButton) {
-        calendarButton.addEventListener('click', (e) => {
+        const originalClick = calendarButton.onclick;
+        calendarButton.onclick = (e) => {
           e.preventDefault();
           e.stopPropagation();
           
@@ -161,7 +161,11 @@ function setupCalendarButton(button: HTMLElement): void {
               }
             }, 500);
           }
-        });
+
+          if (originalClick) {
+            originalClick.call(calendarButton, e);
+          }
+        };
       }
 
       if (calendarIframe) {
