@@ -1,5 +1,4 @@
 /* stylelint-disable-next-line at-rule-no-unknown */
-/* Tailwind CSS directive - valid in PostCSS context */
 @tailwind utilities;
 
 .grid-container {

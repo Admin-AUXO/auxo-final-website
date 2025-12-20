@@ -105,7 +105,6 @@
   --blur-sm: 10px;
   --blur-md: 12px;
   
-  /* Z-Index Hierarchy - Simple, clear levels */
   --z-base: 1;
   --z-content: 1;
   --z-elevated: 2;

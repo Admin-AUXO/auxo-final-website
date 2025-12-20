@@ -37,7 +37,7 @@ export function initSmoothScroll() {
         if (!href || href === '#') return;
         
         const target = document.querySelector(href);
-        if (target && lenis) {
+        if (target && lenis && target instanceof HTMLElement) {
           e.preventDefault();
           lenis.scrollTo(target, {
             offset: -80,

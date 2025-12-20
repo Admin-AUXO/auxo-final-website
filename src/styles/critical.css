@@ -1,4 +1,4 @@
-/* Critical above-the-fold CSS - Inlined in head */
+/* Inlined in head */
 * {
   margin: 0;
   padding: 0;
@@ -80,7 +80,6 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Critical navigation styles */
 #main-navigation {
   position: fixed;
   top: 0;
@@ -91,7 +90,6 @@ body {
   -webkit-backdrop-filter: blur(8px);
 }
 
-/* Critical section styles */
 section,
 [class*="-section"] {
   overflow: hidden !important;
@@ -99,7 +97,6 @@ section,
   overflow-y: hidden !important;
 }
 
-/* Critical hero section */
 .hero-section {
   min-height: 100vh;
   display: flex;
@@ -110,7 +107,6 @@ section,
   overflow-y: hidden !important;
 }
 
-/* Critical layout */
 .min-h-screen {
   min-height: 100vh;
 }
@@ -135,7 +131,6 @@ section,
   color: #FFF;
 }
 
-/* Lazy loading styles */
 [data-lazy-load] {
   opacity: 0;
   transition: opacity 0.3s ease-in;

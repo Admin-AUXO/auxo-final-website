@@ -126,8 +126,10 @@ function handleAstroPageLoad(): void {
       applyTheme(getTheme());
       toggles.forEach((toggle) => {
         const newToggle = toggle.cloneNode(true);
-        toggle.parentNode?.replaceChild(newToggle, toggle);
-        attachToggleListeners(newToggle);
+        if (toggle.parentNode && newToggle instanceof Element) {
+          toggle.parentNode.replaceChild(newToggle, toggle);
+          attachToggleListeners(newToggle);
+        }
       });
     });
   });

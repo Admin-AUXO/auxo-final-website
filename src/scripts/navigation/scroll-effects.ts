@@ -14,6 +14,8 @@ export function setupScrollEffects(): void {
     const { nav } = getNavElements();
     if (!nav) return;
 
+    const navElement = nav; // Store in const for type narrowing
+
     function handleScroll(): void {
       if (state.isScrolling) return;
       state.isScrolling = true;
@@ -22,7 +24,7 @@ export function setupScrollEffects(): void {
       state.lastScrollTop = scrollTop;
 
       requestAnimationFrame(() => {
-        updateNavState(nav, scrollTop);
+        updateNavState(navElement, scrollTop);
         state.isScrolling = false;
       });
     }
@@ -30,12 +32,12 @@ export function setupScrollEffects(): void {
     addTrackedListener(window, 'scroll', handleScroll, { passive: true });
     
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    updateNavState(nav, scrollTop);
+    updateNavState(navElement, scrollTop);
 
     document.addEventListener('themechange', () => {
       requestAnimationFrame(() => {
         const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        updateNavState(nav, currentScrollTop);
+        updateNavState(navElement, currentScrollTop);
       });
     });
   } catch (error) {
