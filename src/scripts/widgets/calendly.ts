@@ -24,10 +24,12 @@ let themeChangeTimeout: number | null = null;
 let lastTheme: string | null = null;
 
 function getCssVar(name: string, fallback: string): string {
+  if (typeof document === 'undefined' || !document.documentElement) return fallback;
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
 }
 
 function getCurrentTheme(): string {
+  if (typeof document === 'undefined' || !document.documentElement) return 'dark';
   const html = document.documentElement;
   if (html.classList.contains('dark')) return 'dark';
   if (html.classList.contains('light')) return 'light';
@@ -61,6 +63,7 @@ function getButtonTextColor(): string {
 }
 
 function ensureThemeReady(): void {
+  if (typeof document === 'undefined' || !document.documentElement) return;
   const html = document.documentElement;
   if (!html.classList.contains('dark') && !html.classList.contains('light')) {
     html.classList.add('dark');
@@ -260,6 +263,8 @@ function handleThemeChange(): void {
   } else if (!lastTheme) {
     lastTheme = currentTheme;
   }
+  
+  attachBadgeClickHandler();
 }
 
 function setupCalendlyButtons(): void {
@@ -307,6 +312,7 @@ export function setupCalendly(): void {
     
     document.addEventListener('astro:page-load', () => {
       setupCalendlyButtons();
+      attachBadgeClickHandler();
     });
 
     waitForThemeAndCssVars(() => {
