@@ -122,35 +122,10 @@ function setupCalendarButton(button: HTMLElement): void {
   const color = getThemeColor();
   const currentTheme = getCurrentTheme();
 
-  const originalClick = button.onclick;
-  button.onclick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const popup = window.open(
-      CALENDAR_URL,
-      'Google Calendar',
-      'width=' + window.screen.width + ',height=' + window.screen.height + ',left=0,top=0,resizable=yes,scrollbars=yes'
-    );
-
-    if (popup) {
-      setTimeout(() => makeFullscreen(popup), 100);
-      
-      const checkClosed = setInterval(() => {
-        if (popup.closed) {
-          clearInterval(checkClosed);
-        } else {
-          makeFullscreen(popup);
-        }
-      }, 500);
-    }
-
-    if (originalClick) {
-      originalClick.call(button, e);
-    }
-  };
-
   try {
+    const existingContent = button.innerHTML;
+    button.innerHTML = '';
+    
     (window as any).calendar.schedulingButton.load({
       url: CALENDAR_URL,
       color: color,
@@ -161,16 +136,43 @@ function setupCalendarButton(button: HTMLElement): void {
     initializedButtons.add(button);
 
     setTimeout(() => {
-      const iframe = button.querySelector('iframe');
-      if (iframe) {
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.border = 'none';
-        iframe.setAttribute('allowfullscreen', 'true');
+      const calendarButton = button.querySelector('button');
+      const calendarIframe = button.querySelector('iframe');
+      
+      if (calendarButton) {
+        calendarButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const popup = window.open(
+            CALENDAR_URL,
+            'Google Calendar',
+            'width=' + window.screen.width + ',height=' + window.screen.height + ',left=0,top=0,resizable=yes,scrollbars=yes'
+          );
+
+          if (popup) {
+            setTimeout(() => makeFullscreen(popup), 100);
+            
+            const checkClosed = setInterval(() => {
+              if (popup.closed) {
+                clearInterval(checkClosed);
+              } else {
+                makeFullscreen(popup);
+              }
+            }, 500);
+          }
+        });
+      }
+
+      if (calendarIframe) {
+        calendarIframe.style.width = '100%';
+        calendarIframe.style.height = '100%';
+        calendarIframe.style.border = 'none';
+        calendarIframe.setAttribute('allowfullscreen', 'true');
         
-        iframe.addEventListener('load', () => {
+        calendarIframe.addEventListener('load', () => {
           try {
-            const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+            const iframeDoc = calendarIframe.contentDocument || calendarIframe.contentWindow?.document;
             if (iframeDoc) {
               iframeDoc.documentElement.setAttribute('data-theme', currentTheme);
               if (currentTheme === 'dark') {
