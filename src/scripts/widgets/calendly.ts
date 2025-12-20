@@ -107,6 +107,8 @@ function loadCalendlyScript(callback: () => void): void {
 
 function hideScrollbars(element: HTMLElement): void {
   element.style.setProperty('overflow', 'hidden', 'important');
+  element.style.setProperty('overflow-x', 'hidden', 'important');
+  element.style.setProperty('overflow-y', 'hidden', 'important');
   element.style.setProperty('scrollbar-width', 'none', 'important');
   element.style.setProperty('-ms-overflow-style', 'none', 'important');
 }
@@ -116,12 +118,17 @@ function applyScrollbarFix(): void {
   if (!widget) return;
 
   const container = widget.closest('.calendly-inline-widget-container') as HTMLElement;
-  if (container) hideScrollbars(container);
+  if (container) {
+    hideScrollbars(container);
+    Array.from(container.querySelectorAll('*')).forEach((el) => {
+      hideScrollbars(el as HTMLElement);
+    });
+  }
 
   const iframe = widget.querySelector('iframe');
   if (iframe) hideScrollbars(iframe as HTMLElement);
   
-  widget.querySelectorAll('.calendly-inline-widget > div, .calendly-inline-widget > div > div').forEach((div) => {
+  widget.querySelectorAll('.calendly-inline-widget, .calendly-inline-widget > div, .calendly-inline-widget > div > div, .calendly-inline-widget *').forEach((div) => {
     hideScrollbars(div as HTMLElement);
   });
 }
