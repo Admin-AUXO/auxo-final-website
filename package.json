@@ -47,12 +47,14 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@sanity/cli": "^5.0.1",
     "@types/aos": "^3.0.7",
     "@types/node-fetch": "^2.6.13",
     "cssnano": "^7.1.2",
     "dotenv": "^17.2.3",
     "node-fetch": "^3.3.2",
+    "playwright": "^1.57.0",
     "postcss-preset-env": "^10.5.0",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1",

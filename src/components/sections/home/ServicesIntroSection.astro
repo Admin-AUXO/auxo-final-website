@@ -89,5 +89,6 @@ const { content } = Astro.props;
 </SectionContainer>
 
 <script>
-  import "../../../scripts/sections/home/servicesIntroSection";
+  import { autoInitCarousels } from "../../../scripts/sections/autoInit";
+  autoInitCarousels();
 </script>

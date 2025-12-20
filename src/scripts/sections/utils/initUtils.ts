@@ -1,15 +1,11 @@
 let lastPagePath = typeof window !== 'undefined' ? window.location.pathname : '';
 
 export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): void {
-  const runInit = () => {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initFn, { once: true });
-    } else {
-      initFn();
-    }
-  };
-
-  runInit();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initFn, { once: true });
+  } else {
+    initFn();
+  }
 
   document.addEventListener("astro:page-load", () => {
     const currentPath = window.location.pathname;

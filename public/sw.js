@@ -1,6 +1,6 @@
-const CACHE_NAME = 'auxo-website-v1';
-const STATIC_CACHE = 'auxo-static-v1';
-const DYNAMIC_CACHE = 'auxo-dynamic-v1';
+const CACHE_NAME = 'auxo-website-v2';
+const STATIC_CACHE = 'auxo-static-v2';
+const DYNAMIC_CACHE = 'auxo-dynamic-v2';
 
 const getBasePath = () => {
   const base = self.location.pathname.split('/sw.js')[0];
@@ -37,12 +37,13 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames
-          .filter((name) => name !== STATIC_CACHE && name !== DYNAMIC_CACHE)
+          .filter((name) => name !== STATIC_CACHE && name !== DYNAMIC_CACHE && name !== CACHE_NAME)
           .map((name) => caches.delete(name))
       );
+    }).then(() => {
+      return self.clients.claim();
     })
   );
-  return self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {

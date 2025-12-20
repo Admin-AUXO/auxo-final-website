@@ -7,12 +7,15 @@ interface CalendlyWindow extends Window {
 const WIDGET_ID = 'calendly-widget';
 const CALENDLY_URL = 'https://calendly.com/admin-auxodata/30min';
 const SCRIPT_URL = 'https://assets.calendly.com/assets/external/widget.js';
+const SCROLLBAR_FIX_DURATION = 5000;
+const THEME_CHANGE_DELAY = 300;
 
 let isInitialized = false;
 let isScriptLoading = false;
 let intersectionObserver: IntersectionObserver | null = null;
 let themeChangeTimeout: number | null = null;
 let lastTheme: string | null = null;
+let resizeObserver: ResizeObserver | null = null;
 
 function getCssVar(name: string, fallback: string): string {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
@@ -42,10 +45,14 @@ function waitForThemeAndCssVars(callback: () => void): void {
   const checkReady = (): boolean => {
     const html = document.documentElement;
     const hasTheme = html.classList.contains('dark') || html.classList.contains('light');
-    const bgPrimary = getComputedStyle(html).getPropertyValue('--bg-primary').trim();
-    const textPrimary = getComputedStyle(html).getPropertyValue('--text-primary').trim();
-    const accentGreen = getComputedStyle(html).getPropertyValue('--accent-green').trim();
-    return hasTheme && !!(bgPrimary && textPrimary && accentGreen);
+    if (!hasTheme) return false;
+    
+    const computedStyle = getComputedStyle(html);
+    const bgPrimary = computedStyle.getPropertyValue('--bg-primary').trim();
+    const textPrimary = computedStyle.getPropertyValue('--text-primary').trim();
+    const accentGreen = computedStyle.getPropertyValue('--accent-green').trim();
+    
+    return !!(bgPrimary && textPrimary && accentGreen);
   };
   
   if (checkReady()) {
@@ -54,7 +61,7 @@ function waitForThemeAndCssVars(callback: () => void): void {
   }
   
   let attempts = 0;
-  const maxAttempts = 40;
+  const maxAttempts = 50;
   const checkInterval = setInterval(() => {
     attempts++;
     if (checkReady() || attempts >= maxAttempts) {
@@ -70,7 +77,20 @@ function waitForThemeAndCssVars(callback: () => void): void {
       requestAnimationFrame(() => requestAnimationFrame(callback));
     }
   });
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  observer.observe(document.documentElement, { 
+    attributes: true, 
+    attributeFilter: ['class']
+  });
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      if (checkReady()) {
+        observer.disconnect();
+        clearInterval(checkInterval);
+        requestAnimationFrame(() => requestAnimationFrame(callback));
+      }
+    }, { once: true });
+  }
 }
 
 function loadCalendlyScript(callback: () => void): void {
@@ -106,11 +126,21 @@ function loadCalendlyScript(callback: () => void): void {
 }
 
 function hideScrollbars(element: HTMLElement): void {
+  if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
   element.style.setProperty('overflow', 'hidden', 'important');
   element.style.setProperty('overflow-x', 'hidden', 'important');
   element.style.setProperty('overflow-y', 'hidden', 'important');
   element.style.setProperty('scrollbar-width', 'none', 'important');
   element.style.setProperty('-ms-overflow-style', 'none', 'important');
+}
+
+function applyScrollbarFixRecursive(element: HTMLElement): void {
+  hideScrollbars(element);
+  Array.from(element.children).forEach((child) => {
+    if (child instanceof HTMLElement) {
+      applyScrollbarFixRecursive(child);
+    }
+  });
 }
 
 function applyScrollbarFix(): void {
@@ -119,18 +149,58 @@ function applyScrollbarFix(): void {
 
   const container = widget.closest('.calendly-inline-widget-container') as HTMLElement;
   if (container) {
-    hideScrollbars(container);
-    Array.from(container.querySelectorAll('*')).forEach((el) => {
-      hideScrollbars(el as HTMLElement);
-    });
+    applyScrollbarFixRecursive(container);
   }
 
-  const iframe = widget.querySelector('iframe');
-  if (iframe) hideScrollbars(iframe as HTMLElement);
+  applyScrollbarFixRecursive(widget);
+}
+
+function calculateContainerHeight(contentHeight: number, container: HTMLElement): number {
+  const padding = 20;
+  const minHeight = 700;
+  const newHeight = Math.max(contentHeight + padding, minHeight);
+  const maxHeightValue = getComputedStyle(container).maxHeight;
+  const maxHeight = maxHeightValue === 'none' ? Infinity : parseInt(maxHeightValue, 10);
+  return Math.min(newHeight, maxHeight || Infinity);
+}
+
+function updateContainerHeight(height: number): void {
+  const widget = document.getElementById(WIDGET_ID);
+  const container = widget?.closest('.calendly-inline-widget-container') as HTMLElement;
   
-  widget.querySelectorAll('.calendly-inline-widget, .calendly-inline-widget > div, .calendly-inline-widget > div > div, .calendly-inline-widget *').forEach((div) => {
-    hideScrollbars(div as HTMLElement);
-  });
+  if (container && height > 0) {
+    const finalHeight = calculateContainerHeight(height, container);
+    container.style.height = `${finalHeight}px`;
+    applyScrollbarFix();
+  }
+}
+
+function handleCalendlyResize(event: MessageEvent): void {
+  const allowedOrigins = ['https://calendly.com', 'https://assets.calendly.com'];
+  if (!allowedOrigins.includes(event.origin)) return;
+  if (event.data?.event === 'calendly.event_height' && event.data.height) {
+    updateContainerHeight(event.data.height);
+  }
+}
+
+function setupResizeListener(): void {
+  if (typeof window === 'undefined') return;
+  window.addEventListener('message', handleCalendlyResize);
+  
+  const widget = document.getElementById(WIDGET_ID);
+  if (!widget || typeof ResizeObserver === 'undefined') return;
+  
+  const iframe = widget.querySelector('iframe');
+  if (iframe) {
+    resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.contentRect.height > 0) {
+          updateContainerHeight(entry.contentRect.height);
+        }
+      }
+    });
+    resizeObserver.observe(iframe);
+  }
 }
 
 function initWidget(forceReinit = false): void {
@@ -163,20 +233,25 @@ function initWidget(forceReinit = false): void {
     win.Calendly.initInlineWidget({ url, parentElement: widget });
     isInitialized = true;
     
-    const fixInterval = setInterval(() => {
-      applyScrollbarFix();
-    }, 100);
+    setupResizeListener();
     
+    const fixInterval = setInterval(applyScrollbarFix, 100);
     setTimeout(() => {
       clearInterval(fixInterval);
       applyScrollbarFix();
-    }, 5000);
+    }, SCROLLBAR_FIX_DURATION);
   }
 }
 
-function handleThemeChange(): void {
+function getCurrentTheme(): string {
   const html = document.documentElement;
-  const currentTheme = html.classList.contains('dark') ? 'dark' : html.classList.contains('light') ? 'light' : 'dark';
+  if (html.classList.contains('dark')) return 'dark';
+  if (html.classList.contains('light')) return 'light';
+  return 'dark';
+}
+
+function handleThemeChange(): void {
+  const currentTheme = getCurrentTheme();
   const win = window as CalendlyWindow;
   
   if (currentTheme !== lastTheme && win.Calendly && isInitialized) {
@@ -189,7 +264,7 @@ function handleThemeChange(): void {
       if (widget?.querySelector('.calendly-inline-widget > div')) {
         initWidget(true);
       }
-    }, 300);
+    }, THEME_CHANGE_DELAY);
   } else if (!lastTheme) {
     lastTheme = currentTheme;
   }
@@ -200,11 +275,10 @@ export function setupCalendly(): void {
   
   function initialize(): void {
     ensureThemeReady();
-    const html = document.documentElement;
-    lastTheme = html.classList.contains('dark') ? 'dark' : html.classList.contains('light') ? 'light' : 'dark';
+    lastTheme = getCurrentTheme();
 
-    const themeObserver = new MutationObserver(() => handleThemeChange());
-    themeObserver.observe(html, { attributes: true, attributeFilter: ['class'] });
+    const themeObserver = new MutationObserver(handleThemeChange);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     const widget = document.getElementById(WIDGET_ID);
     if (!widget) {
@@ -250,6 +324,11 @@ export function setupCalendly(): void {
         if (intersectionObserver) {
           intersectionObserver.disconnect();
           intersectionObserver = null;
+        }
+        
+        if (resizeObserver) {
+          resizeObserver.disconnect();
+          resizeObserver = null;
         }
         
         const widget = document.getElementById(WIDGET_ID);

@@ -122,7 +122,8 @@ const { content } = Astro.props;
 </SectionContainer>
 
 <script>
-  import "../../../scripts/sections/services/impactCarousel";
+  import { autoInitCarousels } from "../../../scripts/sections/autoInit";
+  autoInitCarousels();
   
   function randomizeIndustries() {
     const carouselSection = document.querySelector('.impact-carousel-section') as HTMLElement;

@@ -36,7 +36,6 @@ import "../styles/sections/contact-sections.css";
               class="calendly-inline-widget"
               data-url="https://calendly.com/admin-auxodata/30min"
               data-resize="true"
-              style="min-width: 320px; height: 100%;"
             ></div>
           </div>
         </div>
@@ -129,15 +128,13 @@ import "../styles/sections/contact-sections.css";
 
   function refreshOnPageChange() {
     const newPath = window.location.pathname;
-    if (newPath !== currentPath) {
-      refreshScrollAnimationsWithDelay();
-      if (newPath === '/contact/' || newPath === '/contact') {
-        const form = document.getElementById('contact-form-element') as HTMLFormElement;
-        if (form) {
-          form.removeAttribute('data-initialized');
-        }
-        initContactPage();
-      }
+    if (newPath === currentPath) return;
+    
+    refreshScrollAnimationsWithDelay();
+    if (newPath === '/contact/' || newPath === '/contact') {
+      const form = document.getElementById('contact-form-element') as HTMLFormElement;
+      if (form) form.removeAttribute('data-initialized');
+      initContactPage();
     }
   }
 
