@@ -105,11 +105,11 @@ import "../styles/sections/contact-sections.css";
 
 
 <script>
-  import { setupSectionInit } from "../scripts/sections/utils/initUtils.js";
-  import { refreshScrollAnimationsWithDelay } from "../scripts/scrollAnimations.js";
-  import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from "../scripts/forms/emailHandler.js";
-  import { initNotifications } from "../scripts/utils/notifications.js";
-  import { setupCalendly } from "../scripts/utils/calendly.js";
+  import { setupSectionInit } from "../scripts/sections/utils/initUtils";
+  import { refreshScrollAnimationsWithDelay } from "../scripts/scrollAnimations";
+  import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from "../scripts/forms/emailHandler";
+  import { initNotifications } from "../scripts/utils/notifications";
+  import { setupCalendly } from "../scripts/utils/calendly";
 
   setupSectionInit(() => refreshScrollAnimationsWithDelay());
   setupCalendly();
