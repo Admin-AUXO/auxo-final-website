@@ -95,5 +95,5 @@ junit.xml
 *.pid.lock
 
 # Sanity maintenance scripts (contain sensitive tokens)
-scripts/
+/scripts/
 
