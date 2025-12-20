@@ -138,30 +138,24 @@ function applyScrollbarFix(): void {
 
   const container = widget.closest('.calendly-inline-widget-container') as HTMLElement;
   if (container) {
-    container.style.overflow = 'hidden';
-    container.style.overflowX = 'hidden';
-    container.style.overflowY = 'hidden';
-    container.style.scrollbarWidth = 'none';
-    (container.style as any).msOverflowStyle = 'none';
+    container.style.setProperty('overflow', 'hidden', 'important');
+    container.style.setProperty('scrollbar-width', 'none', 'important');
+    container.style.setProperty('-ms-overflow-style', 'none', 'important');
   }
 
   const iframe = widget.querySelector('iframe');
   if (iframe) {
-    iframe.style.overflow = 'hidden';
-    iframe.style.overflowX = 'hidden';
-    iframe.style.overflowY = 'hidden';
-    iframe.style.scrollbarWidth = 'none';
-    (iframe.style as any).msOverflowStyle = 'none';
+    iframe.style.setProperty('overflow', 'hidden', 'important');
+    iframe.style.setProperty('scrollbar-width', 'none', 'important');
+    iframe.style.setProperty('-ms-overflow-style', 'none', 'important');
   }
   
-  const widgetDivs = widget.querySelectorAll('.calendly-inline-widget, .calendly-inline-widget > div, .calendly-inline-widget > div > div');
+  const widgetDivs = widget.querySelectorAll('.calendly-inline-widget > div, .calendly-inline-widget > div > div');
   widgetDivs.forEach((div) => {
     const el = div as HTMLElement;
-    el.style.overflow = 'hidden';
-    el.style.overflowX = 'hidden';
-    el.style.overflowY = 'hidden';
-    el.style.scrollbarWidth = 'none';
-    (el.style as any).msOverflowStyle = 'none';
+    el.style.setProperty('overflow', 'hidden', 'important');
+    el.style.setProperty('scrollbar-width', 'none', 'important');
+    el.style.setProperty('-ms-overflow-style', 'none', 'important');
   });
 }
 
