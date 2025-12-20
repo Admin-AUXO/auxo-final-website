@@ -20,6 +20,7 @@ const bridgePart = headlineParts.slice(0, 2).join(" ");
 const leftPart = headlineParts.slice(2, 4).join(" ");
 const middlePart = headlineParts[4];
 const rightPart = headlineParts.slice(5).join(" ");
+const shouldOpenCalendly = /book|schedule|meeting|call|talk|get started|let's talk/i.test(content.ctaText);
 ---
 
 <HeroLayout
@@ -70,7 +71,8 @@ const rightPart = headlineParts.slice(5).join(" ");
       <Button
         variant="primary"
         size="lg"
-        href={createUrl(content.ctaHref)}
+        href={shouldOpenCalendly ? undefined : createUrl(content.ctaHref)}
+        calendly={shouldOpenCalendly}
         class="hero-cta-button group/btn"
       >
         <span class="whitespace-nowrap">{content.ctaText}</span>

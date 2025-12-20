@@ -27,7 +27,7 @@ const {
   calendly = false,
 } = Astro.props;
 
-const isCalendly = calendly || (href && (href.includes('/contact') || href.includes('contact')));
+const isCalendly = calendly === true;
 
 const sizeClasses = {
   sm: 'px-4 py-2.5 text-sm min-h-[44px]',

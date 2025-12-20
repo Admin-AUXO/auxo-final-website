@@ -11,17 +11,16 @@ interface Props {
 
 const { content } = Astro.props;
 
-const cta = content.primaryCta?.text
-  ? {
-      text: content.primaryCta.text,
-      href: createUrl(content.primaryCta.href),
-      variant: "primary" as const,
-    }
-  : {
-      text: "Learn more",
-      href: createUrl("about"),
-      variant: "primary" as const,
-    };
+const ctaText = content.primaryCta?.text || "Learn more";
+const ctaHref = content.primaryCta?.href || "about";
+const shouldOpenCalendly = /book|schedule|meeting|call|talk|get started|let's talk/i.test(ctaText);
+
+const cta = {
+  text: ctaText,
+  href: shouldOpenCalendly ? undefined : createUrl(ctaHref),
+  variant: "primary" as const,
+  calendly: shouldOpenCalendly,
+};
 ---
 
 <HeroLayout
@@ -55,6 +54,7 @@ const cta = content.primaryCta?.text
         variant={cta.variant}
         size="lg"
         href={cta.href}
+        calendly={cta.calendly}
         class="hero-cta-button group/btn"
       >
         <span class="whitespace-nowrap">{cta.text}</span>

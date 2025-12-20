@@ -14,6 +14,7 @@ const { content } = Astro.props;
 const subtitleParts = content.subtitle.split(" ");
 const subtitleLine1 = subtitleParts.slice(0, 3).join(" ");
 const subtitleLine2 = subtitleParts.slice(3).join(" ");
+const shouldOpenCalendly = /book|schedule|meeting|call|talk|get started|let's talk/i.test(content.ctaText);
 ---
 
 <SectionContainer
@@ -78,7 +79,8 @@ const subtitleLine2 = subtitleParts.slice(3).join(" ");
           <Button
             variant="primary"
             size="lg"
-            href={createUrl(content.ctaHref)}
+            href={shouldOpenCalendly ? undefined : createUrl(content.ctaHref)}
+            calendly={shouldOpenCalendly}
             class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all min-h-[44px] cta-button flex-nowrap"
           >
             <span class="whitespace-nowrap">{content.ctaText}</span>

@@ -21,6 +21,7 @@ interface Props {
   id?: string;
   class?: string;
   contentClass?: string;
+  calendly?: boolean;
 }
 
 const {
@@ -39,7 +40,10 @@ const {
   id = "cta-section",
   class: className = "",
   contentClass = "",
+  calendly = false,
 } = Astro.props;
+
+const shouldOpenCalendly = calendly || /book|schedule|meeting|call|talk|get started|let's talk/i.test(ctaText);
 
 const maxWidthClasses = {
   "2xl": "max-w-2xl",
@@ -103,7 +107,8 @@ const isMinimal = variant === "minimal";
           <Button
             variant="primary"
             size="lg"
-            href={createUrl(ctaHref)}
+            href={shouldOpenCalendly ? undefined : createUrl(ctaHref)}
+            calendly={shouldOpenCalendly}
             class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all duration-300 min-h-[52px] text-base sm:text-lg group/btn"
           >
             <span class="whitespace-nowrap">{ctaText}</span>
