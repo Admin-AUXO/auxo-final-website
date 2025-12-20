@@ -63,9 +63,23 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: linear-gradient(
+      135deg,
+      rgba(var(--accent-green-rgb), 0.05) 0%,
+      rgba(0, 0, 0, 0.85) 50%,
+      rgba(var(--accent-green-rgb), 0.03) 100%
+    );
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .light .calendar-modal-overlay {
+    background: linear-gradient(
+      135deg,
+      rgba(var(--accent-green-rgb), 0.08) 0%,
+      rgba(0, 0, 0, 0.75) 50%,
+      rgba(var(--accent-green-rgb), 0.05) 100%
+    );
   }
 
   .calendar-modal-container {
@@ -74,7 +88,12 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: var(--bg-primary, #000);
+    background-color: var(--bg-primary);
+    border: 1px solid var(--accent-green-opacity-30);
+    box-shadow: 
+      0 0 0 1px var(--accent-green-opacity-15),
+      0 20px 60px rgba(0, 0, 0, 0.5),
+      0 0 40px var(--accent-green-opacity-08);
     z-index: 1;
   }
 
@@ -82,17 +101,58 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
-    background-color: var(--bg-primary, #000);
+    padding: 1.25rem 1.5rem;
+    border-bottom: 2px solid var(--accent-green-opacity-30);
+    background: linear-gradient(
+      135deg,
+      var(--bg-primary) 0%,
+      rgba(var(--accent-green-rgb), 0.03) 50%,
+      var(--bg-primary) 100%
+    );
     flex-shrink: 0;
+    position: relative;
+  }
+
+  .calendar-modal-header::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--accent-green),
+      transparent
+    );
+    opacity: 0.5;
   }
 
   .calendar-modal-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-primary, #fff);
+    color: var(--text-primary);
     margin: 0;
+    background: linear-gradient(
+      135deg,
+      var(--text-primary) 0%,
+      var(--accent-green) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
   }
 
   .calendar-modal-close {
@@ -103,21 +163,53 @@
     height: 2.5rem;
     padding: 0;
     margin: 0;
-    border: none;
+    border: 1px solid var(--accent-green-opacity-30);
     background: transparent;
-    color: var(--text-primary, #fff);
+    color: var(--text-primary);
     cursor: pointer;
-    border-radius: 0.5rem;
-    transition: background-color 0.2s ease;
+    border-radius: var(--radius-md);
+    transition: all var(--duration-normal) var(--easing-standard);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .calendar-modal-close::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      var(--accent-green-opacity-15) 0%,
+      var(--accent-green-opacity-08) 100%
+    );
+    opacity: 0;
+    transition: opacity var(--duration-normal) var(--easing-standard);
   }
 
   .calendar-modal-close:hover {
-    background-color: var(--bg-secondary, rgba(255, 255, 255, 0.1));
+    background-color: var(--accent-green-opacity-15);
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px var(--accent-green-opacity-18);
+  }
+
+  .calendar-modal-close:hover::before {
+    opacity: 1;
+  }
+
+  .calendar-modal-close:active {
+    transform: scale(0.95);
   }
 
   .calendar-modal-close:focus-visible {
-    outline: 2px solid var(--accent-green, #7CB342);
+    outline: 2px solid var(--accent-green);
     outline-offset: 2px;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 4px var(--accent-green-opacity-20);
   }
 
   .calendar-modal-content {
@@ -135,12 +227,36 @@
     width: 100%;
     height: 100%;
     border: none;
-    background-color: var(--bg-primary, #000);
+    background-color: var(--bg-primary);
+  }
+
+  .calendar-modal-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background: 
+      linear-gradient(90deg, var(--accent-green-opacity-02) 0%, transparent 2%, transparent 98%, var(--accent-green-opacity-02) 100%),
+      linear-gradient(0deg, var(--accent-green-opacity-02) 0%, transparent 2%, transparent 98%, var(--accent-green-opacity-02) 100%);
+    z-index: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .calendar-modal {
       transition: none;
+    }
+    
+    .calendar-modal-title {
+      animation: none;
+      background: var(--text-primary);
+      -webkit-text-fill-color: var(--text-primary);
+    }
+    
+    .calendar-modal-close:hover {
+      transform: none;
     }
   }
 </style>
