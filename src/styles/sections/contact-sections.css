@@ -6,18 +6,34 @@ textarea:focus {
 .calendly-inline-widget-container {
   position: relative;
   min-height: 700px;
-  height: 100vh;
+  height: calc(100vh - 200px);
   max-height: 900px;
   box-shadow:
     0 20px 50px rgba(0, 0, 0, 0.3),
     0 0 0 1px rgba(163, 230, 53, 0.1),
     inset 0 1px 0 rgba(163, 230, 53, 0.05);
   overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendly-inline-widget-container::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+.calendly-inline-widget-container * {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
 
-.calendly-inline-widget-container::-webkit-scrollbar {
+.calendly-inline-widget-container *::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
@@ -29,7 +45,22 @@ textarea:focus {
   width: 100%;
   height: 100%;
   min-height: 100%;
+  max-height: 100%;
   overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendly-inline-widget::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
 :global(.calendly-inline-widget iframe) {
@@ -105,11 +136,19 @@ textarea:focus {
   background: transparent !important;
 }
 
+@media (max-width: 1024px) {
+  .calendly-inline-widget-container {
+    height: calc(100vh - 180px);
+    max-height: 850px;
+    min-height: 650px;
+  }
+}
+
 @media (max-width: 768px) {
   .calendly-inline-widget-container {
-    min-height: 650px;
-    height: 85vh;
-    max-height: 800px;
+    min-height: 600px;
+    height: calc(100vh - 150px);
+    max-height: 750px;
   }
 }
 
@@ -130,17 +169,29 @@ textarea:focus {
     margin-right: 0;
     width: 100%;
     max-width: 100%;
-    height: 80vh;
-    max-height: 750px;
-    min-height: 600px;
+    height: calc(100vh - 120px);
+    max-height: 700px;
+    min-height: 550px;
     overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
   }
 
   .calendly-inline-widget {
     overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
     height: 100% !important;
+    max-height: 100% !important;
   }
+}
 
+@media (max-width: 480px) {
+  .calendly-inline-widget-container {
+    height: calc(100vh - 100px);
+    max-height: 650px;
+    min-height: 500px;
+  }
 }
 
 @media (max-width: 1023px) {

@@ -123,9 +123,20 @@ function applyScrollbarFix(): void {
   const widget = document.getElementById(WIDGET_ID);
   if (!widget) return;
 
+  const container = widget.closest('.calendly-inline-widget-container') as HTMLElement;
+  if (container) {
+    container.style.overflow = 'hidden';
+    container.style.overflowX = 'hidden';
+    container.style.overflowY = 'hidden';
+    container.style.scrollbarWidth = 'none';
+    (container.style as any).msOverflowStyle = 'none';
+  }
+
   const iframe = widget.querySelector('iframe');
   if (iframe) {
     iframe.style.overflow = 'hidden';
+    iframe.style.overflowX = 'hidden';
+    iframe.style.overflowY = 'hidden';
     iframe.style.scrollbarWidth = 'none';
     (iframe.style as any).msOverflowStyle = 'none';
   }
@@ -134,6 +145,8 @@ function applyScrollbarFix(): void {
   widgetDivs.forEach((div) => {
     const el = div as HTMLElement;
     el.style.overflow = 'hidden';
+    el.style.overflowX = 'hidden';
+    el.style.overflowY = 'hidden';
     el.style.scrollbarWidth = 'none';
     (el.style as any).msOverflowStyle = 'none';
   });
