@@ -1,21 +1,22 @@
 const CALENDAR_URL = 'https://calendar.app.google/6jRXDXyftxSPkGKZ6';
+const FULLSCREEN_CHECK_INTERVAL = 200;
+const FULLSCREEN_CHECK_DURATION = 20000;
+const INITIAL_FULLSCREEN_ATTEMPTS = [50, 150, 300, 500, 1000];
 
-let initializedButtons = new WeakSet<HTMLElement>();
+const initializedButtons = new WeakSet<HTMLElement>();
 
 function getCurrentTheme(): string {
   if (typeof document === 'undefined' || !document.documentElement) return 'dark';
   const html = document.documentElement;
-  if (html.classList.contains('dark')) return 'dark';
-  if (html.classList.contains('light')) return 'light';
-  return 'dark';
+  return html.classList.contains('light') ? 'light' : 'dark';
 }
 
 function makeFullscreen(popup: Window | null): void {
   if (!popup || popup.closed) return;
 
   try {
-    const screenWidth = window.screen.availWidth || window.screen.width;
-    const screenHeight = window.screen.availHeight || window.screen.height;
+    const screenWidth = window.screen.availWidth || window.screen.width || window.innerWidth;
+    const screenHeight = window.screen.availHeight || window.screen.height || window.innerHeight;
     
     popup.moveTo(0, 0);
     popup.resizeTo(screenWidth, screenHeight);
@@ -27,8 +28,8 @@ function makeFullscreen(popup: Window | null): void {
       }
       
       try {
-        const currentWidth = screenWidth;
-        const currentHeight = screenHeight;
+        const currentWidth = window.screen.availWidth || window.screen.width || window.innerWidth;
+        const currentHeight = window.screen.availHeight || window.screen.height || window.innerHeight;
         
         if (popup.outerWidth !== currentWidth || popup.outerHeight !== currentHeight) {
           popup.resizeTo(currentWidth, currentHeight);
@@ -45,6 +46,12 @@ function makeFullscreen(popup: Window | null): void {
           popupDoc.documentElement.classList.add(currentTheme);
           
           if (popupDoc.body) {
+            popupDoc.body.style.margin = '0';
+            popupDoc.body.style.padding = '0';
+            popupDoc.body.style.width = '100%';
+            popupDoc.body.style.height = '100%';
+            popupDoc.body.style.overflow = 'hidden';
+            
             if (currentTheme === 'dark') {
               popupDoc.body.classList.add('dark');
               popupDoc.body.style.backgroundColor = '#000';
@@ -56,25 +63,35 @@ function makeFullscreen(popup: Window | null): void {
             }
           }
 
+          const html = popupDoc.documentElement;
+          if (html) {
+            html.style.width = '100%';
+            html.style.height = '100%';
+            html.style.margin = '0';
+            html.style.padding = '0';
+            html.style.overflow = 'hidden';
+          }
+
           const iframes = popupDoc.querySelectorAll('iframe');
           iframes.forEach((iframe) => {
             iframe.style.width = '100%';
             iframe.style.height = '100%';
+            iframe.style.border = 'none';
             iframe.setAttribute('allowfullscreen', 'true');
           });
         }
       } catch (e) {
       }
-    }, 200);
+    }, FULLSCREEN_CHECK_INTERVAL);
 
-    setTimeout(() => clearInterval(checkInterval), 10000);
+    setTimeout(() => clearInterval(checkInterval), FULLSCREEN_CHECK_DURATION);
   } catch (e) {
   }
 }
 
 function openCalendarPopup(): void {
-  const screenWidth = window.screen.availWidth || window.screen.width;
-  const screenHeight = window.screen.availHeight || window.screen.height;
+  const screenWidth = window.screen.availWidth || window.screen.width || window.innerWidth;
+  const screenHeight = window.screen.availHeight || window.screen.height || window.innerHeight;
   const left = 0;
   const top = 0;
   
@@ -88,7 +105,8 @@ function openCalendarPopup(): void {
     'menubar=no',
     'toolbar=no',
     'location=no',
-    'status=no'
+    'status=no',
+    'fullscreen=yes'
   ].join(',');
 
   const popup = window.open(
@@ -103,17 +121,18 @@ function openCalendarPopup(): void {
     const attemptFullscreen = () => {
       try {
         if (popup && !popup.closed) {
+          const w = window.screen.availWidth || window.screen.width || window.innerWidth;
+          const h = window.screen.availHeight || window.screen.height || window.innerHeight;
           popup.moveTo(0, 0);
-          popup.resizeTo(screenWidth, screenHeight);
+          popup.resizeTo(w, h);
         }
       } catch (e) {
       }
     };
     
-    setTimeout(attemptFullscreen, 50);
-    setTimeout(attemptFullscreen, 150);
-    setTimeout(attemptFullscreen, 300);
-    setTimeout(attemptFullscreen, 500);
+    INITIAL_FULLSCREEN_ATTEMPTS.forEach(delay => {
+      setTimeout(attemptFullscreen, delay);
+    });
     
     const checkClosed = setInterval(() => {
       if (popup.closed) {
@@ -126,7 +145,7 @@ function openCalendarPopup(): void {
       }
     }, 500);
     
-    setTimeout(() => clearInterval(checkClosed), 15000);
+    setTimeout(() => clearInterval(checkClosed), FULLSCREEN_CHECK_DURATION);
   } else {
     if (import.meta.env.DEV) {
       console.warn('Popup blocked. Please allow popups for this site.');
@@ -191,17 +210,13 @@ function initializeGoogleCalendar(): void {
 
   const html = document.documentElement;
   if (html) {
-    const themeObserver = new MutationObserver(() => {
-      setupCalendarButtons();
-    });
+    const themeObserver = new MutationObserver(setupCalendarButtons);
     themeObserver.observe(html, { attributes: true, attributeFilter: ['class'] });
   }
 
   document.addEventListener('astro:page-load', () => {
-    setTimeout(() => {
-      setupCalendarButtons();
-    }, 200);
-  });
+    setTimeout(setupCalendarButtons, 200);
+  }, { once: false });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setupCalendarButtons, { once: true });
@@ -209,7 +224,7 @@ function initializeGoogleCalendar(): void {
     setupCalendarButtons();
   }
 
-  window.addEventListener('load', setupCalendarButtons);
+  window.addEventListener('load', setupCalendarButtons, { once: true });
 
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;

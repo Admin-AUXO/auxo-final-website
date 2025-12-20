@@ -95,8 +95,8 @@ function attachToggleListeners(toggle: Element): void {
     e.stopPropagation();
     toggleTheme(e);
   };
-  toggle.addEventListener("click", handler, { passive: false });
-  toggle.addEventListener("touchend", handler, { passive: false });
+  toggle.addEventListener("click", handler, { passive: false, capture: true });
+  toggle.addEventListener("touchend", handler, { passive: false, capture: true });
 }
 
 function setupThemeToggles(): void {
@@ -106,15 +106,17 @@ function setupThemeToggles(): void {
 function setupThemePreferenceListener(): void {
   if (typeof window === "undefined") return;
 
-  window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", (e) => {
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
+  const handler = (e: MediaQueryListEvent) => {
     if (!localStorage.getItem(THEME_STORAGE_KEY)) {
       applyTheme(e.matches ? "light" : "dark");
     }
-  });
-
+  };
+  mediaQuery.addEventListener("change", handler);
+  
   document.addEventListener(THEME_CHANGE_EVENT, ((e: CustomEvent) => {
     updateIcon(e.detail?.theme || getTheme());
-  }) as EventListener);
+  }) as EventListener, { once: false });
 }
 
 function handleAstroPageLoad(): void {

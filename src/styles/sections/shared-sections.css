@@ -8,6 +8,28 @@ section,
   -ms-overflow-style: none !important;
 }
 
+section:not([class*="py-"]):not([class*="padding"]),
+[class*="-section"]:not([class*="py-"]):not([class*="padding"]) {
+  padding-left: var(--grid-padding-mobile, 1rem);
+  padding-right: var(--grid-padding-mobile, 1rem);
+}
+
+@media (min-width: 640px) {
+  section:not([class*="py-"]):not([class*="padding"]),
+  [class*="-section"]:not([class*="py-"]):not([class*="padding"]) {
+    padding-left: var(--grid-padding-sm, 1.5rem);
+    padding-right: var(--grid-padding-sm, 1.5rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  section:not([class*="py-"]):not([class*="padding"]),
+  [class*="-section"]:not([class*="py-"]):not([class*="padding"]) {
+    padding-left: var(--grid-padding-lg, 2rem);
+    padding-right: var(--grid-padding-lg, 2rem);
+  }
+}
+
 section::-webkit-scrollbar,
 [class*="-section"]::-webkit-scrollbar {
   display: none !important;
