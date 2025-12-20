@@ -57,6 +57,9 @@ jobs:
           if [ ! -f "dist/.nojekyll" ]; then
             touch dist/.nojekyll
           fi
+          echo "Build output verified"
+          echo "BASE_PATH: ${{ secrets.BASE_PATH || '/auxo-final-website/' }}"
+          ls -la dist/_astro/ | head -10 || echo "No _astro directory found"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4

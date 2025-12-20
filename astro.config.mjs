@@ -58,28 +58,9 @@ export default defineConfig({
     },
     esbuild: {
       legalComments: 'none',
-      minifyIdentifiers: true,
-      minifySyntax: true,
-      minifyWhitespace: true,
       treeShaking: true,
     },
     logLevel: 'warn',
-    customLogger: {
-      info: console.info.bind(console),
-      warn: (msg, options) => {
-        if (typeof msg === 'string' && msg.includes('@astrojs/internal-helpers/remote') && 
-            (msg.includes('isRemoteAllowed') || msg.includes('matchHostname') || 
-             msg.includes('matchPathname') || msg.includes('matchPort') || 
-             msg.includes('matchProtocol'))) {
-          return;
-        }
-        console.warn(msg, options);
-      },
-      error: console.error.bind(console),
-      clearScreen: () => {},
-      hasErrorLogged: () => false,
-      hasWarned: false,
-    },
     ssr: {
       noExternal: ['@heroui/react'],
     },

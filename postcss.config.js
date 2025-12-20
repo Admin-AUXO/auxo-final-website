@@ -15,7 +15,6 @@ export default {
         discardComments: { removeAll: true },
         normalizeWhitespace: true,
         colormin: true,
-        reduceIdents: false,
       }],
     }),
   ],
