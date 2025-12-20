@@ -9,22 +9,21 @@ function getCurrentTheme(): string {
 }
 
 function getThemeColor(): string {
-  const isDark = getCurrentTheme() === 'dark';
-  return isDark ? '#7CB342' : '#7CB342';
+  return '#7CB342';
 }
 
 function initializeGoogleCalendar(): void {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-  const script = document.createElement('script');
-  script.src = 'https://calendar.google.com/calendar/scheduling-button-script.js';
-  script.async = true;
-  document.head.appendChild(script);
-
   const link = document.createElement('link');
   link.href = 'https://calendar.google.com/calendar/scheduling-button-script.css';
   link.rel = 'stylesheet';
   document.head.appendChild(link);
+
+  const script = document.createElement('script');
+  script.src = 'https://calendar.google.com/calendar/scheduling-button-script.js';
+  script.async = true;
+  document.head.appendChild(script);
 
   function setupCalendarButtons(): void {
     if (typeof (window as any).calendar === 'undefined' || !(window as any).calendar?.schedulingButton) {
@@ -56,15 +55,13 @@ function initializeGoogleCalendar(): void {
   }
 
   window.addEventListener('load', () => {
-    setTimeout(setupCalendarButtons, 100);
+    setupCalendarButtons();
   });
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(setupCalendarButtons, 100);
-    });
+    document.addEventListener('DOMContentLoaded', setupCalendarButtons, { once: true });
   } else {
-    setTimeout(setupCalendarButtons, 100);
+    setupCalendarButtons();
   }
 
   const html = document.documentElement;
