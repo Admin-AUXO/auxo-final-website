@@ -22,7 +22,7 @@ interface Props {
   id?: string;
   class?: string;
   contentClass?: string;
-  calendly?: boolean;
+  googleCalendar?: boolean;
 }
 
 const {
@@ -41,10 +41,10 @@ const {
   id = "cta-section",
   class: className = "",
   contentClass = "",
-  calendly = false,
+  googleCalendar = false,
 } = Astro.props;
 
-const shouldOpenCalendlyBtn = calendly || shouldOpenCalendly({
+const shouldOpenGoogleCalendarBtn = googleCalendar || shouldOpenCalendly({
   text: ctaText,
   href: ctaHref,
   context: 'cta-section'
@@ -112,8 +112,8 @@ const isMinimal = variant === "minimal";
           <Button
             variant="primary"
             size="lg"
-            href={shouldOpenCalendlyBtn ? undefined : createUrl(ctaHref)}
-            calendly={shouldOpenCalendlyBtn}
+            href={shouldOpenGoogleCalendarBtn ? undefined : createUrl(ctaHref)}
+            googleCalendar={shouldOpenGoogleCalendarBtn}
             class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all duration-300 min-h-[52px] text-base sm:text-lg group/btn"
           >
             <span class="whitespace-nowrap">{ctaText}</span>

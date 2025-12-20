@@ -4,7 +4,6 @@ import Navigation from "../components/common/Navigation.astro";
 import Footer from "../components/common/Footer.astro";
 import ParticleBackground from "../components/effects/ParticleBackground.astro";
 import ScrollProgressBar from "../components/ui/ScrollProgressBar.astro";
-import CalendlyModal from "../components/widgets/CalendlyModal.astro";
 import { createAssetUrl } from "../utils/url";
 import "../styles/tokens.css";
 import "../styles/base.css";
@@ -75,10 +74,8 @@ const ogImage = createAssetUrl("/og-image.svg");
     </style>
     <link rel="preconnect" href="https://cdn.sanity.io" />
     <link rel="dns-prefetch" href="https://cdn.sanity.io" />
-    <link rel="preconnect" href="https://assets.calendly.com" crossorigin />
-    <link rel="dns-prefetch" href="https://assets.calendly.com" />
-    <link rel="preconnect" href="https://calendly.com" crossorigin />
-    <link rel="dns-prefetch" href="https://calendly.com" />
+    <link rel="preconnect" href="https://calendar.google.com" crossorigin />
+    <link rel="dns-prefetch" href="https://calendar.google.com" />
 
     <link rel="canonical" href={siteData.url} />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
@@ -168,9 +165,9 @@ const ogImage = createAssetUrl("/og-image.svg");
     </script>
     <script>
       import { setupServiceWorkerClearing } from "../scripts/utils/serviceWorker";
-      import { setupCalendly } from "../scripts/widgets/calendly";
+      import { setupGoogleCalendar } from "../scripts/widgets/googleCalendar";
       setupServiceWorkerClearing();
-      setupCalendly();
+      setupGoogleCalendar();
     </script>
   </head>
   <body class="min-h-screen flex flex-col relative bg-primary transition-colors duration-normal">

@@ -24,7 +24,7 @@ const cta = {
   text: ctaText,
   href: shouldOpenCalendlyBtn ? undefined : createUrl(ctaHref),
   variant: "primary" as const,
-  calendly: shouldOpenCalendlyBtn,
+  googleCalendar: shouldOpenCalendlyBtn,
 };
 ---
 
@@ -59,7 +59,7 @@ const cta = {
         variant={cta.variant}
         size="lg"
         href={cta.href}
-        calendly={cta.calendly}
+        googleCalendar={cta.googleCalendar}
         class="hero-cta-button group/btn"
       >
         <span class="whitespace-nowrap">{cta.text}</span>

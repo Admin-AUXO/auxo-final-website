@@ -15,7 +15,7 @@ const CONTACT_KEYWORDS = [
   'question', 'learn more', 'find out', 'explore'
 ];
 
-export function shouldOpenCalendly(context: CtaContext): boolean {
+export function shouldOpenGoogleCalendar(context: CtaContext): boolean {
   const { text, href, context: ctx } = context;
   const lowerText = text.toLowerCase();
   const hasBookingIntent = BOOKING_KEYWORDS.some(keyword => lowerText.includes(keyword));
@@ -44,10 +44,12 @@ export function shouldOpenCalendly(context: CtaContext): boolean {
 }
 
 export function getCtaAction(context: CtaContext): {
-  type: 'calendly' | 'link';
+  type: 'google-calendar' | 'link';
   href?: string;
 } {
-  return shouldOpenCalendly(context)
-    ? { type: 'calendly' }
+  return shouldOpenGoogleCalendar(context)
+    ? { type: 'google-calendar' }
     : { type: 'link', href: context.href };
 }
+
+export const shouldOpenCalendly = shouldOpenGoogleCalendar;
