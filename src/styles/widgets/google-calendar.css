@@ -1,10 +1,40 @@
 :global([data-google-calendar-open]) {
-  position: relative;
-  cursor: pointer;
+  position: relative !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  z-index: var(--z-interactive, 10) !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
 }
 
 :global([data-google-calendar-open]:focus-visible) {
-  outline: 2px solid var(--accent-green, #7CB342);
-  outline-offset: 2px;
-  border-radius: 0.5rem;
+  outline: 2px solid var(--accent-green, #7CB342) !important;
+  outline-offset: 2px !important;
+  border-radius: 0.5rem !important;
+}
+
+:global([data-google-calendar-open]:hover) {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+:global([data-google-calendar-open]:active) {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+:global(a[data-google-calendar-open]) {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+:global(button[data-google-calendar-open]) {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  border: none !important;
+  background: inherit !important;
+  font: inherit !important;
 }

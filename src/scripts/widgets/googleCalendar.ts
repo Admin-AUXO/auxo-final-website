@@ -184,7 +184,10 @@ function setupCalendarButton(button: HTMLElement): void {
     button.removeAttribute('href');
     button.removeAttribute('target');
     button.setAttribute('role', 'button');
-    button.style.cursor = 'pointer';
+    button.style.setProperty('cursor', 'pointer', 'important');
+    button.style.setProperty('pointer-events', 'auto', 'important');
+    button.style.setProperty('text-decoration', 'none', 'important');
+    button.style.setProperty('user-select', 'none', 'important');
     button.onclick = () => false;
   }
 
@@ -192,6 +195,11 @@ function setupCalendarButton(button: HTMLElement): void {
     button.setAttribute('role', 'button');
   }
   button.setAttribute('tabindex', '0');
+  
+  button.style.setProperty('cursor', 'pointer', 'important');
+  button.style.setProperty('pointer-events', 'auto', 'important');
+  button.style.setProperty('user-select', 'none', 'important');
+  button.style.setProperty('z-index', 'var(--z-interactive, 10)', 'important');
   
   button.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
