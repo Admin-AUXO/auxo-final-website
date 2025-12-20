@@ -19,6 +19,7 @@ const WIDGET_ID = 'calendly-widget';
 const THEME_CHANGE_DELAY = 300;
 const MAX_WAIT_ATTEMPTS = 50;
 const CHECK_INTERVAL = 50;
+const BADGE_INIT_ATTEMPTS = 30;
 
 let isInitialized = false;
 let isScriptLoading = false;
@@ -183,7 +184,6 @@ function openModal(): void {
   if (badge) {
     badge.style.opacity = '0';
     badge.style.pointerEvents = 'none';
-    badge.style.zIndex = '9999';
   }
   
   waitForThemeAndCssVars(() => {
@@ -204,19 +204,33 @@ function closeModal(): void {
   if (badge) {
     badge.style.opacity = '';
     badge.style.pointerEvents = '';
-    badge.style.zIndex = '';
   }
 }
 
 function attachBadgeClickHandler(): void {
-  const badge = document.querySelector('.calendly-badge-widget');
+  const badge = document.querySelector('.calendly-badge-widget') as HTMLElement;
   if (badge && !badge.hasAttribute('data-calendly-handler-attached')) {
     badge.setAttribute('data-calendly-handler-attached', 'true');
-    badge.addEventListener('click', (e) => {
+    badge.setAttribute('role', 'button');
+    badge.setAttribute('aria-label', 'Schedule a meeting with AUXO Data Labs');
+    badge.setAttribute('tabindex', '0');
+    
+    const handleClick = (e: Event) => {
       e.preventDefault();
       e.stopPropagation();
       openModal();
-    });
+    };
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal();
+      }
+    };
+    
+    badge.addEventListener('click', handleClick);
+    badge.addEventListener('keydown', handleKeyDown);
   }
 }
 
@@ -236,26 +250,37 @@ function initFloatingButton(): void {
   const buttonColor = getCssVar('--accent-green', '#A3E635');
   const buttonTextColor = isDark ? '#000000' : '#FFFFFF';
 
-  win.Calendly.initBadgeWidget({
-    url: getCalendlyUrl(),
-    text: '',
-    color: buttonColor,
-    textColor: buttonTextColor,
-    branding: false
-  });
+  try {
+    win.Calendly.initBadgeWidget({
+      url: getCalendlyUrl(),
+      text: '',
+      color: buttonColor,
+      textColor: buttonTextColor,
+      branding: false
+    });
 
-  let attempts = 0;
-  const maxAttempts = 20;
-  const checkBadge = setInterval(() => {
-    attempts++;
-    const badge = document.querySelector('.calendly-badge-widget');
-    if (badge || attempts >= maxAttempts) {
-      clearInterval(checkBadge);
+    let attempts = 0;
+    const checkBadge = setInterval(() => {
+      attempts++;
+      const badge = document.querySelector('.calendly-badge-widget') as HTMLElement;
       if (badge) {
+        clearInterval(checkBadge);
         attachBadgeClickHandler();
+        badge.style.display = 'flex';
+        badge.style.visibility = 'visible';
+        badge.style.opacity = '1';
+      } else if (attempts >= BADGE_INIT_ATTEMPTS) {
+        clearInterval(checkBadge);
+        if (import.meta.env.DEV) {
+          console.warn('Calendly badge widget failed to initialize');
+        }
       }
+    }, 100);
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.error('Error initializing Calendly badge widget:', error);
     }
-  }, 100);
+  }
 
   isInitialized = true;
 }
@@ -305,42 +330,48 @@ export function setupCalendly(): void {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
   
   function initialize(): void {
-    ensureThemeReady();
-    lastTheme = getCurrentTheme();
+    try {
+      ensureThemeReady();
+      lastTheme = getCurrentTheme();
 
-    const themeObserver = new MutationObserver(handleThemeChange);
-    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      const themeObserver = new MutationObserver(handleThemeChange);
+      themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-    const modal = document.getElementById(MODAL_ID);
-    if (modal) {
-      const closeButtons = modal.querySelectorAll('[data-calendly-close]');
-      closeButtons.forEach((btn) => {
-        btn.addEventListener('click', closeModal);
-      });
+      const modal = document.getElementById(MODAL_ID);
+      if (modal) {
+        const closeButtons = modal.querySelectorAll('[data-calendly-close]');
+        closeButtons.forEach((btn) => {
+          btn.addEventListener('click', closeModal);
+        });
 
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal || (e.target as HTMLElement).classList.contains('calendly-modal-overlay')) {
-          closeModal();
-        }
-      });
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal || (e.target as HTMLElement).classList.contains('calendly-modal-overlay')) {
+            closeModal();
+          }
+        });
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('show')) {
-          closeModal();
-        }
-      });
-    }
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && modal.classList.contains('show')) {
+            closeModal();
+          }
+        });
+      }
 
-    setupCalendlyButtons();
-    
-    document.addEventListener('astro:page-load', () => {
       setupCalendlyButtons();
-      attachBadgeClickHandler();
-    });
+      
+      document.addEventListener('astro:page-load', () => {
+        setupCalendlyButtons();
+        attachBadgeClickHandler();
+      });
 
-    waitForThemeAndCssVars(() => {
-      initFloatingButton();
-    });
+      waitForThemeAndCssVars(() => {
+        initFloatingButton();
+      });
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.error('Error initializing Calendly:', error);
+      }
+    }
   }
 
   if (document.readyState === 'loading') {

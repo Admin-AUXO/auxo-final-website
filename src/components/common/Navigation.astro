@@ -28,15 +28,14 @@ const contactUrl = createUrl("contact");
         <div class="ml-2">
           <ThemeToggle />
         </div>
-        <button
-          type="button"
-          data-calendly-open
+        <a
+          href={contactUrl}
           class="nav-cta ml-3 px-5 py-2.5 text-sm font-semibold border-2 border-accent-green bg-transparent text-accent-green rounded-xl hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 transition-all duration-fast min-h-[44px] flex items-center justify-center relative group/cta" 
-          aria-label="Let's Talk - Schedule a meeting"
+          aria-label="Let's Talk - Contact us"
         >
           <span class="relative z-10 font-bold">Let's Talk</span>
           <span class="absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 group-hover/cta:opacity-100 transition-opacity duration-fast"></span>
-        </button>
+        </a>
       </div>
 
       <div class="flex items-center gap-2 sm:gap-3 lg:hidden flex-shrink-0 pointer-events-auto mobile-nav-controls">
@@ -118,18 +117,17 @@ const contactUrl = createUrl("contact");
         <div class="space-y-5 mt-6">
           <div class="text-center">
             <p class="text-base text-theme-secondary mb-6 font-medium">Ready to transform your business?</p>
-            <button
-              type="button"
-              data-calendly-open
+            <a
+              href={contactUrl}
               class="nav-cta-mobile block w-full px-6 py-4 min-h-[56px] border-2 bg-theme-primary text-theme-secondary hover:bg-theme-surface hover:text-theme-primary font-bold rounded-xl hover:shadow-lg hover:shadow-accent-green/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-normal text-center touch-manipulation flex items-center justify-center gap-3 text-lg shadow-md relative group/cta"
-              aria-label="Let's Talk - Schedule a meeting"
+              aria-label="Let's Talk - Contact us"
             >
               <svg class="w-5 h-5 flex-shrink-0 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
               </svg>
               <span class="relative z-10">Let's Talk</span>
               <span class="absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 group-hover/cta:opacity-100 transition-opacity duration-fast"></span>
-            </button>
+            </a>
           </div>
 
           <div class="text-center pt-5">
