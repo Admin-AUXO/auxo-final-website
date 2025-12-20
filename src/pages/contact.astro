@@ -110,15 +110,36 @@ import "../styles/sections/contact-sections.css";
   import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from "../scripts/forms/emailHandler";
   import { initNotifications } from "../scripts/utils/notifications";
 
-  setupSectionInit(() => refreshScrollAnimationsWithDelay());
-  initEmailJS();
-  initNotifications();
+  const currentPath = window.location.pathname;
 
-  const form = document.getElementById('contact-form-element') as HTMLFormElement;
-  if (form) {
-    form.addEventListener('submit', handleContactFormSubmit);
-    addRealTimeValidation(form);
+  function initContactPage() {
+    initEmailJS();
+    initNotifications();
+
+    const form = document.getElementById('contact-form-element') as HTMLFormElement;
+    if (form && !form.dataset.initialized) {
+      form.addEventListener('submit', handleContactFormSubmit);
+      addRealTimeValidation(form);
+      form.dataset.initialized = 'true';
+    }
   }
+
+  function refreshOnPageChange() {
+    const newPath = window.location.pathname;
+    if (newPath !== currentPath) {
+      refreshScrollAnimationsWithDelay();
+      if (newPath === '/contact/' || newPath === '/contact') {
+        const form = document.getElementById('contact-form-element') as HTMLFormElement;
+        if (form) {
+          form.removeAttribute('data-initialized');
+        }
+        initContactPage();
+      }
+    }
+  }
+
+  initContactPage();
+  setupSectionInit(refreshOnPageChange);
 
   (function setupCalendly() {
     if (typeof window === 'undefined') return;
@@ -128,6 +149,8 @@ import "../styles/sections/contact-sections.css";
     let isInitialized = false;
     let isScriptLoading = false;
     let intersectionObserver: IntersectionObserver | null = null;
+    let themeChangeTimeout: number | null = null;
+    let lastTheme: string | null = null;
 
     function getCssVar(name: string): string {
       return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -171,49 +194,76 @@ import "../styles/sections/contact-sections.css";
       document.body.appendChild(script);
     }
 
-    function initWidget(): void {
+    function initWidget(forceReinit: boolean = false): void {
       const widget = document.getElementById(WIDGET_ID);
-      if (!widget || isInitialized) return;
+      if (!widget) return;
 
-      if (widget.querySelector('.calendly-inline-widget > div')) {
+      if (!forceReinit && isInitialized && widget.querySelector('.calendly-inline-widget > div')) {
+        return;
+      }
+
+      if (widget.querySelector('.calendly-inline-widget > div') && !forceReinit) {
         isInitialized = true;
         return;
       }
 
       if (!window.Calendly) {
-        loadCalendlyScript(initWidget);
+        loadCalendlyScript(() => initWidget(forceReinit));
         return;
       }
 
-      const url = getCalendlyUrl();
-      widget.setAttribute('data-url', url);
-      window.Calendly.initInlineWidget({ url, parentElement: widget });
-      isInitialized = true;
-      
-      if (intersectionObserver) {
-        intersectionObserver.disconnect();
-        intersectionObserver = null;
+      if (forceReinit) {
+        widget.innerHTML = '';
+        isInitialized = false;
       }
-    }
 
-    function handleThemeChange(): void {
-      if (window.Calendly && isInitialized) {
-        const widget = document.getElementById(WIDGET_ID);
-        if (widget && widget.querySelector('.calendly-inline-widget > div')) {
-          isInitialized = false;
-          widget.innerHTML = '';
-          setTimeout(initWidget, 300);
+      if (!isInitialized) {
+        const url = getCalendlyUrl();
+        widget.setAttribute('data-url', url);
+        window.Calendly.initInlineWidget({ url, parentElement: widget });
+        isInitialized = true;
+        
+        if (intersectionObserver) {
+          intersectionObserver.disconnect();
+          intersectionObserver = null;
         }
       }
     }
 
-    const themeObserver = new MutationObserver(() => {
+    function handleThemeChange(): void {
       const html = document.documentElement;
-      if (html.classList.contains('dark') || html.classList.contains('light')) {
-        handleThemeChange();
+      const currentTheme = html.classList.contains('dark') ? 'dark' : html.classList.contains('light') ? 'light' : null;
+      
+      if (currentTheme && currentTheme !== lastTheme && window.Calendly && isInitialized) {
+        lastTheme = currentTheme;
+        
+        if (themeChangeTimeout) {
+          clearTimeout(themeChangeTimeout);
+        }
+        
+        themeChangeTimeout = window.setTimeout(() => {
+          const widget = document.getElementById(WIDGET_ID);
+          if (widget && widget.querySelector('.calendly-inline-widget > div')) {
+            initWidget(true);
+          }
+        }, 300);
+      } else if (currentTheme && !lastTheme) {
+        lastTheme = currentTheme;
+      }
+    }
+
+    const themeObserver = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          handleThemeChange();
+          break;
+        }
       }
     });
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    
+    const html = document.documentElement;
+    lastTheme = html.classList.contains('dark') ? 'dark' : html.classList.contains('light') ? 'light' : null;
 
     const widget = document.getElementById(WIDGET_ID);
     if (widget) {
@@ -228,25 +278,36 @@ import "../styles/sections/contact-sections.css";
       if (isVisible) {
         initWidget();
       } else {
+        let hasInitialized = false;
         intersectionObserver = new IntersectionObserver((entries) => {
-          if (entries[0]?.isIntersecting && !isInitialized) {
+          if (entries[0]?.isIntersecting && !hasInitialized && !isInitialized) {
+            hasInitialized = true;
             initWidget();
+            if (intersectionObserver) {
+              intersectionObserver.disconnect();
+              intersectionObserver = null;
+            }
           }
         }, { rootMargin: '100px' });
         intersectionObserver.observe(widget);
       }
     }
 
+    const currentPath = window.location.pathname;
     document.addEventListener('astro:page-load', () => {
-      isInitialized = false;
-      const widget = document.getElementById(WIDGET_ID);
-      if (widget) {
-        widget.innerHTML = '';
-        if (intersectionObserver) {
-          intersectionObserver.disconnect();
-          intersectionObserver = null;
+      const newPath = window.location.pathname;
+      if (newPath !== currentPath || newPath === '/contact/') {
+        isInitialized = false;
+        lastTheme = null;
+        const widget = document.getElementById(WIDGET_ID);
+        if (widget) {
+          widget.innerHTML = '';
+          if (intersectionObserver) {
+            intersectionObserver.disconnect();
+            intersectionObserver = null;
+          }
+          initWidget();
         }
-        initWidget();
       }
     });
   })();

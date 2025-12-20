@@ -8,8 +8,12 @@ const EMAILJS_CONFIG = {
   publicKey: 'YOUR_PUBLIC_KEY',
 };
 
+let emailjsInitialized = false;
+
 export function initEmailJS() {
+  if (emailjsInitialized) return;
   emailjs.init(EMAILJS_CONFIG.publicKey);
+  emailjsInitialized = true;
 }
 
 export async function handleContactFormSubmit(event: Event) {

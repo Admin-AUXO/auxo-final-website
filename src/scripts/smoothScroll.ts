@@ -47,10 +47,13 @@ export function initSmoothScroll() {
       });
     });
 
+    let lastPath = window.location.pathname;
     document.addEventListener('astro:page-load', () => {
-      if (lenis) {
+      const currentPath = window.location.pathname;
+      if (lenis && currentPath !== lastPath) {
         lenis.scrollTo(0, { immediate: true });
         setTimeout(() => lenis?.scrollTo(0, { immediate: true }), 100);
+        lastPath = currentPath;
       }
     });
   }

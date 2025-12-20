@@ -24,8 +24,13 @@ export function initScrollAnimations(): void {
     anchorPlacement: 'top-bottom',
   });
 
+  let lastPath = window.location.pathname;
   document.addEventListener('astro:page-load', () => {
-    refreshScrollAnimationsWithDelay();
+    const currentPath = window.location.pathname;
+    if (currentPath !== lastPath) {
+      refreshScrollAnimationsWithDelay();
+      lastPath = currentPath;
+    }
   });
 }
 
