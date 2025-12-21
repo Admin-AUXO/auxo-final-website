@@ -95,6 +95,11 @@ function closeDropdown(dropdown: HTMLElement): void {
 
   const duration = isModal ? MODAL_DROPDOWN_ANIMATION_DURATION : STANDARD_DROPDOWN_ANIMATION_DURATION;
 
+  // Dispatch custom event for button state updates
+  document.dispatchEvent(new CustomEvent('dropdown-closed', {
+    detail: { dropdown, isModal }
+  }));
+
   // Use requestAnimationFrame to ensure DOM updates
   requestAnimationFrame(() => {
     setTimeout(() => {
@@ -146,6 +151,11 @@ function openDropdownMenu(dropdown: HTMLElement): void {
 
   state.openDropdown = dropdown;
   state.dropdownHoverState = true;
+
+  // Dispatch custom event for button state updates
+  document.dispatchEvent(new CustomEvent('dropdown-opened', {
+    detail: { dropdown, isModal }
+  }));
 }
 
 function scheduleDropdownClose(dropdown: HTMLElement): void {

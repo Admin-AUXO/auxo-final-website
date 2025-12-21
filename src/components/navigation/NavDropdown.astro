@@ -77,20 +77,25 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
   </div>
 ) : isModal ? (
   <div class="relative dropdown-container group" data-nav-item={index} data-modal-dropdown="true">
-    <button 
-      class={`${NAV_BUTTON_BASE} dropdown-services-toggle`}
+    <button
+      class={`${NAV_BUTTON_BASE} dropdown-services-toggle services-toggle-button`}
       aria-expanded="false"
       aria-haspopup="true"
       aria-label={`${item.name} menu`}
       data-dropdown-toggle={index}
     >
-      <span class="relative z-10">{item.name}</span>
-      <Icon 
-        name="mdi:chevron-down" 
-        class={CHEVRON_ICON}
+      <span class="relative z-10 services-button-text">{item.name}</span>
+      <Icon
+        name="mdi:chevron-down"
+        class={`${CHEVRON_ICON} services-chevron-icon`}
         aria-hidden="true"
       />
-      <span class={NAV_ACTIVE_BG}></span>
+      <Icon
+        name="mdi:close"
+        class="w-4 h-4 transition-all duration-fast opacity-0 scale-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 services-close-icon"
+        aria-hidden="true"
+      />
+      <span class={`${NAV_ACTIVE_BG} services-active-bg`}></span>
     </button>
 
     <div
@@ -259,4 +264,33 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
   </div>
 )}
 
+<script>
+  // Handle services dropdown button state changes
+  function updateServicesButtonState() {
+    const servicesButtons = document.querySelectorAll('.services-toggle-button');
 
+    servicesButtons.forEach(button => {
+      const container = button.closest('.dropdown-container');
+      const menu = container?.querySelector('[data-dropdown-menu]');
+      const isOpen = menu?.classList.contains('open');
+
+      // Update button appearance based on modal state
+      if (isOpen) {
+        button.classList.add('services-modal-open');
+        button.setAttribute('aria-expanded', 'true');
+        button.setAttribute('aria-label', 'Close services menu');
+      } else {
+        button.classList.remove('services-modal-open');
+        button.setAttribute('aria-expanded', 'false');
+        button.setAttribute('aria-label', 'Services menu');
+      }
+    });
+  }
+
+  // Listen for dropdown state changes
+  document.addEventListener('dropdown-opened', updateServicesButtonState);
+  document.addEventListener('dropdown-closed', updateServicesButtonState);
+
+  // Initial state check
+  updateServicesButtonState();
+</script>

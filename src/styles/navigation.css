@@ -548,6 +548,37 @@
   }
 }
 
+/* Services dropdown button states */
+.services-toggle-button.services-modal-open {
+  background: var(--bg-surface) !important;
+  border-color: var(--accent-green) !important;
+  color: var(--text-primary) !important;
+}
+
+.services-toggle-button.services-modal-open .services-button-text {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.services-toggle-button.services-modal-open .services-chevron-icon {
+  opacity: 0;
+  transform: scale(0.8) rotate(180deg);
+}
+
+.services-toggle-button.services-modal-open .services-close-icon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.services-toggle-button.services-modal-open .services-active-bg {
+  opacity: 1 !important;
+}
+
+.services-toggle-button .services-close-icon,
+.services-toggle-button .services-chevron-icon {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .dropdown-menu.open {
   opacity: 1 !important;
   visibility: visible !important;
@@ -1177,7 +1208,7 @@ body:has(.mobile-menu.is-open) {
 .dropdown-modal-overlay {
   position: fixed !important;
   z-index: var(--z-services-dropdown) !important;
-  top: 0 !important;
+  top: var(--nav-height) !important;
   left: 0 !important;
   right: 0;
   bottom: 0;
@@ -1200,12 +1231,12 @@ body:has(.mobile-menu.is-open) {
 .dropdown-modal-menu {
   position: fixed !important;
   z-index: calc(var(--z-services-dropdown) + 1) !important;
-  top: 0 !important;
+  top: var(--nav-height) !important;
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
-  height: 100dvh !important;
-  max-height: 100dvh !important;
+  height: calc(100dvh - var(--nav-height)) !important;
+  max-height: calc(100dvh - var(--nav-height)) !important;
   overflow: hidden !important;
   pointer-events: none !important;
   opacity: 0 !important;
