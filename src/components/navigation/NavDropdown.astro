@@ -12,7 +12,7 @@ interface Props {
 }
 
 const { item, index, isMobile = false } = Astro.props;
-const isModal = item.isModal ?? false;
+const isModal = item.isModal ?? (item.name?.toLowerCase() === 'services' || item.name?.toLowerCase() === 'service');
 
 const NAV_BUTTON_BASE = "nav-link dropdown-toggle relative px-3 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-xl hover:bg-theme-surface/60 active:bg-theme-surface/80 flex items-center gap-1.5 min-h-[44px] group-hover:text-theme-primary";
 const MOBILE_BUTTON_BASE = "mobile-dropdown-btn mobile-nav-link block w-full px-5 py-4 min-h-[52px] text-base font-semibold text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-xl transition-all duration-normal touch-manipulation flex items-center justify-between relative group bg-theme-surface/50 hover:bg-theme-surface border border-accent-green/30 hover:border-accent-green/50";
