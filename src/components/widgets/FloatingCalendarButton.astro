@@ -19,6 +19,11 @@ import { Icon } from "astro-icon/components";
     const button = document.getElementById('floating-calendar-button');
     if (!button) return;
 
+    let lastScrollTop = 0;
+    let isHidden = false;
+    const SCROLL_THRESHOLD = 100; // Minimum scroll distance to trigger hide/show
+    const HIDE_OFFSET = 20; // How far to hide the button
+
     // Force button to be a direct child of body for proper viewport positioning
     if (button.parentElement !== document.body) {
       document.body.appendChild(button);
@@ -30,10 +35,43 @@ import { Icon } from "astro-icon/components";
       button.style.bottom = '1rem';
       button.style.right = '1rem';
       button.style.zIndex = '9999';
+      button.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    };
+
+    // Handle scroll behavior - hide on scroll down, show on scroll up
+    const handleScroll = () => {
+      const scrollTop = window.lenis ? window.lenis.scroll : (window.pageYOffset || document.documentElement.scrollTop);
+
+      if (Math.abs(scrollTop - lastScrollTop) < SCROLL_THRESHOLD) {
+        return; // Don't react to small scroll movements
+      }
+
+      if (scrollTop > lastScrollTop && scrollTop > SCROLL_THRESHOLD) {
+        // Scrolling down - hide button
+        if (!isHidden) {
+          button.style.transform = `translateY(${HIDE_OFFSET}px)`;
+          isHidden = true;
+        }
+      } else if (scrollTop < lastScrollTop) {
+        // Scrolling up - show button
+        if (isHidden) {
+          button.style.transform = 'translateY(0)';
+          isHidden = false;
+        }
+      }
+
+      lastScrollTop = scrollTop;
     };
 
     // Initialize with forced positioning
     forceViewportPosition();
+
+    // Set up scroll event listeners
+    if (window.lenis) {
+      window.lenis.on('scroll', handleScroll);
+    } else {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }
 
     // Re-apply positioning on resize to ensure it stays in viewport
     window.addEventListener('resize', forceViewportPosition, { passive: true });
