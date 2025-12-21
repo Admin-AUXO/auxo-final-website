@@ -1,5 +1,5 @@
 import { eventListeners, resetState } from './state';
-import { unlockScroll, getNavElements } from './utils';
+import { getNavElements } from './utils';
 import { initializeMobileMenu, closeMobileMenu } from './mobile-menu';
 import { initializeDropdowns, setupDropdownCloseHandlers, closeAllDropdowns } from './dropdowns';
 import { setupScrollEffects } from './scroll-effects';
@@ -15,9 +15,7 @@ export function cleanupNavigation(): void {
   eventListeners.forEach(({ element, event, handler, options }) => {
     try {
       element.removeEventListener(event, handler, options);
-    } catch {
-      // Ignore cleanup errors
-    }
+    } catch {}
   });
   eventListeners.length = 0;
 }

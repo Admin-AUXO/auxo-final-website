@@ -21,9 +21,9 @@ const navItems = items.map(({ _key, ...item }) => ({
 }));
 ---
 
-<nav id="main-navigation" class="backdrop-blur-md border-b border-accent-green/30 transition-all duration-normal will-change-transform">
+<nav id="main-navigation" class="fixed top-0 left-0 right-0 w-full z-[2147483646] backdrop-blur-md border-b border-accent-green/30 transition-all duration-normal">
   <div class="grid-container">
-    <div class="col-span-full flex items-center justify-between h-14 sm:h-16 lg:h-18 relative min-w-0 w-full">
+    <div class="col-span-full flex items-center justify-between h-16 relative min-w-0 w-full">
       <div class="flex-shrink-0 min-w-0 flex items-center overflow-hidden pr-2 lg:pr-0">
         <Logo size="md" showText={true} href={base} />
       </div>
@@ -65,12 +65,12 @@ const navItems = items.map(({ _key, ...item }) => ({
     </div>
   </div>
 
-  <div id="mobile-menu-overlay" class="mobile-menu-overlay lg:hidden fixed inset-0 bg-black/70 opacity-0 invisible transition-all duration-normal pointer-events-none" style="z-index: var(--z-mobile-overlay);" aria-hidden="true"></div>
+  <div id="mobile-menu-overlay" class="mobile-menu-overlay lg:hidden fixed inset-0 bg-black/70 opacity-0 invisible transition-all duration-normal pointer-events-none z-[1500]" aria-hidden="true"></div>
 
-  <div id="mobile-menu" class="mobile-menu lg:hidden fixed inset-0 opacity-0 invisible transition-all duration-normal pointer-events-none" style="z-index: var(--z-mobile-menu);" aria-hidden="true">
+  <div id="mobile-menu" class="mobile-menu lg:hidden fixed inset-0 opacity-0 invisible transition-all duration-normal pointer-events-none z-[1500]" aria-hidden="true">
     <div class="mobile-menu-header flex-shrink-0 bg-theme-primary border-b border-accent-green/30">
       <div class="grid-container">
-        <div class="col-span-full flex items-center justify-between h-14 sm:h-16 relative min-w-0 w-full">
+        <div class="col-span-full flex items-center justify-between h-16 relative min-w-0 w-full">
           <div class="flex-shrink-0 min-w-0 flex items-center overflow-hidden pr-2 bg-theme-primary">
             <Logo size="md" showText={false} href={base} />
           </div>
@@ -132,8 +132,7 @@ const navItems = items.map(({ _key, ...item }) => ({
   <button
     type="button"
     id="mobile-menu-close"
-    class="mobile-menu-close-btn lg:hidden fixed top-2 right-2 sm:top-3 sm:right-3 w-[44px] h-[44px] flex items-center justify-center rounded-xl text-theme-secondary hover:text-theme-primary bg-theme-primary border border-accent-green/30 hover:border-accent-green/50 transition-all duration-fast opacity-0 invisible pointer-events-none group/close"
-    style="z-index: var(--z-mobile-menu);"
+    class="mobile-menu-close-btn lg:hidden fixed top-[6px] sm:top-[6px] right-2 sm:right-3 w-[44px] h-[44px] flex items-center justify-center rounded-xl text-theme-secondary hover:text-theme-primary bg-theme-primary border border-accent-green/30 hover:border-accent-green/50 transition-all duration-fast opacity-0 invisible pointer-events-none group/close z-[1501]"
     aria-label="Close mobile menu"
   >
     <svg class="w-5 h-5 relative z-10 group-hover/close:rotate-90 transition-transform duration-fast" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,9 +141,6 @@ const navItems = items.map(({ _key, ...item }) => ({
     <span class="absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 group-hover/close:opacity-100 transition-opacity duration-fast"></span>
   </button>
 </nav>
-
-  <div class="h-14 sm:h-16 lg:h-18"></div>
-
 
 <script>
   import { initializeNavigationComponents } from "@/scripts/navigation/index";

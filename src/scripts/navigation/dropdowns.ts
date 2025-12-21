@@ -49,44 +49,35 @@ function getDropdownElements(dropdown: HTMLElement, isModal: boolean) {
 }
 
 function closeDropdown(dropdown: HTMLElement): void {
-  // Prevent multiple close operations
   if (state.isTransitioning) return;
 
   const isModal = dropdown.hasAttribute('data-modal-dropdown');
   const { menu, button, arrow, overlay } = getDropdownElements(dropdown, isModal);
 
-  // Ensure we have the required elements
   if (!menu) return;
 
-  // Clean up positioning
   autoUpdateCleanups.get(menu)?.();
   autoUpdateCleanups.delete(menu);
 
-  // Mark as transitioning to prevent conflicts
   state.isTransitioning = true;
 
-  // Remove open classes
   menu.classList.remove('open');
   button?.classList.remove('open');
   arrow?.classList.remove('open');
   overlay?.classList.remove('open');
 
-    // Keep modal elements below navigation when closed
-    if (isModal) {
-      if (overlay) overlay.style.setProperty('z-index', '1');
-      if (menu) menu.style.setProperty('z-index', '1');
-    }
+  if (isModal) {
+    if (overlay) overlay.style.setProperty('z-index', '1');
+    if (menu) menu.style.setProperty('z-index', '1');
+  }
 
-  // Update ARIA attributes
   button?.setAttribute('aria-expanded', 'false');
   overlay?.setAttribute('aria-hidden', 'true');
 
-  // Update body class for modal dropdowns
   if (isModal) {
     document.body.classList.remove('dropdown-open');
   }
 
-  // Reset state
   if (state.openDropdown === dropdown) {
     state.openDropdown = null;
   }
@@ -94,19 +85,14 @@ function closeDropdown(dropdown: HTMLElement): void {
 
   const duration = isModal ? MODAL_DROPDOWN_ANIMATION_DURATION : STANDARD_DROPDOWN_ANIMATION_DURATION;
 
-  // Dispatch custom event for button state updates
   document.dispatchEvent(new CustomEvent('dropdown-closed', {
     detail: { dropdown, isModal }
   }));
 
-  // Use requestAnimationFrame to ensure DOM updates
   requestAnimationFrame(() => {
     setTimeout(() => {
-      // Reset inline styles
       if (menu) menu.style.cssText = '';
-      // Unlock scroll for modal dropdowns
       if (isModal) unlockScroll();
-      // Allow new transitions
       state.isTransitioning = false;
     }, duration);
   });
@@ -138,7 +124,6 @@ function openDropdownMenu(dropdown: HTMLElement): void {
     button.setAttribute('aria-expanded', 'true');
     arrow.classList.add('open');
 
-    // Reset modal z-index for proper layering when open
     if (isModal) {
       if (overlay) overlay.style.removeProperty('z-index');
       if (menu) menu.style.removeProperty('z-index');
@@ -151,7 +136,6 @@ function openDropdownMenu(dropdown: HTMLElement): void {
   state.openDropdown = dropdown;
   state.dropdownHoverState = true;
 
-  // Dispatch custom event for button state updates
   document.dispatchEvent(new CustomEvent('dropdown-opened', {
     detail: { dropdown, isModal }
   }));
@@ -222,13 +206,11 @@ function setupHoverHandlers(container: HTMLElement, menu: HTMLElement): void {
 export function initializeDropdowns(): void {
   if (typeof document === 'undefined') return;
 
-  // Ensure all dropdowns start in closed state
   document.querySelectorAll('.dropdown-container').forEach(container => {
     const containerEl = container as HTMLElement;
     const isModal = containerEl.hasAttribute('data-modal-dropdown');
     const { menu, button, arrow, overlay } = getDropdownElements(containerEl, isModal);
 
-    // Force closed state on initialization
     menu?.classList.remove('open');
     button?.classList.remove('open');
     button?.setAttribute('aria-expanded', 'false');
@@ -236,7 +218,6 @@ export function initializeDropdowns(): void {
     overlay?.classList.remove('open');
     overlay?.setAttribute('aria-hidden', 'true');
 
-    // Initialize modal elements below navigation
     if (isModal) {
       if (overlay) overlay.style.setProperty('z-index', '1');
       if (menu) menu.style.setProperty('z-index', '1');

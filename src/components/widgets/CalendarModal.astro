@@ -73,21 +73,13 @@
     right: 0;
     bottom: 0;
     z-index: 0;
-    background: var(--calendar-modal-overlay-bg);
-    backdrop-filter: blur(var(--blur-nav));
-    -webkit-backdrop-filter: blur(var(--blur-nav));
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
-  /* Ensure modal covers navigation completely */
   #calendar-modal:not([hidden]) {
     z-index: 10000 !important;
-  }
-
-  /* Make sure modal overlay completely blocks background */
-  #calendar-modal:not([hidden]) .calendar-modal-overlay {
-    background: rgba(0, 0, 0, 0.8) !important;
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
   }
 
   .calendar-modal-container {
@@ -176,14 +168,15 @@
     padding: 0;
     margin: 0;
     border: 1px solid var(--accent-green-opacity-30);
-    background: transparent;
+    background: var(--bg-primary);
     color: var(--text-primary);
     cursor: pointer;
     border-radius: var(--radius-md);
     transition: all var(--duration-normal) var(--easing-standard);
     position: relative;
-    z-index: 2;
+    z-index: 100;
     overflow: hidden;
+    flex-shrink: 0;
   }
 
   .calendar-modal-close::before {
@@ -236,18 +229,10 @@
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
     overscroll-behavior: contain;
-    /* Enhanced mobile scrolling */
     touch-action: pan-y;
     -webkit-touch-callout: none;
   }
 
-  /* Ensure smooth scrolling on all devices */
-  .calendar-modal-content {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Prevent body scroll when modal is open */
   .calendar-modal:not([hidden]) {
     touch-action: none;
   }
@@ -301,29 +286,20 @@
     border: none;
     background-color: var(--bg-primary);
     z-index: 1;
-    /* Enhanced touch scrolling for mobile */
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
     overscroll-behavior: contain;
-    /* Ensure iframe content can scroll */
     overflow: auto;
-    /* Prevent iframe from affecting parent page theme */
-    color-scheme: light;
     isolation: isolate;
     contain: layout style paint;
-    /* Additional mobile optimizations */
     touch-action: pan-y;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
-    /* Ensure iframe fits within container bounds */
     max-height: 100%;
     box-sizing: border-box;
   }
 
-  /* Scrollbar hiding is handled globally in base.css */
-
-  /* Ensure iframe content is properly scrollable on mobile */
   .calendar-iframe iframe {
     touch-action: pan-y;
     -webkit-overflow-scrolling: touch;
@@ -340,12 +316,7 @@
     z-index: 3;
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    background: linear-gradient(
-      to bottom,
-      var(--bg-primary) 0%,
-      transparent 100%
-    );
-    /* Enhanced visual indicator */
+    background: linear-gradient(to bottom, var(--bg-primary) 0%, transparent 100%);
     box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
   }
 
@@ -376,7 +347,6 @@
     transform: translateY(0);
   }
 
-  /* Add subtle animation for better UX */
   .calendar-scroll-indicator.visible::after {
     content: '';
     position: absolute;

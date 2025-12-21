@@ -252,16 +252,14 @@ function openMobileMenu(): void {
   requestAnimationFrame(() => {
     try {
       focusTrap?.activate();
-    } catch {
-      // Ignore focus trap errors
-    }
-    
+    } catch {}
+
     setupMobileDropdowns();
     setupLinkHandlers();
     setupCloseButtonHandler();
     setupDropdownKeyboardNavigation();
     setupSwipeHandlers();
-    
+
     const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
     if (menuContent) {
       menuContent.addEventListener('scroll', updateScrollIndicators, { passive: true });

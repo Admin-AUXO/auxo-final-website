@@ -37,6 +37,9 @@ export default {
       },
     },
   },
+  plugins: [
+    require('splendid-ui/tailwind/plugins/astro-space.cjs'),
+  ],
   darkMode: 'class',
 };
 

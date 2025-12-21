@@ -19,7 +19,7 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'never',
     assets: '_astro',
-    minify: true,
+    minify: 'terser',
     sourcemap: false,
   },
   compressHTML: true,
@@ -46,6 +46,7 @@ export default defineConfig({
     },
     build: {
       cssCodeSplit: true,
+      minify: 'terser',
       rollupOptions: {
         output: {
           chunkFileNames: '_astro/[name]-[hash].js',
@@ -61,7 +62,11 @@ export default defineConfig({
           },
         },
         onwarn(warning, warn) {
+          // Suppress common warnings
           if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.id?.includes('@astrojs/internal-helpers')) {
+            return;
+          }
+          if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.id?.includes('node_modules')) {
             return;
           }
           warn(warning);

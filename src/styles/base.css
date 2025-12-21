@@ -6,27 +6,12 @@
   box-sizing: border-box;
 }
 
-/* Global scrollbar hiding */
-* {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-*::-webkit-scrollbar,
-*::-webkit-scrollbar-track,
-*::-webkit-scrollbar-thumb {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-}
-
 html {
+  overflow-y: scroll;
   scroll-behavior: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  overflow-y: auto;
   max-width: 100vw;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -35,9 +20,6 @@ html {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
   -webkit-overscroll-behavior: none;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
 }
 
 html.loading {
@@ -143,20 +125,16 @@ section,
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
     touch-action: pan-y;
-    /* Enhanced momentum scrolling */
-    -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
   }
 
   body {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    /* Better touch handling */
     touch-action: pan-y;
     -webkit-touch-callout: none;
   }
 
-  /* Optimize all scrollable elements for mobile */
   [style*="overflow"],
   .overflow-auto,
   .overflow-y-auto,
@@ -167,17 +145,11 @@ section,
     touch-action: pan-y !important;
   }
 
-  /* Ensure smooth scrolling for all interactive elements */
   button,
   a,
   input,
   textarea,
   select {
     touch-action: manipulation;
-  }
-
-  * {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
   }
 }
