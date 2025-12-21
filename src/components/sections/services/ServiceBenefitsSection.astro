@@ -80,21 +80,21 @@ const { service } = Astro.props;
           activateOnDesktop={false}
         >
           {service.benefits.features.map((feature: BenefitFeature, index: number) => (
-            <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
-              <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl relative overflow-hidden transition-all duration-500 hover:border-accent-green/40 flex flex-col">
+            <div class="carousel-slide embla__slide flex-shrink-0 service-benefits-carousel-slide" data-index={index}>
+              <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl relative overflow-hidden transition-all duration-500 hover:border-accent-green/40 flex flex-col min-h-[280px] sm:min-h-[320px]">
                 <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 hover:via-accent-green/60 transition-all duration-500" />
 
-                <div class="relative z-10 flex flex-col h-full p-5 sm:p-6">
-                  <div class="flex items-center justify-between mb-4 sm:mb-5">
-                    <h3 class="font-bold text-theme-primary leading-tight font-display">
+                <div class="relative z-10 flex flex-col h-full p-4 sm:p-5 lg:p-6">
+                  <div class="flex items-start justify-between mb-4 sm:mb-5">
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold text-theme-primary leading-tight font-display flex-1 pr-3">
                       {feature.title}
                     </h3>
-                    <div class="w-10 h-10 sm:w-11 sm:h-11 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20 flex-shrink-0 ml-3">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20 flex-shrink-0">
                       <Icon name={feature.icon} class="w-5 h-5 sm:w-5.5 sm:h-5.5 text-accent-green" />
                     </div>
                   </div>
 
-                  <p class="text-theme-secondary leading-relaxed font-body flex-grow">
+                  <p class="text-sm sm:text-base text-theme-secondary leading-relaxed font-body flex-grow">
                     {feature.description}
                   </p>
                 </div>

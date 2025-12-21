@@ -29,7 +29,7 @@ export default defineConfig({
   },
   vite: {
     optimizeDeps: {
-      include: ['@heroui/react', 'framer-motion', 'embla-carousel', '@floating-ui/dom', 'lenis', 'aos', 'sharp'],
+      include: ['@heroui/react', 'framer-motion', 'embla-carousel', '@floating-ui/dom', 'lenis', 'aos'],
       exclude: ['@heroui/theme'],
     },
     build: {

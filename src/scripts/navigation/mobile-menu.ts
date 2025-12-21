@@ -419,32 +419,61 @@ function setupDropdownKeyboardNavigation(): void {
 
 export function initializeMobileMenu(): void {
   if (typeof document === 'undefined') return;
-  
+
   try {
     const { mobileMenuButton, mobileMenu } = getNavElements();
-    
+
     if (!mobileMenuButton || !mobileMenu) {
+      if (import.meta.env.DEV) {
+        console.warn('Mobile menu elements not found:', {
+          mobileMenuButton: !!mobileMenuButton,
+          mobileMenu: !!mobileMenu
+        });
+      }
       return;
     }
-    
+
     closeMobileMenu();
-    
+
+    // Remove existing event listeners by cloning the button
     const newButton = mobileMenuButton.cloneNode(true) as HTMLElement;
     mobileMenuButton.parentNode?.replaceChild(newButton, mobileMenuButton);
-    
+
+    // Set up proper ARIA attributes
+    newButton.setAttribute('aria-expanded', 'false');
+    newButton.setAttribute('aria-controls', 'mobile-menu');
+
     const clickHandler = (e: Event) => {
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
       handleMenuButtonClick(e);
     };
-    
-    addTrackedListener(newButton, 'click', clickHandler, { capture: true });
-    addTrackedListener(newButton, 'touchend', clickHandler, { passive: false, capture: true });
-    addTrackedListener(document, 'click', handleOutsideClick, { capture: true });
-    addTrackedListener(document, 'keydown', handleKeyboard, { capture: true });
+
+    const touchHandler = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleMenuButtonClick(e);
+    };
+
+    // Add event listeners with proper error handling
+    try {
+      addTrackedListener(newButton, 'click', clickHandler, { capture: true });
+      addTrackedListener(newButton, 'touchend', touchHandler, { passive: false, capture: true });
+      addTrackedListener(document, 'click', handleOutsideClick, { capture: true });
+      addTrackedListener(document, 'keydown', handleKeyboard, { capture: true });
+    } catch (listenerError) {
+      if (import.meta.env.DEV) {
+        console.warn('Error adding event listeners:', listenerError);
+      }
+    }
+
     setupLinkHandlers();
     setupCloseButtonHandler();
+
+    if (import.meta.env.DEV) {
+      console.log('Mobile menu initialized successfully');
+    }
   } catch (error) {
     if (import.meta.env.DEV) {
       console.warn('Mobile menu initialization error:', error);
