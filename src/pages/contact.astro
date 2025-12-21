@@ -106,7 +106,7 @@ const siteData = await getSiteConfigData();
 </BaseLayout>
 
 
-<script type="module">
+<script>
   import { setupSectionInit } from "@/scripts/sections/utils/initUtils";
   import { refreshScrollAnimationsWithDelay } from "@/scripts/scrollAnimations";
   import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from "@/scripts/forms/emailHandler";
@@ -118,7 +118,7 @@ const siteData = await getSiteConfigData();
     initEmailJS();
     initNotifications();
 
-    const form = document.getElementById('contact-form-element');
+    const form = document.getElementById('contact-form-element') as HTMLFormElement;
     if (form && !form.dataset.initialized) {
       form.addEventListener('submit', handleContactFormSubmit);
       addRealTimeValidation(form);
@@ -132,7 +132,7 @@ const siteData = await getSiteConfigData();
     
     refreshScrollAnimationsWithDelay();
     if (newPath === '/contact/' || newPath === '/contact') {
-      const form = document.getElementById('contact-form-element');
+      const form = document.getElementById('contact-form-element') as HTMLFormElement;
       if (form) form.removeAttribute('data-initialized');
       initContactPage();
     }

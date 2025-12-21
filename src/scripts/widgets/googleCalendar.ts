@@ -47,7 +47,7 @@ function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
 
     try {
       const iframeWindow = iframe.contentWindow as (Window & { console?: Console }) | null;
-      if (iframeWindow?.console && !import.meta.env.DEV) {
+      if (iframeWindow?.console && !(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local'))) {
         const originalError = iframeWindow.console.error;
         if (originalError) {
           iframeWindow.console.error = (...args: unknown[]) => {
@@ -88,7 +88,7 @@ function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
       }
     }
 
-    if (import.meta.env.DEV) {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
       console.warn('Calendar iframe failed to load');
     }
   };
@@ -256,7 +256,7 @@ function openCalendarModal(): void {
 
   const modal = getModal();
   if (!modal) {
-    if (import.meta.env.DEV) {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
       console.warn('Calendar modal missing');
     }
     return;
@@ -395,7 +395,7 @@ export function setupGoogleCalendar(): void {
   try {
     initializeGoogleCalendar();
   } catch (error) {
-    if (import.meta.env.DEV) {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
       console.error('Google Calendar setup failed:', error);
     }
   }

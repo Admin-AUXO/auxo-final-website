@@ -32,7 +32,7 @@ function initThemeObserver(): void {
             try {
               callback(isDark, wasDark);
             } catch (error) {
-              if (import.meta.env.DEV) {
+              if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
                 console.error('Theme observer failed:', error);
               }
             }

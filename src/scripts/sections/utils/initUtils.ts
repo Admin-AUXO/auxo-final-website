@@ -22,13 +22,15 @@ export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): vo
 
 export function setupPageAnimations(): void {
   if (typeof window === 'undefined') return;
-  
+
   import('../../scrollAnimations')
     .then((m) => m.refreshScrollAnimationsWithDelay())
     .catch((error) => {
-      if (import.meta.env.DEV) {
+      const isDev = window.location.hostname === 'localhost' ||
+                   window.location.hostname === '127.0.0.1' ||
+                   window.location.hostname.includes('.local');
+      if (isDev) {
         console.error('Scroll animations refresh failed:', error);
       }
     });
 }
-

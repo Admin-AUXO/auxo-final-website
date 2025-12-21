@@ -490,7 +490,7 @@
 }
 
 .service-card-redesigned[data-variant="carousel"] {
-  min-height: 220px;
+  min-height: 240px;
 }
 
 .service-card-redesigned[data-variant="carousel"] > div {
@@ -513,7 +513,7 @@
 
 @media (min-width: 640px) {
   .service-card-redesigned[data-variant="carousel"] {
-    min-height: 240px;
+    min-height: 260px;
   }
 
   .service-card-redesigned[data-variant="carousel"] > div {
@@ -523,12 +523,12 @@
 
 @media (min-width: 1024px) {
   .service-card-redesigned[data-variant="carousel"] {
-    min-height: 260px;
+    min-height: 280px;
   }
 }
 
 .carousel-slide .glassmorphism-card.capability-card-carousel {
-  min-height: 260px;
+  min-height: 280px;
   padding: 1.25rem;
 }
 
@@ -549,14 +549,14 @@
 
 @media (min-width: 640px) {
   .carousel-slide .glassmorphism-card.capability-card-carousel {
-    min-height: 280px;
+    min-height: 300px;
     padding: 1.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .carousel-slide .glassmorphism-card.capability-card-carousel {
-    min-height: 300px;
+    min-height: 320px;
   }
 }
 

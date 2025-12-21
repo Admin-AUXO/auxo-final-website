@@ -11,18 +11,18 @@ export function initSmoothScroll() {
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
   lenis = new Lenis({
-    duration: isMobile ? 0.4 : 0.8,
+    duration: isMobile ? 0.6 : 0.8,
     easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
-    smoothWheel: !isMobile,
-    wheelMultiplier: isMobile ? 1.2 : 1.0,
-    touchMultiplier: isTouchDevice ? 1.0 : 1.8,
+    smoothWheel: true, // Enable smooth wheel for all devices
+    wheelMultiplier: isMobile ? 1.5 : 1.0,
+    touchMultiplier: isTouchDevice ? 1.2 : 1.8,
     infinite: false,
-    lerp: isMobile ? 0.15 : 0.08,
-    syncTouch: !isTouchDevice,
+    lerp: isMobile ? 0.12 : 0.08,
+    syncTouch: true, // Enable sync touch for better mobile experience
     autoResize: true,
-    overscroll: true,
+    overscroll: false, // Disable overscroll on mobile for better performance
   });
 
   function raf(time: number) {
@@ -53,10 +53,11 @@ export function initSmoothScroll() {
       const target = document.querySelector(href);
       if (target && lenis && target instanceof HTMLElement) {
         e.preventDefault();
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         lenis.scrollTo(target, {
-          offset: 0,
-          duration: isTouchDevice ? 0.3 : 0.6,
+          offset: isMobile ? -20 : 0, // Add small offset on mobile for better UX
+          duration: isTouchDevice ? 0.4 : 0.6,
           easing: (t: number) => 1 - Math.pow(1 - t, 3)
         });
       }
@@ -84,10 +85,14 @@ export function startSmoothScroll() {
 
 export function scrollToElement(target: string | HTMLElement, options?: { offset?: number; duration?: number }) {
   if (!lenis) return;
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const defaultOffset = isMobile ? -20 : 0;
+  const defaultDuration = isTouchDevice ? 0.4 : 0.8;
+
   lenis.scrollTo(target, {
-    offset: options?.offset ?? 0,
-    duration: options?.duration ?? (isTouchDevice ? 0.3 : 0.8),
+    offset: options?.offset ?? defaultOffset,
+    duration: options?.duration ?? defaultDuration,
     easing: options?.duration ? undefined : (t: number) => 1 - Math.pow(1 - t, 3)
   });
 }

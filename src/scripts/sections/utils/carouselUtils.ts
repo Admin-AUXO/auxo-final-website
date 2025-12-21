@@ -66,7 +66,7 @@ function createCarouselManager(config: CarouselConfig) {
     const dots = document.querySelectorAll(dotSelector);
 
     if (!container || dots.length === 0) {
-      if (import.meta.env.DEV) {
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
         console.warn('Carousel element not found:', !container ? containerId : dotSelector);
       }
       return;
