@@ -215,7 +215,7 @@ function openCalendarModal(): void {
   const modal = getModal();
   if (!modal) {
     if (import.meta.env.DEV) {
-      console.warn('Calendar modal not found');
+      console.warn('Calendar modal missing');
     }
     return;
   }
@@ -358,7 +358,7 @@ export function setupGoogleCalendar(): void {
     initializeGoogleCalendar();
   } catch (error) {
     if (import.meta.env.DEV) {
-      console.error('Error setting up Google Calendar:', error);
+      console.error('Google Calendar setup failed:', error);
     }
   }
 }

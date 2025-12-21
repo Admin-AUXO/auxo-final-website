@@ -419,12 +419,7 @@ export function initializeMobileMenu(): void {
     const { mobileMenuButton, mobileMenu } = getNavElements();
 
     if (!mobileMenuButton || !mobileMenu) {
-      if (import.meta.env.DEV) {
-        console.warn('Mobile menu elements not found:', {
-          mobileMenuButton: !!mobileMenuButton,
-          mobileMenu: !!mobileMenu
-        });
-      }
+      console.warn('Mobile menu elements not found');
       return;
     }
 
@@ -458,20 +453,13 @@ export function initializeMobileMenu(): void {
       addTrackedListener(document, 'click', handleOutsideClick, { capture: true });
       addTrackedListener(document, 'keydown', handleKeyboard, { capture: true });
     } catch (listenerError) {
-      if (import.meta.env.DEV) {
-        console.warn('Error adding event listeners:', listenerError);
-      }
+      console.warn('Mobile menu event listener error:', listenerError);
     }
 
     setupLinkHandlers();
     setupCloseButtonHandler();
 
-    if (import.meta.env.DEV) {
-      console.log('Mobile menu initialized successfully');
-    }
   } catch (error) {
-    if (import.meta.env.DEV) {
-      console.warn('Mobile menu initialization error:', error);
-    }
+    console.warn('Mobile menu initialization failed:', error);
   }
 }

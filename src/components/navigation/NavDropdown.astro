@@ -3,6 +3,7 @@ import { Icon } from 'astro-icon/components';
 import type { NavItem, DropdownItem } from '@/data/content/navigation';
 import { createUrl } from '@/utils/url';
 import NavLink from './NavLink.astro';
+import CtaButton from '@/components/ui/CtaButton.astro';
 
 interface Props {
   item: Omit<NavItem, '_key'>;
@@ -116,29 +117,26 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
                   Need help choosing? <a href={createUrl('contact')} class="text-accent-green hover:underline font-medium transition-colors duration-fast">Contact our team</a>
                 </p>
                 <div class="hidden lg:flex items-center gap-2 pointer-events-auto flex-shrink-0 ml-auto">
-                  <a
+                  <CtaButton
                     href={createUrl('services')}
-                    class="nav-cta inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold border-2 border-accent-green bg-transparent text-accent-green rounded-xl hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 transition-all duration-fast min-h-[44px] whitespace-nowrap relative group/cta"
+                    showArrow={true}
                     aria-label="View all services"
                   >
-                    <span class="relative z-10">View All Services</span>
-                    <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0 group-hover/cta:translate-x-1 transition-transform duration-300 relative z-10" aria-hidden="true" />
-                    <span class="absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 group-hover/cta:opacity-100 transition-opacity duration-fast"></span>
-                  </a>
+                    View All Services
+                  </CtaButton>
                 </div>
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 md:gap-6 w-full lg:hidden py-3 sm:py-4">
                   <p class="text-xs sm:text-sm md:text-base text-theme-secondary opacity-70 text-center sm:text-left flex-1 min-w-0">
                     Need help choosing? <a href={createUrl('contact')} class="text-accent-green hover:underline font-medium transition-colors duration-fast">Contact our team</a>
                   </p>
-                  <a
+                  <CtaButton
                     href={createUrl('services')}
-                    class="nav-cta inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 text-sm sm:text-base font-semibold border-2 border-accent-green bg-transparent text-accent-green rounded-xl hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 transition-all duration-fast min-h-[44px] sm:min-h-[48px] whitespace-nowrap relative group/cta flex-shrink-0"
+                    size="md"
+                    showArrow={true}
                     aria-label="View all services"
                   >
-                    <span class="relative z-10">View All Services</span>
-                    <Icon name="mdi:arrow-right" class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 group-hover/cta:translate-x-1 transition-transform duration-300 relative z-10" aria-hidden="true" />
-                    <span class="absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 group-hover/cta:opacity-100 transition-opacity duration-fast"></span>
-                  </a>
+                    View All Services
+                  </CtaButton>
                 </div>
               </div>
             </div>

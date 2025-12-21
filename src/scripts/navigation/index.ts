@@ -32,7 +32,7 @@ export function initializeNavigationComponents(): void {
     setupDropdownCloseHandlers();
   } catch (error) {
     if (import.meta.env.DEV) {
-      console.warn('Navigation initialization error:', error);
+      console.warn('Navigation init failed:', error);
     }
   }
 }

@@ -84,7 +84,7 @@ export async function handleContactFormSubmit(event: Event) {
     }
   } catch (error) {
     if (import.meta.env.DEV) {
-      console.error('EmailJS Error:', error);
+      console.error('Email send failed:', error);
     }
     if (error instanceof Error && error.message.includes('not configured')) {
       showError(error.message);

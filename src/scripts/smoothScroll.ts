@@ -30,7 +30,7 @@ export function initSmoothScroll() {
       lenis?.raf(time);
       rafId = requestAnimationFrame(raf);
     } catch (error) {
-      console.warn('Lenis RAF error:', error);
+      console.warn('Scroll RAF failed:', error);
       destroySmoothScroll();
     }
   }
@@ -42,9 +42,7 @@ export function initSmoothScroll() {
   window.dispatchEvent(new Event('lenis:init'));
 
   lenis?.on('scroll', ({ scroll, limit, velocity, direction, progress }) => {
-    if (import.meta.env.DEV && velocity > 10) {
-      console.log('High scroll velocity detected:', velocity);
-    }
+    // Scroll event handling
   });
   
   document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {

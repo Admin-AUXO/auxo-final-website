@@ -27,7 +27,7 @@ export function setupPageAnimations(): void {
     .then((m) => m.refreshScrollAnimationsWithDelay())
     .catch((error) => {
       if (import.meta.env.DEV) {
-        console.error('Failed to refresh scroll animations:', error);
+        console.error('Scroll animations refresh failed:', error);
       }
     });
 }

@@ -55,7 +55,7 @@ export function setupScrollEffects(): void {
     });
   } catch (error) {
     if (import.meta.env.DEV) {
-      console.warn('Scroll effects initialization error:', error);
+      console.warn('Scroll effects init failed:', error);
     }
   }
 }

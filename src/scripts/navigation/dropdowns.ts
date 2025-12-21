@@ -207,7 +207,7 @@ export function initializeDropdowns(): void {
     });
   } catch (error) {
     if (import.meta.env.DEV) {
-      console.warn('Dropdown initialization error:', error);
+      console.warn('Dropdown init failed:', error);
     }
   }
 }

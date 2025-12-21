@@ -15,96 +15,75 @@ import { Icon } from "astro-icon/components";
 </button>
 
 <script>
-  function ensureFloatingButtonPosition() {
+  function initFloatingButton() {
     const button = document.getElementById('floating-calendar-button');
     if (!button) return;
 
-    // Ensure button stays in viewport during scroll
-    const updatePosition = () => {
-      const rect = button.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const viewportWidth = window.innerWidth;
+    // Ensure button is positioned as direct child of body for proper fixed positioning
+    if (button.parentElement !== document.body) {
+      document.body.appendChild(button);
+    }
 
-      // Ensure button doesn't go off-screen
-      if (rect.bottom > viewportHeight) {
+    // Basic viewport boundary check (simplified)
+    const checkViewportBounds = () => {
+      const rect = button.getBoundingClientRect();
+      if (rect.bottom > window.innerHeight) {
         button.style.bottom = '1rem';
       }
-      if (rect.right > viewportWidth) {
+      if (rect.right > window.innerWidth) {
         button.style.right = '1rem';
       }
     };
 
-    // Initial position check
-    updatePosition();
-
-    // Update on scroll with throttling
-    let scrollTimeout: number;
-    const throttledUpdate = () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(updatePosition, 16); // ~60fps
-    };
-
-    window.addEventListener('scroll', throttledUpdate, { passive: true });
-    window.addEventListener('resize', updatePosition, { passive: true });
-
-    // Lenis integration
-    if (window.lenis) {
-      window.lenis.on('scroll', throttledUpdate);
-    } else {
-      document.addEventListener('lenis:init', () => {
-        if (window.lenis) {
-          window.lenis.on('scroll', throttledUpdate);
-        }
-      }, { once: true });
-    }
+    // Initialize and set up minimal event listeners
+    checkViewportBounds();
+    window.addEventListener('resize', checkViewportBounds, { passive: true });
   }
 
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', ensureFloatingButtonPosition);
+    document.addEventListener('DOMContentLoaded', initFloatingButton, { once: true });
   } else {
-    ensureFloatingButtonPosition();
+    initFloatingButton();
   }
 </script>
 
 <style>
   .floating-calendar-btn {
-    position: fixed !important;
-    bottom: max(var(--spacing-md, 1rem), env(safe-area-inset-bottom, 1rem)) !important;
-    right: max(var(--spacing-md, 1rem), env(safe-area-inset-right, 1rem)) !important;
-    z-index: 9998 !important;
-    width: 3.5rem !important;
-    height: 3.5rem !important;
-    min-width: 3.5rem !important;
-    min-height: 3.5rem !important;
-    max-width: 3.5rem !important;
-    max-height: 3.5rem !important;
-    border-radius: 50% !important;
-    background-color: var(--accent-green) !important;
-    color: var(--text-on-accent) !important;
-    border: 2px solid var(--accent-green-opacity-30) !important;
-    box-shadow: 0 4px 20px var(--accent-green-opacity-2), 0 0 0 3px var(--accent-green-opacity-1) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    pointer-events: auto !important;
-    transition: all var(--duration-normal) var(--easing-standard) !important;
-    backdrop-filter: blur(var(--blur-nav)) !important;
-    -webkit-backdrop-filter: blur(var(--blur-nav)) !important;
-    touch-action: manipulation !important;
-    will-change: transform !important;
-    transform: translateZ(0) !important;
-    -webkit-transform: translateZ(0) !important;
-    transform-origin: center !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
-    user-select: none !important;
-    -webkit-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    contain: none !important;
+    position: fixed;
+    bottom: max(var(--spacing-md, 1rem), env(safe-area-inset-bottom, 1rem));
+    right: max(var(--spacing-md, 1rem), env(safe-area-inset-right, 1rem));
+    z-index: 9999;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background-color: var(--accent-green);
+    color: var(--text-on-accent);
+    border: 2px solid var(--accent-green-opacity-30);
+    box-shadow: 0 4px 20px var(--accent-green-opacity-2), 0 0 0 3px var(--accent-green-opacity-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all var(--duration-normal) var(--easing-standard);
+    backdrop-filter: blur(var(--blur-nav));
+    -webkit-backdrop-filter: blur(var(--blur-nav));
+    touch-action: manipulation;
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    transform-origin: center;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    contain: none;
+    /* Prevent any parent containment from affecting positioning */
+    isolation: isolate;
   }
 
   .floating-calendar-icon {
@@ -115,11 +94,9 @@ import { Icon } from "astro-icon/components";
   }
 
   .floating-calendar-btn:hover {
-    border-color: var(--accent-green-opacity-30) !important;
-    transform: translateY(var(--transform-translate-y-card-hover)) scale(1.05) !important;
-    box-shadow: 0 8px 32px var(--accent-green-opacity-30), 0 0 0 4px var(--accent-green-opacity-25) !important;
-    cursor: pointer !important;
-    pointer-events: auto !important;
+    border-color: var(--accent-green-opacity-30);
+    transform: translateY(var(--transform-translate-y-card-hover)) scale(1.05);
+    box-shadow: 0 8px 32px var(--accent-green-opacity-30), 0 0 0 4px var(--accent-green-opacity-25);
   }
 
   .floating-calendar-btn:hover .floating-calendar-icon {
@@ -127,30 +104,23 @@ import { Icon } from "astro-icon/components";
   }
 
   .floating-calendar-btn:active {
-    transform: translateY(var(--hover-lift-distance-sm)) scale(1.02) !important;
-    box-shadow: 0 4px 16px var(--accent-green-opacity-2), 0 0 0 3px var(--accent-green-opacity-25) !important;
-    cursor: pointer !important;
-    pointer-events: auto !important;
+    transform: translateY(var(--hover-lift-distance-sm)) scale(1.02);
+    box-shadow: 0 4px 16px var(--accent-green-opacity-2), 0 0 0 3px var(--accent-green-opacity-25);
   }
 
   .floating-calendar-btn:focus-visible {
-    outline: var(--focus-ring-width) solid var(--accent-green) !important;
-    outline-offset: var(--spacing-xs) !important;
-    border-color: var(--accent-green-opacity-30) !important;
-    cursor: pointer !important;
-    pointer-events: auto !important;
+    outline: var(--focus-ring-width) solid var(--accent-green);
+    outline-offset: var(--spacing-xs);
+    border-color: var(--accent-green-opacity-30);
   }
 
+  /* Tablet styles */
   @media (min-width: 640px) and (max-width: 1023px) {
     .floating-calendar-btn {
       bottom: max(var(--spacing-lg, 1.5rem), env(safe-area-inset-bottom, 1.5rem));
       right: max(var(--spacing-lg, 1.5rem), env(safe-area-inset-right, 1.5rem));
       width: 4rem;
       height: 4rem;
-      min-width: 4rem;
-      min-height: 4rem;
-      max-width: 4rem;
-      max-height: 4rem;
     }
 
     .floating-calendar-icon {
@@ -159,16 +129,13 @@ import { Icon } from "astro-icon/components";
     }
   }
 
+  /* Desktop styles */
   @media (min-width: 1024px) {
     .floating-calendar-btn {
       bottom: max(var(--spacing-xl, 2rem), env(safe-area-inset-bottom, 2rem));
       right: max(var(--spacing-xl, 2rem), env(safe-area-inset-right, 2rem));
       width: 4rem;
       height: 4rem;
-      min-width: 4rem;
-      min-height: 4rem;
-      max-width: 4rem;
-      max-height: 4rem;
     }
 
     .floating-calendar-icon {
@@ -177,16 +144,13 @@ import { Icon } from "astro-icon/components";
     }
   }
 
+  /* Mobile styles */
   @media (max-width: 639px) {
     .floating-calendar-btn {
       bottom: max(var(--spacing-md, 1rem), env(safe-area-inset-bottom, 1rem));
       right: max(var(--spacing-md, 1rem), env(safe-area-inset-right, 1rem));
       width: 3.5rem;
       height: 3.5rem;
-      min-width: 3.5rem;
-      min-height: 3.5rem;
-      max-width: 3.5rem;
-      max-height: 3.5rem;
     }
 
     .floating-calendar-icon {
@@ -195,16 +159,13 @@ import { Icon } from "astro-icon/components";
     }
   }
 
+  /* Low height devices */
   @media (max-height: 600px) and (max-width: 1023px) {
     .floating-calendar-btn {
       bottom: max(var(--spacing-sm, 0.75rem), env(safe-area-inset-bottom, 0.75rem));
       right: max(var(--spacing-sm, 0.75rem), env(safe-area-inset-right, 0.75rem));
       width: 3rem;
       height: 3rem;
-      min-width: 3rem;
-      min-height: 3rem;
-      max-width: 3rem;
-      max-height: 3rem;
     }
 
     .floating-calendar-icon {

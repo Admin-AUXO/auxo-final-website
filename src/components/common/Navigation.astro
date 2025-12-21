@@ -3,6 +3,7 @@ import ThemeToggle from "@/components/ui/ThemeToggle.astro";
 import Logo from "./Logo.astro";
 import NavLink from "@/components/navigation/NavLink.astro";
 import NavDropdown from "@/components/navigation/NavDropdown.astro";
+import CtaButton from "@/components/ui/CtaButton.astro";
 import { getNavigationContent } from "@/lib/sanity/data";
 import { getSiteConfigData } from "@/lib/sanity/siteConfig";
 import { getBaseUrl, createUrl } from "@/utils/url";
@@ -38,14 +39,13 @@ const navItems = items.map(({ _key, ...item }) => ({
         <div class="ml-2">
           <ThemeToggle />
         </div>
-        <a
+        <CtaButton
           href={contactUrl}
-          class="nav-cta ml-3 px-5 py-2.5 text-sm font-semibold border-2 border-accent-green bg-transparent text-accent-green rounded-xl hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 transition-all duration-fast min-h-[44px] flex items-center justify-center relative group/cta" 
+          class="ml-3"
           aria-label="Let's Talk - Contact us"
         >
-          <span class="relative z-10 font-bold">Let's Talk</span>
-          <span class="absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 group-hover/cta:opacity-100 transition-opacity duration-fast"></span>
-        </a>
+          <span class="font-bold">Let's Talk</span>
+        </CtaButton>
       </div>
 
       <div class="flex items-center gap-2 sm:gap-3 lg:hidden flex-shrink-0 pointer-events-auto mobile-nav-controls">
@@ -73,25 +73,7 @@ const navItems = items.map(({ _key, ...item }) => ({
       <div class="grid-container">
         <div class="col-span-full flex items-center justify-between h-14 sm:h-16 relative min-w-0 w-full">
           <div class="flex-shrink-0 min-w-0 flex items-center overflow-hidden pr-2">
-            <a href={base} class="relative flex-shrink-0 touch-manipulation pointer-events-auto" aria-label="AUXO Data Labs Home" data-nav-home>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 40 40"
-                fill="none"
-                class="h-10 w-10 sm:h-11 sm:w-11 transition-transform duration-normal group-hover:scale-110 group-hover:rotate-3"
-                aria-label="AUXO Data Labs Logo"
-              >
-                <rect x="0" y="0" width="18" height="18" fill="var(--accent-green)" class="transition-colors duration-normal"></rect>
-                <text x="9" y="14" text-anchor="middle" font-family="var(--font-brand)" font-weight="900" font-size="13" fill="var(--logo-text-color)" class="transition-colors duration-normal">A</text>
-                <rect x="22" y="0" width="18" height="18" fill="var(--accent-green)" class="transition-colors duration-normal"></rect>
-                <text x="31" y="14" text-anchor="middle" font-family="var(--font-brand)" font-weight="900" font-size="13" fill="var(--logo-text-color)" class="transition-colors duration-normal">U</text>
-                <rect x="0" y="22" width="18" height="18" fill="var(--accent-green)" class="transition-colors duration-normal"></rect>
-                <text x="9" y="36" text-anchor="middle" font-family="var(--font-brand)" font-weight="900" font-size="13" fill="var(--logo-text-color)" class="transition-colors duration-normal">X</text>
-                <rect x="22" y="22" width="18" height="18" fill="var(--accent-green)" class="transition-colors duration-normal"></rect>
-                <text x="31" y="36" text-anchor="middle" font-family="var(--font-brand)" font-weight="900" font-size="13" fill="var(--logo-text-color)" class="transition-colors duration-normal">O</text>
-              </svg>
-              <div class="absolute inset-0 bg-accent-green/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-normal pointer-events-none"></div>
-            </a>
+            <Logo size="md" showText={false} href={base} />
           </div>
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 pointer-events-auto">
             <button
@@ -173,9 +155,7 @@ const navItems = items.map(({ _key, ...item }) => ({
       try {
         initializeNavigationComponents();
       } catch (error) {
-        if (import.meta.env.DEV) {
-          console.warn('Navigation initialization warning:', error);
-        }
+        console.warn('Navigation init warning:', error);
       }
     });
   }
