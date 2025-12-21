@@ -12,6 +12,34 @@ function getIframe(): HTMLIFrameElement | null {
   return document.getElementById(IFRAME_ID) as HTMLIFrameElement | null;
 }
 
+function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
+  iframe.addEventListener('load', () => {
+    try {
+      const iframeWindow = iframe.contentWindow as (Window & { console?: Console }) | null;
+      if (iframeWindow && iframeWindow.console && !import.meta.env.DEV) {
+        const originalError = iframeWindow.console.error;
+        if (originalError) {
+          iframeWindow.console.error = (...args: unknown[]) => {
+            const message = String(args[0] || '');
+            if (
+              message.includes('recaptcha') ||
+              message.includes('401') ||
+              message.includes('Unauthorized') ||
+              message.includes('private-token') ||
+              message.includes('message channel closed')
+            ) {
+              return;
+            }
+            originalError.apply(iframeWindow.console, args);
+          };
+        }
+      }
+    } catch {
+      // Cross-origin restrictions may prevent access
+    }
+  });
+}
+
 function openCalendarModal(): void {
   const modal = getModal();
   if (!modal) {
@@ -25,8 +53,11 @@ function openCalendarModal(): void {
   document.body.style.overflow = 'hidden';
   
   const iframe = getIframe();
-  if (iframe && !iframe.src) {
-    iframe.src = CALENDAR_URL;
+  if (iframe) {
+    if (!iframe.src) {
+      iframe.src = CALENDAR_URL;
+    }
+    setupIframeErrorHandling(iframe);
   }
 
   const closeButton = modal.querySelector('[data-calendar-close]') as HTMLElement;
