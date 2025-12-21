@@ -15,14 +15,14 @@ export function initSmoothScroll() {
     easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
-    smoothWheel: true, // Enable smooth wheel for all devices
+    smoothWheel: true,
     wheelMultiplier: isMobile ? 1.5 : 1.0,
     touchMultiplier: isTouchDevice ? 1.2 : 1.8,
     infinite: false,
     lerp: isMobile ? 0.12 : 0.08,
-    syncTouch: true, // Enable sync touch for better mobile experience
+    syncTouch: true,
     autoResize: true,
-    overscroll: false, // Disable overscroll on mobile for better performance
+    overscroll: false,
   });
 
   function raf(time: number) {
@@ -41,9 +41,7 @@ export function initSmoothScroll() {
 
   window.dispatchEvent(new Event('lenis:init'));
 
-  lenis?.on('scroll', ({ scroll, limit, velocity, direction, progress }) => {
-    // Scroll event handling
-  });
+  lenis?.on('scroll', ({ scroll, limit, velocity, direction, progress }) => {});
   
   document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
@@ -56,7 +54,7 @@ export function initSmoothScroll() {
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         lenis.scrollTo(target, {
-          offset: isMobile ? -20 : 0, // Add small offset on mobile for better UX
+          offset: isMobile ? -20 : 0,
           duration: isTouchDevice ? 0.4 : 0.6,
           easing: (t: number) => 1 - Math.pow(1 - t, 3)
         });

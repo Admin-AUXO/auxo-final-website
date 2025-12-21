@@ -11,10 +11,10 @@ export function initScrollAnimations(): void {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   AOS.init({
-    duration: isMobile ? 400 : 500, // Shorter duration on mobile
+    duration: isMobile ? 400 : 500,
     easing: 'ease-out-cubic',
     once: true,
-    offset: isMobile ? 60 : SCROLL_OFFSET, // Smaller offset on mobile
+    offset: isMobile ? 60 : SCROLL_OFFSET,
     delay: 0,
     disable: prefersReducedMotion,
     startEvent: 'DOMContentLoaded',
@@ -23,7 +23,7 @@ export function initScrollAnimations(): void {
     useClassNames: false,
     disableMutationObserver: false,
     debounceDelay: 50,
-    throttleDelay: isMobile ? 150 : 99, // Higher throttle delay on mobile
+    throttleDelay: isMobile ? 150 : 99,
     mirror: false,
     anchorPlacement: 'top-bottom',
   });
@@ -39,7 +39,6 @@ export function initScrollAnimations(): void {
 
       window.lenis.on('scroll', lenisScrollHandler);
 
-      // Longer delay on mobile for better performance
       const delay = isMobile ? 300 : 100;
       setTimeout(() => {
         AOS.refresh();
