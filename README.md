@@ -100,14 +100,15 @@ For GitHub Pages deployment, set these as repository secrets:
 - **Build-time optimization**: All content is fetched at build time for static generation
 
 ### Code Optimizations
-- **Code splitting**: JavaScript bundles are split by feature for optimal loading
+- **AstroEdge Integration**: Automated performance optimization toolkit for maximum Lighthouse scores
+- **Code splitting**: JavaScript bundles are optimized for optimal loading
 - **Tree shaking**: Unused code is eliminated during build
-- **CSS optimization**: Stylesheets are minified and code-split
-- **Asset optimization**: Images and assets are optimized during build
-- **Critical CSS**: Above-the-fold CSS is inlined for faster First Contentful Paint
+- **Asset optimization**: Images and assets are automatically optimized (WebP conversion, compression)
 - **Font optimization**: `font-display: swap` ensures text is visible immediately
 - **Lazy loading**: Below-the-fold components load on-demand using Intersection Observer
 - **Service Worker**: Offline support and intelligent caching for repeat visits
+
+Run `npm run optimize` to run AstroEdge optimizations before building.
 
 ## Sanity CMS Integration
 

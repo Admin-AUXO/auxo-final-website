@@ -22,6 +22,7 @@ export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): vo
 
 export function setupPageAnimations(): void {
   if (typeof window === 'undefined') return;
+  
   import('../../scrollAnimations')
     .then((m) => m.refreshScrollAnimationsWithDelay())
     .catch((error) => {

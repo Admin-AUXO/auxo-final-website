@@ -1,11 +1,11 @@
 ---
 import { Icon } from "astro-icon/components";
-import Button from "../../ui/Button.astro";
-import SectionContainer from "../../layouts/SectionContainer.astro";
-import HighlightText from "../../ui/HighlightText.astro";
-import type { HomepageContent } from "../../../data/content/homepage";
-import { createUrl } from "../../../utils/url";
-import { shouldOpenCalendly } from "../../../utils/ctaRules";
+import Button from '@/components/ui/Button.astro';
+import SectionContainer from '@/components/layouts/SectionContainer.astro';
+import HighlightText from '@/components/ui/HighlightText.astro';
+import type { HomepageContent } from '@/data/content/homepage';
+import { createUrl } from '@/utils/url";
+import { shouldOpenCalendly } from '@/utils/ctaRules";
 
 interface Props {
   content: HomepageContent["finalCta"];
@@ -106,4 +106,5 @@ const shouldOpenCalendlyBtn = shouldOpenCalendly({
     </div>
   </div>
 </SectionContainer>
+
 

@@ -3,6 +3,12 @@ import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import icon from 'astro-icon';
 import AstroPWA from '@vite-pwa/astro';
+import sitemap from '@astrojs/sitemap';
+import astroEdge from 'astro-edge';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const basePath = process.env.BASE_PATH || '/auxo-final-website/';
 
@@ -23,25 +29,13 @@ export default defineConfig({
   },
   vite: {
     optimizeDeps: {
-      include: ['@heroui/react', 'framer-motion', 'embla-carousel', '@floating-ui/dom', 'lenis', 'aos'],
+      include: ['@heroui/react', 'framer-motion', 'embla-carousel', '@floating-ui/dom', 'lenis', 'aos', 'sharp'],
       exclude: ['@heroui/theme'],
     },
     build: {
       cssCodeSplit: true,
-      minify: 'esbuild',
-      cssMinify: true,
       rollupOptions: {
         output: {
-          manualChunks: (id) => {
-            if (id.includes('node_modules')) {
-              if (id.includes('embla-carousel')) return 'embla';
-              if (id.includes('@floating-ui')) return 'floating-ui';
-              if (id.includes('@iconify') || id.includes('astro-icon')) return 'icons';
-              if (id.includes('@heroui')) return 'heroui';
-              if (id.includes('framer-motion')) return 'framer-motion';
-              return 'vendor';
-            }
-          },
           chunkFileNames: '_astro/[name]-[hash].js',
           entryFileNames: '_astro/[name]-[hash].js',
           assetFileNames: '_astro/[name]-[hash].[ext]',
@@ -62,14 +56,34 @@ export default defineConfig({
       treeShaking: true,
     },
     logLevel: 'warn',
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
     ssr: {
       noExternal: ['@heroui/react'],
     },
   },
   integrations: [
+    astroEdge({
+      optimization: {
+        images: { format: 'webp', quality: 80 },
+        static: true,
+        compression: true,
+      },
+      monitoring: {
+        lighthouse: true,
+        thresholds: { performance: 95 },
+      },
+    }),
     react(),
     tailwind({
       applyBaseStyles: false,
+    }),
+    sitemap({
+      changefreq: 'weekly',
+      priority: 0.7,
     }),
     AstroPWA({
       registerType: 'autoUpdate',

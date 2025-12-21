@@ -232,8 +232,65 @@ export function setupDropdownCloseHandlers(): void {
   }, { capture: false });
 
   addTrackedListener(document, 'keydown', (e) => {
-    if ((e as KeyboardEvent).key === 'Escape' && state.openDropdown) {
+    const keyboardEvent = e as KeyboardEvent;
+    
+    if (keyboardEvent.key === 'Escape' && state.openDropdown) {
       closeDropdown(state.openDropdown);
+      return;
+    }
+
+    if (!state.openDropdown) return;
+
+    const isModal = state.openDropdown.hasAttribute('data-modal-dropdown');
+    const { menu } = getDropdownElements(state.openDropdown, isModal);
+    if (!menu) return;
+
+    const focusableElements = menu.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+    const activeElement = document.activeElement as HTMLElement;
+
+    if (keyboardEvent.key === 'ArrowDown') {
+      e.preventDefault();
+      if (activeElement === state.openDropdown.querySelector(SELECTORS.TOGGLE)) {
+        firstElement?.focus();
+      } else {
+        const currentIndex = Array.from(focusableElements).indexOf(activeElement);
+        const nextIndex = currentIndex < focusableElements.length - 1 ? currentIndex + 1 : 0;
+        focusableElements[nextIndex]?.focus();
+      }
+    } else if (keyboardEvent.key === 'ArrowUp') {
+      e.preventDefault();
+      if (activeElement === state.openDropdown.querySelector(SELECTORS.TOGGLE)) {
+        lastElement?.focus();
+      } else {
+        const currentIndex = Array.from(focusableElements).indexOf(activeElement);
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : focusableElements.length - 1;
+        focusableElements[prevIndex]?.focus();
+      }
+    } else if (keyboardEvent.key === 'Home') {
+      e.preventDefault();
+      firstElement?.focus();
+    } else if (keyboardEvent.key === 'End') {
+      e.preventDefault();
+      lastElement?.focus();
+    } else if (keyboardEvent.key === 'Tab' && !keyboardEvent.shiftKey) {
+      if (activeElement === lastElement) {
+        e.preventDefault();
+        closeDropdown(state.openDropdown);
+        const nextFocusable = document.querySelector<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        nextFocusable?.focus();
+      }
+    } else if (keyboardEvent.key === 'Tab' && keyboardEvent.shiftKey) {
+      if (activeElement === firstElement) {
+        e.preventDefault();
+        closeDropdown(state.openDropdown);
+        state.openDropdown.querySelector<HTMLElement>(SELECTORS.TOGGLE)?.focus();
+      }
     }
   });
 }

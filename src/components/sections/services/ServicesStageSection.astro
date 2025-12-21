@@ -1,13 +1,13 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "../../layouts/SectionContainer.astro";
-import HighlightCard from "../../ui/HighlightCard.astro";
-import ServiceCard from "../../ui/ServiceCard.astro";
-import HighlightText from "../../ui/HighlightText.astro";
-import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
-import SectionHeader from "../../ui/SectionHeader.astro";
-import Carousel from "../../ui/Carousel.astro";
-import { createUrl } from "../../../utils/url";
+import SectionContainer from '@/components/layouts/SectionContainer.astro';
+import HighlightCard from '@/components/ui/HighlightCard.astro';
+import ServiceCard from '@/components/ui/ServiceCard.astro';
+import HighlightText from '@/components/ui/HighlightText.astro';
+import BackgroundDecorations from '@/components/ui/BackgroundDecorations.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import Carousel from '@/components/ui/Carousel.astro';
+import { createUrl } from '@/utils/url";
 
 interface Props {
   content: {
@@ -197,10 +197,11 @@ const serviceIcons = [
 </style>
 
 <script>
-  import { setupCarouselSection } from "../../../scripts/sections/utils/carouselUtils";
+  import { setupCarouselSection } from '@/scripts/sections/utils/carouselUtils";
   setupCarouselSection({
     containerId: "services-carousel-container",
     dotSelector: ".services-carousel-dot",
     breakpoint: 1024,
   });
 </script>
+

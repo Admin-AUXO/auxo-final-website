@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "./BaseLayout.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export interface Props {
   title: string;
@@ -18,8 +18,9 @@ const { title, description, serviceName } = Astro.props;
   <slot name="cta" />
 
   <script>
-    import { setupServicePageAnimations } from "../scripts/sections/services/servicePage";
-    import { setupSectionInit } from "../scripts/sections/utils/initUtils";
+    import { setupServicePageAnimations } from "@/scripts/sections/services/servicePage";
+    import { setupSectionInit } from "@/scripts/sections/utils/initUtils";
     setupSectionInit(setupServicePageAnimations);
   </script>
 </BaseLayout>
+

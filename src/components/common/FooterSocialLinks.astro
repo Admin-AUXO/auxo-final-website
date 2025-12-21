@@ -1,6 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import { getSiteConfigData } from "../../lib/sanity/siteConfig";
+import { getSiteConfigData } from "@/lib/sanity/siteConfig";
 
 export interface Props {
   size?: "sm" | "lg";
@@ -51,3 +51,4 @@ const config = sizeConfig[size];
     ))}
   </div>
 </div>
+

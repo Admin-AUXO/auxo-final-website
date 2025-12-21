@@ -57,7 +57,10 @@ export function lockScroll(): void {
 
 export function unlockScroll(): void {
   const scrollY = document.body.getAttribute('data-scroll-y');
-  if (scrollY) {
+  if (scrollY && window.lenis) {
+    window.lenis.scrollTo(parseInt(scrollY, 10), { immediate: true });
+    document.body.removeAttribute('data-scroll-y');
+  } else if (scrollY) {
     window.scrollTo(0, parseInt(scrollY, 10));
     document.body.removeAttribute('data-scroll-y');
   }

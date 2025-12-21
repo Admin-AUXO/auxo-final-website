@@ -3,8 +3,8 @@ import { Icon } from "astro-icon/components";
 import Logo from "./Logo.astro";
 import FooterContactInfo from "./FooterContactInfo.astro";
 import FooterSocialLinks from "./FooterSocialLinks.astro";
-import { getFooterContent } from "../../lib/sanity/data";
-import { getBaseUrl, createUrl } from "../../utils/url";
+import { getFooterContent } from "@/lib/sanity/data";
+import { getBaseUrl, createUrl } from "@/utils/url";
 
 const base = getBaseUrl();
 const currentYear = new Date().getFullYear();
@@ -126,3 +126,4 @@ const footerSections = sections.map(({ _key, ...section }) => ({
     </div>
   </div>
 </footer>
+

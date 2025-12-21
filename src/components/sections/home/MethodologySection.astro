@@ -1,10 +1,10 @@
 ---
 import { Icon } from "astro-icon/components";
-import MethodologyStep from "../../ui/MethodologyStep.astro";
-import SectionContainer from "../../layouts/SectionContainer.astro";
-import SectionHeader from "../../ui/SectionHeader.astro";
-import type { HomepageContent } from "../../../data/content/homepage";
-import { createUrl } from "../../../utils/url";
+import MethodologyStep from '@/components/ui/MethodologyStep.astro';
+import SectionContainer from '@/components/layouts/SectionContainer.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import type { HomepageContent } from '@/data/content/homepage';
+import { createUrl } from '@/utils/url';
 
 interface Props {
   content: HomepageContent["methodology"];
@@ -84,4 +84,5 @@ const { content } = Astro.props;
     </div>
   </div>
 </SectionContainer>
+
 

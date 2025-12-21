@@ -24,6 +24,12 @@ export function initScrollAnimations(): void {
     anchorPlacement: 'top-bottom',
   });
 
+  if (window.lenis) {
+    window.lenis.on('scroll', () => {
+      AOS.refresh();
+    });
+  }
+
   let lastPath = window.location.pathname;
   document.addEventListener('astro:page-load', () => {
     const currentPath = window.location.pathname;

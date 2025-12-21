@@ -1,5 +1,5 @@
 ---
-import { getSiteConfigData } from "../../lib/sanity/siteConfig";
+import { getSiteConfigData } from "@/lib/sanity/siteConfig";
 
 export interface Props {
   email?: string;
@@ -21,3 +21,4 @@ const {
   <strong>Email:</strong> <a href={`mailto:${email}`}>{email}</a><br />
   <strong>Address:</strong> {siteData.address.street}, {siteData.address.city}, {siteData.address.country}
 </p>
+

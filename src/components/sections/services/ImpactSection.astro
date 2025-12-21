@@ -1,10 +1,10 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "../../layouts/SectionContainer.astro";
-import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
-import SectionHeader from "../../ui/SectionHeader.astro";
-import HighlightText from "../../ui/HighlightText.astro";
-import Carousel from "../../ui/Carousel.astro";
+import SectionContainer from '@/components/layouts/SectionContainer.astro';
+import BackgroundDecorations from '@/components/ui/BackgroundDecorations.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import HighlightText from '@/components/ui/HighlightText.astro';
+import Carousel from '@/components/ui/Carousel.astro';
 
 interface Props {
   content: {
@@ -122,7 +122,7 @@ const { content } = Astro.props;
 </SectionContainer>
 
 <script>
-  import { autoInitCarousels } from "../../../scripts/sections/autoInit";
+  import { autoInitCarousels } from '@/scripts/sections/autoInit";
   autoInitCarousels();
   
   function randomizeIndustries() {
@@ -161,3 +161,4 @@ const { content } = Astro.props;
     setTimeout(randomizeIndustries, 200);
   }
 </script>
+

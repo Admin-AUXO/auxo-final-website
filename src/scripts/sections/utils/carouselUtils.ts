@@ -1,6 +1,6 @@
-import { EmblaCarouselWrapper, type EmblaCarouselOptions } from "../../animations";
+import { EmblaCarouselWrapper, type EmblaCarouselOptions } from "@/scripts/animations";
 import { setupSectionInit } from "./initUtils";
-import { observeOnce } from "../../utils/observers";
+import { observeOnce } from "@/scripts/utils/observers";
 
 const DEFAULT_RESIZE_DEBOUNCE_DELAY = 250;
 
@@ -18,6 +18,10 @@ interface CarouselState {
   resizeHandler: (() => void) | null;
   resizeTimeout: NodeJS.Timeout | null;
   observer: ResizeObserver | null;
+}
+
+function shouldActivateCarousel(activateOnDesktop: boolean, breakpoint: number): boolean {
+  return activateOnDesktop ? window.innerWidth >= breakpoint : window.innerWidth < breakpoint;
 }
 
 function createCarouselManager(config: CarouselConfig) {
@@ -53,11 +57,7 @@ function createCarouselManager(config: CarouselConfig) {
   }
 
   function init(): void {
-    const shouldActivate = activateOnDesktop
-      ? window.innerWidth >= breakpoint
-      : window.innerWidth < breakpoint;
-
-    if (!shouldActivate) {
+    if (!shouldActivateCarousel(activateOnDesktop, breakpoint)) {
       cleanup();
       return;
     }
@@ -67,8 +67,7 @@ function createCarouselManager(config: CarouselConfig) {
 
     if (!container || dots.length === 0) {
       if (import.meta.env.DEV) {
-        if (!container) console.warn(`Carousel container not found: ${containerId}`);
-        if (dots.length === 0) console.warn(`Carousel dots not found: ${dotSelector}`);
+        console.warn(!container ? `Carousel container not found: ${containerId}` : `Carousel dots not found: ${dotSelector}`);
       }
       return;
     }

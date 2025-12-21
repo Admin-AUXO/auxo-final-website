@@ -11,17 +11,15 @@ export interface Props {
   variant?: "grid" | "carousel";
 }
 
-const {
-  icon,
-  title,
-  description,
-  metric,
-  index = 0,
-  variant = "grid",
-} = Astro.props;
+const { icon, title, description, metric, index = 0, variant = "grid" } = Astro.props;
 
-const iconSize = variant === "carousel" ? "w-6 h-6" : "w-7 h-7 sm:w-8 sm:h-8";
-const textAlign = variant === "carousel" ? "text-center" : "";
+const isCarousel = variant === "carousel";
+const iconConfig = {
+  carousel: { container: "w-10 h-10 sm:w-11 sm:h-11", icon: "w-5 h-5 sm:w-5.5 sm:h-5.5" },
+  grid: { container: "w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16", icon: "w-7 h-7 sm:w-8 sm:h-8" },
+};
+const iconSizeConfig = iconConfig[variant];
+const textAlignClass = isCarousel ? "text-center" : "";
 ---
 
 <Card
@@ -34,37 +32,28 @@ const textAlign = variant === "carousel" ? "text-center" : "";
   data-aos-delay={variant === "grid" ? index * 100 : 0}
   data-aos-easing="ease-out-cubic"
 >
-  {variant === "grid" && (
+  {!isCarousel && (
     <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
   )}
 
   <div class="relative z-10 flex flex-col h-full">
-    {variant === "carousel" ? (
+    {isCarousel ? (
       <>
         <div class="flex items-center justify-between mb-2.5">
           <h3 class="font-bold text-theme-primary leading-tight transition-colors duration-300 font-display">
             {title}
           </h3>
-          <div class="relative w-10 h-10 sm:w-11 sm:h-11 bg-gradient-to-br from-accent-green/15 to-accent-green/5 rounded-xl flex items-center justify-center border border-accent-green/20 group-hover:border-accent-green/50 group-hover:from-accent-green/25 group-hover:to-accent-green/10 group-hover:shadow-md group-hover:shadow-accent-green/20 transition-all duration-500 flex-shrink-0 ml-3">
-            <Icon
-              name={icon}
-              class="w-5 h-5 sm:w-5.5 sm:h-5.5 text-accent-green transition-transform duration-500"
-            />
+          <div class={`relative ${iconSizeConfig.container} bg-gradient-to-br from-accent-green/15 to-accent-green/5 rounded-xl flex items-center justify-center border border-accent-green/20 group-hover:border-accent-green/50 group-hover:from-accent-green/25 group-hover:to-accent-green/10 group-hover:shadow-md group-hover:shadow-accent-green/20 transition-all duration-500 flex-shrink-0 ml-3`}>
+            <Icon name={icon} class={`${iconSizeConfig.icon} text-accent-green transition-transform duration-500`} />
           </div>
         </div>
-
-        <p class="mb-4 text-body-lg text-theme-secondary leading-relaxed flex-1 font-body">
-          {description}
-        </p>
-
+        <p class="mb-4 text-body-lg text-theme-secondary leading-relaxed flex-1 font-body">{description}</p>
         <div class="mt-auto pt-4 sm:pt-5 border-t border-accent-green/10 group-hover:border-accent-green/30 transition-colors duration-500">
-          <div class="relative">
-            <div class="metric relative bg-gradient-to-br from-accent-green/5 via-accent-green/3 to-transparent rounded-lg px-3 py-2.5 sm:px-4 sm:py-3 border border-accent-green/15 group-hover:border-accent-green/40 group-hover:from-accent-green/10 group-hover:via-accent-green/5 group-hover:shadow-md group-hover:shadow-accent-green/10 transition-all duration-500">
-              <div class={`${textAlign || "text-left"}`}>
-                <span class="font-mono font-bold text-xs sm:text-sm text-accent-green whitespace-pre-line leading-tight block">
-                  {metric}
-                </span>
-              </div>
+          <div class="metric relative bg-gradient-to-br from-accent-green/5 via-accent-green/3 to-transparent rounded-lg px-3 py-2.5 sm:px-4 sm:py-3 border border-accent-green/15 group-hover:border-accent-green/40 group-hover:from-accent-green/10 group-hover:via-accent-green/5 group-hover:shadow-md group-hover:shadow-accent-green/10 transition-all duration-500">
+            <div class={textAlignClass || "text-left"}>
+              <span class="font-mono font-bold text-xs sm:text-sm text-accent-green whitespace-pre-line leading-tight block">
+                {metric}
+              </span>
             </div>
           </div>
         </div>
@@ -72,28 +61,21 @@ const textAlign = variant === "carousel" ? "text-center" : "";
     ) : (
       <>
         <div class="mb-4 sm:mb-5 lg:mb-6">
-          <div class="relative w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-accent-green/15 to-accent-green/5 rounded-xl flex items-center justify-center border border-accent-green/20 group-hover:border-accent-green/50 group-hover:from-accent-green/25 group-hover:to-accent-green/10 group-hover:shadow-lg group-hover:shadow-accent-green/25 transition-all duration-500 group-hover:scale-105">
-            <Icon
-              name={icon}
-              class="w-7 h-7 sm:w-8 sm:h-8 text-accent-green transition-transform duration-500"
-            />
+          <div class={`relative ${iconSizeConfig.container} bg-gradient-to-br from-accent-green/15 to-accent-green/5 rounded-xl flex items-center justify-center border border-accent-green/20 group-hover:border-accent-green/50 group-hover:from-accent-green/25 group-hover:to-accent-green/10 group-hover:shadow-lg group-hover:shadow-accent-green/25 transition-all duration-500 group-hover:scale-105`}>
+            <Icon name={icon} class={`${iconSizeConfig.icon} text-accent-green transition-transform duration-500`} />
           </div>
         </div>
-
         <h3 class="text-lg sm:text-xl lg:text-2xl mb-3 sm:mb-4 lg:mb-5 font-bold text-theme-primary leading-tight transition-colors duration-300 font-display group-hover:text-accent-green">
           {title}
         </h3>
-
         <p class="text-body-lg sm:text-body-xl mb-4 sm:mb-5 lg:mb-6 xl:mb-8 text-theme-secondary leading-relaxed flex-1 font-body">
           {description}
         </p>
-
         <div class="mt-auto pt-5 sm:pt-6 lg:pt-8 border-t border-accent-green/10 group-hover:border-accent-green/30 transition-colors duration-500">
           <div class="relative">
             <div class="absolute inset-0 bg-accent-green/5 rounded-lg blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
             <div class="metric relative bg-gradient-to-br from-accent-green/5 via-accent-green/3 to-transparent rounded-lg px-4 sm:px-5 py-3 sm:py-4 border border-accent-green/15 group-hover:border-accent-green/40 group-hover:from-accent-green/10 group-hover:via-accent-green/5 group-hover:shadow-lg group-hover:shadow-accent-green/20 transition-all duration-500">
-              <div class={`${textAlign || "text-left"}`}>
+              <div class={textAlignClass || "text-left"}>
                 <span class="font-mono font-bold text-sm sm:text-base text-accent-green whitespace-pre-line leading-tight block">
                   {metric}
                 </span>
@@ -105,3 +87,4 @@ const textAlign = variant === "carousel" ? "text-center" : "";
     )}
   </div>
 </Card>
+

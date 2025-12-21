@@ -1,10 +1,10 @@
 ---
-import SectionContainer from "../../layouts/SectionContainer.astro";
-import CapabilityCard from "../../ui/CapabilityCard.astro";
-import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
-import SectionHeader from "../../ui/SectionHeader.astro";
-import Carousel from "../../ui/Carousel.astro";
-import type { HomepageContent } from "../../../data/content/homepage";
+import SectionContainer from '@/components/layouts/SectionContainer.astro';
+import CapabilityCard from '@/components/ui/CapabilityCard.astro';
+import BackgroundDecorations from '@/components/ui/BackgroundDecorations.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import Carousel from '@/components/ui/Carousel.astro';
+import type { HomepageContent } from '@/data/content/homepage';
 
 interface Props {
   content: HomepageContent["capabilities"];
@@ -93,7 +93,8 @@ const { content } = Astro.props;
 </SectionContainer>
 
 <script>
-  import { autoInitCarousels } from "../../../scripts/sections/autoInit";
+  import { autoInitCarousels } from '@/scripts/sections/autoInit';
   autoInitCarousels();
 </script>
+
 

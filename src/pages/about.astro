@@ -1,14 +1,14 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import HeroSection from "../components/sections/about/HeroSection.astro";
-import MissionVisionSection from "../components/sections/about/MissionVisionSection.astro";
-import PurposeSection from "../components/sections/about/PurposeSection.astro";
-import ApproachSection from "../components/sections/about/ApproachSection.astro";
-import TeamSection from "../components/sections/about/TeamSection.astro";
-import PartnershipSection from "../components/sections/about/PartnershipSection.astro";
-import GlobalSection from "../components/sections/about/GlobalSection.astro";
-import AboutCta from "../components/sections/about/AboutCta.astro";
-import { getAboutContent } from "../lib/sanity/data";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import HeroSection from "@/components/sections/about/HeroSection.astro";
+import MissionVisionSection from "@/components/sections/about/MissionVisionSection.astro";
+import PurposeSection from "@/components/sections/about/PurposeSection.astro";
+import ApproachSection from "@/components/sections/about/ApproachSection.astro";
+import TeamSection from "@/components/sections/about/TeamSection.astro";
+import PartnershipSection from "@/components/sections/about/PartnershipSection.astro";
+import GlobalSection from "@/components/sections/about/GlobalSection.astro";
+import AboutCta from "@/components/sections/about/AboutCta.astro";
+import { getAboutContent } from "@/lib/sanity/data";
 
 const aboutContent = await getAboutContent();
 ---
@@ -28,8 +28,9 @@ const aboutContent = await getAboutContent();
   <AboutCta content={aboutContent.cta} />
 
   <script>
-    import { setupPageAnimations, setupSectionInit } from "../scripts/sections/utils/initUtils";
+    import { setupPageAnimations, setupSectionInit } from "@/scripts/sections/utils/initUtils";
     setupSectionInit(setupPageAnimations);
   </script>
 </BaseLayout>
+
 

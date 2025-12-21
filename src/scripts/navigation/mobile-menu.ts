@@ -1,9 +1,11 @@
+import { DragGesture } from '@use-gesture/vanilla';
 import { state, addTrackedListener } from './state';
 import { getNavElements, resetDropdownStyles, findDropdownContent, lockScroll, unlockScroll } from './utils';
 import { DROPDOWN_ANIMATION_DURATION, DROPDOWN_CLOSE_DELAY } from './types';
 import { createFocusTrap } from 'focus-trap';
 
 let focusTrap: ReturnType<typeof createFocusTrap> | null = null;
+let swipeGesture: DragGesture | null = null;
 
 function calculateDropdownHeight(content: HTMLElement): number {
   const styles = {
@@ -63,15 +65,16 @@ function animateDropdownOpen(content: HTMLElement, icon: Element | null, buttonE
         if (wrapper) {
           const wrapperRect = wrapper.getBoundingClientRect();
           const menuRect = menuContent.getBoundingClientRect();
+          const padding = 24;
           
-          if (wrapperRect.top < menuRect.top) {
-            const scrollAmount = menuContent.scrollTop + (wrapperRect.top - menuRect.top) - 16;
+          if (wrapperRect.top < menuRect.top + padding) {
+            const scrollAmount = menuContent.scrollTop + (wrapperRect.top - menuRect.top) - padding;
             menuContent.scrollTo({
               top: Math.max(0, scrollAmount),
               behavior: 'smooth'
             });
-          } else if (wrapperRect.bottom > menuRect.bottom) {
-            const scrollAmount = menuContent.scrollTop + (wrapperRect.bottom - menuRect.bottom) + 16;
+          } else if (wrapperRect.bottom > menuRect.bottom - padding) {
+            const scrollAmount = menuContent.scrollTop + (wrapperRect.bottom - menuRect.bottom) + padding;
             menuContent.scrollTo({
               top: Math.min(menuContent.scrollHeight - menuContent.clientHeight, scrollAmount),
               behavior: 'smooth'
@@ -79,7 +82,7 @@ function animateDropdownOpen(content: HTMLElement, icon: Element | null, buttonE
           }
         }
       }
-    }, 200);
+    }, 150);
     
     setTimeout(() => resetDropdownStyles(content), DROPDOWN_ANIMATION_DURATION);
   });
@@ -168,6 +171,17 @@ export function closeMobileMenu(): void {
   state.isMobileMenuOpen = false;
   deactivateFocusTrap();
   
+  if (swipeGesture) {
+    swipeGesture.destroy();
+    swipeGesture = null;
+  }
+  
+  const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
+  if (menuContent) {
+    menuContent.removeEventListener('scroll', updateScrollIndicators);
+    menuContent.classList.remove('scrollable-top', 'scrollable-bottom');
+  }
+  
   void mobileMenu.offsetHeight;
   mobileMenu.classList.remove('is-open');
   mobileMenu.setAttribute('aria-hidden', 'true');
@@ -192,6 +206,19 @@ function setupLinkHandlers(): void {
   mobileMenu.querySelectorAll('a').forEach(link => {
     addTrackedListener(link, 'click', closeMobileMenu);
   });
+}
+
+function updateScrollIndicators(): void {
+  const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
+  if (!menuContent) return;
+
+  const scrollTop = menuContent.scrollTop;
+  const scrollHeight = menuContent.scrollHeight;
+  const clientHeight = menuContent.clientHeight;
+  const threshold = 10;
+
+  menuContent.classList.toggle('scrollable-top', scrollTop > threshold);
+  menuContent.classList.toggle('scrollable-bottom', scrollTop + clientHeight < scrollHeight - threshold);
 }
 
 function openMobileMenu(): void {
@@ -225,13 +252,20 @@ function openMobileMenu(): void {
     try {
       focusTrap?.activate();
     } catch {
-      // Focus trap activation may fail in some edge cases, silently continue
+      // Focus trap activation failed
     }
     
     setupMobileDropdowns();
     setupLinkHandlers();
     setupCloseButtonHandler();
     setupDropdownKeyboardNavigation();
+    setupSwipeHandlers();
+    
+    const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
+    if (menuContent) {
+      menuContent.addEventListener('scroll', updateScrollIndicators, { passive: true });
+      updateScrollIndicators();
+    }
   });
 }
 
@@ -265,6 +299,41 @@ function handleOutsideClick(e: Event): void {
   if (mobileMenu.classList.contains('is-open') && mobileMenuOverlay?.contains(target)) {
     closeMobileMenu();
   }
+}
+
+const SWIPE_DISTANCE_THRESHOLD = 100;
+const SWIPE_VELOCITY_THRESHOLD = 0.3;
+
+function setupSwipeHandlers(): void {
+  const { mobileMenu } = getNavElements();
+  if (!mobileMenu) return;
+
+  if (swipeGesture) {
+    swipeGesture.destroy();
+    swipeGesture = null;
+  }
+
+  swipeGesture = new DragGesture(
+    mobileMenu,
+    ({ active, movement: [mx, my], direction: [dx, dy], velocity: [vx, vy] }) => {
+      if (Math.abs(dx) < Math.abs(dy)) return;
+      
+      if (!active && dx > 0) {
+        const swipeDistance = Math.abs(mx);
+        const swipeVelocity = Math.abs(vx);
+        
+        if (swipeDistance > SWIPE_DISTANCE_THRESHOLD || swipeVelocity > SWIPE_VELOCITY_THRESHOLD) {
+          closeMobileMenu();
+        }
+      }
+    },
+    {
+      axis: 'x',
+      threshold: 10,
+      filterTaps: true,
+      pointer: { touch: true },
+    }
+  );
 }
 
 function handleKeyboard(e: Event): void {

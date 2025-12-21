@@ -1,12 +1,12 @@
 ---
-import ServiceLayout from "../../layouts/ServiceLayout.astro";
-import ServiceHeroSection from "../../components/sections/services/ServiceHeroSection.astro";
-import ServiceOverviewSection from "../../components/sections/services/ServiceOverviewSection.astro";
-import ServiceBenefitsSection from "../../components/sections/services/ServiceBenefitsSection.astro";
-import ServiceProcessSection from "../../components/sections/services/ServiceProcessSection.astro";
-import ServiceOutcomesSection from "../../components/sections/services/ServiceOutcomesSection.astro";
-import ServiceCtaSection from "../../components/sections/services/ServiceCtaSection.astro";
-import { getServicesContent, getServiceDetailBySlug } from "../../lib/sanity/data";
+import ServiceLayout from "@/layouts/ServiceLayout.astro";
+import ServiceHeroSection from "@/components/sections/services/ServiceHeroSection.astro";
+import ServiceOverviewSection from "@/components/sections/services/ServiceOverviewSection.astro";
+import ServiceBenefitsSection from "@/components/sections/services/ServiceBenefitsSection.astro";
+import ServiceProcessSection from "@/components/sections/services/ServiceProcessSection.astro";
+import ServiceOutcomesSection from "@/components/sections/services/ServiceOutcomesSection.astro";
+import ServiceCtaSection from "@/components/sections/services/ServiceCtaSection.astro";
+import { getServicesContent, getServiceDetailBySlug } from "@/lib/sanity/data";
 
 export async function getStaticPaths() {
   const servicesContent = await getServicesContent();

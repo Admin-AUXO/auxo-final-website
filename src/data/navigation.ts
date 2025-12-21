@@ -1,4 +1,4 @@
-import { createUrl } from '../utils/url';
+import { createUrl } from '@/utils/url';
 
 export interface DropdownItem {
   name: string;

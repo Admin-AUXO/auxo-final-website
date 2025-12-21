@@ -1,15 +1,19 @@
 ---
-import ThemeToggle from "../ui/ThemeToggle.astro";
+import ThemeToggle from "@/components/ui/ThemeToggle.astro";
 import Logo from "./Logo.astro";
-import NavLink from "../navigation/NavLink.astro";
-import NavDropdown from "../navigation/NavDropdown.astro";
-import { getNavigationContent } from "../../lib/sanity/data";
-import { getBaseUrl, createUrl } from "../../utils/url";
+import NavLink from "@/components/navigation/NavLink.astro";
+import NavDropdown from "@/components/navigation/NavDropdown.astro";
+import { getNavigationContent } from "@/lib/sanity/data";
+import { getSiteConfigData } from "@/lib/sanity/siteConfig";
+import { getBaseUrl, createUrl } from "@/utils/url";
 
 const base = getBaseUrl();
 const contactUrl = createUrl("contact");
 
-const { items } = await getNavigationContent();
+const [{ items }, siteData] = await Promise.all([
+  getNavigationContent(),
+  getSiteConfigData(),
+]);
 const navItems = items.map(({ _key, ...item }) => ({
   ...item,
   dropdown: item.dropdown?.map(({ _key: dropKey, ...drop }) => drop),
@@ -138,7 +142,7 @@ const navItems = items.map(({ _key, ...item }) => ({
 
           <div class="text-center pt-5">
             <p class="text-sm text-theme-secondary">
-              Need help? <a href="mailto:hello@auxo.com" class="text-accent-green hover:underline font-medium transition-colors duration-fast">hello@auxo.com</a>
+              Need help? <a href={`mailto:${siteData.email}`} class="text-accent-green hover:underline font-medium transition-colors duration-fast">{siteData.email}</a>
             </p>
           </div>
         </div>
@@ -162,7 +166,7 @@ const navItems = items.map(({ _key, ...item }) => ({
 <div class="h-16 sm:h-18 lg:h-20"></div>
 
 <script>
-  import { initializeNavigationComponents } from "../../scripts/navigation/index";
+  import { initializeNavigationComponents } from "@/scripts/navigation/index";
   
   if (typeof window !== 'undefined') {
     requestAnimationFrame(() => {
@@ -176,3 +180,4 @@ const navItems = items.map(({ _key, ...item }) => ({
     });
   }
 </script>
+

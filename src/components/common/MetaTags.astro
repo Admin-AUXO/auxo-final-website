@@ -1,0 +1,71 @@
+---
+import { createAssetUrl } from '@/utils/url';
+
+export interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  siteName: string;
+  siteUrl: string;
+  themeColor: string;
+  canonicalUrl?: string;
+}
+
+const { 
+  title, 
+  description, 
+  ogImage = createAssetUrl('/og-image.svg'),
+  siteName,
+  siteUrl,
+  themeColor,
+  canonicalUrl 
+} = Astro.props;
+
+const finalCanonical = canonicalUrl || `${siteUrl}${Astro.url.pathname}`;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content={description} />
+<meta name="theme-color" content={themeColor} />
+<meta name="color-scheme" content="light dark" />
+<meta http-equiv="Permissions-Policy" content="fullscreen=(self), geolocation=(), microphone=(), camera=()" />
+<title>{title}</title>
+
+<link rel="icon" type="image/svg+xml" href={createAssetUrl("/favicon.svg")} />
+<link rel="alternate icon" href={createAssetUrl("/favicon.svg")} />
+<link rel="apple-touch-icon" href={createAssetUrl("/apple-touch-icon.svg")} />
+<link rel="manifest" href={createAssetUrl("/manifest.json")} />
+<meta name="msapplication-TileColor" content={themeColor} />
+<meta name="msapplication-config" content={createAssetUrl("/browserconfig.xml")} />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content={finalCanonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:site_name" content={siteName} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={finalCanonical} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap&subset=latin" as="style" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap&subset=latin" rel="stylesheet" media="print" onload="this.media='all'" />
+<noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap&subset=latin" rel="stylesheet" />
+</noscript>
+
+<link rel="preconnect" href="https://cdn.sanity.io" />
+<link rel="dns-prefetch" href="https://cdn.sanity.io" />
+<link rel="preconnect" href="https://calendar.app.google" crossorigin />
+<link rel="dns-prefetch" href="https://calendar.app.google" />
+<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+<link rel="canonical" href={finalCanonical} />
+

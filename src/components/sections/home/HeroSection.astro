@@ -1,10 +1,10 @@
 ---
 import { Icon } from "astro-icon/components";
-import Button from "../../ui/Button.astro";
-import HeroLayout from "../../ui/HeroLayout.astro";
-import type { HomepageContent } from "../../../data/content/homepage";
-import { createUrl } from "../../../utils/url";
-import { shouldOpenCalendly } from "../../../utils/ctaRules";
+import Button from '@/components/ui/Button.astro';
+import HeroLayout from '@/components/ui/HeroLayout.astro';
+import type { HomepageContent } from '@/data/content/homepage";
+import { createUrl } from '@/utils/url";
+import { shouldOpenCalendly } from '@/utils/ctaRules";
 
 interface Props {
   content: HomepageContent["hero"];
@@ -71,4 +71,5 @@ const cta = {
     </div>
   </div>
 </HeroLayout>
+
 

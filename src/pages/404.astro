@@ -1,9 +1,9 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Button from "../components/ui/Button.astro";
-import BackgroundDecorations from "../components/ui/BackgroundDecorations.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Button from "@/components/ui/Button.astro";
+import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import { Icon } from "astro-icon/components";
-import { createUrl } from "../utils/url";
+import { createUrl } from "@/utils/url";
 ---
 
 <BaseLayout title="404 - Page Not Found | AUXO Data Labs" description="The page you're looking for doesn't exist." showParticles={false}>
@@ -61,7 +61,8 @@ import { createUrl } from "../utils/url";
 </BaseLayout>
 
 <script>
-  import { initSmoothScroll } from "../scripts/smoothScroll";
+  import { initSmoothScroll } from "@/scripts/smoothScroll";
   initSmoothScroll();
 </script>
+
 

@@ -7,19 +7,23 @@ export function initSmoothScroll() {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) return;
 
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  
   lenis = new Lenis({
-    duration: 1.5,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    duration: isMobile ? 1.0 : 0.9,
+    easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
     smoothWheel: true,
-    wheelMultiplier: 0.8,
-    touchMultiplier: 1.5,
+    wheelMultiplier: isMobile ? 1.1 : 1.05,
+    touchMultiplier: isMobile ? 2.0 : 1.8,
     infinite: false,
-    lerp: 0.1,
+    lerp: isMobile ? 0.12 : 0.1,
     syncTouch: true,
-    syncTouchLerp: 0.075,
-  });
+    syncTouchLerp: isMobile ? 0.1 : 0.08,
+    touchInertiaMultiplier: 35,
+    touchInertiaDeltaMultiplier: 0.5,
+  } as any);
 
   function raf(time: number) {
     lenis?.raf(time);
@@ -38,7 +42,7 @@ export function initSmoothScroll() {
       const target = document.querySelector(href);
       if (target && lenis && target instanceof HTMLElement) {
         e.preventDefault();
-        lenis.scrollTo(target, { offset: -80, duration: 1.5 });
+        lenis.scrollTo(target, { offset: -80, duration: 1.2 });
       }
     });
   });
@@ -66,7 +70,7 @@ export function scrollToElement(target: string | HTMLElement, options?: { offset
   if (!lenis) return;
   lenis.scrollTo(target, {
     offset: options?.offset ?? 0,
-    duration: options?.duration ?? 1.2,
+    duration: options?.duration ?? 1.0,
   });
 }
 

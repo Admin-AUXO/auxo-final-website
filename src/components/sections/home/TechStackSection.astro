@@ -1,8 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "../../layouts/SectionContainer.astro";
-import SectionHeader from "../../ui/SectionHeader.astro";
-import type { HomepageContent } from "../../../data/content/homepage";
+import SectionContainer from '@/components/layouts/SectionContainer.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import type { HomepageContent } from '@/data/content/homepage';
 
 interface Props {
   content: HomepageContent["techStack"];
@@ -129,7 +129,8 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
 </style>
 
 <script>
-  import { initTechStackSection } from "../../../scripts/sections/home/techStackSection";
-  import { setupSectionInit } from "../../../scripts/sections/utils/initUtils";
+  import { initTechStackSection } from '@/scripts/sections/home/techStackSection';
+  import { setupSectionInit } from '@/scripts/sections/utils/initUtils';
   setupSectionInit(initTechStackSection);
 </script>
+

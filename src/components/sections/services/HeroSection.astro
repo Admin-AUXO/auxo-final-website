@@ -1,10 +1,10 @@
 ---
 import { Icon } from "astro-icon/components";
-import Button from "../../ui/Button.astro";
-import HighlightText from "../../ui/HighlightText.astro";
-import HeroLayout from "../../ui/HeroLayout.astro";
-import { createUrl } from "../../../utils/url";
-import { shouldOpenCalendly } from "../../../utils/ctaRules";
+import Button from '@/components/ui/Button.astro';
+import HighlightText from '@/components/ui/HighlightText.astro';
+import HeroLayout from '@/components/ui/HeroLayout.astro';
+import { createUrl } from '@/utils/url";
+import { shouldOpenCalendly } from '@/utils/ctaRules";
 
 interface Props {
   content: {
@@ -95,4 +95,5 @@ const shouldOpenCalendlyBtn = content.ctaText ? shouldOpenCalendly({
     </div>
   )}
 </HeroLayout>
+
 

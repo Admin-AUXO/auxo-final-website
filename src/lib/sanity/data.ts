@@ -10,12 +10,12 @@ import {
   footerQuery,
   navigationQuery,
 } from './queries';
-import type { HomepageContent } from '../../data/content/homepage';
-import type { ServicesContent, ServiceDetail } from '../../data/content/services/types';
-import type { AboutContent } from '../../data/content/about';
-import type { SiteConfig } from '../../data/content/siteConfig';
-import type { FooterContent } from '../../data/content/footer';
-import type { NavigationContent } from '../../data/content/navigation';
+import type { HomepageContent } from '@/data/content/homepage';
+import type { ServicesContent, ServiceDetail } from '@/data/content/services/types';
+import type { AboutContent } from '@/data/content/about';
+import type { SiteConfig } from '@/data/content/siteConfig';
+import type { FooterContent } from '@/data/content/footer';
+import type { NavigationContent } from '@/data/content/navigation';
 
 const fetchWithError = async <T>(
   query: string,

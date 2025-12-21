@@ -1,8 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "../../layouts/SectionContainer.astro";
-import BackgroundDecorations from "../../ui/BackgroundDecorations.astro";
-import Carousel from "../../ui/Carousel.astro";
+import SectionContainer from '@/components/layouts/SectionContainer.astro';
+import BackgroundDecorations from '@/components/ui/BackgroundDecorations.astro';
+import Carousel from '@/components/ui/Carousel.astro';
 
 interface Props {
   content: {
@@ -200,7 +200,8 @@ const metrics = [
 </SectionContainer>
 
 <script>
-  import { autoInitCarousels } from "../../../scripts/sections/autoInit";
+  import { autoInitCarousels } from '@/scripts/sections/autoInit';
   autoInitCarousels();
 </script>
+
 

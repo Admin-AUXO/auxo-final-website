@@ -7,6 +7,13 @@ function updateNavState(nav: HTMLElement, scrollTop: number): void {
   nav.classList.toggle('nav-scrolled', shouldBeScrolled);
 }
 
+function getScrollTop(): number {
+  if (window.lenis) {
+    return window.lenis.scroll;
+  }
+  return window.pageYOffset || document.documentElement.scrollTop;
+}
+
 export function setupScrollEffects(): void {
   if (typeof window === 'undefined') return;
   
@@ -14,30 +21,36 @@ export function setupScrollEffects(): void {
     const { nav } = getNavElements();
     if (!nav) return;
 
-    const navElement = nav;
-
     function handleScroll(): void {
-      if (state.isScrolling) return;
+      if (state.isScrolling || !nav) return;
       state.isScrolling = true;
       
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop = getScrollTop();
       state.lastScrollTop = scrollTop;
 
       requestAnimationFrame(() => {
-        updateNavState(navElement, scrollTop);
+        if (nav) {
+          updateNavState(nav, scrollTop);
+        }
         state.isScrolling = false;
       });
     }
 
-    addTrackedListener(window, 'scroll', handleScroll, { passive: true });
+    if (window.lenis) {
+      window.lenis.on('scroll', handleScroll);
+    } else {
+      addTrackedListener(window, 'scroll', handleScroll, { passive: true });
+    }
     
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    updateNavState(navElement, scrollTop);
+    if (nav) {
+      updateNavState(nav, getScrollTop());
+    }
 
     document.addEventListener('themechange', () => {
       requestAnimationFrame(() => {
-        const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        updateNavState(navElement, currentScrollTop);
+        if (nav) {
+          updateNavState(nav, getScrollTop());
+        }
       });
     });
   } catch (error) {

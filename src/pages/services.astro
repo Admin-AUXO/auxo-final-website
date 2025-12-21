@@ -1,11 +1,11 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import HeroSection from "../components/sections/services/HeroSection.astro";
-import ServicesStageSection from "../components/sections/services/ServicesStageSection.astro";
-import ImpactSection from "../components/sections/services/ImpactSection.astro";
-import ModelsSection from "../components/sections/services/ModelsSection.astro";
-import ServicesCta from "../components/sections/services/ServicesCta.astro";
-import { getServicesContent } from "../lib/sanity/data";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import HeroSection from "@/components/sections/services/HeroSection.astro";
+import ServicesStageSection from "@/components/sections/services/ServicesStageSection.astro";
+import ImpactSection from "@/components/sections/services/ImpactSection.astro";
+import ModelsSection from "@/components/sections/services/ModelsSection.astro";
+import ServicesCta from "@/components/sections/services/ServicesCta.astro";
+import { getServicesContent } from "@/lib/sanity/data";
 
 const servicesContent = await getServicesContent();
 ---
@@ -22,8 +22,9 @@ const servicesContent = await getServicesContent();
   <ServicesCta content={servicesContent.cta} />
 
   <script>
-    import { setupPageAnimations, setupSectionInit } from "../scripts/sections/utils/initUtils";
+    import { setupPageAnimations, setupSectionInit } from "@/scripts/sections/utils/initUtils";
     setupSectionInit(setupPageAnimations);
   </script>
 </BaseLayout>
+
 

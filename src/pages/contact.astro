@@ -1,9 +1,9 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { getSiteConfigData } from "../lib/sanity/siteConfig";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getSiteConfigData } from "@/lib/sanity/siteConfig";
 import { Icon } from "astro-icon/components";
-import BackgroundDecorations from "../components/ui/BackgroundDecorations.astro";
-import ContactForm from "../components/forms/ContactForm.astro";
+import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
+import ContactForm from "@/components/forms/ContactForm.astro";
 
 const siteData = await getSiteConfigData();
 ---
@@ -107,10 +107,10 @@ const siteData = await getSiteConfigData();
 
 
 <script>
-  import { setupSectionInit } from "../scripts/sections/utils/initUtils";
-  import { refreshScrollAnimationsWithDelay } from "../scripts/scrollAnimations";
-  import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from "../scripts/forms/emailHandler";
-  import { initNotifications } from "../scripts/utils/notifications";
+  import { setupSectionInit } from "@/scripts/sections/utils/initUtils";
+  import { refreshScrollAnimationsWithDelay } from "@/scripts/scrollAnimations";
+  import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from "@/scripts/forms/emailHandler";
+  import { initNotifications } from "@/scripts/utils/notifications";
 
   const currentPath = window.location.pathname;
 
@@ -141,4 +141,5 @@ const siteData = await getSiteConfigData();
   initContactPage();
   setupSectionInit(refreshOnPageChange);
 </script>
+
 

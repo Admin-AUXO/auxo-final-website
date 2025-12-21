@@ -2,7 +2,7 @@
 ---
 
 <div id="calendar-modal" class="calendar-modal" role="dialog" aria-modal="true" aria-labelledby="calendar-modal-title" hidden>
-  <div class="calendar-modal-overlay"></div>
+  <div class="calendar-modal-overlay" data-calendar-overlay></div>
   <div class="calendar-modal-container">
     <div class="calendar-modal-header">
       <h2 id="calendar-modal-title" class="calendar-modal-title">Schedule a Meeting</h2>
@@ -18,16 +18,23 @@
         </svg>
       </button>
     </div>
-    <div class="calendar-modal-content">
+    <div class="calendar-modal-content" data-calendar-content>
+      <div class="calendar-loading" data-calendar-loading>
+        <div class="calendar-loading-spinner"></div>
+        <p class="calendar-loading-text">Loading calendar...</p>
+      </div>
+      <div class="calendar-scroll-indicator calendar-scroll-indicator-top" data-calendar-scroll-top aria-hidden="true"></div>
       <iframe
         id="calendar-iframe"
-        src="https://calendar.app.google/6jRXDXyftxSPkGKZ6"
+        src=""
         title="Google Calendar - Schedule a meeting"
         loading="lazy"
         allow="fullscreen"
         referrerpolicy="no-referrer-when-downgrade"
         class="calendar-iframe"
+        data-calendar-iframe
       ></iframe>
+      <div class="calendar-scroll-indicator calendar-scroll-indicator-bottom" data-calendar-scroll-bottom aria-hidden="true"></div>
     </div>
   </div>
 </div>
@@ -226,6 +233,48 @@
     height: 100% !important;
     overflow: hidden !important;
     z-index: 1 !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-behavior: smooth !important;
+  }
+
+  .calendar-loading {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: var(--bg-primary) !important;
+    z-index: 2 !important;
+    opacity: 1 !important;
+    transition: opacity 0.3s ease !important;
+  }
+
+  .calendar-loading[hidden] {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .calendar-loading-spinner {
+    width: 48px !important;
+    height: 48px !important;
+    border: 3px solid var(--accent-green-opacity-20) !important;
+    border-top-color: var(--accent-green) !important;
+    border-radius: 50% !important;
+    animation: calendar-spin 0.8s linear infinite !important;
+  }
+
+  @keyframes calendar-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .calendar-loading-text {
+    margin-top: 1rem !important;
+    color: var(--text-secondary) !important;
+    font-size: 0.875rem !important;
   }
 
   .calendar-iframe {
@@ -237,6 +286,47 @@
     border: none !important;
     background-color: var(--bg-primary) !important;
     z-index: 1 !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-behavior: smooth !important;
+    overscroll-behavior: contain !important;
+  }
+
+  .calendar-scroll-indicator {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 40px !important;
+    pointer-events: none !important;
+    z-index: 3 !important;
+    opacity: 0 !important;
+    transition: opacity 0.2s ease !important;
+    background: linear-gradient(
+      to bottom,
+      var(--bg-primary) 0%,
+      transparent 100%
+    ) !important;
+  }
+
+  .calendar-scroll-indicator-top {
+    top: 0 !important;
+    background: linear-gradient(
+      to bottom,
+      var(--bg-primary) 0%,
+      transparent 100%
+    ) !important;
+  }
+
+  .calendar-scroll-indicator-bottom {
+    bottom: 0 !important;
+    background: linear-gradient(
+      to top,
+      var(--bg-primary) 0%,
+      transparent 100%
+    ) !important;
+  }
+
+  .calendar-scroll-indicator.visible {
+    opacity: 1 !important;
   }
 
   .calendar-modal-container::after {
@@ -253,19 +343,40 @@
       linear-gradient(0deg, var(--accent-green-opacity-02) 0%, transparent 2%, transparent 98%, var(--accent-green-opacity-02) 100%) !important;
   }
 
+  @media (max-width: 768px) {
+    .calendar-modal-container {
+      border-radius: 0 !important;
+    }
+
+    .calendar-modal-header {
+      padding: 1rem 1.25rem !important;
+    }
+
+    .calendar-modal-title {
+      font-size: 1.125rem !important;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .calendar-modal {
-      transition: none;
+    .calendar-modal,
+    .calendar-loading,
+    .calendar-scroll-indicator {
+      transition: none !important;
     }
     
     .calendar-modal-title {
-      animation: none;
-      background: var(--text-primary);
-      -webkit-text-fill-color: var(--text-primary);
+      animation: none !important;
+      background: var(--text-primary) !important;
+      -webkit-text-fill-color: var(--text-primary) !important;
     }
     
     .calendar-modal-close:hover {
-      transform: none;
+      transform: none !important;
+    }
+
+    .calendar-loading-spinner {
+      animation: none !important;
     }
   }
 </style>
+

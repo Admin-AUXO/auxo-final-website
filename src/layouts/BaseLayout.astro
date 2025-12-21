@@ -1,13 +1,13 @@
 ---
-import { getSiteConfigData } from "../lib/sanity/siteConfig";
-import Navigation from "../components/common/Navigation.astro";
-import Footer from "../components/common/Footer.astro";
-import ParticleBackground from "../components/effects/ParticleBackground.astro";
-import ScrollProgressBar from "../components/ui/ScrollProgressBar.astro";
-import FloatingCalendarButton from "../components/widgets/FloatingCalendarButton.astro";
-import CalendarModal from "../components/widgets/CalendarModal.astro";
-import { createAssetUrl } from "../utils/url";
-import "../styles/global.css";
+import { getSiteConfigData } from "@/lib/sanity/siteConfig";
+import Navigation from "@/components/common/Navigation.astro";
+import Footer from "@/components/common/Footer.astro";
+import MetaTags from "@/components/common/MetaTags.astro";
+import ParticleBackground from "@/components/effects/ParticleBackground.astro";
+import ScrollProgressBar from "@/components/ui/ScrollProgressBar.astro";
+import FloatingCalendarButton from "@/components/widgets/FloatingCalendarButton.astro";
+import CalendarModal from "@/components/widgets/CalendarModal.astro";
+import "@/styles/global.css";
 import "aos/dist/aos.css";
 import "notyf/notyf.min.css";
 
@@ -22,52 +22,18 @@ const { title, description, showParticles = true } = Astro.props;
 const siteData = await getSiteConfigData();
 const pageTitle = title || siteData.name;
 const pageDescription = description || siteData.description;
-const ogImage = createAssetUrl("/og-image.svg");
 ---
 
 <!doctype html>
 <html lang="en" class="dark">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={pageDescription} />
-    <meta name="theme-color" content={siteData.themeColor} />
-    <meta name="color-scheme" content="light dark" />
-    <meta http-equiv="Permissions-Policy" content="fullscreen=(self), geolocation=(), microphone=(), camera=()" />
-    <title>{pageTitle}</title>
-
-    <link rel="icon" type="image/svg+xml" href={createAssetUrl("/favicon.svg")} />
-    <link rel="alternate icon" href={createAssetUrl("/favicon.svg")} />
-    <link rel="apple-touch-icon" href={createAssetUrl("/apple-touch-icon.svg")} />
-    <link rel="manifest" href={createAssetUrl("/manifest.json")} />
-    <meta name="msapplication-TileColor" content={siteData.themeColor} />
-    <meta name="msapplication-config" content={createAssetUrl("/browserconfig.xml")} />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={siteData.url} />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={pageDescription} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:site_name" content={siteData.name} />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={siteData.url} />
-    <meta name="twitter:title" content={pageTitle} />
-    <meta name="twitter:description" content={pageDescription} />
-    <meta name="twitter:image" content={ogImage} />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap&subset=latin" rel="stylesheet" media="print" onload="this.media='all'" />
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap&subset=latin" rel="stylesheet" /></noscript>
-    <link rel="preconnect" href="https://cdn.sanity.io" />
-    <link rel="dns-prefetch" href="https://cdn.sanity.io" />
-    <link rel="preconnect" href="https://calendar.app.google" crossorigin />
-    <link rel="dns-prefetch" href="https://calendar.app.google" />
-
-    <link rel="canonical" href={`${siteData.url}${Astro.url.pathname}`} />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <MetaTags 
+      title={pageTitle}
+      description={pageDescription}
+      siteName={siteData.name}
+      siteUrl={siteData.url}
+      themeColor={siteData.themeColor}
+    />
     <script>
       (function initViewTransitions() {
         if (typeof document === 'undefined' || !('startViewTransition' in document)) return;
@@ -150,7 +116,7 @@ const ogImage = createAssetUrl("/og-image.svg");
       
     </script>
     <script>
-      import { setupGoogleCalendar } from "../scripts/widgets/googleCalendar";
+      import { setupGoogleCalendar } from "@/scripts/widgets/googleCalendar";
       setupGoogleCalendar();
     </script>
   </head>
@@ -166,30 +132,28 @@ const ogImage = createAssetUrl("/og-image.svg");
     <CalendarModal />
 
     <script>
-      import { initSmoothScroll } from "../scripts/smoothScroll";
-      import { initScrollAnimations } from "../scripts/scrollAnimations";
+      import { initSmoothScroll } from "@/scripts/smoothScroll";
+      import { initScrollAnimations } from "@/scripts/scrollAnimations";
       
       function initLazyLoading() {
         const lazyElements = document.querySelectorAll('[data-lazy-load]');
-        if (lazyElements.length === 0) return;
+        if (!lazyElements.length) return;
 
-        lazyElements.forEach((element) => {
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                const el = entry.target as HTMLElement;
-                el.classList.add('lazy-loaded');
-                el.removeAttribute('data-lazy-load');
-                observer.unobserve(el);
-              }
-            });
-          }, { rootMargin: '50px', threshold: 0.01 });
-          
-          observer.observe(element);
-        });
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const el = entry.target as HTMLElement;
+              el.classList.add('lazy-loaded');
+              el.removeAttribute('data-lazy-load');
+              observer.unobserve(el);
+            }
+          });
+        }, { rootMargin: '50px', threshold: 0.01 });
+
+        lazyElements.forEach((element) => observer.observe(element));
       }
       
-      const initScripts = () => {
+      function initScripts() {
         const runInit = () => {
           initSmoothScroll();
           initScrollAnimations();
@@ -201,7 +165,7 @@ const ogImage = createAssetUrl("/og-image.svg");
         } else {
           setTimeout(runInit, 1);
         }
-      };
+      }
       
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initScripts);
@@ -211,3 +175,4 @@ const ogImage = createAssetUrl("/og-image.svg");
     </script>
   </body>
 </html>
+

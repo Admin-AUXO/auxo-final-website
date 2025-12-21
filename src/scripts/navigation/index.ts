@@ -14,7 +14,7 @@ export function cleanupNavigation(): void {
     try {
       element.removeEventListener(event, handler, options);
     } catch {
-      // Silent fail on cleanup
+      // Cleanup error
     }
   });
   eventListeners.length = 0;
