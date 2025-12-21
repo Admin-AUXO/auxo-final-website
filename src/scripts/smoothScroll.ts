@@ -8,42 +8,59 @@ export function initSmoothScroll() {
   if (prefersReducedMotion) return;
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
   lenis = new Lenis({
-    duration: isMobile ? 0.35 : 0.9,
+    duration: isMobile ? 0.4 : 0.8,
     easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
-    smoothWheel: true,
-    wheelMultiplier: isMobile ? 1.4 : 1.05,
-    touchMultiplier: isMobile ? 2.8 : 1.8,
+    smoothWheel: !isMobile,
+    wheelMultiplier: isMobile ? 1.2 : 1.0,
+    touchMultiplier: isTouchDevice ? 1.0 : 1.8,
     infinite: false,
-    lerp: isMobile ? 0.2 : 0.1,
-    syncTouch: true,
-    syncTouchLerp: isMobile ? 0.06 : 0.08,
-    touchInertiaMultiplier: 35,
-    touchInertiaDeltaMultiplier: 0.5,
-  } as any);
+    lerp: isMobile ? 0.15 : 0.08,
+    syncTouch: !isTouchDevice,
+    autoResize: true,
+    overscroll: true,
+  });
 
   function raf(time: number) {
-    lenis?.raf(time);
-    rafId = requestAnimationFrame(raf);
+    try {
+      lenis?.raf(time);
+      rafId = requestAnimationFrame(raf);
+    } catch (error) {
+      console.warn('Lenis RAF error:', error);
+      destroySmoothScroll();
+    }
   }
 
   rafId = requestAnimationFrame(raf);
-  
+
   window.lenis = lenis;
+
+  window.dispatchEvent(new Event('lenis:init'));
+
+  lenis?.on('scroll', ({ scroll, limit, velocity, direction, progress }) => {
+    if (import.meta.env.DEV && velocity > 10) {
+      console.log('High scroll velocity detected:', velocity);
+    }
+  });
   
   document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
       const href = anchor.getAttribute('href');
       if (!href || href === '#') return;
-      
+
       const target = document.querySelector(href);
       if (target && lenis && target instanceof HTMLElement) {
         e.preventDefault();
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        lenis.scrollTo(target, { offset: -80, duration: isMobile ? 0.5 : 1.2 });
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        lenis.scrollTo(target, {
+          offset: 0,
+          duration: isTouchDevice ? 0.3 : 0.6,
+          easing: (t: number) => 1 - Math.pow(1 - t, 3)
+        });
       }
     });
   });
@@ -69,10 +86,11 @@ export function startSmoothScroll() {
 
 export function scrollToElement(target: string | HTMLElement, options?: { offset?: number; duration?: number }) {
   if (!lenis) return;
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   lenis.scrollTo(target, {
     offset: options?.offset ?? 0,
-    duration: options?.duration ?? (isMobile ? 0.4 : 1.0),
+    duration: options?.duration ?? (isTouchDevice ? 0.3 : 0.8),
+    easing: options?.duration ? undefined : (t: number) => 1 - Math.pow(1 - t, 3)
   });
 }
 
@@ -87,4 +105,20 @@ export function destroySmoothScroll() {
 
 export function getLenis(): Lenis | null {
   return lenis;
+}
+
+export function updateScrollSettings() {
+  if (!lenis) return;
+
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+
+  if (isTouchDevice || isLowEndDevice) {
+    lenis.options.duration = 0.2;
+    lenis.options.lerp = 0.2;
+  }
+}
+
+export function isSmoothScrollEnabled(): boolean {
+  return lenis !== null && !lenis.isStopped;
 }

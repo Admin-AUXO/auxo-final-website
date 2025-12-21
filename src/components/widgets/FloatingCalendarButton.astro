@@ -14,11 +14,64 @@ import { Icon } from "astro-icon/components";
   <span class="sr-only">Schedule a meeting</span>
 </button>
 
+<script>
+  function ensureFloatingButtonPosition() {
+    const button = document.getElementById('floating-calendar-button');
+    if (!button) return;
+
+    // Ensure button stays in viewport during scroll
+    const updatePosition = () => {
+      const rect = button.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const viewportWidth = window.innerWidth;
+
+      // Ensure button doesn't go off-screen
+      if (rect.bottom > viewportHeight) {
+        button.style.bottom = '1rem';
+      }
+      if (rect.right > viewportWidth) {
+        button.style.right = '1rem';
+      }
+    };
+
+    // Initial position check
+    updatePosition();
+
+    // Update on scroll with throttling
+    let scrollTimeout: number;
+    const throttledUpdate = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(updatePosition, 16); // ~60fps
+    };
+
+    window.addEventListener('scroll', throttledUpdate, { passive: true });
+    window.addEventListener('resize', updatePosition, { passive: true });
+
+    // Lenis integration
+    if (window.lenis) {
+      window.lenis.on('scroll', throttledUpdate);
+    } else {
+      document.addEventListener('lenis:init', () => {
+        if (window.lenis) {
+          window.lenis.on('scroll', throttledUpdate);
+        }
+      }, { once: true });
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureFloatingButtonPosition);
+  } else {
+    ensureFloatingButtonPosition();
+  }
+</script>
+
 <style>
   .floating-calendar-btn {
     position: fixed !important;
-    bottom: var(--spacing-md, 1rem) !important;
-    right: var(--spacing-md, 1rem) !important;
+    bottom: max(var(--spacing-md, 1rem), env(safe-area-inset-bottom, 1rem)) !important;
+    right: max(var(--spacing-md, 1rem), env(safe-area-inset-right, 1rem)) !important;
     z-index: 9998 !important;
     width: 3.5rem !important;
     height: 3.5rem !important;
@@ -40,6 +93,10 @@ import { Icon } from "astro-icon/components";
     backdrop-filter: blur(var(--blur-nav)) !important;
     -webkit-backdrop-filter: blur(var(--blur-nav)) !important;
     touch-action: manipulation !important;
+    will-change: transform !important;
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
+    transform-origin: center !important;
     padding: 0 !important;
     margin: 0 !important;
     box-sizing: border-box !important;
@@ -47,6 +104,7 @@ import { Icon } from "astro-icon/components";
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
     -ms-user-select: none !important;
+    contain: none !important;
   }
 
   .floating-calendar-icon {
@@ -85,8 +143,8 @@ import { Icon } from "astro-icon/components";
 
   @media (min-width: 640px) and (max-width: 1023px) {
     .floating-calendar-btn {
-      bottom: var(--spacing-lg, 1.5rem);
-      right: var(--spacing-lg, 1.5rem);
+      bottom: max(var(--spacing-lg, 1.5rem), env(safe-area-inset-bottom, 1.5rem));
+      right: max(var(--spacing-lg, 1.5rem), env(safe-area-inset-right, 1.5rem));
       width: 4rem;
       height: 4rem;
       min-width: 4rem;
@@ -103,8 +161,8 @@ import { Icon } from "astro-icon/components";
 
   @media (min-width: 1024px) {
     .floating-calendar-btn {
-      bottom: var(--spacing-xl, 2rem);
-      right: var(--spacing-xl, 2rem);
+      bottom: max(var(--spacing-xl, 2rem), env(safe-area-inset-bottom, 2rem));
+      right: max(var(--spacing-xl, 2rem), env(safe-area-inset-right, 2rem));
       width: 4rem;
       height: 4rem;
       min-width: 4rem;
@@ -121,8 +179,8 @@ import { Icon } from "astro-icon/components";
 
   @media (max-width: 639px) {
     .floating-calendar-btn {
-      bottom: var(--spacing-md, 1rem);
-      right: var(--spacing-md, 1rem);
+      bottom: max(var(--spacing-md, 1rem), env(safe-area-inset-bottom, 1rem));
+      right: max(var(--spacing-md, 1rem), env(safe-area-inset-right, 1rem));
       width: 3.5rem;
       height: 3.5rem;
       min-width: 3.5rem;
@@ -139,8 +197,8 @@ import { Icon } from "astro-icon/components";
 
   @media (max-height: 600px) and (max-width: 1023px) {
     .floating-calendar-btn {
-      bottom: var(--spacing-sm, 0.75rem);
-      right: var(--spacing-sm, 0.75rem);
+      bottom: max(var(--spacing-sm, 0.75rem), env(safe-area-inset-bottom, 0.75rem));
+      right: max(var(--spacing-sm, 0.75rem), env(safe-area-inset-right, 0.75rem));
       width: 3rem;
       height: 3rem;
       min-width: 3rem;
