@@ -1,5 +1,6 @@
 import { DragGesture } from '@use-gesture/vanilla';
 import { createCalendarModal } from '@/scripts/utils/modalManager';
+import { setupEnhancedScrolling, setupScrollIndicators, initTouchScrolling } from '@/scripts/utils/scrollUtils';
 
 const CALENDAR_URL = 'https://calendar.app.google/6jRXDXyftxSPkGKZ6';
 const MODAL_ID = 'calendar-modal';
@@ -10,6 +11,16 @@ const SWIPE_VELOCITY_THRESHOLD = 0.3;
 
 const initializedButtons = new WeakSet<HTMLElement>();
 let swipeGesture: DragGesture | null = null;
+
+function safeInitTouchScrolling(): void {
+  try {
+    initTouchScrolling();
+  } catch (error) {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
+      console.warn('Touch scrolling setup failed:', error);
+    }
+  }
+}
 
 function getModal(): HTMLElement | null {
   return document.getElementById(MODAL_ID);
@@ -35,70 +46,23 @@ function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
 
   const handleLoad = () => {
     hasLoaded = true;
-    if (loadTimeout) {
-      clearTimeout(loadTimeout);
-      loadTimeout = null;
-    }
-
-    const loading = getLoadingElement();
-    if (loading) {
-      loading.setAttribute('hidden', '');
-    }
-
-    try {
-      const iframeWindow = iframe.contentWindow as (Window & { console?: Console }) | null;
-      if (iframeWindow?.console && !(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local'))) {
-        const originalError = iframeWindow.console.error;
-        if (originalError) {
-          iframeWindow.console.error = (...args: unknown[]) => {
-            const message = String(args[0] || '');
-            const ignoredPatterns = [
-              'recaptcha',
-              '401',
-              'Unauthorized',
-              'private-token',
-              'message channel closed',
-              'net::ERR_BLOCKED_BY_CLIENT',
-            ];
-            if (!ignoredPatterns.some(pattern => message.includes(pattern))) {
-              originalError.apply(iframeWindow.console, args);
-            }
-          };
-        }
-      }
-    } catch {
-      // Cross-origin restrictions
-    }
+    if (loadTimeout) clearTimeout(loadTimeout);
+    getLoadingElement()?.setAttribute('hidden', '');
   };
 
   const handleError = () => {
     if (hasLoaded) return;
-
-    if (loadTimeout) {
-      clearTimeout(loadTimeout);
-      loadTimeout = null;
-    }
-
     const loading = getLoadingElement();
     if (loading) {
       loading.setAttribute('hidden', '');
       const errorText = loading.querySelector('.calendar-loading-text');
-      if (errorText) {
-        errorText.textContent = 'Failed to load calendar. Please try again.';
-      }
-    }
-
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
-      console.warn('Calendar iframe failed to load');
+      if (errorText) errorText.textContent = 'Failed to load calendar. Please try again.';
     }
   };
 
-  // Set a reasonable timeout for loading
   loadTimeout = window.setTimeout(() => {
-    if (!hasLoaded) {
-      handleError();
-    }
-  }, 15000); // 15 second timeout
+    if (!hasLoaded) handleError();
+  }, 15000);
 
   iframe.addEventListener('load', handleLoad);
   iframe.addEventListener('error', handleError);
@@ -130,23 +94,46 @@ function updateScrollIndicators(): void {
       bottomIndicator.classList.toggle('visible', !isAtBottom);
     }
   } catch {
-    // Cross-origin restrictions
+    // Cross-origin restrictions - fallback to basic scroll detection
+    const topIndicator = content.querySelector('[data-calendar-scroll-top]');
+    const bottomIndicator = content.querySelector('[data-calendar-scroll-bottom]');
+
+    if (topIndicator) {
+      topIndicator.classList.add('visible');
+    }
+    if (bottomIndicator) {
+      bottomIndicator.classList.add('visible');
+    }
   }
 }
 
-function setupScrollIndicators(): void {
-  const iframe = getIframe();
-  if (!iframe) return;
+function setupModalScroll(): void {
+  const content = getContentElement();
+  if (content) {
+    setupEnhancedScrolling(content, { touchAction: 'pan-y', overscrollBehavior: 'contain' });
+    const topIndicator = content.querySelector('[data-scroll-indicator-top]') as HTMLElement;
+    const bottomIndicator = content.querySelector('[data-scroll-indicator-bottom]') as HTMLElement;
+    setupScrollIndicators(content, topIndicator, bottomIndicator);
+  }
+}
 
-  try {
-    const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-    if (iframeDoc) {
-      iframeDoc.addEventListener('scroll', updateScrollIndicators, { passive: true });
-      iframeDoc.addEventListener('touchmove', updateScrollIndicators, { passive: true });
-      iframeDoc.addEventListener('wheel', updateScrollIndicators, { passive: true });
-    }
-  } catch {
-    // Cross-origin restrictions
+let touchStartY = 0;
+let touchStartX = 0;
+
+function handleTouchStart(e: TouchEvent): void {
+  touchStartY = e.touches[0].clientY;
+  touchStartX = e.touches[0].clientX;
+}
+
+function handleTouchEnd(e: TouchEvent): void {
+  const touchEndY = e.changedTouches[0].clientY;
+  const touchEndX = e.changedTouches[0].clientX;
+  const deltaY = touchStartY - touchEndY;
+  const deltaX = touchStartX - touchEndX;
+
+  // Only update indicators if this was primarily a vertical scroll
+  if (Math.abs(deltaY) > Math.abs(deltaX)) {
+    setTimeout(updateScrollIndicators, 100);
   }
 }
 
@@ -229,11 +216,11 @@ function setupSwipeHandlers(): void {
     modal,
     ({ active, movement: [mx, my], direction: [dx, dy], velocity: [vx, vy] }) => {
       if (Math.abs(dy) < Math.abs(dx)) return;
-      
+
       if (!active && dy > 0) {
         const swipeDistance = Math.abs(my);
         const swipeVelocity = Math.abs(vy);
-        
+
         if (swipeDistance > SWIPE_DISTANCE_THRESHOLD || swipeVelocity > SWIPE_VELOCITY_THRESHOLD) {
           closeCalendarModal();
         }
@@ -262,7 +249,6 @@ function openCalendarModal(): void {
     return;
   }
 
-  // Prevent theme changes while modal is open
   const originalTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
   modal.setAttribute('data-original-theme', originalTheme);
 
@@ -271,21 +257,26 @@ function openCalendarModal(): void {
     const loading = getLoadingElement();
     if (loading) {
       loading.removeAttribute('hidden');
-      // Reset error state
       const errorText = loading.querySelector('.calendar-loading-text');
       if (errorText) {
         errorText.textContent = 'Loading calendar...';
       }
     }
 
-    // Always reload the iframe to ensure fresh content
     iframe.src = CALENDAR_URL;
     setupIframeErrorHandling(iframe);
-    setupScrollIndicators();
+    setupModalScroll();
 
-    // Prevent iframe from affecting parent theme
     iframe.style.colorScheme = 'normal';
     iframe.setAttribute('allowTransparency', 'false');
+
+    iframe.style.touchAction = 'pan-y';
+    (iframe.style as any).webkitOverflowScrolling = 'touch';
+    iframe.style.overscrollBehavior = 'contain';
+
+    // Ensure scrollbars are hidden on iframe while maintaining scroll functionality
+    iframe.style.scrollbarWidth = 'none';
+    (iframe.style as any).msOverflowStyle = 'none';
   }
 
   requestAnimationFrame(() => {
@@ -300,7 +291,6 @@ function closeCalendarModal(): void {
     swipeGesture = null;
   }
 
-  // Restore original theme if it was changed
   const modal = getModal();
   if (modal) {
     const originalTheme = modal.getAttribute('data-original-theme');
@@ -313,8 +303,6 @@ function closeCalendarModal(): void {
 
   calendarModalInstance?.close();
 }
-
-// Modal close handlers are now managed by the modal manager
 
 function setupCalendarButton(button: HTMLElement): void {
   if (initializedButtons.has(button)) return;
@@ -373,20 +361,24 @@ function initializeGoogleCalendar(): void {
 
   setupSwipeHandlers();
   setupCalendarButtons();
+  safeInitTouchScrolling();
 
   document.addEventListener('keydown', handleKeyboardNavigation);
 
-  document.addEventListener('astro:page-load', () => {
-    setTimeout(setupCalendarButtons, 100);
-  }, { once: false });
+  const initFunctions = () => {
+    setupCalendarButtons();
+    safeInitTouchScrolling();
+  };
+
+  document.addEventListener('astro:page-load', () => setTimeout(initFunctions, 100), { once: false });
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupCalendarButtons, { once: true });
+    document.addEventListener('DOMContentLoaded', initFunctions, { once: true });
   } else {
-    setupCalendarButtons();
+    initFunctions();
   }
 
-  window.addEventListener('load', setupCalendarButtons, { once: true });
+  window.addEventListener('load', initFunctions, { once: true });
 }
 
 export function setupGoogleCalendar(): void {

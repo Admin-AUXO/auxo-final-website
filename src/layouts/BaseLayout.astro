@@ -82,23 +82,29 @@ const pageDescription = description || siteData.description;
       
       const blockedPatterns = ['fbevents', 'facebook.net', 'connect.facebook.net', 'ERR_BLOCKED_BY_CLIENT', 'segment.io', 'analytics.js'];
       
-      const recaptchaPatterns = ['recaptcha', '6LeQgtsa', 'google.com/recaptcha', 'private-token', 'message channel closed'];
+      const recaptchaPatterns = [
+        'recaptcha', '6LeQgtsa', 'google.com/recaptcha', 'private-token',
+        'message channel closed', 'Unrecognized feature', '401', 'Unauthorized',
+        'calendar.app.google', 'calendar.google.com', 'api2/pat', 'goog.net.XhrIo',
+        'Object is active with another request', 'newUri='
+      ];
       
       window.addEventListener('error', (e) => {
         const target = e.target || e.currentTarget;
         const message = e.message || '';
         const filename = e.filename || '';
         const url = (target && target.src) || '';
-        
+
         if (blockedPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
           e.preventDefault();
           e.stopPropagation();
           return;
         }
-        
-        if (!import.meta.env.DEV && recaptchaPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
+
+        if (recaptchaPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
           e.preventDefault();
           e.stopPropagation();
+          return;
         }
       }, true);
       
@@ -108,9 +114,10 @@ const pageDescription = description || siteData.description;
           e.preventDefault();
           return;
         }
-        
-        if (!import.meta.env.DEV && recaptchaPatterns.some(pattern => reason.includes(pattern))) {
+
+        if (recaptchaPatterns.some(pattern => reason.includes(pattern))) {
           e.preventDefault();
+          return;
         }
       }, true);
       

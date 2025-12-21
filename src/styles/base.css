@@ -6,13 +6,34 @@
   box-sizing: border-box;
 }
 
+/* Hide scrollbars globally while maintaining scroll functionality */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
 *::-webkit-scrollbar,
 *::-webkit-scrollbar-track,
 *::-webkit-scrollbar-thumb {
-  display: none;
-  width: 0;
-  height: 0;
-  background: transparent;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* Specifically hide iframe scrollbars */
+iframe {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+iframe::-webkit-scrollbar,
+iframe::-webkit-scrollbar-track,
+iframe::-webkit-scrollbar-thumb {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
 html {
@@ -137,11 +158,37 @@ section,
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
     touch-action: pan-y;
+    /* Enhanced momentum scrolling */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   }
 
   body {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    /* Better touch handling */
+    touch-action: pan-y;
+    -webkit-touch-callout: none;
+  }
+
+  /* Optimize all scrollable elements for mobile */
+  [style*="overflow"],
+  .overflow-auto,
+  .overflow-y-auto,
+  .overflow-x-auto,
+  .overflow-scroll {
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
+  }
+
+  /* Ensure smooth scrolling for all interactive elements */
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    touch-action: manipulation;
   }
 
   * {

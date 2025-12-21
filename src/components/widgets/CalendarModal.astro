@@ -18,12 +18,12 @@
         </svg>
       </button>
     </div>
-    <div class="calendar-modal-content" data-calendar-content>
+    <div class="calendar-modal-content scroll-touch-smooth scroll-hidden" data-calendar-content data-modal-content data-scroll-indicators>
       <div class="calendar-loading" data-calendar-loading>
         <div class="calendar-loading-spinner"></div>
         <p class="calendar-loading-text">Loading calendar...</p>
       </div>
-      <div class="calendar-scroll-indicator calendar-scroll-indicator-top" data-calendar-scroll-top aria-hidden="true"></div>
+      <div class="calendar-scroll-indicator calendar-scroll-indicator-top scroll-indicator scroll-indicator-top" data-calendar-scroll-top data-scroll-indicator-top aria-hidden="true"></div>
       <iframe
         id="calendar-iframe"
         src=""
@@ -31,10 +31,11 @@
         loading="lazy"
         allow="fullscreen"
         referrerpolicy="no-referrer-when-downgrade"
-        class="calendar-iframe"
+        class="calendar-iframe scroll-touch-smooth scroll-hidden"
         data-calendar-iframe
+        data-scrollable-iframe
       ></iframe>
-      <div class="calendar-scroll-indicator calendar-scroll-indicator-bottom" data-calendar-scroll-bottom aria-hidden="true"></div>
+      <div class="calendar-scroll-indicator calendar-scroll-indicator-bottom scroll-indicator scroll-indicator-bottom" data-calendar-scroll-bottom data-scroll-indicator-bottom aria-hidden="true"></div>
     </div>
   </div>
 </div>
@@ -53,6 +54,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+    touch-action: none;
   }
 
   .calendar-modal[hidden] {
@@ -229,10 +231,25 @@
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
     z-index: 1;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    /* Enhanced mobile scrolling */
+    touch-action: pan-y;
+    -webkit-touch-callout: none;
+  }
+
+  /* Ensure smooth scrolling on all devices */
+  .calendar-modal-content {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent body scroll when modal is open */
+  .calendar-modal:not([hidden]) {
+    touch-action: none;
   }
 
   .calendar-loading {
@@ -284,29 +301,52 @@
     border: none;
     background-color: var(--bg-primary);
     z-index: 1;
+    /* Enhanced touch scrolling for mobile */
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
     overscroll-behavior: contain;
+    /* Ensure iframe content can scroll */
+    overflow: auto;
     /* Prevent iframe from affecting parent page theme */
     color-scheme: light;
     isolation: isolate;
     contain: layout style paint;
+    /* Additional mobile optimizations */
+    touch-action: pan-y;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    /* Ensure iframe fits within container bounds */
+    max-height: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Scrollbar hiding is handled globally in base.css */
+
+  /* Ensure iframe content is properly scrollable on mobile */
+  .calendar-iframe iframe {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    max-height: 100%;
   }
 
   .calendar-scroll-indicator {
     position: absolute;
     left: 0;
     right: 0;
-    height: 40px;
+    height: 60px;
     pointer-events: none;
     z-index: 3;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
     background: linear-gradient(
       to bottom,
       var(--bg-primary) 0%,
       transparent 100%
     );
+    /* Enhanced visual indicator */
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
   }
 
   .calendar-scroll-indicator-top {
@@ -314,8 +354,10 @@
     background: linear-gradient(
       to bottom,
       var(--bg-primary) 0%,
+      rgba(var(--accent-green-rgb), 0.02) 50%,
       transparent 100%
     );
+    transform: translateY(-10px);
   }
 
   .calendar-scroll-indicator-bottom {
@@ -323,12 +365,49 @@
     background: linear-gradient(
       to top,
       var(--bg-primary) 0%,
+      rgba(var(--accent-green-rgb), 0.02) 50%,
       transparent 100%
     );
+    transform: translateY(10px);
   }
 
   .calendar-scroll-indicator.visible {
     opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Add subtle animation for better UX */
+  .calendar-scroll-indicator.visible::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 2px;
+    background: var(--accent-green);
+    border-radius: 1px;
+    opacity: 0.6;
+    animation: scroll-indicator-pulse 2s ease-in-out infinite;
+  }
+
+  .calendar-scroll-indicator-top.visible::after {
+    animation-direction: normal;
+  }
+
+  .calendar-scroll-indicator-bottom.visible::after {
+    animation-direction: reverse;
+  }
+
+  @keyframes scroll-indicator-pulse {
+    0%, 100% {
+      opacity: 0.3;
+      transform: translate(-50%, -50%) scaleX(0.8);
+    }
+    50% {
+      opacity: 0.8;
+      transform: translate(-50%, -50%) scaleX(1.2);
+    }
   }
 
   .calendar-modal-container::after {
@@ -346,16 +425,45 @@
   }
 
   @media (max-width: 768px) {
+    .calendar-modal {
+      align-items: flex-start;
+      padding-top: 5vh;
+    }
+
     .calendar-modal-container {
       border-radius: 0;
+      max-height: 90vh;
+      height: auto;
+      min-height: 80vh;
+    }
+
+    .calendar-modal-content {
+      max-height: calc(90vh - 80px);
+      height: auto;
+      min-height: calc(80vh - 80px);
+    }
+
+    .calendar-iframe {
+      height: 100%;
+      min-height: calc(80vh - 80px);
     }
 
     .calendar-modal-header {
       padding: 1rem 1.25rem;
+      flex-shrink: 0;
     }
 
     .calendar-modal-title {
       font-size: 1.125rem;
+    }
+
+    .calendar-scroll-indicator {
+      height: 50px;
+    }
+
+    .calendar-scroll-indicator.visible::after {
+      width: 16px;
+      height: 1.5px;
     }
   }
 
