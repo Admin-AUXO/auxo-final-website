@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { siteData } from "../data/config/site";
+import { getSiteConfigData } from "../lib/sanity/siteConfig";
 import HeroSection from "../components/sections/home/HeroSection.astro";
 import ValueProposition from "../components/sections/home/ValueProposition.astro";
 import CapabilitiesSection from "../components/sections/home/CapabilitiesSection.astro";
@@ -10,7 +10,10 @@ import TechStackSection from "../components/sections/home/TechStackSection.astro
 import FinalCta from "../components/sections/home/FinalCta.astro";
 import { getHomepageContent } from "../lib/sanity/data";
 
-const homepageContent = await getHomepageContent();
+const [homepageContent, siteData] = await Promise.all([
+  getHomepageContent(),
+  getSiteConfigData(),
+]);
 ---
 
 <BaseLayout title="Data Analytics Consultancy Dubai, UAE | AUXO Data Labs" description={siteData.description}>

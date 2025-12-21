@@ -3,34 +3,18 @@ import { Icon } from "astro-icon/components";
 import Logo from "./Logo.astro";
 import FooterContactInfo from "./FooterContactInfo.astro";
 import FooterSocialLinks from "./FooterSocialLinks.astro";
+import { getFooterContent } from "../../lib/sanity/data";
 import { getBaseUrl, createUrl } from "../../utils/url";
 
 const base = getBaseUrl();
 const currentYear = new Date().getFullYear();
 const privacyUrl = createUrl("legal/privacy-policy");
 
-interface FooterLink {
-  href: string;
-  label: string;
-}
-
-interface FooterSection {
-  title: string;
-  icon: string;
-  links: FooterLink[];
-}
-
-const legalLinks: FooterLink[] = [
-  { href: privacyUrl, label: "Privacy Policy" },
-  { href: createUrl("legal/terms"), label: "Terms of Service" },
-  { href: createUrl("legal/cookie-policy"), label: "Cookie Policy" },
-];
-
-const footerSections: FooterSection[] = [
-  { title: "Learn", icon: "mdi:book-open", links: [{ href: createUrl("about"), label: "About Us" }, { href: createUrl("services"), label: "Services" }] },
-  { title: "Engage", icon: "mdi:handshake", links: [{ href: createUrl("contact"), label: "Contact Us" }] },
-  { title: "Legal", icon: "mdi:shield-check", links: legalLinks },
-];
+const { sections } = await getFooterContent();
+const footerSections = sections.map(({ _key, ...section }) => ({
+  ...section,
+  links: section.links.map(({ _key: linkKey, ...link }) => link),
+}));
 ---
 
 <footer

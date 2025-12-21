@@ -1,5 +1,5 @@
 ---
-import { siteData } from "../data/config/site";
+import { getSiteConfigData } from "../lib/sanity/siteConfig";
 import Navigation from "../components/common/Navigation.astro";
 import Footer from "../components/common/Footer.astro";
 import ParticleBackground from "../components/effects/ParticleBackground.astro";
@@ -18,6 +18,8 @@ export interface Props {
 }
 
 const { title, description, showParticles = true } = Astro.props;
+
+const siteData = await getSiteConfigData();
 const pageTitle = title || siteData.name;
 const pageDescription = description || siteData.description;
 const ogImage = createAssetUrl("/og-image.svg");

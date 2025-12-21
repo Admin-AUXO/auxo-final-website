@@ -1,7 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
-import { siteData } from "../../data/config/site";
+import { getSiteConfigData } from "../../lib/sanity/siteConfig";
 
+const siteData = await getSiteConfigData();
 const iconContainerClass = "w-12 h-12 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0";
 ---
 

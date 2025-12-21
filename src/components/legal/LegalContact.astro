@@ -1,5 +1,5 @@
 ---
-import { siteData } from "../../data/config/site";
+import { getSiteConfigData } from "../../lib/sanity/siteConfig";
 
 export interface Props {
   email?: string;
@@ -7,6 +7,7 @@ export interface Props {
   intro?: string;
 }
 
+const siteData = await getSiteConfigData();
 const { 
   email = siteData.privacyEmail,
   title = "Contact Us",

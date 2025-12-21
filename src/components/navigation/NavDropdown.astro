@@ -1,12 +1,11 @@
 ---
 import { Icon } from 'astro-icon/components';
-import type { NavItem, DropdownItem } from '../../data/navigation';
-import { navItems } from '../../data/navigation';
+import type { NavItem, DropdownItem } from '../../data/content/navigation';
 import { createUrl } from '../../utils/url';
 import NavLink from './NavLink.astro';
 
 interface Props {
-  item: NavItem;
+  item: Omit<NavItem, '_key'>;
   index: number;
   isMobile?: boolean;
 }

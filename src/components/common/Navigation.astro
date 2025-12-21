@@ -3,11 +3,17 @@ import ThemeToggle from "../ui/ThemeToggle.astro";
 import Logo from "./Logo.astro";
 import NavLink from "../navigation/NavLink.astro";
 import NavDropdown from "../navigation/NavDropdown.astro";
-import { navItems } from "../../data/navigation";
+import { getNavigationContent } from "../../lib/sanity/data";
 import { getBaseUrl, createUrl } from "../../utils/url";
 
 const base = getBaseUrl();
 const contactUrl = createUrl("contact");
+
+const { items } = await getNavigationContent();
+const navItems = items.map(({ _key, ...item }) => ({
+  ...item,
+  dropdown: item.dropdown?.map(({ _key: dropKey, ...drop }) => drop),
+}));
 ---
 
 <nav id="main-navigation" class="fixed top-0 left-0 right-0 backdrop-blur-md border-b border-accent-green/30 transition-all duration-normal">

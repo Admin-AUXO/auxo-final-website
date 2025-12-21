@@ -1,6 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import { siteData } from "../../data/config/site";
+import { getSiteConfigData } from "../../lib/sanity/siteConfig";
 
 export interface Props {
   size?: "sm" | "lg";
@@ -9,6 +9,7 @@ export interface Props {
 
 const { size = "lg", class: className = "" } = Astro.props;
 
+const siteData = await getSiteConfigData();
 const socialLinks = [
   { href: siteData.social.linkedin, icon: "mdi:linkedin", label: "Follow AUXO Data Labs on LinkedIn" },
   { href: siteData.social.twitter, icon: "mdi:twitter", label: "Follow AUXO Data Labs on Twitter" },

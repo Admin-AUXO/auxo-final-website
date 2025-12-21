@@ -6,10 +6,16 @@ import {
   serviceDetailsQuery,
   serviceDetailBySlugQuery,
   aboutQuery,
+  siteConfigQuery,
+  footerQuery,
+  navigationQuery,
 } from './queries';
 import type { HomepageContent } from '../../data/content/homepage';
 import type { ServicesContent, ServiceDetail } from '../../data/content/services/types';
 import type { AboutContent } from '../../data/content/about';
+import type { SiteConfig } from '../../data/content/siteConfig';
+import type { FooterContent } from '../../data/content/footer';
+import type { NavigationContent } from '../../data/content/navigation';
 
 const fetchWithError = async <T>(
   query: string,
@@ -68,5 +74,17 @@ export async function getServiceDetailBySlug(slug: string): Promise<ServiceDetai
 
 export async function getAboutContent(): Promise<AboutContent> {
   return fetchWithError<AboutContent>(aboutQuery, 'about', 'No about content found in Sanity');
+}
+
+export async function getSiteConfig(): Promise<SiteConfig> {
+  return fetchWithError<SiteConfig>(siteConfigQuery, 'siteConfig', 'No site configuration found in Sanity');
+}
+
+export async function getFooterContent(): Promise<FooterContent> {
+  return fetchWithError<FooterContent>(footerQuery, 'footer', 'No footer content found in Sanity');
+}
+
+export async function getNavigationContent(): Promise<NavigationContent> {
+  return fetchWithError<NavigationContent>(navigationQuery, 'navigation', 'No navigation content found in Sanity');
 }
 

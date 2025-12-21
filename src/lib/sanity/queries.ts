@@ -326,3 +326,59 @@ export const aboutQuery = groq`*[_type == "about"] | order(_updatedAt desc)[0]{
     ctaHref
   }
 }`;
+
+export const siteConfigQuery = groq`*[_type == "siteConfig"][0]{
+  name,
+  tagline,
+  description,
+  url,
+  email,
+  privacyEmail,
+  address {
+    street,
+    city,
+    country,
+    lat,
+    lng
+  },
+  social {
+    linkedin,
+    twitter
+  },
+  stats {
+    yearsExperience,
+    technologiesMastered,
+    industriesServed,
+    foundingClients,
+    responseTime
+  }
+}`;
+
+export const footerQuery = groq`*[_type == "footer"][0]{
+  sections[] {
+    _key,
+    title,
+    icon,
+    links[] {
+      _key,
+      label,
+      href
+    }
+  }
+}`;
+
+export const navigationQuery = groq`*[_type == "navigation"][0]{
+  items[] {
+    _key,
+    name,
+    href,
+    isModal,
+    dropdown[] {
+      _key,
+      name,
+      href,
+      icon,
+      description
+    }
+  }
+}`;
