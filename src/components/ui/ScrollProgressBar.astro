@@ -10,11 +10,17 @@
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     width: 100vw;
     height: var(--scroll-progress-height);
     background: transparent;
     z-index: var(--z-scroll-progress);
     pointer-events: none;
+    /* Ensure progress bar stays visible above all content */
+    isolation: isolate;
+    /* Prevent any modal or overlay from covering */
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .scroll-progress-bar-fill {

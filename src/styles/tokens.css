@@ -128,11 +128,11 @@
   --z-interactive: 100;
   --z-floating-button: 500;
   --z-navigation: 9998;
-  --z-scroll-progress: 9999;
+  --z-scroll-progress: 10000;
   --z-mobile-overlay: 1500;
   --z-mobile-menu: 1500;
   --z-services-dropdown: 2000;
-  --z-calendar-modal: 9999;
+  --z-calendar-modal: 9998;
   --z-modals: 9999;
 
   --calendar-modal-overlay-bg: linear-gradient(
