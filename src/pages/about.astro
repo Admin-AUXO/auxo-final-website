@@ -27,7 +27,7 @@ const aboutContent = await getAboutContent();
   <GlobalSection content={aboutContent.global} />
   <AboutCta content={aboutContent.cta} />
 
-  <script>
+  <script type="module">
     import { setupPageAnimations, setupSectionInit } from "@/scripts/sections/utils/initUtils";
     setupSectionInit(setupPageAnimations);
   </script>
