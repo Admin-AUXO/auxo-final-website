@@ -47,24 +47,58 @@ export function findDropdownContent(buttonEl: HTMLElement): HTMLElement | null {
   return content?.classList.contains('mobile-dropdown-content') ? content : null;
 }
 
+let scrollLockCount = 0;
+let savedScrollY: number | null = null;
+
 export function lockScroll(): void {
-  const scrollY = window.scrollY;
-  document.body.setAttribute('data-scroll-y', scrollY.toString());
-  document.documentElement.style.setProperty('--scroll-y', scrollY.toString());
-  document.documentElement.classList.add('scroll-locked');
-  document.body.classList.add('scroll-locked');
+  scrollLockCount++;
+
+  // Only apply scroll lock on first lock
+  if (scrollLockCount === 1) {
+    const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+    savedScrollY = scrollY;
+
+    document.body.setAttribute('data-scroll-y', scrollY.toString());
+    document.documentElement.style.setProperty('--scroll-y', scrollY.toString());
+    document.documentElement.classList.add('scroll-locked');
+    document.body.classList.add('scroll-locked');
+
+    // Prevent scroll events from propagating
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  }
 }
 
 export function unlockScroll(): void {
-  const scrollY = document.body.getAttribute('data-scroll-y');
-  if (scrollY && window.lenis) {
-    window.lenis.scrollTo(parseInt(scrollY, 10), { immediate: true });
-    document.body.removeAttribute('data-scroll-y');
-  } else if (scrollY) {
-    window.scrollTo(0, parseInt(scrollY, 10));
-    document.body.removeAttribute('data-scroll-y');
+  if (scrollLockCount > 0) {
+    scrollLockCount--;
   }
-  document.documentElement.classList.remove('scroll-locked');
-  document.body.classList.remove('scroll-locked');
+
+  // Only remove scroll lock when all locks are released
+  if (scrollLockCount === 0 && savedScrollY !== null) {
+    if (window.lenis) {
+      window.lenis.scrollTo(savedScrollY, { immediate: true });
+    } else {
+      window.scrollTo(0, savedScrollY);
+    }
+
+    document.body.removeAttribute('data-scroll-y');
+    document.documentElement.style.removeProperty('--scroll-y');
+    document.documentElement.classList.remove('scroll-locked');
+    document.body.classList.remove('scroll-locked');
+
+    // Restore scroll behavior
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+
+    savedScrollY = null;
+  }
+}
+
+export function forceUnlockScroll(): void {
+  scrollLockCount = 0;
+  if (savedScrollY !== null) {
+    unlockScroll();
+  }
 }
 

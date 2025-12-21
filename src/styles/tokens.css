@@ -127,18 +127,18 @@
   --z-elevated: 50;
   --z-interactive: 100;
   --z-floating-button: 500;
-  --z-navigation: 1000;
-  --z-scroll-progress: 1001;
-  --z-modals: 9999;
-  --z-services-dropdown: 9999;
+  --z-navigation: 9998;
+  --z-scroll-progress: 9999;
+  --z-mobile-overlay: 1500;
+  --z-mobile-menu: 1500;
+  --z-services-dropdown: 2000;
   --z-calendar-modal: 9999;
-  --z-mobile-overlay: 9998;
-  --z-mobile-menu: 9998;
+  --z-modals: 9999;
 
   --calendar-modal-overlay-bg: linear-gradient(
     135deg,
     rgba(var(--accent-green-rgb), 0.05) 0%,
-    rgba(0, 0, 0, 0.85) 50%,
+    rgba(0, 0, 0, 0.9) 50%,
     rgba(var(--accent-green-rgb), 0.03) 100%
   );
 
@@ -146,7 +146,7 @@
     --calendar-modal-overlay-bg: linear-gradient(
       135deg,
       rgba(var(--accent-green-rgb), 0.08) 0%,
-      rgba(0, 0, 0, 0.75) 50%,
+      rgba(0, 0, 0, 0.85) 50%,
       rgba(var(--accent-green-rgb), 0.05) 100%
     );
   }

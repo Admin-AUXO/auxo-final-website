@@ -9,13 +9,23 @@ interface Props {
 
 const { item, isMobile = false } = Astro.props;
 
+// Check if current page matches this nav item
+const currentPath = Astro.url.pathname;
+const isActive = currentPath === item.href ||
+                (item.href !== '/' && currentPath.startsWith(item.href)) ||
+                (item.name.toLowerCase() === 'home' && currentPath === '/') ||
+                (item.name.toLowerCase() === 'services' && currentPath.startsWith('/services'));
+
+const ACTIVE_CLASSES = "text-accent-green bg-accent-green/10 border-accent-green/50";
+const ACTIVE_MOBILE_CLASSES = "text-accent-green bg-accent-green/10 border-accent-green/50";
+
 const MOBILE_LINK_CLASSES = "mobile-nav-link block w-full px-5 py-4 min-h-[52px] text-base font-semibold text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-xl transition-all duration-normal touch-manipulation flex items-center relative group bg-theme-surface/50 hover:bg-theme-surface border border-accent-green/30 hover:border-accent-green/50";
 const DESKTOP_LINK_CLASSES = "nav-link relative px-3 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-xl hover:bg-theme-surface/50 active:bg-theme-surface min-h-[44px] flex items-center group border border-transparent hover:border-accent-green/30";
 const ACTIVE_BG = "absolute inset-0 opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
 ---
 
 {isMobile ? (
-  <a href={item.href} class={MOBILE_LINK_CLASSES} data-nav-item={item.name.toLowerCase()}>
+  <a href={item.href} class={`${MOBILE_LINK_CLASSES} ${isActive ? ACTIVE_MOBILE_CLASSES : ''}`} data-nav-item={item.name.toLowerCase()} aria-current={isActive ? 'page' : undefined}>
     <span class="relative z-10">{item.name}</span>
     <span class={`mobile-nav-active-bg ${ACTIVE_BG} bg-accent-green/10 rounded-lg`}></span>
     <span class={`mobile-nav-active-border ${ACTIVE_BG} rounded-lg border border-accent-green/30`}></span>
@@ -24,7 +34,7 @@ const ACTIVE_BG = "absolute inset-0 opacity-0 transition-opacity duration-fast p
     )}
   </a>
 ) : (
-  <a href={item.href} class={DESKTOP_LINK_CLASSES} data-nav-item={item.name.toLowerCase()}>
+  <a href={item.href} class={`${DESKTOP_LINK_CLASSES} ${isActive ? ACTIVE_CLASSES : ''}`} data-nav-item={item.name.toLowerCase()} aria-current={isActive ? 'page' : undefined}>
     <span class="relative z-10">{item.name}</span>
     <span class={`nav-active-bg ${ACTIVE_BG} bg-accent-green/5 rounded-lg`}></span>
   </a>

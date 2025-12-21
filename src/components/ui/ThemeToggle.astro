@@ -9,7 +9,7 @@ const { isMobileSwitch = false } = Astro.props;
 ---
 
 <button
-  id="theme-toggle"
+  id={isMobileSwitch ? "theme-toggle-mobile" : "theme-toggle-desktop"}
   type="button"
   class:list={[
     "theme-toggle relative transition-all duration-fast flex items-center justify-center active:scale-95",
@@ -51,10 +51,6 @@ const { isMobileSwitch = false } = Astro.props;
   }
 </button>
 
-<script>
-  import { initThemeToggle } from "@/scripts/ui/themeToggle";
-  initThemeToggle();
-</script>
 
 <style>
   .theme-toggle {
@@ -70,8 +66,8 @@ const { isMobileSwitch = false } = Astro.props;
   .theme-icon-dark,
   .theme-icon-light {
     transition:
-      opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--text-secondary) !important;
   }
 
@@ -94,18 +90,8 @@ const { isMobileSwitch = false } = Astro.props;
   }
 
   .theme-switch-knob {
-    transform: translateX(0);
     z-index: 1;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  :root.dark .theme-switch-knob,
-  :root:not(.light) .theme-switch-knob {
-    transform: translateX(0);
-  }
-
-  :root.light .theme-switch-knob {
-    transform: translateX(calc(3rem - 1.25rem - 0.125rem));
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .theme-toggle-switch:hover {

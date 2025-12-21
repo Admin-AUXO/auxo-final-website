@@ -4,11 +4,13 @@ import { initializeMobileMenu, closeMobileMenu } from './mobile-menu';
 import { initializeDropdowns, setupDropdownCloseHandlers, closeAllDropdowns } from './dropdowns';
 import { setupScrollEffects } from './scroll-effects';
 
+import { forceUnlockScroll } from './utils';
+
 export function cleanupNavigation(): void {
   closeAllDropdowns();
   closeMobileMenu();
   resetState();
-  unlockScroll();
+  forceUnlockScroll();
 
   eventListeners.forEach(({ element, event, handler, options }) => {
     try {

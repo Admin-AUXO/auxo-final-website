@@ -76,6 +76,18 @@
     -webkit-backdrop-filter: blur(var(--blur-nav));
   }
 
+  /* Ensure modal covers navigation completely */
+  #calendar-modal:not([hidden]) {
+    z-index: 10000 !important;
+  }
+
+  /* Make sure modal overlay completely blocks background */
+  #calendar-modal:not([hidden]) .calendar-modal-overlay {
+    background: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+
   .calendar-modal-container {
     position: relative;
     width: 100%;
@@ -88,7 +100,7 @@
       0 0 0 1px var(--accent-green-opacity-15),
       0 20px 60px var(--overlay-black-75),
       0 0 40px var(--accent-green-opacity-08);
-    z-index: 1;
+    z-index: 10;
   }
 
   .calendar-modal-header {
@@ -275,6 +287,10 @@
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
     overscroll-behavior: contain;
+    /* Prevent iframe from affecting parent page theme */
+    color-scheme: light;
+    isolation: isolate;
+    contain: layout style paint;
   }
 
   .calendar-scroll-indicator {
@@ -346,8 +362,10 @@
   @media (prefers-reduced-motion: reduce) {
     .calendar-modal,
     .calendar-loading,
-    .calendar-scroll-indicator {
+    .calendar-scroll-indicator,
+    .calendar-loading-spinner {
       transition: none;
+      animation: none;
     }
 
     .calendar-modal-title {
@@ -358,10 +376,6 @@
 
     .calendar-modal-close:hover {
       transform: none;
-    }
-
-    .calendar-loading-spinner {
-      animation: none;
     }
   }
 </style>

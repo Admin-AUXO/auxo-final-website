@@ -1,18 +1,24 @@
 ---
 ---
-<button
-  id="floating-calendar-button"
-  type="button"
-  data-google-calendar-open
-  class="fab-button"
-  aria-label="Schedule a meeting with AUXO Data Labs"
-  title="Book an appointment"
->
-  <svg class="fab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-  </svg>
-  <span class="sr-only">Schedule a meeting</span>
-</button>
+<div class="fab-container">
+  <button
+    id="floating-calendar-button"
+    type="button"
+    data-google-calendar-open
+    class="fab-button"
+    aria-label="Schedule a meeting with AUXO Data Labs"
+    title="Book an appointment"
+  >
+    <svg class="fab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+    </svg>
+    <span class="sr-only">Schedule a meeting</span>
+  </button>
+  <div class="fab-tooltip" role="tooltip" aria-hidden="true">
+    <span>Book a meeting</span>
+    <div class="fab-tooltip-arrow"></div>
+  </div>
+</div>
 
 <style>
   .fab-button {
@@ -122,6 +128,7 @@
   @media (prefers-contrast: high) {
     .fab-button {
       border-width: 3px;
+      box-shadow: 0 6px 24px var(--accent-green-opacity-30);
     }
   }
 
@@ -134,6 +141,7 @@
   @media (max-width: 1023px) {
     .fab-button {
       bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
+      right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right)));
     }
   }
 
@@ -151,13 +159,6 @@
     }
   }
 
-  @media (prefers-contrast: high) {
-    .fab-button {
-      border-width: 3px;
-      box-shadow: 0 6px 24px var(--accent-green-opacity-30);
-    }
-  }
-
   @supports (padding: max(0px)) {
     .fab-button {
       bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
@@ -165,10 +166,88 @@
     }
   }
 
-  body:has(.mobile-menu.is-open) .fab-button {
+  .fab-container {
+    position: relative;
+  }
+
+  .fab-tooltip {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    border: 1px solid var(--accent-green-opacity-30);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: all var(--duration-fast) var(--easing-standard);
+    box-shadow: 0 4px 12px var(--shadow-accent);
+    z-index: calc(var(--z-floating-button) + 1);
+  }
+
+  .fab-tooltip-arrow {
+    position: absolute;
+    top: 100%;
+    right: 1rem;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--bg-elevated);
+  }
+
+  .fab-tooltip-arrow::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: -6px;
+    width: 12px;
+    height: 7px;
+    background: inherit;
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+  }
+
+  .fab-button:hover + .fab-tooltip,
+  .fab-button:focus-visible + .fab-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .fab-button.fab-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(100px) scale(0.8);
+  }
+
+  .fab-button.fab-hidden + .fab-tooltip {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* Hide floating button when any modal or dropdown is open */
+  body:has(.mobile-menu.is-open) .fab-button,
+  body:has(.dropdown-modal-menu.open) .fab-button,
+  body:has(#calendar-modal:not([hidden])) .fab-button,
+  body:has(.scroll-locked) .fab-button {
     opacity: 0;
     pointer-events: none;
     transform: scale(0.8);
+  }
+
+  body:has(.mobile-menu.is-open) .fab-tooltip,
+  body:has(.dropdown-modal-menu.open) .fab-tooltip,
+  body:has(#calendar-modal:not([hidden])) .fab-tooltip,
+  body:has(.scroll-locked) .fab-tooltip {
+    opacity: 0;
+    visibility: hidden;
   }
 </style>
 

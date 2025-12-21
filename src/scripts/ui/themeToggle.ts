@@ -1,10 +1,15 @@
 const THEME_STORAGE_KEY = "theme";
 const THEME_CHANGE_EVENT = "themechange";
-const THEME_CHANGE_DURATION = 300;
+const THEME_CHANGE_DURATION = 100; // Even faster response time
 const SWITCH_TRANSFORM_LIGHT = "translateX(calc(3rem - 1.25rem - 0.125rem))";
 const SWITCH_TRANSFORM_DARK = "translateX(0)";
 
 type Theme = "light" | "dark";
+
+// Prevent rapid successive theme changes
+let isThemeChanging = false;
+let lastThemeChange = 0;
+const THEME_CHANGE_DEBOUNCE = 100; // Minimum time between changes
 
 function getTheme(): Theme {
   if (typeof window === "undefined") return "dark";
@@ -14,9 +19,12 @@ function getTheme(): Theme {
 }
 
 function applyTheme(theme: Theme): void {
+  // Apply theme instantly
   document.documentElement.classList.remove("dark", "light");
   document.documentElement.classList.add(theme);
   localStorage.setItem(THEME_STORAGE_KEY, theme);
+
+  // Update icons immediately for instant feedback
   updateIcon(theme);
 }
 
@@ -26,11 +34,9 @@ function updateMobileSwitch(toggle: Element, theme: Theme): void {
   const darkIcon = toggle.querySelector(".theme-icon-dark");
   const lightIcon = toggle.querySelector(".theme-icon-light");
 
+  // Directly set transform for immediate visual feedback
   if (switchKnob) {
-    switchKnob.style.setProperty(
-      "--theme-switch-transform",
-      theme === "dark" ? SWITCH_TRANSFORM_DARK : SWITCH_TRANSFORM_LIGHT
-    );
+    switchKnob.style.transform = theme === "dark" ? SWITCH_TRANSFORM_DARK : SWITCH_TRANSFORM_LIGHT;
   }
 
   if (switchBg) {
@@ -69,7 +75,7 @@ function updateDesktopIcon(toggle: Element, theme: Theme): void {
 }
 
 function updateIcon(theme: Theme): void {
-  const toggles = document.querySelectorAll("#theme-toggle");
+  const toggles = document.querySelectorAll("#theme-toggle-desktop, #theme-toggle-mobile");
   toggles.forEach((toggle) => {
     const isMobileSwitch = toggle.getAttribute("data-mobile-switch") === "true";
     isMobileSwitch ? updateMobileSwitch(toggle, theme) : updateDesktopIcon(toggle, theme);
@@ -77,40 +83,94 @@ function updateIcon(theme: Theme): void {
 }
 
 function toggleTheme(e?: Event): void {
+  e?.preventDefault();
   e?.stopPropagation();
-  const newTheme = getTheme() === "dark" ? "light" : "dark";
+  e?.stopImmediatePropagation();
+
+  const now = Date.now();
+
+  // Prevent rapid successive theme changes
+  if (isThemeChanging || (now - lastThemeChange) < THEME_CHANGE_DEBOUNCE) {
+    return;
+  }
+
+  // Prevent theme changes when calendar modal is open
+  const calendarModal = document.getElementById('calendar-modal');
+  if (calendarModal && !calendarModal.hasAttribute('hidden')) {
+    return; // Don't change theme while calendar modal is open
+  }
+
+  isThemeChanging = true;
+  lastThemeChange = now;
+
+  // Get current theme and toggle it
+  const currentTheme = getTheme();
+  const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+  // Apply theme instantly without delays
   applyTheme(newTheme);
 
-  requestAnimationFrame(() => {
+  // Force icon update immediately to prevent visual lag
+  updateIcon(newTheme);
+
+  // Dispatch event for any listeners (with minimal delay)
+  setTimeout(() => {
     document.dispatchEvent(
       new CustomEvent(THEME_CHANGE_EVENT, {
         detail: { theme: newTheme, duration: THEME_CHANGE_DURATION },
       })
     );
-  });
+    isThemeChanging = false;
+  }, 16); // One frame delay
 }
 
 function attachToggleListeners(toggle: Element): void {
-  const handler = (e: Event) => {
-    e.stopPropagation();
+  let touchHandled = false;
+
+  const clickHandler = (e: Event) => {
+    // Prevent click if touch was already handled
+    if (touchHandled) {
+      touchHandled = false;
+      return;
+    }
     toggleTheme(e);
   };
-  toggle.addEventListener("click", handler, { passive: false, capture: true });
-  toggle.addEventListener("touchend", handler, { passive: false, capture: true });
+
+  const touchEndHandler = (e: Event) => {
+    touchHandled = true;
+    toggleTheme(e);
+  };
+
+  // Use touchend for mobile (more reliable than touchstart/touchend combo)
+  // and click for desktop. This prevents double triggers.
+  toggle.addEventListener("touchend", touchEndHandler, { passive: false, capture: true });
+  toggle.addEventListener("click", clickHandler, { passive: false, capture: true });
 }
 
 function setupThemeToggles(): void {
-  document.querySelectorAll("#theme-toggle").forEach(attachToggleListeners);
+  document.querySelectorAll("#theme-toggle-desktop, #theme-toggle-mobile").forEach(attachToggleListeners);
 }
 
 function setupThemePreferenceListener(): void {
   if (typeof window === "undefined") return;
 
   const mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
+  let lastSystemTheme = mediaQuery.matches;
+
   const handler = (e: MediaQueryListEvent) => {
-    if (!localStorage.getItem(THEME_STORAGE_KEY)) {
-      applyTheme(e.matches ? "light" : "dark");
+    // Only respond if system theme actually changed and no user preference stored
+    if (e.matches === lastSystemTheme || localStorage.getItem(THEME_STORAGE_KEY)) {
+      return;
     }
+
+    // Don't change theme if calendar modal is open
+    const calendarModal = document.getElementById('calendar-modal');
+    if (calendarModal && !calendarModal.hasAttribute('hidden')) {
+      return;
+    }
+
+    lastSystemTheme = e.matches;
+    applyTheme(e.matches ? "light" : "dark");
   };
   mediaQuery.addEventListener("change", handler);
   
@@ -121,32 +181,33 @@ function setupThemePreferenceListener(): void {
 
 function handleAstroPageLoad(): void {
   document.addEventListener("astro:page-load", () => {
-    requestAnimationFrame(() => {
-      const toggles = document.querySelectorAll("#theme-toggle");
-      if (toggles.length === 0) return;
+    // Only re-attach listeners if needed, don't clone DOM unnecessarily
+    const toggles = document.querySelectorAll("#theme-toggle-desktop, #theme-toggle-mobile");
+    if (toggles.length === 0) return;
 
-      applyTheme(getTheme());
-      toggles.forEach((toggle) => {
-        const newToggle = toggle.cloneNode(true);
-        if (toggle.parentNode && newToggle instanceof Element) {
-          toggle.parentNode.replaceChild(newToggle, toggle);
-          attachToggleListeners(newToggle);
-        }
-      });
+    // Just ensure theme is applied and listeners are attached
+    applyTheme(getTheme());
+
+    // Check if listeners are already attached (avoid duplicates)
+    toggles.forEach((toggle) => {
+      if (!(toggle as any)._themeListenerAttached) {
+        attachToggleListeners(toggle);
+        (toggle as any)._themeListenerAttached = true;
+      }
     });
   });
 }
 
 export function initThemeToggle(): void {
-  if (!document.getElementById("theme-toggle")) return;
+  if (!document.getElementById("theme-toggle-desktop") && !document.getElementById("theme-toggle-mobile")) return;
 
+  // Initialize theme and listeners
   applyTheme(getTheme());
   setupThemeToggles();
   setupThemePreferenceListener();
   handleAstroPageLoad();
 
-  requestAnimationFrame(() => {
-    updateIcon(getTheme());
-  });
+  // Single icon update after initialization
+  updateIcon(getTheme());
 }
 

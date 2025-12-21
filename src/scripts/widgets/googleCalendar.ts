@@ -1,4 +1,5 @@
 import { DragGesture } from '@use-gesture/vanilla';
+import { createCalendarModal } from '@/scripts/utils/modalManager';
 
 const CALENDAR_URL = 'https://calendar.app.google/6jRXDXyftxSPkGKZ6';
 const MODAL_ID = 'calendar-modal';
@@ -29,7 +30,16 @@ function getLoadingElement(): HTMLElement | null {
 }
 
 function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
-  iframe.addEventListener('load', () => {
+  let hasLoaded = false;
+  let loadTimeout: number | null = null;
+
+  const handleLoad = () => {
+    hasLoaded = true;
+    if (loadTimeout) {
+      clearTimeout(loadTimeout);
+      loadTimeout = null;
+    }
+
     const loading = getLoadingElement();
     if (loading) {
       loading.setAttribute('hidden', '');
@@ -48,6 +58,7 @@ function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
               'Unauthorized',
               'private-token',
               'message channel closed',
+              'net::ERR_BLOCKED_BY_CLIENT',
             ];
             if (!ignoredPatterns.some(pattern => message.includes(pattern))) {
               originalError.apply(iframeWindow.console, args);
@@ -58,14 +69,39 @@ function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
     } catch {
       // Cross-origin restrictions
     }
-  });
+  };
 
-  iframe.addEventListener('error', () => {
+  const handleError = () => {
+    if (hasLoaded) return;
+
+    if (loadTimeout) {
+      clearTimeout(loadTimeout);
+      loadTimeout = null;
+    }
+
     const loading = getLoadingElement();
     if (loading) {
       loading.setAttribute('hidden', '');
+      const errorText = loading.querySelector('.calendar-loading-text');
+      if (errorText) {
+        errorText.textContent = 'Failed to load calendar. Please try again.';
+      }
     }
-  });
+
+    if (import.meta.env.DEV) {
+      console.warn('Calendar iframe failed to load');
+    }
+  };
+
+  // Set a reasonable timeout for loading
+  loadTimeout = window.setTimeout(() => {
+    if (!hasLoaded) {
+      handleError();
+    }
+  }, 15000); // 15 second timeout
+
+  iframe.addEventListener('load', handleLoad);
+  iframe.addEventListener('error', handleError);
 }
 
 function updateScrollIndicators(): void {
@@ -211,7 +247,13 @@ function setupSwipeHandlers(): void {
   );
 }
 
+let calendarModalInstance: ReturnType<typeof createCalendarModal> | null = null;
+
 function openCalendarModal(): void {
+  if (!calendarModalInstance) {
+    calendarModalInstance = createCalendarModal();
+  }
+
   const modal = getModal();
   if (!modal) {
     if (import.meta.env.DEV) {
@@ -220,65 +262,59 @@ function openCalendarModal(): void {
     return;
   }
 
-  modal.removeAttribute('hidden');
-
-  const scrollY = window.scrollY || document.documentElement.scrollTop;
-  document.documentElement.style.setProperty('--scroll-y', String(scrollY));
-  document.body.style.overflow = 'hidden';
-  document.documentElement.style.overflow = 'hidden';
+  // Prevent theme changes while modal is open
+  const originalTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  modal.setAttribute('data-original-theme', originalTheme);
 
   const iframe = getIframe();
   if (iframe) {
     const loading = getLoadingElement();
     if (loading) {
       loading.removeAttribute('hidden');
+      // Reset error state
+      const errorText = loading.querySelector('.calendar-loading-text');
+      if (errorText) {
+        errorText.textContent = 'Loading calendar...';
+      }
     }
 
-    if (!iframe.src) {
-      iframe.src = CALENDAR_URL;
-    }
+    // Always reload the iframe to ensure fresh content
+    iframe.src = CALENDAR_URL;
     setupIframeErrorHandling(iframe);
     setupScrollIndicators();
-  }
 
-  const closeButton = modal.querySelector('[data-calendar-close]') as HTMLElement;
-  closeButton?.focus();
+    // Prevent iframe from affecting parent theme
+    iframe.style.colorScheme = 'normal';
+    iframe.setAttribute('allowTransparency', 'false');
+  }
 
   requestAnimationFrame(() => {
     updateScrollIndicators();
+    calendarModalInstance?.open();
   });
 }
 
 function closeCalendarModal(): void {
-  const modal = getModal();
-  if (!modal) return;
-
   if (swipeGesture) {
     swipeGesture.destroy();
     swipeGesture = null;
   }
 
-  modal.setAttribute('hidden', '');
-  document.body.style.overflow = '';
-  document.documentElement.style.overflow = '';
-}
-
-function setupModalCloseHandlers(): void {
+  // Restore original theme if it was changed
   const modal = getModal();
-  if (!modal) return;
+  if (modal) {
+    const originalTheme = modal.getAttribute('data-original-theme');
+    if (originalTheme) {
+      document.documentElement.classList.remove('dark', 'light');
+      document.documentElement.classList.add(originalTheme);
+      modal.removeAttribute('data-original-theme');
+    }
+  }
 
-  const overlay = modal.querySelector('[data-calendar-overlay]');
-  const closeButton = modal.querySelector('[data-calendar-close]');
-
-  const handleClose = (e: Event) => {
-    e.preventDefault();
-    e.stopPropagation();
-    closeCalendarModal();
-  };
-
-  overlay?.addEventListener('click', handleClose);
-  closeButton?.addEventListener('click', handleClose);
+  calendarModalInstance?.close();
 }
+
+// Modal close handlers are now managed by the modal manager
 
 function setupCalendarButton(button: HTMLElement): void {
   if (initializedButtons.has(button)) return;
@@ -335,7 +371,6 @@ function setupCalendarButtons(): void {
 function initializeGoogleCalendar(): void {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-  setupModalCloseHandlers();
   setupSwipeHandlers();
   setupCalendarButtons();
 
