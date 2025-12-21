@@ -16,10 +16,10 @@
 
 <style>
   .fab-button {
-    position: sticky !important;
-    bottom: 1.5rem !important;
-    right: 1.5rem !important;
-    z-index: 9999 !important;
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: var(--z-floating-button);
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 50%;
@@ -52,7 +52,7 @@
   .fab-button:hover {
     border-color: var(--accent-green-opacity-40);
     box-shadow: 0 8px 32px var(--accent-green-opacity-30);
-    transform: translateZ(0) translateY(-2px) scale(1.05);
+    transform: translateY(-2px) scale(1.05);
   }
 
   .fab-button:hover .fab-icon {
@@ -60,7 +60,7 @@
   }
 
   .fab-button:active {
-    transform: translateZ(0) translateY(-1px) scale(1.02);
+    transform: translateY(-1px) scale(1.02);
     box-shadow: 0 4px 16px var(--accent-green-opacity-25);
   }
 
@@ -111,7 +111,7 @@
     }
 
     .fab-button:hover {
-      transform: translateZ(0) translateY(0) scale(1);
+      transform: none;
     }
 
     .fab-button:hover .fab-icon {
@@ -174,7 +174,7 @@
   body:has(.mobile-menu.is-open) .fab-button {
     opacity: 0;
     pointer-events: none;
-    transform: translateZ(0) scale(0.8);
+    transform: scale(0.8);
   }
 </style>
 

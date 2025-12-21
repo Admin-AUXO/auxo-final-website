@@ -65,9 +65,9 @@ const navItems = items.map(({ _key, ...item }) => ({
     </div>
   </div>
 
-  <div id="mobile-menu-overlay" class="mobile-menu-overlay lg:hidden fixed inset-0 z-[9997] bg-black/70 opacity-0 invisible transition-all duration-normal pointer-events-none" aria-hidden="true"></div>
+  <div id="mobile-menu-overlay" class="mobile-menu-overlay lg:hidden fixed inset-0 bg-black/70 opacity-0 invisible transition-all duration-normal pointer-events-none" style="z-index: var(--z-mobile-overlay);" aria-hidden="true"></div>
 
-  <div id="mobile-menu" class="mobile-menu lg:hidden fixed inset-0 z-[9998] opacity-0 invisible transition-all duration-normal pointer-events-none" aria-hidden="true">
+  <div id="mobile-menu" class="mobile-menu lg:hidden fixed inset-0 opacity-0 invisible transition-all duration-normal pointer-events-none" style="z-index: var(--z-mobile-menu);" aria-hidden="true">
     <div class="mobile-menu-header flex-shrink-0 bg-theme-primary border-b border-accent-green/30">
       <div class="grid-container">
         <div class="col-span-full flex items-center justify-between h-14 sm:h-16 relative min-w-0 w-full">
@@ -132,7 +132,8 @@ const navItems = items.map(({ _key, ...item }) => ({
   <button
     type="button"
     id="mobile-menu-close"
-    class="mobile-menu-close-btn lg:hidden fixed top-2 right-2 sm:top-3 sm:right-3 z-50 w-[44px] h-[44px] flex items-center justify-center rounded-xl text-theme-secondary hover:text-theme-primary bg-theme-primary border border-accent-green/30 hover:border-accent-green/50 transition-all duration-fast opacity-0 invisible pointer-events-none group/close"
+    class="mobile-menu-close-btn lg:hidden fixed top-2 right-2 sm:top-3 sm:right-3 w-[44px] h-[44px] flex items-center justify-center rounded-xl text-theme-secondary hover:text-theme-primary bg-theme-primary border border-accent-green/30 hover:border-accent-green/50 transition-all duration-fast opacity-0 invisible pointer-events-none group/close"
+    style="z-index: var(--z-mobile-menu);"
     aria-label="Close mobile menu"
   >
     <svg class="w-5 h-5 relative z-10 group-hover/close:rotate-90 transition-transform duration-fast" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,13 +145,6 @@ const navItems = items.map(({ _key, ...item }) => ({
 
 <div class="h-16 sm:h-18 lg:h-20"></div>
 
-<style>
-  #main-navigation {
-    contain: layout style paint;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-  }
-</style>
 
 <script>
   import { initializeNavigationComponents } from "@/scripts/navigation/index";

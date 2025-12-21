@@ -221,6 +221,9 @@ function openCalendarModal(): void {
   }
 
   modal.removeAttribute('hidden');
+
+  const scrollY = window.scrollY || document.documentElement.scrollTop;
+  document.documentElement.style.setProperty('--scroll-y', String(scrollY));
   document.body.style.overflow = 'hidden';
   document.documentElement.style.overflow = 'hidden';
 
