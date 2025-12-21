@@ -21,7 +21,7 @@ const shouldOpenCalendlyBtn = shouldOpenCalendly({
 });
 
 const cta = {
-  text: ctaText,
+  text: shouldOpenCalendlyBtn ? "Schedule a Meeting" : ctaText,
   href: shouldOpenCalendlyBtn ? undefined : createUrl(ctaHref),
   variant: "primary" as const,
   googleCalendar: shouldOpenCalendlyBtn,
