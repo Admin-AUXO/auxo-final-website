@@ -22,11 +22,12 @@
 .top-18 { top: var(--nav-height-lg); }
 
 #main-navigation {
-  position: fixed;
-  top: var(--scroll-progress-height);
-  left: 0;
-  right: 0;
-  width: 100vw;
+  position: fixed !important;
+  top: var(--scroll-progress-height) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  z-index: 2147483647 !important;
   border-bottom: 1px solid var(--accent-green-opacity-30);
   transition: opacity var(--duration-normal) var(--easing-standard),
               transform var(--duration-normal) var(--easing-standard),

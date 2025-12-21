@@ -280,7 +280,6 @@
   z-index: 2147483647 !important; /* Maximum CSS z-index value */
   position: fixed !important;
   isolation: isolate !important;
-  contain: layout style paint !important;
   transform: translateZ(0) !important;
   will-change: transform !important;
   pointer-events: auto !important;
