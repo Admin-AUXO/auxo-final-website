@@ -71,14 +71,14 @@ const navItems = items.map(({ _key, ...item }) => ({
     <div class="mobile-menu-header flex-shrink-0 bg-theme-primary border-b border-accent-green/30">
       <div class="grid-container">
         <div class="col-span-full flex items-center justify-between h-14 sm:h-16 relative min-w-0 w-full">
-          <div class="flex-shrink-0 min-w-0 flex items-center overflow-hidden pr-2">
+          <div class="flex-shrink-0 min-w-0 flex items-center overflow-hidden pr-2 bg-theme-primary">
             <Logo size="md" showText={false} href={base} />
           </div>
-          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 pointer-events-auto">
+          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 pointer-events-auto bg-theme-primary">
             <button
               type="button"
               id="mobile-menu-close-header"
-              class="mobile-menu-close-btn-header relative text-theme-secondary hover:text-theme-primary p-2 rounded-xl hover:bg-theme-surface/80 active:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-primary pointer-events-auto flex-shrink-0 min-w-[44px] min-h-[44px] w-[44px] h-[44px] flex items-center justify-center touch-manipulation group/close"
+              class="mobile-menu-close-btn-header relative text-theme-secondary hover:text-theme-primary p-2 rounded-xl bg-theme-primary hover:bg-theme-surface/80 active:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-primary pointer-events-auto flex-shrink-0 min-w-[44px] min-h-[44px] w-[44px] h-[44px] flex items-center justify-center touch-manipulation group/close"
               aria-label="Close mobile menu"
             >
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
