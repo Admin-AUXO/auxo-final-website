@@ -117,6 +117,14 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
                   Need help choosing? <a href={createUrl('contact')} class="text-accent-green hover:underline font-medium transition-colors duration-fast">Contact our team</a>
                 </p>
                 <div class="hidden lg:flex items-center gap-2 pointer-events-auto flex-shrink-0 ml-auto">
+                  <button
+                    type="button"
+                    class="dropdown-modal-close-btn flex items-center justify-center w-8 h-8 rounded-lg text-theme-secondary hover:text-theme-primary hover:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-card"
+                    data-dropdown-close={index}
+                    aria-label="Close services menu"
+                  >
+                    <Icon name="mdi:close" class="w-5 h-5" />
+                  </button>
                   <CtaButton
                     href={createUrl('services')}
                     showArrow={true}
@@ -129,14 +137,24 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
                   <p class="text-xs sm:text-sm md:text-base text-theme-secondary opacity-70 text-center sm:text-left flex-1 min-w-0">
                     Need help choosing? <a href={createUrl('contact')} class="text-accent-green hover:underline font-medium transition-colors duration-fast">Contact our team</a>
                   </p>
-                  <CtaButton
-                    href={createUrl('services')}
-                    size="md"
-                    showArrow={true}
-                    aria-label="View all services"
-                  >
-                    View All Services
-                  </CtaButton>
+                  <div class="flex items-center gap-2 flex-shrink-0">
+                    <button
+                      type="button"
+                      class="dropdown-modal-close-btn flex items-center justify-center w-8 h-8 rounded-lg text-theme-secondary hover:text-theme-primary hover:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-card"
+                      data-dropdown-close={index}
+                      aria-label="Close services menu"
+                    >
+                      <Icon name="mdi:close" class="w-5 h-5" />
+                    </button>
+                    <CtaButton
+                      href={createUrl('services')}
+                      size="md"
+                      showArrow={true}
+                      aria-label="View all services"
+                    >
+                      View All Services
+                    </CtaButton>
+                  </div>
                 </div>
               </div>
             </div>

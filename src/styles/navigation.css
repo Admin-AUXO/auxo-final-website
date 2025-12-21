@@ -1375,6 +1375,8 @@ body:has(.mobile-menu.is-open) {
   min-height: 0 !important;
   padding: 0 !important;
   margin: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
 }
 
 .dropdown-modal-header {
@@ -1455,6 +1457,7 @@ body:has(.mobile-menu.is-open) {
   grid-auto-rows: 1fr !important;
   flex: 1 !important;
   min-height: 0 !important;
+  height: 100% !important;
   position: relative !important;
 }
 

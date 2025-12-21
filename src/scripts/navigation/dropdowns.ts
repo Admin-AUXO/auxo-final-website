@@ -16,6 +16,7 @@ const SELECTORS = {
   TOGGLE: '.dropdown-toggle',
   ARROW: '.dropdown-arrow, .dropdown-chevron',
   OVERLAY: '.dropdown-modal-overlay',
+  CLOSE_BTN: '[data-dropdown-close]',
 } as const;
 
 const STANDARD_DROPDOWN_ANIMATION_DURATION = 400;
@@ -265,7 +266,14 @@ export function setupDropdownCloseHandlers(): void {
 
     const isToggle = target.closest(SELECTORS.TOGGLE);
     const isOverlay = target.closest(SELECTORS.OVERLAY);
+    const isCloseBtn = target.closest(SELECTORS.CLOSE_BTN);
     const isDropdownContent = target.closest('.dropdown-modal-content, .dropdown-menu');
+
+    // Close if close button is clicked
+    if (isCloseBtn) {
+      closeDropdown(state.openDropdown);
+      return;
+    }
 
     if (isToggle || isOverlay || isDropdownContent) return;
     if (!state.openDropdown.contains(target)) {
