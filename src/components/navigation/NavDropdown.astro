@@ -94,12 +94,12 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
     </button>
 
     <div
-      class="dropdown-modal-overlay fixed left-0 right-0 bottom-0 bg-black/60 opacity-0 invisible pointer-events-none"
+      class="dropdown-modal-overlay"
       data-dropdown-overlay={index}
       aria-hidden="true"
     ></div>
     <div
-      class="dropdown-modal-menu fixed left-0 right-0 bottom-0 opacity-0 invisible pointer-events-none"
+      class="dropdown-modal-menu"
       data-dropdown-menu={index}
       data-dropdown-content
     >
@@ -207,8 +207,8 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
       <span class={NAV_ACTIVE_BG}></span>
     </button>
 
-    <div 
-      class="absolute left-0 top-full mt-2 opacity-0 invisible transition-all duration-normal pointer-events-none dropdown-menu transform translate-y-2 w-[300px]"
+    <div
+      class="dropdown-menu"
       data-dropdown-menu={index}
       data-dropdown-content
     >

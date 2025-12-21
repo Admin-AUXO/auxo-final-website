@@ -364,8 +364,8 @@
 .mobile-menu.is-open {
   transform: translateY(0) !important;
   opacity: 1 !important;
-  pointer-events: auto;
-  visibility: visible;
+  pointer-events: auto !important;
+  visibility: visible !important;
   transition:
     transform var(--duration-normal) var(--timing-smooth),
     opacity var(--duration-normal) ease-out,
@@ -883,7 +883,7 @@ body:has(.mobile-menu.is-open) {
 
 .dropdown-modal-overlay {
   position: fixed !important;
-  z-index: var(--z-services-dropdown) !important;
+  z-index: 9998 !important;
   top: var(--nav-height-lg) !important;
   left: 0 !important;
   right: 0;
@@ -904,14 +904,14 @@ body:has(.mobile-menu.is-open) {
 }
 
 .dropdown-modal-overlay.open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
 .dropdown-modal-menu {
   position: fixed !important;
-  z-index: var(--z-services-dropdown) !important;
+  z-index: 9999 !important;
   top: var(--nav-height-lg) !important;
   left: 0 !important;
   right: 0 !important;
@@ -938,10 +938,10 @@ body:has(.mobile-menu.is-open) {
 }
 
 .dropdown-modal-menu.open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translateY(0) scale(1);
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateY(0) scale(1) !important;
 }
 
 @keyframes dropdownSlideDown {
