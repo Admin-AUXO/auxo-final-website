@@ -108,33 +108,11 @@
     justify-content: space-between;
     padding: 1rem 1.25rem;
     border-bottom: 2px solid var(--accent-green-opacity-30);
-    background: linear-gradient(
-      135deg,
-      var(--bg-primary) 0%,
-      rgba(var(--accent-green-rgb), 0.03) 50%,
-      var(--bg-primary) 100%
-    );
+    background: var(--bg-primary);
     flex-shrink: 0;
     position: relative;
-    z-index: 100;
+    z-index: 2147483647;
     min-height: 60px;
-  }
-
-  .calendar-modal-header::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    z-index: 1;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--accent-green),
-      transparent
-    );
-    opacity: 0.5;
   }
 
   .calendar-modal-title {
@@ -142,8 +120,6 @@
     font-weight: 600;
     color: var(--text-primary);
     margin: 0;
-    position: relative;
-    z-index: 1;
     flex: 1;
   }
 
@@ -163,7 +139,7 @@
     border-radius: var(--radius-lg);
     transition: all var(--duration-fast) var(--easing-standard);
     position: relative;
-    z-index: 200;
+    z-index: 2147483647;
     overflow: hidden;
     flex-shrink: 0;
     min-width: 2.75rem;
