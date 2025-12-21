@@ -6,30 +6,15 @@
   box-sizing: border-box;
 }
 
-/* Hide scrollbars globally while maintaining scroll functionality */
+/* Global scrollbar hiding */
 * {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 *::-webkit-scrollbar,
 *::-webkit-scrollbar-track,
 *::-webkit-scrollbar-thumb {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-}
-
-/* Specifically hide iframe scrollbars */
-iframe {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-iframe::-webkit-scrollbar,
-iframe::-webkit-scrollbar-track,
-iframe::-webkit-scrollbar-thumb {
   display: none !important;
   width: 0 !important;
   height: 0 !important;

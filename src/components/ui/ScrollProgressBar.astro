@@ -1,7 +1,7 @@
 ---
 ---
 
-<div id="scroll-progress-bar" class="scroll-progress-bar" aria-hidden="true">
+<div id="scroll-progress-bar" class="scroll-progress-bar always-visible" aria-hidden="true">
   <div class="scroll-progress-bar-fill"></div>
 </div>
 
@@ -14,13 +14,7 @@
     width: 100vw;
     height: var(--scroll-progress-height);
     background: transparent;
-    z-index: var(--z-scroll-progress);
     pointer-events: none;
-    /* Ensure progress bar stays visible above all content */
-    isolation: isolate;
-    /* Prevent any modal or overlay from covering */
-    transform: translateZ(0);
-    will-change: transform;
   }
 
   .scroll-progress-bar-fill {

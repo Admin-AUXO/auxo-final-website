@@ -27,7 +27,6 @@
   left: 0;
   right: 0;
   width: 100vw;
-  z-index: var(--z-navigation);
   border-bottom: 1px solid var(--accent-green-opacity-30);
   transition: opacity var(--duration-normal) var(--easing-standard),
               transform var(--duration-normal) var(--easing-standard),
@@ -40,11 +39,6 @@
   -webkit-backdrop-filter: blur(var(--blur-nav));
 }
 
-#main-navigation.nav-hidden {
-  transform: translateY(-100%);
-  opacity: 0;
-  pointer-events: none;
-}
 
 /* Ensure modals stay below navigation when closed */
 .dropdown-modal-overlay:not(.open) {
