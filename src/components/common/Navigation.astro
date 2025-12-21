@@ -145,16 +145,10 @@ const navItems = items.map(({ _key, ...item }) => ({
 <div class="h-16 sm:h-18 lg:h-20"></div>
 
 <style>
-  /* Navigation uses Tailwind classes for positioning with proper performance optimizations */
   #main-navigation {
-    /* Performance optimizations for smooth scrolling */
     contain: layout style paint;
     transform: translateZ(0);
     backface-visibility: hidden;
-  }
-
-  /* Ensure navigation backdrop works across all browsers */
-  #main-navigation {
     -webkit-backdrop-filter: blur(var(--blur-nav));
     backdrop-filter: blur(var(--blur-nav));
   }

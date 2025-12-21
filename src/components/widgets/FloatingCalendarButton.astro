@@ -1,6 +1,5 @@
 ---
 ---
-// FAB is positioned with CSS - no DOM manipulation needed
 <button
   id="floating-calendar-button"
   type="button"
@@ -17,13 +16,10 @@
 
 <style>
   .fab-button {
-    /* Core positioning - always visible FAB */
     position: fixed !important;
     bottom: 1.5rem !important;
     right: 1.5rem !important;
-    z-index: 40 !important; /* Below navigation (z-50) but above content */
-
-    /* Visual styling */
+    z-index: 40 !important;
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 50%;
@@ -37,17 +33,11 @@
     cursor: pointer;
     touch-action: manipulation;
     user-select: none;
-
-    /* Performance optimizations */
     will-change: transform;
     contain: layout style paint;
     transform: translateZ(0);
     backface-visibility: hidden;
-
-    /* Transitions */
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* Accessibility and interaction */
     opacity: 1;
     pointer-events: auto;
     isolation: isolate;
@@ -141,15 +131,12 @@
     }
   }
 
-  /* Responsive positioning to avoid mobile navigation overlap */
   @media (max-width: 1023px) {
     .fab-button {
-      /* Account for navigation height (3.5rem) + safe spacing */
       bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
     }
   }
 
-  /* Adjust for short screens and landscape orientation */
   @media (max-height: 600px) and (orientation: landscape) {
     .fab-button {
       bottom: 1rem !important;
@@ -164,7 +151,6 @@
     }
   }
 
-  /* High contrast mode support */
   @media (prefers-contrast: high) {
     .fab-button {
       border-width: 3px;
@@ -172,7 +158,6 @@
     }
   }
 
-  /* Safe area support for notched devices */
   @supports (padding: max(0px)) {
     .fab-button {
       bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom))) !important;
@@ -186,7 +171,6 @@
     }
   }
 
-  /* Hide FAB when mobile menu is open to avoid conflicts */
   body:has(.mobile-menu.is-open) .fab-button {
     opacity: 0 !important;
     pointer-events: none !important;
