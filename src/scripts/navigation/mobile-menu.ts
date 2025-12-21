@@ -1,7 +1,7 @@
 import { DragGesture } from '@use-gesture/vanilla';
 import { state, addTrackedListener } from './state';
 import { getNavElements, resetDropdownStyles, findDropdownContent, lockScroll, unlockScroll } from './utils';
-import { DROPDOWN_ANIMATION_DURATION, DROPDOWN_CLOSE_DELAY } from './types';
+import { DROPDOWN_ANIMATION_DURATION, DROPDOWN_CLOSE_DELAY } from './state';
 import { createFocusTrap } from 'focus-trap';
 
 let focusTrap: ReturnType<typeof createFocusTrap> | null = null;
@@ -252,7 +252,7 @@ function openMobileMenu(): void {
     try {
       focusTrap?.activate();
     } catch {
-      // Silent focus trap error
+      // Ignore focus trap activation errors
     }
     
     setupMobileDropdowns();
@@ -425,11 +425,8 @@ export function initializeMobileMenu(): void {
 
     closeMobileMenu();
 
-    // Remove existing event listeners by cloning the button
     const newButton = mobileMenuButton.cloneNode(true) as HTMLElement;
     mobileMenuButton.parentNode?.replaceChild(newButton, mobileMenuButton);
-
-    // Set up proper ARIA attributes
     newButton.setAttribute('aria-expanded', 'false');
     newButton.setAttribute('aria-controls', 'mobile-menu');
 
@@ -446,7 +443,6 @@ export function initializeMobileMenu(): void {
       handleMenuButtonClick(e);
     };
 
-    // Add event listeners with proper error handling
     try {
       addTrackedListener(newButton, 'click', clickHandler, { capture: true });
       addTrackedListener(newButton, 'touchend', touchHandler, { passive: false, capture: true });

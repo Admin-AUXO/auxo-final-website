@@ -1,5 +1,4 @@
-import { state, addTrackedListener, clearDropdownTimer } from './state';
-import { DROPDOWN_LEAVE_DELAY } from './types';
+import { state, addTrackedListener, clearDropdownTimer, DROPDOWN_LEAVE_DELAY } from './state';
 import { lockScroll, unlockScroll } from './utils';
 import { computePosition, autoUpdate, offset, flip, shift } from '@floating-ui/dom';
 import type { Placement } from '@floating-ui/dom';

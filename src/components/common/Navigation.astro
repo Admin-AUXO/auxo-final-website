@@ -21,7 +21,7 @@ const navItems = items.map(({ _key, ...item }) => ({
 }));
 ---
 
-<nav id="main-navigation" class="fixed top-0 left-0 right-0 backdrop-blur-md border-b border-accent-green/30 transition-all duration-normal">
+<nav id="main-navigation" class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-accent-green/30 transition-all duration-normal">
   <div class="grid-container">
     <div class="col-span-full flex items-center justify-between h-14 sm:h-16 lg:h-18 relative min-w-0 w-full">
       <div class="flex-shrink-0 min-w-0 flex items-center overflow-hidden pr-2 lg:pr-0">
@@ -53,7 +53,6 @@ const navItems = items.map(({ _key, ...item }) => ({
           <ThemeToggle />
         </div>
         <button type="button" id="mobile-menu-button" class="mobile-menu-button relative text-theme-secondary hover:text-theme-primary p-2 rounded-xl hover:bg-theme-surface/80 active:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-primary pointer-events-auto flex-shrink-0 min-w-[44px] min-h-[44px] w-[44px] h-[44px] flex items-center justify-center touch-manipulation group/btn" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-menu">
-          <span class="sr-only">Toggle menu</span>
           <div class="relative w-6 h-6" aria-hidden="true">
             <svg class="absolute inset-0 w-6 h-6 menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path class="menu-open transition-all duration-fast" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -66,9 +65,9 @@ const navItems = items.map(({ _key, ...item }) => ({
     </div>
   </div>
 
-  <div id="mobile-menu-overlay" class="mobile-menu-overlay lg:hidden fixed inset-0 bg-black/70 opacity-0 invisible transition-all duration-normal pointer-events-none" aria-hidden="true"></div>
+  <div id="mobile-menu-overlay" class="mobile-menu-overlay lg:hidden fixed inset-0 z-[9997] bg-black/70 opacity-0 invisible transition-all duration-normal pointer-events-none" aria-hidden="true"></div>
 
-  <div id="mobile-menu" class="mobile-menu lg:hidden fixed inset-0 opacity-0 invisible transition-all duration-normal pointer-events-none" aria-hidden="true">
+  <div id="mobile-menu" class="mobile-menu lg:hidden fixed inset-0 z-[9998] opacity-0 invisible transition-all duration-normal pointer-events-none" aria-hidden="true">
     <div class="mobile-menu-header flex-shrink-0 bg-theme-primary border-b border-accent-green/30">
       <div class="grid-container">
         <div class="col-span-full flex items-center justify-between h-14 sm:h-16 relative min-w-0 w-full">
@@ -82,11 +81,9 @@ const navItems = items.map(({ _key, ...item }) => ({
               class="mobile-menu-close-btn-header relative text-theme-secondary hover:text-theme-primary p-2 rounded-xl hover:bg-theme-surface/80 active:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-primary pointer-events-auto flex-shrink-0 min-w-[44px] min-h-[44px] w-[44px] h-[44px] flex items-center justify-center touch-manipulation group/close"
               aria-label="Close mobile menu"
             >
-              <div class="relative w-6 h-6" aria-hidden="true">
-                <svg class="absolute inset-0 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path class="transition-all duration-fast" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </div>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
               <span class="absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 group-hover/close:opacity-100 transition-opacity duration-fast"></span>
             </button>
           </div>
@@ -135,7 +132,7 @@ const navItems = items.map(({ _key, ...item }) => ({
   <button
     type="button"
     id="mobile-menu-close"
-    class="mobile-menu-close-btn lg:hidden fixed top-2 right-2 sm:top-3 sm:right-3 z-[4002] w-[44px] h-[44px] flex items-center justify-center rounded-xl text-theme-secondary hover:text-theme-primary bg-theme-primary border border-accent-green/30 hover:border-accent-green/50 transition-all duration-fast opacity-0 invisible pointer-events-none group/close"
+    class="mobile-menu-close-btn lg:hidden fixed top-2 right-2 sm:top-3 sm:right-3 z-50 w-[44px] h-[44px] flex items-center justify-center rounded-xl text-theme-secondary hover:text-theme-primary bg-theme-primary border border-accent-green/30 hover:border-accent-green/50 transition-all duration-fast opacity-0 invisible pointer-events-none group/close"
     aria-label="Close mobile menu"
   >
     <svg class="w-5 h-5 relative z-10 group-hover/close:rotate-90 transition-transform duration-fast" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,9 +144,24 @@ const navItems = items.map(({ _key, ...item }) => ({
 
 <div class="h-16 sm:h-18 lg:h-20"></div>
 
+<style>
+  /* Navigation is now properly positioned with Tailwind classes */
+  /* Additional styles for cross-browser compatibility */
+  #main-navigation {
+    /* Ensure navigation stays at the top on all devices */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 50 !important;
+    width: 100vw !important;
+    max-width: none !important;
+  }
+</style>
+
 <script>
   import { initializeNavigationComponents } from "@/scripts/navigation/index";
-  
+
   if (typeof window !== 'undefined') {
     requestAnimationFrame(() => {
       try {
