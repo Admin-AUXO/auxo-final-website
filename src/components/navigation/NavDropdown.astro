@@ -213,25 +213,25 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
       data-dropdown-content
     >
       <div class="relative">
-        <div class="absolute -top-2 left-6 w-4 h-4 bg-theme-card border-l border-t border-accent-green/30 rotate-45"></div>
+        <div class="dropdown-menu-arrow"></div>
         
-        <div class="relative bg-theme-card border border-accent-green/30 rounded-xl p-2 shadow-2xl">
+        <div class="dropdown-menu-container">
           <div class="space-y-1">
             {item.dropdown!.map((sub: DropdownItem) => (
               <a
                 href={sub.href}
-                class="group/item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-theme-surface/80 transition-all duration-fast border border-transparent hover:border-accent-green/20 relative"
+                class="dropdown-menu-item group/item"
               >
-                <div class="w-10 h-10 bg-theme-surface/60 rounded-lg flex items-center justify-center flex-shrink-0 group-hover/item:bg-accent-green/10 transition-colors duration-fast border border-accent-green/20 group-hover/item:border-accent-green/40">
+                <div class="dropdown-menu-item-icon">
                   <Icon name={sub.icon} class={ICON_BASE} />
                 </div>
                 
                 <div class="flex-1 min-w-0">
-                  <div class="font-semibold text-theme-primary text-sm leading-snug group-hover/item:text-accent-green transition-colors duration-fast">
+                  <div class="dropdown-menu-item-text">
                     {sub.name}
                   </div>
                 </div>
-                <span class="absolute inset-0 bg-accent-green/5 rounded-lg opacity-0 group-hover/item:opacity-100 transition-opacity duration-fast pointer-events-none"></span>
+                <span class="dropdown-menu-item-bg"></span>
               </a>
             ))}
           </div>
