@@ -1,6 +1,6 @@
 :root {
-  --accent-green: #10B981;
-  --accent-green-rgb: 16, 185, 129;
+  --accent-green: #A3E635;
+  --accent-green-rgb: 163, 230, 53;
   --bg-primary: #000;
   --text-primary: #FFF;
   --text-secondary: #A0A0A0;
@@ -259,8 +259,8 @@
 }
 
 :root.light {
-  --accent-green: #059669;
-  --accent-green-rgb: 5, 150, 105;
+  --accent-green: #7CB342;
+  --accent-green-rgb: 124, 179, 66;
   --bg-primary: #FFF;
   --text-primary: #111827;
   --text-secondary: #4B5563;
