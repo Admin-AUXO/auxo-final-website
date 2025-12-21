@@ -10,17 +10,17 @@ export function initSmoothScroll() {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   
   lenis = new Lenis({
-    duration: isMobile ? 1.0 : 0.9,
+    duration: isMobile ? 0.35 : 0.9,
     easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
     smoothWheel: true,
-    wheelMultiplier: isMobile ? 1.1 : 1.05,
-    touchMultiplier: isMobile ? 2.0 : 1.8,
+    wheelMultiplier: isMobile ? 1.4 : 1.05,
+    touchMultiplier: isMobile ? 2.8 : 1.8,
     infinite: false,
-    lerp: isMobile ? 0.12 : 0.1,
+    lerp: isMobile ? 0.2 : 0.1,
     syncTouch: true,
-    syncTouchLerp: isMobile ? 0.1 : 0.08,
+    syncTouchLerp: isMobile ? 0.06 : 0.08,
     touchInertiaMultiplier: 35,
     touchInertiaDeltaMultiplier: 0.5,
   } as any);
@@ -42,7 +42,8 @@ export function initSmoothScroll() {
       const target = document.querySelector(href);
       if (target && lenis && target instanceof HTMLElement) {
         e.preventDefault();
-        lenis.scrollTo(target, { offset: -80, duration: 1.2 });
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        lenis.scrollTo(target, { offset: -80, duration: isMobile ? 0.5 : 1.2 });
       }
     });
   });
@@ -68,9 +69,10 @@ export function startSmoothScroll() {
 
 export function scrollToElement(target: string | HTMLElement, options?: { offset?: number; duration?: number }) {
   if (!lenis) return;
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   lenis.scrollTo(target, {
     offset: options?.offset ?? 0,
-    duration: options?.duration ?? 1.0,
+    duration: options?.duration ?? (isMobile ? 0.4 : 1.0),
   });
 }
 
