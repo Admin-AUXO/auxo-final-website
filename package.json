@@ -2,6 +2,10 @@
   "name": "auxo-homepage",
   "type": "module",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=18.14.1 <24.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "npm run type-check && astro build",
@@ -13,7 +17,11 @@
     "lint:css": "stylelint \"src/styles/**/*.css\"",
     "lint:css:fix": "stylelint \"src/styles/**/*.css\" --fix",
     "lint": "npm run type-check && npm run lint:css",
-    "validate": "npm run type-check && npm run lint:css"
+    "validate": "npm run type-check && npm run lint:css",
+    "performance:check": "node performance-check.js",
+    "performance:report": "node performance-report.js",
+    "performance:fix-windows": "powershell -ExecutionPolicy Bypass -File fix-windows-permissions.ps1",
+    "performance:audit": "npm run build && npx serve dist -p 3001 & Start-Sleep 5; npx lighthouse http://localhost:3001 --output json --output-path ./performance-audit.json --quiet && echo 'Performance audit completed. Results saved to performance-audit.json'"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
@@ -41,7 +49,7 @@
     "notyf": "^3.10.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "sharp": "^0.33.5",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.18",
     "zod": "^3.23.8"
   },
@@ -61,5 +69,8 @@
     "stylelint-config-standard": "^39.0.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "sharp": "^0.34.5"
   }
 }

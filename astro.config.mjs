@@ -19,6 +19,8 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'never',
     assets: '_astro',
+    minify: true,
+    sourcemap: false,
   },
   compressHTML: true,
   image: {
@@ -29,7 +31,17 @@ export default defineConfig({
   },
   vite: {
     optimizeDeps: {
-      include: ['@heroui/react', 'framer-motion', 'embla-carousel', '@floating-ui/dom', 'lenis', 'aos'],
+      include: [
+        '@heroui/react',
+        'framer-motion',
+        'embla-carousel',
+        '@floating-ui/dom',
+        'lenis',
+        'aos',
+        'sharp',
+        'react',
+        'react-dom'
+      ],
       exclude: ['@heroui/theme'],
     },
     build: {
@@ -39,6 +51,14 @@ export default defineConfig({
           chunkFileNames: '_astro/[name]-[hash].js',
           entryFileNames: '_astro/[name]-[hash].js',
           assetFileNames: '_astro/[name]-[hash].[ext]',
+          manualChunks(id) {
+            // Split large libraries into separate chunks
+            if (id.includes('framer-motion')) return 'framer-motion';
+            if (id.includes('react') || id.includes('react-dom')) return 'react-vendor';
+            if (id.includes('@heroui/react') || id.includes('embla-carousel') || id.includes('@floating-ui/dom')) return 'ui-vendor';
+            if (id.includes('aos') || id.includes('lenis')) return 'animation-vendor';
+            if (id.includes('astro-icon')) return 'icons';
+          },
         },
         onwarn(warning, warn) {
           if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.id?.includes('@astrojs/internal-helpers')) {
@@ -68,13 +88,57 @@ export default defineConfig({
   integrations: [
     astroEdge({
       optimization: {
-        images: { format: 'webp', quality: 80 },
+        images: {
+          format: 'webp',
+          quality: 80,
+          progressive: true,
+          effort: 6
+        },
         static: true,
         compression: true,
+        fonts: {
+          preload: true,
+          display: 'swap'
+        },
+        scripts: {
+          async: true,
+          defer: true
+        },
+        styles: {
+          critical: true,
+          minify: true
+        }
       },
       monitoring: {
         lighthouse: true,
-        thresholds: { performance: 95 },
+        webVitals: true,
+        bundleAnalyzer: true,
+        systemHealth: true,
+        thresholds: {
+          performance: 95,
+          accessibility: 90,
+          'best-practices': 90,
+          seo: 90,
+          fcp: 1800, // First Contentful Paint
+          lcp: 2500, // Largest Contentful Paint
+          cls: 0.1,  // Cumulative Layout Shift
+          fid: 100,  // First Input Delay
+          ttfb: 800  // Time to First Byte
+        },
+        budgets: [
+          {
+            type: 'bundle',
+            name: 'main',
+            maximumWarning: '150 KB',
+            maximumError: '200 KB'
+          },
+          {
+            type: 'bundle',
+            name: 'vendor',
+            maximumWarning: '300 KB',
+            maximumError: '400 KB'
+          }
+        ]
       },
     }),
     react(),
