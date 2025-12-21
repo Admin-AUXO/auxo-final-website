@@ -86,24 +86,16 @@
     position: relative;
     width: 100%;
     max-width: 100vw;
-    height: calc(100vh - var(--nav-height-sm, 64px));
-    margin-top: var(--nav-height-sm, 64px);
+    height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: var(--bg-primary);
-    border: 1px solid var(--accent-green-opacity-30);
+    border: none;
     box-shadow:
       0 0 0 1px var(--accent-green-opacity-15),
       0 20px 60px var(--overlay-black-75),
       0 0 40px var(--accent-green-opacity-08);
     z-index: 10;
-  }
-
-  @media (min-width: 1024px) {
-    .calendar-modal-container {
-      height: calc(100vh - var(--nav-height-lg, 72px));
-      margin-top: var(--nav-height-lg, 72px);
-    }
   }
 
   .calendar-modal-header {

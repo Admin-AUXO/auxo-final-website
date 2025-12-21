@@ -148,42 +148,39 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
               </div>
             </div>
           </header>
-          <main class="dropdown-modal-content-main overflow-y-auto">
-            <div class="grid-container">
-              <div class="col-span-full max-w-7xl mx-auto w-full">
-                <div class="services-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
-                  {item.dropdown!.map((sub: DropdownItem, cardIndex: number) => (
-                    <a href={sub.href} class={SERVICE_CARD_BASE} style={`--card-index: ${cardIndex}`}>
-                      <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent-green/40 to-transparent group-hover/item:via-accent-green/70 transition-all duration-500"></div>
-                      <div class="absolute inset-0 opacity-[0.03] group-hover/item:opacity-[0.06] transition-opacity duration-500 dropdown-card-pattern"></div>
-
-                      <div class="relative z-10 flex flex-col h-full p-6 sm:p-7 md:p-8">
-                        <div class="flex flex-col flex-1 items-center justify-center text-center">
-                          <div class="mb-4 sm:mb-5 md:mb-6">
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-accent-green/25 via-accent-green/15 to-accent-green/5 flex items-center justify-center border-2 border-accent-green/30 group-hover/item:border-accent-green/60 group-hover/item:from-accent-green/35 group-hover/item:shadow-xl group-hover/item:shadow-accent-green/30 transition-all duration-500 group-hover/item:scale-110 rounded-2xl">
-                              <Icon name={sub.icon} class="w-6 h-6 sm:w-7 sm:h-7 text-accent-green transition-transform duration-500 group-hover/item:scale-110" />
-                            </div>
-                          </div>
-
-                          <h3 class="font-bold text-theme-primary text-base sm:text-lg leading-tight group-hover/item:text-accent-green transition-colors duration-500 mb-2 sm:mb-3 line-clamp-2">
-                            {sub.name}
-                          </h3>
-
-                          {sub.description && (
-                            <p class="text-xs sm:text-sm text-theme-secondary leading-relaxed opacity-75 group-hover/item:opacity-90 line-clamp-3">
-                              {sub.description}
-                            </p>
-                          )}
-                        </div>
-
-                        <div class="mt-4 opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-2 text-accent-green text-sm font-semibold">
-                          <span>Learn more</span>
-                          <Icon name="mdi:arrow-right" class="w-4 h-4 group-hover/item:translate-x-1 transition-transform duration-300" />
-                        </div>
+          <main class="dropdown-modal-content-main">
+            <div class="w-full max-w-[1400px] mx-auto px-6 py-8">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
+                {item.dropdown!.map((sub: DropdownItem, cardIndex: number) => (
+                  <a
+                    href={sub.href}
+                    class="group/card relative flex flex-col p-6 bg-gradient-to-br from-theme-card to-theme-surface border border-accent-green/20 rounded-2xl hover:border-accent-green/50 hover:shadow-2xl hover:shadow-accent-green/10 transition-all duration-300 hover:-translate-y-1"
+                    style={`--card-index: ${cardIndex}; animation: fadeInUp 0.4s ease-out calc(${cardIndex} * 0.05s) backwards;`}
+                  >
+                    <div class="flex flex-col items-center text-center space-y-4 flex-1">
+                      <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-accent-green/20 to-accent-green/5 border border-accent-green/30 flex items-center justify-center group-hover/card:scale-110 group-hover/card:border-accent-green/60 transition-all duration-300">
+                        <Icon name={sub.icon} class="w-8 h-8 text-accent-green" />
                       </div>
-                    </a>
-                  ))}
-                </div>
+
+                      <div class="flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold text-theme-primary group-hover/card:text-accent-green transition-colors duration-300 mb-2">
+                          {sub.name}
+                        </h3>
+
+                        {sub.description && (
+                          <p class="text-sm text-theme-secondary leading-relaxed opacity-80 group-hover/card:opacity-100 transition-opacity duration-300">
+                            {sub.description}
+                          </p>
+                        )}
+                      </div>
+
+                      <div class="flex items-center gap-2 text-accent-green font-semibold text-sm opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
+                        <span>Explore</span>
+                        <Icon name="mdi:arrow-right" class="w-4 h-4 group-hover/card:translate-x-1 transition-transform duration-300" />
+                      </div>
+                    </div>
+                  </a>
+                ))}
               </div>
             </div>
           </main>
