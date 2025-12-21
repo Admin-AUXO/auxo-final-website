@@ -37,14 +37,20 @@
     cursor: pointer;
     touch-action: manipulation;
     user-select: none;
+
+    /* Performance optimizations */
     will-change: transform;
+    contain: layout style paint;
     transform: translateZ(0);
     backface-visibility: hidden;
-    transition: all 0.2s ease;
+
+    /* Transitions */
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Accessibility and interaction */
     opacity: 1;
     pointer-events: auto;
     isolation: isolate;
-    contain: none;
   }
 
   .fab-icon {
@@ -135,19 +141,56 @@
     }
   }
 
-  /* Ensure FAB doesn't interfere with mobile navigation */
+  /* Responsive positioning to avoid mobile navigation overlap */
   @media (max-width: 1023px) {
     .fab-button {
-      /* Adjust position to account for mobile menu close button */
-      bottom: calc(1.5rem + 56px); /* Account for navigation height + spacing */
+      /* Account for navigation height (3.5rem) + safe spacing */
+      bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
     }
   }
 
-  @media (max-width: 1023px) and (max-height: 600px) {
+  /* Adjust for short screens and landscape orientation */
+  @media (max-height: 600px) and (orientation: landscape) {
     .fab-button {
-      /* Further adjust for small screens */
-      bottom: calc(1rem + 56px);
+      bottom: 1rem !important;
+      right: 1rem !important;
+      width: 3rem !important;
+      height: 3rem !important;
     }
+
+    .fab-icon {
+      width: 1.25rem !important;
+      height: 1.25rem !important;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .fab-button {
+      border-width: 3px;
+      box-shadow: 0 6px 24px var(--accent-green-opacity-30);
+    }
+  }
+
+  /* Safe area support for notched devices */
+  @supports (padding: max(0px)) {
+    .fab-button {
+      bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom))) !important;
+      right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right))) !important;
+    }
+
+    @media (max-width: 1023px) {
+      .fab-button {
+        bottom: max(2rem, calc(1.5rem + 3.5rem + env(safe-area-inset-bottom))) !important;
+      }
+    }
+  }
+
+  /* Hide FAB when mobile menu is open to avoid conflicts */
+  body:has(.mobile-menu.is-open) .fab-button {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateZ(0) scale(0.8) !important;
   }
 </style>
 

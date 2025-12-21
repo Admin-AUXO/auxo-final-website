@@ -21,7 +21,7 @@ const navItems = items.map(({ _key, ...item }) => ({
 }));
 ---
 
-<nav id="main-navigation" class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-accent-green/30 transition-all duration-normal">
+<nav id="main-navigation" class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-accent-green/30 transition-all duration-normal will-change-transform">
   <div class="grid-container">
     <div class="col-span-full flex items-center justify-between h-14 sm:h-16 lg:h-18 relative min-w-0 w-full">
       <div class="flex-shrink-0 min-w-0 flex items-center overflow-hidden pr-2 lg:pr-0">
@@ -145,17 +145,18 @@ const navItems = items.map(({ _key, ...item }) => ({
 <div class="h-16 sm:h-18 lg:h-20"></div>
 
 <style>
-  /* Navigation is now properly positioned with Tailwind classes */
-  /* Additional styles for cross-browser compatibility */
+  /* Navigation uses Tailwind classes for positioning with proper performance optimizations */
   #main-navigation {
-    /* Ensure navigation stays at the top on all devices */
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 50 !important;
-    width: 100vw !important;
-    max-width: none !important;
+    /* Performance optimizations for smooth scrolling */
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Ensure navigation backdrop works across all browsers */
+  #main-navigation {
+    -webkit-backdrop-filter: blur(var(--blur-nav));
+    backdrop-filter: blur(var(--blur-nav));
   }
 </style>
 
