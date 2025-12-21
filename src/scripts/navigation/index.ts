@@ -21,20 +21,14 @@ export function cleanupNavigation(): void {
 }
 
 export function initializeNavigationComponents(): void {
-  try {
-    const { mobileMenuButton, mobileMenu } = getNavElements();
-    if (mobileMenuButton && mobileMenu) {
-      initializeMobileMenu();
-    }
-
-    initializeDropdowns();
-    setupScrollEffects();
-    setupDropdownCloseHandlers();
-  } catch (error) {
-    if (import.meta.env.DEV) {
-      console.warn('Navigation init failed:', error);
-    }
+  const { mobileMenuButton, mobileMenu } = getNavElements();
+  if (mobileMenuButton && mobileMenu) {
+    initializeMobileMenu();
   }
+
+  initializeDropdowns();
+  setupScrollEffects();
+  setupDropdownCloseHandlers();
 }
 
 if (typeof document !== 'undefined' && typeof window !== 'undefined') {

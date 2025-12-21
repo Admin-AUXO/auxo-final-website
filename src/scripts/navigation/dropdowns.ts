@@ -56,8 +56,7 @@ function closeDropdown(dropdown: HTMLElement): void {
 
   if (!menu || !button || !arrow) return;
 
-  const cleanup = autoUpdateCleanups.get(menu);
-  cleanup?.();
+  autoUpdateCleanups.get(menu)?.();
   autoUpdateCleanups.delete(menu);
 
   state.isTransitioning = true;
@@ -66,19 +65,16 @@ function closeDropdown(dropdown: HTMLElement): void {
   arrow.classList.remove('open');
   overlay?.classList.remove('open');
   overlay?.setAttribute('aria-hidden', 'true');
-  
+
+  if (isModal) document.body.classList.remove('dropdown-open');
+
   const duration = isModal ? MODAL_DROPDOWN_ANIMATION_DURATION : STANDARD_DROPDOWN_ANIMATION_DURATION;
-  
-  if (isModal) {
-    document.body.classList.remove('dropdown-open');
-  }
-  
   setTimeout(() => {
     menu.style.cssText = '';
     if (isModal) unlockScroll();
     state.isTransitioning = false;
   }, duration);
-  
+
   if (state.openDropdown === dropdown) state.openDropdown = null;
 }
 
@@ -93,7 +89,7 @@ function openDropdownMenu(dropdown: HTMLElement): void {
   if (!menu || !button || !arrow) return;
 
   state.isTransitioning = true;
-  
+
   if (isModal && overlay) {
     overlay.classList.add('open');
     overlay.setAttribute('aria-hidden', 'false');
@@ -107,11 +103,9 @@ function openDropdownMenu(dropdown: HTMLElement): void {
     menu.classList.add('open');
     button.setAttribute('aria-expanded', 'true');
     arrow.classList.add('open');
-    
-    const duration = isModal ? MODAL_DROPDOWN_ANIMATION_DURATION : STANDARD_DROPDOWN_ANIMATION_DURATION;
-    setTimeout(() => {
-      state.isTransitioning = false;
-    }, duration);
+
+    setTimeout(() => state.isTransitioning = false,
+      isModal ? MODAL_DROPDOWN_ANIMATION_DURATION : STANDARD_DROPDOWN_ANIMATION_DURATION);
   });
 
   state.openDropdown = dropdown;
@@ -160,14 +154,14 @@ function setupHoverHandlers(container: HTMLElement, menu: HTMLElement): void {
   const handleContainerMouseLeave = (e: Event) => {
     if (state.openDropdown === container && !state.isTransitioning) {
       const relatedTarget = (e as MouseEvent).relatedTarget as HTMLElement;
-      if (relatedTarget && menu?.contains(relatedTarget)) return;
+      if (relatedTarget && menu.contains(relatedTarget)) return;
       scheduleDropdownClose(container);
     }
   };
 
   const handleMenuMouseLeave = (e: Event) => {
     const relatedTarget = (e as MouseEvent).relatedTarget as HTMLElement;
-    if (relatedTarget && (menu?.contains(relatedTarget) || container.contains(relatedTarget))) return;
+    if (relatedTarget && (menu.contains(relatedTarget) || container.contains(relatedTarget))) return;
     if (state.openDropdown === container && !state.isTransitioning) {
       state.dropdownHoverState = false;
       scheduleDropdownClose(container);
@@ -183,32 +177,24 @@ function setupHoverHandlers(container: HTMLElement, menu: HTMLElement): void {
 export function initializeDropdowns(): void {
   if (typeof document === 'undefined') return;
 
-  try {
-    document.querySelectorAll(SELECTORS.TOGGLE).forEach(toggle => {
-      setupToggleClickHandler(toggle as HTMLElement);
-    });
+  document.querySelectorAll(SELECTORS.TOGGLE).forEach(toggle => {
+    setupToggleClickHandler(toggle as HTMLElement);
+  });
 
-    document.querySelectorAll(SELECTORS.OVERLAY).forEach(overlay => {
-      addTrackedListener(overlay, 'click', (e) => {
-        e.stopPropagation();
-        const dropdown = overlay.closest('.dropdown-container') as HTMLElement;
-        if (dropdown) closeDropdown(dropdown);
-      });
+  document.querySelectorAll(SELECTORS.OVERLAY).forEach(overlay => {
+    addTrackedListener(overlay, 'click', (e) => {
+      e.stopPropagation();
+      const dropdown = overlay.closest('.dropdown-container') as HTMLElement;
+      if (dropdown) closeDropdown(dropdown);
     });
+  });
 
-    document.querySelectorAll('.dropdown-container').forEach(container => {
-      const containerEl = container as HTMLElement;
-      const isModal = containerEl.hasAttribute('data-modal-dropdown');
-      const menu = containerEl.querySelector(isModal ? SELECTORS.MODAL_MENU : SELECTORS.STANDARD_MENU) as HTMLElement;
-      if (!isModal && menu) {
-        setupHoverHandlers(containerEl, menu);
-      }
-    });
-  } catch (error) {
-    if (import.meta.env.DEV) {
-      console.warn('Dropdown init failed:', error);
-    }
-  }
+  document.querySelectorAll('.dropdown-container').forEach(container => {
+    const containerEl = container as HTMLElement;
+    const isModal = containerEl.hasAttribute('data-modal-dropdown');
+    const menu = containerEl.querySelector(isModal ? SELECTORS.MODAL_MENU : SELECTORS.STANDARD_MENU) as HTMLElement;
+    if (!isModal && menu) setupHoverHandlers(containerEl, menu);
+  });
 }
 
 export function closeAllDropdowns(): void {

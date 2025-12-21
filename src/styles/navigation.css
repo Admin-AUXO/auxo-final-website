@@ -40,13 +40,8 @@
 
 body.dropdown-open #main-navigation {
   z-index: calc(var(--z-dropdown-menu) + 1) !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
-  position: relative;
 }
 
-/* stylelint-disable selector-pseudo-class-no-unknown */
 #main-navigation .hidden.lg\\:flex {
   align-items: center;
   gap: 0.5rem;
@@ -56,14 +51,13 @@ body.dropdown-open #main-navigation {
   #main-navigation .hidden.lg\\:flex {
     display: flex !important;
   }
-  
+
   body.dropdown-open #main-navigation .hidden.lg\\:flex {
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
   }
 }
-/* stylelint-enable selector-pseudo-class-no-unknown */
 
 #main-navigation .nav-link,
 #main-navigation .dropdown-toggle,
@@ -134,8 +128,6 @@ body.dropdown-open #main-navigation #theme-toggle {
 }
 
 @media (max-width: 1023px) {
-  /* Navigation inherits fixed positioning from Tailwind classes */
-  /* Only override z-index for mobile scrolled state */
   #main-navigation {
     z-index: var(--z-navigation-scrolled) !important;
   }

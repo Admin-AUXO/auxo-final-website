@@ -26,9 +26,9 @@ function calculateDropdownHeight(content: HTMLElement): number {
   });
   
   void content.offsetHeight;
-  
+
   const innerDiv = content.querySelector('div:first-child');
-  const height = innerDiv 
+  const height = innerDiv
     ? (() => {
         const computed = window.getComputedStyle(innerDiv);
         const marginTop = parseFloat(computed.marginTop) || 0;
@@ -130,17 +130,18 @@ function toggleMobileDropdown(buttonEl: HTMLElement): void {
 
 export function setupMobileDropdowns(): void {
   document.querySelectorAll('#mobile-menu .mobile-dropdown-btn').forEach(button => {
-    if ((button as HTMLElement).dataset.initialized === 'true') return;
-    
+    const btnEl = button as HTMLElement;
+    if (btnEl.dataset.initialized === 'true') return;
+
     const handler = (e: Event): void => {
       e.preventDefault();
       e.stopPropagation();
-      toggleMobileDropdown(button as HTMLElement);
+      toggleMobileDropdown(btnEl);
     };
-    
-    addTrackedListener(button, 'click', handler, { capture: true });
-    addTrackedListener(button, 'touchend', handler, { capture: true, passive: false });
-    (button as HTMLElement).dataset.initialized = 'true';
+
+    addTrackedListener(btnEl, 'click', handler, { capture: true });
+    addTrackedListener(btnEl, 'touchend', handler, { capture: true, passive: false });
+    btnEl.dataset.initialized = 'true';
   });
 }
 
@@ -153,10 +154,10 @@ function deactivateFocusTrap(): void {
 
 function resetMobileDropdowns(): void {
   document.querySelectorAll('#mobile-menu .mobile-dropdown-content').forEach(content => {
-    const button = (content as HTMLElement).previousElementSibling;
+    const button = content.previousElementSibling as HTMLElement;
     if (button?.classList.contains('mobile-dropdown-btn')) {
       resetDropdownStyles(content as HTMLElement);
-      (content as HTMLElement).classList.add('hidden');
+      content.classList.add('hidden');
       button.setAttribute('aria-expanded', 'false');
       button.querySelector('.dropdown-arrow-mobile')?.classList.remove('open');
     }
@@ -252,7 +253,7 @@ function openMobileMenu(): void {
     try {
       focusTrap?.activate();
     } catch {
-      // Ignore focus trap activation errors
+      // Ignore focus trap errors
     }
     
     setupMobileDropdowns();
@@ -415,47 +416,18 @@ function setupDropdownKeyboardNavigation(): void {
 export function initializeMobileMenu(): void {
   if (typeof document === 'undefined') return;
 
-  try {
-    const { mobileMenuButton, mobileMenu } = getNavElements();
+  const { mobileMenuButton, mobileMenu } = getNavElements();
+  if (!mobileMenuButton || !mobileMenu) return;
 
-    if (!mobileMenuButton || !mobileMenu) {
-      console.warn('Mobile menu elements not found');
-      return;
-    }
+  closeMobileMenu();
+  mobileMenuButton.setAttribute('aria-expanded', 'false');
+  mobileMenuButton.setAttribute('aria-controls', 'mobile-menu');
 
-    closeMobileMenu();
+  addTrackedListener(mobileMenuButton, 'click', handleMenuButtonClick, { capture: true });
+  addTrackedListener(mobileMenuButton, 'touchend', handleMenuButtonClick, { passive: false, capture: true });
+  addTrackedListener(document, 'click', handleOutsideClick, { capture: true });
+  addTrackedListener(document, 'keydown', handleKeyboard, { capture: true });
 
-    const newButton = mobileMenuButton.cloneNode(true) as HTMLElement;
-    mobileMenuButton.parentNode?.replaceChild(newButton, mobileMenuButton);
-    newButton.setAttribute('aria-expanded', 'false');
-    newButton.setAttribute('aria-controls', 'mobile-menu');
-
-    const clickHandler = (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      handleMenuButtonClick(e);
-    };
-
-    const touchHandler = (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
-      handleMenuButtonClick(e);
-    };
-
-    try {
-      addTrackedListener(newButton, 'click', clickHandler, { capture: true });
-      addTrackedListener(newButton, 'touchend', touchHandler, { passive: false, capture: true });
-      addTrackedListener(document, 'click', handleOutsideClick, { capture: true });
-      addTrackedListener(document, 'keydown', handleKeyboard, { capture: true });
-    } catch (listenerError) {
-      console.warn('Mobile menu event listener error:', listenerError);
-    }
-
-    setupLinkHandlers();
-    setupCloseButtonHandler();
-
-  } catch (error) {
-    console.warn('Mobile menu initialization failed:', error);
-  }
+  setupLinkHandlers();
+  setupCloseButtonHandler();
 }
