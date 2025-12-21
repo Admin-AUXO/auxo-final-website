@@ -21,7 +21,7 @@ const navItems = items.map(({ _key, ...item }) => ({
 }));
 ---
 
-<nav id="main-navigation" class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-accent-green/30 transition-all duration-normal will-change-transform">
+<nav id="main-navigation" class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-accent-green/30 transition-all duration-normal will-change-transform" style="position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; z-index: 50 !important;">
   <div class="grid-container">
     <div class="col-span-full flex items-center justify-between h-14 sm:h-16 lg:h-18 relative min-w-0 w-full">
       <div class="flex-shrink-0 min-w-0 flex items-center overflow-hidden pr-2 lg:pr-0">
@@ -149,8 +149,6 @@ const navItems = items.map(({ _key, ...item }) => ({
     contain: layout style paint;
     transform: translateZ(0);
     backface-visibility: hidden;
-    -webkit-backdrop-filter: blur(var(--blur-nav));
-    backdrop-filter: blur(var(--blur-nav));
   }
 </style>
 

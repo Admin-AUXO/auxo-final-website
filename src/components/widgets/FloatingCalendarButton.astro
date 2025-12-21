@@ -139,15 +139,15 @@
 
   @media (max-height: 600px) and (orientation: landscape) {
     .fab-button {
-      bottom: 1rem !important;
-      right: 1rem !important;
-      width: 3rem !important;
-      height: 3rem !important;
+      bottom: 1rem;
+      right: 1rem;
+      width: 3rem;
+      height: 3rem;
     }
 
     .fab-icon {
-      width: 1.25rem !important;
-      height: 1.25rem !important;
+      width: 1.25rem;
+      height: 1.25rem;
     }
   }
 
@@ -160,21 +160,21 @@
 
   @supports (padding: max(0px)) {
     .fab-button {
-      bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom))) !important;
-      right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right))) !important;
+      bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
+      right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right)));
     }
 
     @media (max-width: 1023px) {
       .fab-button {
-        bottom: max(2rem, calc(1.5rem + 3.5rem + env(safe-area-inset-bottom))) !important;
+        bottom: max(2rem, calc(1.5rem + 3.5rem + env(safe-area-inset-bottom)));
       }
     }
   }
 
   body:has(.mobile-menu.is-open) .fab-button {
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transform: translateZ(0) scale(0.8) !important;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateZ(0) scale(0.8);
   }
 </style>
 
