@@ -7,7 +7,7 @@ import HighlightText from '@/components/ui/HighlightText.astro';
 import BackgroundDecorations from '@/components/ui/BackgroundDecorations.astro';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
 import Carousel from '@/components/ui/Carousel.astro';
-import { createUrl } from '@/utils/url";
+import { createUrl } from '@/utils/url';
 
 interface Props {
   content: {
@@ -197,7 +197,7 @@ const serviceIcons = [
 </style>
 
 <script>
-  import { setupCarouselSection } from '@/scripts/sections/utils/carouselUtils";
+  import { setupCarouselSection } from '@/scripts/sections/utils/carouselUtils';
   setupCarouselSection({
     containerId: "services-carousel-container",
     dotSelector: ".services-carousel-dot",

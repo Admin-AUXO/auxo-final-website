@@ -134,11 +134,11 @@ export class EmblaCarouselWrapper {
       const dotElement = dot as HTMLElement;
       const clickHandler = () => {
         if (this.embla) {
-          this.setTransition();
+          this.setTransition(true);
           this.container.classList.add(NAVIGATING_CLASS);
           this.embla.scrollTo(index);
           setTimeout(() => {
-            this.clearTransition();
+            this.setTransition(false);
             this.container.classList.remove(NAVIGATING_CLASS);
           }, TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
         }
@@ -153,14 +153,12 @@ export class EmblaCarouselWrapper {
     return this.container.querySelector(CAROUSEL_TRACK_SELECTOR) as HTMLElement | null;
   }
 
-  private setTransition(): void {
+  private setTransition(addClass = true): void {
     const track = this.getTrack();
-    track?.classList.add(TRANSITION_CLASS);
-  }
-
-  private clearTransition(): void {
-    if (!this.isDragging) {
-      this.getTrack()?.classList.remove(TRANSITION_CLASS);
+    if (addClass) {
+      track?.classList.add(TRANSITION_CLASS);
+    } else if (!this.isDragging) {
+      track?.classList.remove(TRANSITION_CLASS);
     }
   }
 
@@ -196,23 +194,23 @@ export class EmblaCarouselWrapper {
 
   goToSlide(index: number): void {
     if (!this._embla) return;
-    this.setTransition();
+    this.setTransition(true);
     this._embla.scrollTo(index);
-    setTimeout(() => this.clearTransition(), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
+    setTimeout(() => this.setTransition(false), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
   }
 
   next(): void {
     if (!this._embla) return;
-    this.setTransition();
+    this.setTransition(true);
     this._embla.scrollNext();
-    setTimeout(() => this.clearTransition(), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
+    setTimeout(() => this.setTransition(false), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
   }
 
   previous(): void {
     if (!this._embla) return;
-    this.setTransition();
+    this.setTransition(true);
     this._embla.scrollPrev();
-    setTimeout(() => this.clearTransition(), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
+    setTimeout(() => this.setTransition(false), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
   }
 
   destroy(): void {

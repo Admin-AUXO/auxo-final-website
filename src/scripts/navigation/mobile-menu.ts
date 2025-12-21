@@ -252,7 +252,7 @@ function openMobileMenu(): void {
     try {
       focusTrap?.activate();
     } catch {
-      // Focus trap activation failed
+      // Silent focus trap error
     }
     
     setupMobileDropdowns();
@@ -365,28 +365,23 @@ function handleKeyboard(e: Event): void {
 
 function setupCloseButtonHandler(): void {
   const { mobileMenuCloseBtn, mobileMenuCloseBtnHeader } = getNavElements();
-  
+
   const handler = (e: Event) => {
     e.preventDefault();
     e.stopPropagation();
     closeMobileMenu();
   };
-  
-  if (mobileMenuCloseBtnHeader) {
-    if ((mobileMenuCloseBtnHeader as HTMLElement).dataset.initialized !== 'true') {
-      addTrackedListener(mobileMenuCloseBtnHeader, 'click', handler, { capture: true });
-      addTrackedListener(mobileMenuCloseBtnHeader, 'touchend', handler, { passive: false, capture: true });
-      (mobileMenuCloseBtnHeader as HTMLElement).dataset.initialized = 'true';
+
+  const buttons = [mobileMenuCloseBtn, mobileMenuCloseBtnHeader].filter(Boolean);
+
+  buttons.forEach(btn => {
+    const element = btn as HTMLElement;
+    if (element.dataset.initialized !== 'true') {
+      addTrackedListener(element, 'click', handler, { capture: true });
+      addTrackedListener(element, 'touchend', handler, { passive: false, capture: true });
+      element.dataset.initialized = 'true';
     }
-  }
-  
-  if (mobileMenuCloseBtn) {
-    if ((mobileMenuCloseBtn as HTMLElement).dataset.initialized !== 'true') {
-      addTrackedListener(mobileMenuCloseBtn, 'click', handler, { capture: true });
-      addTrackedListener(mobileMenuCloseBtn, 'touchend', handler, { passive: false, capture: true });
-      (mobileMenuCloseBtn as HTMLElement).dataset.initialized = 'true';
-    }
-  }
+  });
 }
 
 function setupDropdownKeyboardNavigation(): void {
