@@ -46,29 +46,14 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
     </button>
     <div class="mobile-dropdown-content hidden">
       <div class="mobile-dropdown-inner">
-        <div class="mobile-dropdown-view-all-wrapper">
-          <a
-            href={item.href}
-            class="mobile-dropdown-view-all group/view"
-          >
-            <Icon name="mdi:view-grid" class="w-4 h-4 text-accent-green flex-shrink-0" aria-hidden="true" />
-            <span class="flex-1 text-center">View All {item.name}</span>
-            <Icon name="mdi:arrow-right" class="w-4 h-4 text-accent-green flex-shrink-0 group-hover/view:translate-x-1 transition-transform duration-normal" aria-hidden="true" />
-          </a>
-        </div>
-
         <div class="mobile-dropdown-services-grid">
           {item.dropdown!.map((sub: DropdownItem, subIndex: number) => (
             <a
               href={sub.href}
               class="mobile-service-card group/card"
             >
-              <div class="mobile-service-card-icon">
-                <Icon name={sub.icon} class="w-4 h-4 text-accent-green" aria-hidden="true" />
-              </div>
-              <h4 class="mobile-service-card-title">
-                {sub.name}
-              </h4>
+              <Icon name={sub.icon} class="w-4 h-4 text-accent-green flex-shrink-0" aria-hidden="true" />
+              <span class="mobile-service-card-title">{sub.name}</span>
               <Icon
                 name="mdi:arrow-right"
                 class="mobile-service-card-arrow"
@@ -77,6 +62,14 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
             </a>
           ))}
         </div>
+
+        <a
+          href={item.href}
+          class="mobile-dropdown-view-all group/view"
+        >
+          <span>View All {item.name}</span>
+          <Icon name="mdi:arrow-right" class="w-3.5 h-3.5 text-accent-green flex-shrink-0 group-hover/view:translate-x-0.5 transition-transform duration-fast" aria-hidden="true" />
+        </a>
       </div>
     </div>
   </div>
