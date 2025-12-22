@@ -1,18 +1,19 @@
 .service-card-redesigned {
   min-height: 100%;
   transition: transform var(--duration-normal) var(--timing-smooth),
-              opacity var(--duration-normal) var(--timing-smooth);
+              box-shadow var(--duration-normal) var(--timing-smooth),
+              border-color var(--duration-normal) var(--timing-smooth);
+}
+
+.service-card-redesigned:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .service-card-redesigned:focus-visible {
   outline: var(--focus-ring-width) solid var(--accent-green);
   outline-offset: var(--spacing-xs);
-  border-radius: var(--radius-md);
-}
-
-.services-grid-desktop:has(.service-card-redesigned:hover) .service-card-redesigned:not(:hover) {
-  transform: scale(0.98);
-  opacity: 0.7;
+  border-radius: var(--radius-lg);
 }
 
 .service-card-pattern {
@@ -36,11 +37,15 @@
 }
 
 .capability-card-redesigned {
-  transition: transform var(--animation-duration-card-hover) cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--duration-normal) var(--timing-smooth),
+              box-shadow var(--duration-normal) var(--timing-smooth),
+              border-color var(--duration-normal) var(--timing-smooth);
 }
 
 .capability-card-redesigned:hover {
-  transform: translateY(var(--transform-translate-y-card-hover));
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-green);
 }
 
 .service-showcase-item {

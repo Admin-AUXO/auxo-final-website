@@ -1,20 +1,23 @@
 .btn-primary {
   background-color: var(--btn-primary-bg);
   color: var(--btn-primary-text);
-  border: 1px solid transparent;
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
   user-select: none;
-  transition: var(--transition-fast);
+  transition: all var(--duration-fast) var(--timing-smooth);
 }
 
 .btn-primary:hover:not(:disabled) {
   background-color: var(--btn-primary-bg-hover);
   color: var(--btn-primary-text-hover);
-  transform: translateY(var(--transform-translate-y-xs));
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .btn-primary:active:not(:disabled) {
   background-color: var(--btn-primary-bg-active);
+  box-shadow: var(--shadow-xs);
   transform: translateY(0);
 }
 
@@ -22,6 +25,7 @@
   background-color: var(--btn-primary-bg-disabled);
   opacity: var(--opacity-disabled);
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .btn-primary:focus-visible {
@@ -32,20 +36,22 @@
 .btn-secondary {
   background-color: var(--btn-secondary-bg);
   color: var(--btn-secondary-text);
-  border: 1px solid var(--btn-secondary-border);
+  border: 2px solid var(--btn-secondary-border);
   cursor: pointer;
   user-select: none;
-  transition: var(--transition-fast);
+  transition: all var(--duration-fast) var(--timing-smooth);
 }
 
 .btn-secondary:hover:not(:disabled) {
   background-color: var(--btn-secondary-bg-hover);
   border-color: var(--btn-secondary-border-hover);
-  transform: translateY(var(--transform-translate-y-xs));
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
 }
 
 .btn-secondary:active:not(:disabled) {
   background-color: var(--bg-elevated);
+  box-shadow: none;
   transform: translateY(0);
 }
 
@@ -92,10 +98,10 @@
 .btn-outline {
   background-color: var(--btn-outline-bg);
   color: var(--btn-outline-text);
-  border: 1px solid var(--btn-outline-border);
+  border: 2px solid var(--btn-outline-border);
   cursor: pointer;
   user-select: none;
-  transition: var(--transition-fast);
+  transition: all var(--duration-fast) var(--timing-smooth);
 }
 
 .btn-outline:hover:not(:disabled) {
