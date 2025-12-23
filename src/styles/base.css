@@ -179,7 +179,11 @@ section,
   footer,
   aside,
   div[style*="position"],
-  div[style*="z-index"] {
+  div[style*="z-index"],
+  .carousel-wrapper,
+  .carousel-container,
+  .accordion-item,
+  .accordion-content {
     touch-action: pan-y !important;
   }
 
@@ -215,6 +219,26 @@ section,
     overscroll-behavior: contain !important;
     scroll-behavior: auto !important;
     touch-action: pan-y !important;
+  }
+
+  /* Carousel containers - allow horizontal scrolling */
+  .carousel-container,
+  .carousel-track,
+  .embla__container,
+  .carousel-container *,
+  .carousel-track *,
+  .embla__container * {
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    scroll-behavior: auto !important;
+    touch-action: pan-x pan-y !important; /* Allow both horizontal and vertical */
+  }
+
+  /* Ensure carousel dragging works */
+  .carousel-container.is-dragging,
+  .carousel-track:active,
+  .embla__container:active {
+    touch-action: pan-x !important; /* Lock to horizontal during drag */
   }
 
   /* Scroll-locked state */
