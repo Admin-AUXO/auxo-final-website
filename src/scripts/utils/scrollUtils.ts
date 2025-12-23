@@ -6,43 +6,15 @@ interface ScrollConfig {
 
 export function setupEnhancedScrolling(element: HTMLElement, config: ScrollConfig = {}): () => void {
   const { touchAction = 'pan-y', overscrollBehavior = 'contain', momentumScrolling = true } = config;
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   element.style.touchAction = touchAction;
   element.style.overscrollBehavior = overscrollBehavior;
 
-  if (isMobile) {
-    element.style.scrollBehavior = 'auto';
-  } else {
-    element.style.scrollBehavior = 'smooth';
-  }
-
   if (momentumScrolling) {
     (element.style as any).webkitOverflowScrolling = 'touch';
-    (element.style as any).WebkitMomentumScrolling = 'auto';
-    (element.style as any).MozMomentumScrolling = 'auto';
   }
 
-  element.style.willChange = 'scroll-position';
-  element.style.transform = 'translateZ(0)';
-
-  if (!isMobile) {
-    const handleScroll = () => {
-      element.offsetHeight;
-    };
-    element.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      element.removeEventListener('scroll', handleScroll);
-      element.style.willChange = '';
-      element.style.transform = '';
-    };
-  }
-
-  return () => {
-    element.style.willChange = '';
-    element.style.transform = '';
-  };
+  return () => {};
 }
 
 export function setupScrollIndicators(container: HTMLElement, indicatorTop?: HTMLElement, indicatorBottom?: HTMLElement): () => void {
@@ -71,8 +43,6 @@ export function setupScrollIndicators(container: HTMLElement, indicatorTop?: HTM
 export function initTouchScrolling(): void {
   if (typeof document === 'undefined') return;
 
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
   document.querySelectorAll('[data-modal-content]').forEach((element) => {
     setupEnhancedScrolling(element as HTMLElement, {
       touchAction: 'pan-y',
@@ -89,42 +59,16 @@ export function initTouchScrolling(): void {
     });
   });
 
-  if (!isMobile) {
-    document.querySelectorAll('[data-scroll-indicators]').forEach((container) => {
-      const element = container as HTMLElement;
-      setupEnhancedScrolling(element, {
-        touchAction: 'pan-y',
-        overscrollBehavior: 'contain',
-        momentumScrolling: true
-      });
-
-      const topIndicator = container.querySelector('[data-scroll-indicator-top]') as HTMLElement;
-      const bottomIndicator = container.querySelector('[data-scroll-indicator-bottom]') as HTMLElement;
-      setupScrollIndicators(element, topIndicator, bottomIndicator);
-    });
-  }
-
-  document.querySelectorAll('.scroll-touch, .scroll-touch-y').forEach((element) => {
-    setupEnhancedScrolling(element as HTMLElement, {
+  document.querySelectorAll('[data-scroll-indicators]').forEach((container) => {
+    const element = container as HTMLElement;
+    setupEnhancedScrolling(element, {
       touchAction: 'pan-y',
       overscrollBehavior: 'contain',
       momentumScrolling: true
     });
+
+    const topIndicator = container.querySelector('[data-scroll-indicator-top]') as HTMLElement;
+    const bottomIndicator = container.querySelector('[data-scroll-indicator-bottom]') as HTMLElement;
+    setupScrollIndicators(element, topIndicator, bottomIndicator);
   });
-
-  if (!isMobile) {
-    document.querySelectorAll('[style*="overflow"]:not([data-modal-content]):not([data-scrollable-iframe]):not([data-scroll-indicators])').forEach((element) => {
-      const el = element as HTMLElement;
-      const computedStyle = getComputedStyle(el);
-
-      if (computedStyle.overflow === 'auto' || computedStyle.overflow === 'scroll' ||
-          computedStyle.overflowY === 'auto' || computedStyle.overflowY === 'scroll') {
-        setupEnhancedScrolling(el, {
-          touchAction: 'pan-y',
-          overscrollBehavior: 'contain',
-          momentumScrolling: true
-        });
-      }
-    });
-  }
 }

@@ -121,36 +121,20 @@ section,
 
 @media (max-width: 768px) {
   html {
-    /* Google-like smooth scrolling */
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-    scroll-behavior: auto; /* Let momentum handle smoothness */
-    /* Fix for mobile viewport height issues */
-    height: -webkit-fill-available;
+    height: 100%;
   }
 
   body {
-    /* Native momentum scrolling like Google */
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    scroll-behavior: auto;
-    -webkit-touch-callout: none;
-    min-height: -webkit-fill-available;
+    min-height: 100vh;
+    touch-action: pan-y;
   }
 
-  [style*="overflow"],
-  .overflow-auto,
-  .overflow-y-auto,
-  .overflow-x-auto,
-  .overflow-scroll,
   [data-modal-content],
   [data-scrollable-iframe] {
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain !important;
-    -webkit-momentum-scrolling: auto !important;
-    transform: translateZ(0) !important;
-    will-change: scroll-position !important;
-    overscroll-behavior-y: contain !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   button,
@@ -162,17 +146,16 @@ section,
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Fix for iOS Safari bounce scrolling in modals */
   body.scroll-locked {
     position: fixed;
     width: 100%;
+    top: 0;
+    left: 0;
     overscroll-behavior: none;
-    -webkit-overscroll-behavior: none;
-    touch-action: none;
   }
 
   body.scroll-locked [data-modal-content] {
-    touch-action: pan-y !important;
-    -webkit-overflow-scrolling: touch !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 }
