@@ -146,9 +146,16 @@ section,
   textarea,
   select,
   [role="button"],
-  [tabindex]:not([tabindex="-1"]) {
+  [tabindex]:not([tabindex="-1"]),
+  summary,
+  details summary {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+  }
+
+  footer details summary {
+    touch-action: manipulation !important;
+    cursor: pointer !important;
   }
 
   [style*="z-index"],
@@ -180,9 +187,13 @@ section,
   .carousel-container,
   .accordion-item,
   .accordion-content,
-  details,
-  summary {
+  details {
     touch-action: pan-y !important;
+  }
+
+  summary {
+    touch-action: manipulation !important;
+    cursor: pointer !important;
   }
 
   [class*="background"],
@@ -259,11 +270,19 @@ section,
   }
 
   footer details summary {
-    touch-action: manipulation;
+    touch-action: manipulation !important;
+    cursor: pointer !important;
     -webkit-tap-highlight-color: transparent;
     transition: all 0.3s ease;
     position: relative;
     z-index: 1;
+    user-select: none;
+    pointer-events: auto !important;
+  }
+
+  footer details summary:focus {
+    outline: 2px solid var(--accent-green);
+    outline-offset: 2px;
   }
 
   footer details[open] {
