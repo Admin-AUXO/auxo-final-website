@@ -50,6 +50,7 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.lnk
+nul
 
 # Linux-specific files
 *~
