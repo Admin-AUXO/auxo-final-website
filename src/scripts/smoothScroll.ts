@@ -77,6 +77,25 @@ export function initSmoothScroll() {
     });
   });
 
+  // Universal scroll support for mobile
+  const isMobileDevice = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobileDevice) {
+    // Ensure touch events reach the scrollable container
+    const handleTouchStart = (e: TouchEvent) => {
+      // Only prevent default if we're not in an input/textarea
+      const target = e.target as HTMLElement;
+      if (!target.matches('input, textarea, select, [contenteditable]')) {
+        // Allow normal scrolling
+        return true;
+      }
+    };
+
+    // Add universal touch event listeners
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', () => {}, { passive: true });
+    document.addEventListener('touchend', () => {}, { passive: true });
+  }
+
   document.addEventListener('astro:page-load', () => {
     lenis?.scrollTo(0, { immediate: true });
   });

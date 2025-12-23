@@ -124,6 +124,7 @@ section,
     -webkit-overflow-scrolling: touch;
     scroll-behavior: auto; /* Disable CSS scroll smoothing for instant feel */
     height: 100%;
+    touch-action: pan-y; /* Allow scrolling through html */
   }
 
   body {
@@ -133,37 +134,105 @@ section,
     touch-action: pan-y;
   }
 
-  /* Ensure instant scrolling for all scrollable elements */
-  [data-modal-content],
-  [data-scrollable-iframe],
-  .overflow-auto,
-  .overflow-y-auto {
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    scroll-behavior: auto; /* Instant scrolling */
+  /* Universal scroll support - ensure ALL elements allow scrolling through them */
+  *,
+  *::before,
+  *::after {
+    touch-action: pan-y;
   }
 
+  /* Reset touch-action for interactive elements */
   button,
   a,
   input,
   textarea,
-  select {
+  select,
+  [role="button"],
+  [tabindex]:not([tabindex="-1"]) {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* Ensure scrolling works over high z-index elements */
+  [style*="z-index"],
+  .always-visible,
+  #main-navigation,
+  #main-navigation *,
+  .dropdown-modal-overlay,
+  .dropdown-modal-menu,
+  [class*="dropdown"],
+  [class*="modal"],
+  .fab-container,
+  .fab-button {
+    touch-action: pan-y !important;
+    pointer-events: auto !important;
+  }
+
+  /* Ensure sections allow scrolling through them */
+  section,
+  [class*="section"],
+  .section-container,
+  .grid-container,
+  article,
+  main,
+  header,
+  footer,
+  aside,
+  div[style*="position"],
+  div[style*="z-index"] {
+    touch-action: pan-y !important;
+  }
+
+  /* Background elements should not block scrolling */
+  [class*="background"],
+  [class*="bg-"],
+  [style*="background"],
+  ::before,
+  ::after {
+    touch-action: pan-y !important;
+    pointer-events: none !important;
+  }
+
+  /* GPU accelerated elements should allow scrolling */
+  [style*="transform"],
+  [style*="translate"],
+  [style*="rotate"],
+  [style*="scale"],
+  [class*="animate"],
+  [class*="transition"],
+  .parallax-element {
+    touch-action: pan-y !important;
+  }
+
+  /* Specific scrollable elements */
+  [data-modal-content],
+  [data-scrollable-iframe],
+  .overflow-auto,
+  .overflow-y-auto,
+  .overflow-scroll,
+  .overflow-y-scroll {
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    scroll-behavior: auto !important;
+    touch-action: pan-y !important;
+  }
+
+  /* Scroll-locked state */
   body.scroll-locked {
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     overscroll-behavior: none;
-    touch-action: none;
+  }
+
+  body.scroll-locked * {
+    touch-action: pan-y !important;
   }
 
   body.scroll-locked [data-modal-content] {
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    scroll-behavior: auto;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    scroll-behavior: auto !important;
   }
 }

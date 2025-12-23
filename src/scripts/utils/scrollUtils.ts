@@ -43,6 +43,25 @@ export function setupScrollIndicators(container: HTMLElement, indicatorTop?: HTM
 export function initTouchScrolling(): void {
   if (typeof document === 'undefined') return;
 
+  // Universal scroll setup for mobile
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  if (isMobile) {
+    // Ensure body and html can scroll
+    setupEnhancedScrolling(document.body, {
+      touchAction: 'pan-y',
+      overscrollBehavior: 'contain',
+      momentumScrolling: true
+    });
+
+    setupEnhancedScrolling(document.documentElement, {
+      touchAction: 'pan-y',
+      overscrollBehavior: 'contain',
+      momentumScrolling: true
+    });
+  }
+
+  // Modal content scrolling
   document.querySelectorAll('[data-modal-content]').forEach((element) => {
     setupEnhancedScrolling(element as HTMLElement, {
       touchAction: 'pan-y',
@@ -51,6 +70,7 @@ export function initTouchScrolling(): void {
     });
   });
 
+  // Iframe scrolling
   document.querySelectorAll('[data-scrollable-iframe]').forEach((element) => {
     setupEnhancedScrolling(element as HTMLElement, {
       touchAction: 'pan-y',
@@ -59,6 +79,7 @@ export function initTouchScrolling(): void {
     });
   });
 
+  // Scroll indicators
   document.querySelectorAll('[data-scroll-indicators]').forEach((container) => {
     const element = container as HTMLElement;
     setupEnhancedScrolling(element, {
@@ -71,4 +92,20 @@ export function initTouchScrolling(): void {
     const bottomIndicator = container.querySelector('[data-scroll-indicator-bottom]') as HTMLElement;
     setupScrollIndicators(element, topIndicator, bottomIndicator);
   });
+
+  // Universal scroll support for all scrollable elements
+  if (isMobile) {
+    document.querySelectorAll('[class*="overflow"]').forEach((element) => {
+      const el = element as HTMLElement;
+      const computedStyle = getComputedStyle(el);
+      if (computedStyle.overflow === 'auto' || computedStyle.overflow === 'scroll' ||
+          computedStyle.overflowY === 'auto' || computedStyle.overflowY === 'scroll') {
+        setupEnhancedScrolling(el, {
+          touchAction: 'pan-y',
+          overscrollBehavior: 'contain',
+          momentumScrolling: true
+        });
+      }
+    });
+  }
 }
