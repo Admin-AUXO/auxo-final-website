@@ -13,15 +13,15 @@ export function initSmoothScroll() {
 
   if (isMobile) {
     lenis = new Lenis({
-      duration: 0.05,
+      duration: 0.03,
       easing: (t: number) => t,
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: false,
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.0,
+      touchMultiplier: 1.8,
       infinite: false,
-      lerp: 0.02,
+      lerp: 0.01,
       syncTouch: false,
       autoResize: true,
       overscroll: false,
