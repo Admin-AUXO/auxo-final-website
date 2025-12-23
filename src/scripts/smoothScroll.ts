@@ -12,32 +12,51 @@ export function initSmoothScroll() {
   const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-  // Adjust settings based on device capabilities
-  const duration = isMobile || isLowEndDevice ? 0.4 : isSafari ? 0.6 : 0.8;
-  const lerp = isMobile ? 0.15 : isLowEndDevice ? 0.1 : 0.08;
-  const wheelMultiplier = isMobile ? 1.2 : isTouchDevice ? 1.1 : 1.0;
-  const touchMultiplier = isTouchDevice ? 1.8 : isSafari ? 1.4 : 2.0;
+  // For mobile, use very minimal Lenis intervention to allow native momentum scrolling
+  // Similar to Google's approach - let the browser handle most of the scrolling
+  if (isMobile) {
+    lenis = new Lenis({
+      duration: 0.1, // Very short duration for minimal intervention
+      easing: (t: number) => t, // Linear easing for natural feel
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: false, // Disable wheel smoothing on mobile
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.0, // Let native touch handle momentum
+      infinite: false,
+      lerp: 0.1, // Low lerp for responsive but not over-smoothed
+      syncTouch: false, // Don't sync touch to avoid interfering with native momentum
+      autoResize: true,
+      overscroll: false,
+      normalizeWheel: false,
+      smoothTouch: false, // Let browser handle touch scrolling
+    });
+  } else {
+    // Desktop settings remain optimized
+    const duration = isSafari ? 0.6 : 0.8;
+    const lerp = isLowEndDevice ? 0.1 : 0.08;
+    const wheelMultiplier = isTouchDevice ? 1.1 : 1.0;
+    const touchMultiplier = isTouchDevice ? 1.4 : 2.0;
 
-  lenis = new Lenis({
-    duration,
-    easing: (t: number) => {
-      // Use a more performant easing function
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    },
-    orientation: 'vertical',
-    gestureOrientation: 'vertical',
-    smoothWheel: !isLowEndDevice,
-    wheelMultiplier,
-    touchMultiplier,
-    infinite: false,
-    lerp,
-    syncTouch: true,
-    autoResize: true,
-    overscroll: false,
-    normalizeWheel: true,
-    // Disable smooth scrolling on very low-end devices
-    smoothTouch: !isLowEndDevice,
-  });
+    lenis = new Lenis({
+      duration,
+      easing: (t: number) => {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      },
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: !isLowEndDevice,
+      wheelMultiplier,
+      touchMultiplier,
+      infinite: false,
+      lerp,
+      syncTouch: true,
+      autoResize: true,
+      overscroll: false,
+      normalizeWheel: true,
+      smoothTouch: !isLowEndDevice,
+    });
+  }
 
   function raf(time: number) {
     try {
@@ -141,8 +160,11 @@ export function startSmoothScroll() {
 }
 
 export function scrollToElement(target: string | HTMLElement, options?: { offset?: number; duration?: number; immediate?: boolean }) {
-  if (!lenis) {
-    // Fallback to native scroll if Lenis is not available
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  // On mobile, prefer native scroll behavior for smoother experience
+  if (isMobile || !lenis) {
+    // Fallback to native scroll for mobile or if Lenis is not available
     if (typeof target === 'string') {
       const element = document.querySelector(target);
       if (element) {
@@ -160,10 +182,10 @@ export function scrollToElement(target: string | HTMLElement, options?: { offset
     return;
   }
 
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  // Desktop behavior with Lenis
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  const defaultOffset = isMobile ? -20 : 0;
-  const defaultDuration = isTouchDevice ? 0.4 : 0.8;
+  const defaultOffset = 0;
+  const defaultDuration = isTouchDevice ? 0.6 : 0.8;
 
   try {
     lenis.scrollTo(target, {
@@ -208,14 +230,26 @@ export function getLenis(): Lenis | null {
 export function updateScrollSettings() {
   if (!lenis) return;
 
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
   const connection = (navigator as any).connection;
   const isSlowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g');
 
+  // On mobile, keep minimal intervention settings regardless of other conditions
+  if (isMobile) {
+    lenis.options.duration = 0.1;
+    lenis.options.lerp = 0.1;
+    lenis.options.smoothWheel = false;
+    lenis.options.smoothTouch = false;
+    lenis.options.syncTouch = false;
+    return;
+  }
+
+  // Desktop adaptive settings
   if (isTouchDevice || isLowEndDevice || isSlowConnection) {
-    lenis.options.duration = 0.2;
-    lenis.options.lerp = 0.2;
+    lenis.options.duration = 0.3;
+    lenis.options.lerp = 0.15;
     lenis.options.smoothWheel = false;
     lenis.options.smoothTouch = false;
   } else {

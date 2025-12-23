@@ -122,56 +122,69 @@ section,
 
 @media (max-width: 768px) {
   html {
+    /* Google-like smooth scrolling */
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
-    touch-action: pan-y;
-    scroll-behavior: smooth;
+    scroll-behavior: auto; /* Let momentum handle smoothness */
     /* Fix for mobile viewport height issues */
     height: -webkit-fill-available;
   }
 
   body {
+    /* Native momentum scrolling like Google */
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    touch-action: pan-y;
+    /* Remove custom scroll-behavior to let momentum scrolling shine */
+    scroll-behavior: auto;
     -webkit-touch-callout: none;
     /* Fix for mobile viewport height issues */
     min-height: -webkit-fill-available;
     min-height: 100vh;
   }
 
+  /* Scrollable containers - Google-style momentum */
   [style*="overflow"],
   .overflow-auto,
   .overflow-y-auto,
   .overflow-x-auto,
-  .overflow-scroll {
+  .overflow-scroll,
+  [data-modal-content],
+  [data-scrollable-iframe] {
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior: contain !important;
-    touch-action: pan-y !important;
-    /* Improve momentum scrolling */
+    /* Google's momentum settings */
     -webkit-momentum-scrolling: auto !important;
+    /* Ensure smooth hardware acceleration */
+    transform: translateZ(0) !important;
+    will-change: scroll-position !important;
+    /* Prevent scroll chaining */
+    overscroll-behavior-y: contain !important;
   }
 
+  /* Interactive elements */
   button,
   a,
   input,
   textarea,
   select {
     touch-action: manipulation;
-    /* Prevent tap highlight */
     -webkit-tap-highlight-color: transparent;
+    /* Prevent interference with scrolling */
+    touch-action: manipulation;
   }
 
-  /* Improve scrolling for all scrollable elements on mobile */
-  * {
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Fix for iOS Safari bounce scrolling */
+  /* Fix for iOS Safari bounce scrolling in modals */
   body.scroll-locked {
     position: fixed;
     width: 100%;
     overscroll-behavior: none;
     -webkit-overscroll-behavior: none;
+    /* Ensure modal content scrolls smoothly */
+    touch-action: none;
+  }
+
+  body.scroll-locked [data-modal-content] {
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 }
