@@ -158,6 +158,12 @@ section,
     cursor: pointer !important;
   }
 
+  [data-google-calendar-open] {
+    touch-action: manipulation !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+  }
+
   [style*="z-index"],
   .always-visible,
   #main-navigation,
