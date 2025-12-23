@@ -176,20 +176,53 @@ class ModalInstanceImpl implements ModalInstance {
   };
 
   private handleClose = (e?: Event): void => {
-    // Only close if clicking on overlay or close button
-    if (e?.target && e.target !== this.overlay && !this.closeButtons?.[Array.from(this.closeButtons).indexOf(e.target as HTMLElement)]) {
-      const isDescendant = this.modal?.contains(e.target as Node);
-      if (isDescendant) return;
-    }
+    if (!e?.target) return;
 
-    e?.preventDefault();
-    e?.stopPropagation();
+    const target = e.target as HTMLElement;
 
-    if (this.config.onBeforeClose && !this.config.onBeforeClose()) {
+    // Check if clicked on overlay
+    if (target === this.overlay) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (this.config.onBeforeClose && !this.config.onBeforeClose()) {
+        return;
+      }
+
+      this.close();
       return;
     }
 
-    this.close();
+    // Check if clicked on a close button
+    if (this.closeButtons) {
+      const isCloseButton = Array.from(this.closeButtons).some(button => button === target || button.contains(target));
+      if (isCloseButton) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (this.config.onBeforeClose && !this.config.onBeforeClose()) {
+          return;
+        }
+
+        this.close();
+        return;
+      }
+    }
+
+    // Check if clicked outside modal content (click outside close)
+    if (this.config.enableClickOutsideClose !== false && this.modal) {
+      const isDescendant = this.modal.contains(target);
+      if (!isDescendant) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (this.config.onBeforeClose && !this.config.onBeforeClose()) {
+          return;
+        }
+
+        this.close();
+      }
+    }
   };
 
   private handleKeydown = (e: KeyboardEvent): void => {

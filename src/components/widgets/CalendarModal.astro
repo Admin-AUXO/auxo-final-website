@@ -144,6 +144,9 @@
     flex-shrink: 0;
     min-width: 2.75rem;
     min-height: 2.75rem;
+    touch-action: manipulation;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .calendar-modal-close::before {
@@ -209,6 +212,11 @@
 
   .calendar-modal:not([hidden]) {
     touch-action: none;
+  }
+
+  /* Allow touch interactions on scrollable content even when modal is visible */
+  .calendar-modal:not([hidden]) .calendar-modal-content {
+    touch-action: pan-y;
   }
 
   .calendar-loading {
@@ -393,6 +401,7 @@
       padding: 0.875rem 1rem;
       flex-shrink: 0;
       min-height: 56px;
+      position: relative;
     }
 
     .calendar-modal-title {
@@ -404,6 +413,10 @@
       height: 2.5rem;
       min-width: 2.5rem;
       min-height: 2.5rem;
+      margin-left: 0.75rem;
+      touch-action: manipulation;
+      pointer-events: auto;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .calendar-modal-close svg {
