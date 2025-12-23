@@ -7,25 +7,45 @@ export function initSmoothScroll() {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) return;
 
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
 
-  lenis = new Lenis({
-    duration: isLowEndDevice ? 0.4 : 0.8,
-    easing: (t: number) => {
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    },
-    orientation: 'vertical',
-    gestureOrientation: 'vertical',
-    smoothWheel: !isLowEndDevice,
-    wheelMultiplier: isTouchDevice ? 1.1 : 1.0,
-    touchMultiplier: isTouchDevice ? 1.5 : 2.0,
-    infinite: false,
-    lerp: isLowEndDevice ? 0.1 : 0.08,
-    syncTouch: true,
-    autoResize: true,
-    overscroll: false,
-  });
+  // For mobile, make scrolling instant/fast
+  if (isMobile) {
+    lenis = new Lenis({
+      duration: 0.05, // Ultra fast for instant feel
+      easing: (t: number) => t, // Linear easing for instant response
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: false, // Disable smooth wheel on mobile
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.0,
+      infinite: false,
+      lerp: 0.02, // Ultra responsive lerp for instant feel
+      syncTouch: false, // Don't sync touch to avoid conflicts
+      autoResize: true,
+      overscroll: false,
+    });
+  } else {
+    // Desktop keeps smooth scrolling
+    lenis = new Lenis({
+      duration: isLowEndDevice ? 0.4 : 0.8,
+      easing: (t: number) => {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      },
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: !isLowEndDevice,
+      wheelMultiplier: isTouchDevice ? 1.1 : 1.0,
+      touchMultiplier: isTouchDevice ? 1.5 : 2.0,
+      infinite: false,
+      lerp: isLowEndDevice ? 0.1 : 0.08,
+      syncTouch: true,
+      autoResize: true,
+      overscroll: false,
+    });
+  }
 
   function raf(time: number) {
     try {

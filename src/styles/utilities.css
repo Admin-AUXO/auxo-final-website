@@ -288,6 +288,11 @@
 .scroll-smooth { scroll-behavior: smooth; }
 .scroll-auto { scroll-behavior: auto; }
 
+@media (max-width: 768px) {
+  .scroll-smooth { scroll-behavior: auto; }
+  .scroll-touch-smooth { scroll-behavior: auto; }
+}
+
 /* Enhanced scrolling for touch devices */
 .scroll-touch {
   -webkit-overflow-scrolling: touch;

@@ -11,10 +11,10 @@ export function initScrollAnimations(): void {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   AOS.init({
-    duration: isMobile ? 400 : 500,
+    duration: isMobile ? 300 : 500, // Faster animations on mobile
     easing: 'ease-out-cubic',
     once: true,
-    offset: isMobile ? 60 : SCROLL_OFFSET,
+    offset: isMobile ? 40 : SCROLL_OFFSET, // Smaller offset on mobile
     delay: 0,
     disable: prefersReducedMotion,
     startEvent: 'DOMContentLoaded',
@@ -23,23 +23,25 @@ export function initScrollAnimations(): void {
     useClassNames: false,
     disableMutationObserver: false,
     debounceDelay: 50,
-    throttleDelay: isMobile ? 150 : 99,
+    throttleDelay: isMobile ? 200 : 99, // Less frequent updates on mobile
     mirror: false,
     anchorPlacement: 'top-bottom',
   });
 
   const setupLenisIntegration = () => {
     if (window.lenis && !lenisScrollHandler) {
-      lenisScrollHandler = () => {
-        if (rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(() => {
-          AOS.refresh();
-        });
-      };
+      // Only refresh AOS on scroll for desktop, not mobile
+      if (!isMobile) {
+        lenisScrollHandler = () => {
+          if (rafId) cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(() => {
+            AOS.refresh();
+          });
+        };
+        window.lenis.on('scroll', lenisScrollHandler);
+      }
 
-      window.lenis.on('scroll', lenisScrollHandler);
-
-      const delay = isMobile ? 300 : 100;
+      const delay = isMobile ? 200 : 100; // Shorter delay on mobile
       setTimeout(() => {
         AOS.refresh();
       }, delay);
@@ -56,7 +58,7 @@ export function initScrollAnimations(): void {
   document.addEventListener('astro:page-load', () => {
     const currentPath = window.location.pathname;
     if (currentPath !== lastPath) {
-      refreshScrollAnimationsWithDelay(200);
+      refreshScrollAnimationsWithDelay(isMobile ? 100 : 200);
       lastPath = currentPath;
     }
   });

@@ -122,19 +122,25 @@ section,
 @media (max-width: 768px) {
   html {
     -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto; /* Disable CSS scroll smoothing for instant feel */
     height: 100%;
   }
 
   body {
     -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto; /* Disable CSS scroll smoothing */
     min-height: 100vh;
     touch-action: pan-y;
   }
 
+  /* Ensure instant scrolling for all scrollable elements */
   [data-modal-content],
-  [data-scrollable-iframe] {
+  [data-scrollable-iframe],
+  .overflow-auto,
+  .overflow-y-auto {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    scroll-behavior: auto; /* Instant scrolling */
   }
 
   button,
@@ -152,10 +158,12 @@ section,
     top: 0;
     left: 0;
     overscroll-behavior: none;
+    touch-action: none;
   }
 
   body.scroll-locked [data-modal-content] {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    scroll-behavior: auto;
   }
 }
