@@ -180,7 +180,6 @@ class ModalInstanceImpl implements ModalInstance {
 
     const target = e.target as HTMLElement;
 
-    // Check if clicked on overlay
     if (target === this.overlay) {
       e.preventDefault();
       e.stopPropagation();
@@ -193,7 +192,6 @@ class ModalInstanceImpl implements ModalInstance {
       return;
     }
 
-    // Check if clicked on a close button
     if (this.closeButtons) {
       const isCloseButton = Array.from(this.closeButtons).some(button => button === target || button.contains(target));
       if (isCloseButton) {
@@ -209,7 +207,6 @@ class ModalInstanceImpl implements ModalInstance {
       }
     }
 
-    // Check if clicked outside modal content (click outside close)
     if (this.config.enableClickOutsideClose !== false && this.modal) {
       const isDescendant = this.modal.contains(target);
       if (!isDescendant) {

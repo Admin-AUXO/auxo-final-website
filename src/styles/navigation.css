@@ -223,8 +223,7 @@
 .dropdown-menu {
   position: absolute !important;
   max-height: none !important;
-  overflow-y: visible !important;
-  overflow-x: visible !important;
+  overflow: visible !important;
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-dropdown-menu),
               0 0 0 1px var(--accent-green-opacity-30);
@@ -270,7 +269,7 @@
   display: flex !important;
   align-items: center !important;
   gap: 0.75rem !important;
-  padding: 1rem 1rem !important;
+  padding: 1rem !important;
   border-radius: var(--radius-lg) !important;
   transition: all var(--duration-fast) var(--easing-standard) !important;
   border: 1px solid transparent !important;
@@ -435,9 +434,8 @@
 }
 
 .nav-cta-mobile {
-  display: block;
   width: 100%;
-  padding: 1.5rem 1.5rem;
+  padding: 1.5rem;
   min-height: 56px;
   border: 2px solid var(--accent-green);
   background: var(--bg-primary);
@@ -641,10 +639,7 @@
 
 .mobile-menu {
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
+  inset: 0 !important;
   transform: translateY(100%) !important;
   opacity: 0 !important;
   transition:
@@ -773,8 +768,7 @@
   position: relative;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden auto;
   -webkit-overflow-scrolling: touch;
   padding-bottom: var(--spacing-xl);
   overscroll-behavior-y: contain;
@@ -921,8 +915,7 @@ body:has(.mobile-menu.is-open) {
   max-height: 60vh !important;
   opacity: 1 !important;
   transform: translateY(0) scale(1) !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  overflow: hidden auto !important;
   margin-bottom: 0.5rem !important;
   background: transparent !important;
   border-radius: 0 !important;
@@ -1097,10 +1090,7 @@ body:has(.mobile-menu.is-open) {
 .dropdown-modal-menu {
   position: fixed !important;
   z-index: calc(var(--z-services-dropdown) + 1) !important;
-  top: var(--nav-height) !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
+  inset: var(--nav-height) 0 0 0 !important;
   height: calc(100dvh - var(--nav-height)) !important;
   max-height: calc(100dvh - var(--nav-height)) !important;
   overflow: hidden !important;
@@ -1242,8 +1232,7 @@ body:has(.mobile-menu.is-open) {
 .dropdown-modal-content-main {
   flex: 1 1 0 !important;
   min-height: 0 !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  overflow: hidden auto !important;
   display: flex !important;
   flex-direction: column !important;
   position: relative !important;

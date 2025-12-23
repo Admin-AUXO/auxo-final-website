@@ -8,45 +8,37 @@ export function setupEnhancedScrolling(element: HTMLElement, config: ScrollConfi
   const { touchAction = 'pan-y', overscrollBehavior = 'contain', momentumScrolling = true } = config;
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-  // Enhanced scrolling properties for better performance
   element.style.touchAction = touchAction;
   element.style.overscrollBehavior = overscrollBehavior;
 
-  // On mobile, let native scrolling handle smoothness
   if (isMobile) {
-    element.style.scrollBehavior = 'auto'; // Let momentum handle it
+    element.style.scrollBehavior = 'auto';
   } else {
     element.style.scrollBehavior = 'smooth';
   }
 
   if (momentumScrolling) {
     (element.style as any).webkitOverflowScrolling = 'touch';
-    // Additional properties for better momentum scrolling
-    element.style.WebkitMomentumScrolling = 'auto';
-    element.style.MozMomentumScrolling = 'auto';
+    (element.style as any).WebkitMomentumScrolling = 'auto';
+    (element.style as any).MozMomentumScrolling = 'auto';
   }
 
-  // Prevent scroll chaining and improve touch responsiveness
   element.style.willChange = 'scroll-position';
-  element.style.transform = 'translateZ(0)'; // Force hardware acceleration
+  element.style.transform = 'translateZ(0)';
 
-  // On mobile, don't add scroll listeners that might interfere with momentum
   if (!isMobile) {
     const handleScroll = () => {
-      // Force reflow to ensure smooth scrolling on desktop
       element.offsetHeight;
     };
     element.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       element.removeEventListener('scroll', handleScroll);
-      // Cleanup styles
       element.style.willChange = '';
       element.style.transform = '';
     };
   }
 
-  // Mobile cleanup (no scroll listener)
   return () => {
     element.style.willChange = '';
     element.style.transform = '';
@@ -81,7 +73,6 @@ export function initTouchScrolling(): void {
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-  // Enhanced scrolling for modal content
   document.querySelectorAll('[data-modal-content]').forEach((element) => {
     setupEnhancedScrolling(element as HTMLElement, {
       touchAction: 'pan-y',
@@ -90,7 +81,6 @@ export function initTouchScrolling(): void {
     });
   });
 
-  // Enhanced scrolling for scrollable iframes
   document.querySelectorAll('[data-scrollable-iframe]').forEach((element) => {
     setupEnhancedScrolling(element as HTMLElement, {
       touchAction: 'pan-y',
@@ -99,7 +89,6 @@ export function initTouchScrolling(): void {
     });
   });
 
-  // Enhanced scrolling for elements with custom scroll indicators (desktop only)
   if (!isMobile) {
     document.querySelectorAll('[data-scroll-indicators]').forEach((container) => {
       const element = container as HTMLElement;
@@ -115,7 +104,6 @@ export function initTouchScrolling(): void {
     });
   }
 
-  // Enhanced scrolling for any element with scroll-touch class
   document.querySelectorAll('.scroll-touch, .scroll-touch-y').forEach((element) => {
     setupEnhancedScrolling(element as HTMLElement, {
       touchAction: 'pan-y',
@@ -124,8 +112,6 @@ export function initTouchScrolling(): void {
     });
   });
 
-  // On mobile, be more selective about which elements get enhanced scrolling
-  // to avoid interfering with native momentum scrolling
   if (!isMobile) {
     document.querySelectorAll('[style*="overflow"]:not([data-modal-content]):not([data-scrollable-iframe]):not([data-scroll-indicators])').forEach((element) => {
       const el = element as HTMLElement;

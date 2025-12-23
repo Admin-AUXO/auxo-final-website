@@ -7,8 +7,7 @@
 }
 
 html {
-  overflow-y: scroll;
-  scroll-behavior: smooth;
+  overflow: scroll;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -39,9 +38,9 @@ body {
   line-height: 1.6;
   transition: background-color var(--theme-transition) var(--timing-smooth),
     color var(--theme-transition) var(--timing-smooth);
+  overflow: auto;
   overflow-x: hidden;
   max-width: 100vw;
-  overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
@@ -134,15 +133,11 @@ section,
     /* Native momentum scrolling like Google */
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    /* Remove custom scroll-behavior to let momentum scrolling shine */
     scroll-behavior: auto;
     -webkit-touch-callout: none;
-    /* Fix for mobile viewport height issues */
     min-height: -webkit-fill-available;
-    min-height: 100vh;
   }
 
-  /* Scrollable containers - Google-style momentum */
   [style*="overflow"],
   .overflow-auto,
   .overflow-y-auto,
@@ -152,16 +147,12 @@ section,
   [data-scrollable-iframe] {
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior: contain !important;
-    /* Google's momentum settings */
     -webkit-momentum-scrolling: auto !important;
-    /* Ensure smooth hardware acceleration */
     transform: translateZ(0) !important;
     will-change: scroll-position !important;
-    /* Prevent scroll chaining */
     overscroll-behavior-y: contain !important;
   }
 
-  /* Interactive elements */
   button,
   a,
   input,
@@ -169,8 +160,6 @@ section,
   select {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
-    /* Prevent interference with scrolling */
-    touch-action: manipulation;
   }
 
   /* Fix for iOS Safari bounce scrolling in modals */
@@ -179,7 +168,6 @@ section,
     width: 100%;
     overscroll-behavior: none;
     -webkit-overscroll-behavior: none;
-    /* Ensure modal content scrolls smoothly */
     touch-action: none;
   }
 

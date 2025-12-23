@@ -39,8 +39,7 @@ section.dropdown-modal-content,
 section.mobile-menu,
 [class*="-section"].dropdown-modal-content,
 [class*="-section"].mobile-menu {
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
