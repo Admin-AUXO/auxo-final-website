@@ -77,9 +77,20 @@ export function initTouchScrolling(): void {
     document.querySelectorAll('[class*="overflow"]').forEach((element) => {
       const el = element as HTMLElement;
       const computedStyle = getComputedStyle(el);
+
+      // Check if element needs horizontal scrolling
+      const needsHorizontalScroll = el.classList.contains('process-stepper-wrapper') ||
+        el.classList.contains('overflow-x-auto') ||
+        computedStyle.overflowX === 'auto' || computedStyle.overflowX === 'scroll' ||
+        el.className.includes('horizontal-scroll') || el.className.includes('scroll-x');
+
       if (computedStyle.overflow === 'auto' || computedStyle.overflow === 'scroll' ||
           computedStyle.overflowY === 'auto' || computedStyle.overflowY === 'scroll') {
-        setupEnhancedScrolling(el, defaultScrollConfig);
+        if (needsHorizontalScroll) {
+          setupEnhancedScrolling(el, { ...defaultScrollConfig, touchAction: 'pan-x pan-y' });
+        } else {
+          setupEnhancedScrolling(el, defaultScrollConfig);
+        }
       }
     });
   }
