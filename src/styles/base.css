@@ -122,26 +122,24 @@ section,
 @media (max-width: 768px) {
   html {
     -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto; /* Disable CSS scroll smoothing for instant feel */
+    scroll-behavior: auto;
     height: 100%;
-    touch-action: pan-y; /* Allow scrolling through html */
+    touch-action: pan-y;
   }
 
   body {
     -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto; /* Disable CSS scroll smoothing */
+    scroll-behavior: auto;
     min-height: 100vh;
     touch-action: pan-y;
   }
 
-  /* Universal scroll support - ensure ALL elements allow scrolling through them */
   *,
   *::before,
   *::after {
     touch-action: pan-y;
   }
 
-  /* Reset touch-action for interactive elements */
   button,
   a,
   input,
@@ -153,7 +151,6 @@ section,
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Ensure scrolling works over high z-index elements */
   [style*="z-index"],
   .always-visible,
   #main-navigation,
@@ -168,7 +165,6 @@ section,
     pointer-events: auto !important;
   }
 
-  /* Ensure sections allow scrolling through them */
   section,
   [class*="section"],
   .section-container,
@@ -187,7 +183,6 @@ section,
     touch-action: pan-y !important;
   }
 
-  /* Background elements should not block scrolling */
   [class*="background"],
   [class*="bg-"],
   [style*="background"],
@@ -197,7 +192,6 @@ section,
     pointer-events: none !important;
   }
 
-  /* GPU accelerated elements should allow scrolling */
   [style*="transform"],
   [style*="translate"],
   [style*="rotate"],
@@ -208,7 +202,6 @@ section,
     touch-action: pan-y !important;
   }
 
-  /* Specific scrollable elements */
   [data-modal-content],
   [data-scrollable-iframe],
   .overflow-auto,
@@ -221,7 +214,6 @@ section,
     touch-action: pan-y !important;
   }
 
-  /* Carousel containers - allow horizontal scrolling */
   .carousel-container,
   .carousel-track,
   .embla__container,
@@ -231,17 +223,15 @@ section,
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior: contain !important;
     scroll-behavior: auto !important;
-    touch-action: pan-x pan-y !important; /* Allow both horizontal and vertical */
+    touch-action: pan-x pan-y !important;
   }
 
-  /* Ensure carousel dragging works */
   .carousel-container.is-dragging,
   .carousel-track:active,
   .embla__container:active {
-    touch-action: pan-x !important; /* Lock to horizontal during drag */
+    touch-action: pan-x !important;
   }
 
-  /* Scroll-locked state */
   body.scroll-locked {
     position: fixed;
     width: 100%;

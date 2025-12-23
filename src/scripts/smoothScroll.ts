@@ -11,29 +11,25 @@ export function initSmoothScroll() {
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
 
-  // For mobile, make scrolling instant/fast
   if (isMobile) {
     lenis = new Lenis({
-      duration: 0.05, // Ultra fast for instant feel
-      easing: (t: number) => t, // Linear easing for instant response
+      duration: 0.05,
+      easing: (t: number) => t,
       orientation: 'vertical',
       gestureOrientation: 'vertical',
-      smoothWheel: false, // Disable smooth wheel on mobile
+      smoothWheel: false,
       wheelMultiplier: 1.0,
       touchMultiplier: 1.0,
       infinite: false,
-      lerp: 0.02, // Ultra responsive lerp for instant feel
-      syncTouch: false, // Don't sync touch to avoid conflicts
+      lerp: 0.02,
+      syncTouch: false,
       autoResize: true,
       overscroll: false,
     });
   } else {
-    // Desktop keeps smooth scrolling
     lenis = new Lenis({
       duration: isLowEndDevice ? 0.4 : 0.8,
-      easing: (t: number) => {
-        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      },
+      easing: (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: !isLowEndDevice,
@@ -63,7 +59,6 @@ export function initSmoothScroll() {
 
   window.dispatchEvent(new Event('lenis:init'));
 
-
   document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
       const href = anchor.getAttribute('href');
@@ -77,20 +72,15 @@ export function initSmoothScroll() {
     });
   });
 
-  // Universal scroll support for mobile
   const isMobileDevice = window.matchMedia('(max-width: 768px)').matches;
   if (isMobileDevice) {
-    // Ensure touch events reach the scrollable container
     const handleTouchStart = (e: TouchEvent) => {
-      // Only prevent default if we're not in an input/textarea
       const target = e.target as HTMLElement;
       if (!target.matches('input, textarea, select, [contenteditable]')) {
-        // Allow normal scrolling
         return true;
       }
     };
 
-    // Add universal touch event listeners
     document.addEventListener('touchstart', handleTouchStart, { passive: true });
     document.addEventListener('touchmove', () => {}, { passive: true });
     document.addEventListener('touchend', () => {}, { passive: true });

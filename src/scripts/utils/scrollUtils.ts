@@ -40,71 +40,46 @@ export function setupScrollIndicators(container: HTMLElement, indicatorTop?: HTM
   return () => container.removeEventListener('scroll', updateIndicators);
 }
 
+const defaultScrollConfig = {
+  touchAction: 'pan-y' as const,
+  overscrollBehavior: 'contain' as const,
+  momentumScrolling: true
+};
+
 export function initTouchScrolling(): void {
   if (typeof document === 'undefined') return;
 
-  // Universal scroll setup for mobile
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   if (isMobile) {
-    // Ensure body and html can scroll
-    setupEnhancedScrolling(document.body, {
-      touchAction: 'pan-y',
-      overscrollBehavior: 'contain',
-      momentumScrolling: true
-    });
-
-    setupEnhancedScrolling(document.documentElement, {
-      touchAction: 'pan-y',
-      overscrollBehavior: 'contain',
-      momentumScrolling: true
-    });
+    setupEnhancedScrolling(document.body, defaultScrollConfig);
+    setupEnhancedScrolling(document.documentElement, defaultScrollConfig);
   }
 
-  // Modal content scrolling
-  document.querySelectorAll('[data-modal-content]').forEach((element) => {
-    setupEnhancedScrolling(element as HTMLElement, {
-      touchAction: 'pan-y',
-      overscrollBehavior: 'contain',
-      momentumScrolling: true
-    });
-  });
+  document.querySelectorAll('[data-modal-content]').forEach((element) =>
+    setupEnhancedScrolling(element as HTMLElement, defaultScrollConfig)
+  );
 
-  // Iframe scrolling
-  document.querySelectorAll('[data-scrollable-iframe]').forEach((element) => {
-    setupEnhancedScrolling(element as HTMLElement, {
-      touchAction: 'pan-y',
-      overscrollBehavior: 'contain',
-      momentumScrolling: true
-    });
-  });
+  document.querySelectorAll('[data-scrollable-iframe]').forEach((element) =>
+    setupEnhancedScrolling(element as HTMLElement, defaultScrollConfig)
+  );
 
-  // Scroll indicators
   document.querySelectorAll('[data-scroll-indicators]').forEach((container) => {
     const element = container as HTMLElement;
-    setupEnhancedScrolling(element, {
-      touchAction: 'pan-y',
-      overscrollBehavior: 'contain',
-      momentumScrolling: true
-    });
+    setupEnhancedScrolling(element, defaultScrollConfig);
 
     const topIndicator = container.querySelector('[data-scroll-indicator-top]') as HTMLElement;
     const bottomIndicator = container.querySelector('[data-scroll-indicator-bottom]') as HTMLElement;
     setupScrollIndicators(element, topIndicator, bottomIndicator);
   });
 
-  // Universal scroll support for all scrollable elements
   if (isMobile) {
     document.querySelectorAll('[class*="overflow"]').forEach((element) => {
       const el = element as HTMLElement;
       const computedStyle = getComputedStyle(el);
       if (computedStyle.overflow === 'auto' || computedStyle.overflow === 'scroll' ||
           computedStyle.overflowY === 'auto' || computedStyle.overflowY === 'scroll') {
-        setupEnhancedScrolling(el, {
-          touchAction: 'pan-y',
-          overscrollBehavior: 'contain',
-          momentumScrolling: true
-        });
+        setupEnhancedScrolling(el, defaultScrollConfig);
       }
     });
   }

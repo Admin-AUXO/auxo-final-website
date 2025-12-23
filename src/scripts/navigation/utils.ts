@@ -53,9 +53,7 @@ let savedScrollY: number | null = null;
 export function lockScroll(): void {
   scrollLockCount++;
 
-  // Only apply scroll lock on first lock
   if (scrollLockCount === 1) {
-    // Stop Lenis temporarily to prevent conflicts
     if (window.lenis) {
       window.lenis.stop();
     }
@@ -68,13 +66,11 @@ export function lockScroll(): void {
     document.documentElement.classList.add('scroll-locked');
     document.body.classList.add('scroll-locked');
 
-    // Use more reliable scroll locking method
     document.body.style.position = 'fixed';
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = '100%';
     document.body.style.overflow = 'hidden';
 
-    // Prevent touch scrolling on mobile
     document.addEventListener('touchmove', preventScroll, { passive: false });
     document.addEventListener('wheel', preventScroll, { passive: false });
   }
@@ -85,33 +81,26 @@ export function unlockScroll(): void {
     scrollLockCount--;
   }
 
-  // Only remove scroll lock when all locks are released
   if (scrollLockCount === 0 && savedScrollY !== null) {
-    // Remove scroll prevention listeners
     document.removeEventListener('touchmove', preventScroll);
     document.removeEventListener('wheel', preventScroll);
 
-    // Restore body styles
     document.body.style.position = '';
     document.body.style.top = '';
     document.body.style.width = '';
     document.body.style.overflow = '';
 
-    // Restore scroll position using Lenis if available, otherwise use native scroll
     if (window.lenis) {
       window.lenis.start();
-      // Use requestAnimationFrame to ensure DOM is updated
       requestAnimationFrame(() => {
         window.lenis?.scrollTo(savedScrollY!, { immediate: true });
       });
     } else {
-      // Fallback to native scroll restoration
       requestAnimationFrame(() => {
         window.scrollTo({ top: savedScrollY!, behavior: 'instant' });
       });
     }
 
-    // Clean up attributes and classes
     document.body.removeAttribute('data-scroll-y');
     document.documentElement.style.removeProperty('--scroll-y');
     document.documentElement.classList.remove('scroll-locked');
