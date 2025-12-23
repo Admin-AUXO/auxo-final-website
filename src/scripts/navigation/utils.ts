@@ -55,17 +55,28 @@ export function lockScroll(): void {
 
   // Only apply scroll lock on first lock
   if (scrollLockCount === 1) {
-    const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+    // Stop Lenis temporarily to prevent conflicts
+    if (window.lenis) {
+      window.lenis.stop();
+    }
+
+    const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
     savedScrollY = scrollY;
 
     document.body.setAttribute('data-scroll-y', scrollY.toString());
-    document.documentElement.style.setProperty('--scroll-y', scrollY.toString());
+    document.documentElement.style.setProperty('--scroll-y', `${scrollY}px`);
     document.documentElement.classList.add('scroll-locked');
     document.body.classList.add('scroll-locked');
 
-    // Prevent scroll events from propagating
+    // Use more reliable scroll locking method
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
     document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
+
+    // Prevent touch scrolling on mobile
+    document.addEventListener('touchmove', preventScroll, { passive: false });
+    document.addEventListener('wheel', preventScroll, { passive: false });
   }
 }
 
@@ -76,23 +87,43 @@ export function unlockScroll(): void {
 
   // Only remove scroll lock when all locks are released
   if (scrollLockCount === 0 && savedScrollY !== null) {
+    // Remove scroll prevention listeners
+    document.removeEventListener('touchmove', preventScroll);
+    document.removeEventListener('wheel', preventScroll);
+
+    // Restore body styles
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+
+    // Restore scroll position using Lenis if available, otherwise use native scroll
     if (window.lenis) {
-      window.lenis.scrollTo(savedScrollY, { immediate: true });
+      window.lenis.start();
+      // Use requestAnimationFrame to ensure DOM is updated
+      requestAnimationFrame(() => {
+        window.lenis?.scrollTo(savedScrollY!, { immediate: true });
+      });
     } else {
-      window.scrollTo(0, savedScrollY);
+      // Fallback to native scroll restoration
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: savedScrollY!, behavior: 'instant' });
+      });
     }
 
+    // Clean up attributes and classes
     document.body.removeAttribute('data-scroll-y');
     document.documentElement.style.removeProperty('--scroll-y');
     document.documentElement.classList.remove('scroll-locked');
     document.body.classList.remove('scroll-locked');
 
-    // Restore scroll behavior
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
-
     savedScrollY = null;
   }
+}
+
+// Prevent scroll function for event listeners
+function preventScroll(e: Event): void {
+  e.preventDefault();
 }
 
 export function forceUnlockScroll(): void {

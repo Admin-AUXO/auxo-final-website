@@ -8,7 +8,7 @@
 
 html {
   overflow-y: scroll;
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -126,6 +126,8 @@ section,
     overscroll-behavior-y: contain;
     touch-action: pan-y;
     scroll-behavior: smooth;
+    /* Fix for mobile viewport height issues */
+    height: -webkit-fill-available;
   }
 
   body {
@@ -133,6 +135,9 @@ section,
     overscroll-behavior: contain;
     touch-action: pan-y;
     -webkit-touch-callout: none;
+    /* Fix for mobile viewport height issues */
+    min-height: -webkit-fill-available;
+    min-height: 100vh;
   }
 
   [style*="overflow"],
@@ -143,6 +148,8 @@ section,
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior: contain !important;
     touch-action: pan-y !important;
+    /* Improve momentum scrolling */
+    -webkit-momentum-scrolling: auto !important;
   }
 
   button,
@@ -151,5 +158,20 @@ section,
   textarea,
   select {
     touch-action: manipulation;
+    /* Prevent tap highlight */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Improve scrolling for all scrollable elements on mobile */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Fix for iOS Safari bounce scrolling */
+  body.scroll-locked {
+    position: fixed;
+    width: 100%;
+    overscroll-behavior: none;
+    -webkit-overscroll-behavior: none;
   }
 }
