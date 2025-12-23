@@ -1,5 +1,5 @@
 .models-section {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .models-section .section-pattern-grid {
@@ -427,7 +427,12 @@
 }
 
 .impact-section {
-  overflow: hidden;
+  overflow: visible;
+}
+
+.models-accordion-summary {
+  touch-action: manipulation !important;
+  cursor: pointer !important;
 }
 
 .impact-section .section-pattern-mesh {

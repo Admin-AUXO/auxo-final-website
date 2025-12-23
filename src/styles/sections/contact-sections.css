@@ -7,5 +7,10 @@
     margin-right: auto;
     padding-left: 1rem;
     padding-right: 1rem;
+    touch-action: pan-y !important;
+  }
+
+  #contact-main {
+    touch-action: pan-y !important;
   }
 }

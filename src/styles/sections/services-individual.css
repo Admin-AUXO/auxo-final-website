@@ -4,8 +4,7 @@
 .service-benefits-section,
 .service-outcomes-section,
 .service-cta-section {
-  overflow: hidden !important;
-  overflow: hidden !important;
+  overflow: visible;
 }
 
 .process-stepper-wrapper {
@@ -93,6 +92,13 @@ details.group\/details summary::-webkit-details-marker {
 .process-step-item summary {
   user-select: none;
   -webkit-user-select: none;
+  touch-action: manipulation !important;
+  cursor: pointer !important;
+}
+
+.service-accordion-item summary {
+  touch-action: manipulation !important;
+  cursor: pointer !important;
 }
 
 @media (max-width: 640px) {
