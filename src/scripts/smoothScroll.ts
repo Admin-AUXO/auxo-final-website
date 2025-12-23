@@ -87,7 +87,17 @@ export function initSmoothScroll() {
   }
 
   document.addEventListener('astro:page-load', () => {
-    lenis?.scrollTo(0, { immediate: true });
+    const hash = window.location.hash;
+    if (hash && hash !== '#') {
+      setTimeout(() => {
+        const target = document.querySelector(hash) as HTMLElement;
+        if (target) {
+          lenis?.scrollTo(target, { offset: -20, immediate: true });
+        }
+      }, 100);
+    } else {
+      lenis?.scrollTo(0, { immediate: true });
+    }
   });
 }
 
