@@ -235,8 +235,7 @@
   /* Hide floating button when any modal or dropdown is open */
   body:has(.mobile-menu.is-open) .fab-button,
   body:has(.dropdown-modal-menu.open) .fab-button,
-  body:has(#calendar-modal:not([hidden])) .fab-button,
-  body:has(.scroll-locked) .fab-button {
+  body:has(#calendar-modal:not([hidden])) .fab-button {
     opacity: 0;
     pointer-events: none;
     transform: scale(0.8);
@@ -244,10 +243,48 @@
 
   body:has(.mobile-menu.is-open) .fab-tooltip,
   body:has(.dropdown-modal-menu.open) .fab-tooltip,
-  body:has(#calendar-modal:not([hidden])) .fab-tooltip,
-  body:has(.scroll-locked) .fab-tooltip {
+  body:has(#calendar-modal:not([hidden])) .fab-tooltip {
     opacity: 0;
     visibility: hidden;
+  }
+
+  /* Ensure floating button stays fixed even when body is scroll-locked */
+  body.scroll-locked .fab-button {
+    position: fixed !important;
+    bottom: 1.5rem !important;
+    right: 1.5rem !important;
+    z-index: var(--z-floating-button) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateZ(0) !important;
+  }
+
+  @media (min-width: 640px) {
+    body.scroll-locked .fab-button {
+      bottom: 2rem !important;
+      right: 2rem !important;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    body.scroll-locked .fab-button {
+      bottom: 2.5rem !important;
+      right: 2.5rem !important;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    body.scroll-locked .fab-button {
+      bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom))) !important;
+      right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right))) !important;
+    }
+  }
+
+  @supports (padding: max(0px)) {
+    body.scroll-locked .fab-button {
+      bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom))) !important;
+      right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right))) !important;
+    }
   }
 </style>
 
