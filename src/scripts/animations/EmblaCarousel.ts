@@ -66,13 +66,14 @@ export class EmblaCarouselWrapper {
       slidesToScroll,
       dragFree,
       containScroll: 'trimSnaps',
-      duration: isMobile ? 15 : 20,
-      dragThreshold: isMobile ? 10 : 5,
+      duration: isMobile ? 20 : 25,
+      dragThreshold: isMobile ? 15 : 10,
       skipSnaps: false,
       watchDrag: true,
       watchResize: true,
       watchSlides: true,
       axis: 'x',
+      inViewThreshold: 0,
     }, plugins);
 
     if (this.dots && this.dots.length !== 0) {

@@ -128,6 +128,9 @@
   contain: layout style paint;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  touch-action: pan-x;
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: contain;
 }
 
 .carousel-container::-webkit-scrollbar {
@@ -138,12 +141,13 @@
 
 .embla {
   overflow: hidden;
+  touch-action: pan-x;
 }
 
 .embla__container {
   display: flex;
   align-items: stretch;
-  touch-action: pan-x pinch-zoom;
+  touch-action: pan-x;
   padding-left: var(--grid-padding-sm);
   padding-right: var(--grid-padding-sm);
   backface-visibility: hidden;
@@ -182,10 +186,16 @@
   flex-direction: column;
   width: calc(100vw - 2rem);
   max-width: 320px;
+  height: auto;
 }
 
 .embla__slide:first-child {
   padding-left: 0;
+}
+
+.embla__slide > * {
+  flex: 1;
+  min-height: 0;
 }
 
 @media (min-width: 640px) {
@@ -202,7 +212,7 @@
 }
 
 .embla__container.carousel-track {
-  touch-action: pan-x pinch-zoom;
+  touch-action: pan-x;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -218,6 +228,7 @@
   -webkit-backface-visibility: hidden;
   will-change: transform;
   overflow: visible;
+  touch-action: pan-x;
 }
 
 @media (min-width: 640px) {
@@ -246,6 +257,12 @@
   align-self: stretch;
   opacity: 1;
   transition: opacity var(--duration-fast) var(--easing-standard);
+  height: auto;
+}
+
+.carousel-slide > * {
+  flex: 1;
+  min-height: 0;
 }
 
 .carousel-container.is-dragging .carousel-slide {
@@ -253,21 +270,31 @@
   transition: none;
 }
 
+.carousel-slide,
+.embla__slide {
+  display: flex;
+  flex-direction: column;
+}
+
 .carousel-slide .service-card-redesigned,
 .carousel-slide .glassmorphism-card,
+.carousel-slide .capability-card-carousel,
 .carousel-slide .impact-industry-card,
 .carousel-slide > div,
 .embla__slide > div {
   height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .carousel-slide .service-card-redesigned > div,
-.carousel-slide .glassmorphism-card > div {
+.carousel-slide .glassmorphism-card > div,
+.carousel-slide .capability-card-carousel > div {
   flex: 1;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .carousel-dots {
@@ -409,13 +436,23 @@
     padding: 0.75rem 0;
   }
 
-  .carousel-container {
-    touch-action: pan-x;
+  .carousel-container,
+  .carousel-track,
+  .embla,
+  .embla__container {
+    touch-action: pan-x !important;
+    overscroll-behavior-y: none !important;
   }
 
   .carousel-container.is-dragging {
     user-select: none;
     -webkit-user-select: none;
+  }
+
+  .carousel-slide,
+  .embla__slide {
+    touch-action: pan-x;
+    pointer-events: auto;
   }
 }
 
@@ -490,7 +527,7 @@
 }
 
 .service-card-redesigned[data-variant="carousel"] {
-  min-height: 240px;
+  min-height: 280px;
 }
 
 .service-card-redesigned[data-variant="carousel"] > div {
@@ -513,7 +550,7 @@
 
 @media (min-width: 640px) {
   .service-card-redesigned[data-variant="carousel"] {
-    min-height: 260px;
+    min-height: 300px;
   }
 
   .service-card-redesigned[data-variant="carousel"] > div {
@@ -523,12 +560,12 @@
 
 @media (min-width: 1024px) {
   .service-card-redesigned[data-variant="carousel"] {
-    min-height: 280px;
+    min-height: 320px;
   }
 }
 
 .carousel-slide .glassmorphism-card.capability-card-carousel {
-  min-height: 280px;
+  min-height: 320px;
   padding: 1.25rem;
 }
 
@@ -549,14 +586,14 @@
 
 @media (min-width: 640px) {
   .carousel-slide .glassmorphism-card.capability-card-carousel {
-    min-height: 300px;
+    min-height: 340px;
     padding: 1.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .carousel-slide .glassmorphism-card.capability-card-carousel {
-    min-height: 320px;
+    min-height: 360px;
   }
 }
 
