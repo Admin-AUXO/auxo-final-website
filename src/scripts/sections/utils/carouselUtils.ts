@@ -72,8 +72,25 @@ function createCarouselManager(config: CarouselConfig) {
       return;
     }
 
-    if (container.offsetParent === null) {
-      observeOnce(container, init, { threshold: 0 });
+    // Check if container is visible (not hidden by CSS)
+    const computedStyle = window.getComputedStyle(container);
+    const isHidden = computedStyle.display === 'none' || computedStyle.visibility === 'hidden' || computedStyle.opacity === '0';
+
+    if (container.offsetParent === null || isHidden) {
+      // For mobile carousels, wait a bit longer and check again
+      if (window.innerWidth < 768) {
+        setTimeout(() => {
+          const updatedStyle = window.getComputedStyle(container);
+          const stillHidden = updatedStyle.display === 'none' || updatedStyle.visibility === 'hidden' || updatedStyle.opacity === '0';
+          if (!stillHidden && container.offsetParent !== null) {
+            init();
+          } else {
+            observeOnce(container, init, { threshold: 0 });
+          }
+        }, 100);
+      } else {
+        observeOnce(container, init, { threshold: 0 });
+      }
       return;
     }
 

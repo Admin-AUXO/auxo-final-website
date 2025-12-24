@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const basePath = process.env.BASE_PATH || '/auxo-final-website/';
+const basePath = process.env.BASE_PATH || '/';
 
 export default defineConfig({
   site: 'https://auxodata.com',
