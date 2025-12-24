@@ -117,14 +117,14 @@ const logoSize = sizeClasses[size];
     {
         showText && (
             <div class="flex flex-col hidden lg:flex items-center">
-                <div class="logo-text-container flex flex-col items-center gap-1">
+                <div class="logo-text-container flex flex-col items-center">
                     <span
-                        class="logo-tagline text-lg sm:text-xl lg:text-2xl font-extrabold tracking-tight leading-tight transition-colors text-center font-display text-theme-primary"
+                        class="logo-tagline text-lg sm:text-xl lg:text-2xl font-extrabold tracking-tight leading-none transition-colors text-center font-display text-theme-primary"
                     >
                         Data Labs
                     </span>
                     <span
-                        class="logo-subtitle text-accent-green text-sm sm:text-base lg:text-lg font-semibold leading-tight transition-colors text-center font-display"
+                        class="logo-subtitle text-accent-green text-sm sm:text-base lg:text-lg font-semibold leading-none transition-colors text-center font-display"
                     >
                         Look Beyond Data
                     </span>
@@ -137,6 +137,9 @@ const logoSize = sizeClasses[size];
 <style>
     .logo-text-container {
         min-width: 140px; /* Ensure minimum width for both texts */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .logo-tagline,
@@ -144,14 +147,16 @@ const logoSize = sizeClasses[size];
         display: inline-block;
         width: 100%;
         box-sizing: border-box;
+        text-align: center;
+        line-height: 1; /* Reduce line height */
     }
 
-    /* Ensure consistent spacing and alignment */
+    /* Minimal spacing between texts */
     .logo-tagline {
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.125rem; /* Reduced from 0.25rem */
     }
 
     .logo-subtitle {
-        margin-top: 0.25rem;
+        margin-top: 0.125rem; /* Reduced from 0.25rem */
     }
 </style>
