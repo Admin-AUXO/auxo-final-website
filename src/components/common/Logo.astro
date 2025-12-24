@@ -117,19 +117,41 @@ const logoSize = sizeClasses[size];
     {
         showText && (
             <div class="flex flex-col hidden lg:flex items-center">
-                <span
-                    class="logo-tagline text-lg sm:text-xl lg:text-2xl font-extrabold tracking-tight leading-tight transition-colors text-center font-display text-theme-primary"
-                >
-                    Data Labs
-                </span>
-                <span
-                    class="text-accent-green text-lg sm:text-xl lg:text-2xl font-semibold leading-tight transition-colors text-center font-display"
-                >
-                    Look Beyond Data
-                </span>
+                <div class="logo-text-container flex flex-col items-center gap-1">
+                    <span
+                        class="logo-tagline text-lg sm:text-xl lg:text-2xl font-extrabold tracking-tight leading-tight transition-colors text-center font-display text-theme-primary"
+                    >
+                        Data Labs
+                    </span>
+                    <span
+                        class="logo-subtitle text-accent-green text-sm sm:text-base lg:text-lg font-semibold leading-tight transition-colors text-center font-display"
+                    >
+                        Look Beyond Data
+                    </span>
+                </div>
             </div>
         )
     }
 </a>
 
+<style>
+    .logo-text-container {
+        min-width: 140px; /* Ensure minimum width for both texts */
+    }
 
+    .logo-tagline,
+    .logo-subtitle {
+        display: inline-block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Ensure consistent spacing and alignment */
+    .logo-tagline {
+        margin-bottom: 0.25rem;
+    }
+
+    .logo-subtitle {
+        margin-top: 0.25rem;
+    }
+</style>
