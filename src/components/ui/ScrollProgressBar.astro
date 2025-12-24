@@ -36,42 +36,52 @@
   function initScrollProgressBar(): void {
     const progressBar = document.getElementById('scroll-progress-bar');
     const progressFill = progressBar?.querySelector('.scroll-progress-bar-fill') as HTMLElement;
-    
+
     if (!progressBar || !progressFill) return;
 
-    const lenis = window.lenis;
+    let lenis = window.lenis;
+    let rafId: number | null = null;
 
     function updateProgress(): void {
       const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const scrollTop = lenis?.scroll || window.scrollY || document.documentElement.scrollTop;
-      
+      const documentHeight = Math.max(
+        document.body.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollHeight,
+        document.documentElement.offsetHeight
+      );
+      const scrollTop = lenis?.scroll || window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
       const totalScrollableHeight = documentHeight - windowHeight;
-      const scrollProgress = totalScrollableHeight > 0 
-        ? (scrollTop / totalScrollableHeight) * 100 
+      const scrollProgress = totalScrollableHeight > 0
+        ? Math.min(100, Math.max(0, (scrollTop / totalScrollableHeight) * 100))
         : 0;
-      
-      const progressValue = `${Math.min(100, Math.max(0, scrollProgress))}%`;
+
+      const progressValue = `${scrollProgress}%`;
       progressFill.style.setProperty('--scroll-progress-width', progressValue);
     }
 
-    if (lenis) {
-      lenis.on('scroll', updateProgress);
-    } else {
-      let ticking = false;
-      function requestTick(): void {
-        if (!ticking) {
-          requestAnimationFrame(() => {
-            updateProgress();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }
-      window.addEventListener('scroll', requestTick, { passive: true });
+    function throttledUpdate(): void {
+      if (rafId !== null) return;
+
+      rafId = requestAnimationFrame(() => {
+        updateProgress();
+        rafId = null;
+      });
     }
 
-    window.addEventListener('resize', updateProgress, { passive: true });
+    if (lenis) {
+      lenis.on('scroll', throttledUpdate);
+    } else {
+      window.addEventListener('scroll', throttledUpdate, { passive: true });
+    }
+
+    window.addEventListener('resize', () => {
+      setTimeout(updateProgress, 100);
+    }, { passive: true });
+
+    // Initial update
     updateProgress();
   }
 

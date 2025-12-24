@@ -116,16 +116,12 @@ const logoSize = sizeClasses[size];
     </div>
     {
         showText && (
-            <div class="flex flex-col hidden lg:flex items-center">
-                <div class="logo-text-container flex flex-col items-center">
-                    <span
-                        class="logo-tagline text-lg sm:text-xl lg:text-2xl font-extrabold tracking-tight leading-none transition-colors text-center font-display text-theme-primary"
-                    >
+            <div class="flex flex-col hidden lg:flex items-center pointer-events-none">
+                <div class="logo-text-container">
+                    <span class="logo-tagline">
                         Data Labs
                     </span>
-                    <span
-                        class="logo-subtitle text-accent-green text-sm sm:text-base lg:text-lg font-semibold leading-none transition-colors text-center font-display"
-                    >
+                    <span class="logo-subtitle">
                         Look Beyond Data
                     </span>
                 </div>
@@ -133,30 +129,3 @@ const logoSize = sizeClasses[size];
         )
     }
 </a>
-
-<style>
-    .logo-text-container {
-        min-width: 140px; /* Ensure minimum width for both texts */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .logo-tagline,
-    .logo-subtitle {
-        display: inline-block;
-        width: 100%;
-        box-sizing: border-box;
-        text-align: center;
-        line-height: 1; /* Reduce line height */
-    }
-
-    /* Minimal spacing between texts */
-    .logo-tagline {
-        margin-bottom: 0.125rem; /* Reduced from 0.25rem */
-    }
-
-    .logo-subtitle {
-        margin-top: 0.125rem; /* Reduced from 0.25rem */
-    }
-</style>

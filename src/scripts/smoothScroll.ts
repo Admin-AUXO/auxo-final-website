@@ -53,15 +53,15 @@ export function initSmoothScroll() {
     });
   } else {
     lenis = new Lenis({
-      duration: isLowEndDevice ? 0.3 : 0.5,
-      easing: (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+      duration: isLowEndDevice ? 0.2 : 0.3, // Faster response for desktop
+      easing: (t: number) => t, // Linear easing for instant feel
       orientation: 'vertical',
       gestureOrientation: 'vertical',
-      smoothWheel: !isLowEndDevice,
-      wheelMultiplier: isTouchDevice ? 1.0 : 0.8,
-      touchMultiplier: isTouchDevice ? 1.2 : 1.5,
+      smoothWheel: true, // Always smooth on desktop
+      wheelMultiplier: isTouchDevice ? 1.0 : 1.2, // More responsive
+      touchMultiplier: isTouchDevice ? 1.2 : 1.8,
       infinite: false,
-      lerp: isLowEndDevice ? 0.12 : 0.1,
+      lerp: isLowEndDevice ? 0.15 : 0.12, // Higher lerp for snappier response
       syncTouch: true,
       autoResize: true,
       overscroll: false,
