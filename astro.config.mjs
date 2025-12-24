@@ -11,10 +11,13 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const basePath = process.env.BASE_PATH || '/';
+// For root deployment (custom domain), base should be undefined
+// For subdirectory deployment, base should be the subdirectory path
+const base = basePath === '/' ? undefined : basePath;
 
 export default defineConfig({
   site: 'https://auxodata.com',
-  base: basePath,
+  base: base,
   output: 'static',
   build: {
     inlineStylesheets: 'never',
@@ -156,8 +159,8 @@ export default defineConfig({
     }),
     AstroPWA({
       registerType: 'autoUpdate',
-      base: basePath,
-      scope: basePath,
+      base: base || '/',
+      scope: base || '/',
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico,webp,woff,woff2}'],
         runtimeCaching: [
@@ -192,22 +195,22 @@ export default defineConfig({
         theme_color: '#121212',
         background_color: '#121212',
         display: 'standalone',
-        start_url: basePath,
-        scope: basePath,
+        start_url: base || '/',
+        scope: base || '/',
         icons: [
           {
-            src: `${basePath}favicon.svg`,
+            src: `${base || '/'}favicon.svg`,
             sizes: 'any',
             type: 'image/svg+xml',
             purpose: 'any maskable',
           },
           {
-            src: `${basePath}apple-touch-icon.svg`,
+            src: `${base || '/'}apple-touch-icon.svg`,
             sizes: '180x180',
             type: 'image/svg+xml',
           },
           {
-            src: `${basePath}logo.svg`,
+            src: `${base || '/'}logo.svg`,
             sizes: '512x512',
             type: 'image/svg+xml',
           },
