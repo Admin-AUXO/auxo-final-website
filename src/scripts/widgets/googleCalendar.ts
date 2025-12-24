@@ -2,7 +2,7 @@ import { DragGesture } from '@use-gesture/vanilla';
 import { createCalendarModal } from '@/scripts/utils/modalManager';
 import { setupEnhancedScrolling, setupScrollIndicators, initTouchScrolling } from '@/scripts/utils/scrollUtils';
 
-const CALENDAR_URL = 'https://calendar.app.google/6jRXDXyftxSPkGKZ6';
+const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3xJC7x6jRXDXyftxSPkGKZ6';
 const MODAL_ID = 'calendar-modal';
 const IFRAME_ID = 'calendar-iframe';
 const SCROLL_THRESHOLD = 50;
@@ -94,7 +94,6 @@ function updateScrollIndicators(): void {
       bottomIndicator.classList.toggle('visible', !isAtBottom);
     }
   } catch {
-    // Cross-origin restrictions - fallback to basic scroll detection
     const topIndicator = content.querySelector('[data-calendar-scroll-top]');
     const bottomIndicator = content.querySelector('[data-calendar-scroll-bottom]');
 
@@ -249,8 +248,6 @@ function openCalendarModal(): void {
     return;
   }
 
-  const originalTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-  modal.setAttribute('data-original-theme', originalTheme);
 
   const iframe = getIframe();
   if (iframe) {
@@ -267,8 +264,6 @@ function openCalendarModal(): void {
     setupIframeErrorHandling(iframe);
     setupModalScroll();
 
-    iframe.style.colorScheme = 'normal';
-    iframe.setAttribute('allowTransparency', 'false');
 
     iframe.style.touchAction = 'pan-y';
     (iframe.style as any).webkitOverflowScrolling = 'touch';
@@ -291,15 +286,6 @@ function closeCalendarModal(): void {
     swipeGesture = null;
   }
 
-  const modal = getModal();
-  if (modal) {
-    const originalTheme = modal.getAttribute('data-original-theme');
-    if (originalTheme) {
-      document.documentElement.classList.remove('dark', 'light');
-      document.documentElement.classList.add(originalTheme);
-      modal.removeAttribute('data-original-theme');
-    }
-  }
 
   calendarModalInstance?.close();
 }

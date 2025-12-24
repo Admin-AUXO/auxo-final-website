@@ -149,6 +149,33 @@ section,
     touch-action: pan-y;
   }
 
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 768px) {
+    html,
+    body {
+      -webkit-overflow-scrolling: touch !important;
+      overscroll-behavior: contain !important;
+      touch-action: pan-y !important;
+      scroll-behavior: auto !important;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+
+    [data-modal-content],
+    [data-scrollable-iframe],
+    .overflow-auto:not(.process-stepper-wrapper):not([class*="horizontal-scroll"]):not([class*="scroll-x"]):not(.overflow-x-auto),
+    .overflow-y-auto,
+    .overflow-scroll:not(.process-stepper-wrapper):not([class*="horizontal-scroll"]):not([class*="scroll-x"]):not(.overflow-x-auto),
+    .overflow-y-scroll {
+      -webkit-overflow-scrolling: touch !important;
+      overscroll-behavior: contain !important;
+      touch-action: pan-y !important;
+      will-change: scroll-position;
+      contain: layout style paint;
+    }
+  }
+}
+
   *,
   *::before,
   *::after {
@@ -345,5 +372,25 @@ section,
       opacity: 1;
       transform: translateY(0);
     }
+  }
+}
+
+/* Desktop scrolling optimizations */
+@media (min-width: 769px) {
+  html,
+  body {
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: auto;
+  }
+
+  html.lenis,
+  body.lenis {
+    overscroll-behavior: none;
+    scroll-behavior: auto;
+  }
+
+  html.lenis * {
+    scroll-behavior: auto !important;
   }
 }

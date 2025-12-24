@@ -55,29 +55,44 @@ export function setupFabScrollBehavior(): void {
   if (!fab) return;
 
   const isMobile = window.innerWidth < 1024;
+  const isAndroid = /Android/i.test(navigator.userAgent);
+
   if (!isMobile) return;
 
+  let scrollTimeout: number | null = null;
+  const scrollThrottleDelay = isAndroid ? 100 : 16;
+
   function handleScroll(): void {
-    const scrollTop = getScrollTop();
-    requestAnimationFrame(() => updateFabVisibility(scrollTop));
+    if (scrollTimeout) return;
+
+    scrollTimeout = window.setTimeout(() => {
+      const scrollTop = getScrollTop();
+      updateFabVisibility(scrollTop);
+      scrollTimeout = null;
+    }, scrollThrottleDelay);
   }
 
-  if (window.lenis) {
+  if (window.lenis && !isAndroid) {
     window.lenis.on('scroll', handleScroll);
   } else {
     window.addEventListener('scroll', handleScroll, { passive: true });
   }
 
+  let resizeTimeout: number | null = null;
   window.addEventListener('resize', () => {
-    const newIsMobile = window.innerWidth < 1024;
-    if (!newIsMobile) {
-      fab.classList.remove('fab-hidden');
-      isFabHidden = false;
-      if (hideTimeout) {
-        clearTimeout(hideTimeout);
-        hideTimeout = null;
+    if (resizeTimeout) clearTimeout(resizeTimeout);
+
+    resizeTimeout = window.setTimeout(() => {
+      const newIsMobile = window.innerWidth < 1024;
+      if (!newIsMobile) {
+        fab.classList.remove('fab-hidden');
+        isFabHidden = false;
+        if (hideTimeout) {
+          clearTimeout(hideTimeout);
+          hideTimeout = null;
+        }
       }
-    }
+    }, 100);
   }, { passive: true });
 
   updateFabVisibility(getScrollTop());

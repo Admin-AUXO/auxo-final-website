@@ -50,10 +50,21 @@ export function initTouchScrolling(): void {
   if (typeof document === 'undefined') return;
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const isAndroid = /Android/i.test(navigator.userAgent);
 
   if (isMobile) {
-    setupEnhancedScrolling(document.body, defaultScrollConfig);
-    setupEnhancedScrolling(document.documentElement, defaultScrollConfig);
+    if (isAndroid) {
+      const androidScrollConfig = {
+        touchAction: 'pan-y' as const,
+        overscrollBehavior: 'contain' as const,
+        momentumScrolling: true
+      };
+      setupEnhancedScrolling(document.body, androidScrollConfig);
+      setupEnhancedScrolling(document.documentElement, androidScrollConfig);
+    } else {
+      setupEnhancedScrolling(document.body, defaultScrollConfig);
+      setupEnhancedScrolling(document.documentElement, defaultScrollConfig);
+    }
   }
 
   document.querySelectorAll('[data-modal-content]').forEach((element) =>

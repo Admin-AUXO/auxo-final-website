@@ -8,8 +8,30 @@ export function initSmoothScroll() {
   if (prefersReducedMotion) return;
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const isAndroid = /Android/i.test(navigator.userAgent);
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+
+  if (isAndroid) {
+    const html = document.documentElement;
+    const body = document.body;
+
+    html.style.overscrollBehavior = 'contain';
+    html.style.webkitOverflowScrolling = 'touch';
+    html.style.touchAction = 'pan-y';
+    html.style.scrollBehavior = 'auto';
+
+    body.style.overscrollBehavior = 'contain';
+    body.style.webkitOverflowScrolling = 'touch';
+    body.style.touchAction = 'pan-y';
+
+    const touchStartHandler = () => {};
+    document.addEventListener('touchstart', touchStartHandler, { passive: true, capture: true });
+    document.addEventListener('touchmove', touchStartHandler, { passive: true, capture: true });
+    document.addEventListener('touchend', touchStartHandler, { passive: true, capture: true });
+
+    return;
+  }
 
   if (isMobile) {
     lenis = new Lenis({
@@ -25,6 +47,9 @@ export function initSmoothScroll() {
       syncTouch: false,
       autoResize: true,
       overscroll: false,
+      // Additional mobile optimizations
+      touchInertiaMultiplier: 1.0,
+      wheelInertiaMultiplier: 1.0,
     });
   } else {
     lenis = new Lenis({
@@ -73,7 +98,8 @@ export function initSmoothScroll() {
   });
 
   const isMobileDevice = window.matchMedia('(max-width: 768px)').matches;
-  if (isMobileDevice) {
+
+  if (isMobileDevice && !isAndroid) {
     const handleTouchStart = (e: TouchEvent) => {
       const target = e.target as HTMLElement;
       if (!target.matches('input, textarea, select, [contenteditable]')) {
