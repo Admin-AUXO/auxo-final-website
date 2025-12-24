@@ -12,9 +12,9 @@ export const sanityClient = createClient({
   projectId,
   dataset,
   useCdn: import.meta.env.PROD,
-  apiVersion: '2025-02-19',
+  apiVersion: '2024-01-01',
   token,
   requestTagPrefix: 'auxo-website',
-  perspective: 'published',
+  perspective: import.meta.env.PROD ? 'published' : 'raw',
   stega: false,
 });
