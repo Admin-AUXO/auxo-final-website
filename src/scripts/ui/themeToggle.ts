@@ -11,10 +11,23 @@ let isThemeChanging = false;
 let lastThemeChange = 0;
 const THEME_CHANGE_DEBOUNCE = 100; // Minimum time between changes
 
+function isMobileDevice(): boolean {
+  if (typeof window === "undefined") return false;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+         window.innerWidth < 768;
+}
+
 function getTheme(): Theme {
   if (typeof window === "undefined") return "dark";
   const stored = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
   if (stored) return stored;
+
+  // On mobile devices, ignore system preference and default to dark theme
+  if (isMobileDevice()) {
+    return "dark";
+  }
+
+  // On desktop, respect system preference
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 }
 
@@ -154,26 +167,29 @@ function setupThemeToggles(): void {
 function setupThemePreferenceListener(): void {
   if (typeof window === "undefined") return;
 
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
-  let lastSystemTheme = mediaQuery.matches;
+  // Disable system theme preference listener on mobile devices
+  if (!isMobileDevice()) {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
+    let lastSystemTheme = mediaQuery.matches;
 
-  const handler = (e: MediaQueryListEvent) => {
-    // Only respond if system theme actually changed and no user preference stored
-    if (e.matches === lastSystemTheme || localStorage.getItem(THEME_STORAGE_KEY)) {
-      return;
-    }
+    const handler = (e: MediaQueryListEvent) => {
+      // Only respond if system theme actually changed and no user preference stored
+      if (e.matches === lastSystemTheme || localStorage.getItem(THEME_STORAGE_KEY)) {
+        return;
+      }
 
-    // Don't change theme if calendar modal is open
-    const calendarModal = document.getElementById('calendar-modal');
-    if (calendarModal && !calendarModal.hasAttribute('hidden')) {
-      return;
-    }
+      // Don't change theme if calendar modal is open
+      const calendarModal = document.getElementById('calendar-modal');
+      if (calendarModal && !calendarModal.hasAttribute('hidden')) {
+        return;
+      }
 
-    lastSystemTheme = e.matches;
-    applyTheme(e.matches ? "light" : "dark");
-  };
-  mediaQuery.addEventListener("change", handler);
-  
+      lastSystemTheme = e.matches;
+      applyTheme(e.matches ? "light" : "dark");
+    };
+    mediaQuery.addEventListener("change", handler);
+  }
+
   document.addEventListener(THEME_CHANGE_EVENT, ((e: CustomEvent) => {
     updateIcon(e.detail?.theme || getTheme());
   }) as EventListener, { once: false });
