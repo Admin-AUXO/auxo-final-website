@@ -2,7 +2,7 @@ import { DragGesture } from '@use-gesture/vanilla';
 import { createCalendarModal } from '@/scripts/utils/modalManager';
 import { setupEnhancedScrolling, setupScrollIndicators, initTouchScrolling } from '@/scripts/utils/scrollUtils';
 
-const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3xJC7x6jRXDXyftxSPkGKZ6';
+const CALENDAR_URL = 'https://calendar.google.com/calendar/u/0/r/appointment/AcZssZ3xJC7x6jRXDXyftxSPkGKZ6';
 const MODAL_ID = 'calendar-modal';
 const IFRAME_ID = 'calendar-iframe';
 const SCROLL_THRESHOLD = 50;

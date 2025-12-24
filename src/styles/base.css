@@ -382,6 +382,9 @@ section,
     scroll-behavior: smooth;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: auto;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 
   html.lenis,
@@ -392,5 +395,13 @@ section,
 
   html.lenis * {
     scroll-behavior: auto !important;
+  }
+
+  html.lenis {
+    will-change: transform;
+  }
+
+  body.lenis {
+    will-change: transform;
   }
 }

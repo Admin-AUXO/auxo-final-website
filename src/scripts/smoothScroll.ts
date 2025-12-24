@@ -35,36 +35,37 @@ export function initSmoothScroll() {
 
   if (isMobile) {
     lenis = new Lenis({
-      duration: 0.03,
+      duration: 0.02,
       easing: (t: number) => t,
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: false,
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.8,
+      touchMultiplier: 1.5,
       infinite: false,
-      lerp: 0.01,
+      lerp: 0.02,
       syncTouch: false,
       autoResize: true,
       overscroll: false,
-      // Additional mobile optimizations
+      normalizeWheel: false,
       touchInertiaMultiplier: 1.0,
       wheelInertiaMultiplier: 1.0,
     });
   } else {
     lenis = new Lenis({
-      duration: isLowEndDevice ? 0.4 : 0.8,
+      duration: isLowEndDevice ? 0.3 : 0.5,
       easing: (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: !isLowEndDevice,
-      wheelMultiplier: isTouchDevice ? 1.1 : 1.0,
-      touchMultiplier: isTouchDevice ? 1.5 : 2.0,
+      wheelMultiplier: isTouchDevice ? 1.0 : 0.8,
+      touchMultiplier: isTouchDevice ? 1.2 : 1.5,
       infinite: false,
-      lerp: isLowEndDevice ? 0.1 : 0.08,
+      lerp: isLowEndDevice ? 0.12 : 0.1,
       syncTouch: true,
       autoResize: true,
       overscroll: false,
+      normalizeWheel: true,
     });
   }
 

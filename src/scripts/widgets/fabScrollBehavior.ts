@@ -60,16 +60,16 @@ export function setupFabScrollBehavior(): void {
   if (!isMobile) return;
 
   let scrollTimeout: number | null = null;
-  const scrollThrottleDelay = isAndroid ? 100 : 16;
+  let lastScrollTime = 0;
+  const scrollThrottleDelay = isAndroid ? 100 : 32;
 
   function handleScroll(): void {
-    if (scrollTimeout) return;
+    const now = Date.now();
+    if (now - lastScrollTime < scrollThrottleDelay) return;
 
-    scrollTimeout = window.setTimeout(() => {
-      const scrollTop = getScrollTop();
-      updateFabVisibility(scrollTop);
-      scrollTimeout = null;
-    }, scrollThrottleDelay);
+    lastScrollTime = now;
+    const scrollTop = getScrollTop();
+    updateFabVisibility(scrollTop);
   }
 
   if (window.lenis && !isAndroid) {
