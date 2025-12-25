@@ -81,7 +81,7 @@ const { service } = Astro.props;
         >
           {service.benefits.features.map((feature: BenefitFeature, index: number) => (
             <div class="carousel-slide embla__slide flex-shrink-0 service-benefits-carousel-slide" data-index={index}>
-              <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl relative overflow-hidden transition-all duration-500 hover:border-accent-green/40 flex flex-col min-h-[280px] sm:min-h-[320px]">
+              <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl relative overflow-hidden transition-all duration-500 hover:border-accent-green/40 flex flex-col min-h-[var(--card-min-height-sm)] sm:min-h-[var(--card-min-height-sm)]">
                 <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 hover:via-accent-green/60 transition-all duration-500" />
 
                 <div class="relative z-10 flex flex-col h-full p-4 sm:p-5 lg:p-6">

@@ -1,0 +1,53 @@
+.dropdown-service-card-animated {
+  animation: fadeInUp 0.3s ease-out backwards;
+}
+
+.dropdown-service-card-animated[data-card-index="0"] {
+  animation-delay: calc(0 * 0.04s);
+}
+
+.dropdown-service-card-animated[data-card-index="1"] {
+  animation-delay: calc(1 * 0.04s);
+}
+
+.dropdown-service-card-animated[data-card-index="2"] {
+  animation-delay: calc(2 * 0.04s);
+}
+
+.dropdown-service-card-animated[data-card-index="3"] {
+  animation-delay: calc(3 * 0.04s);
+}
+
+.dropdown-service-card-animated[data-card-index="4"] {
+  animation-delay: calc(4 * 0.04s);
+}
+
+.dropdown-service-card-animated[data-card-index="5"] {
+  animation-delay: calc(5 * 0.04s);
+}
+
+.dropdown-service-card-animated[data-card-index="6"] {
+  animation-delay: calc(6 * 0.04s);
+}
+
+.dropdown-service-card-animated[data-card-index="7"] {
+  animation-delay: calc(7 * 0.04s);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdown-service-card-animated {
+    animation: none;
+  }
+}
+

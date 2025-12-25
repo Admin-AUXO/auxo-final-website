@@ -195,8 +195,8 @@
 .accordion-header {
   transition: var(--transition-base);
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent !important;
-  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -212,25 +212,25 @@
 
 .accordion-item,
 .service-accordion-item {
-  touch-action: manipulation !important;
+  touch-action: manipulation;
 }
 
 @media (max-width: 1023px) {
   .accordion-container,
   .methodology-accordion {
-    touch-action: pan-y !important;
-    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
 
   .accordion-item,
   .service-accordion-item {
-    touch-action: manipulation !important;
+    touch-action: manipulation;
   }
 
   .accordion-summary,
   .accordion-header,
   .service-accordion-summary {
-    touch-action: manipulation !important;
-    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 }

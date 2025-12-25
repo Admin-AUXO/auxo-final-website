@@ -128,4 +128,50 @@ const logoSize = sizeClasses[size];
             </div>
         )
     }
+
+<script>
+    function matchLogoWidths() {
+        if (typeof document === 'undefined') return;
+        
+        const tagline = document.querySelector('.logo-tagline') as HTMLElement;
+        const subtitle = document.querySelector('.logo-subtitle') as HTMLElement;
+        
+        if (!tagline || !subtitle) return;
+        
+        const updateWidth = () => {
+            const taglineWidth = tagline.offsetWidth;
+            const subtitleWidth = subtitle.scrollWidth;
+            
+            if (taglineWidth > 0 && subtitleWidth > 0) {
+                const computedStyle = getComputedStyle(subtitle);
+                const currentLetterSpacing = parseFloat(computedStyle.letterSpacing) || 0;
+                const fontSize = parseFloat(computedStyle.fontSize) || 12;
+                const textLength = subtitle.textContent?.length || 0;
+                
+                if (textLength > 0 && subtitleWidth < taglineWidth) {
+                    const widthDiff = taglineWidth - subtitleWidth;
+                    const letterSpacingPerChar = widthDiff / Math.max(1, textLength - 1);
+                    const newLetterSpacing = currentLetterSpacing + letterSpacingPerChar;
+                    
+                    subtitle.style.letterSpacing = `${newLetterSpacing}px`;
+                }
+            }
+        };
+        
+        const init = () => {
+            setTimeout(updateWidth, 0);
+            setTimeout(updateWidth, 100);
+            setTimeout(updateWidth, 300);
+        };
+        
+        init();
+        window.addEventListener('resize', updateWidth);
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        }
+    }
+    
+    matchLogoWidths();
+</script>
 </a>

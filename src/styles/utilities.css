@@ -150,7 +150,7 @@
 }
 
 .carousel-dot-hidden {
-  display: none !important;
+  display: none;
 }
 
 .scroll-locked {
@@ -274,26 +274,23 @@
   transform: scale(0.98);
 }
 
-/* Always-visible elements */
 .always-visible {
-  z-index: 2147483647 !important; /* Maximum CSS z-index value */
-  position: fixed !important;
-  isolation: isolate !important;
-  transform: translateZ(0) !important;
-  will-change: transform !important;
-  pointer-events: auto !important;
+  z-index: var(--z-maximum);
+  position: fixed;
+  isolation: isolate;
+  transform: translateZ(0);
+  will-change: transform;
+  pointer-events: auto;
 }
 
-/* Scroll utilities */
 .scroll-smooth { scroll-behavior: smooth; }
 .scroll-auto { scroll-behavior: auto; }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .scroll-smooth { scroll-behavior: auto; }
   .scroll-touch-smooth { scroll-behavior: auto; }
 }
 
-/* Enhanced scrolling for touch devices */
 .scroll-touch {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
@@ -312,15 +309,14 @@
   touch-action: pan-y;
 }
 
-/* Combined scroll utilities */
 .scroll-smooth-hidden {
   scroll-behavior: smooth;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .scroll-smooth-hidden::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
 .scroll-touch-smooth {
@@ -330,18 +326,16 @@
   scroll-behavior: smooth;
 }
 
-/* Prevent scroll chaining */
 .scroll-isolate {
   overscroll-behavior: contain;
 }
 
-/* Scroll indicators */
 .scroll-indicator {
   position: absolute;
   opacity: 0;
   transition: opacity 0.2s ease;
   pointer-events: none;
-  z-index: 10;
+  z-index: var(--z-content);
 }
 
 .scroll-indicator.visible {

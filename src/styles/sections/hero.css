@@ -90,7 +90,7 @@
 
 @media (min-width: 1024px) {
   .service-hero-section {
-    padding-top: 2rem !important;
+    padding-top: 2rem;
   }
 }
 
@@ -236,7 +236,7 @@
   transform: translateY(0);
 }
 
-@media (max-width: 639px) {
+@media (max-width: 640px) {
   .hero-section .hero-content {
     gap: 1rem;
     flex-grow: 0;
@@ -248,7 +248,7 @@
   .hero-section .about-hero-headline,
   .hero-section .services-hero-headline,
   .hero-section .service-hero-headline {
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1.5rem;
   }
 
   .hero-section .hero-subtitle,
@@ -256,7 +256,7 @@
   .hero-section .about-hero-description,
   .hero-section .services-hero-description,
   .hero-section .service-hero-description {
-    margin-bottom: 2rem !important;
+    margin-bottom: 2rem;
   }
 
   .hero-section .hero-subtitle p,
@@ -264,13 +264,13 @@
   .hero-section .about-hero-description p,
   .hero-section .services-hero-description p,
   .hero-section .service-hero-description p {
-    line-height: 1.6 !important;
+    line-height: 1.6;
   }
 
   .hero-section .hero-headline-text,
   .hero-section h1 {
-    margin-bottom: 1rem !important;
-    line-height: 1.2 !important;
+    margin-bottom: 1rem;
+    line-height: 1.2;
   }
 
   .hero-section .hero-scroll-text {

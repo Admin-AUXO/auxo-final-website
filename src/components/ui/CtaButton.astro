@@ -18,9 +18,9 @@ const {
 } = Astro.props;
 
 const sizeClasses = {
-  sm: 'px-4 py-2 text-sm min-h-[40px]',
-  md: 'px-5 py-2.5 text-sm min-h-[44px]',
-  lg: 'px-6 py-3 text-base min-h-[48px]',
+  sm: 'px-4 py-2 text-sm min-h-[var(--button-height-sm)]',
+  md: 'px-5 py-2.5 text-sm min-h-[var(--touch-target-min)]',
+  lg: 'px-6 py-3 text-base min-h-[var(--button-height-md)]',
 };
 
 const baseClasses = 'nav-cta inline-flex items-center justify-center gap-2 font-semibold border-2 border-accent-green bg-transparent text-accent-green rounded-xl hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 transition-all duration-fast whitespace-nowrap relative group/cta !important';

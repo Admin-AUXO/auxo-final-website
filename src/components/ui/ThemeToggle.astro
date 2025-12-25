@@ -90,7 +90,7 @@ const { isMobileSwitch = false } = Astro.props;
   }
 
   .theme-switch-knob {
-    z-index: 1;
+    z-index: var(--z-content);
     transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 

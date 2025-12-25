@@ -2,12 +2,13 @@ import { DragGesture } from '@use-gesture/vanilla';
 import { createCalendarModal } from '@/scripts/utils/modalManager';
 import { setupEnhancedScrolling, setupScrollIndicators, initTouchScrolling } from '@/scripts/utils/scrollUtils';
 
-const CALENDAR_URL = 'https://calendar.google.com/calendar/u/0/r/appointment/AcZssZ3xJC7x6jRXDXyftxSPkGKZ6';
+const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2C0u3FKkxjcB1xO6fM48pvPj4Gu32PZAMVDq889-Nuer8fP_zWvl95xV_r4O5fm2Ry_KP1vnNG?gv=true';
 const MODAL_ID = 'calendar-modal';
 const IFRAME_ID = 'calendar-iframe';
 const SCROLL_THRESHOLD = 50;
 const SWIPE_DISTANCE_THRESHOLD = 100;
 const SWIPE_VELOCITY_THRESHOLD = 0.3;
+const LOAD_TIMEOUT = 15000;
 
 const initializedButtons = new WeakSet<HTMLElement>();
 let swipeGesture: DragGesture | null = null;
@@ -62,7 +63,7 @@ function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
 
   loadTimeout = window.setTimeout(() => {
     if (!hasLoaded) handleError();
-  }, 15000);
+  }, LOAD_TIMEOUT);
 
   iframe.addEventListener('load', handleLoad);
   iframe.addEventListener('error', handleError);
@@ -77,7 +78,10 @@ function updateScrollIndicators(): void {
 
   try {
     const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-    if (!iframeDoc) return;
+    if (!iframeDoc) {
+      showAllIndicators(content);
+      return;
+    }
 
     const scrollTop = iframeDoc.documentElement.scrollTop || iframeDoc.body.scrollTop;
     const scrollHeight = iframeDoc.documentElement.scrollHeight || iframeDoc.body.scrollHeight;
@@ -94,60 +98,30 @@ function updateScrollIndicators(): void {
       bottomIndicator.classList.toggle('visible', !isAtBottom);
     }
   } catch {
-    const topIndicator = content.querySelector('[data-calendar-scroll-top]');
-    const bottomIndicator = content.querySelector('[data-calendar-scroll-bottom]');
-
-    if (topIndicator) {
-      topIndicator.classList.add('visible');
-    }
-    if (bottomIndicator) {
-      bottomIndicator.classList.add('visible');
-    }
+    showAllIndicators(content);
   }
+}
+
+function showAllIndicators(content: HTMLElement): void {
+  const topIndicator = content.querySelector('[data-calendar-scroll-top]');
+  const bottomIndicator = content.querySelector('[data-calendar-scroll-bottom]');
+  topIndicator?.classList.add('visible');
+  bottomIndicator?.classList.add('visible');
 }
 
 function setupModalScroll(): void {
   const content = getContentElement();
-  if (content) {
-    setupEnhancedScrolling(content, { touchAction: 'pan-y', overscrollBehavior: 'contain' });
-    const topIndicator = content.querySelector('[data-scroll-indicator-top]') as HTMLElement;
-    const bottomIndicator = content.querySelector('[data-scroll-indicator-bottom]') as HTMLElement;
-    setupScrollIndicators(content, topIndicator, bottomIndicator);
-  }
-}
+  if (!content) return;
 
-let touchStartY = 0;
-let touchStartX = 0;
-
-function handleTouchStart(e: TouchEvent): void {
-  touchStartY = e.touches[0].clientY;
-  touchStartX = e.touches[0].clientX;
-}
-
-function handleTouchEnd(e: TouchEvent): void {
-  const touchEndY = e.changedTouches[0].clientY;
-  const touchEndX = e.changedTouches[0].clientX;
-  const deltaY = touchStartY - touchEndY;
-  const deltaX = touchStartX - touchEndX;
-
-  // Only update indicators if this was primarily a vertical scroll
-  if (Math.abs(deltaY) > Math.abs(deltaX)) {
-    setTimeout(updateScrollIndicators, 100);
-  }
+  setupEnhancedScrolling(content, { touchAction: 'pan-y', overscrollBehavior: 'contain' });
+  const topIndicator = content.querySelector('[data-scroll-indicator-top]') as HTMLElement;
+  const bottomIndicator = content.querySelector('[data-scroll-indicator-bottom]') as HTMLElement;
+  setupScrollIndicators(content, topIndicator, bottomIndicator);
 }
 
 function handleKeyboardNavigation(e: KeyboardEvent): void {
   const modal = getModal();
   if (!modal || modal.hasAttribute('hidden')) return;
-
-  const target = e.target as HTMLElement;
-  if (target?.closest('[data-calendar-close]')) {
-    if (e.key === 'Escape') {
-      e.preventDefault();
-      closeCalendarModal();
-    }
-    return;
-  }
 
   if (e.key === 'Escape') {
     e.preventDefault();
@@ -198,7 +172,7 @@ function handleKeyboardNavigation(e: KeyboardEvent): void {
 
     setTimeout(updateScrollIndicators, 100);
   } catch {
-    // Cross-origin restrictions
+    // Cross-origin restrictions prevent access
   }
 }
 
@@ -248,7 +222,6 @@ function openCalendarModal(): void {
     return;
   }
 
-
   const iframe = getIframe();
   if (iframe) {
     const loading = getLoadingElement();
@@ -263,15 +236,6 @@ function openCalendarModal(): void {
     iframe.src = CALENDAR_URL;
     setupIframeErrorHandling(iframe);
     setupModalScroll();
-
-
-    iframe.style.touchAction = 'pan-y';
-    (iframe.style as any).webkitOverflowScrolling = 'touch';
-    iframe.style.overscrollBehavior = 'contain';
-
-    // Ensure scrollbars are hidden on iframe while maintaining scroll functionality
-    iframe.style.scrollbarWidth = 'none';
-    (iframe.style as any).msOverflowStyle = 'none';
   }
 
   requestAnimationFrame(() => {
@@ -285,8 +249,6 @@ function closeCalendarModal(): void {
     swipeGesture.destroy();
     swipeGesture = null;
   }
-
-
   calendarModalInstance?.close();
 }
 
@@ -348,7 +310,6 @@ function initializeGoogleCalendar(): void {
   setupSwipeHandlers();
   setupCalendarButtons();
   safeInitTouchScrolling();
-
   document.addEventListener('keydown', handleKeyboardNavigation);
 
   const initFunctions = () => {

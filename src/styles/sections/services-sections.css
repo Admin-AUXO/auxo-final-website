@@ -140,8 +140,8 @@
 }
 
 .models-accordion-chevron {
-  width: 20px;
-  height: 20px;
+  width: var(--icon-size-sm);
+  height: var(--icon-size-sm);
   transition: transform var(--animation-duration-normal) var(--easing-standard), color var(--duration-normal) ease;
   color: var(--text-secondary);
   flex-shrink: 0;
@@ -190,6 +190,7 @@
   min-height: auto;
   display: flex;
   align-items: center;
+  touch-action: manipulation;
   justify-content: space-between;
   gap: 1rem;
   border-radius: var(--radius-xl);
@@ -430,10 +431,6 @@
   overflow: visible;
 }
 
-.models-accordion-summary {
-  touch-action: manipulation !important;
-  cursor: pointer !important;
-}
 
 .impact-section .section-pattern-mesh {
   background-size: 40px 40px, 80px 80px;

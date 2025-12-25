@@ -1,4 +1,5 @@
 ---
+import '../../styles/components/particle-background.css';
 ---
 
 <div id="particle-background" class="fixed inset-0 pointer-events-none" aria-hidden="true" data-particle-container>
@@ -87,69 +88,4 @@
     });
   })();
 </script>
-
-<style>
-  #particle-background {
-    position: fixed !important;
-    inset: 0 !important;
-    z-index: 0 !important;
-    pointer-events: none !important;
-    background-color: transparent !important;
-    will-change: opacity;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
-  }
-
-  #particle-canvas {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    pointer-events: none !important;
-  }
-
-
-  main#main-content.z-content {
-    position: relative !important;
-    z-index: 1 !important;
-    isolation: isolate;
-  }
-
-  footer.z-content {
-    position: relative !important;
-    z-index: 1 !important;
-    background-color: var(--bg-card);
-    isolation: isolate;
-  }
-
-  body {
-    position: relative;
-  }
-
-  :root.light #particle-background {
-    opacity: 0.9;
-  }
-
-  @media (max-width: 767px) {
-    #particle-background {
-      opacity: 0.9;
-    }
-    :root.light #particle-background {
-      opacity: 0.85;
-    }
-    #particle-canvas {
-      image-rendering: optimizeSpeed;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #particle-background {
-      display: none;
-    }
-  }
-</style>
 

@@ -1,0 +1,40 @@
+:root {
+  --nav-height: var(--nav-height-mobile);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --nav-height: var(--nav-height-sm);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --nav-height: var(--nav-height-lg);
+  }
+}
+
+.h-14 {
+  height: var(--nav-height-mobile);
+}
+
+.h-16 {
+  height: var(--nav-height-sm);
+}
+
+.h-18 {
+  height: var(--nav-height-lg);
+}
+
+.h-20 {
+  height: var(--nav-height-xl);
+}
+
+.top-16 {
+  top: var(--nav-height-sm);
+}
+
+.top-18 {
+  top: var(--nav-height-lg);
+}
+

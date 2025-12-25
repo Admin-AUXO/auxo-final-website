@@ -14,8 +14,8 @@ interface Props {
 const { item, index, isMobile = false } = Astro.props;
 const isModal = item.isModal ?? (item.name?.toLowerCase() === 'services' || item.name?.toLowerCase() === 'service');
 
-const NAV_BUTTON_BASE = "nav-link dropdown-toggle relative px-3 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-xl hover:bg-theme-surface/60 active:bg-theme-surface/80 flex items-center gap-1.5 min-h-[44px] group-hover:text-theme-primary";
-const MOBILE_BUTTON_BASE = "mobile-dropdown-btn mobile-nav-link block w-full px-5 py-4 min-h-[52px] text-base font-semibold text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-xl transition-all duration-normal touch-manipulation flex items-center justify-between relative group bg-theme-surface/50 hover:bg-theme-surface border border-accent-green/30 hover:border-accent-green/50";
+const NAV_BUTTON_BASE = "nav-link dropdown-toggle relative px-3 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-xl hover:bg-theme-surface/60 active:bg-theme-surface/80 flex items-center gap-1.5 min-h-[var(--touch-target-min)] group-hover:text-theme-primary";
+const MOBILE_BUTTON_BASE = "mobile-dropdown-btn mobile-nav-link block w-full px-5 py-4 min-h-[var(--button-height-lg)] text-base font-semibold text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-xl transition-all duration-normal touch-manipulation flex items-center justify-between relative group bg-theme-surface/50 hover:bg-theme-surface border border-accent-green/30 hover:border-accent-green/50";
 const MOBILE_LINK_BASE = "mobile-nav-link";
 const MOBILE_ACTIVE_BG = "mobile-nav-active-bg absolute inset-0 bg-accent-green/10 rounded-xl opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
 const MOBILE_ACTIVE_BG_SUBTLE = "mobile-nav-active-bg absolute inset-0 bg-accent-green/5 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover/item:opacity-100";
@@ -88,11 +88,6 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
         class={`${CHEVRON_ICON} services-chevron-icon`}
         aria-hidden="true"
       />
-      <Icon
-        name="mdi:close"
-        class="w-4 h-4 transition-all duration-fast opacity-0 scale-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 services-close-icon"
-        aria-hidden="true"
-      />
       <span class={`${NAV_ACTIVE_BG} services-active-bg`}></span>
     </button>
 
@@ -152,8 +147,8 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
                 {item.dropdown!.map((sub: DropdownItem, cardIndex: number) => (
                   <a
                     href={sub.href}
-                    class="service-card group/card relative flex flex-col p-4 md:p-5 bg-gradient-to-br from-theme-card to-theme-surface border-2 border-accent-green/40 rounded-xl hover:border-accent-green hover:shadow-xl hover:shadow-accent-green/20 transition-all duration-300 hover:-translate-y-1"
-                    style={`--card-index: ${cardIndex}; animation: fadeInUp 0.3s ease-out calc(${cardIndex} * 0.04s) backwards;`}
+                    class={`service-card group/card relative flex flex-col p-4 md:p-5 bg-gradient-to-br from-theme-card to-theme-surface border-2 border-accent-green/40 rounded-xl hover:border-accent-green hover:shadow-xl hover:shadow-accent-green/20 transition-all duration-300 hover:-translate-y-1 dropdown-service-card-animated`}
+                    data-card-index={cardIndex}
                   >
                     <div class="flex flex-col items-center text-center h-full justify-between">
                       <div class="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-gradient-to-br from-accent-green/20 to-accent-green/5 border-2 border-accent-green/30 flex items-center justify-center group-hover/card:scale-110 group-hover/card:border-accent-green transition-all duration-300 mb-3">

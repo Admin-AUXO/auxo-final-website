@@ -129,8 +129,7 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   touch-action: pan-x;
-  overscroll-behavior-y: none;
-  overscroll-behavior-x: contain;
+  overscroll-behavior: contain none;
 }
 
 .carousel-container::-webkit-scrollbar {
@@ -155,7 +154,7 @@
   overflow: visible;
 }
 
-@media (max-width: 639px) {
+@media (max-width: 640px) {
   .embla__container {
     padding-left: var(--grid-padding-mobile);
     padding-right: var(--grid-padding-mobile);
@@ -415,8 +414,8 @@
   }
 
   .carousel-dot {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
   }
 
   .carousel-dot::before {
@@ -440,8 +439,8 @@
   .carousel-track,
   .embla,
   .embla__container {
-    touch-action: pan-x !important;
-    overscroll-behavior-y: none !important;
+    touch-action: pan-x;
+    overscroll-behavior-y: none;
   }
 
   .carousel-container.is-dragging {

@@ -52,7 +52,7 @@ const navItems = items.map(({ _key, ...item }) => ({
         <div class="flex items-center justify-center pointer-events-auto flex-shrink-0">
           <ThemeToggle />
         </div>
-        <button type="button" id="mobile-menu-button" class="mobile-menu-button relative text-theme-secondary hover:text-theme-primary p-2 rounded-xl hover:bg-theme-surface/80 active:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-primary pointer-events-auto flex-shrink-0 min-w-[44px] min-h-[44px] w-[44px] h-[44px] flex items-center justify-center touch-manipulation group/btn" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-menu">
+        <button type="button" id="mobile-menu-button" class="mobile-menu-button relative text-theme-secondary hover:text-theme-primary p-2 rounded-xl hover:bg-theme-surface/80 active:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-primary pointer-events-auto flex-shrink-0 min-w-[var(--touch-target-min)] min-h-[var(--touch-target-min)] w-[var(--touch-target-min)] h-[var(--touch-target-min)] flex items-center justify-center touch-manipulation group/btn" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-menu">
           <div class="relative w-6 h-6" aria-hidden="true">
             <svg class="absolute inset-0 w-6 h-6 menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path class="menu-open transition-all duration-fast" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -65,9 +65,9 @@ const navItems = items.map(({ _key, ...item }) => ({
     </div>
   </div>
 
-  <div id="mobile-menu-overlay" class="mobile-menu-overlay lg:hidden fixed inset-0 bg-black/70 opacity-0 invisible transition-all duration-normal pointer-events-none z-[1500]" aria-hidden="true"></div>
+  <div id="mobile-menu-overlay" class="mobile-menu-overlay lg:hidden fixed inset-0 bg-black/70 opacity-0 invisible transition-all duration-normal pointer-events-none" style="z-index: var(--z-mobile-overlay);" aria-hidden="true"></div>
 
-  <div id="mobile-menu" class="mobile-menu lg:hidden fixed inset-0 opacity-0 invisible transition-all duration-normal pointer-events-none z-[1500]" aria-hidden="true">
+  <div id="mobile-menu" class="mobile-menu lg:hidden fixed inset-0 opacity-0 invisible transition-all duration-normal pointer-events-none" style="z-index: var(--z-mobile-menu);" aria-hidden="true">
     <div class="mobile-menu-header flex-shrink-0 bg-theme-primary border-b border-accent-green/30">
       <div class="grid-container">
         <div class="col-span-full flex items-center justify-between h-16 relative min-w-0 w-full">
@@ -78,7 +78,7 @@ const navItems = items.map(({ _key, ...item }) => ({
             <button
               type="button"
               id="mobile-menu-close-header"
-              class="mobile-menu-close-btn-header relative text-theme-secondary hover:text-theme-primary p-2 rounded-xl bg-theme-primary hover:bg-theme-surface/80 active:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-primary pointer-events-auto flex-shrink-0 min-w-[44px] min-h-[44px] w-[44px] h-[44px] flex items-center justify-center touch-manipulation group/close"
+              class="mobile-menu-close-btn-header relative text-theme-secondary hover:text-theme-primary p-2 rounded-xl bg-theme-primary hover:bg-theme-surface/80 active:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-primary pointer-events-auto flex-shrink-0 min-w-[var(--touch-target-min)] min-h-[var(--touch-target-min)] w-[var(--touch-target-min)] h-[var(--touch-target-min)] flex items-center justify-center touch-manipulation group/close"
               aria-label="Close mobile menu"
             >
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,7 +108,7 @@ const navItems = items.map(({ _key, ...item }) => ({
             <p class="text-base text-theme-secondary mb-6 font-medium">Ready to transform your business?</p>
             <a
               href={contactUrl}
-              class="nav-cta-mobile block w-full px-6 py-4 min-h-[56px] border-2 bg-theme-primary text-theme-secondary hover:bg-theme-surface hover:text-theme-primary font-bold rounded-xl hover:shadow-lg hover:shadow-accent-green/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-normal text-center touch-manipulation flex items-center justify-center gap-3 text-lg shadow-md relative group/cta"
+              class="nav-cta-mobile block w-full px-6 py-4 min-h-[var(--touch-target-md)] border-2 bg-theme-primary text-theme-secondary hover:bg-theme-surface hover:text-theme-primary font-bold rounded-xl hover:shadow-lg hover:shadow-accent-green/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-normal text-center touch-manipulation flex items-center justify-center gap-3 text-lg shadow-md relative group/cta"
               aria-label="Let's Talk - Contact us"
             >
               <svg class="w-5 h-5 flex-shrink-0 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,7 +132,7 @@ const navItems = items.map(({ _key, ...item }) => ({
   <button
     type="button"
     id="mobile-menu-close"
-    class="mobile-menu-close-btn lg:hidden fixed top-[6px] sm:top-[6px] right-2 sm:right-3 w-[44px] h-[44px] flex items-center justify-center rounded-xl text-theme-secondary hover:text-theme-primary bg-theme-primary border border-accent-green/30 hover:border-accent-green/50 transition-all duration-fast opacity-0 invisible pointer-events-none group/close z-[1501]"
+    class="mobile-menu-close-btn lg:hidden fixed top-[6px] sm:top-[6px] right-2 sm:right-3 flex items-center justify-center rounded-xl text-theme-secondary hover:text-theme-primary bg-theme-primary border border-accent-green/30 hover:border-accent-green/50 transition-all duration-fast opacity-0 invisible pointer-events-none group/close" style="width: var(--touch-target-min); height: var(--touch-target-min); z-index: calc(var(--z-mobile-menu) + 1);"
     aria-label="Close mobile menu"
   >
     <svg class="w-5 h-5 relative z-10 group-hover/close:rotate-90 transition-transform duration-fast" fill="none" stroke="currentColor" viewBox="0 0 24 24">

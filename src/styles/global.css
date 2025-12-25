@@ -12,7 +12,16 @@
 @import url('./components/accordions.css');
 @import url('./components/highlights.css');
 @import url('./components/legal-tables.css');
-@import url('./navigation.css');
+@import url('./components/scroll-progress.css');
+@import url('./components/fab.css');
+@import url('./components/dropdown-animations.css');
+@import url('./navigation/utilities.css');
+@import url('./navigation/base.css');
+@import url('./navigation/logo.css');
+@import url('./navigation/dropdown.css');
+@import url('./navigation/mobile-menu.css');
+@import url('./navigation/modal-dropdown.css');
+@import url('./features/scroll-lock.css');
 @import url('./sections/shared-sections.css');
 @import url('./sections/hero.css');
 @import url('./sections/home-sections.css');

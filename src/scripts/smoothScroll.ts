@@ -17,12 +17,12 @@ export function initSmoothScroll() {
     const body = document.body;
 
     html.style.overscrollBehavior = 'contain';
-    html.style.webkitOverflowScrolling = 'touch';
+    (html.style as any).webkitOverflowScrolling = 'touch';
     html.style.touchAction = 'pan-y';
     html.style.scrollBehavior = 'auto';
 
     body.style.overscrollBehavior = 'contain';
-    body.style.webkitOverflowScrolling = 'touch';
+    (body.style as any).webkitOverflowScrolling = 'touch';
     body.style.touchAction = 'pan-y';
 
     const touchStartHandler = () => {};
@@ -47,26 +47,27 @@ export function initSmoothScroll() {
       syncTouch: false,
       autoResize: true,
       overscroll: false,
-      normalizeWheel: false,
       touchInertiaMultiplier: 1.0,
       wheelInertiaMultiplier: 1.0,
-    });
+    } as any);
   } else {
+    const isMacOS = /Mac|iPhone|iPad|iPod/.test(navigator.platform);
+    const isWindows = /Win/.test(navigator.platform);
+    
     lenis = new Lenis({
-      duration: isLowEndDevice ? 0.2 : 0.3, // Faster response for desktop
-      easing: (t: number) => t, // Linear easing for instant feel
+      duration: 0.1,
+      easing: (t: number) => t,
       orientation: 'vertical',
       gestureOrientation: 'vertical',
-      smoothWheel: true, // Always smooth on desktop
-      wheelMultiplier: isTouchDevice ? 1.0 : 1.2, // More responsive
-      touchMultiplier: isTouchDevice ? 1.2 : 1.8,
+      smoothWheel: true,
+      wheelMultiplier: isTouchDevice ? 1.0 : (isMacOS ? 1.2 : 1.5),
+      touchMultiplier: isTouchDevice ? 1.2 : (isMacOS ? 1.8 : 2.0),
       infinite: false,
-      lerp: isLowEndDevice ? 0.15 : 0.12, // Higher lerp for snappier response
+      lerp: 0.1,
       syncTouch: true,
       autoResize: true,
       overscroll: false,
-      normalizeWheel: true,
-    });
+    } as any);
   }
 
   function raf(time: number) {

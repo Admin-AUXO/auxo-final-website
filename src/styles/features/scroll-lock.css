@@ -1,0 +1,19 @@
+body.scroll-locked {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  overscroll-behavior: none;
+  overflow: hidden;
+}
+
+body.scroll-locked * {
+  touch-action: pan-y;
+}
+
+body.scroll-locked [data-modal-content] {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  scroll-behavior: auto;
+}
+

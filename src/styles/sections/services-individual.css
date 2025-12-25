@@ -17,7 +17,7 @@
 }
 
 .process-stepper-wrapper::-webkit-scrollbar {
-  height: 6px;
+  height: var(--scrollbar-height);
 }
 
 .process-stepper-wrapper::-webkit-scrollbar-track {
@@ -26,7 +26,7 @@
 
 .process-stepper-wrapper::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb);
-  border-radius: 3px;
+  border-radius: var(--scrollbar-thumb-radius);
 }
 
 .process-stepper-wrapper::-webkit-scrollbar-thumb:hover {
@@ -35,16 +35,16 @@
 
 .process-step-item {
   position: relative;
-  min-width: 150px;
+  min-width: var(--process-step-min-width);
 }
 
 
 .process-step-item .group:hover {
-  z-index: 20;
+  z-index: var(--z-elevated);
 }
 
 .process-step-item .group\/card:hover {
-  z-index: 10;
+  z-index: var(--z-content);
 }
 
 details.group\/details summary {
@@ -63,7 +63,7 @@ details.group\/details summary::-webkit-details-marker {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-  overflow: hidden !important;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
@@ -74,7 +74,7 @@ details.group\/details summary::-webkit-details-marker {
   }
 
   .process-step-item {
-    min-width: 180px;
+    min-width: var(--process-step-min-width-lg);
   }
 }
 
@@ -92,13 +92,13 @@ details.group\/details summary::-webkit-details-marker {
 .process-step-item summary {
   user-select: none;
   -webkit-user-select: none;
-  touch-action: manipulation !important;
-  cursor: pointer !important;
+  touch-action: manipulation;
+  cursor: pointer;
 }
 
 .service-accordion-item summary {
-  touch-action: manipulation !important;
-  cursor: pointer !important;
+  touch-action: manipulation;
+  cursor: pointer;
 }
 
 @media (max-width: 640px) {
@@ -164,7 +164,7 @@ details.group\/details summary::-webkit-details-marker {
 
   .service-process-section,
   .service-benefits-section {
-    overflow: hidden !important;
+    overflow: hidden;
     width: 100%;
     max-width: 100%;
     position: relative;
@@ -172,7 +172,7 @@ details.group\/details summary::-webkit-details-marker {
 
   .service-process-carousel-wrapper,
   .service-benefits-carousel-wrapper {
-    overflow: hidden !important;
+    overflow: hidden;
     width: 100%;
     max-width: 100%;
     margin-left: 0;
@@ -182,7 +182,7 @@ details.group\/details summary::-webkit-details-marker {
 
   .service-process-carousel-wrapper .carousel-container,
   .service-benefits-carousel-wrapper .carousel-container {
-    overflow: hidden !important;
+    overflow: hidden;
     width: 100%;
     max-width: 100%;
     transform: translateZ(0);
@@ -214,8 +214,8 @@ details.group\/details summary::-webkit-details-marker {
   .service-process-carousel-wrapper .embla__slide,
   .service-benefits-carousel-wrapper .embla__slide {
     flex: 0 0 auto;
-    width: calc(100% - (var(--carousel-gap-mobile) * 2)) !important;
-    max-width: calc(100% - (var(--carousel-gap-mobile) * 2)) !important;
+    width: calc(100% - (var(--carousel-gap-mobile) * 2));
+    max-width: calc(100% - (var(--carousel-gap-mobile) * 2));
     min-width: 0;
     height: auto;
     align-self: stretch;
@@ -297,8 +297,8 @@ details.group\/details summary::-webkit-details-marker {
 
   .service-process-carousel-wrapper .embla__slide,
   .service-benefits-carousel-wrapper .embla__slide {
-    width: calc(100% - (var(--carousel-gap-tablet) * 2)) !important;
-    max-width: calc(100% - (var(--carousel-gap-tablet) * 2)) !important;
+    width: calc(100% - (var(--carousel-gap-tablet) * 2));
+    max-width: calc(100% - (var(--carousel-gap-tablet) * 2));
     padding-left: var(--carousel-gap-tablet);
     padding-right: var(--carousel-gap-tablet);
     align-self: stretch;

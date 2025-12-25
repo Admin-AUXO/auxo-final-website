@@ -19,8 +19,8 @@ const isActive = currentPath === item.href ||
 const ACTIVE_CLASSES = "text-accent-green bg-accent-green/10 border-accent-green/50";
 const ACTIVE_MOBILE_CLASSES = "text-accent-green bg-accent-green/10 border-accent-green/50";
 
-const MOBILE_LINK_CLASSES = "mobile-nav-link block w-full px-5 py-4 min-h-[52px] text-base font-semibold text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-xl transition-all duration-normal touch-manipulation flex items-center relative group bg-theme-surface/50 hover:bg-theme-surface border border-accent-green/30 hover:border-accent-green/50";
-const DESKTOP_LINK_CLASSES = "nav-link relative px-3 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-xl hover:bg-theme-surface/50 active:bg-theme-surface min-h-[44px] flex items-center group border border-transparent hover:border-accent-green/30";
+const MOBILE_LINK_CLASSES = "mobile-nav-link block w-full px-5 py-4 min-h-[var(--button-height-lg)] text-base font-semibold text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-xl transition-all duration-normal touch-manipulation flex items-center relative group bg-theme-surface/50 hover:bg-theme-surface border border-accent-green/30 hover:border-accent-green/50";
+const DESKTOP_LINK_CLASSES = "nav-link relative px-3 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-xl hover:bg-theme-surface/50 active:bg-theme-surface min-h-[var(--touch-target-min)] flex items-center group border border-transparent hover:border-accent-green/30";
 const ACTIVE_BG = "absolute inset-0 opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
 ---
 

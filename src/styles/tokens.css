@@ -118,12 +118,15 @@
   --z-content: 10;
   --z-elevated: 50;
   --z-interactive: 100;
+  --z-navigation: 200;
   --z-floating-button: 500;
   --z-mobile-overlay: 1500;
   --z-mobile-menu: 1500;
   --z-services-dropdown: 2000;
+  --z-scroll-progress: 3000;
   --z-calendar-modal: 9999;
   --z-modals: 9999;
+  --z-maximum: 2147483647;
 
   --calendar-modal-overlay-bg: linear-gradient(
     135deg,
@@ -132,14 +135,9 @@
     rgba(var(--accent-green-rgb), 0.03) 100%
   );
 
-  :root.light {
-    --calendar-modal-overlay-bg: linear-gradient(
-      135deg,
-      rgba(var(--accent-green-rgb), 0.08) 0%,
-      rgba(0, 0, 0, 0.85) 50%,
-      rgba(var(--accent-green-rgb), 0.05) 100%
-    );
-  }
+  --icon-size-sm: 20px;
+  --icon-size-md: 24px;
+  --icon-size-lg: 32px;
 
   --min-height-card: 300px;
   --scroll-progress-height: 3px;
@@ -162,6 +160,20 @@
   --nav-indicator-width: 75%;
   --nav-logo-max-width-offset: 100px;
   --touch-target-min: 44px;
+  --touch-target-md: 56px;
+  --button-height-sm: 40px;
+  --button-height-md: 48px;
+  --button-height-lg: 52px;
+  --input-min-height: 48px;
+  --textarea-min-height: 100px;
+  --decorative-size-sm: 48px;
+  --decorative-size-md: 64px;
+  --scrollbar-height: 6px;
+  --scrollbar-thumb-radius: 3px;
+  --process-step-min-width: 150px;
+  --process-step-min-width-lg: 180px;
+  --process-step-min-width-xl: 200px;
+  --gradient-overlay-height: 20px;
   
   --pattern-size-sm: 20px;
   --pattern-size-md: 50px;
@@ -293,4 +305,11 @@
   --overlay-black-60: rgba(0, 0, 0, 0.6);
   --overlay-black-98: rgba(0, 0, 0, 0.98);
   --overlay-white-98: rgba(255, 255, 255, 0.98);
+
+  --calendar-modal-overlay-bg: linear-gradient(
+    135deg,
+    rgba(var(--accent-green-rgb), 0.08) 0%,
+    rgba(0, 0, 0, 0.85) 50%,
+    rgba(var(--accent-green-rgb), 0.05) 100%
+  );
 }

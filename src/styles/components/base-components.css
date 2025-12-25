@@ -58,7 +58,7 @@
 }
 
 .hero-subtitle p {
-  font-size: clamp(1.15rem, 1.0781rem + 0.3594vw, 1.2937rem) !important;
+  font-size: clamp(1.15rem, 1.0781rem + 0.3594vw, 1.2937rem);
 }
 
 .hero-cta {

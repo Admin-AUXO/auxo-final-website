@@ -13,7 +13,7 @@ const DROPDOWN_POSITION_CONFIG = {
 const SELECTORS = {
   MODAL_MENU: '[data-dropdown-menu]',
   STANDARD_MENU: '.dropdown-menu',
-  TOGGLE: '.dropdown-toggle',
+  TOGGLE: '.dropdown-toggle, [data-dropdown-toggle], .dropdown-services-toggle',
   ARROW: '.dropdown-arrow, .dropdown-chevron',
   OVERLAY: '.dropdown-modal-overlay',
 } as const;
@@ -63,13 +63,9 @@ function closeDropdown(dropdown: HTMLElement): void {
 
   menu.classList.remove('open');
   button?.classList.remove('open');
+  button?.classList.remove('services-modal-open');
   arrow?.classList.remove('open');
   overlay?.classList.remove('open');
-
-  if (isModal) {
-    if (overlay) overlay.style.setProperty('z-index', '1');
-    if (menu) menu.style.setProperty('z-index', '1');
-  }
 
   button?.setAttribute('aria-expanded', 'false');
   overlay?.setAttribute('aria-hidden', 'true');
@@ -106,7 +102,7 @@ function openDropdownMenu(dropdown: HTMLElement): void {
   const isModal = dropdown.hasAttribute('data-modal-dropdown');
   const { menu, button, arrow, overlay } = getDropdownElements(dropdown, isModal);
 
-  if (!menu || !button || !arrow) return;
+  if (!menu || !button) return;
 
   state.isTransitioning = true;
 
@@ -122,9 +118,10 @@ function openDropdownMenu(dropdown: HTMLElement): void {
   requestAnimationFrame(() => {
     menu.classList.add('open');
     button.setAttribute('aria-expanded', 'true');
-    arrow.classList.add('open');
-
+    if (arrow) arrow.classList.add('open');
+    
     if (isModal) {
+      button.classList.add('services-modal-open');
       if (overlay) overlay.style.removeProperty('z-index');
       if (menu) menu.style.removeProperty('z-index');
     }
@@ -151,13 +148,22 @@ function scheduleDropdownClose(dropdown: HTMLElement): void {
 }
 
 function setupToggleClickHandler(toggle: HTMLElement): void {
-  addTrackedListener(toggle, 'click', (e) => {
+  // Prevent duplicate handler attachment
+  if (toggle.dataset.dropdownInitialized === 'true') return;
+  toggle.dataset.dropdownInitialized = 'true';
+  
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  
+  const handleToggle = (e: Event) => {
     e.preventDefault();
     e.stopPropagation();
     e.stopImmediatePropagation();
 
     const dropdown = toggle.closest('.dropdown-container') as HTMLElement;
     if (!dropdown) return;
+
+    // Skip if currently transitioning
+    if (state.isTransitioning) return;
 
     const isModal = dropdown.hasAttribute('data-modal-dropdown');
     const menuSelector = isModal ? SELECTORS.MODAL_MENU : SELECTORS.STANDARD_MENU;
@@ -171,10 +177,20 @@ function setupToggleClickHandler(toggle: HTMLElement): void {
     } else {
       openDropdownMenu(dropdown);
     }
-  }, { capture: true });
+  };
+  
+  addTrackedListener(toggle, 'click', handleToggle, { capture: true, passive: false });
+
+  if (isTouchDevice) {
+    addTrackedListener(toggle, 'touchend', handleToggle, { passive: false, capture: true });
+  }
 }
 
 function setupHoverHandlers(container: HTMLElement, menu: HTMLElement): void {
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  
+  if (isTouchDevice) return;
+
   const handleMouseEnter = () => {
     clearDropdownTimer();
     state.dropdownHoverState = true;
@@ -206,6 +222,9 @@ function setupHoverHandlers(container: HTMLElement, menu: HTMLElement): void {
 export function initializeDropdowns(): void {
   if (typeof document === 'undefined') return;
 
+  // Reset transitioning state on init
+  state.isTransitioning = false;
+
   document.querySelectorAll('.dropdown-container').forEach(container => {
     const containerEl = container as HTMLElement;
     const isModal = containerEl.hasAttribute('data-modal-dropdown');
@@ -213,14 +232,16 @@ export function initializeDropdowns(): void {
 
     menu?.classList.remove('open');
     button?.classList.remove('open');
+    button?.classList.remove('services-modal-open');
     button?.setAttribute('aria-expanded', 'false');
     arrow?.classList.remove('open');
     overlay?.classList.remove('open');
     overlay?.setAttribute('aria-hidden', 'true');
 
     if (isModal) {
-      if (overlay) overlay.style.setProperty('z-index', '1');
-      if (menu) menu.style.setProperty('z-index', '1');
+      // Clear any inline z-index styles to use CSS defaults
+      if (overlay) overlay.style.removeProperty('z-index');
+      if (menu) menu.style.removeProperty('z-index');
       document.body.classList.remove('dropdown-open');
     }
   });
@@ -230,6 +251,10 @@ export function initializeDropdowns(): void {
   });
 
   document.querySelectorAll(SELECTORS.OVERLAY).forEach(overlay => {
+    const overlayEl = overlay as HTMLElement;
+    if (overlayEl.dataset.overlayInitialized === 'true') return;
+    overlayEl.dataset.overlayInitialized = 'true';
+    
     addTrackedListener(overlay, 'click', (e) => {
       e.stopPropagation();
       const dropdown = overlay.closest('.dropdown-container') as HTMLElement;

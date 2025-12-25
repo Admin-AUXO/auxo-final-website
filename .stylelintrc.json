@@ -33,7 +33,32 @@
     "property-no-deprecated": null,
     "number-max-precision": null,
     "selector-class-pattern": null,
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
+    "declaration-no-important": [
+      true,
+      {
+        "severity": "warning"
+      }
+    ],
+    "length-zero-no-unit": true,
+    "unit-allowed-list": ["px", "rem", "em", "%", "vh", "vw", "vmin", "vmax", "dvh", "svh", "deg", "ms", "s", "fr"],
+    "media-feature-name-no-vendor-prefix": true,
+    "at-rule-no-vendor-prefix": true,
+    "media-query-no-invalid": true,
+    "media-feature-name-value-no-unknown": [
+      true,
+      {
+        "ignoreMediaFeatureNames": ["prefers-contrast"]
+      }
+    ],
+    "declaration-property-value-no-unknown": [
+      true,
+      {
+        "ignoreProperties": {
+          "image-rendering": ["optimizeSpeed"]
+        }
+      }
+    ]
   },
   "ignoreFiles": ["**/*.js", "**/node_modules/**", "**/dist/**", "**/*.astro"]
 }

@@ -1,0 +1,183 @@
+#main-navigation {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100vw;
+  z-index: var(--z-navigation);
+  backdrop-filter: blur(var(--blur-nav));
+  -webkit-backdrop-filter: blur(var(--blur-nav));
+  border-bottom: 1px solid var(--accent-green-opacity-30);
+  transition: opacity var(--duration-normal) var(--easing-standard),
+    pointer-events var(--duration-normal) var(--easing-standard),
+    background-color var(--duration-normal) var(--easing-standard);
+  will-change: background-color, opacity;
+  padding-top: env(safe-area-inset-top);
+}
+
+body.scroll-locked #main-navigation,
+.scroll-locked #main-navigation {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100vw;
+  z-index: var(--z-navigation);
+}
+
+#main-navigation .hidden.lg\\:flex {
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (min-width: 1024px) {
+  #main-navigation .hidden.lg\\:flex {
+    display: flex;
+  }
+
+  body.dropdown-open #main-navigation .hidden.lg\\:flex {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+#main-navigation .nav-link,
+#main-navigation .dropdown-toggle,
+#main-navigation .nav-cta,
+#main-navigation #theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  line-height: 1;
+  position: relative;
+}
+
+#main-navigation .grid-container > div {
+  height: var(--nav-height-sm);
+}
+
+@media (min-width: 1024px) {
+  #main-navigation {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  #main-navigation .grid-container > div {
+    height: var(--nav-height-lg);
+  }
+}
+
+#main-navigation:not(.nav-scrolled) {
+  background-color: var(--overlay-black-98);
+}
+
+:root.light #main-navigation:not(.nav-scrolled) {
+  background-color: var(--overlay-white-98);
+}
+
+#main-navigation.nav-scrolled {
+  background-color: var(--bg-primary);
+  backdrop-filter: blur(var(--blur-nav));
+  -webkit-backdrop-filter: blur(var(--blur-nav));
+  box-shadow: var(--shadow-nav-scrolled-dark);
+  border-bottom: 1px solid var(--accent-green-opacity-30);
+}
+
+:root.light #main-navigation.nav-scrolled {
+  box-shadow: var(--shadow-nav-scrolled-light);
+}
+
+#main-navigation .nav-link,
+#main-navigation .dropdown-toggle,
+#main-navigation .nav-cta {
+  color: var(--text-secondary);
+}
+
+#main-navigation .nav-link:hover,
+#main-navigation .dropdown-toggle:hover,
+#main-navigation .dropdown-toggle[aria-expanded="true"] {
+  color: var(--text-primary);
+}
+
+@media (max-width: 1023px) {
+  #main-navigation .col-span-full {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+  }
+
+  #main-navigation .grid-container {
+    width: 100%;
+    max-width: 100vw;
+    padding-left: var(--grid-padding-mobile);
+    padding-right: var(--grid-padding-mobile);
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  #main-navigation .col-span-full > div:first-child {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    max-width: calc(100% - var(--nav-logo-max-width-offset));
+  }
+
+  #main-navigation a[data-nav-home] {
+    max-width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  #main-navigation .col-span-full > .lg\\:hidden {
+    flex: 0 0 auto;
+    flex-shrink: 0;
+    flex-grow: 0;
+    min-width: fit-content;
+    width: auto;
+    margin-left: auto;
+    order: 999;
+  }
+
+  #main-navigation #theme-toggle {
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+    flex-shrink: 0;
+  }
+}
+
+.dropdown-toggle:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: var(--focus-ring-offset);
+  box-shadow: 0 0 0 4px var(--accent-green-opacity-20);
+  transition: outline-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dropdown-toggle[aria-expanded="true"] {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.dropdown-toggle[aria-expanded="true"] .nav-active-bg {
+  opacity: 1;
+}
+
+.nav-link.active .nav-active-bg {
+  opacity: 1;
+}
+
+.nav-link[data-nav-item="about"] .nav-active-border,
+.nav-link[data-nav-item="about"]:hover .nav-active-border {
+  display: none;
+}
+

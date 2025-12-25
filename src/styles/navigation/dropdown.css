@@ -1,0 +1,179 @@
+.dropdown-menu {
+  position: absolute;
+  max-height: none;
+  overflow: visible;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-dropdown-menu),
+    0 0 0 1px var(--accent-green-opacity-30);
+  backdrop-filter: blur(var(--blur-nav));
+  -webkit-backdrop-filter: blur(var(--blur-nav));
+  transition: opacity var(--duration-normal) var(--easing-standard),
+    visibility var(--duration-normal) var(--easing-standard),
+    transform var(--duration-normal) var(--easing-standard);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-12px) scale(0.95);
+}
+
+.dropdown-menu .group\/item {
+  transition: var(--transition-base);
+}
+
+.dropdown-menu .group\/item:hover {
+  background-color: var(--bg-surface);
+  transform: translateX(4px);
+}
+
+.dropdown-menu .group\/item:focus-visible {
+  outline: var(--focus-ring-width) solid var(--accent-green);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-md);
+}
+
+.dropdown-menu-container {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--accent-green-opacity-30);
+  border-radius: var(--radius-xl);
+  padding: 0.5rem;
+  box-shadow: var(--shadow-dropdown-menu),
+    0 0 0 1px var(--accent-green-opacity-30);
+  backdrop-filter: blur(var(--blur-nav));
+  -webkit-backdrop-filter: blur(var(--blur-nav));
+}
+
+.dropdown-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  transition: all var(--duration-fast) var(--easing-standard);
+  border: 1px solid transparent;
+  position: relative;
+  background: transparent;
+  text-decoration: none;
+  color: inherit;
+}
+
+.dropdown-menu-item:hover {
+  background-color: var(--bg-surface);
+  border-color: var(--accent-green-opacity-20);
+  transform: translateX(4px);
+}
+
+.dropdown-menu-item:focus-visible {
+  outline: var(--focus-ring-width) solid var(--accent-green);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-md);
+}
+
+.dropdown-menu-arrow {
+  position: absolute;
+  top: -8px;
+  left: 24px;
+  width: 16px;
+  height: 16px;
+  background: var(--bg-card);
+  border-left: 1px solid var(--accent-green-opacity-30);
+  border-top: 1px solid var(--accent-green-opacity-30);
+  transform: rotate(45deg);
+}
+
+.dropdown-menu-item-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--duration-fast) var(--easing-standard);
+  border: 1px solid var(--accent-green-opacity-20);
+}
+
+.dropdown-menu-item-icon:hover {
+  background: var(--accent-green-opacity-10);
+  border-color: var(--accent-green-opacity-40);
+}
+
+.dropdown-menu-item-text {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.375;
+  transition: color var(--duration-fast) var(--easing-standard);
+}
+
+.dropdown-menu-item:hover .dropdown-menu-item-text {
+  color: var(--accent-green);
+}
+
+.dropdown-menu-item-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--accent-green-opacity-05);
+  border-radius: var(--radius-lg);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--easing-standard);
+  pointer-events: none;
+}
+
+.dropdown-menu-item:hover .dropdown-menu-item-bg {
+  opacity: 1;
+}
+
+.dropdown-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  animation: dropdownFadeIn var(--animation-duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdown-menu.dropdown-right-aligned {
+  transform-origin: top right;
+}
+
+.dropdown-menu.dropdown-right-aligned,
+.dropdown-menu.dropdown-right-aligned.open {
+  transform-origin: top right;
+}
+
+.dropdown-arrow,
+.dropdown-arrow-mobile,
+.dropdown-chevron {
+  transition: transform var(--duration-normal) var(--easing-standard);
+}
+
+.dropdown-arrow.open,
+.dropdown-arrow-mobile.open,
+.dropdown-chevron.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-container[data-modal-dropdown="true"] .dropdown-toggle {
+  position: relative;
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
