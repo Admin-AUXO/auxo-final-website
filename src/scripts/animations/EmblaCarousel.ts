@@ -98,11 +98,21 @@ export class EmblaCarouselWrapper {
       this.isHorizontalSwipe = false;
       this.container.classList.add(DRAGGING_CLASS);
       this.container.classList.remove(NAVIGATING_CLASS);
+      if (window.lenis) {
+        window.lenis.stop();
+      }
     });
 
     this._embla.on('pointerUp', () => {
       this.isDragging = false;
       this.container.classList.remove(DRAGGING_CLASS);
+      if (window.lenis && !this.isHorizontalSwipe) {
+        setTimeout(() => {
+          if (window.lenis && !this.isHorizontalSwipe) {
+            window.lenis.start();
+          }
+        }, 100);
+      }
     });
 
     this.setupGestureDetection();
@@ -136,12 +146,21 @@ export class EmblaCarouselWrapper {
     if (!this.dots || !this._embla) return;
 
     const scrollSnaps = this._embla.scrollSnapList();
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     this.dots.forEach((dot, index) => {
       if (index >= scrollSnaps.length) return;
 
       const dotElement = dot as HTMLElement;
-      const clickHandler = () => {
+      let touchStartTime = 0;
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      const handleClick = (e?: Event) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
         if (this.embla) {
           this.setTransition(true);
           this.container.classList.add(NAVIGATING_CLASS);
@@ -153,8 +172,35 @@ export class EmblaCarouselWrapper {
         }
       };
 
-      this.dotClickHandlers.set(index, clickHandler);
-      dotElement.addEventListener('click', clickHandler);
+      const touchStartHandler = (e: TouchEvent) => {
+        touchStartTime = Date.now();
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      };
+
+      const touchEndHandler = (e: TouchEvent) => {
+        const touchEndTime = Date.now();
+        const touchDuration = touchEndTime - touchStartTime;
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        const deltaX = Math.abs(touchEndX - touchStartX);
+        const deltaY = Math.abs(touchEndY - touchStartY);
+        const isTap = deltaX < 10 && deltaY < 10 && touchDuration < 300;
+
+        if (isTap) {
+          e.preventDefault();
+          e.stopPropagation();
+          handleClick(e);
+        }
+      };
+
+      this.dotClickHandlers.set(index, handleClick);
+      dotElement.addEventListener('click', handleClick);
+      
+      if (isTouchDevice) {
+        dotElement.addEventListener('touchstart', touchStartHandler, { passive: true });
+        dotElement.addEventListener('touchend', touchEndHandler, { passive: false });
+      }
     });
   }
 

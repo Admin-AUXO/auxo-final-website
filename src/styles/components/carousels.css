@@ -271,8 +271,12 @@
 
 .carousel-slide,
 .embla__slide {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
+  touch-action: pan-x pan-y !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  pointer-events: auto !important;
 }
 
 .carousel-slide .service-card-redesigned,
@@ -281,10 +285,12 @@
 .carousel-slide .impact-industry-card,
 .carousel-slide > div,
 .embla__slide > div {
-  height: 100%;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
+  height: 100% !important;
+  min-height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  touch-action: pan-x pan-y !important;
+  pointer-events: auto !important;
 }
 
 .carousel-slide .service-card-redesigned > div,
@@ -326,6 +332,9 @@
   -webkit-tap-highlight-color: transparent;
   transition: transform var(--duration-fast) var(--easing-standard);
   touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto;
 }
 
 .carousel-dot:hover {
@@ -416,6 +425,11 @@
   .carousel-dot {
     min-width: var(--touch-target-min);
     min-height: var(--touch-target-min);
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
   }
 
   .carousel-dot::before {
