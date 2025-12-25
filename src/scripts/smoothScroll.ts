@@ -35,35 +35,35 @@ export function initSmoothScroll() {
 
   if (isMobile) {
     lenis = new Lenis({
-      duration: 0.02,
+      duration: 0.01,
       easing: (t: number) => t,
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: false,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.5,
+      wheelMultiplier: 1.2,
+      touchMultiplier: 2.0,
       infinite: false,
-      lerp: 0.02,
-      syncTouch: false,
+      lerp: 0.01,
+      syncTouch: true,
       autoResize: true,
       overscroll: false,
-      touchInertiaMultiplier: 1.0,
-      wheelInertiaMultiplier: 1.0,
+      touchInertiaMultiplier: 1.2,
+      wheelInertiaMultiplier: 1.2,
     } as any);
   } else {
     const isMacOS = /Mac|iPhone|iPad|iPod/.test(navigator.platform);
     const isWindows = /Win/.test(navigator.platform);
     
     lenis = new Lenis({
-      duration: 0.1,
-      easing: (t: number) => t,
+      duration: 0.05,
+      easing: (t: number) => Math.min(1, t * 1.2),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: isTouchDevice ? 1.0 : (isMacOS ? 1.2 : 1.5),
-      touchMultiplier: isTouchDevice ? 1.2 : (isMacOS ? 1.8 : 2.0),
+      wheelMultiplier: isTouchDevice ? 1.0 : (isMacOS ? 1.5 : 2.0),
+      touchMultiplier: isTouchDevice ? 1.5 : (isMacOS ? 2.0 : 2.5),
       infinite: false,
-      lerp: 0.1,
+      lerp: 0.05,
       syncTouch: true,
       autoResize: true,
       overscroll: false,

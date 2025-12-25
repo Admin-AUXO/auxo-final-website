@@ -121,37 +121,37 @@
 }
 
 .carousel-container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-  contain: layout style paint;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  touch-action: pan-x;
-  overscroll-behavior: contain none;
+  position: relative !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  contain: layout style paint !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  touch-action: pan-x !important;
+  overscroll-behavior: contain none !important;
 }
 
 .carousel-container::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .embla {
-  overflow: hidden;
-  touch-action: pan-x;
+  overflow: hidden !important;
+  touch-action: pan-x !important;
 }
 
 .embla__container {
-  display: flex;
-  align-items: stretch;
-  touch-action: pan-x;
-  padding-left: var(--grid-padding-sm);
-  padding-right: var(--grid-padding-sm);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  overflow: visible;
+  display: flex !important;
+  align-items: stretch !important;
+  touch-action: pan-x !important;
+  padding-left: var(--grid-padding-sm) !important;
+  padding-right: var(--grid-padding-sm) !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+  overflow: visible !important;
 }
 
 @media (max-width: 640px) {
@@ -211,23 +211,23 @@
 }
 
 .embla__container.carousel-track {
-  touch-action: pan-x;
-  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x !important;
+  -webkit-overflow-scrolling: touch !important;
 }
 
 .carousel-track {
-  display: flex;
-  align-items: stretch;
-  gap: var(--carousel-gap-mobile);
-  cursor: grab;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-overflow-scrolling: touch;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: transform;
-  overflow: visible;
-  touch-action: pan-x;
+  display: flex !important;
+  align-items: stretch !important;
+  gap: var(--carousel-gap-mobile) !important;
+  cursor: grab !important;
+  user-select: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-overflow-scrolling: touch !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+  will-change: transform !important;
+  overflow: visible !important;
+  touch-action: pan-x !important;
 }
 
 @media (min-width: 640px) {
@@ -238,35 +238,35 @@
 
 .carousel-navigating .carousel-track,
 .carousel-navigating .embla__container {
-  transition: transform var(--duration-normal) var(--easing-standard);
+  transition: transform var(--duration-normal) var(--easing-standard) !important;
 }
 
 .carousel-track:active,
 .carousel-container.is-dragging .carousel-track,
 .carousel-container.is-dragging .embla__container {
-  cursor: grabbing;
-  transition: none;
-  transform: translateZ(0);
+  cursor: grabbing !important;
+  transition: none !important;
+  transform: translateZ(0) !important;
 }
 
 .carousel-slide {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  opacity: 1;
-  transition: opacity var(--duration-fast) var(--easing-standard);
-  height: auto;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-self: stretch !important;
+  opacity: 1 !important;
+  transition: opacity var(--duration-fast) var(--easing-standard) !important;
+  height: auto !important;
 }
 
 .carousel-slide > * {
-  flex: 1;
-  min-height: 0;
+  flex: 1 !important;
+  min-height: 0 !important;
 }
 
 .carousel-container.is-dragging .carousel-slide {
-  opacity: 0.95;
-  transition: none;
+  opacity: 0.95 !important;
+  transition: none !important;
 }
 
 .carousel-slide,
@@ -439,19 +439,19 @@
   .carousel-track,
   .embla,
   .embla__container {
-    touch-action: pan-x;
-    overscroll-behavior-y: none;
+    touch-action: pan-x !important;
+    overscroll-behavior-y: none !important;
   }
 
   .carousel-container.is-dragging {
-    user-select: none;
-    -webkit-user-select: none;
+    user-select: none !important;
+    -webkit-user-select: none !important;
   }
 
   .carousel-slide,
   .embla__slide {
-    touch-action: pan-x;
-    pointer-events: auto;
+    touch-action: pan-x !important;
+    pointer-events: auto !important;
   }
 }
 
