@@ -128,7 +128,7 @@
   contain: layout style paint !important;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  touch-action: pan-x pan-y !important;
+  touch-action: pan-y !important;
   overscroll-behavior: contain none !important;
 }
 
@@ -140,13 +140,13 @@
 
 .embla {
   overflow: hidden !important;
-  touch-action: pan-x pan-y !important;
+  touch-action: pan-y !important;
 }
 
 .embla__container {
   display: flex !important;
   align-items: stretch !important;
-  touch-action: pan-x pan-y !important;
+  touch-action: pan-y !important;
   padding-left: var(--grid-padding-sm) !important;
   padding-right: var(--grid-padding-sm) !important;
   backface-visibility: hidden !important;
@@ -211,7 +211,7 @@
 }
 
 .embla__container.carousel-track {
-  touch-action: pan-x pan-y !important;
+  touch-action: pan-x !important;
   -webkit-overflow-scrolling: touch !important;
 }
 
@@ -227,7 +227,7 @@
   -webkit-backface-visibility: hidden !important;
   will-change: transform !important;
   overflow: visible !important;
-  touch-action: pan-x pan-y !important;
+  touch-action: pan-x !important;
 }
 
 @media (min-width: 640px) {
@@ -273,7 +273,7 @@
 .embla__slide {
   display: flex !important;
   flex-direction: column !important;
-  touch-action: pan-x pan-y !important;
+  touch-action: pan-y !important;
   user-select: none !important;
   -webkit-user-select: none !important;
   pointer-events: auto !important;
@@ -289,7 +289,7 @@
   min-height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
-  touch-action: pan-x pan-y !important;
+  touch-action: pan-y !important;
   pointer-events: auto !important;
 }
 
@@ -450,11 +450,14 @@
   }
 
   .carousel-container,
-  .carousel-track,
   .embla,
   .embla__container {
-    touch-action: pan-x pan-y !important;
+    touch-action: pan-y !important;
     overscroll-behavior-y: none !important;
+  }
+
+  .carousel-track {
+    touch-action: pan-x !important;
   }
 
   .carousel-container.is-dragging {
@@ -469,13 +472,13 @@
 
   .carousel-slide,
   .embla__slide {
-    touch-action: pan-x pan-y !important;
+    touch-action: pan-y !important;
     pointer-events: auto !important;
   }
 
   .carousel-container.is-dragging .carousel-slide,
   .carousel-container.is-dragging .embla__slide {
-    touch-action: pan-x !important;
+    touch-action: pan-y !important;
   }
 }
 

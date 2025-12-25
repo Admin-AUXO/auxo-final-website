@@ -1,5 +1,3 @@
-// Hero background particle system
-
 let particleSystem: any = null;
 let isInitialized = false;
 let themeObserver: MutationObserver | null = null;

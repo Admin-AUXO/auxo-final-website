@@ -131,12 +131,6 @@ const { content } = Astro.props;
     
     if (!carouselTrack || !carouselContainer) return;
     
-    const carouselSection = document.querySelector('.impact-carousel-section') as HTMLElement;
-    if (carouselSection) {
-      carouselSection.style.overflow = 'hidden';
-    }
-    carouselContainer.style.overflow = 'hidden';
-    
     const slides = Array.from(carouselTrack.children) as HTMLElement[];
     if (slides.length === 0) return;
     
@@ -150,15 +144,19 @@ const { content } = Astro.props;
       slide.setAttribute('data-index', index.toString());
     });
     
-    requestAnimationFrame(() => {
-      window.dispatchEvent(new Event('resize', { bubbles: true }));
-    });
+    setTimeout(() => {
+      const emblaInstance = (window as any).emblaInstances?.get('impact-carousel-container');
+      if (emblaInstance?.embla) {
+        emblaInstance.embla.reInit();
+      } else {
+        window.dispatchEvent(new Event('resize', { bubbles: true }));
+      }
+    }, 100);
   }
   
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => setTimeout(randomizeIndustries, 200));
+    document.addEventListener('DOMContentLoaded', () => setTimeout(randomizeIndustries, 500));
   } else {
-    setTimeout(randomizeIndustries, 200);
+    setTimeout(randomizeIndustries, 500);
   }
 </script>
-

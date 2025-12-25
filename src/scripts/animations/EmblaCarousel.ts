@@ -12,7 +12,7 @@ const NAVIGATING_CLASS = 'carousel-navigating';
 const TRANSITION_CLASS = 'carousel-transition';
 const DOT_HIDDEN_CLASS = 'carousel-dot-hidden';
 const ACTIVE_CLASS = 'active';
-const SWIPE_THRESHOLD = 10;
+const SWIPE_THRESHOLD = 5;
 
 export interface EmblaCarouselOptions {
   loop?: boolean;
@@ -70,8 +70,8 @@ export class EmblaCarouselWrapper {
       slidesToScroll,
       dragFree,
       containScroll: 'trimSnaps',
-      duration: isMobile ? 15 : 20,
-      dragThreshold: isMobile ? 10 : 8,
+      duration: isMobile ? 10 : 20,
+      dragThreshold: isMobile ? 5 : 8,
       skipSnaps: false,
       watchDrag: true,
       watchResize: true,
@@ -258,7 +258,8 @@ export class EmblaCarouselWrapper {
         axis: 'x',
         threshold: SWIPE_THRESHOLD,
         filterTaps: true,
-        pointer: { touch: true, mouse: true },
+        pointer: { touch: true, mouse: false },
+        preventDefault: false,
       }
     );
   }

@@ -17,7 +17,6 @@ interface Star {
   angle: number;
 }
 
-// Breakpoints should match CSS media queries
 const CONSTANTS = {
   MOBILE_BREAKPOINT: 640,
   TABLET_BREAKPOINT: 1024,

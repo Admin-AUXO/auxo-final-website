@@ -172,7 +172,7 @@ function handleKeyboardNavigation(e: KeyboardEvent): void {
 
     setTimeout(updateScrollIndicators, 100);
   } catch {
-    // Cross-origin restrictions prevent access
+    // Cross-origin restrictions prevent iframe access
   }
 }
 

@@ -9,7 +9,6 @@ interface Props {
 
 const { item, isMobile = false } = Astro.props;
 
-// Check if current page matches this nav item
 const currentPath = Astro.url.pathname;
 const isActive = currentPath === item.href ||
                 (item.href !== '/' && currentPath.startsWith(item.href)) ||

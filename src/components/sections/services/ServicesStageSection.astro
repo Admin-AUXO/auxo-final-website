@@ -197,11 +197,7 @@ const serviceIcons = [
 </style>
 
 <script>
-  import { initCarousel } from "@/scripts/utils/carousels";
-  initCarousel({
-    containerId: "services-carousel-container",
-    dotSelector: ".services-carousel-dot",
-    breakpoint: 1024,
-  });
+  import { autoInitCarousels } from "@/scripts/sections/autoInit";
+  autoInitCarousels();
 </script>
 

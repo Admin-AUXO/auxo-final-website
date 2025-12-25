@@ -110,7 +110,6 @@ export function unlockScroll(): void {
   }
 }
 
-// Prevent scroll function for event listeners
 function preventScroll(e: Event): void {
   e.preventDefault();
 }

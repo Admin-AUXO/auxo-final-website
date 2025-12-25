@@ -148,7 +148,6 @@ function scheduleDropdownClose(dropdown: HTMLElement): void {
 }
 
 function setupToggleClickHandler(toggle: HTMLElement): void {
-  // Prevent duplicate handler attachment
   if (toggle.dataset.dropdownInitialized === 'true') return;
   toggle.dataset.dropdownInitialized = 'true';
   
@@ -162,7 +161,6 @@ function setupToggleClickHandler(toggle: HTMLElement): void {
     const dropdown = toggle.closest('.dropdown-container') as HTMLElement;
     if (!dropdown) return;
 
-    // Skip if currently transitioning
     if (state.isTransitioning) return;
 
     const isModal = dropdown.hasAttribute('data-modal-dropdown');
@@ -222,7 +220,6 @@ function setupHoverHandlers(container: HTMLElement, menu: HTMLElement): void {
 export function initializeDropdowns(): void {
   if (typeof document === 'undefined') return;
 
-  // Reset transitioning state on init
   state.isTransitioning = false;
 
   document.querySelectorAll('.dropdown-container').forEach(container => {
@@ -239,7 +236,6 @@ export function initializeDropdowns(): void {
     overlay?.setAttribute('aria-hidden', 'true');
 
     if (isModal) {
-      // Clear any inline z-index styles to use CSS defaults
       if (overlay) overlay.style.removeProperty('z-index');
       if (menu) menu.style.removeProperty('z-index');
       document.body.classList.remove('dropdown-open');

@@ -127,7 +127,7 @@ class ModalInstanceImpl implements ModalInstance {
     }
 
     if (this.config.enableSwipeClose) {
-      // Gesture library integration needed
+      // TODO: Implement gesture library integration
     }
   }
 

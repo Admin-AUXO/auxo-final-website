@@ -30,5 +30,3 @@ export function initializeNavigationComponents(): void {
   setupScrollEffects();
   setupDropdownCloseHandlers();
 }
-
-// Navigation functions exported for core initialization

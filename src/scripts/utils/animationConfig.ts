@@ -1,5 +1,3 @@
-// Unified animation configuration system
-
 export interface AnimationPreset {
   type: string;
   duration: number;
@@ -8,39 +6,30 @@ export interface AnimationPreset {
 }
 
 export const ANIMATION_PRESETS: Record<string, AnimationPreset> = {
-  // Headers
   header: {
     type: 'fade-down',
     duration: 600,
     delay: 0,
     easing: 'ease-out-cubic',
   },
-  
-  // Content sections
   content: {
     type: 'fade-up',
     duration: 500,
     delay: 150,
     easing: 'ease-out-cubic',
   },
-  
-  // Cards/items in sequence
   card: {
     type: 'fade-up',
     duration: 500,
     delay: 0,
     easing: 'ease-out-cubic',
   },
-  
-  // Zoom effects
   zoom: {
     type: 'zoom-in',
     duration: 500,
     delay: 0,
     easing: 'ease-out-cubic',
   },
-  
-  // Side animations
   left: {
     type: 'fade-left',
     duration: 500,
@@ -53,16 +42,12 @@ export const ANIMATION_PRESETS: Record<string, AnimationPreset> = {
     delay: 0,
     easing: 'ease-out-cubic',
   },
-  
-  // Hero elements
   hero: {
     type: 'fade-down',
     duration: 700,
     delay: 0,
     easing: 'ease-out-cubic',
   },
-  
-  // CTA buttons
   cta: {
     type: 'zoom-in',
     duration: 600,

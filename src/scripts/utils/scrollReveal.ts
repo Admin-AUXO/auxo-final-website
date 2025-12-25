@@ -1,5 +1,3 @@
-// Native scroll reveal using Intersection Observer API
-
 export interface ScrollRevealOptions {
   duration?: number;
   easing?: string;
