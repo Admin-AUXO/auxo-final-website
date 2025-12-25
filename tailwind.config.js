@@ -1,7 +1,6 @@
 export default {
   content: [
     './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
-    './node_modules/@heroui/react/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -37,9 +36,7 @@ export default {
       },
     },
   },
-  plugins: [
-    require('splendid-ui/tailwind/plugins/astro-space.cjs'),
-  ],
+  plugins: [],
   darkMode: 'class',
 };
 

@@ -23,11 +23,13 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
-      <SectionHeader
-        title={content?.title || ''}
-        subtitle={content?.subtitle || ''}
-        highlight="Technologies"
-      />
+      <div data-reveal="fade-down" data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
+        <SectionHeader
+          title={content?.title || ''}
+          subtitle={content?.subtitle || ''}
+          highlight="Technologies"
+        />
+      </div>
 
       {items.length > 0 ? (
         <div class="tech-stack-marquee-wrapper relative py-4 sm:py-6">

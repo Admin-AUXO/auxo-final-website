@@ -9,51 +9,49 @@ export function initSmoothScroll() {
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   const isAndroid = /Android/i.test(navigator.userAgent);
+  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  const isMacOS = /Mac/.test(navigator.platform);
+  const isWindows = /Win/.test(navigator.platform);
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+  const hasWheelSupport = 'onwheel' in document || 'onmousewheel' in document;
 
-  if (isAndroid) {
-    const html = document.documentElement;
-    const body = document.body;
+  const html = document.documentElement;
+  const body = document.body;
+  
+  html.style.overflowY = 'auto';
+  html.style.overflowX = 'hidden';
+  body.style.overflowY = 'auto';
+  body.style.overflowX = 'hidden';
+  html.style.overscrollBehavior = 'contain';
+  html.style.touchAction = 'pan-y';
+  body.style.overscrollBehavior = 'contain';
+  body.style.touchAction = 'pan-y';
 
-    html.style.overscrollBehavior = 'contain';
+  if (isMobile) {
     (html.style as any).webkitOverflowScrolling = 'touch';
-    html.style.touchAction = 'pan-y';
-    html.style.scrollBehavior = 'auto';
-
-    body.style.overscrollBehavior = 'contain';
     (body.style as any).webkitOverflowScrolling = 'touch';
-    body.style.touchAction = 'pan-y';
-
-    const touchStartHandler = () => {};
-    document.addEventListener('touchstart', touchStartHandler, { passive: true, capture: true });
-    document.addEventListener('touchmove', touchStartHandler, { passive: true, capture: true });
-    document.addEventListener('touchend', touchStartHandler, { passive: true, capture: true });
-
-    return;
+    html.style.height = '100%';
+    body.style.minHeight = '100%';
   }
 
   if (isMobile) {
     lenis = new Lenis({
-      duration: 0.01,
-      easing: (t: number) => t,
+      duration: isAndroid ? 1.2 : 1.0,
+      easing: (t: number) => 1 - Math.pow(1 - t, 3),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
-      smoothWheel: false,
-      wheelMultiplier: 1.2,
-      touchMultiplier: 2.0,
+      smoothWheel: hasWheelSupport,
+      wheelMultiplier: hasWheelSupport ? 1.2 : 1.0,
+      touchMultiplier: isAndroid ? 2.0 : 1.8,
       infinite: false,
-      lerp: 0.01,
-      syncTouch: true,
+      lerp: isAndroid ? 0.08 : 0.06,
+      syncTouch: false,
       autoResize: true,
       overscroll: false,
-      touchInertiaMultiplier: 1.2,
-      wheelInertiaMultiplier: 1.2,
+      touchInertiaMultiplier: isAndroid ? 1.2 : 1.0,
+      wheelInertiaMultiplier: 1.0,
     } as any);
   } else {
-    const isMacOS = /Mac|iPhone|iPad|iPod/.test(navigator.platform);
-    const isWindows = /Win/.test(navigator.platform);
-    
     lenis = new Lenis({
       duration: 0.05,
       easing: (t: number) => Math.min(1, t * 1.2),
@@ -81,10 +79,17 @@ export function initSmoothScroll() {
   }
 
   rafId = requestAnimationFrame(raf);
-
+  html.classList.add('lenis');
+  html.setAttribute('data-lenis-prevent', '');
   window.lenis = lenis;
-
   window.dispatchEvent(new Event('lenis:init'));
+
+  if (isMobile) {
+    requestAnimationFrame(() => {
+      html.style.overflowY = 'auto';
+      body.style.overflowY = 'auto';
+    });
+  }
 
   document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
@@ -99,19 +104,51 @@ export function initSmoothScroll() {
     });
   });
 
-  const isMobileDevice = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isCarouselTouch = false;
 
-  if (isMobileDevice && !isAndroid) {
-    const handleTouchStart = (e: TouchEvent) => {
+    document.addEventListener('touchstart', (e: TouchEvent) => {
       const target = e.target as HTMLElement;
-      if (!target.matches('input, textarea, select, [contenteditable]')) {
-        return true;
+      if (target.matches('input, textarea, select, [contenteditable]')) {
+        return;
       }
-    };
 
-    document.addEventListener('touchstart', handleTouchStart, { passive: true });
-    document.addEventListener('touchmove', () => {}, { passive: true });
-    document.addEventListener('touchend', () => {}, { passive: true });
+      const carousel = target.closest('.carousel-container, .embla, [class*="carousel"]');
+      if (carousel) {
+        isCarouselTouch = true;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e: TouchEvent) => {
+      if (!isCarouselTouch || !lenis) return;
+
+      const touchX = e.touches[0].clientX;
+      const touchY = e.touches[0].clientY;
+      const deltaX = Math.abs(touchX - touchStartX);
+      const deltaY = Math.abs(touchY - touchStartY);
+
+      if (deltaX > deltaY && deltaX > 10) {
+        lenis.stop();
+      } else if (deltaY > deltaX && deltaY > 10) {
+        lenis.start();
+        isCarouselTouch = false;
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+      if (isCarouselTouch && lenis && lenis.isStopped) {
+        setTimeout(() => {
+          if (lenis) {
+            lenis.start();
+          }
+          isCarouselTouch = false;
+        }, 100);
+      }
+    }, { passive: true });
   }
 
   document.addEventListener('astro:page-load', () => {

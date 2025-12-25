@@ -1,8 +1,8 @@
-@import url('./tokens.css');
-@import url('./base.css');
-@import url('./typography.css');
+/* Base Styles */
+@import url('./base/index.css');
+
+/* Additional Base Styles */
 @import url('./backgrounds.css');
-@import url('./utilities.css');
 @import url('./animations.css');
 @import url('./view-transitions.css');
 @import url('./components/base-components.css');

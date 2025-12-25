@@ -31,15 +31,4 @@ export function initializeNavigationComponents(): void {
   setupDropdownCloseHandlers();
 }
 
-if (typeof document !== 'undefined' && typeof window !== 'undefined') {
-  const init = () => requestAnimationFrame(initializeNavigationComponents);
-
-  if (document.readyState !== 'loading') {
-    init();
-  } else {
-    document.addEventListener('DOMContentLoaded', init, { once: true });
-  }
-
-  document.addEventListener('astro:before-swap', cleanupNavigation);
-  document.addEventListener('astro:page-load', init);
-}
+// Navigation functions exported for core initialization

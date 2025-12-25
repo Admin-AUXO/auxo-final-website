@@ -11,8 +11,6 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const basePath = process.env.BASE_PATH || '/';
-// For root deployment (custom domain), base should be undefined
-// For subdirectory deployment, base should be the subdirectory path
 const base = basePath === '/' ? undefined : basePath;
 
 export default defineConfig({
@@ -35,17 +33,12 @@ export default defineConfig({
   vite: {
     optimizeDeps: {
       include: [
-        '@heroui/react',
-        'framer-motion',
         'embla-carousel',
         '@floating-ui/dom',
         'lenis',
-        'aos',
         'sharp',
-        'react',
-        'react-dom'
       ],
-      exclude: ['@heroui/theme'],
+      exclude: [],
     },
     build: {
       cssCodeSplit: true,
@@ -56,16 +49,12 @@ export default defineConfig({
           entryFileNames: '_astro/[name]-[hash].js',
           assetFileNames: '_astro/[name]-[hash].[ext]',
           manualChunks(id) {
-            // Split large libraries into separate chunks
-            if (id.includes('framer-motion')) return 'framer-motion';
-            if (id.includes('react') || id.includes('react-dom')) return 'react-vendor';
-            if (id.includes('@heroui/react') || id.includes('embla-carousel') || id.includes('@floating-ui/dom')) return 'ui-vendor';
-            if (id.includes('aos') || id.includes('lenis')) return 'animation-vendor';
+            if (id.includes('embla-carousel') || id.includes('@floating-ui/dom')) return 'ui-vendor';
+            if (id.includes('lenis')) return 'animation-vendor';
             if (id.includes('astro-icon')) return 'icons';
           },
         },
         onwarn(warning, warn) {
-          // Suppress common warnings
           if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.id?.includes('@astrojs/internal-helpers')) {
             return;
           }
@@ -90,7 +79,7 @@ export default defineConfig({
       },
     },
     ssr: {
-      noExternal: ['@heroui/react'],
+      noExternal: [],
     },
   },
   integrations: [

@@ -1,6 +1,7 @@
 import EmblaCarousel from 'embla-carousel';
 import type { EmblaCarouselType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
+import { DragGesture } from '@use-gesture/vanilla';
 
 const DEFAULT_AUTOPLAY_INTERVAL = 3000;
 const TRANSITION_DURATION = 200;
@@ -11,6 +12,7 @@ const NAVIGATING_CLASS = 'carousel-navigating';
 const TRANSITION_CLASS = 'carousel-transition';
 const DOT_HIDDEN_CLASS = 'carousel-dot-hidden';
 const ACTIVE_CLASS = 'active';
+const SWIPE_THRESHOLD = 10;
 
 export interface EmblaCarouselOptions {
   loop?: boolean;
@@ -29,6 +31,8 @@ export class EmblaCarouselWrapper {
   private onSlideChangeCallback?: (index: number) => void;
   private dotClickHandlers: Map<number, () => void> = new Map();
   private isDragging = false;
+  private gestureHandler: DragGesture | null = null;
+  private isHorizontalSwipe = false;
 
   constructor(
     private container: HTMLElement,
@@ -91,6 +95,7 @@ export class EmblaCarouselWrapper {
 
     this._embla.on('pointerDown', () => {
       this.isDragging = true;
+      this.isHorizontalSwipe = false;
       this.container.classList.add(DRAGGING_CLASS);
       this.container.classList.remove(NAVIGATING_CLASS);
     });
@@ -99,6 +104,8 @@ export class EmblaCarouselWrapper {
       this.isDragging = false;
       this.container.classList.remove(DRAGGING_CLASS);
     });
+
+    this.setupGestureDetection();
 
     this._embla.on('settle', () => {
       if (!this.isDragging) {
@@ -164,6 +171,52 @@ export class EmblaCarouselWrapper {
     }
   }
 
+  private setupGestureDetection(): void {
+    const track = this.getTrack();
+    if (!track) return;
+
+    this.gestureHandler = new DragGesture(
+      track,
+      ({ active, movement: [mx, my], direction: [dx, dy], first, last }) => {
+        if (first) {
+          this.isHorizontalSwipe = false;
+        }
+
+        if (active) {
+          const isHorizontal = Math.abs(dx) > Math.abs(dy);
+          const horizontalDistance = Math.abs(mx);
+          
+          if (isHorizontal && horizontalDistance > SWIPE_THRESHOLD) {
+            this.isHorizontalSwipe = true;
+            if (window.lenis) {
+              window.lenis.stop();
+            }
+          } else if (!isHorizontal && Math.abs(my) > SWIPE_THRESHOLD) {
+            this.isHorizontalSwipe = false;
+            if (window.lenis && !window.lenis.isStopped) {
+              window.lenis.start();
+            }
+          }
+        }
+
+        if (last) {
+          if (window.lenis && !window.lenis.isStopped) {
+            window.lenis.start();
+          }
+          setTimeout(() => {
+            this.isHorizontalSwipe = false;
+          }, 100);
+        }
+      },
+      {
+        axis: 'x',
+        threshold: SWIPE_THRESHOLD,
+        filterTaps: true,
+        pointer: { touch: true, mouse: true },
+      }
+    );
+  }
+
   private updateDots(selectedIndex: number): void {
     if (!this.dots || !this._embla) return;
 
@@ -224,6 +277,11 @@ export class EmblaCarouselWrapper {
         }
       });
       this.dotClickHandlers.clear();
+    }
+
+    if (this.gestureHandler) {
+      this.gestureHandler.destroy();
+      this.gestureHandler = null;
     }
 
     this.autoplay?.stop();

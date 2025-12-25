@@ -155,7 +155,7 @@ function attachToggleListeners(toggle: Element): void {
   };
 
   // Use touchend for mobile (more reliable than touchstart/touchend combo)
-  // and click for desktop. This prevents double triggers.
+  // Prevents double triggers on touch devices
   toggle.addEventListener("touchend", touchEndHandler, { passive: false, capture: true });
   toggle.addEventListener("click", clickHandler, { passive: false, capture: true });
 }

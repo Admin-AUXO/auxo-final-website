@@ -36,24 +36,24 @@ const shouldOpenCalendlyBtn = content.ctaText ? shouldOpenCalendly({
     <div class="section-gradient-hero absolute inset-0 pointer-events-none z-0"></div>
 
     <div class="section-hero-accent-lines absolute inset-0 pointer-events-none z-0 overflow-hidden">
-      <div class="section-hero-line section-hero-line-1 absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-green/20 to-transparent" data-aos="fade-right" data-aos-delay="150" data-aos-duration="800" data-aos-easing="ease-out-cubic"></div>
-      <div class="section-hero-line section-hero-line-2 absolute top-3/4 right-0 w-full h-px bg-gradient-to-l from-transparent via-accent-green/15 to-transparent" data-aos="fade-left" data-aos-delay="250" data-aos-duration="800" data-aos-easing="ease-out-cubic"></div>
+      <div class="section-hero-line section-hero-line-1 absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-green/20 to-transparent" data-reveal="fade-right" data-reveal-delay="150" data-reveal-duration="800" data-reveal-easing="ease-out-cubic"></div>
+      <div class="section-hero-line section-hero-line-2 absolute top-3/4 right-0 w-full h-px bg-gradient-to-l from-transparent via-accent-green/15 to-transparent" data-reveal="fade-left" data-reveal-delay="250" data-reveal-duration="800" data-reveal-easing="ease-out-cubic"></div>
     </div>
   </Fragment>
 
   <div class="services-hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">
     <h1
       class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display"
-      data-aos="fade-down"
-      data-aos-duration="600"
-      data-aos-easing="ease-out-cubic"
+      data-reveal="fade-down"
+      data-reveal-duration="600"
+      data-reveal-easing="ease-out-cubic"
     >
-      <span class="block services-hero-intro-text" data-aos="fade-right" data-aos-delay="50" data-aos-duration="500" data-aos-easing="ease-out-cubic">
+      <span class="block services-hero-intro-text" data-reveal="fade-right" data-reveal-delay="50" data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
         <HighlightText text={content.headlineLine1} highlight="Analytics" />
       </span>
 
       <span class="block mt-2 sm:mt-3 lg:mt-4 services-hero-impact-wrapper relative">
-        <span class="inline-block services-hero-impact-text relative" data-aos="fade-left" data-aos-delay="100" data-aos-duration="500" data-aos-easing="ease-out-cubic">
+        <span class="inline-block services-hero-impact-text relative" data-reveal="fade-left" data-reveal-delay="100" data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
           <HighlightText text={content.headlineLine2} highlight="impact" />
         </span>
       </span>
@@ -62,10 +62,10 @@ const shouldOpenCalendlyBtn = content.ctaText ? shouldOpenCalendly({
 
   <div
     class="services-hero-description mb-8 sm:mb-10 lg:mb-12 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto services-hero-follow-content hero-follow-content"
-    data-aos="fade-up"
-    data-aos-delay="200"
-    data-aos-duration="500"
-    data-aos-easing="ease-out-cubic"
+    data-reveal="fade-up"
+    data-reveal-delay="200"
+    data-reveal-duration="500"
+    data-reveal-easing="ease-out-cubic"
   >
     <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body">
       {content.description}
@@ -75,10 +75,10 @@ const shouldOpenCalendlyBtn = content.ctaText ? shouldOpenCalendly({
   {content.ctaText && content.ctaHref && (
     <div
       class="services-hero-follow-content hero-follow-content"
-      data-aos="fade-up"
-      data-aos-delay="300"
-      data-aos-duration="500"
-      data-aos-easing="ease-out-cubic"
+      data-reveal="fade-up"
+      data-reveal-delay="300"
+      data-reveal-duration="500"
+      data-reveal-easing="ease-out-cubic"
     >
       <div class="hero-cta-container">
         <Button

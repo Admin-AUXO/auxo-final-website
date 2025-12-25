@@ -8,7 +8,6 @@ import ScrollProgressBar from "../components/ui/ScrollProgressBar.astro";
 import FloatingCalendarButton from "../components/widgets/FloatingCalendarButton.astro";
 import CalendarModal from "../components/widgets/CalendarModal.astro";
 import "../styles/global.css";
-import "aos/dist/aos.css";
 import "notyf/notyf.min.css";
 
 export interface Props {
@@ -25,7 +24,7 @@ const pageDescription = description || siteData.description;
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class="dark" data-show-particles={showParticles}>
   <head>
     <MetaTags 
       title={pageTitle}
@@ -78,6 +77,7 @@ const pageDescription = description || siteData.description;
           root.classList.remove('loading');
           root.classList.add('loaded');
           body.classList.remove('loading');
+          body.classList.add('loaded');
         };
         
         if (document.readyState === 'loading') {
@@ -132,13 +132,6 @@ const pageDescription = description || siteData.description;
       }, true);
       
     </script>
-    <script>
-      import { setupGoogleCalendar } from "@/scripts/widgets/googleCalendar";
-      import { initThemeToggle } from "@/scripts/ui/themeToggle";
-      import "@/scripts/widgets/fabScrollBehavior";
-      setupGoogleCalendar();
-      initThemeToggle();
-    </script>
   </head>
   <body class="min-h-screen flex flex-col relative bg-primary transition-colors duration-normal">
     <a
@@ -159,46 +152,28 @@ const pageDescription = description || siteData.description;
     <CalendarModal />
 
     <script>
-      import { initSmoothScroll } from "@/scripts/smoothScroll";
-      import { initScrollAnimations } from "@/scripts/scrollAnimations";
+      import { initCoreFeatures, reinitOnPageLoad, initPageFeatures } from "@/scripts/core/init";
       
-      function initLazyLoading() {
-        const lazyElements = document.querySelectorAll('[data-lazy-load]');
-        if (!lazyElements.length) return;
-
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const el = entry.target as HTMLElement;
-              el.classList.add('lazy-loaded');
-              el.removeAttribute('data-lazy-load');
-              observer.unobserve(el);
-            }
-          });
-        }, { rootMargin: '50px', threshold: 0.01 });
-
-        lazyElements.forEach((element) => observer.observe(element));
-      }
+      const showParticles = document.documentElement.dataset.showParticles === 'true';
       
-      function initScripts() {
-        const runInit = () => {
-          initSmoothScroll();
-          initScrollAnimations();
-          initLazyLoading();
-        };
-        
-        if ('requestIdleCallback' in window) {
-          requestIdleCallback(runInit, { timeout: 2000 });
-        } else {
-          setTimeout(runInit, 1);
-        }
+      function initAll() {
+        initCoreFeatures();
+        initPageFeatures(showParticles);
       }
       
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initScripts);
+        document.addEventListener('DOMContentLoaded', initAll);
       } else {
-        initScripts();
+        initAll();
       }
+      
+      document.addEventListener('astro:page-load', () => {
+        const newShowParticles = document.documentElement.dataset.showParticles === 'true';
+        reinitOnPageLoad();
+        setTimeout(() => {
+          initPageFeatures(newShowParticles);
+        }, 100);
+      });
     </script>
   </body>
 </html>

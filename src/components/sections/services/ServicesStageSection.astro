@@ -47,9 +47,9 @@ const serviceIcons = [
 >
   <div
     class="absolute inset-0 pointer-events-none z-0"
-    data-aos="fade-in"
-    data-aos-duration="500"
-    data-aos-easing="ease-out-cubic"
+    data-reveal="fade"
+    data-reveal-duration="500"
+    data-reveal-easing="ease-out-cubic"
   >
     <BackgroundDecorations gradients={["hero"]} />
   </div>
@@ -58,9 +58,9 @@ const serviceIcons = [
     <div class="col-span-full max-w-7xl mx-auto w-full overflow-hidden">
       <div
         class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
-        data-aos="fade-down"
-        data-aos-duration="600"
-        data-aos-easing="ease-out-cubic"
+        data-reveal="fade-down"
+        data-reveal-duration="600"
+        data-reveal-easing="ease-out-cubic"
       >
         <h2 class="text-h2 font-extrabold mb-4 sm:mb-5 lg:mb-6 leading-tight tracking-tight font-display">
           Services for <span class="text-accent-green font-black text-[1.05em]">Every Stage</span>
@@ -74,10 +74,10 @@ const serviceIcons = [
         {content.services.map((service, index) => (
           <div
             class="overflow-hidden"
-            data-aos="fade-up"
-            data-aos-duration="500"
-            data-aos-delay={150 + (index * 75)}
-            data-aos-easing="ease-out-cubic"
+            data-reveal="fade-up"
+            data-reveal-duration="500"
+            data-reveal-delay={150 + (index * 75)}
+            data-reveal-easing="ease-out-cubic"
           >
             <ServiceCard
               icon={serviceIcons[index]}
@@ -106,10 +106,10 @@ const serviceIcons = [
           <div 
             class="carousel-slide embla__slide flex-shrink-0" 
             data-index={index}
-            data-aos="fade-up"
-            data-aos-duration="500"
-            data-aos-delay={200 + (index * 75)}
-            data-aos-easing="ease-out-cubic"
+            data-reveal="fade-up"
+            data-reveal-duration="500"
+            data-reveal-delay={200 + (index * 75)}
+            data-reveal-easing="ease-out-cubic"
           >
             <ServiceCard
               icon={serviceIcons[index]}
@@ -125,10 +125,10 @@ const serviceIcons = [
 
       <div
         class="mt-10 sm:mt-12 lg:mt-16"
-        data-aos="fade-up"
-        data-aos-duration="500"
-        data-aos-delay="400"
-        data-aos-easing="ease-out-cubic"
+        data-reveal="fade-up"
+        data-reveal-duration="500"
+        data-reveal-delay="400"
+        data-reveal-easing="ease-out-cubic"
       >
         <div class="bg-gradient-to-br from-accent-green/15 via-accent-green/8 to-transparent border-2 border-accent-green/30 p-8 sm:p-10 lg:p-12 relative overflow-hidden group hover:border-accent-green/50 transition-all duration-500">
           <div class="absolute inset-0 opacity-[0.03] code-edge-pattern"></div>
@@ -149,7 +149,7 @@ const serviceIcons = [
     overflow: hidden;
   }
 
-  .services-stages-section [data-aos] {
+  .services-stages-section [data-reveal] {
     will-change: transform, opacity;
   }
 
@@ -197,8 +197,8 @@ const serviceIcons = [
 </style>
 
 <script>
-  import { setupCarouselSection } from "@/scripts/sections/utils/carouselUtils";
-  setupCarouselSection({
+  import { initCarousel } from "@/scripts/utils/carousels";
+  initCarousel({
     containerId: "services-carousel-container",
     dotSelector: ".services-carousel-dot",
     breakpoint: 1024,

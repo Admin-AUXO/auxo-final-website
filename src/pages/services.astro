@@ -21,10 +21,6 @@ const servicesContent = await getServicesContent();
   <ModelsSection content={servicesContent.models} />
   <ServicesCta content={servicesContent.cta} />
 
-  <script>
-    import { setupPageAnimations, setupSectionInit } from "@/scripts/sections/utils/initUtils";
-    setupSectionInit(setupPageAnimations);
-  </script>
 </BaseLayout>
 
 

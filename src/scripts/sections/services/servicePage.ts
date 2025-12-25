@@ -1,7 +1,7 @@
-import { setupCarouselSection } from "../utils/carouselUtils";
+import { initCarousel } from "@/scripts/utils/carousels";
 import { setupPageAnimations } from "../utils/initUtils";
 import { setupCounterAnimations } from "./counterAnimations";
-import { setupAccordions } from "./accordions";
+import { initAccordions } from "@/scripts/utils/accordions";
 import { setupParallax } from "./parallax";
 
 const CAROUSEL_CONFIG = {
@@ -12,16 +12,16 @@ const CAROUSEL_CONFIG = {
 export function setupServicePageAnimations(): void {
   setupPageAnimations();
   setupCounterAnimations();
-  setupAccordions();
+  initAccordions();
   setupParallax();
 
-  setupCarouselSection({
+  initCarousel({
     containerId: "service-process-carousel-container",
     dotSelector: ".service-process-carousel-dot",
     ...CAROUSEL_CONFIG,
   });
 
-  setupCarouselSection({
+  initCarousel({
     containerId: "service-benefits-carousel-container",
     dotSelector: ".service-benefits-carousel-dot",
     ...CAROUSEL_CONFIG,

@@ -23,7 +23,7 @@ const { content } = Astro.props;
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <div data-aos="fade-down" data-aos-duration="600" data-aos-easing="ease-out-cubic">
+      <div data-reveal="fade-down" data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
         <SectionHeader
           title={content.title}
           subtitle={content.subheading}
@@ -35,7 +35,7 @@ const { content } = Astro.props;
       <div class="hidden lg:block">
         <div class="symmetric-grid-container">
           {content.cards.map((card, index) => (
-            <div class="capability-card-wrapper" data-index={index} data-aos="zoom-in" data-aos-delay={200 + (index * 100)} data-aos-duration="600" data-aos-easing="ease-out-cubic">
+            <div class="capability-card-wrapper" data-index={index} data-reveal="zoom-in" data-reveal-delay={200 + (index * 100)} data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
               <CapabilityCard
                 icon={card.icon}
                 title={card.title}
@@ -51,7 +51,7 @@ const { content } = Astro.props;
 
       <div class="hidden md:grid lg:hidden grid-cols-2 gap-6 col-span-full items-stretch">
         {content.cards.map((card, index) => (
-          <div data-aos="fade-up" data-aos-delay={200 + (index * 100)} data-aos-duration="600" data-aos-easing="ease-out-cubic">
+          <div data-reveal="fade-up" data-reveal-delay={200 + (index * 100)} data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
             <CapabilityCard
               icon={card.icon}
               title={card.title}

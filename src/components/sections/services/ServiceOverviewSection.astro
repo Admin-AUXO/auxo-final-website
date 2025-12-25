@@ -23,17 +23,21 @@ const { service } = Astro.props;
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-6xl mx-auto">
-      <SectionHeader
-        title={service.overview.title}
-        subtitle={service.overview.description}
-        subtitleHighlight={service.overview.descriptionHighlight}
-      />
+      <div data-reveal="fade-down" data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
+        <SectionHeader
+          title={service.overview.title}
+          subtitle={service.overview.description}
+          subtitleHighlight={service.overview.descriptionHighlight}
+        />
+      </div>
 
       <div class="hidden lg:grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16">
         <div
           class="space-y-6"
-          data-aos="fade-right"
-          data-aos-delay="100"
+          data-reveal="fade-right"
+          data-reveal-delay="100"
+          data-reveal-duration="500"
+          data-reveal-easing="ease-out-cubic"
         >
           <div class="flex items-center gap-3 mb-6">
             <div class="w-10 h-10 bg-red-500/15 rounded-xl flex items-center justify-center">
@@ -58,8 +62,10 @@ const { service } = Astro.props;
 
         <div
           class="space-y-6"
-          data-aos="fade-left"
-          data-aos-delay="100"
+          data-reveal="fade-left"
+          data-reveal-delay="100"
+          data-reveal-duration="500"
+          data-reveal-easing="ease-out-cubic"
         >
           <div class="flex items-center gap-3 mb-6">
             <div class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center">

@@ -5,6 +5,9 @@ const FAB_SCROLL_HIDE_THRESHOLD = 50;
 let lastScrollTop = 0;
 let hideTimeout: number | null = null;
 let isFabHidden = false;
+let isInitialized = false;
+let scrollHandler: (() => void) | null = null;
+let resizeHandler: (() => void) | null = null;
 
 function getFabElement(): HTMLElement | null {
   return document.getElementById('floating-calendar-button');
@@ -48,60 +51,82 @@ function updateFabVisibility(scrollTop: number): void {
   lastScrollTop = scrollTop;
 }
 
-export function setupFabScrollBehavior(): void {
-  if (typeof window === 'undefined') return;
-
+export function initFloatingButton(): void {
   const fab = getFabElement();
   if (!fab) return;
 
   const isMobile = window.innerWidth < 1024;
   const isAndroid = /Android/i.test(navigator.userAgent);
 
-  if (!isMobile) return;
+  if (isInitialized) {
+    if (!isMobile) {
+      fab.classList.remove('fab-hidden');
+      isFabHidden = false;
+    }
+    return;
+  }
 
-  let scrollTimeout: number | null = null;
+  if (!isMobile) {
+    isInitialized = true;
+    return;
+  }
+
+  isInitialized = true;
+
   let lastScrollTime = 0;
   const scrollThrottleDelay = isAndroid ? 100 : 32;
 
-  function handleScroll(): void {
+  scrollHandler = (): void => {
     const now = Date.now();
     if (now - lastScrollTime < scrollThrottleDelay) return;
 
     lastScrollTime = now;
     const scrollTop = getScrollTop();
     updateFabVisibility(scrollTop);
-  }
+  };
 
   if (window.lenis && !isAndroid) {
-    window.lenis.on('scroll', handleScroll);
+    window.lenis.on('scroll', scrollHandler);
   } else {
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', scrollHandler, { passive: true });
   }
 
-  let resizeTimeout: number | null = null;
-  window.addEventListener('resize', () => {
-    if (resizeTimeout) clearTimeout(resizeTimeout);
-
-    resizeTimeout = window.setTimeout(() => {
-      const newIsMobile = window.innerWidth < 1024;
-      if (!newIsMobile) {
-        fab.classList.remove('fab-hidden');
-        isFabHidden = false;
-        if (hideTimeout) {
-          clearTimeout(hideTimeout);
-          hideTimeout = null;
-        }
+  resizeHandler = (): void => {
+    const newIsMobile = window.innerWidth < 1024;
+    if (!newIsMobile) {
+      fab.classList.remove('fab-hidden');
+      isFabHidden = false;
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+        hideTimeout = null;
       }
-    }, 100);
-  }, { passive: true });
+    }
+  };
+
+  window.addEventListener('resize', resizeHandler, { passive: true });
 
   updateFabVisibility(getScrollTop());
 }
 
-if (typeof document !== 'undefined' && typeof window !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupFabScrollBehavior);
-  } else {
-    setupFabScrollBehavior();
+export function cleanupFloatingButton(): void {
+  if (scrollHandler) {
+    if (window.lenis && typeof window.lenis.off === 'function') {
+      window.lenis.off('scroll', scrollHandler);
+    } else {
+      window.removeEventListener('scroll', scrollHandler);
+    }
+    scrollHandler = null;
   }
+  if (resizeHandler) {
+    window.removeEventListener('resize', resizeHandler);
+    resizeHandler = null;
+  }
+  if (hideTimeout) {
+    clearTimeout(hideTimeout);
+    hideTimeout = null;
+  }
+  isInitialized = false;
+  isFabHidden = false;
+  lastScrollTop = 0;
 }
+

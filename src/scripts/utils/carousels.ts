@@ -1,5 +1,4 @@
 import { EmblaCarouselWrapper, type EmblaCarouselOptions } from "@/scripts/animations";
-import { setupSectionInit } from "./initUtils";
 import { observeOnce } from "@/scripts/utils/observers";
 
 const DEFAULT_RESIZE_DEBOUNCE_DELAY = 250;
@@ -66,18 +65,16 @@ function createCarouselManager(config: CarouselConfig) {
     const dots = document.querySelectorAll(dotSelector);
 
     if (!container || dots.length === 0) {
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
+      if (import.meta.env.DEV) {
         console.warn('Carousel element not found:', !container ? containerId : dotSelector);
       }
       return;
     }
 
-    // Check if container is visible (not hidden by CSS)
     const computedStyle = window.getComputedStyle(container);
     const isHidden = computedStyle.display === 'none' || computedStyle.visibility === 'hidden' || computedStyle.opacity === '0';
 
     if (container.offsetParent === null || isHidden) {
-      // For mobile carousels, wait a bit longer and check again
       if (window.innerWidth < 768) {
         setTimeout(() => {
           const updatedStyle = window.getComputedStyle(container);
@@ -129,13 +126,28 @@ function createCarouselManager(config: CarouselConfig) {
   return { init: initWithDelay, cleanup };
 }
 
-export function setupCarouselSection(config: CarouselConfig) {
+const carouselManagers = new Map<string, ReturnType<typeof createCarouselManager>>();
+
+export function initCarousel(config: CarouselConfig): () => void {
   const manager = createCarouselManager(config);
-  setupSectionInit(manager.init, manager.cleanup);
+  carouselManagers.set(config.containerId, manager);
   
   if (typeof window !== "undefined") {
     window.addEventListener("beforeunload", manager.cleanup);
   }
   
-  return manager;
+  return manager.cleanup;
 }
+
+export function cleanupAllCarousels(): void {
+  carouselManagers.forEach((manager) => manager.cleanup());
+  carouselManagers.clear();
+}
+
+export function reinitCarousels(): void {
+  carouselManagers.forEach((manager) => {
+    manager.cleanup();
+    manager.init();
+  });
+}
+

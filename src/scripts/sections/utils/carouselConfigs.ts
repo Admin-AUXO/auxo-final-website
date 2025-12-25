@@ -1,4 +1,4 @@
-import { setupCarouselSection, type CarouselConfig } from "./carouselUtils";
+import { initCarousel, type CarouselConfig } from "@/scripts/utils/carousels";
 
 export const CAROUSEL_CONFIGS: CarouselConfig[] = [
   { containerId: "code-carousel-container", dotSelector: ".code-carousel-dot", breakpoint: 768 },
@@ -11,12 +11,12 @@ export const CAROUSEL_CONFIGS: CarouselConfig[] = [
 ];
 
 export function initAllCarousels(): void {
-  CAROUSEL_CONFIGS.forEach(config => setupCarouselSection(config));
+  CAROUSEL_CONFIGS.forEach(config => initCarousel(config));
 }
 
 export function initCarouselById(containerId: string): void {
   const config = CAROUSEL_CONFIGS.find(c => c.containerId === containerId);
   if (config) {
-    setupCarouselSection(config);
+    initCarousel(config);
   }
 }

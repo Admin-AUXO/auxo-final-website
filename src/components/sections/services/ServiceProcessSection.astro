@@ -31,19 +31,23 @@ const { service } = Astro.props;
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <SectionHeader
-        title={service.process.title}
-        subtitle={service.process.description}
-        subtitleHighlight={service.process.descriptionHighlight}
-      />
+      <div data-reveal="fade-down" data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
+        <SectionHeader
+          title={service.process.title}
+          subtitle={service.process.description}
+          subtitleHighlight={service.process.descriptionHighlight}
+        />
+      </div>
 
       <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10 relative">
         {service.process.steps.map((step: ProcessStep, index: number) => {
           return (
             <div
               class="process-card-wrapper"
-              data-aos="fade-up"
-              data-aos-delay={index * 50}
+              data-reveal="fade-up"
+              data-reveal-delay={index * 50}
+              data-reveal-duration="500"
+              data-reveal-easing="ease-out-cubic"
             >
               <div class="group relative h-full bg-gradient-to-br from-theme-card to-theme-card/95 border border-accent-green/20 rounded-3xl p-8 shadow-xl hover:border-accent-green/60 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col overflow-hidden">
                 <div class="absolute inset-0 bg-gradient-to-br from-accent-green/5 via-transparent to-accent-green/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>

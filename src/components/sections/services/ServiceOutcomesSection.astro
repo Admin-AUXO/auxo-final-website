@@ -29,18 +29,22 @@ const { service } = Astro.props;
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-6xl mx-auto">
-      <SectionHeader
-        title={service.outcomes.title}
-        subtitle={service.outcomes.description}
-        subtitleHighlight={service.outcomes.descriptionHighlight}
-      />
+      <div data-reveal="fade-down" data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
+        <SectionHeader
+          title={service.outcomes.title}
+          subtitle={service.outcomes.description}
+          subtitleHighlight={service.outcomes.descriptionHighlight}
+        />
+      </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
         {service.outcomes.metrics.map((metric: OutcomeMetric, index: number) => (
           <div
             class="group"
-            data-aos="zoom-in"
-            data-aos-delay={index * 50}
+            data-reveal="zoom-in"
+            data-reveal-delay={index * 50}
+            data-reveal-duration="500"
+            data-reveal-easing="ease-out-cubic"
           >
             <div class="h-full bg-gradient-to-br from-accent-green/10 via-accent-green/5 to-transparent border-2 border-accent-green/30 rounded-2xl p-6 lg:p-8 text-center relative overflow-hidden transition-all duration-500 hover:border-accent-green/50 hover:-translate-y-1">
               <div class="relative z-10">

@@ -49,10 +49,19 @@ export function setupCounterAnimations(): void {
       animateCounter(counterEl, targetValue, originalText, hasDecimal);
     };
     
-    counter.addEventListener('aos:in', handleAnimation, { once: true });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          handleAnimation();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
     
-    if (!counter.hasAttribute('data-aos')) {
-      counter.setAttribute('data-aos', 'fade-up');
+    observer.observe(counter);
+    
+    if (!counter.hasAttribute('data-reveal')) {
+      counter.setAttribute('data-reveal', 'fade-up');
     }
   });
 }
