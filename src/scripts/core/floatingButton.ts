@@ -14,7 +14,7 @@ function getFabElement(): HTMLElement | null {
 }
 
 function getScrollTop(): number {
-  return window.lenis?.scroll || window.pageYOffset || document.documentElement.scrollTop;
+  return window.pageYOffset || document.documentElement.scrollTop;
 }
 
 function updateFabVisibility(scrollTop: number): void {
@@ -85,11 +85,7 @@ export function initFloatingButton(): void {
     updateFabVisibility(scrollTop);
   };
 
-  if (window.lenis && !isAndroid) {
-    window.lenis.on('scroll', scrollHandler);
-  } else {
-    window.addEventListener('scroll', scrollHandler, { passive: true });
-  }
+  window.addEventListener('scroll', scrollHandler, { passive: true });
 
   resizeHandler = (): void => {
     const newIsMobile = window.innerWidth < 1024;
@@ -110,11 +106,7 @@ export function initFloatingButton(): void {
 
 export function cleanupFloatingButton(): void {
   if (scrollHandler) {
-    if (window.lenis && typeof window.lenis.off === 'function') {
-      window.lenis.off('scroll', scrollHandler);
-    } else {
-      window.removeEventListener('scroll', scrollHandler);
-    }
+    window.removeEventListener('scroll', scrollHandler);
     scrollHandler = null;
   }
   if (resizeHandler) {

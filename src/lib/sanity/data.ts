@@ -1,4 +1,8 @@
 import { sanityClient } from './client';
+
+if (!sanityClient) {
+  throw new Error('Sanity client not initialized - check your environment variables');
+}
 import { sanityCache } from './cache';
 import {
   homepageQuery,

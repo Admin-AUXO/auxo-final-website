@@ -128,7 +128,7 @@
   contain: layout style paint !important;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  touch-action: pan-y !important;
+  touch-action: pan-x pan-y !important;
   overscroll-behavior: contain none !important;
 }
 
@@ -140,13 +140,13 @@
 
 .embla {
   overflow: hidden !important;
-  touch-action: pan-y !important;
+  touch-action: pan-x pan-y !important;
 }
 
 .embla__container {
   display: flex !important;
   align-items: stretch !important;
-  touch-action: pan-y !important;
+  touch-action: pan-x pan-y !important;
   padding-left: var(--grid-padding-sm) !important;
   padding-right: var(--grid-padding-sm) !important;
   backface-visibility: hidden !important;
@@ -452,7 +452,7 @@
   .carousel-container,
   .embla,
   .embla__container {
-    touch-action: pan-y !important;
+    touch-action: pan-x pan-y !important;
     overscroll-behavior-y: none !important;
   }
 

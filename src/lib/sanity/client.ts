@@ -1,14 +1,14 @@
 import { createClient } from '@sanity/client';
 
-const projectId = import.meta.env.SANITY_PROJECT_ID;
-const dataset = import.meta.env.SANITY_DATASET || 'production';
-const token = import.meta.env.SANITY_API_TOKEN;
+const projectId = import.meta.env.SANITY_PROJECT_ID || process.env.SANITY_PROJECT_ID;
+const dataset = import.meta.env.SANITY_DATASET || process.env.SANITY_DATASET || 'production';
+const token = import.meta.env.SANITY_API_TOKEN || process.env.SANITY_API_TOKEN;
 
-if (!projectId || !dataset || !token) {
-  throw new Error('Missing Sanity configuration: SANITY_PROJECT_ID, SANITY_DATASET, SANITY_API_TOKEN');
-}
+// Create client only if we have the required configuration
+let sanityClient: ReturnType<typeof createClient> | null = null;
 
-export const sanityClient = createClient({
+if (projectId && dataset) {
+  sanityClient = createClient({
   projectId,
   dataset,
   useCdn: import.meta.env.PROD,
@@ -18,3 +18,6 @@ export const sanityClient = createClient({
   perspective: import.meta.env.PROD ? 'published' : 'raw',
   stega: false,
 });
+}
+
+export { sanityClient };

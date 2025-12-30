@@ -18,6 +18,8 @@ export interface EmblaCarouselOptions {
   loop?: boolean;
   autoplay?: boolean;
   autoplayInterval?: number;
+  pauseOnHover?: boolean;
+  pauseOnTouch?: boolean;
   align?: 'start' | 'center' | 'end';
   slidesToScroll?: number;
   dragFree?: boolean;
@@ -33,6 +35,8 @@ export class EmblaCarouselWrapper {
   private isDragging = false;
   private gestureHandler: DragGesture | null = null;
   private isHorizontalSwipe = false;
+  private autoplayTimer: NodeJS.Timeout | null = null;
+  private isPaused = false;
 
   constructor(
     private container: HTMLElement,
@@ -45,6 +49,8 @@ export class EmblaCarouselWrapper {
       loop = false,
       autoplay = false,
       autoplayInterval = DEFAULT_AUTOPLAY_INTERVAL,
+      pauseOnHover = true,
+      pauseOnTouch = true,
       align = 'center',
       slidesToScroll = 1,
       dragFree = false,
@@ -98,20 +104,20 @@ export class EmblaCarouselWrapper {
       this.isHorizontalSwipe = false;
       this.container.classList.add(DRAGGING_CLASS);
       this.container.classList.remove(NAVIGATING_CLASS);
-      if (window.lenis) {
-        window.lenis.stop();
+
+      // Pause autoplay on touch/drag
+      if (this.autoplayTimer) {
+        this.pauseAutoplay();
       }
     });
 
     this._embla.on('pointerUp', () => {
       this.isDragging = false;
       this.container.classList.remove(DRAGGING_CLASS);
-      if (window.lenis && !this.isHorizontalSwipe) {
-        setTimeout(() => {
-          if (window.lenis && !this.isHorizontalSwipe) {
-            window.lenis.start();
-          }
-        }, 100);
+
+      // Resume autoplay after touch/drag ends
+      if (this.autoplayTimer) {
+        setTimeout(() => this.resumeAutoplay(), 1000); // Resume after 1 second
       }
     });
 
@@ -131,6 +137,16 @@ export class EmblaCarouselWrapper {
       });
     } else {
       this.onSelect();
+    }
+
+    // Setup autoplay if enabled
+    if (autoplay) {
+      this.startAutoplay(autoplayInterval);
+
+      if (pauseOnHover) {
+        this.container.addEventListener('mouseenter', () => this.pauseAutoplay());
+        this.container.addEventListener('mouseleave', () => this.resumeAutoplay());
+      }
     }
   }
 
@@ -234,21 +250,12 @@ export class EmblaCarouselWrapper {
           
           if (isHorizontal && horizontalDistance > SWIPE_THRESHOLD) {
             this.isHorizontalSwipe = true;
-            if (window.lenis) {
-              window.lenis.stop();
-            }
           } else if (!isHorizontal && Math.abs(my) > SWIPE_THRESHOLD) {
             this.isHorizontalSwipe = false;
-            if (window.lenis && !window.lenis.isStopped) {
-              window.lenis.start();
-            }
           }
         }
 
         if (last) {
-          if (window.lenis && !window.lenis.isStopped) {
-            window.lenis.start();
-          }
           setTimeout(() => {
             this.isHorizontalSwipe = false;
           }, 100);
@@ -301,6 +308,26 @@ export class EmblaCarouselWrapper {
     setTimeout(() => this.setTransition(false), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
   }
 
+  play(): void {
+    if (this.autoplayTimer) {
+      this.resumeAutoplay();
+    }
+  }
+
+  pause(): void {
+    if (this.autoplayTimer) {
+      this.pauseAutoplay();
+    }
+  }
+
+  isAutoplayPaused(): boolean {
+    return this.isPaused;
+  }
+
+  hasAutoplay(): boolean {
+    return this.autoplayTimer !== null;
+  }
+
   next(): void {
     if (!this._embla) return;
     this.setTransition(true);
@@ -315,7 +342,42 @@ export class EmblaCarouselWrapper {
     setTimeout(() => this.setTransition(false), TRANSITION_DURATION + TRANSITION_CLEAR_BUFFER);
   }
 
+  startAutoplay(interval: number = DEFAULT_AUTOPLAY_INTERVAL): void {
+    if (this.autoplayTimer) return;
+
+    const nextSlide = () => {
+      if (!this.isPaused && this._embla) {
+        if (this._embla.canScrollNext()) {
+          this._embla.scrollNext();
+        } else {
+          // Scroll to first slide if loop is enabled
+          this._embla.scrollTo(0);
+        }
+      }
+    };
+
+    this.autoplayTimer = setInterval(nextSlide, interval);
+  }
+
+  private pauseAutoplay(): void {
+    this.isPaused = true;
+  }
+
+  private resumeAutoplay(): void {
+    this.isPaused = false;
+  }
+
+  private stopAutoplay(): void {
+    if (this.autoplayTimer) {
+      clearInterval(this.autoplayTimer);
+      this.autoplayTimer = null;
+    }
+    this.isPaused = false;
+  }
+
   destroy(): void {
+    this.stopAutoplay();
+
     if (this.dots && this.dotClickHandlers.size > 0) {
       this.dots.forEach((dot, index) => {
         const handler = this.dotClickHandlers.get(index);

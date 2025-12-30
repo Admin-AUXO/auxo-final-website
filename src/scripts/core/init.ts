@@ -1,4 +1,4 @@
-import { initSmoothScroll, destroySmoothScroll } from '../smoothScroll';
+import { initSmoothScroll } from '../smoothScroll';
 import { initScrollAnimations, cleanupScrollAnimations, refreshScrollAnimations } from '../scrollAnimations';
 import { initScrollProgress, cleanupScrollProgress } from './scrollProgress';
 import { initNavigation, cleanupNavigation } from './navigation';
@@ -79,7 +79,6 @@ export function cleanupCoreFeatures(): void {
   cleanupAccordions();
   cleanupAllCarousels();
   cleanupLazyLoading();
-  destroySmoothScroll();
   isInitialized = false;
 }
 

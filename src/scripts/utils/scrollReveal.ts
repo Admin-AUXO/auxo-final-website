@@ -175,10 +175,10 @@ function initializeElements(): void {
   });
 }
 
-function setupLenisIntegration(): void {
-  if (window.lenis && !lenisScrollHandler) {
+function setupScrollIntegration(): void {
+  if (!lenisScrollHandler) {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    
+
     if (!isMobile) {
       lenisScrollHandler = () => {
         if (rafId) cancelAnimationFrame(rafId);
@@ -186,7 +186,7 @@ function setupLenisIntegration(): void {
           refresh();
         });
       };
-      window.lenis.on('scroll', lenisScrollHandler);
+      window.addEventListener('scroll', lenisScrollHandler, { passive: true });
     }
   }
 }
@@ -219,11 +219,7 @@ export function init(options: ScrollRevealOptions = {}): void {
     initializeElements();
   }
 
-  if (window.lenis) {
-    setupLenisIntegration();
-  } else {
-    document.addEventListener('lenis:init', setupLenisIntegration, { once: true });
-  }
+  setupScrollIntegration();
 
 }
 
@@ -245,8 +241,8 @@ export function refreshWithDelay(delay: number = 150): void {
 }
 
 export function cleanup(): void {
-  if (lenisScrollHandler && window.lenis) {
-    window.lenis.off('scroll', lenisScrollHandler);
+  if (lenisScrollHandler) {
+    window.removeEventListener('scroll', lenisScrollHandler);
     lenisScrollHandler = null;
   }
   if (rafId) {

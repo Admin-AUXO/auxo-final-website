@@ -59,9 +59,14 @@ body {
   width: 100% !important;
 }
 
-body.lenis {
-  scroll-behavior: auto !important;
-  overscroll-behavior: none !important;
+html {
+  scroll-behavior: smooth !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
 }
 
 @media (max-width: 767px) {

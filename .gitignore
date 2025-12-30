@@ -13,6 +13,11 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 .pnpm-debug.log*
+.npm-cache/
+node-v20/
+performance-reports/
+openssl-3.6.0/
+/Users/ammu/auxo/auxo-final-website/openssl-3.6.0
 
 # environment variables
 .env

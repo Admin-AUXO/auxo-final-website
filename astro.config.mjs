@@ -1,6 +1,8 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
+import sanity from '@sanity/astro';
+import node from '@astrojs/node';
 import icon from 'astro-icon';
 import AstroPWA from '@vite-pwa/astro';
 import sitemap from '@astrojs/sitemap';
@@ -16,7 +18,8 @@ const base = basePath === '/' ? undefined : basePath;
 export default defineConfig({
   site: 'https://auxodata.com',
   base: base,
-  output: 'static',
+  output: 'server',
+  adapter: node({ mode: 'standalone' }),
   build: {
     inlineStylesheets: 'never',
     assets: '_astro',
@@ -35,7 +38,6 @@ export default defineConfig({
       include: [
         'embla-carousel',
         '@floating-ui/dom',
-        'lenis',
         'sharp',
       ],
       exclude: [],
@@ -50,7 +52,6 @@ export default defineConfig({
           assetFileNames: '_astro/[name]-[hash].[ext]',
           manualChunks(id) {
             if (id.includes('embla-carousel') || id.includes('@floating-ui/dom')) return 'ui-vendor';
-            if (id.includes('lenis')) return 'animation-vendor';
             if (id.includes('astro-icon')) return 'icons';
           },
         },
@@ -83,6 +84,12 @@ export default defineConfig({
     },
   },
   integrations: [
+    sanity({
+      projectId: process.env.SANITY_PROJECT_ID,
+      dataset: process.env.SANITY_DATASET,
+      useCdn: false,
+      studioBasePath: '/studio',
+    }),
     astroEdge({
       optimization: {
         images: {

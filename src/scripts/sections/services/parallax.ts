@@ -1,7 +1,4 @@
 function getScrollY(): number {
-  if (window.lenis) {
-    return window.lenis.scroll;
-  }
   return window.scrollY || window.pageYOffset;
 }
 
@@ -21,18 +18,14 @@ export function setupParallax(): void {
     });
   };
 
-  if (window.lenis) {
-    window.lenis.on('scroll', handleParallax);
-  } else {
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          handleParallax();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
-  }
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        handleParallax();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
 }

@@ -402,11 +402,14 @@ section,
     -webkit-overflow-scrolling: auto !important;
   }
 
-  html.lenis,
-  body.lenis {
-    overscroll-behavior: none !important;
-    scroll-behavior: auto !important;
-    will-change: transform !important;
+  html {
+    scroll-behavior: smooth !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto !important;
+    }
   }
 
   html.lenis * {

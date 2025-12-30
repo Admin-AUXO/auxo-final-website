@@ -54,10 +54,6 @@ export function lockScroll(): void {
   scrollLockCount++;
 
   if (scrollLockCount === 1) {
-    if (window.lenis) {
-      window.lenis.stop();
-    }
-
     const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
     savedScrollY = scrollY;
 
@@ -90,16 +86,9 @@ export function unlockScroll(): void {
     document.body.style.width = '';
     document.body.style.overflow = '';
 
-    if (window.lenis) {
-      window.lenis.start();
-      requestAnimationFrame(() => {
-        window.lenis?.scrollTo(savedScrollY!, { immediate: true });
-      });
-    } else {
-      requestAnimationFrame(() => {
-        window.scrollTo({ top: savedScrollY!, behavior: 'instant' });
-      });
-    }
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: savedScrollY!, behavior: 'instant' });
+    });
 
     document.body.removeAttribute('data-scroll-y');
     document.documentElement.style.removeProperty('--scroll-y');

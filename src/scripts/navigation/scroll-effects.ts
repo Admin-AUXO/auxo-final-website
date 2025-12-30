@@ -10,7 +10,7 @@ function updateNavState(nav: HTMLElement, scrollTop: number): void {
 
 
 function getScrollTop(): number {
-  return window.lenis?.scroll || window.pageYOffset || document.documentElement.scrollTop;
+  return window.pageYOffset || document.documentElement.scrollTop;
 }
 
 export function setupScrollEffects(): void {
@@ -34,7 +34,7 @@ export function setupScrollEffects(): void {
     });
   }
 
-  window.lenis?.on('scroll', handleScroll) || addTrackedListener(window, 'scroll', handleScroll, { passive: true });
+  addTrackedListener(window, 'scroll', handleScroll, { passive: true });
 
   const initialScrollTop = getScrollTop();
   updateNavState(nav, initialScrollTop);
