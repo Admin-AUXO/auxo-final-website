@@ -16,16 +16,11 @@ export default defineConfig({
   site: 'https://auxodata.com',
   output: 'static',
   build: {
-    inlineStylesheets: 'auto',
     assets: '_astro',
   },
   compressHTML: true,
   image: {
     service: { entrypoint: 'astro/assets/services/sharp' },
-  },
-  experimental: {
-    inlineStylesheets: 'auto',
-    viewTransitions: true,
   },
   vite: {
     optimizeDeps: {
