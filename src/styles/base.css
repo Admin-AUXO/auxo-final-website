@@ -190,6 +190,19 @@ section,
     touch-action: pan-y;
   }
 
+  /* Ensure carousels can pan horizontally */
+  .carousel-wrapper,
+  .carousel-container,
+  .carousel-track,
+  .embla,
+  .embla__container,
+  .process-stepper-wrapper,
+  [class*="horizontal-scroll"],
+  [class*="scroll-x"],
+  .overflow-x-auto:not(.overflow-y-auto, .overflow-y-scroll) {
+    touch-action: pan-x !important;
+  }
+
   button,
   a,
   input,

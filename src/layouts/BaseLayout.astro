@@ -50,6 +50,8 @@ const pageDescription = description || siteData.description;
     <script is:inline define:vars={{ baseUrl: import.meta.env.BASE_URL }}>
       (function() {
         if (typeof document === 'undefined' || !document.documentElement || !document.body) return;
+        if (window.__baseLayoutInitialized) return;
+        window.__baseLayoutInitialized = true;
 
         const root = document.documentElement;
         const body = document.body;
@@ -69,68 +71,73 @@ const pageDescription = description || siteData.description;
 
         root.classList.remove('dark', 'light');
         root.classList.add(theme);
-        
+
         root.classList.add('loading');
         body.classList.add('loading');
-        
+
         const enableScroll = () => {
           root.classList.remove('loading');
           root.classList.add('loaded');
           body.classList.remove('loading');
           body.classList.add('loaded');
         };
-        
+
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', enableScroll);
         } else {
           setTimeout(enableScroll, 0);
         }
-        
+
         window.addEventListener('load', enableScroll);
         setTimeout(enableScroll, 100);
       })();
-      
-      const blockedPatterns = ['fbevents', 'facebook.net', 'connect.facebook.net', 'ERR_BLOCKED_BY_CLIENT', 'segment.io', 'analytics.js'];
-      
-      const recaptchaPatterns = [
-        'recaptcha', '6LeQgtsa', 'google.com/recaptcha', 'private-token',
-        'message channel closed', 'Unrecognized feature', '401', 'Unauthorized',
-        'calendar.app.google', 'calendar.google.com', 'api2/pat', 'goog.net.XhrIo',
-        'Object is active with another request', 'newUri='
-      ];
-      
-      window.addEventListener('error', (e) => {
-        const target = e.target || e.currentTarget;
-        const message = e.message || '';
-        const filename = e.filename || '';
-        const url = (target && target.src) || '';
 
-        if (blockedPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
-          e.preventDefault();
-          e.stopPropagation();
-          return;
-        }
+      (function() {
+        if (window.__errorHandlersInitialized) return;
+        window.__errorHandlersInitialized = true;
 
-        if (recaptchaPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
-          e.preventDefault();
-          e.stopPropagation();
-          return;
-        }
-      }, true);
-      
-      window.addEventListener('unhandledrejection', (e) => {
-        const reason = String(e.reason || '');
-        if (reason.includes('facebook.net') || reason.includes('fbevents') || reason.includes('ERR_BLOCKED_BY_CLIENT')) {
-          e.preventDefault();
-          return;
-        }
+        const blockedPatterns = ['fbevents', 'facebook.net', 'connect.facebook.net', 'ERR_BLOCKED_BY_CLIENT', 'segment.io', 'analytics.js'];
 
-        if (recaptchaPatterns.some(pattern => reason.includes(pattern))) {
-          e.preventDefault();
-          return;
-        }
-      }, true);
-      
+        const recaptchaPatterns = [
+          'recaptcha', '6LeQgtsa', 'google.com/recaptcha', 'private-token',
+          'message channel closed', 'Unrecognized feature', '401', 'Unauthorized',
+          'calendar.app.google', 'calendar.google.com', 'api2/pat', 'goog.net.XhrIo',
+          'Object is active with another request', 'newUri='
+        ];
+
+        window.addEventListener('error', (e) => {
+          const target = e.target || e.currentTarget;
+          const message = e.message || '';
+          const filename = e.filename || '';
+          const url = (target && target.src) || '';
+
+          if (blockedPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+          }
+
+          if (recaptchaPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+          }
+        }, { capture: true, passive: false });
+
+        window.addEventListener('unhandledrejection', (e) => {
+          const reason = String(e.reason || '');
+          if (reason.includes('facebook.net') || reason.includes('fbevents') || reason.includes('ERR_BLOCKED_BY_CLIENT')) {
+            e.preventDefault();
+            return;
+          }
+
+          if (recaptchaPatterns.some(pattern => reason.includes(pattern))) {
+            e.preventDefault();
+            return;
+          }
+        }, { capture: true, passive: false });
+      })();
+
     </script>
   </head>
   <body class="min-h-screen flex flex-col relative bg-primary transition-colors duration-normal">
