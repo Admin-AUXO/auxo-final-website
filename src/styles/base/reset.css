@@ -5,21 +5,8 @@
 }
 
 html {
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-  width: 100% !important;
-  min-height: 100% !important;
-  -webkit-overflow-scrolling: touch !important;
-  overscroll-behavior: none !important;
-  -webkit-overscroll-behavior: none !important;
-  scroll-behavior: smooth !important;
-  -webkit-font-smoothing: antialiased !important;
-  -moz-osx-font-smoothing: grayscale !important;
   contain: layout style paint;
   -webkit-text-size-adjust: 100%;
-  overscroll-behavior-x: none;
   scroll-padding-top: 6rem;
 }
 
@@ -36,22 +23,6 @@ body::-webkit-scrollbar {
   will-change: auto;
 }
 
-@media (pointer: coarse) {
-  html {
-    -webkit-overflow-scrolling: touch;
-  }
-
-  * {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-  }
-}
-
-@media (width <= 767px) {
-  html {
-    touch-action: pan-y !important;
-  }
-}
 
 html.loading {
   overflow-y: hidden;
@@ -64,54 +35,17 @@ html.loaded {
 }
 
 body {
-  font-family: var(--font-body) !important;
-  color: var(--text-primary) !important;
-  background-color: var(--bg-primary) !important;
-  line-height: 1.6 !important;
-  transition: background-color var(--theme-transition) var(--timing-smooth),
-    color var(--theme-transition) var(--timing-smooth) !important;
   overflow: auto !important;
   overflow-x: hidden !important;
-  max-width: 100vw !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-  -webkit-overflow-scrolling: touch !important;
   position: relative !important;
-  width: 100% !important;
 }
 
 
-@media (max-width: 767px) {
-  body {
-    overscroll-behavior-y: contain !important;
-    -webkit-overflow-scrolling: touch !important;
-    touch-action: pan-y !important;
-  }
-}
 
 body.loading {
   overflow: hidden;
   height: 100vh;
 }
 
-#main-content {
-  overflow-x: hidden;
-  max-width: 100vw;
-  width: 100%;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
-}
 
-section,
-[class*="-section"] {
-  overflow-anchor: none;
-  overflow: hidden;
-  max-width: 100vw;
-}
-
-.grid-container {
-  overflow: hidden;
-  max-width: 100vw;
-}
 
