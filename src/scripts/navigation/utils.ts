@@ -71,6 +71,11 @@ export function lockScroll(): void {
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = '100%';
     document.body.style.overflow = 'hidden';
+
+    // Stop Lenis smooth scrolling when menu is open
+    if (typeof window !== 'undefined' && (window as any).__lenis) {
+      (window as any).__lenis.stop();
+    }
   }
 }
 
@@ -97,6 +102,11 @@ export function unlockScroll(): void {
     document.documentElement.style.removeProperty('--scroll-y');
     document.documentElement.classList.remove('scroll-locked');
     document.body.classList.remove('scroll-locked');
+
+    // Restart Lenis smooth scrolling when menu is closed
+    if (typeof window !== 'undefined' && (window as any).__lenis) {
+      (window as any).__lenis.start();
+    }
 
     savedScrollY = null;
   }

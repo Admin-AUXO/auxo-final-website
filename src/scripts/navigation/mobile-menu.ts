@@ -186,6 +186,7 @@ export function closeMobileMenu(): void {
   if (menuContent) {
     menuContent.removeEventListener('scroll', updateScrollIndicators);
     menuContent.classList.remove('scrollable-top', 'scrollable-bottom');
+    menuContent.removeAttribute('data-lenis-prevent');
   }
   
   void mobileMenu.offsetHeight;
@@ -268,6 +269,7 @@ function openMobileMenu(): void {
     const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
     if (menuContent) {
       menuContent.addEventListener('scroll', updateScrollIndicators, { passive: true });
+      menuContent.setAttribute('data-lenis-prevent', 'true');
       updateScrollIndicators();
     }
   });

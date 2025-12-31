@@ -1,4 +1,34 @@
+import Lenis from 'lenis';
+
+let lenis: Lenis | null = null;
+
 export function initSmoothScroll() {
+  if (lenis) return;
+
+  lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    direction: 'vertical',
+    gestureDirection: 'vertical',
+    smooth: true,
+    mouseMultiplier: 1,
+    smoothTouch: false,
+    touchMultiplier: 2,
+    infinite: false,
+  });
+
+  function raf(time: number) {
+    lenis?.raf(time);
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+
+  // Expose lenis globally for scroll lock integration
+  if (typeof window !== 'undefined') {
+    (window as any).__lenis = lenis;
+  }
+
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
       const href = anchor.getAttribute('href');
@@ -7,9 +37,9 @@ export function initSmoothScroll() {
       const target = document.querySelector(href) as HTMLElement;
       if (target) {
         e.preventDefault();
-        scrollToElement(target, { offset: 0 });
+        scrollToElement(target);
       }
-    }, { passive: false });
+    });
   });
 
   document.addEventListener('astro:page-load', () => {
@@ -19,88 +49,55 @@ export function initSmoothScroll() {
         setTimeout(() => {
           const target = document.querySelector(hash) as HTMLElement;
           if (target) {
-            scrollToElement(target, { offset: 0 });
+            scrollToElement(target);
           }
-        }, 150);
+        }, 100);
       });
     }
   });
 }
 
 export function stopSmoothScroll() {
-  // No-op
+  if (lenis) {
+    lenis.stop();
+  }
 }
 
 export function startSmoothScroll() {
-  // No-op
+  if (lenis) {
+    lenis.start();
+  }
 }
 
-export function scrollToElement(target: string | HTMLElement, options?: { offset?: number; duration?: number; immediate?: boolean }) {
+export function scrollToElement(target: string | HTMLElement, options?: { offset?: number; immediate?: boolean }) {
+  if (!lenis) return;
+
   const element = typeof target === 'string' ? document.querySelector(target) as HTMLElement : target;
   if (!element) return;
 
   const offset = options?.offset || 0;
 
   if (options?.immediate) {
-    element.scrollIntoView({
-      behavior: 'instant',
-      block: 'start'
-    });
-    return;
-  }
-
-  if ('scrollBehavior' in document.documentElement.style) {
-    try {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'nearest'
-      });
-    } catch (error) {
-      fallbackScroll(element, offset);
-    }
+    lenis.scrollTo(element, { offset, immediate: true });
   } else {
-    fallbackScroll(element, offset);
+    lenis.scrollTo(element, { offset });
   }
-}
-
-function fallbackScroll(element: HTMLElement, offset: number) {
-  const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-  const offsetPosition = elementPosition - offset;
-  const startPosition = window.pageYOffset;
-  const distance = offsetPosition - startPosition;
-
-  if (Math.abs(distance) < 1) return;
-
-  const duration = Math.min(Math.max(Math.abs(distance) / 2, 300), 1000);
-  let startTime: number | null = null;
-
-  function easeInOutCubic(t: number): number {
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-  }
-
-  function animation(currentTime: number) {
-    if (startTime === null) startTime = currentTime;
-    const timeElapsed = currentTime - startTime;
-    const progress = Math.min(timeElapsed / duration, 1);
-
-    const easeProgress = easeInOutCubic(progress);
-    const currentPosition = startPosition + (distance * easeProgress);
-
-    window.scrollTo(0, currentPosition);
-
-    if (progress < 1) {
-      requestAnimationFrame(animation);
-    }
-  }
-
-  requestAnimationFrame(animation);
 }
 
 export function destroySmoothScroll() {
-  // No-op
+  if (lenis) {
+    lenis.destroy();
+    lenis = null;
+    if (typeof window !== 'undefined') {
+      delete (window as any).__lenis;
+    }
+  }
 }
 
 export function isSmoothScrollEnabled(): boolean {
-  return true;
+  return lenis !== null;
+}
+
+export function getLenisInstance(): Lenis | null {
+  return lenis;
 }
