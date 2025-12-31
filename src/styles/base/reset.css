@@ -16,7 +16,7 @@ html {
   -webkit-overflow-scrolling: touch !important;
   overscroll-behavior: none !important;
   -webkit-overscroll-behavior: none !important;
-  scroll-behavior: auto !important;
+  scroll-behavior: smooth !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
 }
@@ -57,10 +57,6 @@ body {
   -webkit-overflow-scrolling: touch !important;
   position: relative !important;
   width: 100% !important;
-}
-
-html {
-  scroll-behavior: smooth !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

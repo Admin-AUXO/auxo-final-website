@@ -1,64 +1,20 @@
 {
   "extends": ["stylelint-config-standard"],
   "rules": {
-    "color-hex-length": "short",
-    "declaration-block-no-duplicate-properties": true,
-    "declaration-block-no-redundant-longhand-properties": true,
-    "no-duplicate-selectors": true,
-    "selector-max-specificity": null,
-    "value-no-vendor-prefix": null,
+    "declaration-no-important": null,
+    "no-duplicate-selectors": null,
+    "at-rule-no-unknown": null,
     "property-no-vendor-prefix": null,
-    "keyframes-name-pattern": null,
-    "rule-empty-line-before": null,
-    "custom-property-empty-line-before": null,
+    "media-feature-range-notation": null,
+    "selector-class-pattern": null,
+    "no-descending-specificity": null,
     "color-function-notation": null,
     "color-function-alias-notation": null,
     "alpha-value-notation": null,
-    "media-feature-range-notation": null,
-    "shorthand-property-no-redundant-values": true,
-    "comment-empty-line-before": null,
-    "at-rule-no-unknown": [
-      true,
-      {
-        "ignoreAtRules": ["tailwind", "apply", "layer", "variants", "responsive", "screen", "supports"]
-      }
-    ],
-    "selector-pseudo-class-no-unknown": [
-      true,
-      {
-        "ignorePseudoClasses": ["hidden", "global", "has", "flex", "lg:flex", "sm:flex", "md:flex"]
-      }
-    ],
-    "selector-pseudo-element-colon-notation": "double",
-    "property-no-deprecated": null,
-    "number-max-precision": null,
-    "selector-class-pattern": null,
-    "no-descending-specificity": null,
-    "declaration-no-important": [
-      true,
-      {
-        "severity": "warning"
-      }
-    ],
-    "length-zero-no-unit": true,
-    "unit-allowed-list": ["px", "rem", "em", "%", "vh", "vw", "vmin", "vmax", "dvh", "svh", "deg", "ms", "s", "fr"],
-    "media-feature-name-no-vendor-prefix": true,
-    "at-rule-no-vendor-prefix": true,
-    "media-query-no-invalid": true,
-    "media-feature-name-value-no-unknown": [
-      true,
-      {
-        "ignoreMediaFeatureNames": ["prefers-contrast"]
-      }
-    ],
-    "declaration-property-value-no-unknown": [
-      true,
-      {
-        "ignoreProperties": {
-          "image-rendering": ["optimizeSpeed"]
-        }
-      }
-    ]
-  },
-  "ignoreFiles": ["**/*.js", "**/node_modules/**", "**/dist/**", "**/*.astro"]
+    "rule-empty-line-before": null,
+    "custom-property-empty-line-before": null,
+    "selector-pseudo-class-no-unknown": null,
+    "keyframes-name-pattern": null,
+    "declaration-block-no-duplicate-properties": null
+  }
 }

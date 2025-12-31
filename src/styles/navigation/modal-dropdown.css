@@ -49,10 +49,7 @@
 .dropdown-modal-menu {
   position: fixed;
   z-index: calc(var(--z-services-dropdown) + 1);
-  top: calc(var(--nav-height) + env(safe-area-inset-top));
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: calc(var(--nav-height) + env(safe-area-inset-top)) 0 0;
   height: calc(100dvh - var(--nav-height) - env(safe-area-inset-top));
   max-height: calc(100dvh - var(--nav-height) - env(safe-area-inset-top));
   overflow: hidden;

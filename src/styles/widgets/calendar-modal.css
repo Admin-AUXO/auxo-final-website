@@ -23,6 +23,7 @@
 .calendar-modal:not([hidden]) {
   opacity: 1;
   visibility: visible;
+  touch-action: none;
 }
 
 .calendar-modal-overlay {
@@ -161,10 +162,6 @@
   overscroll-behavior: contain;
   touch-action: pan-y;
   -webkit-touch-callout: none;
-}
-
-.calendar-modal:not([hidden]) {
-  touch-action: none;
 }
 
 .calendar-modal:not([hidden]) .calendar-modal-content {
