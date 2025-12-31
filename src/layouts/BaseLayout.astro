@@ -182,6 +182,133 @@ const pageDescription = description || siteData.description;
     <script>
       import { initCoreFeatures, reinitOnPageLoad, initPageFeatures } from "@/scripts/core/init";
 
+      // Initialize scroll restoration for better mobile UX
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+
+      // Handle scroll restoration on page load
+      const handleScrollRestoration = () => {
+        const scrollY = sessionStorage.getItem('scroll-position');
+        if (scrollY && !window.location.hash) {
+          requestAnimationFrame(() => {
+            window.scrollTo({ top: parseInt(scrollY, 10), behavior: 'instant' });
+          });
+        }
+        sessionStorage.removeItem('scroll-position');
+      };
+
+      // Save scroll position before navigation
+      const saveScrollPosition = () => {
+        sessionStorage.setItem('scroll-position', window.scrollY.toString());
+      };
+
+      // Listen for navigation events
+      document.addEventListener('astro:before-preparation', saveScrollPosition);
+      document.addEventListener('astro:page-load', handleScrollRestoration);
+
+      // Enhanced mobile scroll optimizations
+      const initMobileScrollOptimizations = () => {
+        // Detect if we're on a mobile device
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                        ('ontouchstart' in window && window.innerWidth <= 768);
+
+        if (!isMobile) return;
+
+        // Enable passive touch listeners for better performance
+        const touchOptions = { passive: true, capture: false };
+
+        // Optimize scroll performance by reducing reflows
+        let ticking = false;
+        const updateScrollPosition = () => {
+          if (!ticking) {
+            requestAnimationFrame(() => {
+              // Update scroll-dependent elements if needed
+              ticking = false;
+            });
+            ticking = true;
+          }
+        };
+
+        // Add optimized scroll listener
+        window.addEventListener('scroll', updateScrollPosition, touchOptions);
+
+        // Prevent rubber band scrolling on iOS when at top/bottom
+        let startY = 0;
+        const handleTouchStart = (e: TouchEvent) => {
+          startY = e.touches[0].clientY;
+        };
+
+        const handleTouchMove = (e: TouchEvent) => {
+          const currentY = e.touches[0].clientY;
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+          // Prevent overscroll at top
+          if (scrollTop <= 0 && currentY > startY) {
+            e.preventDefault();
+          }
+
+          // Prevent overscroll at bottom
+          const windowHeight = window.innerHeight;
+          const documentHeight = Math.max(
+            document.body.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.clientHeight,
+            document.documentElement.scrollHeight,
+            document.documentElement.offsetHeight
+          );
+
+          if (scrollTop + windowHeight >= documentHeight && currentY < startY) {
+            e.preventDefault();
+          }
+        };
+
+        // Only add touch listeners if overscroll prevention is supported
+        if ('ontouchstart' in window) {
+          document.addEventListener('touchstart', handleTouchStart, touchOptions);
+          document.addEventListener('touchmove', handleTouchMove, { passive: false, capture: false });
+        }
+
+        // Add visual feedback for scroll momentum
+        const addMomentumIndicator = () => {
+          const indicator = document.createElement('div');
+          indicator.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-green-secondary));
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            z-index: 9999;
+            pointer-events: none;
+          `;
+          document.body.appendChild(indicator);
+
+          let scrollTimeout: number;
+          const showIndicator = () => {
+            indicator.style.transform = 'translateY(0)';
+            clearTimeout(scrollTimeout);
+            scrollTimeout = window.setTimeout(() => {
+              indicator.style.transform = 'translateY(-100%)';
+            }, 150);
+          };
+
+          window.addEventListener('scroll', showIndicator, touchOptions);
+        };
+
+        // Add momentum indicator after a short delay
+        setTimeout(addMomentumIndicator, 1000);
+      };
+
+      // Initialize mobile optimizations after page load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMobileScrollOptimizations);
+      } else {
+        initMobileScrollOptimizations();
+      }
+
       // Ensure CSS is loaded before initializing features
       const waitForCSS = () => {
         return new Promise((resolve) => {

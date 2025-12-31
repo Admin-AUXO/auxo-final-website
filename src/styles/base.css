@@ -140,18 +140,30 @@ section,
 @media (width <= 767px) {
   html {
     -webkit-overflow-scrolling: touch;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
     height: 100%;
     touch-action: pan-y;
-    overscroll-behavior: contain;
+    overscroll-behavior-y: contain;
+    overscroll-behavior-x: none;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
   }
 
   body {
     -webkit-overflow-scrolling: touch;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
     min-height: 100dvh;
     touch-action: pan-y;
-    overscroll-behavior: contain;
+    overscroll-behavior-y: contain;
+    overscroll-behavior-x: none;
     overflow-y: auto;
     overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   html.loaded,
@@ -160,6 +172,8 @@ section,
     height: auto !important;
     max-height: none !important;
     -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: auto !important;
+    scroll-behavior: smooth !important;
   }
 
 @supports (-webkit-touch-callout: none) {
@@ -169,8 +183,11 @@ section,
       -webkit-overflow-scrolling: touch !important;
       overscroll-behavior: contain !important;
       touch-action: pan-y !important;
-      transform: translate3d(0, 0, 0);
-      transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0) !important;
+      will-change: scroll-position !important;
+      -webkit-transform: translate3d(0, 0, 0) !important;
+      backface-visibility: hidden !important;
+      -webkit-backface-visibility: hidden !important;
     }
 
     [data-modal-content],
@@ -304,6 +321,10 @@ section,
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior: contain !important;
     touch-action: pan-y !important;
+    scroll-behavior: smooth !important;
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    transform: translate3d(0, 0, 0) !important;
+    will-change: scroll-position !important;
   }
 
   .carousel-container,
