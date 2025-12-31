@@ -14,7 +14,5 @@ export default defineConfig({
     visionTool(),
   ],
 
-  studio: {
-    basePath: '/studio',
-  },
+  basePath: '/studio',
 });

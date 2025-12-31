@@ -28,7 +28,7 @@ const fetchWithError = async <T>(
   params?: Record<string, unknown>
 ): Promise<T> => {
   return sanityCache.get(cacheKey, async () => {
-    const data = await sanityClient.fetch<T>(query, params || {});
+    const data = await sanityClient!.fetch<T>(query, params || {});
     if (!data) {
       throw new Error(errorMsg);
     }
@@ -43,8 +43,8 @@ export async function getHomepageContent(): Promise<HomepageContent> {
 export async function getServicesContent(): Promise<ServicesContent> {
   return sanityCache.get('services', async () => {
     const [generalData, detailsData] = await Promise.all([
-      sanityClient.fetch<Omit<ServicesContent, 'details'>>(servicesQuery),
-      sanityClient.fetch<ServiceDetail[]>(serviceDetailsQuery),
+      sanityClient!.fetch<Omit<ServicesContent, 'details'>>(servicesQuery),
+      sanityClient!.fetch<ServiceDetail[]>(serviceDetailsQuery),
     ]);
 
     if (!generalData) {
@@ -65,7 +65,7 @@ export async function getServiceDetailBySlug(slug: string): Promise<ServiceDetai
 
   return sanityCache.get(`service:${slug}`, async () => {
     try {
-      const data = await sanityClient.fetch<ServiceDetail>(serviceDetailBySlugQuery, { slug });
+      const data = await sanityClient!.fetch<ServiceDetail>(serviceDetailBySlugQuery, { slug });
       return data || null;
     } catch (error) {
       console.error(`Service detail fetch failed for "${slug}":`, error);

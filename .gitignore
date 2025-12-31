@@ -15,7 +15,6 @@ lerna-debug.log*
 .pnpm-debug.log*
 .npm-cache/
 node-v20/
-performance-reports/
 openssl-3.6.0/
 /Users/ammu/auxo/auxo-final-website/openssl-3.6.0
 
@@ -102,4 +101,7 @@ junit.xml
 
 # Sanity maintenance scripts (contain sensitive tokens)
 /scripts/
+
+# GitHub tokens
+.github-token
 

@@ -17,27 +17,30 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
+      - name: Run lint checks
+        run: npm run lint
+
       - name: Validate environment
         run: |
           if [ -z "${{ secrets.SANITY_PROJECT_ID }}" ] || [ -z "${{ secrets.SANITY_API_TOKEN }}" ]; then
             echo "Error: Required Sanity secrets are not set"
             exit 1
           fi
-      
+
       - name: Build with Astro
         run: npm run build
         env:
@@ -48,19 +51,24 @@ jobs:
           SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
           SANITY_API_VERSION: ${{ secrets.SANITY_API_VERSION || '2024-01-01' }}
           NODE_ENV: production
-      
+
       - name: Verify build output
         run: |
-          if [ ! -d "dist" ] || [ ! -f "dist/index.html" ]; then
-            echo "Error: Build output is invalid"
+          echo "Checking build output..."
+          ls -la dist/ || echo "dist directory not found"
+          if [ ! -d "dist" ]; then
+            echo "Error: dist directory not found"
+            exit 1
+          fi
+          if [ ! -f "dist/index.html" ]; then
+            echo "Error: dist/index.html not found"
             exit 1
           fi
           if [ ! -f "dist/.nojekyll" ]; then
             touch dist/.nojekyll
+            echo "Created .nojekyll file"
           fi
-          echo "Build output verified"
-          echo "BASE_PATH: ${{ secrets.BASE_PATH || '/' }}"
-          ls -la dist/_astro/ | head -10 || echo "No _astro directory found"
+          echo "Build output verified successfully"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4

@@ -86,7 +86,6 @@ export class EmblaCarouselWrapper {
       inViewThreshold: 0,
       startIndex: 0,
       watchFocus: false,
-      watchPointer: true,
     }, plugins);
 
     if (this.dots && this.dots.length !== 0) {
