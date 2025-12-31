@@ -77,28 +77,27 @@ const pageDescription = description || siteData.description;
         body.classList.add('loading');
         
         const enableScroll = () => {
-          root.classList.remove('loading');
-          root.classList.add('loaded');
-          body.classList.remove('loading');
-          body.classList.add('loaded');
+          setTimeout(() => {
+            root.classList.remove('loading');
+            root.classList.add('loaded');
+            body.classList.remove('loading');
+            body.classList.add('loaded');
+          }, 100);
 
-          // Ensure CSS is loaded by checking for critical styles
           const checkCSSLoaded = () => {
             const testElement = document.createElement('div');
             testElement.style.cssText = 'position: absolute; visibility: hidden;';
             document.body.appendChild(testElement);
 
-            // Check if critical CSS variables are available
             const hasCriticalCSS = window.getComputedStyle(testElement).getPropertyValue('--bg-primary') !== '';
             document.body.removeChild(testElement);
 
             if (!hasCriticalCSS) {
-              // Force CSS reload if critical styles aren't loaded
-              setTimeout(checkCSSLoaded, 100);
+              setTimeout(checkCSSLoaded, 50);
             }
           };
 
-          setTimeout(checkCSSLoaded, 50);
+          setTimeout(checkCSSLoaded, 10);
         };
         
         if (document.readyState === 'loading') {
@@ -106,9 +105,17 @@ const pageDescription = description || siteData.description;
         } else {
           setTimeout(enableScroll, 0);
         }
-        
+
         window.addEventListener('load', enableScroll);
         setTimeout(enableScroll, 100);
+
+        // Fallback: Always remove loading classes after 2 seconds maximum
+        setTimeout(() => {
+          root.classList.remove('loading');
+          root.classList.add('loaded');
+          body.classList.remove('loading');
+          body.classList.add('loaded');
+        }, 2000);
       })();
       
       const blockedPatterns = ['fbevents', 'facebook.net', 'connect.facebook.net', 'ERR_BLOCKED_BY_CLIENT', 'segment.io', 'analytics.js'];
