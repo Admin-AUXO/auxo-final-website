@@ -26,8 +26,6 @@ const DEFAULT_OPTIONS: Required<ScrollRevealOptions> = {
 let globalOptions: Required<ScrollRevealOptions> = { ...DEFAULT_OPTIONS };
 let observer: IntersectionObserver | null = null;
 let isInitialized = false;
-let lenisScrollHandler: (() => void) | null = null;
-let rafId: number | null = null;
 
 const EASING_FUNCTIONS: Record<string, (t: number) => number> = {
   'ease-out-cubic': (t: number) => 1 - Math.pow(1 - t, 3),
@@ -86,14 +84,18 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
   const initialTransform = getInitialTransform(animation);
   const isFade = animation.includes('fade');
   const isZoom = animation.includes('zoom');
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  const mobileDuration = isMobile ? Math.min(duration, 300) : duration;
+  const mobileDelay = isMobile ? Math.min(delay, 50) : delay;
 
   const transitionProperty = isFade || isZoom ? 'opacity, transform' : 'transform';
   const cubicBezier = getCubicBezier(easing);
-  
-  element.style.transition = `${transitionProperty} ${duration}ms cubic-bezier(${cubicBezier})`;
-  
-  if (delay > 0) {
-    element.style.transitionDelay = `${delay}ms`;
+
+  element.style.transition = `${transitionProperty} ${mobileDuration}ms cubic-bezier(${cubicBezier})`;
+
+  if (mobileDelay > 0) {
+    element.style.transitionDelay = `${mobileDelay}ms`;
   }
 
   requestAnimationFrame(() => {
@@ -104,11 +106,11 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
         element.classList.add('reveal-animated');
         element.classList.remove('reveal-init');
         element._revealAnimated = true;
-        
+
         setTimeout(() => {
           element.style.willChange = 'auto';
           element.style.transition = '';
-        }, duration + delay);
+        }, mobileDuration + mobileDelay);
       } else if (!globalOptions.once) {
         element.style.opacity = isFade ? '0' : '1';
         element.style.transform = initialTransform;
@@ -134,6 +136,7 @@ function getCubicBezier(easing: string): string {
 function createObserver(): IntersectionObserver {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   const offset = isMobile ? Math.min(globalOptions.offset, 40) : globalOptions.offset;
+  const threshold = isMobile ? 0.05 : globalOptions.threshold;
 
   return new IntersectionObserver(
     (entries) => {
@@ -146,7 +149,7 @@ function createObserver(): IntersectionObserver {
     },
     {
       rootMargin: `-${offset}px 0px -${offset}px 0px`,
-      threshold: globalOptions.threshold,
+      threshold: threshold,
     }
   );
 }
@@ -176,19 +179,7 @@ function initializeElements(): void {
 }
 
 function setupScrollIntegration(): void {
-  if (!lenisScrollHandler) {
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-    if (!isMobile) {
-      lenisScrollHandler = () => {
-        if (rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(() => {
-          refresh();
-        });
-      };
-      window.addEventListener('scroll', lenisScrollHandler, { passive: true });
-    }
-  }
+  // Scroll animations handled via IntersectionObserver
 }
 
 export function init(options: ScrollRevealOptions = {}): void {
@@ -241,14 +232,6 @@ export function refreshWithDelay(delay: number = 150): void {
 }
 
 export function cleanup(): void {
-  if (lenisScrollHandler) {
-    window.removeEventListener('scroll', lenisScrollHandler);
-    lenisScrollHandler = null;
-  }
-  if (rafId) {
-    cancelAnimationFrame(rafId);
-    rafId = null;
-  }
   if (observer) {
     observer.disconnect();
     observer = null;

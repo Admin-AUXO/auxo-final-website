@@ -37,10 +37,6 @@ html.loaded {
   max-height: none;
 }
 
-html.lenis.loaded {
-  overflow-y: auto !important;
-}
-
 body {
   font-family: var(--font-body) !important;
   color: var(--text-primary) !important;
@@ -75,10 +71,6 @@ body.loading {
 body.loaded {
   overflow: auto !important;
   overflow-x: hidden !important;
-}
-
-body.lenis.loaded {
-  overflow-y: auto !important;
 }
 
 #main-content {
