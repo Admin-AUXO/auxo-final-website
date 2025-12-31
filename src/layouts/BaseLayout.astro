@@ -97,8 +97,11 @@ const pageDescription = description || siteData.description;
               document.body.appendChild(testElement);
 
               const hasCriticalCSS = window.getComputedStyle(testElement).getPropertyValue('--bg-primary') !== '';
-              if (testElement.parentNode) {
-                document.body.removeChild(testElement);
+              try {
+                if (testElement.parentNode === document.body) {
+                  document.body.removeChild(testElement);
+                }
+              } catch (removeError) {
               }
 
               if (!hasCriticalCSS) {
@@ -200,17 +203,29 @@ const pageDescription = description || siteData.description;
       }
 
       const handleScrollRestoration = () => {
-        const scrollY = sessionStorage.getItem('scroll-position');
-        if (scrollY && parseInt(scrollY) > 0 && !window.location.hash) {
-          requestAnimationFrame(() => {
-            window.scrollTo({ top: parseInt(scrollY, 10), behavior: 'instant' });
-          });
+        try {
+          const scrollY = sessionStorage.getItem('scroll-position');
+          if (scrollY && parseInt(scrollY) > 0 && !window.location.hash) {
+            requestAnimationFrame(() => {
+              try {
+                window.scrollTo({ top: parseInt(scrollY, 10), behavior: 'instant' });
+              } catch (e) {
+              }
+            });
+          }
+        } catch (e) {
         }
-        sessionStorage.removeItem('scroll-position');
+        try {
+          sessionStorage.removeItem('scroll-position');
+        } catch (e) {
+        }
       };
 
       const saveScrollPosition = () => {
-        sessionStorage.setItem('scroll-position', window.scrollY.toString());
+        try {
+          sessionStorage.setItem('scroll-position', window.scrollY.toString());
+        } catch (e) {
+        }
       };
 
       let scrollCleanup: (() => void) | null = null;
@@ -230,9 +245,19 @@ const pageDescription = description || siteData.description;
 
       const waitForCSS = () => {
         return new Promise((resolve) => {
+          let timeoutId: number;
+          let attempts = 0;
+          const maxAttempts = 100;
+
           const checkCSS = () => {
+            attempts++;
+            if (attempts > maxAttempts) {
+              resolve(true);
+              return;
+            }
+
             if (!document.body) {
-              setTimeout(checkCSS, 50);
+              timeoutId = window.setTimeout(checkCSS, 50);
               return;
             }
 
@@ -245,22 +270,28 @@ const pageDescription = description || siteData.description;
               const hasCriticalCSS = styles.getPropertyValue('--bg-primary') !== '' &&
                                      styles.getPropertyValue('--text-primary') !== '';
 
-              if (testElement.parentNode) {
-                document.body.removeChild(testElement);
+              try {
+                if (testElement.parentNode === document.body) {
+                  document.body.removeChild(testElement);
+                }
+              } catch (removeError) {
               }
 
               if (hasCriticalCSS) {
                 resolve(true);
               } else {
-                setTimeout(checkCSS, 50);
+                timeoutId = window.setTimeout(checkCSS, 50);
               }
             } catch (e) {
-              setTimeout(checkCSS, 50);
+              timeoutId = window.setTimeout(checkCSS, 50);
             }
           };
 
           if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', checkCSS);
+            document.addEventListener('DOMContentLoaded', () => {
+              clearTimeout(timeoutId);
+              checkCSS();
+            });
           } else {
             checkCSS();
           }
