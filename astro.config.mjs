@@ -4,7 +4,6 @@ import react from '@astrojs/react';
 import sanity from '@sanity/astro';
 import icon from 'astro-icon';
 import sitemap from '@astrojs/sitemap';
-import { vitePwa } from '@vite-pwa/astro';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadEnv } from 'vite';
@@ -267,67 +266,6 @@ export default defineConfig({
           'cookie',
           'information-outline',
           'pipe',
-        ],
-      },
-    }),
-    vitePwa({
-      registerType: 'autoUpdate',
-      workbox: {
-        globPatterns: ['**/*.{css,js,html,ico,png,svg,woff2}'],
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/cdn\.sanity\.io\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'sanity-images',
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
-              },
-            },
-          },
-          {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-stylesheets',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
-              },
-            },
-          },
-          {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-webfonts',
-              expiration: {
-                maxEntries: 30,
-                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
-              },
-            },
-          },
-        ],
-      },
-      manifest: {
-        name: 'AUXO - Data Analytics Consultancy',
-        short_name: 'AUXO',
-        description: 'Expert data analytics consultancy helping businesses scale with data-driven insights and AI solutions.',
-        theme_color: '#1a365d',
-        background_color: '#0f172a',
-        display: 'standalone',
-        icons: [
-          {
-            src: '/favicon.svg',
-            sizes: 'any',
-            type: 'image/svg+xml',
-          },
-          {
-            src: '/apple-touch-icon.svg',
-            sizes: '180x180',
-            type: 'image/svg+xml',
-          },
         ],
       },
     }),
