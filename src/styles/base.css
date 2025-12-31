@@ -14,7 +14,7 @@ html {
   width: 100% !important;
   min-height: 100% !important;
   -webkit-overflow-scrolling: touch !important;
-  overscroll-behavior: contain !important;
+  overscroll-behavior: auto !important;
   scroll-behavior: smooth !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
@@ -61,7 +61,7 @@ body {
 
 @media (width <= 767px) {
   body {
-    overscroll-behavior-y: contain !important;
+    overscroll-behavior-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
     touch-action: pan-y !important;
   }
@@ -392,7 +392,7 @@ section,
 @media (width >= 769px) {
   html,
   body {
-    overscroll-behavior: contain !important;
+    overscroll-behavior: auto !important;
     -webkit-overflow-scrolling: touch;
   }
 
