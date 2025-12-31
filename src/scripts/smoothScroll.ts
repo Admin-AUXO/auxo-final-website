@@ -36,7 +36,6 @@ export function initSmoothScroll() {
     if (window.location.hash) {
       const target = document.querySelector(window.location.hash) as HTMLElement;
       if (target && lenis) {
-        // Use Lenis to snap immediately without animation
         lenis.scrollTo(target, { immediate: true, offset: 0 });
       }
     }

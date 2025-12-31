@@ -1,19 +1,15 @@
 body.scroll-locked {
   overflow: hidden;
-
-  /* Allow horizontal swipe (pan-x) but block vertical (pan-y) */
   touch-action: pan-x;
 }
 
-body.scroll-locked .mobile-menu-content,
-body.scroll-locked [data-modal-content] {
-  touch-action: pan-y !important;
+body.scroll-locked .mobile-menu-content {
+  touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   scroll-behavior: auto;
 }
 
-/* Ensure fixed elements stay fixed with Lenis */
 #scroll-progress-bar,
 #main-navigation,
 .fab-button {
@@ -23,7 +19,6 @@ body.scroll-locked [data-modal-content] {
   will-change: auto !important;
 }
 
-/* Prevent Lenis from affecting fixed elements */
 [data-lenis-root] #scroll-progress-bar,
 [data-lenis-root] #main-navigation,
 [data-lenis-root] .fab-button {

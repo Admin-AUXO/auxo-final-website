@@ -53,14 +53,10 @@ export function lockScroll(): void {
   scrollLockCount++;
 
   if (scrollLockCount === 1) {
-    // 1. Priority: Stop Lenis (This is usually enough for smooth scroll setups)
     if (typeof window !== 'undefined' && (window as any).__lenis) {
       (window as any).__lenis.stop();
     }
 
-    // 2. Secondary: Native Lock (Prevent touch drag on background)
-    // We do NOT use position: fixed here to avoid layout jumps.
-    // We simply hide overflow and disable touch actions on the body.
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
     document.body.style.paddingRight = `${scrollbarWidth}px`;
@@ -68,7 +64,6 @@ export function lockScroll(): void {
     document.documentElement.classList.add('scroll-locked');
     document.body.classList.add('scroll-locked');
 
-    // ONLY set overflow: hidden. Do NOT set position: fixed.
     document.body.style.overflow = 'hidden';
   }
 }
@@ -84,15 +79,10 @@ export function unlockScroll(): void {
     document.documentElement.classList.remove('scroll-locked');
     document.body.classList.remove('scroll-locked');
 
-    // Restart Lenis
     if (typeof window !== 'undefined' && (window as any).__lenis) {
       (window as any).__lenis.start();
     }
   }
-}
-
-function preventScroll(e: Event): void {
-  e.preventDefault();
 }
 
 export function forceUnlockScroll(): void {

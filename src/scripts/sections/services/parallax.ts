@@ -1,16 +1,20 @@
-// Cache elements once
 let parallaxElements: NodeListOf<HTMLElement> | null = null;
+let parallaxCleanup: (() => void) | null = null;
 
 function initParallax() {
   parallaxElements = document.querySelectorAll('.service-hero-section .blur-xl, .service-hero-section .blur-2xl');
+  if (parallaxElements.length === 0) return;
+
+  parallaxElements.forEach(element => {
+    element.classList.add('parallax-element');
+  });
 }
 
 function handleParallax(data: { scroll: number }): void {
-  if (!parallaxElements) return; // Guard clause
+  if (!parallaxElements) return;
 
   const scrollY = data.scroll * window.innerHeight;
 
-  // Use a standard for loop for better performance than forEach on mobile
   for (let i = 0; i < parallaxElements.length; i++) {
     const element = parallaxElements[i];
     const parallaxY = -(scrollY * (0.5 + i * 0.1));
@@ -18,15 +22,9 @@ function handleParallax(data: { scroll: number }): void {
   }
 }
 
-let parallaxCleanup: (() => void) | null = null;
-
 export function setupParallax(): void {
   initParallax();
   if (!parallaxElements || parallaxElements.length === 0) return;
-
-  parallaxElements.forEach(element => {
-    element.classList.add('parallax-element');
-  });
 
   const lenisInstance = (window as any).__lenis;
   if (lenisInstance) {
