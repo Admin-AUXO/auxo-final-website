@@ -119,11 +119,11 @@ The project automatically deploys to GitHub Pages on pushes to the `main` branch
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Run tests and linting: `npm run build:check`
-5. Commit your changes
-6. Push to your fork
+4. Run tests: `npm run build:check`
+5. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
 7. Create a Pull Request
 
 ## 📄 License
