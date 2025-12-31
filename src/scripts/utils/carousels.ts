@@ -104,7 +104,6 @@ function createCarouselManager(config: CarouselConfig) {
       ...carouselOptions,
     });
 
-    // Setup pause/play control with autoplay start
     if (control && state.instance) {
       const updateControlState = (isPlaying: boolean) => {
         control.setAttribute('data-playing', isPlaying.toString());
@@ -118,13 +117,14 @@ function createCarouselManager(config: CarouselConfig) {
         }
       };
 
-      // Start autoplay immediately
-      state.instance.play();
-      updateControlState(true);
+      setTimeout(() => {
+        const isPlaying = state.instance?.isPlaying() || false;
+        updateControlState(isPlaying);
+      }, 200);
 
       control.addEventListener('click', () => {
-        const isPlaying = control.getAttribute('data-playing') === 'true';
-        if (isPlaying) {
+        const isCurrentlyPlaying = state.instance?.isPlaying() || false;
+        if (isCurrentlyPlaying) {
           state.instance?.pause();
           updateControlState(false);
         } else {
@@ -133,16 +133,17 @@ function createCarouselManager(config: CarouselConfig) {
         }
       });
 
-      // Pause on hover for better UX
       container.addEventListener('mouseenter', () => {
-        if (control.getAttribute('data-playing') === 'true') {
+        if (state.instance?.isPlaying()) {
           state.instance?.pause();
+          updateControlState(false);
         }
       });
 
       container.addEventListener('mouseleave', () => {
-        if (control.getAttribute('data-playing') === 'true') {
+        if (state.instance?.hasAutoplay()) {
           state.instance?.play();
+          updateControlState(true);
         }
       });
     }

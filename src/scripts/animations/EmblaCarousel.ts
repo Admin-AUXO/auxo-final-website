@@ -58,9 +58,9 @@ export class EmblaCarouselWrapper {
     if (autoplay) {
       this.autoplay = Autoplay({
         delay: autoplayInterval,
-        stopOnInteraction: false,
-        stopOnMouseEnter: true,
-        stopOnFocusIn: true,
+        stopOnInteraction: true, // Stop on user interaction
+        stopOnMouseEnter: false, // We'll handle this manually
+        stopOnFocusIn: false,
       });
       plugins.push(this.autoplay);
     }
@@ -96,23 +96,15 @@ export class EmblaCarouselWrapper {
       this.isHorizontalSwipe = false;
       this.container.classList.add(DRAGGING_CLASS);
       this.container.classList.remove(NAVIGATING_CLASS);
-
-      // Pause autoplay on touch/drag
-      if (this.autoplay && !this.isAutoplayPaused) {
-        this.autoplay?.stop();
-        this.isAutoplayPaused = true;
-      }
     });
 
     this._embla.on('pointerUp', () => {
       this.isDragging = false;
       this.container.classList.remove(DRAGGING_CLASS);
 
-      // Resume autoplay after touch/drag ends
-      if (this.autoplay && this.isAutoplayPaused) {
+      if (this.autoplay && !this.autoplay.isPlaying()) {
         setTimeout(() => {
           this.autoplay?.play();
-          this.isAutoplayPaused = false;
         }, 1000); // Resume after 1 second
       }
     });
@@ -135,8 +127,13 @@ export class EmblaCarouselWrapper {
       this.onSelect();
     }
 
-    // Autoplay is handled by Embla plugin - no additional setup needed
-    // Embla autoplay plugin handles pause on hover/focus automatically
+    if (autoplay && this.autoplay) {
+      setTimeout(() => {
+        if (!this.autoplay?.isPlaying()) {
+          this.autoplay?.play();
+        }
+      }, 100);
+    }
   }
 
   private onSelect(): void {
@@ -213,19 +210,17 @@ export class EmblaCarouselWrapper {
   play(): void {
     if (this.autoplay) {
       this.autoplay.play();
-      this.isAutoplayPaused = false;
     }
   }
 
   pause(): void {
     if (this.autoplay) {
       this.autoplay.stop();
-      this.isAutoplayPaused = true;
     }
   }
 
-  getIsAutoplayPaused(): boolean {
-    return this.isAutoplayPaused;
+  isPlaying(): boolean {
+    return this.autoplay ? this.autoplay.isPlaying() : false;
   }
 
   hasAutoplay(): boolean {
