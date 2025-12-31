@@ -1,6 +1,4 @@
 export function initSmoothScroll() {
-  const scrollOptions = { passive: true, capture: false };
-
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
       const href = anchor.getAttribute('href');
@@ -11,7 +9,7 @@ export function initSmoothScroll() {
         e.preventDefault();
         scrollToElement(target, { offset: 0 });
       }
-    }, scrollOptions);
+    }, { passive: false });
   });
 
   document.addEventListener('astro:page-load', () => {

@@ -131,20 +131,20 @@ export class EmblaCarouselWrapper {
 
     if (autoplay && this.autoplay) {
       // Ensure autoplay starts properly on all devices
-      const startDelay = isMobile ? 500 : 100;
-      setTimeout(() => {
-        if (!this.autoplay?.isPlaying()) {
-          this.autoplay?.play();
+      const startAutoplay = () => {
+        try {
+          if (this.autoplay && !this.autoplay.isPlaying()) {
+            this.autoplay.play();
+          }
+        } catch (error) {
+          setTimeout(startAutoplay, 100);
         }
-        // Additional check for mobile devices
-        if (isMobile) {
-          setTimeout(() => {
-            if (!this.autoplay?.isPlaying()) {
-              this.autoplay?.play();
-            }
-          }, 1000);
-        }
-      }, startDelay);
+      };
+
+      setTimeout(startAutoplay, 100);
+      setTimeout(startAutoplay, 500);
+      setTimeout(startAutoplay, 1000);
+      setTimeout(startAutoplay, 2000);
     }
   }
 
