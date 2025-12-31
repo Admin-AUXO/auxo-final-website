@@ -211,6 +211,7 @@ section,
     touch-action: pan-y;
   }
 
+  /* Allow horizontal swipe on specific elements that need it */
   .carousel-wrapper,
   .carousel-container,
   .carousel-track,
@@ -221,6 +222,19 @@ section,
   [class*="scroll-x"],
   .overflow-x-auto:not(.overflow-y-auto, .overflow-y-scroll) {
     touch-action: pan-x !important;
+  }
+
+  /* Ensure scrollable content allows vertical scrolling */
+  [data-modal-content],
+  [data-scrollable-iframe],
+  .overflow-auto:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
+  .overflow-y-auto,
+  .overflow-scroll:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
+  .overflow-y-scroll,
+  .mobile-menu-content {
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
   }
 
   button,
@@ -249,6 +263,7 @@ section,
     pointer-events: auto;
   }
 
+  /* Interactive elements and fixed elements */
   [style*="z-index"],
   .always-visible,
   #main-navigation,
@@ -258,122 +273,18 @@ section,
   [class*="dropdown"],
   [class*="modal"],
   .fab-container,
-  .fab-button {
+  .fab-button,
+  #scroll-progress-bar {
     touch-action: pan-y;
     pointer-events: auto;
   }
 
-  section,
-  [class*="section"],
-  .section-container,
-  .grid-container,
-  article,
-  main,
-  header,
-  footer,
-  aside,
-  div[style*="position"],
-  div[style*="z-index"],
-  .accordion-item,
-  .accordion-content,
-  details {
-    touch-action: pan-y !important;
-  }
-
-  .carousel-wrapper,
-  .carousel-container,
-  .carousel-track,
-  .embla,
-  .embla__container {
-    touch-action: pan-x !important;
-  }
-
+  /* Ensure summary elements work properly */
   summary {
     touch-action: manipulation;
     cursor: pointer;
   }
 
-  [class*="background"],
-  [class*="bg-"],
-  [style*="background"],
-  ::before,
-  ::after {
-    touch-action: pan-y;
-    pointer-events: none;
-  }
-
-  [style*="transform"],
-  [style*="translate"],
-  [style*="rotate"],
-  [style*="scale"],
-  [class*="animate"],
-  [class*="transition"],
-  .parallax-element {
-    touch-action: pan-y;
-  }
-
-  [data-modal-content],
-  [data-scrollable-iframe],
-  .overflow-auto:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
-  .overflow-y-auto,
-  .overflow-scroll:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
-  .overflow-y-scroll {
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain !important;
-    touch-action: pan-y !important;
-    scroll-behavior: smooth !important;
-    -webkit-transform: translate3d(0, 0, 0) !important;
-    transform: translate3d(0, 0, 0) !important;
-    will-change: scroll-position !important;
-  }
-
-  .carousel-container,
-  .carousel-track,
-  .embla__container {
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain !important;
-    touch-action: pan-x !important;
-  }
-
-  .carousel-container *,
-  .carousel-track *,
-  .embla__container * {
-    touch-action: inherit !important;
-  }
-
-  .carousel-container.is-dragging,
-  .carousel-track:active,
-  .embla__container:active {
-    touch-action: pan-x !important;
-  }
-
-  .process-stepper-wrapper {
-    touch-action: pan-x !important;
-  }
-
-  [class*="horizontal-scroll"],
-  [class*="scroll-x"],
-  .overflow-x-auto,
-  .overflow-auto:not(.overflow-y-auto, .overflow-y-scroll) {
-    touch-action: pan-x !important;
-  }
-
-  body.scroll-locked {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    overscroll-behavior: none;
-  }
-
-  body.scroll-locked * {
-    touch-action: pan-y;
-  }
-
-  body.scroll-locked [data-modal-content] {
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-  }
 
   footer details {
     touch-action: pan-y;

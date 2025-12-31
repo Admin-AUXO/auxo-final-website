@@ -227,6 +227,9 @@ body:has(#calendar-modal:not([hidden])) .fab-tooltip {
 body.scroll-locked .fab-button,
 .scroll-locked .fab-button {
   position: fixed !important;
-  z-index: var(--z-floating-button);
+  bottom: 1.5rem !important;
+  right: 1.5rem !important;
+  z-index: var(--z-floating-button) !important;
+  transform: translateZ(0) !important;
 }
 
