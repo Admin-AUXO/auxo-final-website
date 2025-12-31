@@ -13,7 +13,7 @@ export default defineConfig({
   site: 'https://auxodata.com',
   output: 'static',
   build: {
-    inlineStylesheets: 'never',
+    inlineStylesheets: 'auto',
     assets: '_astro',
   },
   compressHTML: true,

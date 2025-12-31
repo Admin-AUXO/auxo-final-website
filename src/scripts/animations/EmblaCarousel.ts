@@ -102,10 +102,12 @@ export class EmblaCarouselWrapper {
       this.isDragging = false;
       this.container.classList.remove(DRAGGING_CLASS);
 
+      // Resume autoplay after interaction, with mobile-specific timing
       if (this.autoplay && !this.autoplay.isPlaying()) {
+        const resumeDelay = isMobile ? 2000 : 1000; // Longer delay on mobile
         setTimeout(() => {
           this.autoplay?.play();
-        }, 1000); // Resume after 1 second
+        }, resumeDelay);
       }
     });
 
@@ -128,11 +130,21 @@ export class EmblaCarouselWrapper {
     }
 
     if (autoplay && this.autoplay) {
+      // Ensure autoplay starts properly on all devices
+      const startDelay = isMobile ? 500 : 100;
       setTimeout(() => {
         if (!this.autoplay?.isPlaying()) {
           this.autoplay?.play();
         }
-      }, 100);
+        // Additional check for mobile devices
+        if (isMobile) {
+          setTimeout(() => {
+            if (!this.autoplay?.isPlaying()) {
+              this.autoplay?.play();
+            }
+          }, 1000);
+        }
+      }, startDelay);
     }
   }
 

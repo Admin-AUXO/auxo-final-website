@@ -10,6 +10,10 @@ import CalendarModal from "../components/widgets/CalendarModal.astro";
 import "../styles/global.css";
 import "notyf/notyf.min.css";
 
+// Critical CSS loading for mobile/desktop compatibility
+import "../styles/base/reset.css";
+import "../styles/base.css";
+
 export interface Props {
   title?: string;
   description?: string;
@@ -50,8 +54,6 @@ const pageDescription = description || siteData.description;
     <script is:inline define:vars={{ baseUrl: import.meta.env.BASE_URL }}>
       (function() {
         if (typeof document === 'undefined' || !document.documentElement || !document.body) return;
-        if (window.__baseLayoutInitialized) return;
-        window.__baseLayoutInitialized = true;
 
         const root = document.documentElement;
         const body = document.body;
@@ -71,73 +73,86 @@ const pageDescription = description || siteData.description;
 
         root.classList.remove('dark', 'light');
         root.classList.add(theme);
-
+        
         root.classList.add('loading');
         body.classList.add('loading');
-
+        
         const enableScroll = () => {
           root.classList.remove('loading');
           root.classList.add('loaded');
           body.classList.remove('loading');
           body.classList.add('loaded');
-        };
 
+          // Ensure CSS is loaded by checking for critical styles
+          const checkCSSLoaded = () => {
+            const testElement = document.createElement('div');
+            testElement.style.cssText = 'position: absolute; visibility: hidden;';
+            document.body.appendChild(testElement);
+
+            // Check if critical CSS variables are available
+            const hasCriticalCSS = window.getComputedStyle(testElement).getPropertyValue('--bg-primary') !== '';
+            document.body.removeChild(testElement);
+
+            if (!hasCriticalCSS) {
+              // Force CSS reload if critical styles aren't loaded
+              setTimeout(checkCSSLoaded, 100);
+            }
+          };
+
+          setTimeout(checkCSSLoaded, 50);
+        };
+        
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', enableScroll);
         } else {
           setTimeout(enableScroll, 0);
         }
-
+        
         window.addEventListener('load', enableScroll);
         setTimeout(enableScroll, 100);
       })();
+      
+      const blockedPatterns = ['fbevents', 'facebook.net', 'connect.facebook.net', 'ERR_BLOCKED_BY_CLIENT', 'segment.io', 'analytics.js'];
+      
+      const recaptchaPatterns = [
+        'recaptcha', '6LeQgtsa', 'google.com/recaptcha', 'private-token',
+        'message channel closed', 'Unrecognized feature', '401', 'Unauthorized',
+        'calendar.app.google', 'calendar.google.com', 'api2/pat', 'goog.net.XhrIo',
+        'Object is active with another request', 'newUri='
+      ];
+      
+      window.addEventListener('error', (e) => {
+        const target = e.target || e.currentTarget;
+        const message = e.message || '';
+        const filename = e.filename || '';
+        const url = (target && target.src) || '';
 
-      (function() {
-        if (window.__errorHandlersInitialized) return;
-        window.__errorHandlersInitialized = true;
+        if (blockedPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
 
-        const blockedPatterns = ['fbevents', 'facebook.net', 'connect.facebook.net', 'ERR_BLOCKED_BY_CLIENT', 'segment.io', 'analytics.js'];
+        if (recaptchaPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+      }, true);
+      
+      window.addEventListener('unhandledrejection', (e) => {
+        const reason = String(e.reason || '');
+        if (reason.includes('facebook.net') || reason.includes('fbevents') || reason.includes('ERR_BLOCKED_BY_CLIENT')) {
+          e.preventDefault();
+          return;
+        }
 
-        const recaptchaPatterns = [
-          'recaptcha', '6LeQgtsa', 'google.com/recaptcha', 'private-token',
-          'message channel closed', 'Unrecognized feature', '401', 'Unauthorized',
-          'calendar.app.google', 'calendar.google.com', 'api2/pat', 'goog.net.XhrIo',
-          'Object is active with another request', 'newUri='
-        ];
-
-        window.addEventListener('error', (e) => {
-          const target = e.target || e.currentTarget;
-          const message = e.message || '';
-          const filename = e.filename || '';
-          const url = (target && target.src) || '';
-
-          if (blockedPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
-            e.preventDefault();
-            e.stopPropagation();
-            return;
-          }
-
-          if (recaptchaPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
-            e.preventDefault();
-            e.stopPropagation();
-            return;
-          }
-        }, { capture: true, passive: false });
-
-        window.addEventListener('unhandledrejection', (e) => {
-          const reason = String(e.reason || '');
-          if (reason.includes('facebook.net') || reason.includes('fbevents') || reason.includes('ERR_BLOCKED_BY_CLIENT')) {
-            e.preventDefault();
-            return;
-          }
-
-          if (recaptchaPatterns.some(pattern => reason.includes(pattern))) {
-            e.preventDefault();
-            return;
-          }
-        }, { capture: true, passive: false });
-      })();
-
+        if (recaptchaPatterns.some(pattern => reason.includes(pattern))) {
+          e.preventDefault();
+          return;
+        }
+      }, true);
+      
     </script>
   </head>
   <body class="min-h-screen flex flex-col relative bg-primary transition-colors duration-normal">
@@ -160,21 +175,52 @@ const pageDescription = description || siteData.description;
 
     <script>
       import { initCoreFeatures, reinitOnPageLoad, initPageFeatures } from "@/scripts/core/init";
-      
-      const showParticles = document.documentElement.dataset.showParticles === 'true';
-      
-      function initAll() {
+
+      // Ensure CSS is loaded before initializing features
+      const waitForCSS = () => {
+        return new Promise((resolve) => {
+          const checkCSS = () => {
+            const testElement = document.createElement('div');
+            testElement.style.cssText = 'position: absolute; visibility: hidden; pointer-events: none;';
+            document.body.appendChild(testElement);
+
+            // Check for critical CSS variables and styles
+            const styles = window.getComputedStyle(testElement);
+            const hasCriticalCSS = styles.getPropertyValue('--bg-primary') !== '' &&
+                                   styles.getPropertyValue('--text-primary') !== '';
+
+            document.body.removeChild(testElement);
+
+            if (hasCriticalCSS) {
+              resolve(true);
+            } else {
+              setTimeout(checkCSS, 50);
+            }
+          };
+
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkCSS);
+          } else {
+            checkCSS();
+          }
+        });
+      };
+
+      const initAll = async () => {
+        await waitForCSS();
+        const showParticles = document.documentElement.dataset.showParticles === 'true';
         initCoreFeatures();
         initPageFeatures(showParticles);
-      }
-      
+      };
+
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initAll);
       } else {
         initAll();
       }
-      
-      document.addEventListener('astro:page-load', () => {
+
+      document.addEventListener('astro:page-load', async () => {
+        await waitForCSS();
         const newShowParticles = document.documentElement.dataset.showParticles === 'true';
         reinitOnPageLoad();
         setTimeout(() => {
