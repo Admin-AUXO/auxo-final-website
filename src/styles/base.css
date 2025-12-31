@@ -15,19 +15,14 @@ html {
   height: 100% !important;
   -webkit-overflow-scrolling: touch !important;
   overscroll-behavior: none !important;
-  overscroll-behavior: none !important;
-  scroll-behavior: auto !important;
+  scroll-behavior: smooth !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
 }
 
-html.lenis {
-  scroll-behavior: auto !important;
-}
 
 @media (width <= 767px) {
   html {
-    scroll-behavior: auto !important;
     touch-action: pan-y !important;
   }
 }
@@ -63,10 +58,6 @@ body {
   width: 100% !important;
 }
 
-body.lenis {
-  scroll-behavior: auto !important;
-  overscroll-behavior: none !important;
-}
 
 @media (width <= 767px) {
   body {
@@ -142,24 +133,17 @@ section,
   font-family: var(--font-display);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+*,
+*::before,
+*::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
 }
 
 @media (width <= 767px) {
   html {
     -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto;
     height: 100%;
     touch-action: pan-y;
     overscroll-behavior: contain;
@@ -167,7 +151,6 @@ section,
 
   body {
     -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto;
     min-height: 100vh;
     touch-action: pan-y;
     overscroll-behavior: contain;
@@ -180,7 +163,6 @@ section,
       -webkit-overflow-scrolling: touch !important;
       overscroll-behavior: contain !important;
       touch-action: pan-y !important;
-      scroll-behavior: auto !important;
       transform: translate3d(0, 0, 0);
       transform: translate3d(0, 0, 0);
     }
@@ -303,7 +285,6 @@ section,
   .overflow-y-scroll {
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior: contain !important;
-    scroll-behavior: auto !important;
     touch-action: pan-y !important;
   }
 
@@ -312,7 +293,6 @@ section,
   .embla__container {
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior: contain none !important;
-    scroll-behavior: auto !important;
     touch-action: pan-x !important;
   }
 
@@ -354,7 +334,6 @@ section,
   body.scroll-locked [data-modal-content] {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    scroll-behavior: auto;
   }
 
   footer details {
@@ -398,7 +377,6 @@ section,
 @media (width >= 769px) {
   html,
   body {
-    scroll-behavior: auto !important;
     overscroll-behavior: contain !important;
     -webkit-overflow-scrolling: auto !important;
   }
@@ -407,13 +385,5 @@ section,
     scroll-behavior: smooth !important;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto !important;
-    }
-  }
 
-  html.lenis * {
-    scroll-behavior: auto !important;
-  }
 }

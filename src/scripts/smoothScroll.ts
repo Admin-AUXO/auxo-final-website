@@ -23,11 +23,11 @@ export function initSmoothScroll() {
     if (hash && hash !== '#') {
       // Use requestAnimationFrame for better performance
       requestAnimationFrame(() => {
-        setTimeout(() => {
-          const target = document.querySelector(hash) as HTMLElement;
-          if (target) {
-            scrollToElement(target, { offset: 0 });
-          }
+      setTimeout(() => {
+        const target = document.querySelector(hash) as HTMLElement;
+        if (target) {
+          scrollToElement(target, { offset: 0 });
+        }
         }, 150); // Slightly longer delay for Astro transitions
       });
     }
@@ -57,26 +57,26 @@ export function scrollToElement(target: string | HTMLElement, options?: { offset
   const element = typeof target === 'string' ? document.querySelector(target) as HTMLElement : target;
   if (!element) return;
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const offset = options?.offset || 0;
 
-  if (options?.immediate) {
+    if (options?.immediate) {
     // Immediate scroll for critical navigation
-    element.scrollIntoView({
-      behavior: 'instant',
-      block: 'start'
-    });
+      element.scrollIntoView({
+        behavior: 'instant',
+        block: 'start'
+      });
     return;
   }
 
   // Performance optimization: Use native smooth scrolling when available
   if ('scrollBehavior' in document.documentElement.style) {
     try {
-      element.scrollIntoView({
+    element.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
         inline: 'nearest'
-      });
+    });
     } catch (error) {
       // Fallback if scrollIntoView fails
       fallbackScroll(element, offset);
@@ -109,7 +109,7 @@ export function scrollToElement(target: string | HTMLElement, options?: { offset
 
 function fallbackScroll(element: HTMLElement, offset: number) {
   // Enhanced fallback with easing for better UX
-  const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
   const offsetPosition = elementPosition - offset;
   const startPosition = window.pageYOffset;
   const distance = offsetPosition - startPosition;

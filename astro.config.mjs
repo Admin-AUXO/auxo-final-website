@@ -75,13 +75,12 @@ export default defineConfig({
     resolve: { alias: { '@': path.resolve(__dirname, './src') } },
   },
   integrations: [
-    // Temporarily disabled Sanity for testing
-    // sanity({
-    //   projectId: process.env.SANITY_PROJECT_ID,
-    //   dataset: process.env.SANITY_DATASET,
-    //   useCdn: false,
-    //   studioBasePath: '/studio',
-    // }),
+    ...(process.env.NODE_ENV === 'development' ? [sanity({
+      projectId: process.env.SANITY_PROJECT_ID,
+      dataset: process.env.SANITY_DATASET,
+      useCdn: false,
+      studioBasePath: '/studio',
+    })] : []),
     react(),
     tailwind({
       applyBaseStyles: false,

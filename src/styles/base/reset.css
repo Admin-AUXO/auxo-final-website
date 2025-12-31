@@ -19,37 +19,17 @@ html {
   scroll-behavior: smooth !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
-
-  /* Hide scrollbar for WebKit browsers */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  contain: layout style paint;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior-x: none;
+  scroll-padding-top: 1rem;
 }
 
-html::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-
+html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
-}
-
-/* Modern scroll optimizations */
-html {
-  /* Enable CSS containment for better performance */
-  contain: layout style paint;
-
-  /* Optimize scrolling on iOS */
-  -webkit-text-size-adjust: 100%;
-
-  /* Prevent horizontal scroll bounce on iOS */
-  overscroll-behavior-x: none;
-
-  /* Improve scroll performance */
-  scroll-padding-top: 1rem;
 }
 
 /* Performance optimization for scrollable containers */
@@ -58,29 +38,19 @@ html {
   will-change: auto;
 }
 
-/* Smooth scrolling improvements for touch devices */
 @media (pointer: coarse) {
   html {
-    /* Better momentum scrolling on touch devices */
     -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
   }
 
-  /* Optimize touch scrolling performance */
   * {
-    /* Reduce paint on scroll for better performance */
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
   }
 }
 
-html.lenis {
-  scroll-behavior: auto !important;
-}
-
-@media (max-width: 767px) {
+@media (width <= 767px) {
   html {
-    scroll-behavior: auto !important;
     touch-action: pan-y !important;
   }
 }
@@ -112,11 +82,6 @@ body {
   width: 100% !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto !important;
-  }
-}
 
 @media (max-width: 767px) {
   body {
