@@ -4,6 +4,7 @@ import { initScrollProgress, cleanupScrollProgress } from './scrollProgress';
 import { initNavigation, cleanupNavigation } from './navigation';
 import { initFloatingButton, cleanupFloatingButton } from './floatingButton';
 import { initHeroBackground, cleanupHeroBackground } from '../utils/heroBackground';
+import { setupParallax, cleanupParallax } from '../sections/services/parallax';
 import { initAccordions, cleanupAccordions } from '../utils/accordions';
 import { cleanupAllCarousels } from '../utils/carousels';
 import { setupGoogleCalendar } from '../widgets/googleCalendar';

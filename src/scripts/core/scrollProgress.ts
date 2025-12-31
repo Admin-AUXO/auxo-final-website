@@ -35,11 +35,14 @@ function throttledUpdate(): void {
 }
 
 function throttledUpdateMobile(): void {
-  // On mobile, use a shorter throttle to improve responsiveness
+  // On mobile, use a slightly longer throttle to reduce CPU usage during scroll
   if (rafId !== null) return;
   rafId = requestAnimationFrame(() => {
-    updateProgress();
-    rafId = null;
+    // Add a small delay for mobile to prevent overwhelming the main thread
+    setTimeout(() => {
+      updateProgress();
+      rafId = null;
+    }, 8); // ~120fps on mobile
   });
 }
 
@@ -73,7 +76,9 @@ export function cleanupScrollProgress(): void {
     cancelAnimationFrame(rafId);
     rafId = null;
   }
+  // Remove both potential scroll handlers
   window.removeEventListener('scroll', throttledUpdate);
+  window.removeEventListener('scroll', throttledUpdateMobile);
   window.removeEventListener('resize', handleResize);
   isInitialized = false;
 }

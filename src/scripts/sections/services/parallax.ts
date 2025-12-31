@@ -1,3 +1,5 @@
+let throttledParallax: (() => void) | null = null;
+
 function getScrollY(): number {
   return window.scrollY || window.pageYOffset;
 }
@@ -10,6 +12,8 @@ export function setupParallax(): void {
     (element as HTMLElement).classList.add('parallax-element');
   });
 
+  let rafId: number | null = null;
+
   const handleParallax = () => {
     const scrollY = getScrollY();
     parallaxElements.forEach((element, index) => {
@@ -18,14 +22,20 @@ export function setupParallax(): void {
     });
   };
 
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        handleParallax();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
+  throttledParallax = () => {
+    if (rafId !== null) return;
+    rafId = requestAnimationFrame(() => {
+      handleParallax();
+      rafId = null;
+    });
+  };
+
+  window.addEventListener('scroll', throttledParallax, { passive: true });
+}
+
+export function cleanupParallax(): void {
+  if (throttledParallax) {
+    window.removeEventListener('scroll', throttledParallax);
+    throttledParallax = null;
+  }
 }

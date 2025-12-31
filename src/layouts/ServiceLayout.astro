@@ -18,9 +18,9 @@ const { title, description, serviceName } = Astro.props;
   <slot name="cta" />
 
   <script>
-    import { setupServicePageAnimations } from "@/scripts/sections/services/servicePage";
+    import { setupServicePageAnimations, cleanupServicePageAnimations } from "@/scripts/sections/services/servicePage";
     import { setupSectionInit } from "@/scripts/sections/utils/initUtils";
-    setupSectionInit(setupServicePageAnimations);
+    setupSectionInit(setupServicePageAnimations, cleanupServicePageAnimations);
   </script>
 </BaseLayout>
 

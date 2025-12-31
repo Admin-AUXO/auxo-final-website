@@ -2,7 +2,7 @@ import { initCarousel } from "@/scripts/utils/carousels";
 import { setupPageAnimations } from "../utils/initUtils";
 import { setupCounterAnimations } from "./counterAnimations";
 import { initAccordions } from "@/scripts/utils/accordions";
-import { setupParallax } from "./parallax";
+import { setupParallax, cleanupParallax } from "./parallax";
 
 const CAROUSEL_CONFIG = {
   breakpoint: 1024,
@@ -31,4 +31,8 @@ export function setupServicePageAnimations(): void {
     controlSelector: ".service-benefits-carousel-control",
     ...CAROUSEL_CONFIG,
   });
+}
+
+export function cleanupServicePageAnimations(): void {
+  cleanupParallax();
 }
