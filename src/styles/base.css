@@ -154,6 +154,8 @@ section,
     min-height: 100dvh;
     touch-action: pan-y;
     overscroll-behavior: contain;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
 @supports (-webkit-touch-callout: none) {
