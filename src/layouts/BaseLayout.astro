@@ -97,7 +97,9 @@ const pageDescription = description || siteData.description;
               document.body.appendChild(testElement);
 
               const hasCriticalCSS = window.getComputedStyle(testElement).getPropertyValue('--bg-primary') !== '';
-              document.body.removeChild(testElement);
+              if (testElement.parentNode) {
+                document.body.removeChild(testElement);
+              }
 
               if (!hasCriticalCSS) {
                 setTimeout(checkCSSLoaded, 50);
@@ -248,19 +250,30 @@ const pageDescription = description || siteData.description;
       const waitForCSS = () => {
         return new Promise((resolve) => {
           const checkCSS = () => {
-            const testElement = document.createElement('div');
-            testElement.style.cssText = 'position: absolute; visibility: hidden; pointer-events: none;';
-            document.body.appendChild(testElement);
+            if (!document.body) {
+              setTimeout(checkCSS, 50);
+              return;
+            }
 
-            const styles = window.getComputedStyle(testElement);
-            const hasCriticalCSS = styles.getPropertyValue('--bg-primary') !== '' &&
-                                   styles.getPropertyValue('--text-primary') !== '';
+            try {
+              const testElement = document.createElement('div');
+              testElement.style.cssText = 'position: absolute; visibility: hidden; pointer-events: none;';
+              document.body.appendChild(testElement);
 
-            document.body.removeChild(testElement);
+              const styles = window.getComputedStyle(testElement);
+              const hasCriticalCSS = styles.getPropertyValue('--bg-primary') !== '' &&
+                                     styles.getPropertyValue('--text-primary') !== '';
 
-            if (hasCriticalCSS) {
-              resolve(true);
-            } else {
+              if (testElement.parentNode) {
+                document.body.removeChild(testElement);
+              }
+
+              if (hasCriticalCSS) {
+                resolve(true);
+              } else {
+                setTimeout(checkCSS, 50);
+              }
+            } catch (e) {
               setTimeout(checkCSS, 50);
             }
           };
