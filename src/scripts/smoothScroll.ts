@@ -15,6 +15,8 @@ export function initSmoothScroll() {
     smoothTouch: false,
     touchMultiplier: 2,
     infinite: false,
+    autoResize: true,
+    normalizeWheel: true,
   });
 
   function raf(time: number) {

@@ -338,7 +338,6 @@
   overscroll-behavior-y: contain;
   scroll-behavior: auto;
   transform: translateZ(0);
-  data-lenis-prevent: true;
 }
 
 .mobile-menu-content::before,

@@ -11,3 +11,25 @@ body.scroll-locked [data-modal-content] {
   scroll-behavior: auto;
 }
 
+/* Ensure fixed elements stay fixed with Lenis */
+#scroll-progress-bar,
+#main-navigation,
+.fab-button {
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  perspective: 1000px !important;
+  will-change: auto !important;
+}
+
+/* Prevent Lenis from affecting fixed elements */
+[data-lenis-root] #scroll-progress-bar,
+[data-lenis-root] #main-navigation,
+[data-lenis-root] .fab-button {
+  position: fixed !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translateZ(0) !important;
+}
+

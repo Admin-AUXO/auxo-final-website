@@ -17,6 +17,34 @@
 @import url('./navigation/logo.css');
 @import url('./navigation/dropdown.css');
 @import url('./navigation/mobile-menu.css');
+
+/* Lenis Fixed Element Compatibility */
+#scroll-progress-bar,
+#main-navigation,
+.fab-button {
+  position: fixed !important;
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  will-change: auto !important;
+  z-index: var(--z-scroll-progress) !important;
+}
+
+#main-navigation {
+  z-index: var(--z-navigation) !important;
+}
+
+.fab-button {
+  z-index: var(--z-floating-button) !important;
+}
+
+/* Prevent Lenis transforms from affecting fixed elements */
+* > #scroll-progress-bar,
+* > #main-navigation,
+* > .fab-button {
+  position: fixed !important;
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+}
 @import url('./navigation/modal-dropdown.css');
 @import url('./features/scroll-lock.css');
 @import url('./sections/shared-sections.css');
