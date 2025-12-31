@@ -19,6 +19,59 @@ html {
   scroll-behavior: smooth !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
+
+  /* Hide scrollbar for WebKit browsers */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Modern scroll optimizations */
+html {
+  /* Enable CSS containment for better performance */
+  contain: layout style paint;
+
+  /* Optimize scrolling on iOS */
+  -webkit-text-size-adjust: 100%;
+
+  /* Prevent horizontal scroll bounce on iOS */
+  overscroll-behavior-x: none;
+
+  /* Improve scroll performance */
+  scroll-padding-top: 1rem;
+}
+
+/* Performance optimization for scrollable containers */
+* {
+  /* Optimize transforms and animations */
+  will-change: auto;
+}
+
+/* Smooth scrolling improvements for touch devices */
+@media (pointer: coarse) {
+  html {
+    /* Better momentum scrolling on touch devices */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Optimize touch scrolling performance */
+  * {
+    /* Reduce paint on scroll for better performance */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
 }
 
 html.lenis {

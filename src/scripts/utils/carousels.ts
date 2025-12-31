@@ -96,7 +96,7 @@ function createCarouselManager(config: CarouselConfig) {
     cleanup();
 
     state.instance = new EmblaCarouselWrapper(container, null, {
-      loop: false,
+      loop: true,
       autoplay: true,
       align: "center",
       slidesToScroll: 1,
@@ -104,7 +104,7 @@ function createCarouselManager(config: CarouselConfig) {
       ...carouselOptions,
     });
 
-    // Setup pause/play control
+    // Setup pause/play control with autoplay start
     if (control && state.instance) {
       const updateControlState = (isPlaying: boolean) => {
         control.setAttribute('data-playing', isPlaying.toString());
@@ -118,6 +118,10 @@ function createCarouselManager(config: CarouselConfig) {
         }
       };
 
+      // Start autoplay immediately
+      state.instance.play();
+      updateControlState(true);
+
       control.addEventListener('click', () => {
         const isPlaying = control.getAttribute('data-playing') === 'true';
         if (isPlaying) {
@@ -128,9 +132,6 @@ function createCarouselManager(config: CarouselConfig) {
           updateControlState(true);
         }
       });
-
-      // Initialize control state
-      updateControlState(true);
 
       // Pause on hover for better UX
       container.addEventListener('mouseenter', () => {
