@@ -22,7 +22,7 @@ html {
   contain: layout style paint;
   -webkit-text-size-adjust: 100%;
   overscroll-behavior-x: none;
-  scroll-padding-top: 1rem;
+  scroll-padding-top: 6rem;
 }
 
 html::-webkit-scrollbar,

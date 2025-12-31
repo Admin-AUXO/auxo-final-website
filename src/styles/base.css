@@ -378,7 +378,7 @@ section,
   html,
   body {
     overscroll-behavior: contain !important;
-    -webkit-overflow-scrolling: auto !important;
+    -webkit-overflow-scrolling: touch;
   }
 
   html {

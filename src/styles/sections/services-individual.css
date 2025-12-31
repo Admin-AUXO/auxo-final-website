@@ -12,7 +12,7 @@
   padding-bottom: 1rem;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
+  scrollbar-width: none;
   scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
@@ -196,7 +196,7 @@ details.group\/details summary::-webkit-details-marker {
     padding-right: var(--grid-padding-mobile);
     margin-left: 0;
     margin-right: 0;
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -341,7 +341,7 @@ details.group\/details summary::-webkit-details-marker {
   .service-process-carousel-wrapper .carousel-track,
   .service-benefits-carousel-wrapper .carousel-track {
     transition: none;
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
   }
 
   .service-process-carousel-wrapper .embla__slide,
