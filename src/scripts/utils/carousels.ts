@@ -5,7 +5,7 @@ const DEFAULT_RESIZE_DEBOUNCE_DELAY = 250;
 
 export interface CarouselConfig {
   containerId: string;
-  dotSelector: string;
+  controlSelector: string;
   breakpoint: number;
   activateOnDesktop?: boolean;
   resizeDebounceDelay?: number;
@@ -27,7 +27,7 @@ function shouldActivateCarousel(activateOnDesktop: boolean, breakpoint: number):
 function createCarouselManager(config: CarouselConfig) {
   const {
     containerId,
-    dotSelector,
+    controlSelector,
     breakpoint,
     resizeDebounceDelay = DEFAULT_RESIZE_DEBOUNCE_DELAY,
     activateOnDesktop = false,
@@ -63,18 +63,18 @@ function createCarouselManager(config: CarouselConfig) {
     }
 
     const container = document.getElementById(containerId);
-    const dots = document.querySelectorAll(dotSelector);
+    const control = document.querySelector(controlSelector) as HTMLButtonElement;
 
-    if (!container || dots.length === 0) {
+    if (!container || !control) {
       if (import.meta.env.DEV) {
-        console.warn('Carousel element not found:', !container ? containerId : dotSelector);
+        console.warn('Carousel element not found:', !container ? containerId : controlSelector);
       }
       return;
     }
 
     const computedStyle = window.getComputedStyle(container);
     const isHidden = computedStyle.display === 'none' || computedStyle.visibility === 'hidden' || computedStyle.opacity === '0';
-    const hasSlides = dots.length > 0;
+    const hasSlides = container.querySelectorAll('.embla__slide').length > 0;
 
     if (!hasSlides || container.offsetParent === null || isHidden) {
       const retryDelay = window.innerWidth < 768 ? 150 : 50;
@@ -82,7 +82,7 @@ function createCarouselManager(config: CarouselConfig) {
       setTimeout(() => {
         const updatedStyle = window.getComputedStyle(container);
         const stillHidden = updatedStyle.display === 'none' || updatedStyle.visibility === 'hidden' || updatedStyle.opacity === '0';
-        const nowHasSlides = document.querySelectorAll(dotSelector).length > 0;
+        const nowHasSlides = container.querySelectorAll('.embla__slide').length > 0;
 
         if (!stillHidden && container.offsetParent !== null && nowHasSlides) {
           init();
@@ -95,14 +95,56 @@ function createCarouselManager(config: CarouselConfig) {
 
     cleanup();
 
-    state.instance = new EmblaCarouselWrapper(container, dots, {
+    state.instance = new EmblaCarouselWrapper(container, null, {
       loop: false,
-      autoplay: false,
+      autoplay: true,
       align: "center",
       slidesToScroll: 1,
       dragFree: false,
       ...carouselOptions,
     });
+
+    // Setup pause/play control
+    if (control && state.instance) {
+      const updateControlState = (isPlaying: boolean) => {
+        control.setAttribute('data-playing', isPlaying.toString());
+        control.setAttribute('aria-label', isPlaying ? 'Pause carousel autoplay' : 'Play carousel autoplay');
+
+        const icon = control.querySelector('svg');
+        if (icon) {
+          icon.innerHTML = isPlaying
+            ? '<path d="M6 4h4v16H6V4zM14 4h4v16h-4V4z"/>' // Pause icon
+            : '<path d="M8 5v14l11-7z"/>'; // Play icon
+        }
+      };
+
+      control.addEventListener('click', () => {
+        const isPlaying = control.getAttribute('data-playing') === 'true';
+        if (isPlaying) {
+          state.instance?.pause();
+          updateControlState(false);
+        } else {
+          state.instance?.play();
+          updateControlState(true);
+        }
+      });
+
+      // Initialize control state
+      updateControlState(true);
+
+      // Pause on hover for better UX
+      container.addEventListener('mouseenter', () => {
+        if (control.getAttribute('data-playing') === 'true') {
+          state.instance?.pause();
+        }
+      });
+
+      container.addEventListener('mouseleave', () => {
+        if (control.getAttribute('data-playing') === 'true') {
+          state.instance?.play();
+        }
+      });
+    }
 
     state.resizeHandler = () => {
       if (state.resizeTimeout) clearTimeout(state.resizeTimeout);

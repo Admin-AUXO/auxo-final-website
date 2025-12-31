@@ -2,14 +2,14 @@
 export interface Props {
   containerId: string;
   trackId: string;
-  dotSelector: string;
+  controlSelector: string;
   items: unknown[];
   wrapperClass?: string;
   containerClass?: string;
   trackClass?: string;
-  dotsClass?: string;
-  dotClass?: string;
-  dotsMarginTop?: string;
+  controlsClass?: string;
+  controlClass?: string;
+  controlsMarginTop?: string;
   breakpoint?: number;
   activateOnDesktop?: boolean;
   alwaysVisible?: boolean;
@@ -18,14 +18,14 @@ export interface Props {
 const {
   containerId,
   trackId,
-  dotSelector,
+  controlSelector,
   items,
   wrapperClass = "",
   containerClass = "",
   trackClass = "",
-  dotsClass = "",
-  dotClass = "",
-  dotsMarginTop = "mt-6 sm:mt-8",
+  controlsClass = "",
+  controlClass = "",
+  controlsMarginTop = "mt-6 sm:mt-8",
   breakpoint = 1024,
   activateOnDesktop = false,
   alwaysVisible = false,
@@ -45,19 +45,19 @@ const displayClass = alwaysVisible
     </div>
   </div>
   
-  <div class={`carousel-dots ${dotsClass} w-full ${dotsMarginTop}`} role="tablist" aria-label="Carousel navigation">
-    {items.map((_, index) => (
-      <button
-        type="button"
-        class={`carousel-dot ${dotClass} ${index === 0 ? "active" : ""}`}
-        role="tab"
-        aria-label={`Go to slide ${index + 1}`}
-        aria-selected={index === 0 ? "true" : "false"}
-        aria-current={index === 0 ? "true" : undefined}
-        tabindex={index === 0 ? "0" : "-1"}
-        data-index={index}
-      />
-    ))}
+  <div class={`carousel-controls ${controlsClass} flex justify-center ${controlsMarginTop}`} role="group" aria-label="Carousel controls">
+    <button
+      type="button"
+      class={`carousel-play-pause ${controlClass} group relative flex items-center justify-center w-12 h-12 rounded-full bg-theme-surface/80 hover:bg-theme-surface border border-accent-green/30 hover:border-accent-green/50 transition-all duration-fast touch-manipulation`}
+      role="button"
+      aria-label="Pause carousel autoplay"
+      data-playing="true"
+    >
+      <svg class="w-5 h-5 text-theme-secondary group-hover:text-theme-primary transition-colors duration-fast" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 4h4v16H6V4zM14 4h4v16h-4V4z"/>
+      </svg>
+      <span class="sr-only">Pause carousel</span>
+    </button>
   </div>
 </div>
 

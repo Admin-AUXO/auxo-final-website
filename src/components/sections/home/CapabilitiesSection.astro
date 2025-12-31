@@ -67,11 +67,11 @@ const { content } = Astro.props;
       <Carousel
         containerId="capabilities-carousel-container"
         trackId="capabilities-carousel-track"
-        dotSelector=".capabilities-carousel-dot"
+        controlSelector=".capabilities-carousel-control"
         items={content.cards}
         wrapperClass="capabilities-carousel capabilities-carousel-wrapper"
-        dotsClass="capabilities-carousel-dots"
-        dotClass="capabilities-carousel-dot"
+        controlsClass="capabilities-carousel-controls"
+        controlClass="capabilities-carousel-control"
         breakpoint={768}
         activateOnDesktop={false}
       >

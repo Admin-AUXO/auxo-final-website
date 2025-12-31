@@ -7,6 +7,11 @@ import { setupParallax } from "./parallax";
 const CAROUSEL_CONFIG = {
   breakpoint: 1024,
   activateOnDesktop: false,
+  carouselOptions: {
+    autoplay: true,
+    autoplayInterval: 5000,
+    loop: true
+  },
 };
 
 export function setupServicePageAnimations(): void {
@@ -17,13 +22,13 @@ export function setupServicePageAnimations(): void {
 
   initCarousel({
     containerId: "service-process-carousel-container",
-    dotSelector: ".service-process-carousel-dot",
+    controlSelector: ".service-process-carousel-control",
     ...CAROUSEL_CONFIG,
   });
 
   initCarousel({
     containerId: "service-benefits-carousel-container",
-    dotSelector: ".service-benefits-carousel-dot",
+    controlSelector: ".service-benefits-carousel-control",
     ...CAROUSEL_CONFIG,
   });
 }
