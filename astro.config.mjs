@@ -14,9 +14,11 @@ const env = loadEnv('development', process.cwd(), '');
 
 export default defineConfig({
   site: 'https://auxodata.com',
+  base: '/',
   output: 'static',
   build: {
     assets: '_astro',
+    inlineStylesheets: 'auto',
   },
   compressHTML: true,
   image: {

@@ -178,7 +178,19 @@ function initializeElements(): void {
   });
 }
 
-function setupScrollIntegration(): void {}
+function setupScrollIntegration(): void {
+  const lenis = (window as any).__lenis;
+  if (lenis && observer) {
+    lenis.on('scroll', () => {
+      const elements = document.querySelectorAll<RevealElement>('[data-reveal]:not(.reveal-animated)');
+      elements.forEach((element) => {
+        if (observer) {
+          observer.observe(element);
+        }
+      });
+    });
+  }
+}
 
 export function init(options: ScrollRevealOptions = {}): void {
   globalOptions = { ...DEFAULT_OPTIONS, ...options };

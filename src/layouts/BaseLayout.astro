@@ -311,11 +311,14 @@ const pageDescription = description || siteData.description;
         initAll();
       }
 
-      document.addEventListener('astro:page-load', async () => {
+      document.addEventListener('astro:before-swap', () => {
         if (scrollCleanup) {
           scrollCleanup();
           scrollCleanup = null;
         }
+      });
+
+      document.addEventListener('astro:page-load', async () => {
         await waitForCSS();
         const newShowParticles = document.documentElement.dataset.showParticles === 'true';
         reinitOnPageLoad();
@@ -323,7 +326,6 @@ const pageDescription = description || siteData.description;
           initPageFeatures(newShowParticles);
           initMobileScrollOptimizations();
         }, 100);
-
       });
     </script>
   </body>

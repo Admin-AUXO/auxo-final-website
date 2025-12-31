@@ -62,6 +62,7 @@ export function initScrollProgress(): void {
 export function cleanupScrollProgress(): void {
   if (lenisInstance) {
     lenisInstance.off('scroll', handleLenisScroll);
+    lenisInstance = null;
   }
   if (scrollHandler) {
     window.removeEventListener('scroll', scrollHandler);
@@ -69,6 +70,5 @@ export function cleanupScrollProgress(): void {
   }
   window.removeEventListener('resize', handleResize);
   isInitialized = false;
-  lenisInstance = null;
 }
 

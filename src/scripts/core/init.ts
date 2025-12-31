@@ -85,6 +85,11 @@ export function cleanupCoreFeatures(): void {
   cleanupAccordions();
   cleanupAllCarousels();
   cleanupLazyLoading();
+  
+  import('../smoothScroll').then(({ destroySmoothScroll }) => {
+    destroySmoothScroll();
+  }).catch(() => {});
+  
   isInitialized = false;
 }
 
