@@ -39,11 +39,11 @@ const { service } = Astro.props;
         />
       </div>
 
-      <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10 relative">
+      <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10 relative items-stretch">
         {service.process.steps.map((step: ProcessStep, index: number) => {
           return (
             <div
-              class="process-card-wrapper"
+              class="process-card-wrapper h-full"
               data-reveal="fade-up"
               data-reveal-delay={index * 50}
               data-reveal-duration="500"
@@ -123,7 +123,7 @@ const { service } = Astro.props;
           activateOnDesktop={false}
         >
           {service.process.steps.map((step: ProcessStep, index: number) => (
-            <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
+            <div class="carousel-slide embla__slide flex-shrink-0 h-full" data-index={index}>
               <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl relative overflow-hidden transition-all duration-500 hover:border-accent-green/40 flex flex-col">
                 <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 hover:via-accent-green/60 transition-all duration-500" />
 
