@@ -20,7 +20,8 @@ interface CarouselState {
 }
 
 function shouldActivateCarousel(activateOnDesktop: boolean, breakpoint: number): boolean {
-  return activateOnDesktop ? window.innerWidth >= breakpoint : window.innerWidth < breakpoint;
+  const width = window.innerWidth || document.documentElement.clientWidth;
+  return activateOnDesktop ? width >= breakpoint : width < breakpoint;
 }
 
 function createCarouselManager(config: CarouselConfig) {
@@ -73,21 +74,22 @@ function createCarouselManager(config: CarouselConfig) {
 
     const computedStyle = window.getComputedStyle(container);
     const isHidden = computedStyle.display === 'none' || computedStyle.visibility === 'hidden' || computedStyle.opacity === '0';
+    const hasSlides = dots.length > 0;
 
-    if (container.offsetParent === null || isHidden) {
-      if (window.innerWidth < 768) {
-        setTimeout(() => {
-          const updatedStyle = window.getComputedStyle(container);
-          const stillHidden = updatedStyle.display === 'none' || updatedStyle.visibility === 'hidden' || updatedStyle.opacity === '0';
-          if (!stillHidden && container.offsetParent !== null) {
-            init();
-          } else {
-            observeOnce(container, init, { threshold: 0 });
-          }
-        }, 100);
-      } else {
-        observeOnce(container, init, { threshold: 0 });
-      }
+    if (!hasSlides || container.offsetParent === null || isHidden) {
+      const retryDelay = window.innerWidth < 768 ? 150 : 50;
+
+      setTimeout(() => {
+        const updatedStyle = window.getComputedStyle(container);
+        const stillHidden = updatedStyle.display === 'none' || updatedStyle.visibility === 'hidden' || updatedStyle.opacity === '0';
+        const nowHasSlides = document.querySelectorAll(dotSelector).length > 0;
+
+        if (!stillHidden && container.offsetParent !== null && nowHasSlides) {
+          init();
+        } else {
+          observeOnce(container, init, { threshold: 0 });
+        }
+      }, retryDelay);
       return;
     }
 

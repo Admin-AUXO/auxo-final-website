@@ -164,6 +164,7 @@ section,
     scroll-behavior: auto;
     height: 100%;
     touch-action: pan-y;
+    overscroll-behavior: contain;
   }
 
   body {
@@ -171,6 +172,7 @@ section,
     scroll-behavior: auto;
     min-height: 100vh;
     touch-action: pan-y;
+    overscroll-behavior: contain;
   }
 
 @supports (-webkit-touch-callout: none) {

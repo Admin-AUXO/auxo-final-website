@@ -6,7 +6,7 @@ import { DragGesture } from '@use-gesture/vanilla';
 const DEFAULT_AUTOPLAY_INTERVAL = 3000;
 const TRANSITION_DURATION = 200;
 const TRANSITION_CLEAR_BUFFER = 20;
-const CAROUSEL_TRACK_SELECTOR = '.carousel-track, .embla__container';
+const CAROUSEL_TRACK_SELECTOR = '.carousel-track, .embla__container, .carousel-container';
 const DRAGGING_CLASS = 'is-dragging';
 const NAVIGATING_CLASS = 'carousel-navigating';
 const TRANSITION_CLASS = 'carousel-transition';
@@ -76,8 +76,8 @@ export class EmblaCarouselWrapper {
       slidesToScroll,
       dragFree,
       containScroll: 'trimSnaps',
-      duration: isMobile ? 10 : 20,
-      dragThreshold: isMobile ? 5 : 8,
+      duration: isMobile ? 15 : 20,
+      dragThreshold: isMobile ? 3 : 8,
       skipSnaps: false,
       watchDrag: true,
       watchResize: true,
@@ -85,6 +85,8 @@ export class EmblaCarouselWrapper {
       axis: 'x',
       inViewThreshold: 0,
       startIndex: 0,
+      watchFocus: false,
+      watchPointer: true,
     }, plugins);
 
     if (this.dots && this.dots.length !== 0) {

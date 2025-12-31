@@ -1,16 +1,22 @@
 let lastPagePath = typeof window !== 'undefined' ? window.location.pathname : '';
 
 export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): void {
+  const runInit = () => {
+    // Delay initialization slightly to ensure DOM is fully ready
+    setTimeout(initFn, 50);
+  };
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFn, { once: true });
+    document.addEventListener('DOMContentLoaded', runInit, { once: true });
   } else {
-    initFn();
+    runInit();
   }
 
   document.addEventListener('astro:page-load', () => {
     const currentPath = window.location.pathname;
     if (currentPath !== lastPagePath) {
-      initFn();
+      // Use requestAnimationFrame for better timing after page transitions
+      requestAnimationFrame(() => requestAnimationFrame(runInit));
       lastPagePath = currentPath;
     }
   });

@@ -34,6 +34,15 @@ function throttledUpdate(): void {
   });
 }
 
+function throttledUpdateMobile(): void {
+  // On mobile, use a shorter throttle to improve responsiveness
+  if (rafId !== null) return;
+  rafId = requestAnimationFrame(() => {
+    updateProgress();
+    rafId = null;
+  });
+}
+
 function handleResize(): void {
   setTimeout(updateProgress, 100);
 }
@@ -49,7 +58,11 @@ export function initScrollProgress(): void {
 
   isInitialized = true;
 
-  window.addEventListener('scroll', throttledUpdate, { passive: true });
+  // Use mobile-optimized throttling on smaller screens
+  const isMobile = window.innerWidth < 768;
+  const scrollHandler = isMobile ? throttledUpdateMobile : throttledUpdate;
+
+  window.addEventListener('scroll', scrollHandler, { passive: true });
   window.addEventListener('resize', handleResize, { passive: true });
 
   updateProgress();

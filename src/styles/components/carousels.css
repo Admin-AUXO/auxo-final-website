@@ -128,7 +128,7 @@
   contain: layout style paint !important;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  touch-action: pan-x pan-y !important;
+  touch-action: pan-x !important;
   overscroll-behavior: contain none !important;
 }
 
@@ -140,13 +140,13 @@
 
 .embla {
   overflow: hidden !important;
-  touch-action: pan-x pan-y !important;
+  touch-action: pan-x !important;
 }
 
 .embla__container {
   display: flex !important;
   align-items: stretch !important;
-  touch-action: pan-x pan-y !important;
+  touch-action: pan-x !important;
   padding-left: var(--grid-padding-sm) !important;
   padding-right: var(--grid-padding-sm) !important;
   backface-visibility: hidden !important;
@@ -183,9 +183,10 @@
   padding-right: var(--carousel-gap-mobile);
   display: flex;
   flex-direction: column;
-  width: calc(100vw - 2rem);
-  max-width: 320px;
+  width: 100vw;
+  max-width: calc(100vw - 2rem);
   height: auto;
+  box-sizing: border-box;
 }
 
 .embla__slide:first-child {
@@ -203,6 +204,7 @@
     padding-right: var(--carousel-gap-tablet);
     width: calc(100vw - 4rem);
     max-width: 380px;
+    box-sizing: border-box;
   }
 
   .embla__slide:first-child {
@@ -228,6 +230,7 @@
   will-change: transform !important;
   overflow: visible !important;
   touch-action: pan-x !important;
+  overscroll-behavior: contain !important;
 }
 
 @media (min-width: 640px) {
@@ -423,25 +426,28 @@
   }
 
   .carousel-dot {
-    min-width: var(--touch-target-min);
-    min-height: var(--touch-target-min);
-    width: var(--touch-target-min);
-    height: var(--touch-target-min);
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .carousel-dot::before {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
   }
 
   .carousel-dot.active::before,
   .carousel-dot[aria-current="true"]::before,
   .carousel-dot[aria-selected="true"]::before {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
   }
 
   .carousel-dots {

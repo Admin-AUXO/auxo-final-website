@@ -30,10 +30,14 @@ function updateDropdownPosition(button: HTMLElement, menu: HTMLElement): void {
   const existingCleanup = autoUpdateCleanups.get(menu);
   existingCleanup?.();
 
-  computePosition(button, menu, DROPDOWN_POSITION_CONFIG).then((pos) => applyPosition(pos, menu));
+  computePosition(button, menu, DROPDOWN_POSITION_CONFIG).then((pos) => applyPosition(pos, menu)).catch((error) => {
+    if (import.meta.env.DEV) console.error('Failed to compute dropdown position:', error);
+  });
 
   const cleanup = autoUpdate(button, menu, () => {
-    computePosition(button, menu, DROPDOWN_POSITION_CONFIG).then((pos) => applyPosition(pos, menu));
+    computePosition(button, menu, DROPDOWN_POSITION_CONFIG).then((pos) => applyPosition(pos, menu)).catch((error) => {
+    if (import.meta.env.DEV) console.error('Failed to compute dropdown position:', error);
+  });
   });
 
   autoUpdateCleanups.set(menu, cleanup);

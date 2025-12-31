@@ -1,4 +1,4 @@
-import { initCarouselById, setupSectionInit } from "./utils";
+import { setupSectionInit } from "./utils";
 
 const CAROUSEL_CONTAINERS = [
   "code-carousel-container",
@@ -21,7 +21,13 @@ export function autoInitCarousels(): void {
   CAROUSEL_CONTAINERS.forEach((containerId) => {
     const container = document.getElementById(containerId);
     if (container) {
-      setupSectionInit(() => initCarouselById(containerId));
+      setupSectionInit(() => {
+        import('./utils/carouselConfigs').then(({ initCarouselById }) => {
+          initCarouselById(containerId);
+        }).catch((error) => {
+          if (import.meta.env.DEV) console.error('Failed to load carousel initialization:', error);
+        });
+      });
     }
   });
 }

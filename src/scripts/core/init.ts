@@ -62,12 +62,17 @@ export function initCoreFeatures(): void {
 }
 
 export function initPageFeatures(showParticles: boolean = false): void {
-  if (showParticles) {
-    initHeroBackground();
-  }
+  if (showParticles) initHeroBackground();
   
+  setTimeout(() => {
+    import('../widgets/googleCalendar').then(({ setupGoogleCalendar }) => {
   setupGoogleCalendar();
+    }).catch((error) => import.meta.env.DEV && console.error('Failed to load Google Calendar:', error));
+
+    import('../ui/themeToggle').then(({ initThemeToggle }) => {
   initThemeToggle();
+    }).catch((error) => import.meta.env.DEV && console.error('Failed to load theme toggle:', error));
+  }, 100);
 }
 
 export function cleanupCoreFeatures(): void {

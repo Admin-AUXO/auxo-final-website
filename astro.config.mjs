@@ -11,13 +11,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 const basePath = process.env.BASE_PATH || '/';
 const base = basePath === '/' ? undefined : basePath;
 
 export default defineConfig({
   site: 'https://auxodata.com',
-  base: base,
+  base,
   output: 'server',
   adapter: node({ mode: 'standalone' }),
   build: {
@@ -28,60 +27,64 @@ export default defineConfig({
   },
   compressHTML: true,
   image: {
-    service: {
-      entrypoint: 'astro/assets/services/sharp',
-    },
+    service: { entrypoint: 'astro/assets/services/sharp' },
     remotePatterns: [],
   },
   vite: {
     optimizeDeps: {
-      include: [
-        'embla-carousel',
-        '@floating-ui/dom',
-        'sharp',
-      ],
-      exclude: [],
+      include: ['embla-carousel', '@floating-ui/dom', 'sharp', '@sanity/client', 'groq', 'astro-icon'],
     },
     build: {
+      sourcemap: false,
+      target: 'esnext',
       cssCodeSplit: true,
       minify: 'terser',
+      chunkSizeWarningLimit: 1000,
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+          pure_funcs: ['console.log', 'console.info', 'console.debug'],
+        },
+        mangle: { safari10: true },
+      },
       rollupOptions: {
+        maxParallelFileOps: 3,
         output: {
           chunkFileNames: '_astro/[name]-[hash].js',
           entryFileNames: '_astro/[name]-[hash].js',
           assetFileNames: '_astro/[name]-[hash].[ext]',
+          experimentalMinChunkSize: 1000,
           manualChunks(id) {
-            if (id.includes('embla-carousel') || id.includes('@floating-ui/dom')) return 'ui-vendor';
-            if (id.includes('astro-icon')) return 'icons';
+            if (id.includes('embla-carousel') || id.includes('@floating-ui/dom') || id.includes('@use-gesture')) return 'ui-vendor';
+            if (id.includes('astro-icon') || id.includes('@iconify')) return 'icons';
+            if (id.includes('@sanity/') || id.includes('groq')) return 'sanity';
+            if (id.includes('@astrojs/react') || id.includes('react')) return 'react-vendor';
+            if (id.includes('notyf') || id.includes('focus-trap') || id.includes('zod')) return 'utils';
+            if (id.includes('@vite-pwa') || id.includes('astro-edge')) return 'pwa';
+            if (id.includes('node:') || id.includes('buffer') || id.includes('process')) return 'polyfills';
+            if (id.includes('tailwindcss') || id.includes('autoprefixer')) return 'build-tools';
           },
         },
         onwarn(warning, warn) {
-          if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.id?.includes('@astrojs/internal-helpers')) {
-            return;
-          }
-          if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.id?.includes('node_modules')) {
-            return;
-          }
+          if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.id?.includes('@astrojs/internal-helpers')) return;
+          if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.id?.includes('node_modules')) return;
+          if (warning.code === 'ROLLUP_WARNING' && warning.message?.includes('chunk size')) return;
           warn(warning);
         },
       },
     },
-    css: {
-      devSourcemap: false,
-    },
+    css: { devSourcemap: false },
     esbuild: {
       legalComments: 'none',
       treeShaking: true,
+      minifyIdentifiers: true,
+      minifySyntax: true,
+      minifyWhitespace: true,
     },
     logLevel: 'warn',
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, './src'),
-      },
-    },
-    ssr: {
-      noExternal: [],
-    },
+    resolve: { alias: { '@': path.resolve(__dirname, './src') } },
+    ssr: { noExternal: [] },
   },
   integrations: [
     sanity({
@@ -92,56 +95,22 @@ export default defineConfig({
     }),
     astroEdge({
       optimization: {
-        images: {
-          format: 'webp',
-          quality: 80,
-          progressive: true,
-          effort: 6
-        },
+        images: { format: 'webp', quality: 80, progressive: true, effort: 6 },
         static: true,
         compression: true,
-        fonts: {
-          preload: true,
-          display: 'swap'
-        },
-        scripts: {
-          async: true,
-          defer: true
-        },
-        styles: {
-          critical: true,
-          minify: true
-        }
+        fonts: { preload: true, display: 'swap' },
+        scripts: { async: true, defer: true },
+        styles: { critical: true, minify: true }
       },
       monitoring: {
         lighthouse: true,
         webVitals: true,
         bundleAnalyzer: true,
         systemHealth: true,
-        thresholds: {
-          performance: 95,
-          accessibility: 90,
-          'best-practices': 90,
-          seo: 90,
-          fcp: 1800, // First Contentful Paint
-          lcp: 2500, // Largest Contentful Paint
-          cls: 0.1,  // Cumulative Layout Shift
-          fid: 100,  // First Input Delay
-          ttfb: 800  // Time to First Byte
-        },
+        thresholds: { performance: 95, accessibility: 90, 'best-practices': 90, seo: 90, fcp: 1800, lcp: 2500, cls: 0.1, fid: 100, ttfb: 800 },
         budgets: [
-          {
-            type: 'bundle',
-            name: 'main',
-            maximumWarning: '150 KB',
-            maximumError: '200 KB'
-          },
-          {
-            type: 'bundle',
-            name: 'vendor',
-            maximumWarning: '300 KB',
-            maximumError: '400 KB'
-          }
+          { type: 'bundle', name: 'main', maximumWarning: '150 KB', maximumError: '200 KB' },
+          { type: 'bundle', name: 'vendor', maximumWarning: '300 KB', maximumError: '400 KB' }
         ]
       },
     }),
@@ -158,30 +127,11 @@ export default defineConfig({
       base: base || '/',
       scope: base || '/',
       workbox: {
+        maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,svg,png,ico,webp,woff,woff2}'],
         runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/cdn\.sanity\.io\/.*/i,
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'sanity-cache',
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 7,
-              },
-            },
-          },
-          {
-            urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365,
-              },
-            },
-          },
+          { urlPattern: /^https:\/\/cdn\.sanity\.io\/.*/i, handler: 'StaleWhileRevalidate', options: { cacheName: 'sanity-cache', expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 7 } } },
+          { urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i, handler: 'CacheFirst', options: { cacheName: 'google-fonts-cache', expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 } } }
         ],
       },
       manifest: {
@@ -194,28 +144,12 @@ export default defineConfig({
         start_url: base || '/',
         scope: base || '/',
         icons: [
-          {
-            src: `${base || '/'}favicon.svg`,
-            sizes: 'any',
-            type: 'image/svg+xml',
-            purpose: 'any maskable',
-          },
-          {
-            src: `${base || '/'}apple-touch-icon.svg`,
-            sizes: '180x180',
-            type: 'image/svg+xml',
-          },
-          {
-            src: `${base || '/'}logo.svg`,
-            sizes: '512x512',
-            type: 'image/svg+xml',
-          },
+          { src: `${base || '/'}favicon.svg`, sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' },
+          { src: `${base || '/'}apple-touch-icon.svg`, sizes: '180x180', type: 'image/svg+xml' },
+          { src: `${base || '/'}logo.svg`, sizes: '512x512', type: 'image/svg+xml' }
         ],
       },
-      devOptions: {
-        enabled: false,
-        type: 'module',
-      },
+      devOptions: { enabled: false, type: 'module' },
     }),
     icon({
       include: {

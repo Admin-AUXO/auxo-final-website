@@ -8,9 +8,11 @@
   },
   "scripts": {
     "dev": "astro dev --port 4340",
+    "dev:easy": "./dev.sh",
     "build": "astro build",
-    "build:check": "npm run type-check && npm run lint && astro build",
-    "build:fast": "astro build",
+    "build:easy": "./build.sh",
+    "build:fast": "NODE_OPTIONS=\"--max-old-space-size=4096\" astro build",
+    "build:check": "npm run type-check && npm run lint && npm run build",
     "optimize": "npx astro-edge optimize",
     "preview": "astro preview --port 4341",
     "deploy": "npm run build:check && npm run preview",
@@ -21,10 +23,11 @@
     "lint:fix": "npm run lint:css:fix",
     "validate": "npm run lint && npm run build:check",
     "clean": "rm -rf dist node_modules/.astro",
-    "performance:check": "node performance-check.js",
-    "performance:report": "node performance-report.js",
-    "performance:fix-windows": "powershell -ExecutionPolicy Bypass -File fix-windows-permissions.ps1",
-    "performance:audit": "npm run build && npx serve dist -p 3001 & Start-Sleep 5; npx lighthouse http://localhost:3001 --output json --output-path ./performance-audit.json --quiet && echo 'Performance audit completed. Results saved to performance-audit.json'"
+    "clean:port": "lsof -ti:4340 | xargs kill -9 2>/dev/null || true",
+    "clean:all": "npm run clean:port && npm run clean",
+    "test:env": "node test-env.js",
+    "performance:audit": "npm run build && npx serve dist -p 3001 --no-port-switching --no-clipboard > /dev/null 2>&1 & sleep 5 && npx lighthouse http://localhost:3001 --output json --output-path ./performance-reports/$(date +%Y-%m-%dT%H-%M-%S)-lighthouse.json --quiet && echo 'Performance audit completed for AUXO site'",
+    "performance:audit:ci": "npm run build && npx lighthouse http://localhost:4321 --output json --output-path ./performance-reports/$(date +%Y-%m-%dT%H-%M-%S)-lighthouse.json --quiet"
   },
   "dependencies": {
     "@astrojs/node": "^9.5.1",
