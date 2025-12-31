@@ -225,16 +225,6 @@ const pageDescription = description || siteData.description;
           initPageFeatures(newShowParticles);
         }, 100);
 
-        // Load Core Web Vitals monitoring
-        import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-          getCLS(console.log);
-          getFID(console.log);
-          getFCP(console.log);
-          getLCP(console.log);
-          getTTFB(console.log);
-        }).catch(err => {
-          if (import.meta.env.DEV) console.warn('Web Vitals monitoring failed to load:', err);
-        });
       });
     </script>
   </body>
