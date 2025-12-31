@@ -17,9 +17,7 @@ body::-webkit-scrollbar {
   height: 0 !important;
 }
 
-/* Performance optimization for scrollable containers */
 * {
-  /* Optimize transforms and animations */
   will-change: auto;
 }
 
