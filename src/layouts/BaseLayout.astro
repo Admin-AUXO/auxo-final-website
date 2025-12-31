@@ -211,6 +211,8 @@ const pageDescription = description || siteData.description;
         sessionStorage.setItem('scroll-position', window.scrollY.toString());
       };
 
+      let scrollCleanup: (() => void) | null = null;
+
       document.addEventListener('astro:before-preparation', saveScrollPosition);
       document.addEventListener('astro:page-load', handleScrollRestoration);
 
@@ -231,6 +233,10 @@ const pageDescription = description || siteData.description;
         };
 
         window.addEventListener('scroll', updateScrollPosition, { passive: true });
+
+        scrollCleanup = () => {
+          window.removeEventListener('scroll', updateScrollPosition);
+        };
       };
 
       if (document.readyState === 'loading') {
@@ -281,11 +287,16 @@ const pageDescription = description || siteData.description;
       }
 
       document.addEventListener('astro:page-load', async () => {
+        if (scrollCleanup) {
+          scrollCleanup();
+          scrollCleanup = null;
+        }
         await waitForCSS();
         const newShowParticles = document.documentElement.dataset.showParticles === 'true';
         reinitOnPageLoad();
         setTimeout(() => {
           initPageFeatures(newShowParticles);
+          initMobileScrollOptimizations();
         }, 100);
 
       });

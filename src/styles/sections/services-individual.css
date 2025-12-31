@@ -307,7 +307,7 @@ details.group\/details summary::-webkit-details-marker {
 
 @media (min-width: 1024px) {
   .service-hero-section {
-    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   .service-benefits-section .grid {
