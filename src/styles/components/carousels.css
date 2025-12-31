@@ -249,7 +249,7 @@
 .carousel-container.is-dragging .embla__container {
   cursor: grabbing !important;
   transition: none !important;
-  transform: translateZ(0) !important;
+  transform: translate3d(0, 0, 0) !important;
 }
 
 .carousel-slide {

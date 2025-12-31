@@ -28,14 +28,14 @@ html {
 }
 
 html.loading {
-  overflow-y: hidden !important;
+  overflow-y: hidden;
   max-height: 100dvh;
 }
 
 html.loaded {
-  overflow-y: auto !important;
-  max-height: none !important;
-  height: auto !important;
+  overflow-y: auto;
+  max-height: none;
+  height: auto;
 }
 
 body {
@@ -64,16 +64,16 @@ body {
   }
 }
 
-body.loading {
-  overflow: hidden !important;
+html.loading body {
+  overflow: hidden;
   height: 100dvh;
 }
 
-body.loaded {
-  overflow: auto !important;
-  overflow-x: hidden !important;
-  height: auto !important;
-  max-height: none !important;
+html.loaded body {
+  overflow: auto;
+  overflow-x: hidden;
+  height: auto;
+  max-height: none;
 }
 
 #main-content {
