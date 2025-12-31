@@ -17,6 +17,16 @@
 @import url('./navigation/logo.css');
 @import url('./navigation/dropdown.css');
 @import url('./navigation/mobile-menu.css');
+@import url('./navigation/modal-dropdown.css');
+@import url('./features/scroll-lock.css');
+@import url('./sections/shared-sections.css');
+@import url('./sections/hero.css');
+@import url('./sections/home-sections.css');
+@import url('./sections/about-sections.css');
+@import url('./sections/services-sections.css');
+@import url('./sections/services-individual.css');
+@import url('./sections/contact-sections.css');
+@import url('./widgets/google-calendar.css');
 
 /* Lenis Fixed Element Compatibility */
 #scroll-progress-bar,
@@ -45,13 +55,3 @@
   transform: translateZ(0) !important;
   backface-visibility: hidden !important;
 }
-@import url('./navigation/modal-dropdown.css');
-@import url('./features/scroll-lock.css');
-@import url('./sections/shared-sections.css');
-@import url('./sections/hero.css');
-@import url('./sections/home-sections.css');
-@import url('./sections/about-sections.css');
-@import url('./sections/services-sections.css');
-@import url('./sections/services-individual.css');
-@import url('./sections/contact-sections.css');
-@import url('./widgets/google-calendar.css');
