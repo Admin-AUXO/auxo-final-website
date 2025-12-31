@@ -68,7 +68,7 @@ export async function getServiceDetailBySlug(slug: string): Promise<ServiceDetai
       const data = await sanityClient!.fetch<ServiceDetail>(serviceDetailBySlugQuery, { slug });
       return data || null;
     } catch (error) {
-      console.error(`Service detail fetch failed for "${slug}":`, error);
+      if (import.meta.env.DEV) console.error(`Service detail fetch failed for "${slug}":`, error);
       return null;
     }
   });

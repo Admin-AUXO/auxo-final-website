@@ -18,7 +18,7 @@ async function initParticleSystem(): Promise<void> {
     isInitialized = true;
   } catch (error) {
     if (import.meta.env.DEV) {
-      console.error("Particle system failed:", error);
+      if (import.meta.env.DEV) console.error("Particle system failed:", error);
     }
   }
 }

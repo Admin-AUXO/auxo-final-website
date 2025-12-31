@@ -28,7 +28,7 @@ class ModalManager {
 
   create(config: ModalConfig): ModalInstance {
     if (this.modals.has(config.modalId)) {
-      console.warn(`Modal with id "${config.modalId}" already exists`);
+      if (import.meta.env.DEV) console.warn(`Modal with id "${config.modalId}" already exists`);
       return this.modals.get(config.modalId)!;
     }
 
@@ -84,7 +84,7 @@ class ModalInstanceImpl implements ModalInstance {
   private initialize(): void {
     this.modal = document.getElementById(this.config.modalId);
     if (!this.modal) {
-      console.error(`Modal element with id "${this.config.modalId}" not found`);
+      if (import.meta.env.DEV) console.error(`Modal element with id "${this.config.modalId}" not found`);
       return;
     }
 

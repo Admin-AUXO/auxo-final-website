@@ -1,4 +1,3 @@
-// High-performance smooth scrolling implementation with device optimization
 export function initSmoothScroll() {
   // Performance optimization: Use passive listeners where possible
   const scrollOptions = { passive: true, capture: false };

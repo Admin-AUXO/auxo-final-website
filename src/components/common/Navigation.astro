@@ -150,7 +150,7 @@ const navItems = items.map(({ _key, ...item }) => ({
       try {
         initializeNavigationComponents();
       } catch (error) {
-        console.warn('Navigation init warning:', error);
+        if (import.meta.env.DEV) console.warn('Navigation init warning:', error);
       }
     });
   }
