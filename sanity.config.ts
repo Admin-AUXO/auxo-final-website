@@ -9,10 +9,10 @@ export default defineConfig({
   projectId: process.env.SANITY_PROJECT_ID || '4ddas0r0',
   dataset: process.env.SANITY_DATASET || 'production',
 
-  plugins: [
+  plugins: process.env.NODE_ENV === 'development' ? [
     deskTool(),
     visionTool(),
-  ],
+  ] : [],
 
-  basePath: '/studio',
+  basePath: process.env.NODE_ENV === 'development' ? '/studio' : undefined,
 });
