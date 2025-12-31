@@ -24,7 +24,13 @@ body::-webkit-scrollbar {
 
 html.loading {
   overflow-y: hidden;
-  max-height: 100vh;
+  max-height: 100dvh;
+}
+
+@supports not (height: 100dvh) {
+  html.loading {
+    max-height: 100vh;
+  }
 }
 
 html.loaded {
@@ -42,7 +48,13 @@ body {
 
 body.loading {
   overflow: hidden;
-  height: 100vh;
+  height: 100dvh;
+}
+
+@supports not (height: 100dvh) {
+  body.loading {
+    height: 100vh;
+  }
 }
 
 
