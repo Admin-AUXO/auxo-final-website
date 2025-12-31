@@ -54,8 +54,13 @@ export function lockScroll(): void {
   scrollLockCount++;
 
   if (scrollLockCount === 1) {
-    const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    const scrollY = window.scrollY;
     savedScrollY = scrollY;
+
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+    document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
 
     document.body.setAttribute('data-scroll-y', scrollY.toString());
     document.documentElement.style.setProperty('--scroll-y', `${scrollY}px`);
@@ -66,9 +71,6 @@ export function lockScroll(): void {
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = '100%';
     document.body.style.overflow = 'hidden';
-
-    document.addEventListener('touchmove', preventScroll, { passive: false });
-    document.addEventListener('wheel', preventScroll, { passive: false });
   }
 }
 
@@ -85,6 +87,7 @@ export function unlockScroll(): void {
     document.body.style.top = '';
     document.body.style.width = '';
     document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
 
     requestAnimationFrame(() => {
       window.scrollTo({ top: savedScrollY!, behavior: 'instant' });

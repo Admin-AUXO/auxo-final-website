@@ -254,7 +254,7 @@
     visibility 0s var(--duration-normal);
   pointer-events: none;
   visibility: hidden;
-  touch-action: pan-y;
+  touch-action: pan-y !important;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   will-change: transform, opacity;
@@ -331,11 +331,13 @@
   position: relative;
   flex: 1;
   min-height: 0;
-  overflow: hidden auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   padding-bottom: var(--spacing-xl);
   overscroll-behavior-y: contain;
   scroll-behavior: auto;
+  transform: translateZ(0);
 }
 
 .mobile-menu-content::before,
@@ -468,7 +470,7 @@ body:has(.mobile-menu.is-open) {
   padding: 0;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  touch-action: pan-y;
+  touch-action: pan-y !important;
 }
 
 .mobile-dropdown-content.dropdown-closing {

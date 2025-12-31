@@ -105,3 +105,6 @@ junit.xml
 # GitHub tokens
 .github-token
 
+# Claude Code MCP server configurations
+*.ms
+

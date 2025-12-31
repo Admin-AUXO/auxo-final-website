@@ -1,4 +1,4 @@
-let rafId: number | null = null;
+let ticking = false;
 let isInitialized = false;
 
 function updateProgress(): void {
@@ -15,7 +15,7 @@ function updateProgress(): void {
     document.documentElement.scrollHeight,
     document.documentElement.offsetHeight
   );
-  
+
   const scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
 
   const totalScrollableHeight = documentHeight - windowHeight;
@@ -26,24 +26,14 @@ function updateProgress(): void {
   progressFill.style.setProperty('--scroll-progress-width', `${scrollProgress}%`);
 }
 
-function throttledUpdate(): void {
-  if (rafId !== null) return;
-  rafId = requestAnimationFrame(() => {
-    updateProgress();
-    rafId = null;
-  });
-}
-
-function throttledUpdateMobile(): void {
-  // On mobile, use a slightly longer throttle to reduce CPU usage during scroll
-  if (rafId !== null) return;
-  rafId = requestAnimationFrame(() => {
-    // Add a small delay for mobile to prevent overwhelming the main thread
-    setTimeout(() => {
+function onScroll(): void {
+  if (!ticking) {
+    requestAnimationFrame(() => {
       updateProgress();
-      rafId = null;
-    }, 8); // ~120fps on mobile
-  });
+      ticking = false;
+    });
+    ticking = true;
+  }
 }
 
 function handleResize(): void {
@@ -61,24 +51,18 @@ export function initScrollProgress(): void {
 
   isInitialized = true;
 
-  // Use mobile-optimized throttling on smaller screens
-  const isMobile = window.innerWidth < 768;
-  const scrollHandler = isMobile ? throttledUpdateMobile : throttledUpdate;
-
-  window.addEventListener('scroll', scrollHandler, { passive: true });
+  // Use unified scroll handler with passive: true for better performance
+  window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', handleResize, { passive: true });
 
   updateProgress();
 }
 
 export function cleanupScrollProgress(): void {
-  if (rafId) {
-    cancelAnimationFrame(rafId);
-    rafId = null;
+  if (ticking) {
+    ticking = false;
   }
-  // Remove both potential scroll handlers
-  window.removeEventListener('scroll', throttledUpdate);
-  window.removeEventListener('scroll', throttledUpdateMobile);
+  window.removeEventListener('scroll', onScroll);
   window.removeEventListener('resize', handleResize);
   isInitialized = false;
 }

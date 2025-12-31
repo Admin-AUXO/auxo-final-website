@@ -56,16 +56,8 @@ export function initTouchScrolling(): void {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   if (!isMobile) return;
 
-  const scrollConfig = {
-    touchAction: 'pan-y' as const,
-    overscrollBehavior: 'contain' as const,
-    momentumScrolling: true
-  };
-
-  setupEnhancedScrolling(document.body, scrollConfig);
-  setupEnhancedScrolling(document.documentElement, scrollConfig);
-
-  document.querySelectorAll('[data-modal-content], [data-scrollable-iframe]').forEach((element) =>
-    setupEnhancedScrolling(element as HTMLElement, scrollConfig)
-  );
+  document.querySelectorAll('[data-modal-content], [data-scrollable-iframe]').forEach((element) => {
+    const el = element as HTMLElement;
+    setupScrollIndicators(el);
+  });
 }

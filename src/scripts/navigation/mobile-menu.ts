@@ -66,19 +66,24 @@ function animateDropdownOpen(content: HTMLElement, icon: Element | null, buttonE
           const wrapperRect = wrapper.getBoundingClientRect();
           const menuRect = menuContent.getBoundingClientRect();
           const padding = 24;
-          
-          if (wrapperRect.top < menuRect.top + padding) {
+
+          const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+          if (!isTouch && wrapperRect.top < menuRect.top + padding) {
             const scrollAmount = menuContent.scrollTop + (wrapperRect.top - menuRect.top) - padding;
             menuContent.scrollTo({
               top: Math.max(0, scrollAmount),
               behavior: 'smooth'
             });
-          } else if (wrapperRect.bottom > menuRect.bottom - padding) {
+          } else if (!isTouch && wrapperRect.bottom > menuRect.bottom - padding) {
             const scrollAmount = menuContent.scrollTop + (wrapperRect.bottom - menuRect.bottom) + padding;
             menuContent.scrollTo({
               top: Math.min(menuContent.scrollHeight - menuContent.clientHeight, scrollAmount),
               behavior: 'smooth'
             });
+          }
+          else if (wrapperRect.top < menuRect.top) {
+            wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }
         }
       }
