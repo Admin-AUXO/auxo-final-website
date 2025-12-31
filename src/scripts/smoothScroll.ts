@@ -1,9 +1,47 @@
 import Lenis from 'lenis';
+import { isMobileDevice } from './utils/deviceDetection';
 
 let lenis: Lenis | null = null;
+let isMobile = false;
 
 export function initSmoothScroll() {
   if (lenis) return;
+
+  isMobile = isMobileDevice();
+  
+  if (isMobile) {
+    if (typeof window !== 'undefined') {
+      (window as any).__lenis = null;
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', (e) => {
+        const href = anchor.getAttribute('href');
+        if (!href || href === '#') return;
+
+        const target = document.querySelector(href) as HTMLElement;
+        if (target) {
+          e.preventDefault();
+          const offset = 80;
+          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        }
+      });
+    });
+
+    document.addEventListener('astro:page-load', () => {
+      if (window.location.hash) {
+        const target = document.querySelector(window.location.hash) as HTMLElement;
+        if (target) {
+          const offset = 80;
+          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        }
+      }
+    });
+    
+    return;
+  }
 
   lenis = new Lenis();
 
@@ -14,7 +52,6 @@ export function initSmoothScroll() {
 
   requestAnimationFrame(raf);
 
-  // Expose lenis globally for scroll lock integration
   if (typeof window !== 'undefined') {
     (window as any).__lenis = lenis;
   }

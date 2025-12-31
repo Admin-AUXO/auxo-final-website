@@ -53,8 +53,9 @@ export function lockScroll(): void {
   scrollLockCount++;
 
   if (scrollLockCount === 1) {
-    if (typeof window !== 'undefined' && (window as any).__lenis) {
-      (window as any).__lenis.stop();
+    const lenisInstance = typeof window !== 'undefined' ? (window as any).__lenis : null;
+    if (lenisInstance) {
+      lenisInstance.stop();
     }
 
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -65,6 +66,7 @@ export function lockScroll(): void {
     document.body.classList.add('scroll-locked');
 
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
   }
 }
 
@@ -75,12 +77,14 @@ export function unlockScroll(): void {
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
     document.body.style.removeProperty('--scrollbar-width');
+    document.documentElement.style.overflow = '';
 
     document.documentElement.classList.remove('scroll-locked');
     document.body.classList.remove('scroll-locked');
 
-    if (typeof window !== 'undefined' && (window as any).__lenis) {
-      (window as any).__lenis.start();
+    const lenisInstance = typeof window !== 'undefined' ? (window as any).__lenis : null;
+    if (lenisInstance) {
+      lenisInstance.start();
     }
   }
 }

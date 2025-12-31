@@ -10,18 +10,13 @@ body.scroll-locked .mobile-menu-content {
   scroll-behavior: auto;
 }
 
-/* Ensure fixed elements remain fixed during scroll lock */
-#scroll-progress-bar,
-#main-navigation,
-.fab-button {
+body.scroll-locked #scroll-progress-bar,
+body.scroll-locked #main-navigation,
+body.scroll-locked .fab-button {
   position: fixed !important;
   transform: translateZ(0) !important;
-  backface-visibility: hidden !important;
-  will-change: auto !important;
-  z-index: var(--z-navigation) !important;
 }
 
-/* Override any Lenis transforms on fixed elements */
 [data-lenis-root] #scroll-progress-bar,
 [data-lenis-root] #main-navigation,
 [data-lenis-root] .fab-button {
