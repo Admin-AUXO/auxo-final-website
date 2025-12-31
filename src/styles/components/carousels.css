@@ -354,85 +354,6 @@
   color: var(--theme-primary);
 }
 
-.carousel-dots {
-  display: flex;
-  gap: var(--carousel-dots-gap);
-  justify-content: center;
-  align-items: center;
-  padding: var(--carousel-dots-padding) 0;
-  width: 100%;
-  -webkit-tap-highlight-color: transparent;
-  flex-wrap: nowrap;
-  margin-top: 1.5rem;
-}
-
-.carousel-dot {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  flex-shrink: 0;
-  position: relative;
-  min-width: var(--carousel-dot-touch-target);
-  min-height: var(--carousel-dot-touch-target);
-  width: var(--carousel-dot-touch-target);
-  height: var(--carousel-dot-touch-target);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform var(--duration-fast) var(--easing-standard);
-  touch-action: manipulation;
-  user-select: none;
-  -webkit-user-select: none;
-  pointer-events: auto;
-}
-
-.carousel-dot:hover {
-  transform: scale(1.1);
-}
-
-.carousel-dot:active {
-  transform: scale(0.95);
-  transition: transform var(--duration-fast) var(--easing-standard);
-}
-
-.carousel-dot::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: var(--carousel-dot-size);
-  height: var(--carousel-dot-size);
-  border-radius: 50%;
-  background-color: var(--carousel-dot-inactive);
-  transition: var(--transition-base);
-  flex-shrink: 0;
-  opacity: 0.5;
-}
-
-.carousel-dot:hover::before {
-  opacity: 0.7;
-  background-color: var(--carousel-dot-inactive-hover);
-}
-
-.carousel-dot.active::before,
-.carousel-dot[aria-current="true"]::before,
-.carousel-dot[aria-selected="true"]::before {
-  background-color: var(--accent-green);
-  width: var(--carousel-dot-size-active);
-  height: var(--carousel-dot-size-active);
-  opacity: 1;
-}
-
-.carousel-dot:focus-visible,
-.carousel-dot[tabindex="0"]:focus {
-  outline: var(--focus-ring-width) solid var(--accent-green);
-  outline-offset: var(--spacing-xs);
-  border-radius: 50%;
-}
 
 .impact-carousel-wrapper {
   position: relative;
@@ -474,35 +395,6 @@
     border-radius: var(--radius-lg);
   }
 
-  .carousel-dot {
-    min-width: 44px;
-    min-height: 44px;
-    width: 44px;
-    height: 44px;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .carousel-dot::before {
-    width: 10px;
-    height: 10px;
-  }
-
-  .carousel-dot.active::before,
-  .carousel-dot[aria-current="true"]::before,
-  .carousel-dot[aria-selected="true"]::before {
-    width: 12px;
-    height: 12px;
-  }
-
-  .carousel-dots {
-    gap: 0.5rem;
-    padding: 0.75rem 0;
-  }
 
   .carousel-container,
   .embla,
@@ -562,15 +454,6 @@
     transition: none;
   }
 
-  .carousel-dot:hover {
-    transform: none;
-  }
-
-  .carousel-dot.active::before,
-  .carousel-dot[aria-current="true"]::before,
-  .carousel-dot[aria-selected="true"]::before {
-    transform: translate(-50%, -50%);
-  }
 
   .carousel-navigating .carousel-track,
   .carousel-navigating .embla__container {

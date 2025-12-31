@@ -16,8 +16,6 @@
   --border-color: rgb(40, 40, 40);
   --border-color-light: rgb(50, 50, 50);
   
-  --carousel-dot-inactive: rgb(50, 50, 50);
-  --carousel-dot-inactive-hover: var(--accent-green-opacity-30);
   
   --accent-green-opacity-02: rgba(var(--accent-green-rgb), 0.02);
   --accent-green-opacity-05: rgba(var(--accent-green-rgb), 0.05);
@@ -198,17 +196,12 @@
   --easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
   --easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
   
-  --carousel-dot-size: 8px;
-  --carousel-dot-size-active: 24px;
-  --carousel-dot-touch-target: 32px;
   --carousel-slide-max-width-mobile: 280px;
   --carousel-slide-max-width-tablet: 340px;
   --carousel-slide-width-mobile: 3rem;
   --carousel-slide-width-tablet: 5rem;
   --carousel-gap-mobile: 0.75rem;
   --carousel-gap-tablet: 1rem;
-  --carousel-dots-gap: 0.625rem;
-  --carousel-dots-padding: 0.5rem;
   
   --card-min-height-sm: 320px;
   --card-min-height-lg: 360px;
@@ -280,8 +273,6 @@
   --border-color: rgb(229, 231, 235);
   --border-color-light: rgb(243, 244, 246);
   
-  --carousel-dot-inactive: rgb(156, 163, 175);
-  --carousel-dot-inactive-hover: var(--accent-green-opacity-30);
   
   --accent-green-opacity-02: rgba(var(--accent-green-rgb), 0.02);
   --accent-green-opacity-05: rgba(var(--accent-green-rgb), 0.05);

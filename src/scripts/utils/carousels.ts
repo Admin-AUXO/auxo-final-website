@@ -95,7 +95,7 @@ function createCarouselManager(config: CarouselConfig) {
 
     cleanup();
 
-    state.instance = new EmblaCarouselWrapper(container, null, {
+    state.instance = new EmblaCarouselWrapper(container, {
       loop: true,
       autoplay: true,
       align: "center",
