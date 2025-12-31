@@ -34,10 +34,10 @@ const { content } = Astro.props;
 
       <div class="hidden lg:block methodology-flow relative overflow-x-hidden">
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-6 xl:gap-8 overflow-x-hidden px-2 max-w-[1400px] mx-auto"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-6 xl:gap-8 overflow-x-hidden px-2 max-w-[1400px] mx-auto items-stretch"
         >
           {content.steps.map((step, index) => (
-            <div data-reveal="fade-up" data-reveal-delay={150 + (index * 100)} data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
+            <div class="h-full" data-reveal="fade-up" data-reveal-delay={150 + (index * 100)} data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
               <MethodologyStep
               number={String(step.number)}
               title={step.title}
