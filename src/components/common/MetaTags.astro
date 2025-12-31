@@ -36,6 +36,10 @@ const finalCanonical = canonicalUrl || `${siteUrl}${Astro.url.pathname}`;
 <link rel="alternate icon" href={createAssetUrl("/favicon.svg")} />
 <link rel="apple-touch-icon" href={createAssetUrl("/apple-touch-icon.svg")} />
 <link rel="manifest" href={createAssetUrl("/manifest.json")} />
+
+<link rel="preload" href={createAssetUrl("/favicon.svg")} as="image" type="image/svg+xml" />
+<link rel="preload" href={createAssetUrl("/apple-touch-icon.svg")} as="image" type="image/svg+xml" />
+<link rel="preload" href={createAssetUrl("/logo.svg")} as="image" type="image/svg+xml" />
 <meta name="msapplication-TileColor" content={themeColor} />
 <meta name="msapplication-config" content={createAssetUrl("/browserconfig.xml")} />
 

@@ -3,14 +3,12 @@ import { getSiteConfigData } from "../lib/sanity/siteConfig";
 import Navigation from "../components/common/Navigation.astro";
 import Footer from "../components/common/Footer.astro";
 import MetaTags from "../components/common/MetaTags.astro";
-import ParticleBackground from "../components/effects/ParticleBackground.astro";
 import ScrollProgressBar from "../components/ui/ScrollProgressBar.astro";
 import FloatingCalendarButton from "../components/widgets/FloatingCalendarButton.astro";
 import CalendarModal from "../components/widgets/CalendarModal.astro";
 import "../styles/global.css";
 import "notyf/notyf.min.css";
 
-// Critical CSS loading for mobile/desktop compatibility
 import "../styles/base/reset.css";
 import "../styles/base.css";
 
@@ -226,6 +224,17 @@ const pageDescription = description || siteData.description;
         setTimeout(() => {
           initPageFeatures(newShowParticles);
         }, 100);
+
+        // Load Core Web Vitals monitoring
+        import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+          getCLS(console.log);
+          getFID(console.log);
+          getFCP(console.log);
+          getLCP(console.log);
+          getTTFB(console.log);
+        }).catch(err => {
+          if (import.meta.env.DEV) console.warn('Web Vitals monitoring failed to load:', err);
+        });
       });
     </script>
   </body>

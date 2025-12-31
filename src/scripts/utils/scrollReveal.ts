@@ -178,9 +178,7 @@ function initializeElements(): void {
   });
 }
 
-function setupScrollIntegration(): void {
-  // Scroll animations handled via IntersectionObserver
-}
+function setupScrollIntegration(): void {}
 
 export function init(options: ScrollRevealOptions = {}): void {
   globalOptions = { ...DEFAULT_OPTIONS, ...options };
