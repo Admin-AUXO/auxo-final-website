@@ -1,6 +1,8 @@
 body.scroll-locked {
-  overscroll-behavior: none;
-  touch-action: none !important;
+  overflow: hidden;
+
+  /* Allow horizontal swipe (pan-x) but block vertical (pan-y) */
+  touch-action: pan-x;
 }
 
 body.scroll-locked .mobile-menu-content,

@@ -33,16 +33,12 @@ export function initSmoothScroll() {
   });
 
   document.addEventListener('astro:page-load', () => {
-    const hash = window.location.hash;
-    if (hash && hash !== '#') {
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          const target = document.querySelector(hash) as HTMLElement;
-          if (target) {
-            scrollToElement(target);
-          }
-        }, 100);
-      });
+    if (window.location.hash) {
+      const target = document.querySelector(window.location.hash) as HTMLElement;
+      if (target && lenis) {
+        // Use Lenis to snap immediately without animation
+        lenis.scrollTo(target, { immediate: true, offset: 0 });
+      }
     }
   });
 }

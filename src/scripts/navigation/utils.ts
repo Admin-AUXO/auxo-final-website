@@ -48,67 +48,46 @@ export function findDropdownContent(buttonEl: HTMLElement): HTMLElement | null {
 }
 
 let scrollLockCount = 0;
-let savedScrollY: number | null = null;
 
 export function lockScroll(): void {
   scrollLockCount++;
 
   if (scrollLockCount === 1) {
-    const scrollY = window.scrollY;
-    savedScrollY = scrollY;
-
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
-    document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
-
-    document.body.setAttribute('data-scroll-y', scrollY.toString());
-    document.documentElement.style.setProperty('--scroll-y', `${scrollY}px`);
-    document.documentElement.classList.add('scroll-locked');
-    document.body.classList.add('scroll-locked');
-
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = '100%';
-    document.body.style.overflow = 'hidden';
-
-    // Stop Lenis smooth scrolling when menu is open
+    // 1. Priority: Stop Lenis (This is usually enough for smooth scroll setups)
     if (typeof window !== 'undefined' && (window as any).__lenis) {
       (window as any).__lenis.stop();
     }
+
+    // 2. Secondary: Native Lock (Prevent touch drag on background)
+    // We do NOT use position: fixed here to avoid layout jumps.
+    // We simply hide overflow and disable touch actions on the body.
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+    document.documentElement.classList.add('scroll-locked');
+    document.body.classList.add('scroll-locked');
+
+    // ONLY set overflow: hidden. Do NOT set position: fixed.
+    document.body.style.overflow = 'hidden';
   }
 }
 
 export function unlockScroll(): void {
-  if (scrollLockCount > 0) {
-    scrollLockCount--;
-  }
+  if (scrollLockCount > 0) scrollLockCount--;
 
-  if (scrollLockCount === 0 && savedScrollY !== null) {
-    document.removeEventListener('touchmove', preventScroll);
-    document.removeEventListener('wheel', preventScroll);
-
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
+  if (scrollLockCount === 0) {
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.body.style.removeProperty('--scrollbar-width');
 
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: savedScrollY!, behavior: 'instant' });
-    });
-
-    document.body.removeAttribute('data-scroll-y');
-    document.documentElement.style.removeProperty('--scroll-y');
     document.documentElement.classList.remove('scroll-locked');
     document.body.classList.remove('scroll-locked');
 
-    // Restart Lenis smooth scrolling when menu is closed
+    // Restart Lenis
     if (typeof window !== 'undefined' && (window as any).__lenis) {
       (window as any).__lenis.start();
     }
-
-    savedScrollY = null;
   }
 }
 
@@ -118,8 +97,6 @@ function preventScroll(e: Event): void {
 
 export function forceUnlockScroll(): void {
   scrollLockCount = 0;
-  if (savedScrollY !== null) {
-    unlockScroll();
-  }
+  unlockScroll();
 }
 
