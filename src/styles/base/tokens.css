@@ -114,14 +114,14 @@
   
   --z-base: 1;
   --z-content: 10;
-  --z-elevated: 50;
-  --z-interactive: 100;
-  --z-navigation: 200;
-  --z-floating-button: 500;
-  --z-mobile-overlay: 1500;
-  --z-mobile-menu: 1500;
-  --z-services-dropdown: 2000;
-  --z-scroll-progress: 3000;
+  --z-floating-button: 50;
+  --z-elevated: 60;
+  --z-interactive: 90;
+  --z-navigation: 100;
+  --z-scroll-progress: 101;
+  --z-mobile-overlay: 150;
+  --z-mobile-menu: 150;
+  --z-services-dropdown: 200;
   --z-calendar-modal: 9999;
   --z-modals: 9999;
   --z-maximum: 2147483647;

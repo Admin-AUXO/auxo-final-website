@@ -1,4 +1,4 @@
-import { initSmoothScroll } from '../smoothScroll';
+import { initSmoothScroll, destroySmoothScroll } from '../smoothScroll';
 import { initScrollAnimations, cleanupScrollAnimations, refreshScrollAnimations } from '../scrollAnimations';
 import { initScrollProgress, cleanupScrollProgress } from './scrollProgress';
 import { initNavigation, cleanupNavigation } from './navigation';
@@ -85,11 +85,8 @@ export function cleanupCoreFeatures(): void {
   cleanupAccordions();
   cleanupAllCarousels();
   cleanupLazyLoading();
-  
-  import('../smoothScroll').then(({ destroySmoothScroll }) => {
-    destroySmoothScroll();
-  }).catch(() => {});
-  
+  destroySmoothScroll();
+
   isInitialized = false;
 }
 
@@ -100,4 +97,3 @@ export function reinitOnPageLoad(): void {
     initAccordions();
   }, 50);
 }
-

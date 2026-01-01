@@ -71,4 +71,3 @@ export function cleanupScrollProgress(): void {
   window.removeEventListener('resize', handleResize);
   isInitialized = false;
 }
-

@@ -1,17 +1,18 @@
 ---
-import { getSiteConfigData } from "../lib/sanity/siteConfig";
-import Navigation from "../components/common/Navigation.astro";
-import Footer from "../components/common/Footer.astro";
-import MetaTags from "../components/common/MetaTags.astro";
-import ScrollProgressBar from "../components/ui/ScrollProgressBar.astro";
-import FloatingCalendarButton from "../components/widgets/FloatingCalendarButton.astro";
-import CalendarModal from "../components/widgets/CalendarModal.astro";
-import ParticleBackground from "../components/effects/ParticleBackground.astro";
-import "../styles/global.css";
-import "notyf/notyf.min.css";
+import { getSiteConfigData } from "@/lib/sanity/siteConfig";
 
-import "../styles/base/reset.css";
-import "../styles/base.css";
+import Navigation from "@/components/common/Navigation.astro";
+import Footer from "@/components/common/Footer.astro";
+import MetaTags from "@/components/common/MetaTags.astro";
+import ScrollProgressBar from "@/components/ui/ScrollProgressBar.astro";
+import FloatingCalendarButton from "@/components/widgets/FloatingCalendarButton.astro";
+import CalendarModal from "@/components/widgets/CalendarModal.astro";
+import ParticleBackground from "@/components/effects/ParticleBackground.astro";
+
+import "@/styles/base/reset.css";
+import "@/styles/base.css";
+import "@/styles/global.css";
+import "notyf/notyf.min.css";
 
 export interface Props {
   title?: string;
@@ -330,4 +331,3 @@ const pageDescription = description || siteData.description;
     </script>
   </body>
 </html>
-

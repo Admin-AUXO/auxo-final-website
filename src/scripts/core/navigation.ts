@@ -31,4 +31,3 @@ export function cleanupNavigation(): void {
   });
   eventListeners.length = 0;
 }
-

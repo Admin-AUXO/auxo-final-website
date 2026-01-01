@@ -121,4 +121,3 @@ export function cleanupFloatingButton(): void {
   isFabHidden = false;
   lastScrollTop = 0;
 }
-

@@ -211,7 +211,6 @@ section,
     touch-action: pan-y;
   }
 
-  /* Allow horizontal swipe on specific elements that need it */
   .carousel-wrapper,
   .carousel-container,
   .carousel-track,
@@ -224,7 +223,6 @@ section,
     touch-action: pan-x !important;
   }
 
-  /* Ensure scrollable content allows vertical scrolling */
   [data-modal-content],
   [data-scrollable-iframe],
   .overflow-auto:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
@@ -263,7 +261,6 @@ section,
     pointer-events: auto;
   }
 
-  /* Interactive elements and fixed elements */
   [style*="z-index"],
   .always-visible,
   #main-navigation,
@@ -279,7 +276,6 @@ section,
     pointer-events: auto;
   }
 
-  /* Ensure summary elements work properly */
   summary {
     touch-action: manipulation;
     cursor: pointer;
