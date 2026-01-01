@@ -100,7 +100,10 @@ export function initFloatingButton(): void {
 
   window.addEventListener('resize', resizeHandler, { passive: true });
 
-  updateFabVisibility(getScrollTop());
+  // Use requestAnimationFrame to avoid forced reflows during initial setup
+  requestAnimationFrame(() => {
+    updateFabVisibility(getScrollTop());
+  });
 }
 
 export function cleanupFloatingButton(): void {

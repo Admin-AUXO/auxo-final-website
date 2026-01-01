@@ -14,11 +14,12 @@ export interface CarouselConfig {
 interface CarouselState {
   instance: EmblaCarouselWrapper | null;
   resizeHandler: (() => void) | null;
-  resizeTimeout: NodeJS.Timeout | null;
+  resizeTimeout: number | null;
   observer: ResizeObserver | null;
 }
 
 function shouldActivateCarousel(activateOnDesktop: boolean, breakpoint: number): boolean {
+  // Cache viewport width to avoid forced reflows during resize events
   const width = window.innerWidth || document.documentElement.clientWidth;
   return activateOnDesktop ? width >= breakpoint : width < breakpoint;
 }
@@ -50,6 +51,11 @@ function createCarouselManager(config: CarouselConfig) {
       clearTimeout(state.resizeTimeout);
       state.resizeTimeout = null;
     }
+    // Clear any pending resize timeout from ResizeObserver
+    if (state.resizeTimeout) {
+      clearTimeout(state.resizeTimeout);
+      state.resizeTimeout = null;
+    }
     state.observer?.disconnect();
     state.observer = null;
   }
@@ -71,7 +77,9 @@ function createCarouselManager(config: CarouselConfig) {
 
     const hasSlides = container.querySelectorAll('.embla__slide').length > 0;
 
-    if (!hasSlides || container.offsetParent === null) {
+    // Check if container is visible without triggering reflow
+    const isVisible = container.offsetWidth > 0 && container.offsetHeight > 0;
+    if (!hasSlides || !isVisible) {
       observeOnce(container, init, { threshold: 0 });
       return;
     }
@@ -96,9 +104,17 @@ function createCarouselManager(config: CarouselConfig) {
 
     if (typeof ResizeObserver !== 'undefined') {
       state.observer = new ResizeObserver(() => {
-        if (state.instance?.embla && container.offsetParent !== null) {
-          state.instance.embla.reInit();
-        }
+        // Debounce resize observer calls to avoid excessive reInit calls
+        if (state.resizeTimeout) clearTimeout(state.resizeTimeout);
+        state.resizeTimeout = setTimeout(() => {
+          if (state.instance?.embla) {
+            // Check visibility without triggering reflow if possible
+            const isVisible = container.offsetWidth > 0;
+            if (isVisible) {
+              state.instance.embla.reInit();
+            }
+          }
+        }, 100);
       });
       state.observer.observe(container);
     }

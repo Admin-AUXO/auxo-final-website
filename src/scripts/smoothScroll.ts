@@ -24,7 +24,10 @@ function handleAnchorClick(e: Event, target: HTMLElement, offset: number = SCROL
   }
 
   requestAnimationFrame(() => {
-    const targetPosition = target.getBoundingClientRect().top + getScrollTop() - offset;
+    // Batch DOM reads before writes
+    const rect = target.getBoundingClientRect();
+    const scrollTop = getScrollTop();
+    const targetPosition = rect.top + scrollTop - offset;
     window.scrollTo({ top: targetPosition, behavior: 'smooth' });
   });
 }
@@ -68,7 +71,10 @@ function handleHashNavigation(): void {
       } else {
         requestAnimationFrame(() => {
           const offset = SCROLL_OFFSETS.DEFAULT;
-          const targetPosition = target.getBoundingClientRect().top + getScrollTop() - offset;
+          // Batch DOM reads before writes
+          const rect = target.getBoundingClientRect();
+          const scrollTop = getScrollTop();
+          const targetPosition = rect.top + scrollTop - offset;
           window.scrollTo({ top: targetPosition, behavior: 'smooth' });
         });
       }

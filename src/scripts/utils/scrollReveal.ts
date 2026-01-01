@@ -94,14 +94,18 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
   const transitionProperty = isFade || isZoom ? 'opacity, transform' : 'transform';
   const cubicBezier = getCubicBezier(easing);
 
-  element.style.transition = `${transitionProperty} ${mobileDuration}ms cubic-bezier(${cubicBezier})`;
+  // Batch style writes to avoid forced reflows
+  requestAnimationFrame(() => {
+    element.style.transition = `${transitionProperty} ${mobileDuration}ms cubic-bezier(${cubicBezier})`;
 
-  if (mobileDelay > 0) {
-    element.style.transitionDelay = `${mobileDelay}ms`;
-  }
+    if (mobileDelay > 0) {
+      element.style.transitionDelay = `${mobileDelay}ms`;
+    }
+  });
 
   requestAnimationFrame(() => {
     if (entry.isIntersecting) {
+      // Batch style writes for entering animation
       element.style.opacity = '1';
       element.style.transform = 'none';
       element.classList.add('reveal-animated');
@@ -109,10 +113,14 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
       element._revealAnimated = true;
 
       setTimeout(() => {
-        element.style.willChange = 'auto';
-        element.style.transition = '';
+        // Clean up styles after animation completes
+        requestAnimationFrame(() => {
+          element.style.willChange = 'auto';
+          element.style.transition = '';
+        });
       }, mobileDuration + mobileDelay);
     } else if (!globalOptions.once) {
+      // Batch style writes for exiting animation
       element.style.opacity = isFade ? '0' : '1';
       element.style.transform = initialTransform;
       element.classList.remove('reveal-animated');
@@ -168,9 +176,12 @@ function initializeElements(): void {
     const isZoom = animation.includes('zoom');
 
     element.classList.add('reveal-init');
-    element.style.opacity = isFade || isZoom ? '0' : '1';
-    element.style.transform = initialTransform;
-    element.style.willChange = 'opacity, transform';
+    // Batch style writes to avoid forced reflows
+    requestAnimationFrame(() => {
+      element.style.opacity = isFade || isZoom ? '0' : '1';
+      element.style.transform = initialTransform;
+      element.style.willChange = 'opacity, transform';
+    });
 
     if (observer) {
       observer.observe(element);

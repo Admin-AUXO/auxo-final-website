@@ -57,8 +57,11 @@ export function setupScrollEffects(): void {
     window.addEventListener('scroll', handleScroll, { passive: true });
   }
 
-  const initialScrollTop = getScrollTop();
-  updateNavState(nav, initialScrollTop);
+  // Use requestAnimationFrame to avoid forced reflows during initial setup
+  requestAnimationFrame(() => {
+    const initialScrollTop = getScrollTop();
+    updateNavState(nav, initialScrollTop);
+  });
 
   document.addEventListener('themechange', () => {
     requestAnimationFrame(() => {
