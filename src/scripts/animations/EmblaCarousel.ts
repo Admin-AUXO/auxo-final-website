@@ -59,8 +59,8 @@ export class EmblaCarouselWrapper {
       this.autoplay = Autoplay({
         delay: autoplayInterval,
         stopOnInteraction: false, // Resume after user interaction
-        stopOnMouseEnter: pauseOnHover !== false, // Pause on hover for accessibility
-        stopOnFocusIn: true, // Pause on keyboard focus for accessibility
+        stopOnMouseEnter: pauseOnHover, // Only pause on hover if explicitly enabled
+        stopOnFocusIn: false, // Don't pause on focus to avoid accidental stops
         playOnInit: true,
         stopOnLastSnap: false,
       });
@@ -125,12 +125,28 @@ export class EmblaCarouselWrapper {
     }
 
     if (autoplay && this.autoplay) {
-      // Ensure autoplay starts with playOnInit: true
-      requestAnimationFrame(() => {
+      // Ensure autoplay starts reliably
+      // Use multiple attempts to ensure autoplay starts
+      const startAutoplay = () => {
         if (this.autoplay && !this.autoplay.isPlaying()) {
-          this.autoplay.play();
+          try {
+            this.autoplay.play();
+          } catch (error) {
+            if (import.meta.env.DEV) {
+              console.warn('Failed to start autoplay:', error);
+            }
+          }
         }
-      });
+      };
+
+      // Try immediately
+      startAutoplay();
+
+      // Try again after a short delay to ensure DOM is ready
+      setTimeout(startAutoplay, 100);
+
+      // Try once more after animation frame
+      requestAnimationFrame(() => setTimeout(startAutoplay, 50));
     }
   }
 

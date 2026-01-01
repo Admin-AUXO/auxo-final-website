@@ -81,40 +81,19 @@ function handleHashNavigation(): void {
 }
 
 export function initSmoothScroll() {
-  if (lenis && !isMobile) return;
-
-  isMobile = isMobileDevice();
-  
-  if (isMobile) {
-    if (lenis) {
-      destroySmoothScroll();
-    }
-    if (typeof window !== 'undefined') {
-      (window as any).__lenis = null;
-    }
-
-    setupAnchorLinks();
-
-    if (pageLoadHandler) {
-      document.removeEventListener('astro:page-load', pageLoadHandler);
-    }
-    pageLoadHandler = handleHashNavigation;
-    document.addEventListener('astro:page-load', pageLoadHandler);
-    
-    return;
-  }
-
   if (lenis) return;
 
+  isMobile = isMobileDevice();
+
   lenis = new Lenis({
-    duration: 1.2,
+    duration: isMobile ? 1.0 : 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
-    smoothWheel: true,
+    smoothWheel: !isMobile,
     wheelMultiplier: 1,
-    syncTouch: false,
-    touchMultiplier: 2,
+    syncTouch: isMobile,
+    touchMultiplier: isMobile ? 1.5 : 2,
     infinite: false,
   });
 

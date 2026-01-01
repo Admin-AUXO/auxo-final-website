@@ -2,8 +2,18 @@ let lastPagePath = typeof window !== 'undefined' ? window.location.pathname : ''
 
 export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): void {
   const runInit = () => {
-    // Delay initialization slightly to ensure DOM is fully ready
-    setTimeout(initFn, 50);
+    const attemptInit = (attempts = 0) => {
+      try {
+        initFn();
+      } catch (error) {
+        if (import.meta.env.DEV && attempts < 3) {
+          console.warn('Section init failed, retrying:', error);
+          setTimeout(() => attemptInit(attempts + 1), 100 * (attempts + 1));
+        }
+      }
+    };
+
+    setTimeout(attemptInit, 50);
   };
 
   if (document.readyState === 'loading') {
@@ -15,7 +25,7 @@ export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): vo
   document.addEventListener('astro:page-load', () => {
     const currentPath = window.location.pathname;
     if (currentPath !== lastPagePath) {
-      requestAnimationFrame(() => requestAnimationFrame(runInit));
+      requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(runInit)));
       lastPagePath = currentPath;
     }
   });

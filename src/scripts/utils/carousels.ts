@@ -50,11 +50,6 @@ function createCarouselManager(config: CarouselConfig) {
       clearTimeout(state.resizeTimeout);
       state.resizeTimeout = null;
     }
-    // Clear any pending resize timeout from ResizeObserver
-    if (state.resizeTimeout) {
-      clearTimeout(state.resizeTimeout);
-      state.resizeTimeout = null;
-    }
     state.observer?.disconnect();
     state.observer = null;
   }
@@ -76,22 +71,47 @@ function createCarouselManager(config: CarouselConfig) {
 
     const hasSlides = container.querySelectorAll('.embla__slide').length > 0;
 
-    const isVisible = container.offsetWidth > 0;
-    if (!hasSlides || !isVisible) {
-      observeOnce(container, init, { threshold: 0 });
+    if (!hasSlides) {
+      if (import.meta.env.DEV) {
+        console.warn(`Carousel ${containerId} not ready: no slides found`);
+      }
+
+      setTimeout(() => {
+        const retryHasSlides = container.querySelectorAll('.embla__slide').length > 0;
+        if (retryHasSlides) {
+          init();
+        } else {
+          observeOnce(container, init, { threshold: 0.01 });
+        }
+      }, 100);
+
+      return;
+    }
+
+    if (!document.body.contains(container)) {
+      if (import.meta.env.DEV) {
+        console.warn(`Carousel container ${containerId} was removed from DOM`);
+      }
       return;
     }
 
     cleanup();
 
-    state.instance = new EmblaCarouselWrapper(container, {
-      loop: true,
-      autoplay: true,
-      align: "center",
-      slidesToScroll: 1,
-      dragFree: false,
-      ...carouselOptions,
-    });
+    try {
+      state.instance = new EmblaCarouselWrapper(container, {
+        loop: true,
+        autoplay: true,
+        align: "center",
+        slidesToScroll: 1,
+        dragFree: false,
+        ...carouselOptions,
+      });
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.error(`Failed to initialize carousel ${containerId}:`, error);
+      }
+      return;
+    }
 
     state.resizeHandler = () => {
       if (state.resizeTimeout) clearTimeout(state.resizeTimeout);
@@ -102,12 +122,17 @@ function createCarouselManager(config: CarouselConfig) {
 
     if (typeof ResizeObserver !== 'undefined') {
       state.observer = new ResizeObserver(() => {
-        // Debounce resize observer calls to avoid excessive reInit calls
         if (state.resizeTimeout) clearTimeout(state.resizeTimeout);
         state.resizeTimeout = setTimeout(() => {
-        if (state.instance?.embla && container.offsetWidth > 0) {
-          state.instance.embla.reInit();
-        }
+          if (state.instance?.embla && container.offsetWidth > 0 && document.body.contains(container)) {
+            try {
+              state.instance.embla.reInit();
+            } catch (error) {
+              if (import.meta.env.DEV) {
+                console.error(`Failed to reinit carousel ${containerId}:`, error);
+              }
+            }
+          }
         }, 100);
       });
       state.observer.observe(container);
