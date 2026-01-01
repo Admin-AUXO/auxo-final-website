@@ -139,7 +139,6 @@ const logoSize = sizeClasses[size];
         if (!tagline || !subtitle) return;
         
         const updateWidth = () => {
-            // Batch DOM reads to avoid forced reflows
             const taglineWidth = tagline.offsetWidth;
             const subtitleWidth = subtitle.scrollWidth;
             const computedStyle = getComputedStyle(subtitle);
@@ -152,7 +151,6 @@ const logoSize = sizeClasses[size];
                 const letterSpacingPerChar = widthDiff / Math.max(1, textLength - 1);
                 const newLetterSpacing = currentLetterSpacing + letterSpacingPerChar;
 
-                // Use requestAnimationFrame for DOM write
                 requestAnimationFrame(() => {
                     subtitle.style.letterSpacing = `${newLetterSpacing}px`;
                 });

@@ -80,7 +80,6 @@ function updateScrollIndicators(): void {
       return;
     }
 
-    // Batch DOM reads for iframe scroll calculations
     const scrollTop = iframeDoc.documentElement.scrollTop || iframeDoc.body.scrollTop;
     const scrollHeight = iframeDoc.documentElement.scrollHeight || iframeDoc.body.scrollHeight;
     const clientHeight = iframeDoc.documentElement.clientHeight || iframeDoc.body.clientHeight;
@@ -139,7 +138,6 @@ function handleKeyboardNavigation(e: KeyboardEvent): void {
     if (!iframeDoc) return;
 
     const scrollAmount = 100;
-    // Calculate page scroll amount - necessary for iframe navigation
     const pageScrollAmount = iframeDoc.documentElement.clientHeight * 0.8;
 
     switch (e.key) {

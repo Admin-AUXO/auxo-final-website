@@ -77,8 +77,7 @@ function createCarouselManager(config: CarouselConfig) {
 
     const hasSlides = container.querySelectorAll('.embla__slide').length > 0;
 
-    // Check if container is visible without triggering reflow
-    const isVisible = container.offsetWidth > 0 && container.offsetHeight > 0;
+    const isVisible = container.offsetWidth > 0;
     if (!hasSlides || !isVisible) {
       observeOnce(container, init, { threshold: 0 });
       return;
@@ -107,13 +106,9 @@ function createCarouselManager(config: CarouselConfig) {
         // Debounce resize observer calls to avoid excessive reInit calls
         if (state.resizeTimeout) clearTimeout(state.resizeTimeout);
         state.resizeTimeout = setTimeout(() => {
-          if (state.instance?.embla) {
-            // Check visibility without triggering reflow if possible
-            const isVisible = container.offsetWidth > 0;
-            if (isVisible) {
-              state.instance.embla.reInit();
-            }
-          }
+        if (state.instance?.embla && container.offsetWidth > 0) {
+          state.instance.embla.reInit();
+        }
         }, 100);
       });
       state.observer.observe(container);

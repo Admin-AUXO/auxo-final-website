@@ -51,7 +51,6 @@ export function initValuePropositionTyping(containerId: string): void {
   placeholder.className = `${container.className} typing-placeholder`;
   placeholder.innerHTML = `<p>${HERO_LINES[0]}</p><p>&nbsp;</p><p>${HERO_LINES[2]}</p>`;
   container.appendChild(placeholder);
-  // Measure placeholder height before removing - acceptable single reflow during init
   const reservedHeight = placeholder.offsetHeight;
   placeholder.remove();
 

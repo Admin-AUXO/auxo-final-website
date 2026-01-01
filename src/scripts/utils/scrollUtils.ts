@@ -27,7 +27,6 @@ export function setupScrollIndicators(container: HTMLElement, indicatorTop?: HTM
   if (!indicatorTop && !indicatorBottom) return () => {};
 
   const updateIndicators = () => {
-    // Batch DOM reads to avoid forced reflows during scroll
     const scrollTop = container.scrollTop;
     const scrollHeight = container.scrollHeight;
     const clientHeight = container.clientHeight;

@@ -31,7 +31,6 @@ function calculateDropdownHeight(content: HTMLElement): number {
   const innerDiv = content.querySelector('div:first-child');
   const height = innerDiv
     ? (() => {
-        // Batch DOM reads to avoid forced reflows
         const computed = window.getComputedStyle(innerDiv);
         const marginTop = parseFloat(computed.marginTop) || 0;
         const marginBottom = parseFloat(computed.marginBottom) || 0;
@@ -66,7 +65,6 @@ function animateDropdownOpen(content: HTMLElement, icon: Element | null, buttonE
       if (menuContent) {
         const wrapper = buttonEl.closest('.mobile-dropdown-wrapper') as HTMLElement;
         if (wrapper) {
-          // Batch DOM reads to avoid forced reflows
           const wrapperRect = wrapper.getBoundingClientRect();
           const menuRect = menuContent.getBoundingClientRect();
           const padding = 24;
@@ -265,7 +263,6 @@ function updateScrollIndicators(): void {
   const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
   if (!menuContent) return;
 
-  // Batch DOM reads to avoid forced reflows
   const scrollTop = menuContent.scrollTop;
   const scrollHeight = menuContent.scrollHeight;
   const clientHeight = menuContent.clientHeight;
@@ -274,7 +271,6 @@ function updateScrollIndicators(): void {
   const isScrollableTop = scrollTop > threshold;
   const isScrollableBottom = scrollTop + clientHeight < scrollHeight - threshold;
 
-  // Batch DOM writes
   menuContent.classList.toggle('scrollable-top', isScrollableTop);
   menuContent.classList.toggle('scrollable-bottom', isScrollableBottom);
 }

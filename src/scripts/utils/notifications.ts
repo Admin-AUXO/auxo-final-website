@@ -66,7 +66,6 @@ function showNotification(config: NotificationConfig): void {
   document.body.appendChild(toast);
   activeNotifications.add(toast);
 
-  // Batch DOM reads to avoid forced reflows
   let offsetY = 24;
   activeNotifications.forEach(existing => {
     if (existing !== toast) {
@@ -92,7 +91,6 @@ function showNotification(config: NotificationConfig): void {
           toast.parentNode.removeChild(toast);
         }
       } catch (e) {
-        // Node may have already been removed
       }
       activeNotifications.delete(toast);
       repositionNotifications();
@@ -109,7 +107,6 @@ function showNotification(config: NotificationConfig): void {
 }
 
 function repositionNotifications(): void {
-  // Batch DOM reads before writes to avoid forced reflows
   const heights: number[] = [];
   activeNotifications.forEach(toast => {
     heights.push(toast.offsetHeight);
@@ -153,7 +150,6 @@ export function dismissAll(): void {
           toast.parentNode.removeChild(toast);
         }
       } catch (e) {
-        // Node may have already been removed
       }
     }, 300);
   });

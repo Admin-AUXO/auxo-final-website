@@ -149,7 +149,6 @@ export class GalaxyParticleSystem {
     const root = document.documentElement;
     const computedStyle = getComputedStyle(root);
 
-    // Cache theme color values to avoid repeated getComputedStyle calls
     this.accentColor = computedStyle.getPropertyValue('--accent-green').trim() || '#A3E635';
     this.textPrimary = computedStyle.getPropertyValue('--text-primary').trim() || '#FFFFFF';
     this.textSecondary = computedStyle.getPropertyValue('--text-secondary').trim() || '#A0A0A0';

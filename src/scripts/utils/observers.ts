@@ -118,7 +118,6 @@ export function observeMultiple(
   if (!observer) {
     const elementArray = Array.from(elements);
     elementArray.forEach((el) => {
-      // Create fake entry without triggering getBoundingClientRect to avoid forced reflows
       const fakeEntry = {
         target: el,
         isIntersecting: true,

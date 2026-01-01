@@ -18,7 +18,6 @@ const STANDARD_DROPDOWN_ANIMATION_DURATION = 400;
 const MODAL_DROPDOWN_ANIMATION_DURATION = 400;
 
 function positionDropdown(button: HTMLElement, menu: HTMLElement): void {
-  // Batch DOM reads to avoid forced reflows
   const buttonRect = button.getBoundingClientRect();
   const menuRect = menu.getBoundingClientRect();
   const viewportWidth = window.innerWidth;
@@ -61,7 +60,6 @@ function updateDropdownPosition(button: HTMLElement, menu: HTMLElement): void {
   let resizeTimeout: number;
   const updatePosition = () => {
     if (menu.classList.contains('open')) {
-      // Debounce resize events to avoid excessive repositioning
       if (resizeTimeout) clearTimeout(resizeTimeout);
       resizeTimeout = window.setTimeout(() => positionDropdown(button, menu), 100);
     }

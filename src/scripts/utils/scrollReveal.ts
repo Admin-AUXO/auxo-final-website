@@ -113,7 +113,6 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
       element._revealAnimated = true;
 
       setTimeout(() => {
-        // Clean up styles after animation completes
         requestAnimationFrame(() => {
           element.style.willChange = 'auto';
           element.style.transition = '';
@@ -176,7 +175,6 @@ function initializeElements(): void {
     const isZoom = animation.includes('zoom');
 
     element.classList.add('reveal-init');
-    // Batch style writes to avoid forced reflows
     requestAnimationFrame(() => {
       element.style.opacity = isFade || isZoom ? '0' : '1';
       element.style.transform = initialTransform;

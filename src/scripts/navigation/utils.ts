@@ -55,7 +55,6 @@ function getScrollbarWidth(): number {
     return cachedScrollbarWidth;
   }
 
-  // Cache scrollbar width to avoid repeated reflows
   cachedScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
   return cachedScrollbarWidth;
 }
