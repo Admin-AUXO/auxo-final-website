@@ -128,7 +128,7 @@
   contain: layout style paint;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  touch-action: pan-x;
+  touch-action: pan-x !important;
   overscroll-behavior: contain none;
 }
 
@@ -140,7 +140,7 @@
 
 .embla {
   overflow: hidden;
-  touch-action: pan-x;
+  touch-action: pan-x !important;
   -webkit-tap-highlight-color: transparent;
   cursor: grab;
 }
@@ -152,7 +152,7 @@
 .embla__container {
   display: flex;
   align-items: stretch;
-  touch-action: pan-x;
+  touch-action: pan-x !important;
   padding-left: var(--grid-padding-sm);
   padding-right: var(--grid-padding-sm);
   backface-visibility: hidden;
@@ -285,7 +285,7 @@
 .embla__slide {
   display: flex;
   flex-direction: column;
-  touch-action: pan-x;
+  touch-action: pan-x !important;
   user-select: none;
   -webkit-user-select: none;
   pointer-events: auto;
@@ -357,13 +357,13 @@
   .carousel-container,
   .embla,
   .embla__container {
-    touch-action: pan-x;
+    touch-action: pan-x !important;
     overscroll-behavior-y: none;
     -webkit-overflow-scrolling: touch;
   }
 
   .carousel-track {
-    touch-action: pan-x;
+    touch-action: pan-x !important;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
   }
@@ -375,20 +375,20 @@
 
   .carousel-container.is-dragging .carousel-track,
   .carousel-container.is-dragging .embla__container {
-    touch-action: pan-x;
+    touch-action: pan-x !important;
     scroll-snap-type: none;
   }
 
   .carousel-slide,
   .embla__slide {
-    touch-action: pan-x;
+    touch-action: pan-x !important;
     pointer-events: auto;
     scroll-snap-align: center;
   }
 
   .carousel-container.is-dragging .carousel-slide,
   .carousel-container.is-dragging .embla__slide {
-    touch-action: pan-x;
+    touch-action: pan-x !important;
   }
 
   .embla__slide:hover {
