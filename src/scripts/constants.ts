@@ -6,7 +6,6 @@ export const BREAKPOINTS = {
   XL: 1280,
   XXL: 1536,
 
-  // Legacy aliases for backward compatibility
   MOBILE: 768,
   TABLET: 1024,
   DESKTOP: 1280,
@@ -32,11 +31,11 @@ export const ANIMATION_DURATIONS = {
 export const Z_INDEX = {
   NAV: 100,
   PROGRESS_BAR: 101,
-  FLOATING_BUTTON: 50,
-  MOBILE_OVERLAY: 150,
-  MOBILE_MENU: 150,
-  SERVICES_DROPDOWN: 200,
-  NOTIFICATION: 200,
+  FLOATING_BUTTON: 102,
+  MOBILE_OVERLAY: 1000,
+  MOBILE_MENU: 1001,
+  SERVICES_DROPDOWN: 1002,
+  NOTIFICATION: 1003,
 } as const;
 
 export const SWIPE_THRESHOLDS = {

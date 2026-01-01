@@ -19,7 +19,6 @@ interface CarouselState {
 }
 
 function shouldActivateCarousel(activateOnDesktop: boolean, breakpoint: number): boolean {
-  // Cache viewport width to avoid forced reflows during resize events
   const width = window.innerWidth || document.documentElement.clientWidth;
   return activateOnDesktop ? width >= breakpoint : width < breakpoint;
 }

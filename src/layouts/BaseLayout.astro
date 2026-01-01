@@ -141,12 +141,19 @@ const pageDescription = description || siteData.description;
       })();
       
       const blockedPatterns = ['fbevents', 'facebook.net', 'connect.facebook.net', 'ERR_BLOCKED_BY_CLIENT', 'segment.io', 'analytics.js'];
-      
+
       const recaptchaPatterns = [
         'recaptcha', '6LeQgtsa', 'google.com/recaptcha', 'private-token',
         'message channel closed', 'Unrecognized feature', '401', 'Unauthorized',
         'calendar.app.google', 'calendar.google.com', 'api2/pat', 'goog.net.XhrIo',
         'Object is active with another request', 'newUri='
+      ];
+
+      const extensionPatterns = [
+        'Could not establish connection', 'Receiving end does not exist',
+        'wrappedSendMessageCallback', 'polyfill.js', 'chrome-extension://',
+        'moz-extension://', 'safari-extension://', 'frame_start.js',
+        'Failed to execute \'removeChild\'', 'is not a child of this node'
       ];
       
       window.addEventListener('error', (e) => {
@@ -166,6 +173,12 @@ const pageDescription = description || siteData.description;
           e.stopPropagation();
           return;
         }
+
+        if (extensionPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
       }, true);
       
       window.addEventListener('unhandledrejection', (e) => {
@@ -176,6 +189,11 @@ const pageDescription = description || siteData.description;
         }
 
         if (recaptchaPatterns.some(pattern => reason.includes(pattern))) {
+          e.preventDefault();
+          return;
+        }
+
+        if (extensionPatterns.some(pattern => reason.includes(pattern))) {
           e.preventDefault();
           return;
         }
@@ -194,7 +212,7 @@ const pageDescription = description || siteData.description;
     <ScrollProgressBar />
     {showParticles && <ParticleBackground />}
     <Navigation />
-    <main id="main-content" class="flex-1 relative z-content pt-16 lg:pt-18">
+    <main id="main-content" class="flex-1 relative z-content" style="padding-top: var(--nav-current-height);">
       <slot />
     </main>
     <Footer />
@@ -338,6 +356,19 @@ const pageDescription = description || siteData.description;
           initMobileScrollOptimizations();
         }, 100);
       });
+
+      if (import.meta.env.DEV) {
+        window.debugNav = () => {
+          import('@/scripts/navigation/utils').then(({ debugNavigation }) => {
+            debugNavigation();
+          });
+        };
+
+        window.toggleNavDebug = () => {
+          document.documentElement.classList.toggle('debug-nav');
+          console.log('🔧 Navigation debug mode:', document.documentElement.classList.contains('debug-nav') ? 'ENABLED' : 'DISABLED');
+        };
+      }
     </script>
   </body>
 </html>

@@ -89,14 +89,14 @@
 
   --z-base: 1;
   --z-content: 10;
-  --z-floating-button: 50;
+  --z-floating-button: 102;
   --z-elevated: 60;
   --z-interactive: 90;
   --z-navigation: 100;
   --z-scroll-progress: 101;
-  --z-mobile-overlay: 150;
-  --z-mobile-menu: 150;
-  --z-services-dropdown: 200;
+  --z-mobile-overlay: 1000;
+  --z-mobile-menu: 1001;
+  --z-services-dropdown: 1002;
   --z-calendar-modal: 9999;
   --z-modals: 9999;
   --z-maximum: 2147483647;
@@ -119,6 +119,8 @@
   --nav-height-sm: 4rem;
   --nav-height-lg: 4.5rem;
   --nav-height-xl: 5rem;
+  --nav-current-height: var(--nav-height-sm);
+  --nav-scroll-padding: calc(var(--nav-current-height) + 1rem);
 
   --width-90: 90%;
   --width-60: 60%;

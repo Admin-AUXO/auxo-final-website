@@ -45,21 +45,44 @@ export function initCoreFeatures(): void {
   if (isInitialized) return;
   isInitialized = true;
 
-  const runInit = () => {
-    initSmoothScroll();
-    initScrollAnimations();
-    initScrollProgress();
-    initNavigation();
-    initFloatingButton();
-    initAccordions();
-    initLazyLoading();
-    setTimeout(() => refreshScrollAnimations(), 100);
+  const runCriticalInit = () => {
+    try {
+      initSmoothScroll();
+      initScrollProgress();
+      initNavigation();
+    } catch (error) {
+      if (import.meta.env.DEV) console.warn('Critical init error:', error);
+    }
   };
 
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(runInit, { timeout: 500 });
+  const runDeferredInit = () => {
+    try {
+      initScrollAnimations();
+      initFloatingButton();
+      initAccordions();
+      initLazyLoading();
+      setTimeout(() => {
+        try {
+          refreshScrollAnimations();
+        } catch (error) {
+          if (import.meta.env.DEV) console.warn('Scroll animation refresh error:', error);
+        }
+      }, 100);
+    } catch (error) {
+      if (import.meta.env.DEV) console.warn('Deferred init error:', error);
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runCriticalInit, { once: true });
   } else {
-    setTimeout(runInit, 1);
+    requestAnimationFrame(runCriticalInit);
+  }
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(runDeferredInit, { timeout: 1000 });
+  } else {
+    setTimeout(runDeferredInit, 100);
   }
 }
 

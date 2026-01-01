@@ -1,7 +1,7 @@
 #particle-background {
   position: fixed;
   inset: 0;
-  z-index: var(--z-base);
+  z-index: -1;
   pointer-events: none;
   background-color: transparent;
   opacity: 1;
@@ -29,9 +29,7 @@ footer.z-content {
   background-color: var(--bg-card);
 }
 
-body {
-  position: relative;
-}
+/* Body positioning removed to prevent stacking context issues */
 
 :root.light #particle-background {
   opacity: 0.9;

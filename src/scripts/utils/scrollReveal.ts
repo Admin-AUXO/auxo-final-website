@@ -94,7 +94,6 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
   const transitionProperty = isFade || isZoom ? 'opacity, transform' : 'transform';
   const cubicBezier = getCubicBezier(easing);
 
-  // Batch style writes to avoid forced reflows
   requestAnimationFrame(() => {
     element.style.transition = `${transitionProperty} ${mobileDuration}ms cubic-bezier(${cubicBezier})`;
 
@@ -105,7 +104,6 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
 
   requestAnimationFrame(() => {
     if (entry.isIntersecting) {
-      // Batch style writes for entering animation
       element.style.opacity = '1';
       element.style.transform = 'none';
       element.classList.add('reveal-animated');
@@ -119,7 +117,6 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
         });
       }, mobileDuration + mobileDelay);
     } else if (!globalOptions.once) {
-      // Batch style writes for exiting animation
       element.style.opacity = isFade ? '0' : '1';
       element.style.transform = initialTransform;
       element.classList.remove('reveal-animated');

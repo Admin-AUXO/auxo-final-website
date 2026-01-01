@@ -11,8 +11,20 @@
   border-bottom: 1px solid var(--accent-green-opacity-30);
   transition: opacity var(--duration-normal) var(--easing-standard),
     pointer-events var(--duration-normal) var(--easing-standard),
-    background-color var(--duration-normal) var(--easing-standard);
+    background-color var(--duration-normal) var(--easing-standard),
+    height var(--duration-normal) var(--easing-standard);
   padding-top: env(safe-area-inset-top);
+  height: var(--nav-current-height);
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout style paint;
+  isolation: isolate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #main-navigation {
+    transition: none;
+  }
 }
 
 body.scroll-locked #main-navigation,
@@ -56,7 +68,8 @@ body.scroll-locked #main-navigation,
 }
 
 #main-navigation .grid-container > div {
-  height: var(--nav-height-sm);
+  height: var(--nav-current-height);
+  transition: height var(--duration-normal) var(--easing-standard);
 }
 
 @media (min-width: 1024px) {
@@ -69,8 +82,18 @@ body.scroll-locked #main-navigation,
     max-width: 100vw;
   }
 
+  #main-navigation {
+    --nav-current-height: var(--nav-height-lg);
+  }
+
   #main-navigation .grid-container > div {
-    height: var(--nav-height-lg);
+    height: var(--nav-current-height);
+  }
+}
+
+@media (min-width: 1280px) {
+  #main-navigation {
+    --nav-current-height: var(--nav-height-xl);
   }
 }
 
@@ -180,4 +203,45 @@ body.scroll-locked #main-navigation,
 .nav-link[data-nav-item="about"]:hover .nav-active-border {
   display: none;
 }
+
+/* Debug mode for navigation stacking context and layout */
+:root.debug-nav #main-navigation {
+  outline: 2px solid red;
+  outline-offset: -2px;
+}
+
+:root.debug-nav #main-navigation::before {
+  content: "NAV (z:" attr(style) ")";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(255, 0, 0, 0.9);
+  color: white;
+  padding: 2px 4px;
+  font-size: 10px;
+  font-family: monospace;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+:root.debug-nav #main-content {
+  outline: 2px solid blue;
+  outline-offset: -2px;
+}
+
+:root.debug-nav #main-content::before {
+  content: "CONTENT (padding-top: " attr(style) ")";
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: rgba(0, 0, 255, 0.9);
+  color: white;
+  padding: 2px 4px;
+  font-size: 10px;
+  font-family: monospace;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Enable debug mode by adding class to html: document.documentElement.classList.add('debug-nav') */
 

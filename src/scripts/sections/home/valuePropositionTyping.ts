@@ -78,6 +78,7 @@ export function initValuePropositionTyping(containerId: string): void {
     const targetElement = lineIndex === 0 ? line1Element : line3Element;
     targetElement.textContent = '';
     
+    try {
     if (lineIndex === 0) {
       targetElement.textContent = content;
       if (isTyping) {
@@ -103,6 +104,9 @@ export function initValuePropositionTyping(containerId: string): void {
         targetElement.appendChild(cursor);
       }
     }
+  } catch (error) {
+    if (import.meta.env.DEV) console.warn('Value proposition typing DOM error:', error);
+  }
   }
 
   let lastTypedTime = performance.now();

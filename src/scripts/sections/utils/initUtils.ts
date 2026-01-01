@@ -15,7 +15,6 @@ export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): vo
   document.addEventListener('astro:page-load', () => {
     const currentPath = window.location.pathname;
     if (currentPath !== lastPagePath) {
-      // Use requestAnimationFrame for better timing after page transitions
       requestAnimationFrame(() => requestAnimationFrame(runInit));
       lastPagePath = currentPath;
     }

@@ -43,9 +43,14 @@ function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
   let loadTimeout: number | null = null;
 
   const handleLoad = () => {
-    hasLoaded = true;
-    if (loadTimeout) clearTimeout(loadTimeout);
-    getLoadingElement()?.setAttribute('hidden', '');
+    try {
+      hasLoaded = true;
+      if (loadTimeout) clearTimeout(loadTimeout);
+      const loadingEl = getLoadingElement();
+      if (loadingEl) loadingEl.setAttribute('hidden', '');
+    } catch (error) {
+      if (import.meta.env.DEV) console.warn('Calendar iframe load handling error:', error);
+    }
   };
 
   const handleError = () => {
@@ -169,7 +174,6 @@ function handleKeyboardNavigation(e: KeyboardEvent): void {
 
     setTimeout(updateScrollIndicators, 100);
   } catch {
-    // Cross-origin restrictions prevent iframe access
   }
 }
 

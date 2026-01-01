@@ -16,6 +16,7 @@ html {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: auto;
   scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-scroll-padding, 4rem);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

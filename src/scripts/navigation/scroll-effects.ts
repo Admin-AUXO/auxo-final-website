@@ -1,5 +1,5 @@
 import { state } from './state';
-import { getNavElements } from './utils';
+import { getNavElements, updateNavHeight } from './utils';
 import { getScrollTop } from '@/scripts/utils/scrollHelpers';
 import { SCROLL_THRESHOLDS } from '@/scripts/constants';
 
@@ -23,6 +23,7 @@ function handleLenisScroll(data: { scroll: number }): void {
   requestAnimationFrame(() => {
     if (nav) {
       updateNavState(nav, scrollTop);
+      updateNavHeight();
     }
     state.isScrolling = false;
   });
@@ -38,7 +39,6 @@ export function setupScrollEffects(): void {
   if (lenisInstance) {
     lenisInstance.on('scroll', handleLenisScroll);
   } else {
-    // Fallback to native scroll if Lenis not available
     function handleScroll(): void {
       if (state.isScrolling || !nav) return;
       state.isScrolling = true;
@@ -49,6 +49,7 @@ export function setupScrollEffects(): void {
       requestAnimationFrame(() => {
         if (nav) {
           updateNavState(nav, scrollTop);
+          updateNavHeight();
         }
         state.isScrolling = false;
       });
@@ -57,7 +58,6 @@ export function setupScrollEffects(): void {
     window.addEventListener('scroll', handleScroll, { passive: true });
   }
 
-  // Use requestAnimationFrame to avoid forced reflows during initial setup
   requestAnimationFrame(() => {
     const initialScrollTop = getScrollTop();
     updateNavState(nav, initialScrollTop);

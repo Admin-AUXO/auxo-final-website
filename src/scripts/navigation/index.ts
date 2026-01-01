@@ -1,9 +1,8 @@
 import { eventListeners, resetState } from './state';
-import { getNavElements } from './utils';
+import { getNavElements, debugNavigation, updateNavHeight } from './utils';
 import { initializeMobileMenu, closeMobileMenu } from './mobile-menu';
 import { initializeDropdowns, setupDropdownCloseHandlers, closeAllDropdowns } from './dropdowns';
 import { setupScrollEffects } from './scroll-effects';
-
 import { forceUnlockScroll } from './utils';
 
 export function cleanupNavigation(): void {
@@ -29,4 +28,12 @@ export function initializeNavigationComponents(): void {
   initializeDropdowns();
   setupScrollEffects();
   setupDropdownCloseHandlers();
+
+  requestAnimationFrame(() => {
+    updateNavHeight();
+
+    setTimeout(() => debugNavigation(), 1000);
+
+    window.addEventListener('resize', updateNavHeight, { passive: true });
+  });
 }
