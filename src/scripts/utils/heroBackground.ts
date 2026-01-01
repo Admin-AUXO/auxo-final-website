@@ -1,3 +1,5 @@
+import { observeThemeChange } from './observers';
+
 let particleSystem: any = null;
 let isInitialized = false;
 let themeObserver: MutationObserver | null = null;
@@ -44,24 +46,15 @@ function waitForInit(): void {
   initParticleSystem();
 }
 
-function observeThemeChange(): void {
+function setupThemeObservation(): void {
   if (typeof window === 'undefined') return;
-  
-  let lastTheme: 'dark' | 'light' = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-  
-  themeObserver = new MutationObserver(() => {
-    const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-    if (lastTheme !== currentTheme) {
-      cleanup();
-      setTimeout(waitForInit, 100);
-      lastTheme = currentTheme;
-    }
+
+  const unobserve = observeThemeChange(() => {
+    cleanup();
+    setTimeout(waitForInit, 100);
   });
-  
-  themeObserver.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['class'],
-  });
+
+  themeObserver = { disconnect: unobserve } as MutationObserver;
 }
 
 export function initHeroBackground(): void {
@@ -79,13 +72,13 @@ export function initHeroBackground(): void {
   }
 
   if (!themeObserver) {
-    observeThemeChange();
+    setupThemeObservation();
   }
 }
 
 export function cleanupHeroBackground(): void {
   cleanup();
-  if (themeObserver) {
+  if (themeObserver && typeof themeObserver.disconnect === 'function') {
     themeObserver.disconnect();
     themeObserver = null;
   }

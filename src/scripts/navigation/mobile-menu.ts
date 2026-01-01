@@ -1,11 +1,12 @@
-import { DragGesture } from '@use-gesture/vanilla';
 import { state, addTrackedListener } from './state';
 import { getNavElements, resetDropdownStyles, findDropdownContent, lockScroll, unlockScroll } from './utils';
 import { DROPDOWN_ANIMATION_DURATION, DROPDOWN_CLOSE_DELAY } from './state';
-import { createFocusTrap } from 'focus-trap';
 
-let focusTrap: ReturnType<typeof createFocusTrap> | null = null;
-let swipeGesture: DragGesture | null = null;
+const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+let focusTrapCleanup: (() => void) | null = null;
+let returnFocusElement: HTMLElement | null = null;
+let swipeCleanup: (() => void) | null = null;
 
 function calculateDropdownHeight(content: HTMLElement): number {
   const styles = {
@@ -150,10 +151,52 @@ export function setupMobileDropdowns(): void {
   });
 }
 
+function createFocusTrap(container: HTMLElement, returnFocus: HTMLElement): void {
+  returnFocusElement = returnFocus;
+
+  const focusableElements = Array.from(
+    container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+  ).filter(el => !el.hasAttribute('disabled'));
+
+  const firstFocusable = focusableElements[0];
+  const lastFocusable = focusableElements[focusableElements.length - 1];
+
+  const handleTabKey = (e: KeyboardEvent) => {
+    if (e.key !== 'Tab') return;
+
+    if (e.shiftKey) {
+      if (document.activeElement === firstFocusable) {
+        e.preventDefault();
+        lastFocusable?.focus();
+      }
+    } else {
+      if (document.activeElement === lastFocusable) {
+        e.preventDefault();
+        firstFocusable?.focus();
+      }
+    }
+  };
+
+  container.addEventListener('keydown', handleTabKey);
+
+  focusTrapCleanup = () => {
+    container.removeEventListener('keydown', handleTabKey);
+  };
+
+  requestAnimationFrame(() => {
+    firstFocusable?.focus();
+  });
+}
+
 function deactivateFocusTrap(): void {
-  if (focusTrap) {
-    focusTrap.deactivate();
-    focusTrap = null;
+  if (focusTrapCleanup) {
+    focusTrapCleanup();
+    focusTrapCleanup = null;
+  }
+
+  if (returnFocusElement) {
+    returnFocusElement.focus();
+    returnFocusElement = null;
   }
 }
 
@@ -176,12 +219,12 @@ export function closeMobileMenu(): void {
   
   state.isMobileMenuOpen = false;
   deactivateFocusTrap();
-  
-  if (swipeGesture) {
-    swipeGesture.destroy();
-    swipeGesture = null;
+
+  if (swipeCleanup) {
+    swipeCleanup();
+    swipeCleanup = null;
   }
-  
+
   const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
   if (menuContent) {
     menuContent.removeEventListener('scroll', updateScrollIndicators);
@@ -246,20 +289,10 @@ function openMobileMenu(): void {
   nav?.setAttribute('data-menu-open', 'true');
   mobileMenuButton.setAttribute('aria-expanded', 'true');
   lockScroll();
-  
-  focusTrap = createFocusTrap(mobileMenu, {
-    allowOutsideClick: true,
-    escapeDeactivates: true,
-    returnFocusOnDeactivate: true,
-    initialFocus: mobileMenu,
-    setReturnFocus: mobileMenuButton,
-  });
-  
-  requestAnimationFrame(() => {
-    try {
-      focusTrap?.activate();
-    } catch {}
 
+  createFocusTrap(mobileMenu, mobileMenuButton);
+
+  requestAnimationFrame(() => {
     setupMobileDropdowns();
     setupLinkHandlers();
     setupCloseButtonHandler();
@@ -314,32 +347,65 @@ function setupSwipeHandlers(): void {
   const { mobileMenu } = getNavElements();
   if (!mobileMenu) return;
 
-  if (swipeGesture) {
-    swipeGesture.destroy();
-    swipeGesture = null;
+  if (swipeCleanup) {
+    swipeCleanup();
+    swipeCleanup = null;
   }
 
-  swipeGesture = new DragGesture(
-    mobileMenu,
-    ({ active, movement: [mx, my], direction: [dx, dy], velocity: [vx, vy] }) => {
-      if (Math.abs(dx) < Math.abs(dy)) return;
-      
-      if (!active && dx > 0) {
-        const swipeDistance = Math.abs(mx);
-        const swipeVelocity = Math.abs(vx);
-        
-        if (swipeDistance > SWIPE_DISTANCE_THRESHOLD || swipeVelocity > SWIPE_VELOCITY_THRESHOLD) {
-          closeMobileMenu();
-        }
+  let startX = 0;
+  let startY = 0;
+  let startTime = 0;
+  let isDragging = false;
+
+  const handlePointerDown = (e: PointerEvent) => {
+    startX = e.clientX;
+    startY = e.clientY;
+    startTime = Date.now();
+    isDragging = false;
+  };
+
+  const handlePointerMove = (e: PointerEvent) => {
+    if (!isDragging) {
+      const deltaX = Math.abs(e.clientX - startX);
+      const deltaY = Math.abs(e.clientY - startY);
+      if (deltaX > 10 || deltaY > 10) {
+        isDragging = true;
       }
-    },
-    {
-      axis: 'x',
-      threshold: 10,
-      filterTaps: true,
-      pointer: { touch: true },
     }
-  );
+  };
+
+  const handlePointerUp = (e: PointerEvent) => {
+    if (!isDragging) return;
+
+    const deltaX = e.clientX - startX;
+    const deltaY = e.clientY - startY;
+    const deltaTime = Date.now() - startTime;
+
+    if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+
+    if (deltaX > 0) {
+      const swipeDistance = Math.abs(deltaX);
+      const swipeVelocity = Math.abs(deltaX / deltaTime);
+
+      if (swipeDistance > SWIPE_DISTANCE_THRESHOLD || swipeVelocity > SWIPE_VELOCITY_THRESHOLD) {
+        closeMobileMenu();
+      }
+    }
+
+    isDragging = false;
+  };
+
+  mobileMenu.addEventListener('pointerdown', handlePointerDown);
+  mobileMenu.addEventListener('pointermove', handlePointerMove);
+  mobileMenu.addEventListener('pointerup', handlePointerUp);
+  mobileMenu.addEventListener('pointercancel', handlePointerUp);
+
+  swipeCleanup = () => {
+    mobileMenu.removeEventListener('pointerdown', handlePointerDown);
+    mobileMenu.removeEventListener('pointermove', handlePointerMove);
+    mobileMenu.removeEventListener('pointerup', handlePointerUp);
+    mobileMenu.removeEventListener('pointercancel', handlePointerUp);
+  };
 }
 
 function handleKeyboard(e: Event): void {

@@ -7,7 +7,7 @@ import ApproachSection from "@/components/sections/about/ApproachSection.astro";
 import TeamSection from "@/components/sections/about/TeamSection.astro";
 import PartnershipSection from "@/components/sections/about/PartnershipSection.astro";
 import GlobalSection from "@/components/sections/about/GlobalSection.astro";
-import AboutCta from "@/components/sections/about/AboutCta.astro";
+import CtaSection from "@/components/sections/common/CtaSection.astro";
 import { getAboutContent } from "@/lib/sanity/data";
 
 const aboutContent = await getAboutContent();
@@ -25,7 +25,19 @@ const aboutContent = await getAboutContent();
   <TeamSection content={aboutContent.team} />
   <PartnershipSection content={aboutContent.partnership} />
   <GlobalSection content={aboutContent.global} />
-  <AboutCta content={aboutContent.cta} />
+  <CtaSection
+    id="about-cta"
+    title={aboutContent.cta.title}
+    titleHighlight="Partnership"
+    description={aboutContent.cta.description}
+    descriptionHighlight={aboutContent.cta.descriptionHighlight}
+    ctaText={aboutContent.cta.ctaText}
+    ctaHref={aboutContent.cta.ctaHref}
+    variant="standard"
+    background="default"
+    maxWidth="4xl"
+    class="about-cta-section"
+  />
 
   <script>
     import { setupPageAnimations, setupSectionInit } from "@/scripts/sections/utils/initUtils";

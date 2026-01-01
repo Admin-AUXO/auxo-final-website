@@ -1,6 +1,9 @@
-const FAB_SCROLL_THRESHOLD = 200;
-const FAB_HIDE_DELAY = 1500;
-const FAB_SCROLL_HIDE_THRESHOLD = 50;
+import { getScrollTop } from '@/scripts/utils/scrollHelpers';
+import { SCROLL_THRESHOLDS, Z_INDEX } from '@/scripts/constants';
+
+const FAB_SCROLL_THRESHOLD = SCROLL_THRESHOLDS.FLOATING_BUTTON_SHOW;
+const FAB_HIDE_DELAY = SCROLL_THRESHOLDS.FLOATING_BUTTON_HIDE_INITIAL;
+const FAB_SCROLL_HIDE_THRESHOLD = SCROLL_THRESHOLDS.FLOATING_BUTTON_ANDROID_DELAY;
 
 let lastScrollTop = 0;
 let hideTimeout: number | null = null;
@@ -11,10 +14,6 @@ let resizeHandler: (() => void) | null = null;
 
 function getFabElement(): HTMLElement | null {
   return document.getElementById('floating-calendar-button');
-}
-
-function getScrollTop(): number {
-  return window.pageYOffset || document.documentElement.scrollTop;
 }
 
 function updateFabVisibility(scrollTop: number): void {

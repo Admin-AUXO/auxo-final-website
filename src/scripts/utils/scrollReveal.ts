@@ -1,3 +1,5 @@
+import { isMobileDevice } from './deviceDetection';
+
 export interface ScrollRevealOptions {
   duration?: number;
   easing?: string;
@@ -84,7 +86,7 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
   const initialTransform = getInitialTransform(animation);
   const isFade = animation.includes('fade');
   const isZoom = animation.includes('zoom');
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const isMobile = isMobileDevice();
 
   const mobileDuration = isMobile ? Math.min(duration, 300) : duration;
   const mobileDelay = isMobile ? Math.min(delay, 50) : delay;
@@ -99,26 +101,24 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
   }
 
   requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      if (entry.isIntersecting) {
-        element.style.opacity = '1';
-        element.style.transform = 'none';
-        element.classList.add('reveal-animated');
-        element.classList.remove('reveal-init');
-        element._revealAnimated = true;
+    if (entry.isIntersecting) {
+      element.style.opacity = '1';
+      element.style.transform = 'none';
+      element.classList.add('reveal-animated');
+      element.classList.remove('reveal-init');
+      element._revealAnimated = true;
 
-        setTimeout(() => {
-          element.style.willChange = 'auto';
-          element.style.transition = '';
-        }, mobileDuration + mobileDelay);
-      } else if (!globalOptions.once) {
-        element.style.opacity = isFade ? '0' : '1';
-        element.style.transform = initialTransform;
-        element.classList.remove('reveal-animated');
-        element.classList.add('reveal-init');
-        element._revealAnimated = false;
-      }
-    });
+      setTimeout(() => {
+        element.style.willChange = 'auto';
+        element.style.transition = '';
+      }, mobileDuration + mobileDelay);
+    } else if (!globalOptions.once) {
+      element.style.opacity = isFade ? '0' : '1';
+      element.style.transform = initialTransform;
+      element.classList.remove('reveal-animated');
+      element.classList.add('reveal-init');
+      element._revealAnimated = false;
+    }
   });
 }
 
@@ -134,7 +134,7 @@ function getCubicBezier(easing: string): string {
 }
 
 function createObserver(): IntersectionObserver {
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const isMobile = isMobileDevice();
   const offset = isMobile ? Math.min(globalOptions.offset, 40) : globalOptions.offset;
   const threshold = isMobile ? 0.05 : globalOptions.threshold;
 
@@ -178,20 +178,6 @@ function initializeElements(): void {
   });
 }
 
-function setupScrollIntegration(): void {
-  const lenis = (window as any).__lenis;
-  if (lenis && observer) {
-    lenis.on('scroll', () => {
-      const elements = document.querySelectorAll<RevealElement>('[data-reveal]:not(.reveal-animated)');
-      elements.forEach((element) => {
-        if (observer) {
-          observer.observe(element);
-        }
-      });
-    });
-  }
-}
-
 export function init(options: ScrollRevealOptions = {}): void {
   globalOptions = { ...DEFAULT_OPTIONS, ...options };
   
@@ -219,9 +205,6 @@ export function init(options: ScrollRevealOptions = {}): void {
   } else {
     initializeElements();
   }
-
-  setupScrollIntegration();
-
 }
 
 export function refresh(): void {

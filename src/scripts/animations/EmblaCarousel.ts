@@ -1,7 +1,6 @@
 import EmblaCarousel from 'embla-carousel';
 import type { EmblaCarouselType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
-import { DragGesture } from '@use-gesture/vanilla';
 
 const DEFAULT_AUTOPLAY_INTERVAL = 3000;
 const TRANSITION_DURATION = 200;
@@ -29,7 +28,7 @@ export class EmblaCarouselWrapper {
   private autoplay: ReturnType<typeof Autoplay> | null = null;
   private onSlideChangeCallback?: (index: number) => void;
   private isDragging = false;
-  private gestureHandler: DragGesture | null = null;
+  private gestureCleanup: (() => void) | null = null;
   private isHorizontalSwipe = false;
   private isAutoplayPaused = false;
 
@@ -173,38 +172,62 @@ export class EmblaCarouselWrapper {
     const track = this.getTrack();
     if (!track) return;
 
-    this.gestureHandler = new DragGesture(
-      track,
-      ({ active, movement: [mx, my], direction: [dx, dy], first, last }) => {
-        if (first) {
-          this.isHorizontalSwipe = false;
-        }
+    let startX = 0;
+    let startY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let isActive = false;
 
-        if (active) {
-          const isHorizontal = Math.abs(dx) > Math.abs(dy);
-          const horizontalDistance = Math.abs(mx);
-          
-          if (isHorizontal && horizontalDistance > SWIPE_THRESHOLD) {
-            this.isHorizontalSwipe = true;
-          } else if (!isHorizontal && Math.abs(my) > SWIPE_THRESHOLD) {
-            this.isHorizontalSwipe = false;
-          }
-        }
+    const handlePointerDown = (e: PointerEvent) => {
+      if (e.pointerType === 'mouse') return;
 
-        if (last) {
-          setTimeout(() => {
-            this.isHorizontalSwipe = false;
-          }, 100);
-        }
-      },
-      {
-        axis: 'x',
-        threshold: SWIPE_THRESHOLD,
-        filterTaps: true,
-        pointer: { touch: true, mouse: false },
-        preventDefault: false,
+      startX = e.clientX;
+      startY = e.clientY;
+      currentX = e.clientX;
+      currentY = e.clientY;
+      isActive = false;
+      this.isHorizontalSwipe = false;
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      if (e.pointerType === 'mouse') return;
+
+      currentX = e.clientX;
+      currentY = e.clientY;
+
+      const dx = currentX - startX;
+      const dy = currentY - startY;
+      const isHorizontal = Math.abs(dx) > Math.abs(dy);
+      const horizontalDistance = Math.abs(dx);
+
+      if (isHorizontal && horizontalDistance > SWIPE_THRESHOLD) {
+        isActive = true;
+        this.isHorizontalSwipe = true;
+      } else if (!isHorizontal && Math.abs(dy) > SWIPE_THRESHOLD) {
+        this.isHorizontalSwipe = false;
       }
-    );
+    };
+
+    const handlePointerUp = () => {
+      if (isActive) {
+        setTimeout(() => {
+          this.isHorizontalSwipe = false;
+        }, 100);
+      }
+      isActive = false;
+    };
+
+    track.addEventListener('pointerdown', handlePointerDown);
+    track.addEventListener('pointermove', handlePointerMove);
+    track.addEventListener('pointerup', handlePointerUp);
+    track.addEventListener('pointercancel', handlePointerUp);
+
+    this.gestureCleanup = () => {
+      track.removeEventListener('pointerdown', handlePointerDown);
+      track.removeEventListener('pointermove', handlePointerMove);
+      track.removeEventListener('pointerup', handlePointerUp);
+      track.removeEventListener('pointercancel', handlePointerUp);
+    };
   }
 
 
@@ -255,9 +278,9 @@ export class EmblaCarouselWrapper {
 
 
   destroy(): void {
-    if (this.gestureHandler) {
-      this.gestureHandler.destroy();
-      this.gestureHandler = null;
+    if (this.gestureCleanup) {
+      this.gestureCleanup();
+      this.gestureCleanup = null;
     }
 
     this.autoplay?.stop();

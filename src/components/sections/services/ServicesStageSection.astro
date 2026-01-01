@@ -1,8 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import SectionContainer from "@/components/layouts/SectionContainer.astro";
-import HighlightCard from "@/components/ui/HighlightCard.astro";
-import ServiceCard from "@/components/ui/ServiceCard.astro";
+import Card from "@/components/ui/Card.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
@@ -79,13 +78,14 @@ const serviceIcons = [
             data-reveal-delay={150 + (index * 75)}
             data-reveal-easing="ease-out-cubic"
           >
-            <ServiceCard
+            <Card
+              variant="service"
               icon={serviceIcons[index]}
               title={service.name}
               description={service.description}
               link={createUrl(service.link)}
               index={index}
-              variant="grid"
+              isCarousel={false}
             />
           </div>
         ))}
@@ -109,13 +109,14 @@ const serviceIcons = [
             data-reveal-delay={200 + (index * 75)}
             data-reveal-easing="ease-out-cubic"
           >
-            <ServiceCard
+            <Card
+              variant="service"
               icon={serviceIcons[index]}
               title={service.name}
               description={service.description}
               link={createUrl(service.link)}
               index={index}
-              variant="carousel"
+              isCarousel={true}
             />
           </div>
         ))}

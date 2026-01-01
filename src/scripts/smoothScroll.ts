@@ -1,5 +1,7 @@
 import Lenis from 'lenis';
 import { isMobileDevice } from './utils/deviceDetection';
+import { getScrollTop } from './utils/scrollHelpers';
+import { SCROLL_OFFSETS } from './constants';
 
 let lenis: Lenis | null = null;
 let isMobile = false;
@@ -7,9 +9,9 @@ let rafId: number | null = null;
 let anchorClickHandlers: Array<{ anchor: Element; handler: (e: Event) => void }> = [];
 let pageLoadHandler: (() => void) | null = null;
 
-function handleAnchorClick(e: Event, target: HTMLElement, offset: number = 80): void {
+function handleAnchorClick(e: Event, target: HTMLElement, offset: number = SCROLL_OFFSETS.DEFAULT): void {
   e.preventDefault();
-  const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+  const targetPosition = target.getBoundingClientRect().top + getScrollTop() - offset;
   window.scrollTo({ top: targetPosition, behavior: 'smooth' });
 }
 
@@ -43,11 +45,11 @@ function handleHashNavigation(): void {
     if (target) {
       if (lenis) {
         requestAnimationFrame(() => {
-          lenis?.scrollTo(target, { immediate: true, offset: -80 });
+          lenis?.scrollTo(target, { immediate: true, offset: -SCROLL_OFFSETS.DEFAULT });
         });
       } else {
-        const offset = 80;
-        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        const offset = SCROLL_OFFSETS.DEFAULT;
+        const targetPosition = target.getBoundingClientRect().top + getScrollTop() - offset;
         window.scrollTo({ top: targetPosition, behavior: 'smooth' });
       }
     }

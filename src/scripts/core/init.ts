@@ -1,5 +1,5 @@
 import { initSmoothScroll, destroySmoothScroll } from '../smoothScroll';
-import { initScrollAnimations, cleanupScrollAnimations, refreshScrollAnimations } from '../scrollAnimations';
+import { init as initScrollAnimations, cleanup as cleanupScrollAnimations, refresh as refreshScrollAnimations } from '../utils/scrollReveal';
 import { initScrollProgress, cleanupScrollProgress } from './scrollProgress';
 import { initNavigation, cleanupNavigation } from './navigation';
 import { initFloatingButton, cleanupFloatingButton } from './floatingButton';
@@ -56,7 +56,7 @@ export function initCoreFeatures(): void {
   };
 
   if ('requestIdleCallback' in window) {
-    requestIdleCallback(runInit, { timeout: 2000 });
+    requestIdleCallback(runInit, { timeout: 500 });
   } else {
     setTimeout(runInit, 1);
   }
@@ -64,15 +64,17 @@ export function initCoreFeatures(): void {
 
 export function initPageFeatures(showParticles: boolean = false): void {
   if (showParticles) initHeroBackground();
-  
-  setTimeout(() => {
-    import('../widgets/googleCalendar').then(({ setupGoogleCalendar }) => {
-  setupGoogleCalendar();
-    }).catch((error) => import.meta.env.DEV && console.error('Failed to load Google Calendar:', error));
 
-    import('../ui/themeToggle').then(({ initThemeToggle }) => {
-  initThemeToggle();
-    }).catch((error) => import.meta.env.DEV && console.error('Failed to load theme toggle:', error));
+  setTimeout(() => {
+    Promise.all([
+      import('../widgets/googleCalendar'),
+      import('../ui/themeToggle')
+    ]).then(([calendar, theme]) => {
+      calendar.setupGoogleCalendar();
+      theme.initThemeToggle();
+    }).catch((error) => {
+      if (import.meta.env.DEV) console.error('Failed to load modules:', error);
+    });
   }, 100);
 }
 
@@ -94,6 +96,5 @@ export function reinitOnPageLoad(): void {
   cleanupCoreFeatures();
   setTimeout(() => {
     initCoreFeatures();
-    initAccordions();
   }, 50);
 }

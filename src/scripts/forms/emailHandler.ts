@@ -83,9 +83,7 @@ export async function handleContactFormSubmit(event: Event) {
       throw new Error('Failed to send message');
     }
   } catch (error) {
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
-      if (import.meta.env.DEV) console.error('Email send failed:', error);
-    }
+    if (import.meta.env.DEV) console.error('Email send failed:', error);
     if (error instanceof Error && error.message.includes('not configured')) {
       showError(error.message);
     } else {

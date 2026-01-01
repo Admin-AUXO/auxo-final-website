@@ -1,5 +1,5 @@
-import { initializeMobileMenu, closeMobileMenu } from './mobileMenu';
-import { initializeDropdowns, setupDropdownCloseHandlers, closeAllDropdowns } from './dropdowns';
+import { initializeMobileMenu, closeMobileMenu } from '../navigation/mobile-menu';
+import { initializeDropdowns, setupDropdownCloseHandlers, closeAllDropdowns } from '../navigation/dropdowns';
 import { setupScrollEffects } from '../navigation/scroll-effects';
 import { getNavElements } from '../navigation/utils';
 import { resetState, eventListeners } from '../navigation/state';

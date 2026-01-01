@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
-import react from '@astrojs/react';
 import sanity from '@sanity/astro';
 import icon from 'astro-icon';
 import sitemap from '@astrojs/sitemap';
@@ -26,7 +25,7 @@ export default defineConfig({
   },
   vite: {
     optimizeDeps: {
-      include: ['embla-carousel', '@floating-ui/dom', 'sharp', '@sanity/client', 'groq', 'astro-icon'],
+      include: ['embla-carousel', 'sharp', '@sanity/client', 'astro-icon'],
     },
     define: {
       'import.meta.env.SANITY_PROJECT_ID': JSON.stringify(env.SANITY_PROJECT_ID),
@@ -56,11 +55,10 @@ export default defineConfig({
           assetFileNames: '_astro/[name]-[hash].[ext]',
           experimentalMinChunkSize: 1000,
           manualChunks(id) {
-            if (id.includes('embla-carousel') || id.includes('@floating-ui/dom') || id.includes('@use-gesture')) return 'ui-vendor';
+            if (id.includes('embla-carousel')) return 'ui-vendor';
             if (id.includes('astro-icon') || id.includes('@iconify')) return 'icons';
             if (id.includes('@sanity/') || id.includes('groq')) return 'sanity';
-            if (id.includes('@astrojs/react') || id.includes('react')) return 'react-vendor';
-            if (id.includes('notyf') || id.includes('focus-trap') || id.includes('zod')) return 'utils';
+            if (id.includes('zod')) return 'utils';
             if (id.includes('node:') || id.includes('buffer') || id.includes('process')) return 'polyfills';
             if (id.includes('tailwindcss') || id.includes('autoprefixer')) return 'build-tools';
           },
@@ -91,7 +89,6 @@ export default defineConfig({
       useCdn: false,
       studioBasePath: '/studio',
     })] : []),
-    react(),
     tailwind({
       applyBaseStyles: false,
     }),

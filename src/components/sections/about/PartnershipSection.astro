@@ -1,7 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import SectionContainer from "@/components/layouts/SectionContainer.astro";
-import HighlightCard from "@/components/ui/HighlightCard.astro";
+import Card from "@/components/ui/Card.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
 
 interface Props {
@@ -36,8 +36,8 @@ const { content } = Astro.props;
       </div>
 
       <div class="partnership-content" data-reveal="fade-up" data-reveal-delay="150" data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
-        <HighlightCard
-          title=""
+        <Card
+          variant="highlight"
           content={content.description}
           contentHighlight={content.descriptionHighlight}
         />

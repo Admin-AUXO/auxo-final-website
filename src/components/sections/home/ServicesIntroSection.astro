@@ -1,5 +1,5 @@
 ---
-import ServiceCard from "@/components/ui/ServiceCard.astro";
+import Card from "@/components/ui/Card.astro";
 import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
@@ -36,13 +36,14 @@ const { content } = Astro.props;
       <div class="hidden lg:grid lg:grid-cols-3 lg:gap-6 xl:gap-8 services-grid-desktop">
         {content.items.map((item, index) => (
           <div data-reveal="fade-up" data-reveal-delay={150 + (index * 100)} data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
-            <ServiceCard
+            <Card
+              variant="service"
               icon={item.icon}
               title={item.title}
               description={item.description}
               link={item.link ? createUrl(item.link) : undefined}
               index={index}
-              variant="grid"
+              isCarousel={false}
             />
           </div>
         ))}
@@ -59,13 +60,14 @@ const { content } = Astro.props;
       >
         {content.items.map((item, index) => (
           <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
-            <ServiceCard
+            <Card
+              variant="service"
               icon={item.icon}
               title={item.title}
               description={item.description}
               link={item.link ? createUrl(item.link) : undefined}
               index={index}
-              variant="carousel"
+              isCarousel={true}
             />
           </div>
         ))}

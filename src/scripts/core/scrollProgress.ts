@@ -1,5 +1,6 @@
 import { getLenisInstance } from '../smoothScroll';
 import { isMobileDevice } from '../utils/deviceDetection';
+import { getScrollPercentage } from '../utils/scrollHelpers';
 
 let isInitialized = false;
 let lenisInstance: any = null;
@@ -20,9 +21,7 @@ function handleLenisScroll(data: { scroll: number }): void {
 }
 
 function handleNativeScroll(): void {
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  const progress = getScrollPercentage();
   updateProgress(progress);
 }
 

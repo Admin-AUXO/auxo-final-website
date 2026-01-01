@@ -4,7 +4,7 @@ import HeroSection from "@/components/sections/services/HeroSection.astro";
 import ServicesStageSection from "@/components/sections/services/ServicesStageSection.astro";
 import ImpactSection from "@/components/sections/services/ImpactSection.astro";
 import ModelsSection from "@/components/sections/services/ModelsSection.astro";
-import ServicesCta from "@/components/sections/services/ServicesCta.astro";
+import CtaSection from "@/components/sections/common/CtaSection.astro";
 import { getServicesContent } from "@/lib/sanity/data";
 
 const servicesContent = await getServicesContent();
@@ -19,7 +19,19 @@ const servicesContent = await getServicesContent();
   <ServicesStageSection content={servicesContent.stages} />
   <ImpactSection content={servicesContent.impact} />
   <ModelsSection content={servicesContent.models} />
-  <ServicesCta content={servicesContent.cta} />
+  <CtaSection
+    id="services-cta"
+    title={servicesContent.cta.title}
+    titleHighlight={["Analytics Roadmap", "Reality"]}
+    description={servicesContent.cta.description}
+    descriptionHighlight={servicesContent.cta.descriptionHighlight}
+    ctaText={servicesContent.cta.ctaText}
+    ctaHref={servicesContent.cta.ctaHref}
+    variant="standard"
+    background="default"
+    maxWidth="4xl"
+    class="services-cta-section"
+  />
 
 </BaseLayout>
 

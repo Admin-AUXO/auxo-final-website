@@ -1,4 +1,3 @@
-import { DragGesture } from '@use-gesture/vanilla';
 import { createCalendarModal } from '@/scripts/utils/modalManager';
 import { setupEnhancedScrolling, setupScrollIndicators, initTouchScrolling } from '@/scripts/utils/scrollUtils';
 
@@ -11,15 +10,13 @@ const SWIPE_VELOCITY_THRESHOLD = 0.3;
 const LOAD_TIMEOUT = 15000;
 
 const initializedButtons = new WeakSet<HTMLElement>();
-let swipeGesture: DragGesture | null = null;
+let swipeCleanup: (() => void) | null = null;
 
 function safeInitTouchScrolling(): void {
   try {
     initTouchScrolling();
   } catch (error) {
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
-      console.warn('Touch scrolling setup failed:', error);
-    }
+    if (import.meta.env.DEV) console.warn('Touch scrolling setup failed:', error);
   }
 }
 
@@ -180,31 +177,45 @@ function setupSwipeHandlers(): void {
   const modal = getModal();
   if (!modal) return;
 
-  if (swipeGesture) {
-    swipeGesture.destroy();
-    swipeGesture = null;
+  if (swipeCleanup) {
+    swipeCleanup();
+    swipeCleanup = null;
   }
 
-  swipeGesture = new DragGesture(
-    modal,
-    ({ active, movement: [mx, my], direction: [dx, dy], velocity: [vx, vy] }) => {
-      if (Math.abs(dy) < Math.abs(dx)) return;
+  let startX = 0;
+  let startY = 0;
+  let startTime = 0;
 
-      if (!active && dy > 0) {
-        const swipeDistance = Math.abs(my);
-        const swipeVelocity = Math.abs(vy);
+  const handlePointerDown = (e: PointerEvent) => {
+    startX = e.clientX;
+    startY = e.clientY;
+    startTime = Date.now();
+  };
 
-        if (swipeDistance > SWIPE_DISTANCE_THRESHOLD || swipeVelocity > SWIPE_VELOCITY_THRESHOLD) {
-          closeCalendarModal();
-        }
+  const handlePointerUp = (e: PointerEvent) => {
+    const deltaX = e.clientX - startX;
+    const deltaY = e.clientY - startY;
+    const deltaTime = Date.now() - startTime;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) return;
+
+    if (deltaY > 0) {
+      const swipeDistance = Math.abs(deltaY);
+      const swipeVelocity = Math.abs(deltaY / deltaTime);
+
+      if (swipeDistance > SWIPE_DISTANCE_THRESHOLD || swipeVelocity > SWIPE_VELOCITY_THRESHOLD) {
+        closeCalendarModal();
       }
-    },
-    {
-      axis: 'y',
-      threshold: 10,
-      filterTaps: true,
     }
-  );
+  };
+
+  modal.addEventListener('pointerdown', handlePointerDown);
+  modal.addEventListener('pointerup', handlePointerUp);
+
+  swipeCleanup = () => {
+    modal.removeEventListener('pointerdown', handlePointerDown);
+    modal.removeEventListener('pointerup', handlePointerUp);
+  };
 }
 
 let calendarModalInstance: ReturnType<typeof createCalendarModal> | null = null;
@@ -216,9 +227,7 @@ function openCalendarModal(): void {
 
   const modal = getModal();
   if (!modal) {
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
-      console.warn('Calendar modal missing');
-    }
+    if (import.meta.env.DEV) console.warn('Calendar modal missing');
     return;
   }
 
@@ -245,9 +254,9 @@ function openCalendarModal(): void {
 }
 
 function closeCalendarModal(): void {
-  if (swipeGesture) {
-    swipeGesture.destroy();
-    swipeGesture = null;
+  if (swipeCleanup) {
+    swipeCleanup();
+    swipeCleanup = null;
   }
   calendarModalInstance?.close();
 }
@@ -334,9 +343,7 @@ export function setupGoogleCalendar(): void {
   try {
     initializeGoogleCalendar();
   } catch (error) {
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('.local')) {
-      console.error('Google Calendar setup failed:', error);
-    }
+    if (import.meta.env.DEV) console.error('Google Calendar setup failed:', error);
   }
 }
 

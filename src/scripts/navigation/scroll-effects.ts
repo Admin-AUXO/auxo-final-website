@@ -1,7 +1,9 @@
 import { state } from './state';
 import { getNavElements } from './utils';
+import { getScrollTop } from '@/scripts/utils/scrollHelpers';
+import { SCROLL_THRESHOLDS } from '@/scripts/constants';
 
-const SCROLL_THRESHOLD = 10;
+const SCROLL_THRESHOLD = SCROLL_THRESHOLDS.SCROLL_INDICATOR_THRESHOLD;
 
 function updateNavState(nav: HTMLElement, scrollTop: number): void {
   const shouldBeScrolled = scrollTop > SCROLL_THRESHOLD;
@@ -24,10 +26,6 @@ function handleLenisScroll(data: { scroll: number }): void {
     }
     state.isScrolling = false;
   });
-}
-
-function getScrollTop(): number {
-  return window.pageYOffset || document.documentElement.scrollTop;
 }
 
 export function setupScrollEffects(): void {

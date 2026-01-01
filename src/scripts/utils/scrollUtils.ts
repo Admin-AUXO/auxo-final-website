@@ -1,3 +1,5 @@
+import { isMobileDevice } from './deviceDetection';
+
 interface ScrollConfig {
   touchAction?: string;
   overscrollBehavior?: string;
@@ -53,7 +55,7 @@ const defaultScrollConfig = {
 export function initTouchScrolling(): void {
   if (typeof document === 'undefined') return;
 
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const isMobile = isMobileDevice();
   if (!isMobile) return;
 
   document.querySelectorAll('[data-modal-content], [data-scrollable-iframe]').forEach((element) => {

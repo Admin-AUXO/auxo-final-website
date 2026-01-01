@@ -1,6 +1,6 @@
 ---
 import SectionContainer from '@/components/layouts/SectionContainer.astro';
-import CapabilityCard from '@/components/ui/CapabilityCard.astro';
+import Card from '@/components/ui/Card.astro';
 import BackgroundDecorations from '@/components/ui/BackgroundDecorations.astro';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
 import Carousel from '@/components/ui/Carousel.astro';
@@ -36,13 +36,14 @@ const { content } = Astro.props;
         <div class="symmetric-grid-container">
           {content.cards.map((card, index) => (
             <div class="capability-card-wrapper" data-index={index} data-reveal="zoom-in" data-reveal-delay={200 + (index * 100)} data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
-              <CapabilityCard
+              <Card
+                variant="capability"
                 icon={card.icon}
                 title={card.title}
                 description={card.description}
                 metric={card.metric}
                 index={index}
-                variant="grid"
+                isCarousel={false}
               />
             </div>
           ))}
@@ -52,13 +53,14 @@ const { content } = Astro.props;
       <div class="hidden md:grid lg:hidden grid-cols-2 gap-6 col-span-full items-stretch">
         {content.cards.map((card, index) => (
           <div data-reveal="fade-up" data-reveal-delay={200 + (index * 100)} data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
-            <CapabilityCard
+            <Card
+              variant="capability"
               icon={card.icon}
               title={card.title}
               description={card.description}
               metric={card.metric}
               index={index}
-              variant="grid"
+              isCarousel={false}
             />
           </div>
         ))}
@@ -77,13 +79,14 @@ const { content } = Astro.props;
       >
         {content.cards.map((card, index) => (
           <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
-            <CapabilityCard
+            <Card
+              variant="capability"
               icon={card.icon}
               title={card.title}
               description={card.description}
               metric={card.metric}
               index={index}
-              variant="carousel"
+              isCarousel={true}
             />
           </div>
         ))}

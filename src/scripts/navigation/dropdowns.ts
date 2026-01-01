@@ -1,14 +1,10 @@
 import { state, addTrackedListener, clearDropdownTimer, DROPDOWN_LEAVE_DELAY } from './state';
 import { lockScroll, unlockScroll } from './utils';
-import { computePosition, autoUpdate, offset, flip, shift } from '@floating-ui/dom';
-import type { Placement } from '@floating-ui/dom';
 
 const autoUpdateCleanups = new Map<HTMLElement, () => void>();
 
-const DROPDOWN_POSITION_CONFIG = {
-  placement: 'bottom-start' as Placement,
-  middleware: [offset(8), flip(), shift({ padding: 16 })],
-};
+const DROPDOWN_OFFSET = 8;
+const DROPDOWN_PADDING = 16;
 
 const SELECTORS = {
   MODAL_MENU: '[data-dropdown-menu]',
@@ -21,24 +17,59 @@ const SELECTORS = {
 const STANDARD_DROPDOWN_ANIMATION_DURATION = 400;
 const MODAL_DROPDOWN_ANIMATION_DURATION = 400;
 
-function applyPosition({ x, y, placement }: { x: number; y: number; placement: string }, menu: HTMLElement): void {
-  Object.assign(menu.style, { left: `${x}px`, top: `${y}px` });
-  menu.classList.toggle('dropdown-right-aligned', placement.includes('end') || placement.includes('right'));
+function positionDropdown(button: HTMLElement, menu: HTMLElement): void {
+  const buttonRect = button.getBoundingClientRect();
+  const menuRect = menu.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  let left = buttonRect.left;
+  let top = buttonRect.bottom + DROPDOWN_OFFSET;
+
+  const spaceBelow = viewportHeight - buttonRect.bottom;
+  const spaceAbove = buttonRect.top;
+  const menuHeight = menuRect.height || 300;
+
+  if (spaceBelow < menuHeight && spaceAbove > spaceBelow) {
+    top = buttonRect.top - menuHeight - DROPDOWN_OFFSET;
+  }
+
+  const menuWidth = menuRect.width || 200;
+  if (left + menuWidth > viewportWidth - DROPDOWN_PADDING) {
+    left = Math.max(DROPDOWN_PADDING, viewportWidth - menuWidth - DROPDOWN_PADDING);
+    menu.classList.add('dropdown-right-aligned');
+  } else {
+    menu.classList.remove('dropdown-right-aligned');
+  }
+
+  if (left < DROPDOWN_PADDING) {
+    left = DROPDOWN_PADDING;
+  }
+
+  menu.style.position = 'fixed';
+  menu.style.left = `${left}px`;
+  menu.style.top = `${top}px`;
 }
 
 function updateDropdownPosition(button: HTMLElement, menu: HTMLElement): void {
   const existingCleanup = autoUpdateCleanups.get(menu);
   existingCleanup?.();
 
-  computePosition(button, menu, DROPDOWN_POSITION_CONFIG).then((pos) => applyPosition(pos, menu)).catch((error) => {
-    if (import.meta.env.DEV) console.error('Failed to compute dropdown position:', error);
-  });
+  positionDropdown(button, menu);
 
-  const cleanup = autoUpdate(button, menu, () => {
-    computePosition(button, menu, DROPDOWN_POSITION_CONFIG).then((pos) => applyPosition(pos, menu)).catch((error) => {
-    if (import.meta.env.DEV) console.error('Failed to compute dropdown position:', error);
-  });
-  });
+  const updatePosition = () => {
+    if (menu.classList.contains('open')) {
+      positionDropdown(button, menu);
+    }
+  };
+
+  window.addEventListener('scroll', updatePosition, { passive: true });
+  window.addEventListener('resize', updatePosition, { passive: true });
+
+  const cleanup = () => {
+    window.removeEventListener('scroll', updatePosition);
+    window.removeEventListener('resize', updatePosition);
+  };
 
   autoUpdateCleanups.set(menu, cleanup);
 }

@@ -108,7 +108,7 @@ const siteData = await getSiteConfigData();
 
 <script>
   import { setupSectionInit } from "@/scripts/sections/utils/initUtils";
-  import { refreshScrollAnimationsWithDelay } from "@/scripts/scrollAnimations";
+  import { refreshWithDelay as refreshScrollAnimationsWithDelay } from "@/scripts/utils/scrollReveal";
   import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from "@/scripts/forms/emailHandler";
   import { initNotifications } from "@/scripts/utils/notifications";
 
