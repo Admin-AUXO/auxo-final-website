@@ -79,8 +79,12 @@ function showNotification(config: NotificationConfig): void {
     toast.style.opacity = '0';
 
     setTimeout(() => {
-      if (toast.parentNode) {
-        toast.parentNode.removeChild(toast);
+      try {
+        if (toast.parentNode && toast.parentNode.contains(toast)) {
+          toast.parentNode.removeChild(toast);
+        }
+      } catch (e) {
+        // Node may have already been removed
       }
       activeNotifications.delete(toast);
       repositionNotifications();
@@ -130,8 +134,12 @@ export function dismissAll(): void {
     toast.style.opacity = '0';
 
     setTimeout(() => {
-      if (toast.parentNode) {
-        toast.parentNode.removeChild(toast);
+      try {
+        if (toast.parentNode && toast.parentNode.contains(toast)) {
+          toast.parentNode.removeChild(toast);
+        }
+      } catch (e) {
+        // Node may have already been removed
       }
     }, 300);
   });

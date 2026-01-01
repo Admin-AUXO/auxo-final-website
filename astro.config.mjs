@@ -9,7 +9,8 @@ import { loadEnv } from 'vite';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const env = loadEnv('development', process.cwd(), '');
+const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+const env = loadEnv(mode, process.cwd(), '');
 
 export default defineConfig({
   site: 'https://auxodata.com',
@@ -28,10 +29,10 @@ export default defineConfig({
       include: ['embla-carousel', 'sharp', '@sanity/client', 'astro-icon'],
     },
     define: {
-      'import.meta.env.SANITY_PROJECT_ID': JSON.stringify(env.SANITY_PROJECT_ID),
-      'import.meta.env.SANITY_DATASET': JSON.stringify(env.SANITY_DATASET),
-      'import.meta.env.SANITY_API_TOKEN': JSON.stringify(env.SANITY_API_TOKEN),
-      'import.meta.env.SANITY_API_VERSION': JSON.stringify(env.SANITY_API_VERSION),
+      'import.meta.env.SANITY_PROJECT_ID': JSON.stringify(env.SANITY_PROJECT_ID || '4ddas0r0'),
+      'import.meta.env.SANITY_DATASET': JSON.stringify(env.SANITY_DATASET || 'production'),
+      'import.meta.env.SANITY_API_TOKEN': JSON.stringify(env.SANITY_API_TOKEN || ''),
+      'import.meta.env.SANITY_API_VERSION': JSON.stringify(env.SANITY_API_VERSION || '2024-01-01'),
     },
     build: {
       sourcemap: false,
@@ -84,8 +85,8 @@ export default defineConfig({
   },
   integrations: [
     ...(process.env.NODE_ENV === 'development' ? [sanity({
-      projectId: process.env.SANITY_PROJECT_ID,
-      dataset: process.env.SANITY_DATASET,
+      projectId: process.env.SANITY_PROJECT_ID || env.SANITY_PROJECT_ID || '4ddas0r0',
+      dataset: process.env.SANITY_DATASET || env.SANITY_DATASET || 'production',
       useCdn: false,
       studioBasePath: '/studio',
     })] : []),
