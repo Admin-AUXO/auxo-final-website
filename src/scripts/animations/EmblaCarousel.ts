@@ -32,6 +32,7 @@ export class EmblaCarouselWrapper {
   private gestureCleanup: (() => void) | null = null;
   private isHorizontalSwipe = false;
   private isAutoplayPaused = false;
+  private fallbackAnimationId: ReturnType<typeof setInterval> | null = null;
 
   constructor(
     private container: HTMLElement,
@@ -58,11 +59,12 @@ export class EmblaCarouselWrapper {
     if (autoplay) {
       this.autoplay = Autoplay({
         delay: autoplayInterval,
-        stopOnInteraction: false, // Resume after user interaction
+        stopOnInteraction: false, // Resume after user interaction - never stop completely
         stopOnMouseEnter: pauseOnHover, // Only pause on hover if explicitly enabled
         stopOnFocusIn: false, // Don't pause on focus to avoid accidental stops
-        playOnInit: true,
-        stopOnLastSnap: false,
+        playOnInit: true, // Always start playing
+        stopOnLastSnap: false, // Keep going in loops
+        rootNode: (emblaRoot) => emblaRoot.parentElement, // Use parent for better event handling
       });
       plugins.push(this.autoplay);
     }
@@ -125,12 +127,15 @@ export class EmblaCarouselWrapper {
     }
 
     if (autoplay && this.autoplay) {
-      // Ensure autoplay starts reliably
-      // Use multiple attempts to ensure autoplay starts
+      // Implement robust autoplay similar to techstack section approach
+      // Use multiple fallback mechanisms to ensure autoplay starts
       const startAutoplay = () => {
         if (this.autoplay && !this.autoplay.isPlaying()) {
           try {
             this.autoplay.play();
+            if (import.meta.env.DEV) {
+              console.log('Carousel autoplay started');
+            }
           } catch (error) {
             if (import.meta.env.DEV) {
               console.warn('Failed to start autoplay:', error);
@@ -139,14 +144,80 @@ export class EmblaCarouselWrapper {
         }
       };
 
-      // Try immediately
+      // Immediate attempt
       startAutoplay();
 
-      // Try again after a short delay to ensure DOM is ready
+      // Multiple retry attempts with increasing delays
       setTimeout(startAutoplay, 100);
+      setTimeout(startAutoplay, 300);
+      setTimeout(startAutoplay, 600);
 
-      // Try once more after animation frame
-      requestAnimationFrame(() => setTimeout(startAutoplay, 50));
+      // Use animation frame for additional reliability
+      requestAnimationFrame(() => {
+        setTimeout(startAutoplay, 200);
+      });
+
+      // Set up continuous monitoring to ensure autoplay stays active
+      // Similar to techstack section's reliable animation approach
+      const ensureAutoplayRunning = () => {
+        if (this.autoplay && !this.autoplay.isPlaying() && autoplay) {
+          if (import.meta.env.DEV) {
+            console.log('Re-starting carousel autoplay');
+          }
+          startAutoplay();
+        }
+      };
+
+      // Check every few seconds to ensure autoplay is still running
+      const autoplayCheckInterval = setInterval(ensureAutoplayRunning, 5000);
+
+      // Fallback mechanism: if autoplay completely fails, implement manual progression
+      // Similar to techstack CSS animation approach
+      let fallbackAttempts = 0;
+      const maxFallbackAttempts = 3;
+
+      const setupFallbackAnimation = () => {
+        if (fallbackAttempts >= maxFallbackAttempts) return;
+
+        if (this.fallbackAnimationId) clearInterval(this.fallbackAnimationId);
+
+        this.fallbackAnimationId = setInterval(() => {
+          if (this._embla && autoplay && (!this.autoplay || !this.autoplay.isPlaying())) {
+            try {
+              this._embla.scrollNext();
+              fallbackAttempts++;
+              if (import.meta.env.DEV) {
+                console.log(`Carousel fallback animation: slide ${this._embla.selectedScrollSnap()}`);
+              }
+            } catch (error) {
+              if (import.meta.env.DEV) {
+                console.warn('Fallback animation failed:', error);
+              }
+            }
+          }
+        }, autoplayInterval);
+      };
+
+      // Start fallback after a delay if autoplay still hasn't started
+      setTimeout(() => {
+        if (this.autoplay && !this.autoplay.isPlaying()) {
+          if (import.meta.env.DEV) {
+            console.log('Setting up fallback animation for carousel');
+          }
+          setupFallbackAnimation();
+        }
+      }, 2000);
+
+      // Clean up intervals when carousel is destroyed
+      const originalDestroy = this.destroy.bind(this);
+      this.destroy = () => {
+        clearInterval(autoplayCheckInterval);
+        if (this.fallbackAnimationId) {
+          clearInterval(this.fallbackAnimationId);
+          this.fallbackAnimationId = null;
+        }
+        originalDestroy();
+      };
     }
   }
 

@@ -2,15 +2,15 @@ import { initCarousel, type CarouselConfig } from "@/scripts/utils/carousels";
 import { BREAKPOINTS } from "@/scripts/constants";
 
 export const CAROUSEL_CONFIGS: CarouselConfig[] = [
-  { containerId: "code-carousel-container", breakpoint: BREAKPOINTS.MD, carouselOptions: { autoplay: true, autoplayInterval: 4000, loop: true, pauseOnHover: true, align: 'start' } },
-  { containerId: "mission-vision-carousel-container", breakpoint: BREAKPOINTS.LG, carouselOptions: { autoplay: true, autoplayInterval: 6000, loop: true, pauseOnHover: true, align: 'start' } },
-  { containerId: "global-metrics-carousel-container", breakpoint: BREAKPOINTS.MD, carouselOptions: { autoplay: true, autoplayInterval: 3500, loop: true, pauseOnHover: true, align: 'start' } },
-  { containerId: "capabilities-carousel-container", breakpoint: BREAKPOINTS.MD, carouselOptions: { autoplay: true, autoplayInterval: 4500, loop: true, pauseOnHover: true, align: 'start' } },
-  { containerId: "services-carousel-container", breakpoint: BREAKPOINTS.LG, carouselOptions: { autoplay: true, autoplayInterval: 6000, loop: true, pauseOnHover: true, align: 'start' } },
-  { containerId: "impact-carousel-container", breakpoint: 0, activateOnDesktop: true, carouselOptions: { autoplay: true, autoplayInterval: 5000, loop: true, pauseOnHover: true, align: 'start' } },
-  { containerId: "models-carousel-container", breakpoint: BREAKPOINTS.LG, carouselOptions: { autoplay: true, autoplayInterval: 5500, loop: true, pauseOnHover: true, align: 'start' } },
-  { containerId: "service-process-carousel-container", breakpoint: BREAKPOINTS.LG, carouselOptions: { autoplay: true, autoplayInterval: 5000, loop: true, pauseOnHover: true, align: 'start' } },
-  { containerId: "service-benefits-carousel-container", breakpoint: BREAKPOINTS.LG, carouselOptions: { autoplay: true, autoplayInterval: 5000, loop: true, pauseOnHover: true, align: 'start' } },
+  { containerId: "code-carousel-container", breakpoint: BREAKPOINTS.MD, carouselOptions: { autoplay: true, autoplayInterval: 4000, loop: true, pauseOnHover: false, align: 'start' } },
+  { containerId: "mission-vision-carousel-container", breakpoint: BREAKPOINTS.LG, carouselOptions: { autoplay: true, autoplayInterval: 6000, loop: true, pauseOnHover: false, align: 'start' } },
+  { containerId: "global-metrics-carousel-container", breakpoint: BREAKPOINTS.MD, carouselOptions: { autoplay: true, autoplayInterval: 3500, loop: true, pauseOnHover: false, align: 'start' } },
+  { containerId: "capabilities-carousel-container", breakpoint: BREAKPOINTS.MD, carouselOptions: { autoplay: true, autoplayInterval: 4500, loop: true, pauseOnHover: false, align: 'start' } },
+  { containerId: "services-carousel-container", breakpoint: BREAKPOINTS.LG, carouselOptions: { autoplay: true, autoplayInterval: 6000, loop: true, pauseOnHover: false, align: 'start' } },
+  { containerId: "impact-carousel-container", breakpoint: 0, activateOnDesktop: true, carouselOptions: { autoplay: true, autoplayInterval: 5000, loop: true, pauseOnHover: false, align: 'start' } },
+  { containerId: "models-carousel-container", breakpoint: BREAKPOINTS.LG, carouselOptions: { autoplay: true, autoplayInterval: 5500, loop: true, pauseOnHover: false, align: 'start' } },
+  { containerId: "service-process-carousel-container", breakpoint: BREAKPOINTS.LG, carouselOptions: { autoplay: true, autoplayInterval: 5000, loop: true, pauseOnHover: false, align: 'start' } },
+  { containerId: "service-benefits-carousel-container", breakpoint: BREAKPOINTS.LG, carouselOptions: { autoplay: true, autoplayInterval: 5000, loop: true, pauseOnHover: false, align: 'start' } },
 ];
 
 export function initAllCarousels(): void {
