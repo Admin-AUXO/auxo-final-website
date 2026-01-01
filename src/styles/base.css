@@ -20,6 +20,12 @@ html {
   -moz-osx-font-smoothing: grayscale !important;
 }
 
+html::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 
 @media (width <= 767px) {
   html {
@@ -55,6 +61,12 @@ body {
   -webkit-overflow-scrolling: touch !important;
   position: relative !important;
   width: 100% !important;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 

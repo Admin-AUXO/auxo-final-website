@@ -58,9 +58,12 @@ export function lockScroll(): void {
       lenisInstance.stop();
     }
 
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    const isMobile = window.innerWidth < 768;
+    if (!isMobile) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
 
     document.documentElement.classList.add('scroll-locked');
     document.body.classList.add('scroll-locked');

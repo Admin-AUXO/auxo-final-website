@@ -98,10 +98,15 @@ const pageDescription = description || siteData.description;
 
               const hasCriticalCSS = window.getComputedStyle(testElement).getPropertyValue('--bg-primary') !== '';
               try {
-                if (testElement.parentNode === document.body) {
+                if (testElement && testElement.parentNode && testElement.parentNode === document.body) {
                   document.body.removeChild(testElement);
                 }
               } catch (removeError) {
+                try {
+                  if (testElement && testElement.parentNode) {
+                    testElement.parentNode.removeChild(testElement);
+                  }
+                } catch (e2) {}
               }
 
               if (!hasCriticalCSS) {
@@ -271,10 +276,15 @@ const pageDescription = description || siteData.description;
                                      styles.getPropertyValue('--text-primary') !== '';
 
               try {
-                if (testElement.parentNode === document.body) {
+                if (testElement && testElement.parentNode && testElement.parentNode === document.body) {
                   document.body.removeChild(testElement);
                 }
               } catch (removeError) {
+                try {
+                  if (testElement && testElement.parentNode) {
+                    testElement.parentNode.removeChild(testElement);
+                  }
+                } catch (e2) {}
               }
 
               if (hasCriticalCSS) {

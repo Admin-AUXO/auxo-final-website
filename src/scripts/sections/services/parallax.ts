@@ -30,7 +30,7 @@ export function setupParallax(): void {
   if (lenisInstance) {
     lenisInstance.on('scroll', handleParallax);
     parallaxCleanup = () => lenisInstance.off('scroll', handleParallax);
-  } else {
+  } else if (import.meta.env.DEV) {
     console.warn('Lenis not available for parallax effects');
   }
 }

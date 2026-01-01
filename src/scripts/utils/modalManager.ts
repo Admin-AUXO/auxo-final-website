@@ -10,7 +10,6 @@ export interface ModalConfig {
   onBeforeOpen?: () => boolean;
   onBeforeClose?: () => boolean;
   enableKeyboardNavigation?: boolean;
-  enableSwipeClose?: boolean;
   enableClickOutsideClose?: boolean;
   scrollLock?: boolean;
 }
@@ -124,10 +123,6 @@ class ModalInstanceImpl implements ModalInstance {
 
     if (this.config.enableKeyboardNavigation !== false) {
       this.addTypedEventListener(document, 'keydown', this.handleKeydown);
-    }
-
-    if (this.config.enableSwipeClose) {
-      // TODO: Implement gesture library integration
     }
   }
 
