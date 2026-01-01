@@ -1,13 +1,11 @@
 #main-navigation {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  bottom: auto;
   width: 100%;
-  max-width: 100vw;
   z-index: var(--z-navigation);
-  backdrop-filter: blur(var(--blur-nav));
-  -webkit-backdrop-filter: blur(var(--blur-nav));
   border-bottom: 1px solid var(--accent-green-opacity-30);
   transition: opacity var(--duration-normal) var(--easing-standard),
     pointer-events var(--duration-normal) var(--easing-standard),
@@ -15,10 +13,7 @@
     height var(--duration-normal) var(--easing-standard);
   padding-top: env(safe-area-inset-top);
   height: var(--nav-current-height);
-  transform: translateZ(0);
-  will-change: transform;
-  contain: layout style paint;
-  isolation: isolate;
+  view-transition-name: main-navigation;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -136,13 +131,15 @@ body.scroll-locked #main-navigation,
     align-items: center;
     justify-content: space-between;
     gap: var(--spacing-sm);
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   #main-navigation .grid-container {
     width: 100%;
     max-width: 100vw;
-    padding-left: var(--grid-padding-mobile);
-    padding-right: var(--grid-padding-mobile);
+    padding-left: 0;
+    padding-right: 0;
     box-sizing: border-box;
     overflow: hidden;
   }

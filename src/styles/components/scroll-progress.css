@@ -1,15 +1,15 @@
 #scroll-progress-bar {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  bottom: auto;
   width: 100%;
-  max-width: 100vw;
   z-index: var(--z-scroll-progress);
   pointer-events: none;
   padding-top: env(safe-area-inset-top);
   touch-action: none;
-  will-change: auto;
+  view-transition-name: scroll-progress-bar;
 }
 
 .scroll-progress-bar-fill {

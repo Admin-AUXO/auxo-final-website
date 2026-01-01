@@ -1,0 +1,16 @@
+::view-transition-old(main-navigation),
+::view-transition-new(main-navigation),
+::view-transition-old(scroll-progress-bar),
+::view-transition-new(scroll-progress-bar),
+::view-transition-old(floating-button),
+::view-transition-new(floating-button) {
+  animation-duration: 0ms;
+  animation-delay: 0ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
+  }
+}

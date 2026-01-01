@@ -3,9 +3,11 @@
 }
 
 .fab-button {
-  position: fixed !important;
-  bottom: 1.5rem;
-  right: 1.5rem;
+  position: fixed;
+  top: auto;
+  bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
+  left: auto;
+  right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right)));
   z-index: var(--z-floating-button);
   width: 3.5rem;
   height: 3.5rem;
@@ -20,10 +22,10 @@
   cursor: pointer;
   touch-action: manipulation;
   user-select: none;
-  backface-visibility: hidden;
   transition: all var(--duration-fast) var(--easing-standard);
   opacity: 1;
   pointer-events: auto;
+  view-transition-name: floating-button;
 }
 
 .fab-button:hover,
@@ -40,7 +42,8 @@
 .fab-button:hover {
   border-color: var(--accent-green-opacity-40);
   box-shadow: 0 8px 32px var(--accent-green-opacity-30);
-  transform: translateY(-2px) scale(1.05);
+  transform: translateY(-2px) scale(1.05) !important;
+  will-change: transform;
 }
 
 .fab-button:hover .fab-icon {
@@ -48,8 +51,9 @@
 }
 
 .fab-button:active {
-  transform: translateY(-1px) scale(1.02);
+  transform: translateY(-1px) scale(1.02) !important;
   box-shadow: 0 4px 16px var(--accent-green-opacity-25);
+  will-change: transform;
 }
 
 .fab-button:focus-visible {
@@ -73,10 +77,8 @@
 
 @media (min-width: 1024px) {
   .fab-button {
-    position: fixed !important;
     bottom: 2.5rem;
     right: 2.5rem;
-    z-index: var(--z-floating-button);
   }
 }
 

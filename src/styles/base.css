@@ -7,7 +7,6 @@
 }
 
 html {
-  overflow-x: hidden;
   max-width: 100vw;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -45,13 +44,9 @@ body {
   line-height: 1.6;
   transition: background-color var(--theme-transition) var(--timing-smooth),
     color var(--theme-transition) var(--timing-smooth);
-  overflow: auto;
-  overflow-x: hidden;
   max-width: 100vw;
   scrollbar-width: none;
-  -ms-overflow-style: none;
-  -webkit-overflow-scrolling: touch;
-  position: relative;
+  -ms-overflow-scrolling: touch;
   width: 100%;
 }
 
@@ -67,8 +62,6 @@ html.loading body {
 }
 
 html.loaded body {
-  overflow: auto;
-  overflow-x: hidden;
   height: auto;
   max-height: none;
 }
@@ -139,7 +132,7 @@ section,
 
 @media (width <= 767px) {
   html {
-    height: 100%;
+    min-height: 100%;
     touch-action: pan-y;
     overscroll-behavior: contain none;
     scroll-behavior: smooth;
@@ -150,8 +143,6 @@ section,
     min-height: 100dvh;
     touch-action: pan-y;
     overscroll-behavior: contain none;
-    overflow-y: auto;
-    overflow-x: hidden;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
@@ -160,7 +151,6 @@ section,
 
   html.loaded,
   body.loaded {
-    overflow-y: auto;
     height: auto;
     max-height: none;
     overscroll-behavior-y: auto;
@@ -323,4 +313,16 @@ section,
   }
 
 
+}
+
+html,
+html.loaded {
+  contain: none !important;
+  overflow: visible !important;
+}
+
+body,
+body.loaded {
+  position: static !important;
+  overflow: visible auto !important;
 }

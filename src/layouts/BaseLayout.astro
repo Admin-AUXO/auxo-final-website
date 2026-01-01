@@ -201,7 +201,7 @@ const pageDescription = description || siteData.description;
       
     </script>
   </head>
-  <body class="min-h-screen flex flex-col relative bg-primary transition-colors duration-normal">
+  <body class="min-h-screen bg-primary transition-colors duration-normal">
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[2147483648] focus:px-4 focus:py-2 focus:bg-accent-green focus:text-text-on-accent focus:rounded-md focus:shadow-lg focus:font-medium transition-all duration-fast"
@@ -212,7 +212,7 @@ const pageDescription = description || siteData.description;
     <ScrollProgressBar />
     {showParticles && <ParticleBackground />}
     <Navigation />
-    <main id="main-content" class="flex-1 relative z-content" style="padding-top: var(--nav-current-height);">
+    <main id="main-content" class="relative z-content" style="padding-top: var(--nav-current-height); min-height: calc(100vh - var(--nav-current-height));">
       <slot />
     </main>
     <Footer />
@@ -356,19 +356,6 @@ const pageDescription = description || siteData.description;
           initMobileScrollOptimizations();
         }, 100);
       });
-
-      if (import.meta.env.DEV) {
-        window.debugNav = () => {
-          import('@/scripts/navigation/utils').then(({ debugNavigation }) => {
-            debugNavigation();
-          });
-        };
-
-        window.toggleNavDebug = () => {
-          document.documentElement.classList.toggle('debug-nav');
-          console.log('🔧 Navigation debug mode:', document.documentElement.classList.contains('debug-nav') ? 'ENABLED' : 'DISABLED');
-        };
-      }
     </script>
   </body>
 </html>
