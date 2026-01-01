@@ -48,6 +48,17 @@ export function findDropdownContent(buttonEl: HTMLElement): HTMLElement | null {
 }
 
 let scrollLockCount = 0;
+let cachedScrollbarWidth: number | null = null;
+
+function getScrollbarWidth(): number {
+  if (cachedScrollbarWidth !== null) {
+    return cachedScrollbarWidth;
+  }
+
+  // Cache scrollbar width to avoid repeated reflows
+  cachedScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+  return cachedScrollbarWidth;
+}
 
 export function lockScroll(): void {
   scrollLockCount++;
@@ -60,7 +71,7 @@ export function lockScroll(): void {
 
     const isMobile = window.innerWidth < 768;
     if (!isMobile) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      const scrollbarWidth = getScrollbarWidth();
       document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
       document.body.style.paddingRight = `${scrollbarWidth}px`;
     }

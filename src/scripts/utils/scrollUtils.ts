@@ -27,15 +27,18 @@ export function setupScrollIndicators(container: HTMLElement, indicatorTop?: HTM
   if (!indicatorTop && !indicatorBottom) return () => {};
 
   const updateIndicators = () => {
+    // Batch DOM reads to avoid forced reflows during scroll
     const scrollTop = container.scrollTop;
     const scrollHeight = container.scrollHeight;
     const clientHeight = container.clientHeight;
 
+    const shouldShowTop = scrollTop > 20;
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 20;
+
     if (indicatorTop) {
-      indicatorTop.classList.toggle('visible', scrollTop > 20);
+      indicatorTop.classList.toggle('visible', shouldShowTop);
     }
     if (indicatorBottom) {
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 20;
       indicatorBottom.classList.toggle('visible', !isAtBottom);
     }
   };

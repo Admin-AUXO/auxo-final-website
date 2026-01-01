@@ -139,22 +139,23 @@ const logoSize = sizeClasses[size];
         if (!tagline || !subtitle) return;
         
         const updateWidth = () => {
+            // Batch DOM reads to avoid forced reflows
             const taglineWidth = tagline.offsetWidth;
             const subtitleWidth = subtitle.scrollWidth;
-            
-            if (taglineWidth > 0 && subtitleWidth > 0) {
-                const computedStyle = getComputedStyle(subtitle);
-                const currentLetterSpacing = parseFloat(computedStyle.letterSpacing) || 0;
-                const fontSize = parseFloat(computedStyle.fontSize) || 12;
-                const textLength = subtitle.textContent?.length || 0;
-                
-                if (textLength > 0 && subtitleWidth < taglineWidth) {
-                    const widthDiff = taglineWidth - subtitleWidth;
-                    const letterSpacingPerChar = widthDiff / Math.max(1, textLength - 1);
-                    const newLetterSpacing = currentLetterSpacing + letterSpacingPerChar;
-                    
+            const computedStyle = getComputedStyle(subtitle);
+            const currentLetterSpacing = parseFloat(computedStyle.letterSpacing) || 0;
+            const fontSize = parseFloat(computedStyle.fontSize) || 12;
+            const textLength = subtitle.textContent?.length || 0;
+
+            if (taglineWidth > 0 && subtitleWidth > 0 && textLength > 0 && subtitleWidth < taglineWidth) {
+                const widthDiff = taglineWidth - subtitleWidth;
+                const letterSpacingPerChar = widthDiff / Math.max(1, textLength - 1);
+                const newLetterSpacing = currentLetterSpacing + letterSpacingPerChar;
+
+                // Use requestAnimationFrame for DOM write
+                requestAnimationFrame(() => {
                     subtitle.style.letterSpacing = `${newLetterSpacing}px`;
-                }
+                });
             }
         };
         

@@ -9,18 +9,24 @@ interface NotificationConfig {
 const DEFAULT_DURATION = 4000;
 const activeNotifications: Set<HTMLElement> = new Set();
 
+let cachedNotificationStyles: Record<NotificationType, string> | null = null;
+
 function getNotificationStyles(type: NotificationType): string {
+  if (cachedNotificationStyles) {
+    return cachedNotificationStyles[type];
+  }
+
   const root = document.documentElement;
   const computedStyle = getComputedStyle(root);
 
-  const colors: Record<NotificationType, string> = {
+  cachedNotificationStyles = {
     success: computedStyle.getPropertyValue('--accent-green').trim() || '#A3E635',
     error: computedStyle.getPropertyValue('--error-color')?.trim() || '#EF4444',
     warning: computedStyle.getPropertyValue('--warning-color')?.trim() || '#F59E0B',
     info: computedStyle.getPropertyValue('--info-color')?.trim() || '#3B82F6',
   };
 
-  return colors[type];
+  return cachedNotificationStyles[type];
 }
 
 function createNotificationElement(config: NotificationConfig): HTMLElement {
@@ -60,11 +66,13 @@ function showNotification(config: NotificationConfig): void {
   document.body.appendChild(toast);
   activeNotifications.add(toast);
 
+  // Batch DOM reads to avoid forced reflows
   let offsetY = 24;
   activeNotifications.forEach(existing => {
     if (existing !== toast) {
       const currentBottom = parseInt(existing.style.bottom || '24px');
-      offsetY = currentBottom + existing.offsetHeight + 12;
+      const height = existing.offsetHeight;
+      offsetY = currentBottom + height + 12;
     }
   });
 
@@ -101,10 +109,16 @@ function showNotification(config: NotificationConfig): void {
 }
 
 function repositionNotifications(): void {
-  let offsetY = 24;
+  // Batch DOM reads before writes to avoid forced reflows
+  const heights: number[] = [];
   activeNotifications.forEach(toast => {
+    heights.push(toast.offsetHeight);
+  });
+
+  let offsetY = 24;
+  activeNotifications.forEach((toast, index) => {
     toast.style.bottom = `${offsetY}px`;
-    offsetY += toast.offsetHeight + 12;
+    offsetY += heights[index] + 12;
   });
 }
 
