@@ -86,7 +86,7 @@ const {
 ) : variant === "accordion" ? (
   <details class="methodology-accordion-item" data-step={String(index)} open={index === 0} data-reveal="fade-up" data-reveal-duration="250" data-reveal-delay={200 + (index * 100)} data-reveal-easing="ease-out">
     <summary class="methodology-accordion-summary">
-      <div class="methodology-accordion-header">
+      <div class="methodology-accordion-header pointer-events-none">
         <div class="methodology-accordion-number">
           <span>{number}</span>
         </div>
@@ -94,7 +94,7 @@ const {
       </div>
       <Icon
         name="mdi:chevron-down"
-        class="methodology-accordion-chevron"
+        class="methodology-accordion-chevron pointer-events-none"
         aria-hidden="true"
       />
     </summary>

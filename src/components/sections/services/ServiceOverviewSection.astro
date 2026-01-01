@@ -91,14 +91,14 @@ const { service } = Astro.props;
 
       <div class="lg:hidden space-y-4">
         <details class="service-accordion-item bg-theme-card border border-red-500/20 rounded-2xl overflow-hidden group">
-          <summary class="service-accordion-summary flex items-center justify-between p-6 cursor-pointer hover:bg-red-500/5 transition-colors duration-300">
-            <div class="flex items-center gap-3">
+          <summary class="service-accordion-summary flex items-center justify-between p-6 hover:bg-red-500/5 transition-colors duration-300">
+            <div class="flex items-center gap-3 pointer-events-none">
               <div class="w-10 h-10 bg-red-500/15 rounded-xl flex items-center justify-center">
                 <Icon name="mdi:close" class="w-5 h-5 text-red-500" />
               </div>
               <h3 class="text-h4 font-bold text-theme-primary font-display">Challenges We Solve</h3>
             </div>
-            <Icon name="mdi:chevron-down" class="w-5 h-5 text-theme-secondary transition-transform duration-300 service-accordion-chevron" />
+            <Icon name="mdi:chevron-down" class="w-5 h-5 text-theme-secondary transition-transform duration-300 service-accordion-chevron pointer-events-none" />
           </summary>
 
           <div class="service-accordion-content px-6 pb-6">
@@ -118,14 +118,14 @@ const { service } = Astro.props;
         </details>
 
         <details class="service-accordion-item bg-theme-card border border-accent-green/20 rounded-2xl overflow-hidden group">
-          <summary class="service-accordion-summary flex items-center justify-between p-6 cursor-pointer hover:bg-accent-green/5 transition-colors duration-300">
-            <div class="flex items-center gap-3">
+          <summary class="service-accordion-summary flex items-center justify-between p-6 hover:bg-accent-green/5 transition-colors duration-300">
+            <div class="flex items-center gap-3 pointer-events-none">
               <div class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center">
                 <Icon name="mdi:check-circle" class="w-5 h-5 text-accent-green" />
               </div>
               <h3 class="text-h4 font-bold text-theme-primary font-display">Our Solutions</h3>
             </div>
-            <Icon name="mdi:chevron-down" class="w-5 h-5 text-theme-secondary transition-transform duration-300 service-accordion-chevron" />
+            <Icon name="mdi:chevron-down" class="w-5 h-5 text-theme-secondary transition-transform duration-300 service-accordion-chevron pointer-events-none" />
           </summary>
 
           <div class="service-accordion-content px-6 pb-6">

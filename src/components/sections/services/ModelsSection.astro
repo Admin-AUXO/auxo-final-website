@@ -74,7 +74,7 @@ const modelIcons = [
           {content.models.map((model, index) => (
             <details class="models-accordion-item" data-model={String(index)} open={index === 0}>
               <summary class="models-accordion-summary">
-                <div class="models-accordion-header">
+                <div class="models-accordion-header pointer-events-none">
                   <div class="models-accordion-icon">
                     <Icon name={modelIcons[index]} class="w-5 h-5 sm:w-6 sm:h-6 text-accent-green" />
                   </div>
@@ -85,7 +85,7 @@ const modelIcons = [
                 </div>
                 <Icon
                   name="mdi:chevron-down"
-                  class="models-accordion-chevron"
+                  class="models-accordion-chevron pointer-events-none"
                   aria-hidden="true"
                 />
               </summary>
