@@ -74,9 +74,9 @@ export class EmblaCarouselWrapper {
       align,
       slidesToScroll,
       dragFree,
-      containScroll: loop ? undefined : 'trimSnaps', // containScroll ignored when loop is true
-      duration: 20, // Smooth standard speed
-      dragThreshold: 10, // Higher threshold for better stability
+      containScroll: loop ? 'trimSnaps' : 'trimSnaps', // Ensure proper containment for looping
+      duration: 25, // Slightly smoother transition for better UX
+      dragThreshold: 5, // Lower threshold for more responsive swiping
       skipSnaps: false,
       watchDrag: true,
       watchResize: true,
@@ -85,6 +85,12 @@ export class EmblaCarouselWrapper {
       inViewThreshold: 0,
       startIndex: 0,
       watchFocus: false,
+      // Additional settings for true looping behavior
+      breakpoints: {
+        '(min-width: 768px)': {
+          dragThreshold: 3, // Even more responsive on desktop
+        }
+      },
     }, plugins);
 
     this._embla.on('select', () => {
@@ -117,14 +123,9 @@ export class EmblaCarouselWrapper {
       }
     });
 
-    if (this._embla && this._embla.selectedScrollSnap() !== 0) {
-      requestAnimationFrame(() => {
-        this._embla?.scrollTo(0);
-        this.onSelect();
-      });
-    } else {
-      this.onSelect();
-    }
+    // Don't force scroll to position 0 - allow natural looping behavior
+    // This ensures carousels maintain their position and truly loop
+    this.onSelect();
 
     if (autoplay && this.autoplay) {
       // Implement robust autoplay similar to techstack section approach
