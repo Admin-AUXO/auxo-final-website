@@ -22,13 +22,13 @@ const siteData = await getSiteConfigData();
     <div class="grid-container relative z-10 w-full">
       <div class="col-span-full max-w-7xl mx-auto w-full">
         <div class="text-center mb-10 sm:mb-12 lg:mb-16">
-          <h1 class="text-h1 font-extrabold mb-4 sm:mb-5 lg:mb-6 leading-tight tracking-tight text-theme-primary font-display" data-reveal="fade-down" data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
+          <h1 class="text-h1 font-extrabold mb-4 sm:mb-5 lg:mb-6 leading-tight tracking-tight text-theme-primary font-display" data-reveal="fade-down" data-reveal-duration="200" data-reveal-delay="0" data-reveal-easing="ease-out">
             Let's <span class="text-accent-green font-black text-[1.05em]">Connect</span>
           </h1>
-          <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-2xl mx-auto font-body mb-8 sm:mb-10" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
+          <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-2xl mx-auto font-body mb-8 sm:mb-10" data-reveal="fade-up" data-reveal-delay="50" data-reveal-duration="200" data-reveal-easing="ease-out">
             Ready to transform your data analytics? Start with a conversation.
           </p>
-          <div class="flex justify-center" data-reveal="zoom-in" data-reveal-delay="200" data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
+          <div class="flex justify-center" data-reveal="zoom-in" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
             <button
               type="button"
               data-google-calendar-open
@@ -42,7 +42,7 @@ const siteData = await getSiteConfigData();
         </div>
 
         <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16" id="contact-form">
-          <div class="space-y-6 lg:space-y-8" data-reveal="fade-right" data-reveal-duration="500" data-reveal-delay="200" data-reveal-easing="ease-out-cubic">
+          <div class="space-y-6 lg:space-y-8" data-reveal="fade-right" data-reveal-duration="200" data-reveal-delay="50" data-reveal-easing="ease-out">
             <div class="text-center lg:text-left">
               <h2 class="text-h3 font-extrabold mb-3 text-theme-primary font-display">
                 Reach Out
@@ -96,7 +96,7 @@ const siteData = await getSiteConfigData();
 
           </div>
 
-          <div class="max-w-md mx-auto lg:mx-0 lg:max-w-none w-full" data-reveal="fade-left" data-reveal-delay="200" data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
+          <div class="max-w-md mx-auto lg:mx-0 lg:max-w-none w-full" data-reveal="fade-left" data-reveal-delay="50" data-reveal-duration="200" data-reveal-easing="ease-out">
             <ContactForm />
           </div>
         </div>

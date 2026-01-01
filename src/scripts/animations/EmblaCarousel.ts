@@ -57,9 +57,11 @@ export class EmblaCarouselWrapper {
     if (autoplay) {
       this.autoplay = Autoplay({
         delay: autoplayInterval,
-        stopOnInteraction: true, // Stop on user interaction
-        stopOnMouseEnter: false, // We'll handle this manually
-        stopOnFocusIn: false,
+        stopOnInteraction: false, // Resume after user interaction
+        stopOnMouseEnter: pauseOnHover !== false, // Pause on hover for accessibility
+        stopOnFocusIn: true, // Pause on keyboard focus for accessibility
+        playOnInit: true,
+        stopOnLastSnap: false,
       });
       plugins.push(this.autoplay);
     }
@@ -69,9 +71,9 @@ export class EmblaCarouselWrapper {
       align,
       slidesToScroll,
       dragFree,
-      containScroll: 'trimSnaps',
-      duration: isMobile ? 15 : 20,
-      dragThreshold: isMobile ? 3 : 8,
+      containScroll: loop ? undefined : 'trimSnaps', // containScroll ignored when loop is true
+      duration: 20, // Smooth standard speed
+      dragThreshold: 10, // Higher threshold for better stability
       skipSnaps: false,
       watchDrag: true,
       watchResize: true,
@@ -100,14 +102,7 @@ export class EmblaCarouselWrapper {
     this._embla.on('pointerUp', () => {
       this.isDragging = false;
       this.container.classList.remove(DRAGGING_CLASS);
-
-      // Resume autoplay after interaction, with mobile-specific timing
-      if (this.autoplay && !this.autoplay.isPlaying()) {
-        const resumeDelay = isMobile ? 2000 : 1000; // Longer delay on mobile
-        setTimeout(() => {
-          this.autoplay?.play();
-        }, resumeDelay);
-      }
+      // Autoplay resumes automatically with stopOnInteraction: false
     });
 
     this.setupGestureDetection();
@@ -129,21 +124,12 @@ export class EmblaCarouselWrapper {
     }
 
     if (autoplay && this.autoplay) {
-      // Ensure autoplay starts properly on all devices
-      const startAutoplay = () => {
-        try {
-          if (this.autoplay && !this.autoplay.isPlaying()) {
-            this.autoplay.play();
-          }
-        } catch (error) {
-          setTimeout(startAutoplay, 100);
+      // Ensure autoplay starts with playOnInit: true
+      requestAnimationFrame(() => {
+        if (this.autoplay && !this.autoplay.isPlaying()) {
+          this.autoplay.play();
         }
-      };
-
-      setTimeout(startAutoplay, 100);
-      setTimeout(startAutoplay, 500);
-      setTimeout(startAutoplay, 1000);
-      setTimeout(startAutoplay, 2000);
+      });
     }
   }
 

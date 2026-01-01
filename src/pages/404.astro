@@ -11,25 +11,25 @@ import { createUrl } from "@/utils/url";
     <BackgroundDecorations gradients={["hero"]} patterns={["grid"]} />
     
     <div class="relative z-10 text-center max-w-3xl mx-auto px-4 w-full">
-      <div class="mb-8" data-reveal="fade-up" data-reveal-duration="400" data-reveal-easing="ease-out-cubic">
+      <div class="mb-8" data-reveal="fade-up" data-reveal-duration="200" data-reveal-delay="0" data-reveal-easing="ease-out">
         <div class="inline-flex items-center justify-center w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-accent-green/10 border-2 border-accent-green/20 mb-6">
           <Icon name="mdi:alert-circle" class="w-12 h-12 sm:w-16 sm:h-16 text-accent-green" />
         </div>
       </div>
 
-      <h1 class="text-6xl sm:text-7xl lg:text-8xl font-extrabold mb-4 sm:mb-6 text-theme-primary font-display" data-reveal="fade-up" data-reveal-delay="50" data-reveal-duration="400" data-reveal-easing="ease-out-cubic">
+      <h1 class="text-6xl sm:text-7xl lg:text-8xl font-extrabold mb-4 sm:mb-6 text-theme-primary font-display" data-reveal="fade-up" data-reveal-delay="0" data-reveal-duration="200" data-reveal-easing="ease-out">
         404
       </h1>
-      
-      <h2 class="text-h2 sm:text-h1 font-extrabold mb-4 sm:mb-6 text-theme-primary font-display" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="400" data-reveal-easing="ease-out-cubic">
+
+      <h2 class="text-h2 sm:text-h1 font-extrabold mb-4 sm:mb-6 text-theme-primary font-display" data-reveal="fade-up" data-reveal-delay="50" data-reveal-duration="200" data-reveal-easing="ease-out">
         Page Not Found
       </h2>
-      
-      <p class="text-body-lg sm:text-body-xl text-theme-secondary mb-8 sm:mb-12 leading-relaxed max-w-2xl mx-auto font-body" data-reveal="fade-up" data-reveal-delay="150" data-reveal-duration="400" data-reveal-easing="ease-out-cubic">
+
+      <p class="text-body-lg sm:text-body-xl text-theme-secondary mb-8 sm:mb-12 leading-relaxed max-w-2xl mx-auto font-body" data-reveal="fade-up" data-reveal-delay="50" data-reveal-duration="200" data-reveal-easing="ease-out">
         The page you're looking for doesn't exist or has been moved. Let's get you back on track.
       </p>
 
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-12" data-reveal="fade-up" data-reveal-delay="200" data-reveal-duration="400" data-reveal-easing="ease-out-cubic">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-12" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
         <Button variant="primary" href={createUrl("")} size="lg" class="w-full sm:w-auto">
           <Icon name="mdi:home" class="w-5 h-5" />
           <span>Go Home</span>
@@ -40,7 +40,7 @@ import { createUrl } from "@/utils/url";
         </Button>
       </div>
 
-      <div data-reveal="fade-up" data-reveal-delay="250" data-reveal-duration="400" data-reveal-easing="ease-out-cubic">
+      <div data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
         <p class="text-sm text-theme-tertiary mb-4 font-body">Quick Links:</p>
         <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
           <a href={createUrl("about")} class="text-accent-green hover:text-accent-green/80 hover:underline transition-colors font-medium font-body">

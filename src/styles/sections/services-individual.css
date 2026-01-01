@@ -213,14 +213,12 @@ details.group\/details summary::-webkit-details-marker {
 
   .service-process-carousel-wrapper .embla__slide,
   .service-benefits-carousel-wrapper .embla__slide {
-    flex: 0 0 auto;
-    width: calc(100% - (var(--carousel-gap-mobile) * 2));
-    max-width: calc(100% - (var(--carousel-gap-mobile) * 2));
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
     min-width: 0;
     height: auto;
     align-self: stretch;
-    padding-left: var(--carousel-gap-mobile);
-    padding-right: var(--carousel-gap-mobile);
     transform: translateZ(0);
     backface-visibility: hidden;
     display: flex;
@@ -297,10 +295,8 @@ details.group\/details summary::-webkit-details-marker {
 
   .service-process-carousel-wrapper .embla__slide,
   .service-benefits-carousel-wrapper .embla__slide {
-    width: calc(100% - (var(--carousel-gap-tablet) * 2));
-    max-width: calc(100% - (var(--carousel-gap-tablet) * 2));
-    padding-left: var(--carousel-gap-tablet);
-    padding-right: var(--carousel-gap-tablet);
+    width: 100%;
+    max-width: 100%;
     align-self: stretch;
   }
 }

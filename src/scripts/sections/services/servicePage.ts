@@ -10,7 +10,9 @@ const CAROUSEL_CONFIG = {
   carouselOptions: {
     autoplay: true,
     autoplayInterval: 5000,
-    loop: true
+    loop: true,
+    pauseOnHover: true,
+    align: 'start' as const
   },
 };
 

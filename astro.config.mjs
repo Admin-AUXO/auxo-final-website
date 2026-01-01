@@ -56,12 +56,11 @@ export default defineConfig({
           assetFileNames: '_astro/[name]-[hash].[ext]',
           experimentalMinChunkSize: 1000,
           manualChunks(id) {
+            // Split large vendor packages into separate chunks for better caching
             if (id.includes('embla-carousel')) return 'ui-vendor';
             if (id.includes('astro-icon') || id.includes('@iconify')) return 'icons';
             if (id.includes('@sanity/') || id.includes('groq')) return 'sanity';
             if (id.includes('zod')) return 'utils';
-            if (id.includes('node:') || id.includes('buffer') || id.includes('process')) return 'polyfills';
-            if (id.includes('tailwindcss') || id.includes('autoprefixer')) return 'build-tools';
           },
         },
         onwarn(warning, warn) {

@@ -29,17 +29,17 @@ const {
 
 {variant === "flow" ? (
   <div
-    class="method-step group relative overflow-visible"
+    class="method-step group relative overflow-visible h-full"
     data-step={String(index)}
     data-reveal="zoom-in"
-    data-reveal-duration="250"
-    data-reveal-delay={200 + (index * 100)}
+    data-reveal-duration="200"
+    data-reveal-delay={50 + (index * 40)}
     data-reveal-easing="ease-out"
   >
     <Card
       variant="bordered"
       padding="lg"
-      class="h-full relative transition-all duration-500 hover:border-accent-green/70 hover:shadow-2xl hover:shadow-accent-green/25 hover:-translate-y-3 flex flex-col overflow-hidden"
+      class="h-full relative transition-all duration-500 hover:border-accent-green/70 hover:shadow-2xl hover:shadow-accent-green/25 flex flex-col overflow-hidden"
     >
       <div class="absolute inset-0 bg-gradient-to-br from-accent-green/0 to-accent-green/0 group-hover:from-accent-green/5 group-hover:to-accent-green/10 transition-all duration-500" />
       <div class="absolute -top-3 -right-3 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-green to-accent-green/80 rounded-full flex items-center justify-center shadow-lg border-2 border-theme-card z-20 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
@@ -84,7 +84,7 @@ const {
     )}
   </div>
 ) : variant === "accordion" ? (
-  <details class="methodology-accordion-item" data-step={String(index)} open={index === 0} data-reveal="fade-up" data-reveal-duration="250" data-reveal-delay={200 + (index * 100)} data-reveal-easing="ease-out">
+  <details class="methodology-accordion-item" data-step={String(index)} open={index === 0} data-reveal="fade-up" data-reveal-duration="200" data-reveal-delay={50 + (index * 40)} data-reveal-easing="ease-out">
     <summary class="methodology-accordion-summary">
       <div class="methodology-accordion-header pointer-events-none">
         <div class="methodology-accordion-number">

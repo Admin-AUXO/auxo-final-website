@@ -1,4 +1,4 @@
-import { createClient } from '@sanity/client';
+import { createClient, type SanityClient } from '@sanity/client';
 
 const projectId = (import.meta.env.SANITY_PROJECT_ID || import.meta.env.PUBLIC_SANITY_PROJECT_ID || process.env.SANITY_PROJECT_ID || '4ddas0r0') as string;
 const dataset = (import.meta.env.SANITY_DATASET || import.meta.env.PUBLIC_SANITY_DATASET || process.env.SANITY_DATASET || 'production') as string;
@@ -9,7 +9,7 @@ const finalProjectId = projectId || '4ddas0r0';
 const finalDataset = dataset || 'production';
 
 // Create Sanity client with default configuration
-let sanityClient;
+let sanityClient: SanityClient;
 try {
   sanityClient = createClient({
     projectId: finalProjectId,
