@@ -22,13 +22,11 @@ export function setupServicePageAnimations(): void {
 
   initCarousel({
     containerId: "service-process-carousel-container",
-    controlSelector: ".service-process-carousel-control",
     ...CAROUSEL_CONFIG,
   });
 
   initCarousel({
     containerId: "service-benefits-carousel-container",
-    controlSelector: ".service-benefits-carousel-control",
     ...CAROUSEL_CONFIG,
   });
 }

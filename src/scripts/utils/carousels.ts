@@ -5,7 +5,6 @@ const DEFAULT_RESIZE_DEBOUNCE_DELAY = 250;
 
 export interface CarouselConfig {
   containerId: string;
-  controlSelector: string;
   breakpoint: number;
   activateOnDesktop?: boolean;
   resizeDebounceDelay?: number;
@@ -27,7 +26,6 @@ function shouldActivateCarousel(activateOnDesktop: boolean, breakpoint: number):
 function createCarouselManager(config: CarouselConfig) {
   const {
     containerId,
-    controlSelector,
     breakpoint,
     resizeDebounceDelay = DEFAULT_RESIZE_DEBOUNCE_DELAY,
     activateOnDesktop = false,
@@ -63,11 +61,10 @@ function createCarouselManager(config: CarouselConfig) {
     }
 
     const container = document.getElementById(containerId);
-    const control = document.querySelector(controlSelector) as HTMLButtonElement;
 
-    if (!container || !control) {
+    if (!container) {
       if (import.meta.env.DEV) {
-        console.warn('Carousel element not found:', !container ? containerId : controlSelector);
+        console.warn('Carousel element not found:', containerId);
       }
       return;
     }
@@ -89,50 +86,6 @@ function createCarouselManager(config: CarouselConfig) {
       dragFree: false,
       ...carouselOptions,
     });
-
-    if (control && state.instance) {
-      const updateControlState = (isPlaying: boolean) => {
-        control.setAttribute('data-playing', isPlaying.toString());
-        control.setAttribute('aria-label', isPlaying ? 'Pause carousel autoplay' : 'Play carousel autoplay');
-
-        const icon = control.querySelector('svg');
-        if (icon) {
-          icon.innerHTML = isPlaying
-            ? '<path d="M6 4h4v16H6V4zM14 4h4v16h-4V4z"/>' // Pause icon
-            : '<path d="M8 5v14l11-7z"/>'; // Play icon
-        }
-      };
-
-      setTimeout(() => {
-        const isPlaying = state.instance?.isPlaying() || false;
-        updateControlState(isPlaying);
-      }, 200);
-
-      control.addEventListener('click', () => {
-        const isCurrentlyPlaying = state.instance?.isPlaying() || false;
-        if (isCurrentlyPlaying) {
-          state.instance?.pause();
-          updateControlState(false);
-        } else {
-          state.instance?.play();
-          updateControlState(true);
-        }
-      });
-
-      container.addEventListener('mouseenter', () => {
-        if (state.instance?.isPlaying()) {
-          state.instance?.pause();
-          updateControlState(false);
-        }
-      });
-
-      container.addEventListener('mouseleave', () => {
-        if (state.instance?.hasAutoplay()) {
-          state.instance?.play();
-          updateControlState(true);
-        }
-      });
-    }
 
     state.resizeHandler = () => {
       if (state.resizeTimeout) clearTimeout(state.resizeTimeout);

@@ -30,7 +30,7 @@ const { service } = Astro.props;
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <div data-reveal="fade-down" data-reveal-duration="250" data-reveal-easing="ease-out">
+      <div data-reveal="fade-down" data-reveal-duration="200" data-reveal-easing="ease-out">
         <SectionHeader
           title={service.benefits.title}
           subtitle={service.benefits.description}
@@ -43,29 +43,27 @@ const { service } = Astro.props;
           <div
             class="group"
             data-reveal="zoom-in"
-            data-reveal-delay={index * 50}
-            data-reveal-duration="250"
+            data-reveal-delay={index * 40}
+            data-reveal-duration="200"
             data-reveal-easing="ease-out"
           >
-            <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl p-6 lg:p-8 relative overflow-hidden transition-all duration-500 hover:border-accent-green/40 hover:-translate-y-1">
-              <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 group-hover:via-accent-green/60 transition-all duration-500" />
+            <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl p-6 lg:p-8 relative overflow-hidden transition-border duration-300 hover:border-accent-green/30">
+              <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0" />
 
-              <div class="relative z-10">
-                <div class="relative inline-flex mb-6">
-                  <div class="relative w-12 h-12 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20 group-hover:bg-accent-green/20 group-hover:border-accent-green/40 transition-all duration-500">
+              <div class="relative">
+                <div class="inline-flex mb-5">
+                  <div class="w-12 h-12 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20">
                     <Icon name={feature.icon} class="w-6 h-6 text-accent-green" />
                   </div>
                 </div>
 
-                <h3 class="text-h4 font-bold text-theme-primary leading-tight mb-3 lg:mb-4 group-hover:text-accent-green transition-colors duration-500 font-display">
+                <h3 class="text-h4 font-bold text-theme-primary leading-tight mb-3 font-display">
                   {feature.title}
                 </h3>
                 <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
                   {feature.description}
                 </p>
               </div>
-
-              <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-green/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           </div>
         ))}
@@ -75,7 +73,6 @@ const { service } = Astro.props;
         <Carousel
           containerId="service-benefits-carousel-container"
           trackId="service-benefits-carousel-track"
-          controlSelector=".service-benefits-carousel-control"
           items={service.benefits.features}
           wrapperClass="service-benefits-carousel-wrapper"
           breakpoint={1024}
@@ -83,8 +80,8 @@ const { service } = Astro.props;
         >
           {service.benefits.features.map((feature: BenefitFeature, index: number) => (
             <div class="carousel-slide embla__slide flex-shrink-0 service-benefits-carousel-slide" data-index={index}>
-              <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl relative overflow-hidden transition-all duration-500 hover:border-accent-green/40 flex flex-col min-h-[var(--card-min-height-sm)] sm:min-h-[var(--card-min-height-sm)]">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 hover:via-accent-green/60 transition-all duration-500" />
+              <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl relative overflow-hidden transition-border duration-300 hover:border-accent-green/30 flex flex-col min-h-[var(--card-min-height-sm)] sm:min-h-[var(--card-min-height-sm)]">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0" />
 
                 <div class="relative z-10 flex flex-col h-full p-4 sm:p-5 lg:p-6">
                   <div class="flex items-start justify-between mb-4 sm:mb-5">

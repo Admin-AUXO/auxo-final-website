@@ -39,6 +39,29 @@ If port 4340 is in use: `npm run clean:port` or `lsof -ti:4340 | xargs kill -9`
 - Avoid conflicting with native scroll on mobile
 - Fixed elements must maintain correct z-index hierarchy
 
+### Carousel System (Embla Carousel)
+**Architecture** - Autoplay-only carousel system:
+- **No play/pause controls**: All carousels autoplay continuously with no user controls
+- **Core**: `src/scripts/animations/EmblaCarousel.ts` - Wrapper class with autoplay plugin
+- **Management**: `src/scripts/utils/carousels.ts` - Lifecycle and responsive handling
+- **Configs**: `src/scripts/sections/utils/carouselConfigs.ts` - Central registry of all carousels
+- **Component**: `src/components/ui/Carousel.astro` - Reusable Astro wrapper
+
+**Critical CSS Spacing Pattern:**
+- Carousel track uses `gap` property for ALL spacing between slides
+- Slides have NO padding-left/padding-right (removed to fix first-child alignment issues)
+- **Never** add `:first-child { padding-left: 0; }` - causes misalignment
+- Use consistent gap values via CSS variables: `--carousel-gap-mobile`, `--carousel-gap-tablet`
+
+**Carousel Types:**
+- Mobile-only: `breakpoint: 768` or `1024` (hidden on desktop)
+- Desktop-only: `activateOnDesktop: true` (e.g., Impact section)
+- Always visible: `alwaysVisible: true`
+
+**Autoplay Intervals:**
+- Services: 6000ms, Models: 5500ms, Process: 5000ms, Impact: 4000ms
+- Code principles: 4000ms, Capabilities: 4500ms, Global metrics: 3500ms
+
 ### Component Organization
 ```
 src/
@@ -110,6 +133,45 @@ TypeScript paths configured in `tsconfig.json`:
 - `view-transitions.css` - Astro View Transitions styling
 - Lint with Stylelint: `npm run lint:css`
 
+### Animation & Reveal Standards
+**Scroll reveal animations** - Consistent timing across the site:
+- **Duration**: `200ms` (standard for all reveals, faster feels smoother)
+- **Easing**: `ease-out` (natural deceleration)
+- **Header delays**: `0-50ms` (minimal delay for immediate feedback)
+- **Content delays**: `50-100ms` (stagger after headers)
+- **Stagger intervals**: `40ms` for grid items (cards, features, metrics)
+
+**Service Page Patterns:**
+- Section headers: `data-reveal="fade-down"` with `200ms` duration
+- Content grids: `data-reveal="zoom-in"` or `fade-up` with `40ms` stagger per item
+- Carousels: `data-reveal="fade-up"` with `50ms` delay
+- Secondary content: `100ms` delay maximum
+
+**Common reveal types:**
+- `fade-down`: Headers, titles (top-down hierarchy)
+- `fade-up`: Content blocks, cards (bottom-up reveal)
+- `fade-right`/`fade-left`: Side-by-side content
+- `zoom-in`: Grid items (benefits, outcomes, features)
+- `fade`: Backgrounds, decorative elements
+
+### Hover Effect Patterns
+**Subtle interactions** - Service page standards:
+- **Border colors**: Opacity shifts only (e.g., `opacity-20` → `opacity-30`)
+- **Backgrounds**: Light gradient/opacity changes
+- **Transform movements**: Generally avoided on service pages for cleaner UX
+- **Icons**: Border color changes, no scale/rotate
+- **Exceptions**: Navigation, buttons, CTAs can have more pronounced effects
+
+**Impact Section:**
+- Cards: Border color change + top accent line reveal only
+- Use case items: Background + border color shift + left accent bar
+- No translateY, translateX, scale, or rotate transforms
+
+**Models Section:**
+- Accordion summary: Background + left bar reveal + translateX (kept for affordance)
+- Deliverable items: Light background + border color shift only
+- Tags: Static accent-green background (no hover changes)
+
 ## Content & Coding Standards
 
 ### From .cursor/rules/auxo.mdc
@@ -145,6 +207,21 @@ TypeScript paths configured in `tsconfig.json`:
 - Lazy load off-screen content with `data-lazy-load` attribute
 - Carousels use Embla Carousel, init via `src/scripts/utils/carousels.ts`
 - Images: Always use `aspect-ratio` to prevent CLS
+
+### Carousel Patterns
+- **Don't** add play/pause buttons - carousels are autoplay-only by design
+- **Don't** use padding on `.embla__slide` - causes spacing inconsistencies
+- **Don't** add `:first-child` padding overrides - use gap-based spacing only
+- **Do** use the `gap` property on `.carousel-track` for all slide spacing
+- **Do** configure autoplay intervals in `carouselConfigs.ts` (3500ms - 6000ms range)
+- **Do** test both desktop and mobile - some carousels are breakpoint-specific
+
+### Service Page Patterns
+- **Animations**: Use 200ms duration, 40-50ms stagger intervals
+- **Hover effects**: Keep subtle - prefer border/background changes over transforms
+- **Icon positioning**: Check icons on the right to save horizontal space (e.g., Key Use Cases)
+- **Tags/badges**: Use permanent styling (accent-green background) without hover state changes
+- **Accordion content**: Deliverables have subtle hover, tags remain static
 
 ## Testing
 

@@ -94,7 +94,6 @@ const serviceIcons = [
       <Carousel
         containerId="services-carousel-container"
         trackId="services-carousel-track"
-        controlSelector=".services-carousel-control"
         items={content.services}
         wrapperClass="services-carousel services-carousel-wrapper"
         breakpoint={1024}
@@ -129,7 +128,7 @@ const serviceIcons = [
         data-reveal-delay="400"
         data-reveal-easing="ease-out"
       >
-        <div class="bg-gradient-to-br from-accent-green/15 via-accent-green/8 to-transparent border-2 border-accent-green/30 p-8 sm:p-10 lg:p-12 relative overflow-hidden group hover:border-accent-green/50 transition-all duration-500">
+        <div class="bg-accent-green/8 border-2 border-accent-green/30 p-8 sm:p-10 lg:p-12 relative overflow-hidden hover:border-accent-green/50 transition-border duration-300">
           <div class="absolute inset-0 opacity-[0.03] code-edge-pattern"></div>
 
           <div class="relative z-10">
@@ -177,7 +176,6 @@ const serviceIcons = [
 
     .services-carousel-wrapper .service-card-redesigned[data-variant="carousel"]:hover,
     .service-card-redesigned[data-variant="grid"]:hover {
-      transform: translateY(-4px);
       z-index: var(--z-content);
     }
   }

@@ -217,8 +217,8 @@
 }
 
 .service-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px var(--accent-green-opacity-25);
+  border-color: var(--accent-green-opacity-30);
+  background: var(--accent-green-opacity-02);
 }
 
 .dropdown-modal-header {

@@ -185,8 +185,6 @@
   flex: 0 0 auto;
   min-width: 0;
   align-self: stretch;
-  padding-left: var(--carousel-gap-mobile);
-  padding-right: var(--carousel-gap-mobile);
   display: flex;
   flex-direction: column;
   width: 100vw;
@@ -197,11 +195,7 @@
 }
 
 .embla__slide:hover {
-  transform: translateY(-2px);
-}
-
-.embla__slide:first-child {
-  padding-left: 0;
+  opacity: 1;
 }
 
 .embla__slide > * {
@@ -211,15 +205,9 @@
 
 @media (min-width: 640px) {
   .embla__slide {
-    padding-left: var(--carousel-gap-tablet);
-    padding-right: var(--carousel-gap-tablet);
     width: calc(100vw - 4rem);
     max-width: 380px;
     box-sizing: border-box;
-  }
-
-  .embla__slide:first-child {
-    padding-left: 0;
   }
 }
 
@@ -326,56 +314,6 @@
   height: 100%;
 }
 
-.carousel-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: var(--carousel-controls-padding, 0.75rem) 0;
-  width: 100%;
-  -webkit-tap-highlight-color: transparent;
-  margin-top: 1.5rem;
-}
-
-.carousel-play-pause {
-  background: var(--theme-surface);
-  border: 1px solid var(--accent-green-opacity-30);
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--duration-fast) var(--easing-standard);
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.carousel-play-pause:hover {
-  background: var(--theme-surface-hover);
-  border-color: var(--accent-green-opacity-50);
-  transform: scale(1.05);
-}
-
-.carousel-play-pause:active {
-  transform: scale(0.95);
-  transition: transform var(--duration-fast) var(--easing-standard);
-}
-
-.carousel-play-pause:focus-visible {
-  outline: var(--focus-ring-width) solid var(--accent-green);
-  outline-offset: var(--spacing-xs);
-}
-
-.carousel-play-pause svg {
-  transition: all var(--duration-fast) var(--easing-standard);
-}
-
-.carousel-play-pause:hover svg {
-  color: var(--theme-primary);
-}
-
-
 .impact-carousel-wrapper {
   position: relative;
   padding: 1.5rem 0;
@@ -466,7 +404,7 @@
   }
 
   .carousel-container:hover .carousel-slide {
-    opacity: 0.95;
+    opacity: 1;
   }
 
   .carousel-slide[data-index] {

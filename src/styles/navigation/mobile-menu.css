@@ -594,7 +594,6 @@ body:has(.mobile-menu.is-open) {
 .mobile-service-card:hover .mobile-service-card-arrow,
 .mobile-service-card:active .mobile-service-card-arrow {
   color: var(--accent-green);
-  transform: translateX(2px);
   opacity: 1;
 }
 

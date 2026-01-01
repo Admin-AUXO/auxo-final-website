@@ -48,14 +48,13 @@ const { content } = Astro.props;
       <div
         class="mb-8 sm:mb-10 lg:mb-12 impact-carousel-section"
         data-reveal="fade-up"
-        data-reveal-delay="150"
-        data-reveal-duration="250"
+        data-reveal-delay="50"
+        data-reveal-duration="200"
         data-reveal-easing="ease-out"
       >
         <Carousel
           containerId="impact-carousel-container"
           trackId="impact-carousel-track"
-          controlSelector=".impact-carousel-control"
           items={content.industries}
           wrapperClass="impact-carousel-wrapper"
           containerClass="impact-carousel-container"
@@ -90,8 +89,8 @@ const { content } = Astro.props;
                   <div class="impact-industry-use-cases-grid">
                     {industry.useCases.map((useCase) => (
                       <div class="impact-industry-use-case-item">
-                        <Icon name="mdi:check-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-green flex-shrink-0" />
                         <span class="impact-industry-use-case-text">{useCase}</span>
+                        <Icon name="mdi:check-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-green flex-shrink-0" />
                       </div>
                     ))}
                   </div>
@@ -104,8 +103,8 @@ const { content } = Astro.props;
 
       <div
         data-reveal="fade-up"
-        data-reveal-delay="250"
-        data-reveal-duration="250"
+        data-reveal-delay="100"
+        data-reveal-duration="200"
         data-reveal-easing="ease-out"
       >
         <div class="impact-goal-card">

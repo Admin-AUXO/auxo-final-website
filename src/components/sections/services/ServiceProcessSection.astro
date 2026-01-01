@@ -31,7 +31,7 @@ const { service } = Astro.props;
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <div data-reveal="fade-down" data-reveal-duration="250" data-reveal-easing="ease-out">
+      <div data-reveal="fade-down" data-reveal-duration="200" data-reveal-easing="ease-out">
         <SectionHeader
           title={service.process.title}
           subtitle={service.process.description}
@@ -45,57 +45,47 @@ const { service } = Astro.props;
             <div
               class="process-card-wrapper h-full"
               data-reveal="fade-up"
-              data-reveal-delay={index * 50}
-              data-reveal-duration="250"
+              data-reveal-delay={index * 40}
+              data-reveal-duration="200"
               data-reveal-easing="ease-out"
             >
-              <div class="group relative h-full bg-gradient-to-br from-theme-card to-theme-card/95 border border-accent-green/20 rounded-3xl p-8 shadow-xl hover:border-accent-green/60 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-br from-accent-green/5 via-transparent to-accent-green/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-accent-green/0 via-accent-green/60 to-accent-green/0 rounded-t-3xl"></div>
-                <div class="absolute -inset-0.5 bg-gradient-to-br from-accent-green/20 to-accent-green/5 rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+              <div class="group relative h-full bg-theme-card border border-accent-green/20 rounded-3xl p-8 hover:border-accent-green/40 transition-all duration-300 flex flex-col overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/40 to-accent-green/0 rounded-t-3xl"></div>
 
-                <div class="flex items-start gap-6 mb-6 relative z-10">
+                <div class="flex items-start gap-6 mb-6">
                   <div class="relative flex-shrink-0">
-                    <div class="absolute -inset-2 bg-accent-green/30 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="relative w-16 h-16 bg-gradient-to-br from-accent-green via-accent-green/95 to-accent-green/80 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                    <div class="w-16 h-16 bg-accent-green rounded-xl flex items-center justify-center">
                       <span class="text-2xl font-extrabold text-white font-display">{step.step}</span>
-                      <div class="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-xl opacity-50"></div>
                     </div>
-                    <div class="absolute -top-1 -right-1 w-3 h-3 bg-accent-green/40 rounded-full blur-sm group-hover:bg-accent-green/60 transition-colors duration-300"></div>
                   </div>
 
                   <div class="flex-1 pt-2">
-                    <h3 class="text-h4 font-extrabold text-theme-primary group-hover:text-accent-green transition-colors duration-300 font-display leading-tight mb-1">
+                    <h3 class="text-h4 font-extrabold text-theme-primary font-display leading-tight">
                       {step.title}
                     </h3>
-                    <div class="h-0.5 w-0 bg-gradient-to-r from-accent-green to-transparent group-hover:w-full transition-all duration-500"></div>
                   </div>
                 </div>
 
-                <p class="text-body-lg text-theme-secondary leading-relaxed mb-7 font-body flex-grow relative z-10">
+                <p class="text-body-lg text-theme-secondary leading-relaxed mb-6 font-body flex-grow">
                   {step.description}
                 </p>
 
-                <div class="space-y-4 mt-auto relative z-10">
-                  <div class="flex items-center gap-3">
-                    <div class="h-px flex-1 bg-gradient-to-r from-accent-green/40 via-accent-green/20 to-transparent"></div>
+                <div class="space-y-3 mt-auto">
+                  <div class="flex items-center gap-3 mb-3">
                     <h4 class="text-xs font-extrabold text-accent-green font-body uppercase tracking-widest flex items-center gap-2">
                       <Icon name="mdi:check-circle-outline" class="w-3.5 h-3.5" />
                       Deliverables
                     </h4>
-                    <div class="h-px flex-1 bg-gradient-to-l from-accent-green/40 via-accent-green/20 to-transparent"></div>
+                    <div class="h-px flex-1 bg-border-color-light"></div>
                   </div>
 
-                  <div class="grid grid-cols-1 gap-3">
+                  <div class="grid grid-cols-1 gap-2">
                     {step.deliverables.map((deliverable: string) => (
-                      <div class="flex items-start gap-3.5 group/item">
-                        <div class="relative flex-shrink-0 mt-0.5">
-                          <div class="absolute inset-0 bg-accent-green/20 rounded-full blur group-hover/item:blur-md group-hover/item:bg-accent-green/40 transition-all"></div>
-                          <div class="relative w-6 h-6 bg-accent-green/15 rounded-full flex items-center justify-center group-hover/item:bg-accent-green/30 group-hover/item:scale-110 transition-all duration-300 border border-accent-green/20">
-                            <Icon name="mdi:check-bold" class="w-3.5 h-3.5 text-accent-green group-hover/item:scale-110 transition-transform" />
-                          </div>
+                      <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 mt-0.5">
+                          <Icon name="mdi:check-bold" class="w-4 h-4 text-accent-green" />
                         </div>
-                        <span class="text-body-base text-theme-secondary group-hover/item:text-theme-primary transition-colors font-body leading-relaxed">
+                        <span class="text-body-base text-theme-secondary font-body leading-relaxed">
                           {deliverable}
                         </span>
                       </div>
@@ -116,7 +106,6 @@ const { service } = Astro.props;
         <Carousel
           containerId="service-process-carousel-container"
           trackId="service-process-carousel-track"
-          controlSelector=".service-process-carousel-control"
           items={service.process.steps}
           wrapperClass="service-process-carousel-wrapper"
           breakpoint={1024}
