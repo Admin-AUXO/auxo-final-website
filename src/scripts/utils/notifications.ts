@@ -107,13 +107,14 @@ function showNotification(config: NotificationConfig): void {
 }
 
 function repositionNotifications(): void {
+  const notificationArray = Array.from(activeNotifications);
   const heights: number[] = [];
-  activeNotifications.forEach(toast => {
+  notificationArray.forEach(toast => {
     heights.push(toast.offsetHeight);
   });
 
   let offsetY = 24;
-  activeNotifications.forEach((toast, index) => {
+  notificationArray.forEach((toast, index) => {
     toast.style.bottom = `${offsetY}px`;
     offsetY += heights[index] + 12;
   });

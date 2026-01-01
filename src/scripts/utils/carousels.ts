@@ -14,7 +14,7 @@ export interface CarouselConfig {
 interface CarouselState {
   instance: EmblaCarouselWrapper | null;
   resizeHandler: (() => void) | null;
-  resizeTimeout: number | null;
+  resizeTimeout: ReturnType<typeof setTimeout> | null;
   observer: ResizeObserver | null;
 }
 
