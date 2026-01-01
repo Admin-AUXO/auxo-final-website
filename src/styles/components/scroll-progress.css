@@ -1,9 +1,6 @@
 #scroll-progress-bar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: auto;
+  inset: 0 0 auto;
   width: 100%;
   z-index: var(--z-scroll-progress);
   pointer-events: none;

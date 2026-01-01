@@ -4,10 +4,7 @@
 
 .fab-button {
   position: fixed;
-  top: auto;
-  bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
-  left: auto;
-  right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right)));
+  inset: auto max(1.5rem, calc(1.5rem + env(safe-area-inset-right))) max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom))) auto;
   z-index: var(--z-floating-button);
   width: 3.5rem;
   height: 3.5rem;
