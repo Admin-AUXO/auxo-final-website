@@ -12,7 +12,6 @@
   transition: opacity var(--duration-normal) var(--easing-standard),
     pointer-events var(--duration-normal) var(--easing-standard),
     background-color var(--duration-normal) var(--easing-standard);
-  will-change: background-color, opacity;
   padding-top: env(safe-area-inset-top);
 }
 

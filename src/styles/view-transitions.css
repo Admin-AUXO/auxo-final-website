@@ -1,13 +1,94 @@
 @supports (view-transition-name: none) {
   ::view-transition-old(root),
   ::view-transition-new(root) {
-    animation-duration: var(--duration-slow);
-    animation-timing-function: var(--easing-standard);
+    animation-duration: 250ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    mix-blend-mode: normal;
   }
 
   ::view-transition-old(main-content),
   ::view-transition-new(main-content) {
-    animation-duration: var(--duration-slow);
-    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation-duration: 250ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  :root {
+    view-transition-name: root;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 250ms;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    ::view-transition-old(root) {
+      animation-name: theme-fade-out;
+    }
+
+    ::view-transition-new(root) {
+      animation-name: theme-fade-in;
+    }
+  }
+}
+
+@keyframes theme-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes theme-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-from-left {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-to-right {
+  to {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+}
+
+@supports (view-transition-name: none) {
+  @media (prefers-reduced-motion: no-preference) {
+    html[data-navigation="forward"] ::view-transition-old(main-content) {
+      animation: 250ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+    }
+
+    html[data-navigation="forward"] ::view-transition-new(main-content) {
+      animation: 250ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+    }
+
+    html[data-navigation="back"] ::view-transition-old(main-content) {
+      animation: 250ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-right;
+    }
+
+    html[data-navigation="back"] ::view-transition-new(main-content) {
+      animation: 250ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-left;
+    }
   }
 }

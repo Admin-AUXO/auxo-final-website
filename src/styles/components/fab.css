@@ -20,11 +20,15 @@
   cursor: pointer;
   touch-action: manipulation;
   user-select: none;
-  will-change: transform;
   backface-visibility: hidden;
   transition: all var(--duration-fast) var(--easing-standard);
   opacity: 1;
   pointer-events: auto;
+}
+
+.fab-button:hover,
+.fab-button:active {
+  will-change: transform;
 }
 
 .fab-icon {

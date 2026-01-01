@@ -109,17 +109,34 @@ function toggleTheme(e?: Event): void {
 
   const currentTheme = getTheme();
   const newTheme = currentTheme === "dark" ? "light" : "dark";
-  applyTheme(newTheme);
-  updateIcon(newTheme);
 
-  setTimeout(() => {
-    document.dispatchEvent(
-      new CustomEvent(THEME_CHANGE_EVENT, {
-        detail: { theme: newTheme, duration: THEME_CHANGE_DURATION },
-      })
-    );
-    isThemeChanging = false;
-  }, 16);
+  if ((document as any).startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const transition = (document as any).startViewTransition(() => {
+      applyTheme(newTheme);
+      updateIcon(newTheme);
+    });
+
+    transition.finished.finally(() => {
+      document.dispatchEvent(
+        new CustomEvent(THEME_CHANGE_EVENT, {
+          detail: { theme: newTheme, duration: 250 },
+        })
+      );
+      isThemeChanging = false;
+    });
+  } else {
+    applyTheme(newTheme);
+    updateIcon(newTheme);
+
+    setTimeout(() => {
+      document.dispatchEvent(
+        new CustomEvent(THEME_CHANGE_EVENT, {
+          detail: { theme: newTheme, duration: 250 },
+        })
+      );
+      isThemeChanging = false;
+    }, 250);
+  }
 }
 
 function attachToggleListeners(toggle: Element): void {

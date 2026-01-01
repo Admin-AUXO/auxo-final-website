@@ -16,8 +16,8 @@ export interface RevealElement extends HTMLElement {
 }
 
 const DEFAULT_OPTIONS: Required<ScrollRevealOptions> = {
-  duration: 500,
-  easing: 'ease-out-cubic',
+  duration: 250,
+  easing: 'ease-out',
   once: true,
   offset: 80,
   delay: 0,
@@ -88,8 +88,8 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
   const isZoom = animation.includes('zoom');
   const isMobile = isMobileDevice();
 
-  const mobileDuration = isMobile ? Math.min(duration, 300) : duration;
-  const mobileDelay = isMobile ? Math.min(delay, 50) : delay;
+  const mobileDuration = isMobile ? Math.min(duration, 250) : duration;
+  const mobileDelay = isMobile ? Math.min(delay, 30) : delay;
 
   const transitionProperty = isFade || isZoom ? 'opacity, transform' : 'transform';
   const cubicBezier = getCubicBezier(easing);
@@ -125,12 +125,12 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
 function getCubicBezier(easing: string): string {
   const bezierMap: Record<string, string> = {
     'ease-out-cubic': '0.33, 1, 0.68, 1',
-    'ease-in-out': '0.42, 0, 0.58, 1',
-    'ease-out': '0, 0, 0.58, 1',
-    'ease-in': '0.42, 0, 1, 1',
+    'ease-in-out': '0.4, 0, 0.2, 1',
+    'ease-out': '0, 0, 0.2, 1',
+    'ease-in': '0.4, 0, 1, 1',
     'linear': '0, 0, 1, 1',
   };
-  return bezierMap[easing] || bezierMap['ease-out-cubic'];
+  return bezierMap[easing] || bezierMap['ease-out'];
 }
 
 function createObserver(): IntersectionObserver {

@@ -24,7 +24,7 @@ const { content } = Astro.props;
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
-      <div data-reveal="fade-down" data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
+      <div data-reveal="fade-down" data-reveal-duration="250" data-reveal-easing="ease-out">
         <SectionHeader
           title={`${content.title} ${content.titleHighlight}`}
           subtitle={content.subtitle.replace(/\n\n/g, " ").replace(":", "")}
@@ -37,7 +37,7 @@ const { content } = Astro.props;
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-6 xl:gap-8 overflow-x-hidden px-2 max-w-[1400px] mx-auto items-stretch"
         >
           {content.steps.map((step, index) => (
-            <div class="h-full" data-reveal="fade-up" data-reveal-delay={150 + (index * 100)} data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
+            <div class="h-full" data-reveal="fade-up" data-reveal-delay={index * 50} data-reveal-duration="250" data-reveal-easing="ease-out">
               <MethodologyStep
               number={String(step.number)}
               title={step.title}
@@ -56,7 +56,7 @@ const { content } = Astro.props;
       <div class="lg:hidden methodology-accordion">
         <div class="accordion-container">
           {content.steps.map((step, index) => (
-            <div data-reveal="fade-up" data-reveal-delay={100 + (index * 50)} data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
+            <div data-reveal="fade-up" data-reveal-delay={100 + (index * 50)} data-reveal-duration="250" data-reveal-easing="ease-out">
               <MethodologyStep
               number={String(step.number)}
               title={step.title}
@@ -72,7 +72,7 @@ const { content } = Astro.props;
         </div>
       </div>
       {content.navigationButton && (
-        <div class="text-center mt-8 sm:mt-10" data-reveal="fade-up" data-reveal-delay="400" data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
+        <div class="text-center mt-8 sm:mt-10" data-reveal="fade-up" data-reveal-delay="400" data-reveal-duration="250" data-reveal-easing="ease-out">
           <a
             href={createUrl(content.navigationButton.href)}
             class="inline-flex items-center gap-2 text-accent-green hover:text-accent-green/80 font-semibold text-base sm:text-body-lg transition-all duration-300 group flex-nowrap whitespace-nowrap font-body"

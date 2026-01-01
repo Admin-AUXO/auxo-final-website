@@ -48,17 +48,7 @@ export function initValuePropositionTyping(containerId: string): void {
   }
 
   const placeholder = document.createElement('div');
-  Object.assign(placeholder.style, {
-    position: 'absolute',
-    visibility: 'hidden',
-    height: 'auto',
-    width: '100%',
-    pointerEvents: 'none',
-    opacity: '0',
-    top: '0',
-    left: '0'
-  });
-  placeholder.className = container.className;
+  placeholder.className = `${container.className} typing-placeholder`;
   placeholder.innerHTML = `<p>${HERO_LINES[0]}</p><p>&nbsp;</p><p>${HERO_LINES[2]}</p>`;
   container.appendChild(placeholder);
   const reservedHeight = placeholder.offsetHeight;

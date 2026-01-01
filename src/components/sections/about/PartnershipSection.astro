@@ -26,7 +26,7 @@ const { content } = Astro.props;
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-5xl mx-auto w-full">
-      <div class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16" data-reveal="fade-down" data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
+      <div class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16" data-reveal="fade-down" data-reveal-duration="250" data-reveal-easing="ease-out">
         <div class="inline-flex items-center justify-center gap-3 mb-4 sm:mb-6">
           <Icon name="mdi:handshake" class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green" />
           <h2 class="text-h2 font-extrabold text-theme-primary leading-tight tracking-tight font-display">
@@ -35,7 +35,7 @@ const { content } = Astro.props;
         </div>
       </div>
 
-      <div class="partnership-content" data-reveal="fade-up" data-reveal-delay="150" data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
+      <div class="partnership-content" data-reveal="fade-up" data-reveal-delay="150" data-reveal-duration="250" data-reveal-easing="ease-out">
         <Card
           variant="highlight"
           content={content.description}

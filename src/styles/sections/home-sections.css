@@ -243,3 +243,13 @@
 @keyframes auxoCursorBlink {
   50% { opacity: 0; }
 }
+.typing-placeholder {
+  position: absolute;
+  visibility: hidden;
+  height: auto;
+  width: 100%;
+  pointer-events: none;
+  opacity: 0;
+  top: 0;
+  left: 0;
+}

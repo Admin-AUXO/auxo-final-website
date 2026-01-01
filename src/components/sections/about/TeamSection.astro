@@ -34,7 +34,7 @@ const { content } = Astro.props;
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-6xl mx-auto w-full">
-      <div class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20" data-reveal="fade-down" data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
+      <div class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20" data-reveal="fade-down" data-reveal-duration="250" data-reveal-easing="ease-out">
         <div class="inline-flex items-center justify-center gap-3 mb-4 sm:mb-6">
           <Icon name="mdi:account-group" class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green" />
           <h2 class="text-h2 font-extrabold text-theme-primary leading-tight tracking-tight font-display">
@@ -48,7 +48,7 @@ const { content } = Astro.props;
 
       {content.leadership.length > 0 && (
         <div class="mb-12 sm:mb-16">
-          <h3 class="text-h3 font-bold text-theme-primary mb-6 sm:mb-8 text-center font-display" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
+          <h3 class="text-h3 font-bold text-theme-primary mb-6 sm:mb-8 text-center font-display" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="250" data-reveal-easing="ease-out">
             Leadership
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -56,9 +56,9 @@ const { content } = Astro.props;
               <div
                 class="team-member-card"
                 data-reveal="fade-up"
-                data-reveal-delay={150 + (index * 100)}
-                data-reveal-duration="500"
-                data-reveal-easing="ease-out-cubic"
+                data-reveal-delay={index * 50}
+                data-reveal-duration="250"
+                data-reveal-easing="ease-out"
               >
                 <div class="bg-theme-surface border border-theme-light rounded-xl p-6 sm:p-8 h-full hover:border-accent-green/30 transition-all duration-300">
                   <h4 class="text-xl font-bold text-theme-primary mb-2 font-display">
@@ -79,7 +79,7 @@ const { content } = Astro.props;
 
       {content.advisors.length > 0 && (
         <div>
-          <h3 class="text-h3 font-bold text-theme-primary mb-6 sm:mb-8 text-center font-display" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
+          <h3 class="text-h3 font-bold text-theme-primary mb-6 sm:mb-8 text-center font-display" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="250" data-reveal-easing="ease-out">
             Advisors
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -87,9 +87,9 @@ const { content } = Astro.props;
               <div
                 class="team-member-card"
                 data-reveal="fade-up"
-                data-reveal-delay={150 + (index * 100)}
-                data-reveal-duration="500"
-                data-reveal-easing="ease-out-cubic"
+                data-reveal-delay={index * 50}
+                data-reveal-duration="250"
+                data-reveal-easing="ease-out"
               >
                 <div class="bg-theme-surface border border-theme-light rounded-xl p-6 sm:p-8 h-full hover:border-accent-green/30 transition-all duration-300">
                   <h4 class="text-xl font-bold text-theme-primary mb-2 font-display">
@@ -109,7 +109,7 @@ const { content } = Astro.props;
       )}
 
       {content.leadership.length === 0 && content.advisors.length === 0 && (
-        <div class="text-center py-12 sm:py-16" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="500" data-reveal-easing="ease-out-cubic">
+        <div class="text-center py-12 sm:py-16" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="250" data-reveal-easing="ease-out">
           <p class="text-body-lg text-theme-secondary font-body">
             Leadership bios and advisor information coming soon.
           </p>

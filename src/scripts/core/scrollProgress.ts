@@ -5,6 +5,7 @@ import { getScrollPercentage } from '../utils/scrollHelpers';
 let isInitialized = false;
 let lenisInstance: any = null;
 let scrollHandler: (() => void) | null = null;
+let rafPending = false;
 
 function updateProgress(scrollProgress: number = 0): void {
   const progressBar = document.getElementById('scroll-progress-bar');
@@ -21,8 +22,14 @@ function handleLenisScroll(data: { scroll: number }): void {
 }
 
 function handleNativeScroll(): void {
-  const progress = getScrollPercentage();
-  updateProgress(progress);
+  if (!rafPending) {
+    rafPending = true;
+    requestAnimationFrame(() => {
+      const progress = getScrollPercentage();
+      updateProgress(progress);
+      rafPending = false;
+    });
+  }
 }
 
 function handleResize(): void {
@@ -68,5 +75,6 @@ export function cleanupScrollProgress(): void {
     scrollHandler = null;
   }
   window.removeEventListener('resize', handleResize);
+  rafPending = false;
   isInitialized = false;
 }

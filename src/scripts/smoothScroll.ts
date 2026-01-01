@@ -9,6 +9,12 @@ let rafId: number | null = null;
 let anchorClickHandlers: Array<{ anchor: Element; handler: (e: Event) => void }> = [];
 let pageLoadHandler: (() => void) | null = null;
 
+let lastScrollY = 0;
+let idleFrameCount = 0;
+const IDLE_THRESHOLD = 60;
+let isRafPaused = false;
+let resumeRafHandler: (() => void) | null = null;
+
 function handleAnchorClick(e: Event, target: HTMLElement, offset: number = SCROLL_OFFSETS.DEFAULT): void {
   e.preventDefault();
   const targetPosition = target.getBoundingClientRect().top + getScrollTop() - offset;
@@ -95,11 +101,40 @@ export function initSmoothScroll() {
   });
 
   function raf(time: number) {
-    lenis?.raf(time);
+    if (!lenis) return;
+
+    lenis.raf(time);
+
+    const currentScrollY = lenis.scroll;
+    const delta = Math.abs(currentScrollY - lastScrollY);
+
+    if (delta < 0.01) {
+      idleFrameCount++;
+      if (idleFrameCount > IDLE_THRESHOLD && !isRafPaused) {
+        isRafPaused = true;
+        return;
+      }
+    } else {
+      idleFrameCount = 0;
+      isRafPaused = false;
+    }
+
+    lastScrollY = currentScrollY;
     rafId = requestAnimationFrame(raf);
   }
 
+  resumeRafHandler = () => {
+    if (isRafPaused && lenis) {
+      isRafPaused = false;
+      idleFrameCount = 0;
+      rafId = requestAnimationFrame(raf);
+    }
+  };
+
   rafId = requestAnimationFrame(raf);
+
+  window.addEventListener('wheel', resumeRafHandler, { passive: true });
+  window.addEventListener('touchstart', resumeRafHandler, { passive: true });
 
   if (typeof window !== 'undefined') {
     (window as any).__lenis = lenis;
@@ -147,6 +182,12 @@ export function destroySmoothScroll() {
     rafId = null;
   }
 
+  if (resumeRafHandler) {
+    window.removeEventListener('wheel', resumeRafHandler);
+    window.removeEventListener('touchstart', resumeRafHandler);
+    resumeRafHandler = null;
+  }
+
   if (lenis) {
     lenis.destroy();
     lenis = null;
@@ -164,6 +205,10 @@ export function destroySmoothScroll() {
     document.removeEventListener('astro:page-load', pageLoadHandler);
     pageLoadHandler = null;
   }
+
+  lastScrollY = 0;
+  idleFrameCount = 0;
+  isRafPaused = false;
 }
 
 export function isSmoothScrollEnabled(): boolean {

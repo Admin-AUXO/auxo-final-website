@@ -36,10 +36,10 @@
   --font-brand: 'Montserrat', system-ui, sans-serif;
   --logo-text-color: var(--text-on-accent);
   
-  --duration-fast: 150ms;
-  --duration-normal: 300ms;
-  --duration-slow: 500ms;
-  --theme-transition: 200ms;
+  --duration-fast: 200ms;
+  --duration-normal: 250ms;
+  --duration-slow: 300ms;
+  --theme-transition: 250ms;
   --timing-smooth: var(--easing-standard);
   
   --spacing-2xs: 0.125rem;
@@ -183,9 +183,9 @@
   --delay-slower: 0.4s;
   --delay-slowest: 0.6s;
   
-  --animation-duration-fast: 0.2s;
-  --animation-duration-normal: 0.4s;
-  --animation-duration-slow: 0.6s;
+  --animation-duration-fast: 200ms;
+  --animation-duration-normal: 250ms;
+  --animation-duration-slow: 300ms;
   --animation-duration-slower: 1s;
   --animation-duration-slowest: 2s;
   --animation-duration-gradient: 5s;

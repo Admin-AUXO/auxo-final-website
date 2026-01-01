@@ -35,7 +35,7 @@ const { content } = Astro.props;
 
       <div class="hidden lg:grid lg:grid-cols-3 lg:gap-6 xl:gap-8 services-grid-desktop">
         {content.items.map((item, index) => (
-          <div data-reveal="fade-up" data-reveal-delay={150 + (index * 100)} data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
+          <div data-reveal="fade-up" data-reveal-delay={index * 50} data-reveal-duration="250" data-reveal-easing="ease-out">
             <Card
               variant="service"
               icon={item.icon}
@@ -73,7 +73,7 @@ const { content } = Astro.props;
         ))}
       </Carousel>
 
-      <div class="text-center mt-8 sm:mt-10 lg:mt-12 px-4" data-reveal="fade-up" data-reveal-delay="450" data-reveal-duration="600" data-reveal-easing="ease-out-cubic">
+      <div class="text-center mt-8 sm:mt-10 lg:mt-12 px-4" data-reveal="fade-up" data-reveal-delay="450" data-reveal-duration="250" data-reveal-easing="ease-out">
         <Button
           variant="primary"
           size="lg"
