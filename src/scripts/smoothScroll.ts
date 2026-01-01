@@ -2,6 +2,7 @@ import Lenis from 'lenis';
 import { isMobileDevice } from './utils/deviceDetection';
 import { getScrollTop } from './utils/scrollHelpers';
 import { SCROLL_OFFSETS } from './constants';
+import { forceUnlockScroll } from './navigation/utils';
 
 let lenis: Lenis | null = null;
 let isMobile = false;
@@ -17,8 +18,15 @@ let resumeRafHandler: (() => void) | null = null;
 
 function handleAnchorClick(e: Event, target: HTMLElement, offset: number = SCROLL_OFFSETS.DEFAULT): void {
   e.preventDefault();
-  const targetPosition = target.getBoundingClientRect().top + getScrollTop() - offset;
-  window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+
+  if (document.body.classList.contains('scroll-locked')) {
+    forceUnlockScroll();
+  }
+
+  requestAnimationFrame(() => {
+    const targetPosition = target.getBoundingClientRect().top + getScrollTop() - offset;
+    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+  });
 }
 
 function setupAnchorLinks(): void {
@@ -49,14 +57,20 @@ function handleHashNavigation(): void {
   if (window.location.hash) {
     const target = document.querySelector(window.location.hash) as HTMLElement;
     if (target) {
+      if (document.body.classList.contains('scroll-locked')) {
+        forceUnlockScroll();
+      }
+
       if (lenis) {
         requestAnimationFrame(() => {
           lenis?.scrollTo(target, { immediate: true, offset: -SCROLL_OFFSETS.DEFAULT });
         });
       } else {
-        const offset = SCROLL_OFFSETS.DEFAULT;
-        const targetPosition = target.getBoundingClientRect().top + getScrollTop() - offset;
-        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        requestAnimationFrame(() => {
+          const offset = SCROLL_OFFSETS.DEFAULT;
+          const targetPosition = target.getBoundingClientRect().top + getScrollTop() - offset;
+          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        });
       }
     }
   }

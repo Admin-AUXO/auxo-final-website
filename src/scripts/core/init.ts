@@ -9,6 +9,7 @@ import { initAccordions, cleanupAccordions } from '../utils/accordions';
 import { cleanupAllCarousels } from '../utils/carousels';
 import { setupGoogleCalendar } from '../widgets/googleCalendar';
 import { initThemeToggle } from '../ui/themeToggle';
+import { forceUnlockScroll } from '../navigation/utils';
 
 let isInitialized = false;
 let lazyLoadingObserver: IntersectionObserver | null = null;
@@ -79,6 +80,7 @@ export function initPageFeatures(showParticles: boolean = false): void {
 }
 
 export function cleanupCoreFeatures(): void {
+  forceUnlockScroll();
   cleanupScrollAnimations();
   cleanupScrollProgress();
   cleanupNavigation();

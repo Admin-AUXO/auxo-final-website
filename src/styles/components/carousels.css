@@ -141,6 +141,12 @@
 .embla {
   overflow: hidden;
   touch-action: pan-x;
+  -webkit-tap-highlight-color: transparent;
+  cursor: grab;
+}
+
+.embla:active {
+  cursor: grabbing;
 }
 
 .embla__container {
@@ -187,6 +193,11 @@
   max-width: calc(100vw - 2rem);
   height: auto;
   box-sizing: border-box;
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+
+.embla__slide:hover {
+  transform: translateY(-2px);
 }
 
 .embla__slide:first-child {
@@ -230,6 +241,11 @@
   overflow: visible;
   touch-action: pan-x;
   overscroll-behavior: contain;
+  scroll-snap-type: x mandatory;
+}
+
+.carousel-track > * {
+  scroll-snap-align: start;
 }
 
 .carousel-track:hover,
@@ -400,16 +416,18 @@
     border-radius: var(--radius-lg);
   }
 
-
   .carousel-container,
   .embla,
   .embla__container {
     touch-action: pan-x;
     overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
   }
 
   .carousel-track {
     touch-action: pan-x;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
   }
 
   .carousel-container.is-dragging {
@@ -420,17 +438,23 @@
   .carousel-container.is-dragging .carousel-track,
   .carousel-container.is-dragging .embla__container {
     touch-action: pan-x;
+    scroll-snap-type: none;
   }
 
   .carousel-slide,
   .embla__slide {
     touch-action: pan-y;
     pointer-events: auto;
+    scroll-snap-align: center;
   }
 
   .carousel-container.is-dragging .carousel-slide,
   .carousel-container.is-dragging .embla__slide {
     touch-action: pan-y;
+  }
+
+  .embla__slide:hover {
+    transform: none;
   }
 }
 

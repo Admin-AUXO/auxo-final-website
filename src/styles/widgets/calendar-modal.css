@@ -55,6 +55,14 @@
   margin: 0;
   padding: 0;
   touch-action: pan-y;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform 300ms ease-out, opacity 250ms ease-out;
+}
+
+.calendar-modal:not([hidden]) .calendar-modal-container {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .calendar-modal-header {

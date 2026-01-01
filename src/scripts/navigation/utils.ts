@@ -91,6 +91,18 @@ export function unlockScroll(): void {
 
 export function forceUnlockScroll(): void {
   scrollLockCount = 0;
-  unlockScroll();
+
+  document.body.style.overflow = '';
+  document.body.style.paddingRight = '';
+  document.body.style.removeProperty('--scrollbar-width');
+  document.documentElement.style.overflow = '';
+
+  document.documentElement.classList.remove('scroll-locked');
+  document.body.classList.remove('scroll-locked');
+
+  const lenisInstance = typeof window !== 'undefined' ? (window as any).__lenis : null;
+  if (lenisInstance) {
+    lenisInstance.start();
+  }
 }
 

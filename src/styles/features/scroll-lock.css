@@ -1,6 +1,6 @@
 body.scroll-locked {
   overflow: hidden;
-  touch-action: pan-x;
+  touch-action: none;
 }
 
 body.scroll-locked .mobile-menu-content {
