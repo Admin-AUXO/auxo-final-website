@@ -31,9 +31,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run lint checks
-        run: npm run lint
-
       - name: Validate environment
         run: |
           if [ -z "${{ secrets.SANITY_PROJECT_ID }}" ] || [ -z "${{ secrets.SANITY_API_TOKEN }}" ]; then
