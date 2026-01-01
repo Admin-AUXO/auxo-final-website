@@ -1,3 +1,5 @@
+import { BREAKPOINTS } from './constants';
+
 interface Star {
   x: number;
   y: number;
@@ -18,8 +20,8 @@ interface Star {
 }
 
 const CONSTANTS = {
-  MOBILE_BREAKPOINT: 640,
-  TABLET_BREAKPOINT: 1024,
+  MOBILE_BREAKPOINT: BREAKPOINTS.SM,
+  TABLET_BREAKPOINT: BREAKPOINTS.LG,
 
   ACCENT_STAR_RATIO: 0.15,
   NEBULA_RATIO: 0.05,

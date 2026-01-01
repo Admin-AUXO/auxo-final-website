@@ -1,6 +1,7 @@
 import EmblaCarousel from 'embla-carousel';
 import type { EmblaCarouselType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
+import { BREAKPOINTS } from '../constants';
 
 const DEFAULT_AUTOPLAY_INTERVAL = 3000;
 const TRANSITION_DURATION = 200;
@@ -36,7 +37,7 @@ export class EmblaCarouselWrapper {
     private container: HTMLElement,
     private options: EmblaCarouselOptions = {}
   ) {
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const isMobile = typeof window !== "undefined" && window.innerWidth < BREAKPOINTS.MD;
 
     const {
       loop = false,

@@ -1,3 +1,5 @@
+import { BREAKPOINTS } from '../constants';
+
 const THEME_STORAGE_KEY = "theme";
 const THEME_CHANGE_EVENT = "themechange";
 const THEME_CHANGE_DURATION = 100; // Even faster response time
@@ -13,7 +15,7 @@ const THEME_CHANGE_DEBOUNCE = 100;
 function isMobileDevice(): boolean {
   if (typeof window === "undefined") return false;
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-         window.innerWidth < 768;
+         window.innerWidth < BREAKPOINTS.MD;
 }
 
 function getTheme(): Theme {

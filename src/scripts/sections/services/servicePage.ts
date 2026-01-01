@@ -3,9 +3,10 @@ import { setupPageAnimations } from "../utils/initUtils";
 import { setupCounterAnimations } from "./counterAnimations";
 import { initAccordions } from "@/scripts/utils/accordions";
 import { setupParallax, cleanupParallax } from "./parallax";
+import { BREAKPOINTS } from "@/scripts/constants";
 
 const CAROUSEL_CONFIG = {
-  breakpoint: 1024,
+  breakpoint: BREAKPOINTS.LG,
   activateOnDesktop: false,
   carouselOptions: {
     autoplay: true,

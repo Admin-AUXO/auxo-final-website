@@ -1,3 +1,5 @@
+import { BREAKPOINTS } from '../constants';
+
 export function getNavElements() {
   if (typeof document === 'undefined') {
     return {
@@ -68,7 +70,7 @@ export function lockScroll(): void {
       lenisInstance.stop();
     }
 
-    const isMobile = window.innerWidth < 768;
+    const isMobile = window.innerWidth < BREAKPOINTS.MD;
     if (!isMobile) {
       const scrollbarWidth = getScrollbarWidth();
       document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);

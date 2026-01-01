@@ -25,8 +25,7 @@ function handleNativeScroll(): void {
   if (!rafPending) {
     rafPending = true;
     requestAnimationFrame(() => {
-      const progress = getScrollPercentage();
-      updateProgress(progress);
+      updateProgress(getScrollPercentage());
       rafPending = false;
     });
   }

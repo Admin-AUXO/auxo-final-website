@@ -70,7 +70,6 @@ function handleHashNavigation(): void {
       } else {
         requestAnimationFrame(() => {
           const offset = SCROLL_OFFSETS.DEFAULT;
-          // Batch DOM reads before writes
           const rect = target.getBoundingClientRect();
           const scrollTop = getScrollTop();
           const targetPosition = rect.top + scrollTop - offset;

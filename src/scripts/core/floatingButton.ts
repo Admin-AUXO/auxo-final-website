@@ -1,5 +1,5 @@
 import { getScrollTop } from '@/scripts/utils/scrollHelpers';
-import { SCROLL_THRESHOLDS, Z_INDEX } from '@/scripts/constants';
+import { SCROLL_THRESHOLDS, BREAKPOINTS } from '@/scripts/constants';
 
 const FAB_SCROLL_THRESHOLD = SCROLL_THRESHOLDS.FLOATING_BUTTON_SHOW;
 const FAB_HIDE_DELAY = SCROLL_THRESHOLDS.FLOATING_BUTTON_HIDE_INITIAL;
@@ -54,7 +54,7 @@ export function initFloatingButton(): void {
   const fab = getFabElement();
   if (!fab) return;
 
-  const isMobile = window.innerWidth < 1024;
+  const isMobile = window.innerWidth < BREAKPOINTS.LG;
   const isAndroid = /Android/i.test(navigator.userAgent);
 
   if (isInitialized) {
@@ -87,7 +87,7 @@ export function initFloatingButton(): void {
   window.addEventListener('scroll', scrollHandler, { passive: true });
 
   resizeHandler = (): void => {
-    const newIsMobile = window.innerWidth < 1024;
+    const newIsMobile = window.innerWidth < BREAKPOINTS.LG;
     if (!newIsMobile) {
       fab.classList.remove('fab-hidden');
       isFabHidden = false;
