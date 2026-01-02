@@ -1,7 +1,6 @@
 ---
 import type { HomepageContent } from '@/data/content/homepage';
 import SectionContainer from '@/components/layouts/SectionContainer.astro';
-import ParticleBackground from '@/components/effects/ParticleBackground.astro';
 
 interface Props {
   content: HomepageContent["problem"];
@@ -13,10 +12,8 @@ const { content: problemContent } = Astro.props;
 <SectionContainer
   id="problem-solution"
   padding="lg"
-  class="relative flex items-center overflow-hidden transition-colors problem-solution-section"
+  class="relative flex items-center transition-colors problem-solution-section"
 >
-  <ParticleBackground />
-
   <div class="absolute inset-0 pointer-events-none opacity-30" aria-hidden="true">
     <div class="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-accent-green/20 to-transparent"></div>
     <div class="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-accent-green/20 to-transparent"></div>
@@ -27,25 +24,15 @@ const { content: problemContent } = Astro.props;
       <div class="text-center py-16 sm:py-20 lg:py-28 xl:py-32 px-4 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto">
           <div
-            class="problem-statement-card relative backdrop-blur-sm bg-gradient-to-br from-accent-green/5 via-transparent to-accent-purple/5 rounded-3xl border border-accent-green/10 p-8 sm:p-12 lg:p-16 xl:p-20 shadow-2xl mb-10 sm:mb-14 lg:mb-20"
+            class="problem-statement-card relative backdrop-blur-sm bg-gradient-to-br from-accent-green/5 via-transparent to-accent-purple/5 rounded-3xl border border-accent-green/10 p-8 sm:p-12 lg:p-14 xl:p-16 mb-12 sm:mb-16 lg:mb-24"
             data-reveal="fade-down"
             data-reveal-duration="200"
             data-reveal-easing="ease-out"
             data-reveal-delay="0"
           >
-            <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-accent-green to-transparent" aria-hidden="true"></div>
-            <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-accent-green to-transparent" aria-hidden="true"></div>
-
-            <div class="space-y-6 sm:space-y-8 relative">
-              <h2 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight text-theme-primary transition-colors font-display relative inline-block">
-                Most companies collect data.
-              </h2>
-              <div class="relative">
-                <p class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight bg-gradient-to-r from-accent-green via-accent-purple to-accent-green bg-clip-text text-transparent transition-colors font-display bg-[length:200%_100%] animate-gradient">
-                  Few convert it into decisions.
-                </p>
-              </div>
-            </div>
+            <p class="text-lg sm:text-xl lg:text-2xl font-medium leading-relaxed text-theme-secondary/70 transition-colors font-body">
+              Most companies collect data. Few convert it into decisions.
+            </p>
           </div>
 
           <div
@@ -72,16 +59,26 @@ const { content: problemContent } = Astro.props;
             data-reveal-easing="ease-out"
             data-reveal-delay="100"
           >
-            <div class="relative inline-block">
-              <div class="absolute -inset-4 bg-gradient-to-r from-accent-green/10 via-accent-purple/10 to-accent-green/10 rounded-2xl blur-xl" aria-hidden="true"></div>
-              <div class="relative space-y-5 sm:space-y-7">
-                <p class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight text-theme-primary transition-colors font-display">
-                  <span class="highlight-gradient inline-block relative">AUXO</span> <span class="text-theme-primary/90">bridges the gap</span>
-                </p>
-                <p class="text-xl sm:text-2xl lg:text-3xl font-medium leading-relaxed text-theme-secondary/70 transition-colors max-w-4xl mx-auto font-body">
+            <div class="relative">
+              <div class="absolute -inset-8 sm:-inset-12 lg:-inset-16 bg-gradient-to-r from-accent-green/20 via-accent-purple/20 to-accent-blue/20 blur-3xl animate-pulse" aria-hidden="true" style="animation-duration: 4s;"></div>
+              <div class="absolute -inset-6 sm:-inset-10 bg-gradient-to-br from-accent-green/15 via-accent-purple/15 to-accent-green/15 blur-2xl" aria-hidden="true"></div>
+
+              <div class="relative space-y-6 sm:space-y-8 lg:space-y-10">
+                <div class="relative inline-block">
+                  <div class="absolute -inset-3 bg-gradient-to-r from-accent-green/30 via-accent-purple/30 to-accent-green/30 blur-xl animate-pulse" aria-hidden="true" style="animation-duration: 2s;"></div>
+                  <h2 class="relative text-4xl sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black leading-tight font-display">
+                    <span class="highlight-gradient inline-block relative drop-shadow-2xl">AUXO</span>
+                    <span class="bg-gradient-to-r from-accent-green via-accent-purple to-accent-green bg-clip-text text-transparent bg-[length:200%_100%] animate-gradient"> bridges the gap</span>
+                  </h2>
+                  <div class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-green/50 to-transparent blur-sm" aria-hidden="true"></div>
+                </div>
+
+                <p class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold leading-relaxed bg-gradient-to-r from-theme-primary via-accent-green/80 to-theme-primary bg-clip-text text-transparent transition-colors max-w-5xl mx-auto font-body bg-[length:200%_100%] animate-gradient">
                   connecting business understanding with data intelligence.
                 </p>
               </div>
+
+              <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-2/3 h-3 bg-gradient-to-r from-transparent via-accent-green/30 to-transparent blur-md" aria-hidden="true"></div>
             </div>
           </div>
         </div>

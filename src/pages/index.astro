@@ -8,6 +8,7 @@ import ServicesIntroSection from "@/components/sections/home/ServicesIntroSectio
 import MethodologySection from "@/components/sections/home/MethodologySection.astro";
 import TechStackSection from "@/components/sections/home/TechStackSection.astro";
 import FinalCta from "@/components/sections/home/FinalCta.astro";
+import ParticleBackground from "@/components/effects/ParticleBackground.astro";
 import { getHomepageContent } from "@/lib/sanity/data";
 
 const [homepageContent, siteData] = await Promise.all([
@@ -17,8 +18,11 @@ const [homepageContent, siteData] = await Promise.all([
 ---
 
 <BaseLayout title="Data Analytics Consultancy Dubai, UAE | AUXO Data Labs" description={siteData.description}>
-  <HeroSection content={homepageContent.hero} />
-  <ProblemSolutionSection content={homepageContent.problem} />
+  <div class="hero-problem-wrapper relative">
+    <ParticleBackground />
+    <HeroSection content={homepageContent.hero} />
+    <ProblemSolutionSection content={homepageContent.problem} />
+  </div>
   <div data-lazy-load>
     <ServicesIntroSection content={homepageContent.servicesIntro} />
   </div>
@@ -35,5 +39,18 @@ const [homepageContent, siteData] = await Promise.all([
     <FinalCta content={homepageContent.finalCta} />
   </div>
 </BaseLayout>
+
+<style>
+.hero-problem-wrapper {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-problem-wrapper :global(#particle-background) {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+</style>
 
 

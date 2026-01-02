@@ -2,7 +2,6 @@
 import { Icon } from "astro-icon/components";
 import Button from "@/components/ui/Button.astro";
 import HeroLayout from "@/components/ui/HeroLayout.astro";
-import ParticleBackground from "@/components/effects/ParticleBackground.astro";
 import type { HomepageContent } from "@/data/content/homepage";
 import { createUrl } from "@/utils/url";
 import { shouldOpenCalendly } from "@/utils/ctaRules";
@@ -35,7 +34,6 @@ const cta = {
   scrollText={content.scrollIndicator}
   scrollAriaLabel={content.scrollIndicator}
 >
-  <ParticleBackground slot="background" />
   <div class="hero-headline mb-6 sm:mb-8 lg:mb-10 w-full" data-reveal="fade-down" data-reveal-duration="200" data-reveal-easing="ease-out">
     <h1
       class="hero-headline-text text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-4 sm:mb-6 lg:mb-8 w-full font-display"
