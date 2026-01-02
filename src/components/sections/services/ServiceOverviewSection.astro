@@ -89,26 +89,28 @@ const { service } = Astro.props;
         </div>
       </div>
 
-      <div class="lg:hidden space-y-4">
-        <details class="service-accordion-item bg-theme-card border border-red-500/20 rounded-2xl overflow-hidden group">
-          <summary class="service-accordion-summary flex items-center justify-between p-6 lg:hover:bg-red-500/5 transition-colors duration-300">
-            <div class="flex items-center gap-3 pointer-events-none">
-              <div class="w-10 h-10 bg-red-500/15 rounded-xl flex items-center justify-center">
+      <div class="lg:hidden space-y-3">
+        <details class="service-accordion-item bg-theme-card border border-red-500/20 rounded-xl overflow-hidden group" open>
+          <summary class="service-accordion-summary flex items-center justify-between gap-3 p-4">
+            <div class="flex items-center gap-3 flex-1 min-w-0 pointer-events-none">
+              <div class="w-10 h-10 bg-red-500/15 rounded-xl flex items-center justify-center flex-shrink-0">
                 <Icon name="mdi:close" class="w-5 h-5 text-red-500" />
               </div>
-              <h3 class="text-h4 font-bold text-theme-primary font-display">Challenges We Solve</h3>
+              <h3 class="text-base font-bold text-theme-primary font-display truncate">Challenges We Solve</h3>
             </div>
-            <Icon name="mdi:chevron-down" class="w-5 h-5 text-theme-secondary transition-transform duration-300 service-accordion-chevron pointer-events-none" />
+            <div class="service-accordion-indicator flex-shrink-0 w-6 h-6 rounded-full bg-red-500/10 flex items-center justify-center pointer-events-none">
+              <Icon name="mdi:chevron-down" class="w-4 h-4 text-red-500 transition-transform duration-300 group-open:rotate-180" />
+            </div>
           </summary>
 
-          <div class="service-accordion-content px-6 pb-6">
-            <div class="space-y-4 pt-4 border-t border-red-500/10">
+          <div class="service-accordion-content">
+            <div class="px-4 pb-4 space-y-3">
               {service.overview.challenges.map((challenge, index) => (
-                <div class="flex items-start gap-4 p-4 bg-red-500/5 border border-red-500/20 rounded-xl">
-                  <div class="w-8 h-8 bg-red-500/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span class="text-sm font-bold text-red-500 font-display">{index + 1}</span>
+                <div class="flex items-start gap-3 p-3 bg-red-500/5 border border-red-500/15 rounded-xl">
+                  <div class="w-6 h-6 bg-red-500/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span class="text-xs font-bold text-red-500 font-display">{index + 1}</span>
                   </div>
-                  <p class="text-body-lg text-theme-secondary leading-relaxed font-body flex-1">
+                  <p class="text-sm text-theme-secondary leading-relaxed font-body flex-1">
                     {challenge}
                   </p>
                 </div>
@@ -117,25 +119,27 @@ const { service } = Astro.props;
           </div>
         </details>
 
-        <details class="service-accordion-item bg-theme-card border border-accent-green/20 rounded-2xl overflow-hidden group">
-          <summary class="service-accordion-summary flex items-center justify-between p-6 lg:hover:bg-accent-green/5 transition-colors duration-300">
-            <div class="flex items-center gap-3 pointer-events-none">
-              <div class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center">
+        <details class="service-accordion-item bg-theme-card border border-accent-green/20 rounded-xl overflow-hidden group">
+          <summary class="service-accordion-summary flex items-center justify-between gap-3 p-4">
+            <div class="flex items-center gap-3 flex-1 min-w-0 pointer-events-none">
+              <div class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0">
                 <Icon name="mdi:check-circle" class="w-5 h-5 text-accent-green" />
               </div>
-              <h3 class="text-h4 font-bold text-theme-primary font-display">Our Solutions</h3>
+              <h3 class="text-base font-bold text-theme-primary font-display truncate">Our Solutions</h3>
             </div>
-            <Icon name="mdi:chevron-down" class="w-5 h-5 text-theme-secondary transition-transform duration-300 service-accordion-chevron pointer-events-none" />
+            <div class="service-accordion-indicator flex-shrink-0 w-6 h-6 rounded-full bg-accent-green/10 flex items-center justify-center pointer-events-none">
+              <Icon name="mdi:chevron-down" class="w-4 h-4 text-accent-green transition-transform duration-300 group-open:rotate-180" />
+            </div>
           </summary>
 
-          <div class="service-accordion-content px-6 pb-6">
-            <div class="space-y-4 pt-4 border-t border-accent-green/10">
+          <div class="service-accordion-content">
+            <div class="px-4 pb-4 space-y-3">
               {service.overview.solutions.map((solution, index) => (
-                <div class="flex items-start gap-4 p-4 bg-accent-green/5 border border-accent-green/20 rounded-xl">
-                  <div class="w-8 h-8 bg-accent-green/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span class="text-sm font-bold text-accent-green font-display">{index + 1}</span>
+                <div class="flex items-start gap-3 p-3 bg-accent-green/5 border border-accent-green/15 rounded-xl">
+                  <div class="w-6 h-6 bg-accent-green/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span class="text-xs font-bold text-accent-green font-display">{index + 1}</span>
                   </div>
-                  <p class="text-body-lg text-theme-secondary leading-relaxed font-body flex-1">
+                  <p class="text-sm text-theme-secondary leading-relaxed font-body flex-1">
                     {solution}
                   </p>
                 </div>
@@ -147,4 +151,3 @@ const { service } = Astro.props;
     </div>
   </div>
 </SectionContainer>
-

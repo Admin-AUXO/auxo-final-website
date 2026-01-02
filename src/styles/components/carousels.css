@@ -35,6 +35,8 @@
 .embla__slide {
   flex: 0 0 auto !important;
   min-width: 0 !important;
+  min-height: auto !important;
+  height: auto !important;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -46,7 +48,8 @@
 
 .carousel-slide > *,
 .embla__slide > * {
-  height: 100% !important;
+  height: auto !important;
+  min-height: auto !important;
   display: flex !important;
   flex-direction: column !important;
 }
@@ -130,12 +133,13 @@
 .carousel-card {
   display: flex !important;
   flex-direction: column !important;
-  height: 100% !important;
+  height: auto !important;
+  min-height: auto !important;
   background: var(--bg-card) !important;
   border: 1px solid rgba(var(--accent-green-rgb), 0.12) !important;
-  border-radius: 1rem !important;
+  border-radius: 0.875rem !important;
   padding: 1.25rem !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
   position: relative !important;
   overflow: hidden !important;
 }
@@ -146,16 +150,14 @@
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  height: 3px !important;
+  height: 2px !important;
   background: linear-gradient(90deg, transparent, var(--accent-green), transparent) !important;
   opacity: 0 !important;
-  transition: opacity 0.3s ease !important;
+  transition: opacity 0.2s ease !important;
 }
 
 .carousel-card:hover {
   border-color: rgba(var(--accent-green-rgb), 0.25) !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(var(--accent-green-rgb), 0.08) !important;
-  transform: translateY(-2px) !important;
 }
 
 .carousel-card:hover::before {
@@ -167,11 +169,11 @@
   align-items: flex-start !important;
   justify-content: space-between !important;
   gap: 0.75rem !important;
-  margin-bottom: 0.875rem !important;
+  margin-bottom: 0.75rem !important;
 }
 
 .carousel-card-title {
-  font-size: 1.0625rem !important;
+  font-size: 1rem !important;
   font-weight: 700 !important;
   color: var(--text-primary) !important;
   line-height: 1.35 !important;
@@ -183,34 +185,27 @@
   flex-shrink: 0 !important;
   width: 2.25rem !important;
   height: 2.25rem !important;
-  background: linear-gradient(135deg, rgba(var(--accent-green-rgb), 0.15), rgba(var(--accent-green-rgb), 0.05)) !important;
+  background: rgba(var(--accent-green-rgb), 0.1) !important;
   border: 1px solid rgba(var(--accent-green-rgb), 0.2) !important;
-  border-radius: 0.625rem !important;
+  border-radius: 0.5rem !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  transition: all 0.3s ease !important;
-}
-
-.carousel-card:hover .carousel-card-icon {
-  border-color: rgba(var(--accent-green-rgb), 0.4) !important;
-  background: linear-gradient(135deg, rgba(var(--accent-green-rgb), 0.2), rgba(var(--accent-green-rgb), 0.08)) !important;
 }
 
 .carousel-card-description {
-  font-size: 0.9375rem !important;
+  font-size: 0.875rem !important;
   color: var(--text-secondary) !important;
   line-height: 1.6 !important;
-  margin-bottom: 1rem !important;
-  flex-grow: 1 !important;
+  margin-bottom: 0.75rem !important;
   font-family: var(--font-body) !important;
 }
 
 .carousel-card-footer {
   display: flex !important;
   align-items: flex-start !important;
-  gap: 0.625rem !important;
-  padding-top: 0.875rem !important;
+  gap: 0.5rem !important;
+  padding-top: 0.75rem !important;
   border-top: 1px solid rgba(var(--accent-green-rgb), 0.1) !important;
   margin-top: auto !important;
 }
@@ -222,207 +217,43 @@
   font-family: var(--font-body) !important;
 }
 
-.impact-industry-card {
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-  background: var(--bg-card) !important;
-  border: 1px solid rgba(var(--accent-green-rgb), 0.12) !important;
-  border-radius: 1rem !important;
-  padding: 1.25rem !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-.impact-industry-card::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 3px !important;
-  background: linear-gradient(90deg, transparent, var(--accent-green), transparent) !important;
-  opacity: 0 !important;
-  transition: opacity 0.3s ease !important;
-}
-
-.impact-industry-card:hover {
-  border-color: rgba(var(--accent-green-rgb), 0.25) !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(var(--accent-green-rgb), 0.08) !important;
-  transform: translateY(-2px) !important;
-}
-
-.impact-industry-card:hover::before {
-  opacity: 1 !important;
-}
-
-.impact-industry-card-header {
-  display: flex !important;
-  align-items: flex-start !important;
-  justify-content: space-between !important;
-  gap: 0.75rem !important;
-  margin-bottom: 0.875rem !important;
-}
-
-.impact-industry-title {
-  font-size: 1.0625rem !important;
-  font-weight: 700 !important;
-  color: var(--text-primary) !important;
-  line-height: 1.35 !important;
-  font-family: var(--font-display) !important;
-}
-
-.impact-industry-icon {
-  flex-shrink: 0 !important;
-  width: 2.25rem !important;
-  height: 2.25rem !important;
-  background: linear-gradient(135deg, rgba(var(--accent-green-rgb), 0.15), rgba(var(--accent-green-rgb), 0.05)) !important;
-  border: 1px solid rgba(var(--accent-green-rgb), 0.2) !important;
-  border-radius: 0.625rem !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  transition: all 0.3s ease !important;
-}
-
-.impact-industry-card:hover .impact-industry-icon {
-  border-color: rgba(var(--accent-green-rgb), 0.4) !important;
-}
-
-.impact-industry-description {
-  font-size: 0.9375rem !important;
-  color: var(--text-secondary) !important;
-  line-height: 1.6 !important;
-  margin-bottom: 1rem !important;
-  flex-grow: 1 !important;
-  font-family: var(--font-body) !important;
-}
-
-.impact-industry-benefit {
-  display: flex !important;
-  align-items: flex-start !important;
-  gap: 0.625rem !important;
-  padding-top: 0.875rem !important;
-  border-top: 1px solid rgba(var(--accent-green-rgb), 0.1) !important;
-  margin-top: auto !important;
-}
-
-.impact-industry-benefit-text {
-  font-size: 0.8125rem !important;
-  color: var(--text-secondary) !important;
-  line-height: 1.5 !important;
-  font-family: var(--font-body) !important;
-}
-
-.impact-goal-card {
-  display: flex !important;
-  align-items: flex-start !important;
-  gap: 1rem !important;
-  background: rgba(var(--accent-green-rgb), 0.04) !important;
-  border: 1px solid rgba(var(--accent-green-rgb), 0.12) !important;
-  border-radius: 1rem !important;
-  padding: 1.25rem !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-.impact-goal-card:hover {
-  border-color: rgba(var(--accent-green-rgb), 0.25) !important;
-  background: rgba(var(--accent-green-rgb), 0.06) !important;
-}
-
-.impact-goal-icon {
-  flex-shrink: 0 !important;
-  width: 1.5rem !important;
-  height: 1.5rem !important;
-  color: var(--accent-green) !important;
-}
-
-.impact-goal-text {
-  font-size: 0.9375rem !important;
-  color: var(--text-secondary) !important;
-  line-height: 1.6 !important;
-  font-family: var(--font-body) !important;
-}
-
 @media (min-width: 640px) {
-  .carousel-card,
-  .impact-industry-card {
+  .carousel-card {
     padding: 1.5rem !important;
   }
 
-  .carousel-card-title,
-  .impact-industry-title {
-    font-size: 1.125rem !important;
+  .carousel-card-title {
+    font-size: 1.0625rem !important;
   }
 
-  .carousel-card-icon,
-  .impact-industry-icon {
+  .carousel-card-icon {
     width: 2.5rem !important;
     height: 2.5rem !important;
   }
 
-  .impact-goal-card {
-    padding: 1.5rem !important;
-    gap: 1.25rem !important;
-  }
-
-  .impact-goal-icon {
-    width: 1.75rem !important;
-    height: 1.75rem !important;
-  }
-
-  .impact-goal-text {
-    font-size: 1rem !important;
-  }
-}
-
-@media (min-width: 768px) {
-  .carousel-card-icon,
-  .impact-industry-icon {
-    width: 2.75rem !important;
-    height: 2.75rem !important;
+  .carousel-card-description {
+    font-size: 0.9375rem !important;
   }
 }
 
 @media (min-width: 1024px) {
-  .carousel-card,
-  .impact-industry-card {
-    padding: 1.75rem !important;
+  .carousel-card {
+    padding: 1.5rem !important;
   }
 
-  .carousel-card-title,
-  .impact-industry-title {
-    font-size: 1.1875rem !important;
+  .carousel-card-title {
+    font-size: 1.125rem !important;
   }
 
-  .carousel-card-description,
-  .impact-industry-description {
-    font-size: 1rem !important;
-  }
-
-  .impact-goal-card {
-    padding: 1.75rem !important;
-  }
-
-  .impact-goal-text {
-    font-size: 1.0625rem !important;
+  .carousel-card-description {
+    font-size: 0.9375rem !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .carousel-card,
   .carousel-card::before,
-  .carousel-card-icon,
-  .impact-industry-card,
-  .impact-industry-card::before,
-  .impact-industry-icon,
-  .impact-goal-card {
+  .carousel-card-icon {
     transition: none !important;
-  }
-
-  .carousel-card:hover,
-  .impact-industry-card:hover {
-    transform: none !important;
   }
 }
