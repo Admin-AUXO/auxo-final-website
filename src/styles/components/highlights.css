@@ -22,7 +22,7 @@
 
 .highlight-gradient.home-hero-highlight::after,
 .hero-typing-text .highlight-gradient::after,
-.value-proposition-section .highlight-gradient::after {
+.problem-solution-section .highlight-gradient::after {
   display: none;
 }
 
