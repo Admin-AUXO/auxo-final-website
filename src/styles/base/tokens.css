@@ -128,6 +128,13 @@
   --gap-tablet: 1.5rem;
   --gap-desktop: 2rem;
 
+  --grid-padding-mobile: 1rem;
+  --grid-padding-sm: 1.5rem;
+  --grid-padding-md: 1.5rem;
+  --grid-padding-lg: 2rem;
+  --grid-padding-xl: 2.5rem;
+  --grid-max-width: 1280px;
+
   --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.1);
