@@ -23,19 +23,28 @@ const {
   alwaysVisible = false,
 } = Astro.props;
 
+const breakpointClass = breakpoint === 1024 ? "lg" : breakpoint === 768 ? "md" : "";
+
 const displayClass = alwaysVisible
   ? ""
   : activateOnDesktop
-  ? `hidden ${breakpoint === 1024 ? "lg:block" : breakpoint === 768 ? "md:block" : ""}`
-  : `${breakpoint === 1024 ? "lg:hidden" : breakpoint === 768 ? "md:hidden" : ""}`;
+    ? `hidden ${breakpointClass}:block`
+    : breakpointClass ? `${breakpointClass}:hidden` : "";
 ---
 
-<div class={`carousel-viewport ${wrapperClass} ${displayClass}`}>
-  <div class={`carousel-container embla ${containerClass}`} id={containerId}>
-    <div class={`carousel-track embla__container ${trackClass}`} id={trackId}>
+<div
+  class:list={["carousel-viewport", wrapperClass, displayClass]}
+  data-item-count={items.length}
+>
+  <div
+    class:list={["carousel-container embla", containerClass]}
+    id={containerId}
+  >
+    <div
+      class:list={["carousel-track embla__container", trackClass]}
+      id={trackId}
+    >
       <slot />
     </div>
   </div>
 </div>
-
-

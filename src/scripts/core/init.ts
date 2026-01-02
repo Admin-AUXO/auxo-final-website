@@ -18,6 +18,16 @@ function initLazyLoading(): void {
   const lazyElements = document.querySelectorAll('[data-lazy-load]');
   if (!lazyElements.length) return;
 
+  const immediateLoadCount = Math.min(2, lazyElements.length);
+  for (let i = 0; i < immediateLoadCount; i++) {
+    const el = lazyElements[i] as HTMLElement;
+    el.classList.add('lazy-loaded');
+    el.removeAttribute('data-lazy-load');
+  }
+
+  const remainingElements = Array.from(lazyElements).slice(immediateLoadCount);
+  if (remainingElements.length === 0) return;
+
   lazyLoadingObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -29,7 +39,7 @@ function initLazyLoading(): void {
     });
   }, { rootMargin: '50px', threshold: 0.01 });
 
-  lazyElements.forEach((element) => lazyLoadingObserver?.observe(element));
+  remainingElements.forEach((element) => lazyLoadingObserver?.observe(element));
 }
 
 function cleanupLazyLoading(): void {
@@ -65,7 +75,7 @@ export function initCoreFeatures(): void {
         } catch (error) {
           if (import.meta.env.DEV) console.warn('Scroll animation refresh error:', error);
         }
-      }, 100);
+      }, 50);
     } catch (error) {
       if (import.meta.env.DEV) console.warn('Deferred init error:', error);
     }
@@ -106,7 +116,7 @@ export function initPageFeatures(): void {
 
         testElement.remove();
         return hasCarouselCSS;
-      } catch (e) {
+      } catch {
         return false;
       }
     };
@@ -124,12 +134,10 @@ export function initPageFeatures(): void {
     if (checkCarouselCSS()) {
       initializeCarousels();
     } else {
-      // Retry after a short delay if CSS isn't ready
       setTimeout(() => {
         if (checkCarouselCSS()) {
           initializeCarousels();
         } else {
-          // Final fallback - initialize anyway
           setTimeout(initializeCarousels, 200);
         }
       }, 100);

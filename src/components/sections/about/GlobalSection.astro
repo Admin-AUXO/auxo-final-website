@@ -154,10 +154,10 @@ const metrics = [
           activateOnDesktop={false}
         >
           {metrics.map((metric, index) => (
-            <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
+            <div class="carousel-slide embla__slide flex-shrink-0 flex justify-center" data-index={index}>
               <div class="global-metric-card group relative overflow-hidden bg-theme-card border border-theme-light rounded-xl transition-colors duration-300 h-full">
                 <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div class="relative z-10 flex gap-3 h-full">
+                <div class="relative z-10 flex gap-3 h-full px-5 py-5 sm:px-6 sm:py-6">
                   <div class="flex-shrink-0">
                     <div class="w-11 h-11 sm:w-12 sm:h-12 bg-accent-green/10 border-2 border-accent-green/20 rounded-lg flex items-center justify-center lg:group-hover:bg-accent-green/20 lg:group-hover:border-accent-green/40 transition-colors duration-300">
                       <Icon name={metric.icon} class="w-5.5 h-5.5 sm:w-6 sm:h-6 text-accent-green" />

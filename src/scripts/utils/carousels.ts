@@ -1,7 +1,7 @@
 import { EmblaCarouselWrapper, type EmblaCarouselOptions } from "@/scripts/animations";
-import { observeOnce } from "@/scripts/utils/observers";
 
-const DEFAULT_RESIZE_DEBOUNCE_DELAY = 250;
+const DEFAULT_RESIZE_DEBOUNCE_DELAY = 200;
+const INIT_RETRY_DELAY = 50;
 
 export interface CarouselConfig {
   containerId: string;
@@ -16,6 +16,7 @@ interface CarouselState {
   resizeHandler: (() => void) | null;
   resizeTimeout: ReturnType<typeof setTimeout> | null;
   observer: ResizeObserver | null;
+  isInitializing: boolean;
 }
 
 function shouldActivateCarousel(activateOnDesktop: boolean, breakpoint: number): boolean {
@@ -37,70 +38,77 @@ function createCarouselManager(config: CarouselConfig) {
     resizeHandler: null,
     resizeTimeout: null,
     observer: null,
+    isInitializing: false,
   };
 
   function cleanup(): void {
     state.instance?.destroy();
     state.instance = null;
+    state.isInitializing = false;
+
     if (state.resizeHandler) {
       window.removeEventListener("resize", state.resizeHandler);
       state.resizeHandler = null;
     }
+
     if (state.resizeTimeout) {
       clearTimeout(state.resizeTimeout);
       state.resizeTimeout = null;
     }
+
     state.observer?.disconnect();
     state.observer = null;
   }
 
   function init(): void {
+    if (state.isInitializing) return;
+
     if (!shouldActivateCarousel(activateOnDesktop, breakpoint)) {
       cleanup();
       return;
     }
 
     const container = document.getElementById(containerId);
+    if (!container || !document.body.contains(container)) return;
 
-    if (!container) return;
-
-    const hasSlides = container.querySelectorAll('.embla__slide').length > 0;
-
-    if (!hasSlides) {
-      setTimeout(() => {
-        const retryHasSlides = container.querySelectorAll('.embla__slide').length > 0;
-        if (retryHasSlides) {
-          init();
-        } else {
-          observeOnce(container, init, { threshold: 0.01 });
-        }
-      }, 100);
+    const slides = container.querySelectorAll('.embla__slide');
+    if (slides.length === 0) {
+      setTimeout(init, INIT_RETRY_DELAY);
       return;
     }
 
-    if (!document.body.contains(container)) return;
-
     cleanup();
+    state.isInitializing = true;
 
+    const slideCount = slides.length;
     const isMobile = window.innerWidth < 768;
-    const mobileOptions = isMobile ? {
+
+    const baseOptions: EmblaCarouselOptions = {
+      loop: true,
+      autoplay: true,
+      align: 'center',
+      containScroll: false,
+      dragFree: false,
       slidesToScroll: 1,
-      duration: 12,
-    } : {
-      slidesToScroll: 1,
-      duration: 15,
+      duration: isMobile ? 15 : 20,
+      ...carouselOptions,
     };
 
+    if (slideCount <= 2) {
+      baseOptions.align = 'start';
+      baseOptions.containScroll = 'keepSnaps';
+    }
+
     try {
-      state.instance = new EmblaCarouselWrapper(container, {
-        loop: true,
-        autoplay: true,
-        align: "center",
-        dragFree: true,
-        ...mobileOptions,
-        ...carouselOptions,
-      });
-    } catch (error) {
+      state.instance = new EmblaCarouselWrapper(container, baseOptions);
+      state.isInitializing = false;
+
+      if (!(window as any).emblaInstances) {
+        (window as any).emblaInstances = new Map();
+      }
+      (window as any).emblaInstances.set(containerId, state.instance);
+    } catch {
+      state.isInitializing = false;
       return;
     }
 
@@ -109,18 +117,16 @@ function createCarouselManager(config: CarouselConfig) {
       state.resizeTimeout = setTimeout(init, resizeDebounceDelay);
     };
 
-    window.addEventListener("resize", state.resizeHandler);
+    window.addEventListener("resize", state.resizeHandler, { passive: true });
 
     if (typeof ResizeObserver !== 'undefined') {
       state.observer = new ResizeObserver(() => {
         if (state.resizeTimeout) clearTimeout(state.resizeTimeout);
         state.resizeTimeout = setTimeout(() => {
           if (state.instance?.embla && container.offsetWidth > 0 && document.body.contains(container)) {
-            try {
-              state.instance.embla.reInit();
-            } catch (error) {}
+            state.instance.reInit();
           }
-        }, 100);
+        }, 50);
       });
       state.observer.observe(container);
     }
@@ -136,12 +142,14 @@ function createCarouselManager(config: CarouselConfig) {
 const carouselManagers = new Map<string, ReturnType<typeof createCarouselManager>>();
 
 export function initCarousel(config: CarouselConfig): () => void {
+  const existing = carouselManagers.get(config.containerId);
+  if (existing) {
+    existing.cleanup();
+  }
+
   const manager = createCarouselManager(config);
   carouselManagers.set(config.containerId, manager);
-
-  if (typeof window !== "undefined") {
-    window.addEventListener("beforeunload", manager.cleanup);
-  }
+  manager.init();
 
   return manager.cleanup;
 }
@@ -149,6 +157,10 @@ export function initCarousel(config: CarouselConfig): () => void {
 export function cleanupAllCarousels(): void {
   carouselManagers.forEach((manager) => manager.cleanup());
   carouselManagers.clear();
+
+  if ((window as any).emblaInstances) {
+    (window as any).emblaInstances.clear();
+  }
 }
 
 export function reinitCarousels(): void {
@@ -158,3 +170,6 @@ export function reinitCarousels(): void {
   });
 }
 
+export function getCarouselInstance(containerId: string): EmblaCarouselWrapper | null {
+  return (window as any).emblaInstances?.get(containerId) ?? null;
+}

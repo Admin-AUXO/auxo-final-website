@@ -1,8 +1,9 @@
 import EmblaCarousel from 'embla-carousel';
-import type { EmblaCarouselType } from 'embla-carousel';
+import type { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
 const DEFAULT_AUTOPLAY_INTERVAL = 4000;
+const DEFAULT_DURATION = 20;
 
 export interface EmblaCarouselOptions {
   loop?: boolean;
@@ -14,13 +15,15 @@ export interface EmblaCarouselOptions {
   slidesToScroll?: number;
   dragFree?: boolean;
   duration?: number;
+  containScroll?: 'trimSnaps' | 'keepSnaps' | false;
   onSlideChange?: (index: number) => void;
 }
 
 export class EmblaCarouselWrapper {
   private _embla: EmblaCarouselType | null = null;
-  private autoplay: ReturnType<typeof Autoplay> | null = null;
+  private autoplayPlugin: ReturnType<typeof Autoplay> | null = null;
   private onSlideChangeCallback?: (index: number) => void;
+  private isDestroyed = false;
 
   constructor(
     private container: HTMLElement,
@@ -34,16 +37,17 @@ export class EmblaCarouselWrapper {
       align = 'center',
       slidesToScroll = 1,
       dragFree = false,
-      duration = 15,
+      duration = DEFAULT_DURATION,
+      containScroll = false,
       onSlideChange,
     } = options;
 
     this.onSlideChangeCallback = onSlideChange;
 
-    const plugins = [];
+    const plugins: ReturnType<typeof Autoplay>[] = [];
 
     if (autoplay) {
-      this.autoplay = Autoplay({
+      this.autoplayPlugin = Autoplay({
         delay: autoplayInterval,
         stopOnInteraction: false,
         stopOnMouseEnter: pauseOnHover,
@@ -51,65 +55,91 @@ export class EmblaCarouselWrapper {
         playOnInit: true,
         stopOnLastSnap: false,
       });
-      plugins.push(this.autoplay);
+      plugins.push(this.autoplayPlugin);
     }
 
-    this._embla = EmblaCarousel(container, {
+    const emblaOptions: EmblaOptionsType = {
       loop,
       align,
       slidesToScroll,
       dragFree,
-      containScroll: false,
+      containScroll,
       duration,
-      dragThreshold: 5,
+      dragThreshold: 3,
       skipSnaps: false,
       watchDrag: true,
       watchResize: true,
       watchSlides: true,
       axis: 'x',
-      inViewThreshold: 0,
+      inViewThreshold: 0.5,
       startIndex: 0,
       watchFocus: false,
-    }, plugins);
+    };
 
-    this._embla.on('select', () => {
-      this.onSelect();
-    });
+    this._embla = EmblaCarousel(container, emblaOptions, plugins);
 
-    this._embla.on('reInit', () => {
-      this.onSelect();
-    });
+    this._embla.on('select', this.handleSelect);
+    this._embla.on('reInit', this.handleSelect);
 
-    this.onSelect();
+    this.handleSelect();
 
-    if (autoplay && this.autoplay) {
-      this.autoplay.play();
+    if (autoplay && this.autoplayPlugin) {
+      requestAnimationFrame(() => {
+        if (!this.isDestroyed && this.autoplayPlugin) {
+          this.autoplayPlugin.play();
+        }
+      });
     }
   }
 
-  private onSelect(): void {
-    if (!this._embla) return;
-
+  private handleSelect = (): void => {
+    if (!this._embla || this.isDestroyed) return;
     const selectedIndex = this._embla.selectedScrollSnap();
     this.onSlideChangeCallback?.(selectedIndex);
-  }
+  };
 
   get embla(): EmblaCarouselType | null {
     return this._embla;
   }
 
   next(): void {
-    this._embla?.scrollNext();
+    if (!this.isDestroyed) {
+      this._embla?.scrollNext();
+    }
   }
 
   previous(): void {
-    this._embla?.scrollPrev();
+    if (!this.isDestroyed) {
+      this._embla?.scrollPrev();
+    }
+  }
+
+  scrollTo(index: number): void {
+    if (!this.isDestroyed) {
+      this._embla?.scrollTo(index);
+    }
+  }
+
+  reInit(): void {
+    if (!this.isDestroyed && this._embla) {
+      this._embla.reInit();
+    }
   }
 
   destroy(): void {
-    this.autoplay?.stop();
-    this.autoplay = null;
-    this._embla?.destroy();
-    this._embla = null;
+    if (this.isDestroyed) return;
+    this.isDestroyed = true;
+
+    if (this.autoplayPlugin) {
+      this.autoplayPlugin.stop();
+      this.autoplayPlugin = null;
+    }
+
+    if (this._embla) {
+      this._embla.off('select', this.handleSelect);
+      this._embla.off('reInit', this.handleSelect);
+      this._embla.destroy();
+      this._embla = null;
+    }
   }
 }

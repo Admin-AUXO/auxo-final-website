@@ -162,7 +162,6 @@ details.group\/details summary::-webkit-details-marker {
     text-align: center;
   }
 
-  /* Carousel styles now handled in components/carousels.css */
 }
 
 @media (min-width: 641px) and (max-width: 1023px) {
@@ -195,7 +194,6 @@ details.group\/details summary::-webkit-details-marker {
     justify-content: flex-start;
   }
 
-  /* Carousel styles now handled in components/carousels.css */
 }
 
 @media (min-width: 1024px) {
@@ -231,5 +229,4 @@ details.group\/details summary::-webkit-details-marker {
     filter: none;
   }
 
-  /* Carousel styles now handled in components/carousels.css */
 }

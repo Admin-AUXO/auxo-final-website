@@ -153,9 +153,9 @@
 
   --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
 
-  --carousel-gap-mobile: 0.75rem;
-  --carousel-gap-tablet: 1rem;
-  --carousel-gap-desktop: 1.5rem;
+  --carousel-gap-mobile: 1.25rem;
+  --carousel-gap-tablet: 1.75rem;
+  --carousel-gap-desktop: 2rem;
 
   --card-min-height-sm: 320px;
   --card-min-height-lg: 360px;

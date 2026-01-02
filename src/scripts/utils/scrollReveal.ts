@@ -16,13 +16,13 @@ export interface RevealElement extends HTMLElement {
 }
 
 const DEFAULT_OPTIONS: Required<ScrollRevealOptions> = {
-  duration: 250,
+  duration: 200,
   easing: 'ease-out',
   once: true,
-  offset: 80,
+  offset: 60,
   delay: 0,
   disable: false,
-  threshold: 0.1,
+  threshold: 0.05,
 };
 
 let globalOptions: Required<ScrollRevealOptions> = { ...DEFAULT_OPTIONS };
@@ -37,14 +37,10 @@ function parseAnimationAttributes(element: RevealElement): {
   easing: string;
 } {
   const animation = element.getAttribute('data-reveal') || 'fade-up';
-  const duration = parseInt(element.getAttribute('data-reveal-duration') || 
-                           String(globalOptions.duration), 10);
-  const delay = parseInt(element.getAttribute('data-reveal-delay') || 
-                        String(globalOptions.delay), 10);
-  const offset = parseInt(element.getAttribute('data-reveal-offset') || 
-                         String(globalOptions.offset), 10);
-  const easing = element.getAttribute('data-reveal-easing') || 
-                globalOptions.easing;
+  const duration = parseInt(element.getAttribute('data-reveal-duration') || String(globalOptions.duration), 10);
+  const delay = parseInt(element.getAttribute('data-reveal-delay') || String(globalOptions.delay), 10);
+  const offset = parseInt(element.getAttribute('data-reveal-offset') || String(globalOptions.offset), 10);
+  const easing = element.getAttribute('data-reveal-easing') || globalOptions.easing;
 
   return { animation, duration, delay, offset, easing };
 }
@@ -67,6 +63,17 @@ function getInitialTransform(animation: string): string {
   return transforms[animation] || transforms['fade-up'];
 }
 
+function getCubicBezier(easing: string): string {
+  const bezierMap: Record<string, string> = {
+    'ease-out-cubic': '0.33, 1, 0.68, 1',
+    'ease-in-out': '0.4, 0, 0.2, 1',
+    'ease-out': '0, 0, 0.2, 1',
+    'ease-in': '0.4, 0, 1, 1',
+    'linear': '0, 0, 1, 1',
+  };
+  return bezierMap[easing] || bezierMap['ease-out'];
+}
+
 function animateElement(element: RevealElement, entry: IntersectionObserverEntry): void {
   if (element._revealAnimated && globalOptions.once) return;
 
@@ -76,8 +83,8 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
   const isZoom = animation.includes('zoom');
   const isMobile = isMobileDevice();
 
-  const mobileDuration = isMobile ? Math.min(duration, 250) : duration;
-  const mobileDelay = isMobile ? Math.min(delay, 30) : delay;
+  const mobileDuration = isMobile ? Math.min(duration, 150) : duration;
+  const mobileDelay = isMobile ? Math.min(delay, 20) : delay;
 
   const transitionProperty = isFade || isZoom ? 'opacity, transform' : 'transform';
   const cubicBezier = getCubicBezier(easing);
@@ -114,21 +121,10 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
   });
 }
 
-function getCubicBezier(easing: string): string {
-  const bezierMap: Record<string, string> = {
-    'ease-out-cubic': '0.33, 1, 0.68, 1',
-    'ease-in-out': '0.4, 0, 0.2, 1',
-    'ease-out': '0, 0, 0.2, 1',
-    'ease-in': '0.4, 0, 1, 1',
-    'linear': '0, 0, 1, 1',
-  };
-  return bezierMap[easing] || bezierMap['ease-out'];
-}
-
 function createObserver(): IntersectionObserver {
   const isMobile = isMobileDevice();
-  const offset = isMobile ? Math.min(globalOptions.offset, 40) : globalOptions.offset;
-  const threshold = isMobile ? 0.05 : globalOptions.threshold;
+  const offset = isMobile ? Math.min(globalOptions.offset, 30) : globalOptions.offset;
+  const threshold = isMobile ? 0.03 : globalOptions.threshold;
 
   return new IntersectionObserver(
     (entries) => {
@@ -150,9 +146,9 @@ function initializeElements(): void {
   if (globalOptions.disable) return;
 
   const elements = document.querySelectorAll<RevealElement>('[data-reveal]');
-  
+
   if (elements.length === 0) return;
-  
+
   elements.forEach((element) => {
     const { animation } = parseAnimationAttributes(element);
     const initialTransform = getInitialTransform(animation);
@@ -174,7 +170,7 @@ function initializeElements(): void {
 
 export function init(options: ScrollRevealOptions = {}): void {
   globalOptions = { ...DEFAULT_OPTIONS, ...options };
-  
+
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion || globalOptions.disable) {
     globalOptions.disable = true;
@@ -225,5 +221,3 @@ export function cleanup(): void {
   }
   isInitialized = false;
 }
-
-
