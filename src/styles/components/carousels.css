@@ -48,7 +48,7 @@
 
 .carousel-slide > *,
 .embla__slide > * {
-  height: auto !important;
+  height: 100% !important;
   min-height: auto !important;
   display: flex !important;
   flex-direction: column !important;
@@ -133,7 +133,7 @@
 .carousel-card {
   display: flex !important;
   flex-direction: column !important;
-  height: auto !important;
+  height: 100% !important;
   min-height: auto !important;
   background: var(--bg-card) !important;
   border: 1px solid rgba(var(--accent-green-rgb), 0.12) !important;
@@ -144,17 +144,44 @@
   overflow: hidden !important;
 }
 
-.carousel-card-benefit,
+.carousel-card-benefit {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  min-height: auto !important;
+  background: var(--bg-card) !important;
+  border: 1px solid rgba(var(--accent-green-rgb), 0.10) !important;
+  border-radius: 1rem !important;
+  padding: 1.25rem !important;
+  transition: border-color 0.3s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
 .carousel-card-process {
   display: flex !important;
   flex-direction: column !important;
-  height: auto !important;
+  height: 100% !important;
   min-height: auto !important;
   background: var(--bg-card) !important;
-  border: 1px solid rgba(var(--accent-green-rgb), 0.12) !important;
-  border-radius: 0.875rem !important;
+  border: 1px solid rgba(var(--accent-green-rgb), 0.10) !important;
+  border-radius: 1rem !important;
   padding: 1.25rem !important;
-  transition: border-color 0.2s ease !important;
+  transition: border-color 0.5s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.carousel-card-about {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  min-height: auto !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color-light) !important;
+  border-radius: 0.75rem !important;
+  padding: 1.25rem !important;
+  transition: border-color 0.3s ease !important;
   position: relative !important;
   overflow: hidden !important;
 }
@@ -235,6 +262,10 @@
 @media (min-width: 640px) {
   .carousel-card,
   .carousel-card-benefit,
+  .carousel-card-about {
+    padding: 1.5rem !important;
+  }
+
   .carousel-card-process {
     padding: 1.5rem !important;
   }
@@ -256,6 +287,10 @@
 @media (min-width: 1024px) {
   .carousel-card,
   .carousel-card-benefit,
+  .carousel-card-about {
+    padding: 1.5rem !important;
+  }
+
   .carousel-card-process {
     padding: 1.5rem !important;
   }

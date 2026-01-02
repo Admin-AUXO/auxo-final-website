@@ -113,8 +113,8 @@ const { service } = Astro.props;
         >
           {service.process.steps.map((step: ProcessStep, index: number) => (
             <div class="carousel-slide embla__slide" data-index={index}>
-              <div class="carousel-card carousel-card-process">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0" />
+              <div class="carousel-card-process lg:hover:border-accent-green/40">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 lg:hover:via-accent-green/60 transition-all duration-500" />
 
                 <div class="relative z-10 flex flex-col h-full">
                   <div class="flex items-center justify-between mb-4 sm:mb-5">

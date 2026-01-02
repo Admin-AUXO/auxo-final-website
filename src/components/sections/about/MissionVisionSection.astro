@@ -32,7 +32,7 @@ const missionVisionItems = [
   <BackgroundDecorations gradients={["hero"]} />
   
   <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-7xl mx-auto w-full">
+    <div class="col-span-full max-w-[1400px] mx-auto w-full">
       <SectionHeader
         title={content.title}
         highlight={["Mission", "Vision"]}
@@ -80,7 +80,7 @@ const missionVisionItems = [
       >
         {missionVisionItems.map((item, index) => (
             <div class="carousel-slide embla__slide" data-index={index}>
-            <div class={`carousel-card group lg:hover:border-accent-green/40 ${item.type}-card`}>
+            <div class={`carousel-card-about group lg:hover:border-accent-green/40 ${item.type}-card`}>
               <div class={`absolute ${item.type === "mission" ? "top-0 right-0" : "top-0 left-0"} w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500`}></div>
               <div class="relative z-10 flex flex-col h-full">
                 <div class="flex items-center justify-between mb-2.5">
