@@ -144,6 +144,21 @@
   overflow: hidden !important;
 }
 
+.carousel-card-benefit,
+.carousel-card-process {
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+  min-height: auto !important;
+  background: var(--bg-card) !important;
+  border: 1px solid rgba(var(--accent-green-rgb), 0.12) !important;
+  border-radius: 0.875rem !important;
+  padding: 1.25rem !important;
+  transition: border-color 0.2s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
 .carousel-card::before {
   content: '' !important;
   position: absolute !important;
@@ -218,7 +233,9 @@
 }
 
 @media (min-width: 640px) {
-  .carousel-card {
+  .carousel-card,
+  .carousel-card-benefit,
+  .carousel-card-process {
     padding: 1.5rem !important;
   }
 
@@ -237,7 +254,9 @@
 }
 
 @media (min-width: 1024px) {
-  .carousel-card {
+  .carousel-card,
+  .carousel-card-benefit,
+  .carousel-card-process {
     padding: 1.5rem !important;
   }
 

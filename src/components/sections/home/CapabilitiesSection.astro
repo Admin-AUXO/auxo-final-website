@@ -70,12 +70,12 @@ const { content } = Astro.props;
         containerId="capabilities-carousel-container"
         trackId="capabilities-carousel-track"
         items={content.cards}
-        wrapperClass="capabilities-carousel capabilities-carousel-wrapper px-4 md:px-6"
+        wrapperClass="capabilities-carousel capabilities-carousel-wrapper"
         breakpoint={768}
         activateOnDesktop={false}
       >
         {content.cards.map((card, index) => (
-          <div class="carousel-slide embla__slide flex-shrink-0 flex justify-center" data-index={index}>
+          <div class="carousel-slide embla__slide" data-index={index}>
             <Card
               variant="capability"
               icon={card.icon}

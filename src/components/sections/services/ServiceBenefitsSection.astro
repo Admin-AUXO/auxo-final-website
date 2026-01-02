@@ -79,17 +79,17 @@ const { service } = Astro.props;
           activateOnDesktop={false}
         >
           {service.benefits.features.map((feature: BenefitFeature, index: number) => (
-            <div class="carousel-slide embla__slide flex-shrink-0 flex justify-center service-benefits-carousel-slide" data-index={index}>
-              <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl relative overflow-hidden transition-colors duration-300 lg:hover:border-accent-green/30 flex flex-col min-h-[var(--card-min-height-sm)] sm:min-h-[var(--card-min-height-sm)]">
+            <div class="carousel-slide embla__slide" data-index={index}>
+              <div class="carousel-card carousel-card-benefit">
                 <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0" />
 
-                <div class="relative z-10 flex flex-col h-full p-4 sm:p-5 lg:p-6">
+                <div class="relative z-10 flex flex-col h-full">
                   <div class="flex items-start justify-between mb-4 sm:mb-5">
-                    <h3 class="text-base sm:text-lg lg:text-xl font-bold text-theme-primary leading-tight font-display flex-1 pr-3">
+                    <h3 class="text-base sm:text-lg font-bold text-theme-primary leading-tight font-display flex-1 pr-3">
                       {feature.title}
                     </h3>
                     <div class="w-10 h-10 sm:w-11 sm:h-11 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20 flex-shrink-0">
-                      <Icon name={feature.icon} class="w-5 h-5 sm:w-5.5 sm:h-5.5 text-accent-green" />
+                      <Icon name={feature.icon} class="w-5 h-5 text-accent-green" />
                     </div>
                   </div>
 

@@ -61,7 +61,7 @@ const { content } = Astro.props;
           alwaysVisible={true}
         >
           {content.industries.map((industry, index) => (
-            <div class="carousel-slide embla__slide flex-shrink-0 flex justify-center" data-index={index}>
+            <div class="carousel-slide embla__slide" data-index={index}>
               <div class="impact-industry-card">
                 <div class="impact-industry-card-header flex items-center justify-between">
                   <h3 class="impact-industry-title">{industry.name}</h3>
