@@ -154,13 +154,13 @@
   position: absolute;
   bottom: 100%;
   right: 0;
-  margin-bottom: 0.75rem;
-  padding: 0.5rem 0.75rem;
+  margin-bottom: var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-3);
   background: var(--bg-elevated);
   color: var(--text-primary);
   border: 1px solid var(--accent-green-opacity-30);
   border-radius: var(--radius-md);
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   font-weight: 500;
   white-space: nowrap;
   opacity: 0;

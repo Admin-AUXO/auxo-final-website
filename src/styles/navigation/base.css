@@ -127,9 +127,9 @@ body.scroll-locked #main-navigation,
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--spacing-sm);
-    padding-left: 1rem;
-    padding-right: 1rem;
+    gap: var(--gap-sm);
+    padding-left: var(--section-padding-mobile);
+    padding-right: var(--section-padding-mobile);
   }
 
   #main-navigation .grid-container {

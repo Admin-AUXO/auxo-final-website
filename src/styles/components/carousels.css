@@ -20,15 +20,15 @@
 .carousel-track {
   display: flex !important;
   align-items: stretch !important;
-  gap: var(--carousel-gap-mobile, 1rem) !important;
+  gap: var(--carousel-gap-mobile) !important;
   touch-action: pan-x !important;
   user-select: none !important;
   -webkit-user-select: none !important;
   cursor: grab !important;
   backface-visibility: hidden !important;
   -webkit-backface-visibility: hidden !important;
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
+  padding-left: var(--section-padding-mobile) !important;
+  padding-right: var(--section-padding-mobile) !important;
 }
 
 .carousel-slide,
@@ -69,9 +69,9 @@
 
 @media (min-width: 640px) {
   .carousel-track {
-    gap: var(--carousel-gap-tablet, 1.25rem) !important;
-    padding-left: 1.5rem !important;
-    padding-right: 1.5rem !important;
+    gap: var(--carousel-gap-tablet) !important;
+    padding-left: var(--section-padding-tablet) !important;
+    padding-right: var(--section-padding-tablet) !important;
   }
 
   .carousel-slide,
@@ -83,9 +83,9 @@
 
 @media (min-width: 768px) {
   .carousel-track {
-    gap: var(--carousel-gap-tablet, 1.5rem) !important;
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
+    gap: var(--carousel-gap-tablet) !important;
+    padding-left: var(--section-padding-desktop) !important;
+    padding-right: var(--section-padding-desktop) !important;
   }
 
   .carousel-slide,
@@ -97,9 +97,9 @@
 
 @media (min-width: 1024px) {
   .carousel-track {
-    gap: var(--carousel-gap-desktop, 1.75rem) !important;
-    padding-left: 3rem !important;
-    padding-right: 3rem !important;
+    gap: var(--carousel-gap-desktop) !important;
+    padding-left: var(--spacing-12) !important;
+    padding-right: var(--spacing-12) !important;
   }
 
   .carousel-slide,
@@ -111,8 +111,8 @@
 
 @media (min-width: 1280px) {
   .carousel-track {
-    padding-left: 4rem !important;
-    padding-right: 4rem !important;
+    padding-left: var(--spacing-16) !important;
+    padding-right: var(--spacing-16) !important;
   }
 
   .carousel-slide,
@@ -184,15 +184,15 @@
   display: flex !important;
   align-items: flex-start !important;
   justify-content: space-between !important;
-  gap: 0.75rem !important;
-  margin-bottom: 0.75rem !important;
+  gap: var(--gap-sm) !important;
+  margin-bottom: var(--spacing-3) !important;
 }
 
 .carousel-card-title {
-  font-size: 1rem !important;
+  font-size: var(--font-size-base) !important;
   font-weight: 700 !important;
   color: var(--text-primary) !important;
-  line-height: 1.35 !important;
+  line-height: var(--line-height-snug) !important;
   font-family: var(--font-display) !important;
   margin: 0 !important;
 }
@@ -203,25 +203,25 @@
   height: 2.25rem !important;
   background: rgba(var(--accent-green-rgb), 0.1) !important;
   border: 1px solid rgba(var(--accent-green-rgb), 0.2) !important;
-  border-radius: 0.5rem !important;
+  border-radius: var(--radius-md) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
 .carousel-card-description {
-  font-size: 0.875rem !important;
+  font-size: var(--font-size-sm) !important;
   color: var(--text-secondary) !important;
-  line-height: 1.6 !important;
-  margin-bottom: 0.75rem !important;
+  line-height: var(--line-height-relaxed) !important;
+  margin-bottom: var(--spacing-3) !important;
   font-family: var(--font-body) !important;
 }
 
 .carousel-card-footer {
   display: flex !important;
   align-items: flex-start !important;
-  gap: 0.5rem !important;
-  padding-top: 0.75rem !important;
+  gap: var(--gap-xs) !important;
+  padding-top: var(--spacing-3) !important;
   border-top: 1px solid rgba(var(--accent-green-rgb), 0.1) !important;
   margin-top: auto !important;
 }
@@ -229,7 +229,7 @@
 .carousel-card-footer-text {
   font-size: 0.8125rem !important;
   color: var(--text-secondary) !important;
-  line-height: 1.5 !important;
+  line-height: var(--line-height-normal) !important;
   font-family: var(--font-body) !important;
 }
 
@@ -242,7 +242,7 @@
   }
 
   .carousel-card-title {
-    font-size: 1.0625rem !important;
+    font-size: var(--font-size-md) !important;
   }
 
   .carousel-card-icon {
@@ -251,7 +251,7 @@
   }
 
   .carousel-card-description {
-    font-size: 0.9375rem !important;
+    font-size: var(--font-size-sm) !important;
   }
 }
 
@@ -264,11 +264,11 @@
   }
 
   .carousel-card-title {
-    font-size: 1.125rem !important;
+    font-size: var(--font-size-lg) !important;
   }
 
   .carousel-card-description {
-    font-size: 0.9375rem !important;
+    font-size: var(--font-size-sm) !important;
   }
 }
 
