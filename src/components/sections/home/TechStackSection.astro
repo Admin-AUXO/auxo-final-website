@@ -2,6 +2,7 @@
 import { Icon } from "astro-icon/components";
 import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
+import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import type { HomepageContent } from "@/data/content/homepage";
 
 interface Props {
@@ -19,7 +20,7 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
   background="card"
   class="relative tech-stack-section section-divider overflow-hidden"
 >
-  <div class="section-gradient-center absolute inset-0 pointer-events-none z-0"></div>
+  <BackgroundDecorations gradients={["center"]} />
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">

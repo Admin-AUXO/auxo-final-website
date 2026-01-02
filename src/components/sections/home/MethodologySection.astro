@@ -3,6 +3,7 @@ import { Icon } from "astro-icon/components";
 import MethodologyStep from '@/components/ui/MethodologyStep.astro';
 import SectionContainer from '@/components/layouts/SectionContainer.astro';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
+import BackgroundDecorations from '@/components/ui/BackgroundDecorations.astro';
 import type { HomepageContent } from '@/data/content/homepage';
 import { createUrl } from '@/utils/url';
 
@@ -17,10 +18,9 @@ const { content } = Astro.props;
   id="methodology"
   padding="lg"
   background="card"
-  class="relative min-h-auto md:min-h-[75vh] overflow-hidden methodology-section section-divider"
+  class="relative overflow-hidden methodology-section section-divider"
 >
-  <div class="section-pattern-grid absolute inset-0 pointer-events-none z-0"></div>
-  <div class="section-gradient-center absolute inset-0 pointer-events-none z-0"></div>
+  <BackgroundDecorations gradients={["center"]} patterns={["grid"]} />
   
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
@@ -71,14 +71,14 @@ const { content } = Astro.props;
         <div class="text-center mt-8 sm:mt-10" data-reveal="fade-up" data-reveal-duration="200" data-reveal-delay="100" data-reveal-easing="ease-out">
           <a
             href={createUrl(content.navigationButton.href)}
-            class="inline-flex items-center gap-2 text-accent-green hover:text-accent-green/80 font-semibold text-base sm:text-body-lg transition-all duration-300 group flex-nowrap whitespace-nowrap font-body"
+            class="inline-flex items-center gap-2 text-accent-green lg:hover:text-accent-green/80 font-semibold text-base sm:text-body-lg transition-colors duration-300 group flex-nowrap whitespace-nowrap font-body"
           >
             <span class="whitespace-nowrap">
               {content.navigationButton.text}
             </span>
             <Icon
               name="mdi:arrow-right"
-              class="w-5 h-5 flex-shrink-0 group-hover:translate-x-2 transition-transform duration-300"
+              class="w-5 h-5 flex-shrink-0 lg:group-hover:translate-x-2 transition-transform duration-300"
             />
           </a>
         </div>

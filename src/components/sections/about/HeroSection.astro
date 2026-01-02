@@ -3,6 +3,7 @@ import { Icon } from "astro-icon/components";
 import Button from "@/components/ui/Button.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
 import HeroLayout from "@/components/ui/HeroLayout.astro";
+import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import { createUrl } from "@/utils/url";
 import { shouldOpenCalendly } from "@/utils/ctaRules";
 
@@ -35,7 +36,7 @@ const shouldOpenCalendlyBtn = shouldOpenCalendly({
   scrollAriaLabel="Scroll to learn more"
 >
   <Fragment slot="background">
-    <div class="section-gradient-hero absolute inset-0 pointer-events-none z-0"></div>
+    <BackgroundDecorations gradients={["hero"]} />
 
     <div class="section-hero-accent-lines absolute inset-0 pointer-events-none z-0 overflow-hidden">
       <div class="section-hero-line section-hero-line-1 absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-green/20 to-transparent" data-reveal="fade-right" data-reveal-delay="0" data-reveal-duration="200" data-reveal-easing="ease-out"></div>

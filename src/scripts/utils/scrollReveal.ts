@@ -29,18 +29,6 @@ let globalOptions: Required<ScrollRevealOptions> = { ...DEFAULT_OPTIONS };
 let observer: IntersectionObserver | null = null;
 let isInitialized = false;
 
-const EASING_FUNCTIONS: Record<string, (t: number) => number> = {
-  'ease-out-cubic': (t: number) => 1 - Math.pow(1 - t, 3),
-  'ease-in-out': (t: number) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t,
-  'ease-out': (t: number) => 1 - Math.pow(1 - t, 2),
-  'ease-in': (t: number) => t * t,
-  'linear': (t: number) => t,
-};
-
-function getEasingFunction(easing: string): (t: number) => number {
-  return EASING_FUNCTIONS[easing] || EASING_FUNCTIONS['ease-out-cubic'];
-}
-
 function parseAnimationAttributes(element: RevealElement): {
   animation: string;
   duration: number;

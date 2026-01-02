@@ -3,6 +3,7 @@ import { Icon } from "astro-icon/components";
 import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import Card from "@/components/ui/Card.astro";
+import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 
 interface Props {
   content: {
@@ -26,9 +27,8 @@ const { content } = Astro.props;
   background="card"
   class="relative purpose-section section-divider overflow-hidden"
 >
-  <div class="section-pattern-mesh absolute inset-0 pointer-events-none z-0"></div>
-  <div class="section-gradient-center absolute inset-0 pointer-events-none z-0"></div>
-  
+  <BackgroundDecorations gradients={["center"]} patterns={["mesh"]} />
+
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-5xl mx-auto w-full">
       <SectionHeader

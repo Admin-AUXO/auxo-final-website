@@ -40,8 +40,8 @@ const missionVisionItems = [
 
       <div class="hidden lg:grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-6xl mx-auto">
         <div class="mission-card" data-reveal="fade-right" data-reveal-delay="0" data-reveal-duration="200" data-reveal-easing="ease-out">
-          <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 lg:p-10 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 lg:p-10 relative overflow-hidden group lg:hover:border-accent-green/40 transition-colors duration-300">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative z-10">
               <div class="flex items-center gap-4 mb-4 sm:mb-6">
                 <Icon name="mdi:flag-checkered" class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green flex-shrink-0" />
@@ -55,8 +55,8 @@ const missionVisionItems = [
         </div>
 
         <div class="vision-card" data-reveal="fade-left" data-reveal-delay="50" data-reveal-duration="200" data-reveal-easing="ease-out">
-          <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 lg:p-10 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
-            <div class="absolute top-0 left-0 w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 lg:p-10 relative overflow-hidden group lg:hover:border-accent-green/40 transition-colors duration-300">
+            <div class="absolute top-0 left-0 w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative z-10">
               <div class="flex items-center gap-4 mb-4 sm:mb-6">
                 <Icon name="mdi:telescope" class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green flex-shrink-0" />
@@ -80,8 +80,8 @@ const missionVisionItems = [
       >
         {missionVisionItems.map((item, index) => (
           <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
-            <div class={`h-full bg-theme-card border border-theme-light rounded-xl relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300 ${item.type}-card`}>
-              <div class={`absolute ${item.type === "mission" ? "top-0 right-0" : "top-0 left-0"} w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+            <div class={`h-full bg-theme-card border border-theme-light rounded-xl relative overflow-hidden group lg:hover:border-accent-green/40 transition-colors duration-300 ${item.type}-card`}>
+              <div class={`absolute ${item.type === "mission" ? "top-0 right-0" : "top-0 left-0"} w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500`}></div>
               <div class="relative z-10 flex flex-col h-full">
                 <div class="flex items-center justify-between mb-2.5">
                   <h3 class="font-bold text-theme-primary font-display">{item.title}</h3>

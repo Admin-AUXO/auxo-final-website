@@ -31,19 +31,3 @@ export function scrollToTop(smooth: boolean = true): void {
     window.scrollTo(0, 0);
   }
 }
-
-export function scrollToElement(element: HTMLElement | null, offset: number = 0): void {
-  if (!element) return;
-
-  const boundingRect = element.getBoundingClientRect();
-  const scrollTop = getScrollTop();
-
-  const elementPosition = boundingRect.top + scrollTop;
-  const offsetPosition = elementPosition - offset;
-  requestAnimationFrame(() => {
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth'
-    });
-  });
-}

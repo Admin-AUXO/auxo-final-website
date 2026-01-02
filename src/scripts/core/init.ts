@@ -4,11 +4,8 @@ import { initScrollProgress, cleanupScrollProgress } from './scrollProgress';
 import { initNavigation, cleanupNavigation } from './navigation';
 import { initFloatingButton, cleanupFloatingButton } from './floatingButton';
 import { initHeroBackground, cleanupHeroBackground } from '../utils/heroBackground';
-import { setupParallax, cleanupParallax } from '../sections/services/parallax';
 import { initAccordions, cleanupAccordions } from '../utils/accordions';
 import { cleanupAllCarousels } from '../utils/carousels';
-import { setupGoogleCalendar } from '../widgets/googleCalendar';
-import { initThemeToggle } from '../ui/themeToggle';
 import { forceUnlockScroll } from '../navigation/utils';
 
 let isInitialized = false;
@@ -92,17 +89,31 @@ export function initPageFeatures(): void {
     initHeroBackground();
   }
 
-  setTimeout(() => {
-    Promise.all([
-      import('../widgets/googleCalendar'),
-      import('../ui/themeToggle')
-    ]).then(([calendar, theme]) => {
-      calendar.setupGoogleCalendar();
-      theme.initThemeToggle();
-    }).catch((error) => {
-      if (import.meta.env.DEV) console.error('Failed to load modules:', error);
-    });
-  }, 100);
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+      Promise.all([
+        import('../widgets/googleCalendar'),
+        import('../ui/themeToggle')
+      ]).then(([calendar, theme]) => {
+        calendar.setupGoogleCalendar();
+        theme.initThemeToggle();
+      }).catch((error) => {
+        if (import.meta.env.DEV) console.error('Failed to load modules:', error);
+      });
+    }, { timeout: 1000 });
+  } else {
+    setTimeout(() => {
+      Promise.all([
+        import('../widgets/googleCalendar'),
+        import('../ui/themeToggle')
+      ]).then(([calendar, theme]) => {
+        calendar.setupGoogleCalendar();
+        theme.initThemeToggle();
+      }).catch((error) => {
+        if (import.meta.env.DEV) console.error('Failed to load modules:', error);
+      });
+    }, 100);
+  }
 }
 
 export function cleanupCoreFeatures(): void {

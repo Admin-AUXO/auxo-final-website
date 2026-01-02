@@ -55,11 +55,11 @@ const principleIcons = {
             data-reveal-duration="250"
             data-reveal-easing="ease-out"
           >
-            <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
-              <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="h-full bg-theme-card border border-theme-light rounded-xl p-6 sm:p-8 relative overflow-hidden group lg:hover:border-accent-green/40 transition-colors duration-300">
+              <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500"></div>
               <div class="relative z-10">
                 <div class="flex items-center gap-4 mb-4 sm:mb-5">
-                  <div class="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-accent-green/10 rounded-lg flex items-center justify-center group-hover:bg-accent-green/20 transition-all duration-300">
+                  <div class="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-accent-green/10 rounded-lg flex items-center justify-center lg:group-hover:bg-accent-green/20 transition-colors duration-300">
                     <Icon name={principleIcons[principle.letter as keyof typeof principleIcons]} class="w-6 h-6 sm:w-7 sm:h-7 text-accent-green" />
                   </div>
                   <h3 class="text-h4 font-bold text-theme-primary font-display flex items-baseline">
@@ -86,15 +86,15 @@ const principleIcons = {
       >
         {content.principles.map((principle, index) => (
           <div class="carousel-slide embla__slide flex-shrink-0" data-index={index}>
-            <div class="h-full bg-theme-card border border-theme-light rounded-xl relative overflow-hidden group hover:border-accent-green/40 transition-all duration-300">
-              <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="h-full bg-theme-card border border-theme-light rounded-xl relative overflow-hidden group lg:hover:border-accent-green/40 transition-colors duration-300">
+              <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500"></div>
               <div class="relative z-10 flex flex-col h-full">
                 <div class="flex items-center justify-between mb-2.5">
                   <h3 class="font-bold text-theme-primary font-display flex items-baseline">
                     <span class="text-accent-green font-black text-[1.2em] code-letter">{principle.letter}</span>
                     <span class="code-title-rest">{principle.title.slice(principle.letter.length)}</span>
                   </h3>
-                  <div class="w-9 h-9 sm:w-10 sm:h-10 bg-accent-green/10 rounded-lg flex items-center justify-center group-hover:bg-accent-green/20 transition-all duration-300 flex-shrink-0 ml-3">
+                  <div class="w-9 h-9 sm:w-10 sm:h-10 bg-accent-green/10 rounded-lg flex items-center justify-center lg:group-hover:bg-accent-green/20 transition-colors duration-300 flex-shrink-0 ml-3">
                     <Icon name={principleIcons[principle.letter as keyof typeof principleIcons]} class="w-4.5 h-4.5 sm:w-5 sm:h-5 text-accent-green" />
                   </div>
                 </div>

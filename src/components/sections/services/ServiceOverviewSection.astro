@@ -48,7 +48,7 @@ const { service } = Astro.props;
 
           <div class="space-y-4">
             {service.overview.challenges.map((challenge, index) => (
-              <div class="flex items-start gap-3 p-4 bg-red-500/5 border border-red-500/15 rounded-xl hover:border-red-500/30 transition-border duration-300">
+              <div class="flex items-start gap-3 p-4 bg-red-500/5 border border-red-500/15 rounded-xl lg:hover:border-red-500/30 transition-colors duration-300">
                 <div class="w-7 h-7 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
                   <span class="text-sm font-bold text-red-500 font-display">{index + 1}</span>
                 </div>
@@ -76,7 +76,7 @@ const { service } = Astro.props;
 
           <div class="space-y-4">
             {service.overview.solutions.map((solution, index) => (
-              <div class="flex items-start gap-3 p-4 bg-accent-green/5 border border-accent-green/15 rounded-xl hover:border-accent-green/30 transition-border duration-300">
+              <div class="flex items-start gap-3 p-4 bg-accent-green/5 border border-accent-green/15 rounded-xl lg:hover:border-accent-green/30 transition-colors duration-300">
                 <div class="w-7 h-7 bg-accent-green/20 rounded-lg flex items-center justify-center flex-shrink-0">
                   <span class="text-sm font-bold text-accent-green font-display">{index + 1}</span>
                 </div>
@@ -91,7 +91,7 @@ const { service } = Astro.props;
 
       <div class="lg:hidden space-y-4">
         <details class="service-accordion-item bg-theme-card border border-red-500/20 rounded-2xl overflow-hidden group">
-          <summary class="service-accordion-summary flex items-center justify-between p-6 hover:bg-red-500/5 transition-colors duration-300">
+          <summary class="service-accordion-summary flex items-center justify-between p-6 lg:hover:bg-red-500/5 transition-colors duration-300">
             <div class="flex items-center gap-3 pointer-events-none">
               <div class="w-10 h-10 bg-red-500/15 rounded-xl flex items-center justify-center">
                 <Icon name="mdi:close" class="w-5 h-5 text-red-500" />
@@ -118,7 +118,7 @@ const { service } = Astro.props;
         </details>
 
         <details class="service-accordion-item bg-theme-card border border-accent-green/20 rounded-2xl overflow-hidden group">
-          <summary class="service-accordion-summary flex items-center justify-between p-6 hover:bg-accent-green/5 transition-colors duration-300">
+          <summary class="service-accordion-summary flex items-center justify-between p-6 lg:hover:bg-accent-green/5 transition-colors duration-300">
             <div class="flex items-center gap-3 pointer-events-none">
               <div class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center">
                 <Icon name="mdi:check-circle" class="w-5 h-5 text-accent-green" />

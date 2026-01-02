@@ -2,6 +2,7 @@
 import { Icon } from "astro-icon/components";
 import Button from "@/components/ui/Button.astro";
 import SectionContainer from "@/components/layouts/SectionContainer.astro";
+import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
 import type { HomepageContent } from "@/data/content/homepage";
 import { createUrl } from "@/utils/url";
@@ -28,13 +29,13 @@ const shouldOpenCalendlyBtn = shouldOpenCalendly({
   background="surface"
   class="relative flex items-center overflow-hidden final-cta-section section-divider-top"
 >
-  <div class="section-gradient-hero absolute inset-0 pointer-events-none z-0"></div>
+  <BackgroundDecorations gradients={["hero"]} />
   <div class="absolute inset-0 cta-pattern opacity-30 z-0"></div>
 
   <div class="grid-container relative z-content w-full">
     <div class="col-span-full max-w-4xl mx-auto w-full">
       <div
-        class="cta-card text-center bg-theme-card backdrop-blur-xl border-2 border-accent-green/50 rounded-2xl shadow-2xl shadow-accent-green/20 p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 transition-all hover:shadow-accent-green/30 hover:border-accent-green/70"
+        class="cta-card text-center bg-theme-card backdrop-blur-xl border-2 border-accent-green/50 rounded-2xl shadow-2xl shadow-accent-green/20 p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 transition-colors lg:hover:shadow-accent-green/30 lg:hover:border-accent-green/70"
         data-reveal="zoom-in"
         data-reveal-duration="200"
         data-reveal-easing="ease-out"
@@ -86,7 +87,7 @@ const shouldOpenCalendlyBtn = shouldOpenCalendly({
             size="lg"
             href={shouldOpenCalendlyBtn ? undefined : createUrl(content.ctaHref)}
             googleCalendar={shouldOpenCalendlyBtn}
-            class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 hover:-translate-y-0.5 transition-all min-h-[44px] cta-button flex-nowrap"
+            class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center lg:hover:shadow-xl lg:hover:shadow-accent-green/30 transition-all min-h-[44px] cta-button flex-nowrap"
           >
             <span class="whitespace-nowrap">{shouldOpenCalendlyBtn ? "Book a Consultation" : content.ctaText}</span>
             <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0" />

@@ -45,12 +45,6 @@ export const SWIPE_THRESHOLDS = {
   THRESHOLD: 10,
 } as const;
 
-export const AUTOPLAY_INTERVALS = {
-  DEFAULT: 3000,
-  MOBILE_RESUME_DELAY: 2000,
-  DESKTOP_RESUME_DELAY: 1000,
-} as const;
-
 export const SCROLL_OFFSETS = {
   DEFAULT: 80,
   MOBILE_HEADER: 60,

@@ -148,58 +148,6 @@ function createCarouselManager(config: CarouselConfig) {
 
 const carouselManagers = new Map<string, ReturnType<typeof createCarouselManager>>();
 
-// Global autoplay manager - ensures all carousels maintain autoplay
-class CarouselAutoplayManager {
-  private checkInterval: ReturnType<typeof setInterval> | null = null;
-  private isActive = false;
-
-  start(): void {
-    if (this.isActive) return;
-    this.isActive = true;
-
-    // Check every 3 seconds to ensure autoplay is running
-    this.checkInterval = setInterval(() => {
-      carouselManagers.forEach((manager, containerId) => {
-        try {
-          const container = document.getElementById(containerId);
-          if (container && !document.hidden) { // Only when page is visible
-            // Force re-initialization if needed
-            manager.cleanup();
-            manager.init();
-          }
-        } catch (error) {
-          if (import.meta.env.DEV) {
-            console.warn(`Failed to maintain carousel autoplay for ${containerId}:`, error);
-          }
-        }
-      });
-    }, 3000);
-
-    // Handle page visibility changes
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) {
-        // Page became visible, ensure autoplay restarts
-        setTimeout(() => {
-          carouselManagers.forEach((manager) => {
-            manager.cleanup();
-            manager.init();
-          });
-        }, 100);
-      }
-    });
-  }
-
-  stop(): void {
-    if (this.checkInterval) {
-      clearInterval(this.checkInterval);
-      this.checkInterval = null;
-    }
-    this.isActive = false;
-  }
-}
-
-const autoplayManager = new CarouselAutoplayManager();
-
 export function initCarousel(config: CarouselConfig): () => void {
   const manager = createCarouselManager(config);
   carouselManagers.set(config.containerId, manager);
@@ -208,18 +156,12 @@ export function initCarousel(config: CarouselConfig): () => void {
     window.addEventListener("beforeunload", manager.cleanup);
   }
 
-  // Start global autoplay management when first carousel is initialized
-  if (carouselManagers.size === 1) {
-    autoplayManager.start();
-  }
-
   return manager.cleanup;
 }
 
 export function cleanupAllCarousels(): void {
   carouselManagers.forEach((manager) => manager.cleanup());
   carouselManagers.clear();
-  autoplayManager.stop();
 }
 
 export function reinitCarousels(): void {

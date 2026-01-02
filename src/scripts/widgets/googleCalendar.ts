@@ -1,5 +1,4 @@
 import { createCalendarModal } from '@/scripts/utils/modalManager';
-import { setupEnhancedScrolling, setupScrollIndicators, initTouchScrolling } from '@/scripts/utils/scrollUtils';
 
 const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2C0u3FKkxjcB1xO6fM48pvPj4Gu32PZAMVDq889-Nuer8fP_zWvl95xV_r4O5fm2Ry_KP1vnNG?gv=true';
 const MODAL_ID = 'calendar-modal';
@@ -12,12 +11,33 @@ const LOAD_TIMEOUT = 15000;
 const initializedButtons = new WeakSet<HTMLElement>();
 let swipeCleanup: (() => void) | null = null;
 
-function safeInitTouchScrolling(): void {
-  try {
-    initTouchScrolling();
-  } catch (error) {
-    if (import.meta.env.DEV) console.warn('Touch scrolling setup failed:', error);
-  }
+function setupEnhancedScrolling(element: HTMLElement, config: { touchAction?: string; overscrollBehavior?: string } = {}): void {
+  const { touchAction = 'pan-y', overscrollBehavior = 'contain' } = config;
+  element.style.touchAction = touchAction;
+  element.style.overscrollBehavior = overscrollBehavior;
+}
+
+function setupScrollIndicators(container: HTMLElement, indicatorTop?: HTMLElement | null, indicatorBottom?: HTMLElement | null): void {
+  if (!indicatorTop && !indicatorBottom) return;
+
+  const updateIndicators = () => {
+    const scrollTop = container.scrollTop;
+    const scrollHeight = container.scrollHeight;
+    const clientHeight = container.clientHeight;
+
+    const shouldShowTop = scrollTop > 20;
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 20;
+
+    if (indicatorTop) {
+      indicatorTop.classList.toggle('visible', shouldShowTop);
+    }
+    if (indicatorBottom) {
+      indicatorBottom.classList.toggle('visible', !isAtBottom);
+    }
+  };
+
+  container.addEventListener('scroll', updateIndicators, { passive: true });
+  updateIndicators();
 }
 
 function getModal(): HTMLElement | null {
@@ -322,12 +342,10 @@ function initializeGoogleCalendar(): void {
 
   setupSwipeHandlers();
   setupCalendarButtons();
-  safeInitTouchScrolling();
   document.addEventListener('keydown', handleKeyboardNavigation);
 
   const initFunctions = () => {
     setupCalendarButtons();
-    safeInitTouchScrolling();
   };
 
   document.addEventListener('astro:page-load', () => setTimeout(initFunctions, 100), { once: false });

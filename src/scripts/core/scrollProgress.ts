@@ -1,5 +1,4 @@
 import { getLenisInstance } from '../smoothScroll';
-import { isMobileDevice } from '../utils/deviceDetection';
 import { getScrollPercentage } from '../utils/scrollHelpers';
 
 let isInitialized = false;
@@ -17,13 +16,16 @@ function updateProgress(scrollProgress: number = 0): void {
   progressFill.style.setProperty('--scroll-progress-width', `${progress}%`);
 }
 
-function handleLenisScroll(data: { scroll: number }): void {
-  const scrollTop = data.scroll * window.innerHeight;
+function calculateProgress(scrollTop: number): number {
   const scrollHeight = document.documentElement.scrollHeight;
   const viewportHeight = window.innerHeight;
   const scrollableHeight = scrollHeight - viewportHeight;
-  const progress = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
-  updateProgress(progress);
+  return scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
+}
+
+function handleLenisScroll(data: { scroll: number }): void {
+  const scrollTop = data.scroll * window.innerHeight;
+  updateProgress(calculateProgress(scrollTop));
 }
 
 function handleNativeScroll(): void {
@@ -40,11 +42,7 @@ function handleResize(): void {
   if (lenisInstance) {
     setTimeout(() => {
       const scrollTop = lenisInstance.scroll * window.innerHeight;
-      const scrollHeight = document.documentElement.scrollHeight;
-      const viewportHeight = window.innerHeight;
-      const scrollableHeight = scrollHeight - viewportHeight;
-      const progress = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
-      updateProgress(progress);
+      updateProgress(calculateProgress(scrollTop));
     }, 100);
   } else {
     handleNativeScroll();
@@ -67,11 +65,7 @@ export function initScrollProgress(): void {
   if (lenisInstance) {
     lenisInstance.on('scroll', handleLenisScroll);
     const scrollTop = lenisInstance.scroll * window.innerHeight;
-    const scrollHeight = document.documentElement.scrollHeight;
-    const viewportHeight = window.innerHeight;
-    const scrollableHeight = scrollHeight - viewportHeight;
-    const initialProgress = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
-    updateProgress(initialProgress);
+    updateProgress(calculateProgress(scrollTop));
   } else {
     scrollHandler = handleNativeScroll;
     window.addEventListener('scroll', scrollHandler, { passive: true });

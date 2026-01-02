@@ -114,10 +114,10 @@ const isMinimal = variant === "minimal";
             size="lg"
             href={shouldOpenGoogleCalendarBtn ? undefined : createUrl(ctaHref)}
             googleCalendar={shouldOpenGoogleCalendarBtn}
-            class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center hover:shadow-xl hover:shadow-accent-green/30 transition-shadow duration-300 min-h-[52px] text-base sm:text-lg group/btn"
+            class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center lg:hover:shadow-xl lg:hover:shadow-accent-green/30 transition-shadow duration-300 min-h-[52px] text-base sm:text-lg group/btn"
           >
             <span class="whitespace-nowrap">{shouldOpenGoogleCalendarBtn ? "Schedule a Meeting" : ctaText}</span>
-            <Icon name="mdi:arrow-right" class="w-5 h-5 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300" />
+            <Icon name="mdi:arrow-right" class="w-5 h-5 flex-shrink-0 lg:group-hover/btn:translate-x-1 transition-transform duration-300" />
           </Button>
         </div>
 
