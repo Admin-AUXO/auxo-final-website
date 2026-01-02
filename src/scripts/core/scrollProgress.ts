@@ -24,7 +24,7 @@ function calculateProgress(scrollTop: number): number {
 }
 
 function handleLenisScroll(data: { scroll: number }): void {
-  const scrollTop = data.scroll * window.innerHeight;
+  const scrollTop = data.scroll;
   updateProgress(calculateProgress(scrollTop));
 }
 
@@ -41,7 +41,7 @@ function handleNativeScroll(): void {
 function handleResize(): void {
   if (lenisInstance) {
     setTimeout(() => {
-      const scrollTop = lenisInstance.scroll * window.innerHeight;
+      const scrollTop = lenisInstance.scroll;
       updateProgress(calculateProgress(scrollTop));
     }, 100);
   } else {
@@ -64,7 +64,7 @@ export function initScrollProgress(): void {
 
   if (lenisInstance) {
     lenisInstance.on('scroll', handleLenisScroll);
-    const scrollTop = lenisInstance.scroll * window.innerHeight;
+    const scrollTop = lenisInstance.scroll;
     updateProgress(calculateProgress(scrollTop));
   } else {
     scrollHandler = handleNativeScroll;
