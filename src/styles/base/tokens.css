@@ -95,7 +95,7 @@
   --duration-fast: 200ms;
   --duration-normal: 250ms;
   --duration-slow: 300ms;
-  --theme-transition: 250ms;
+  --theme-transition: 150ms;
   --timing-smooth: var(--easing-standard);
 
   --spacing-1: 0.25rem;

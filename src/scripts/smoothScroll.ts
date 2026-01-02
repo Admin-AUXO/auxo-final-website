@@ -86,14 +86,14 @@ export function initSmoothScroll() {
   isMobile = isMobileDevice();
 
   lenis = new Lenis({
-    duration: isMobile ? 0.6 : 0.8,
+    duration: isMobile ? 0.8 : 1.0,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
-    smoothWheel: !isMobile,
-    wheelMultiplier: isMobile ? 1.5 : 2,
-    syncTouch: isMobile,
-    touchMultiplier: isMobile ? 2.5 : 3,
+    smoothWheel: true,
+    wheelMultiplier: isMobile ? 1.2 : 1.5,
+    syncTouch: true,
+    touchMultiplier: isMobile ? 1.8 : 2.0,
     infinite: false,
   });
 
