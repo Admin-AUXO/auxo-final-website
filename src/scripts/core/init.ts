@@ -6,6 +6,7 @@ import { initFloatingButton, cleanupFloatingButton } from './floatingButton';
 import { initHeroBackground, cleanupHeroBackground } from '../utils/heroBackground';
 import { initAccordions, cleanupAccordions } from '../utils/accordions';
 import { cleanupAllCarousels } from '../utils/carousels';
+import { autoInitCarousels } from '../sections/autoInit';
 import { forceUnlockScroll } from '../navigation/utils';
 
 let isInitialized = false;
@@ -88,6 +89,54 @@ export function initPageFeatures(): void {
   if (particleCanvas) {
     initHeroBackground();
   }
+
+  const initCarouselsWithCSSCheck = () => {
+    const checkCarouselCSS = () => {
+      if (!document.body) return false;
+
+      try {
+        const testElement = document.createElement('div');
+        testElement.style.cssText = 'position: absolute; visibility: hidden;';
+        testElement.className = 'carousel-container';
+        document.body.appendChild(testElement);
+
+        const computedStyle = window.getComputedStyle(testElement);
+        const hasCarouselCSS = computedStyle.touchAction === 'pan-x' &&
+                              computedStyle.cursor === 'grab';
+
+        testElement.remove();
+        return hasCarouselCSS;
+      } catch (e) {
+        return false;
+      }
+    };
+
+    const initializeCarousels = () => {
+      try {
+        autoInitCarousels();
+      } catch (error) {
+        if (import.meta.env.DEV) {
+          console.error('Carousel initialization failed:', error);
+        }
+      }
+    };
+
+    if (checkCarouselCSS()) {
+      initializeCarousels();
+    } else {
+      // Retry after a short delay if CSS isn't ready
+      setTimeout(() => {
+        if (checkCarouselCSS()) {
+          initializeCarousels();
+        } else {
+          // Final fallback - initialize anyway
+          setTimeout(initializeCarousels, 200);
+        }
+      }, 100);
+    }
+  };
+
+  initCarouselsWithCSSCheck();
 
   if ('requestIdleCallback' in window) {
     requestIdleCallback(() => {

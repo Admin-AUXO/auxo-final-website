@@ -125,26 +125,29 @@ const { content } = Astro.props;
   function randomizeIndustries() {
     const carouselTrack = document.getElementById('impact-carousel-track');
     const carouselContainer = document.getElementById('impact-carousel-container');
-    
+
     if (!carouselTrack || !carouselContainer) return;
-    
+
     const slides = Array.from(carouselTrack.children) as HTMLElement[];
     if (slides.length === 0) return;
-    
+
+    const emblaInstance = (window as any).emblaInstances?.get('impact-carousel-container');
+    const currentIndex = emblaInstance?.embla ? emblaInstance.embla.selectedScrollSnap() : 0;
     for (let i = slides.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [slides[i], slides[j]] = [slides[j], slides[i]];
     }
-    
+
     slides.forEach((slide, index) => {
       carouselTrack.appendChild(slide);
       slide.setAttribute('data-index', index.toString());
     });
-    
+
     setTimeout(() => {
-      const emblaInstance = (window as any).emblaInstances?.get('impact-carousel-container');
       if (emblaInstance?.embla) {
         emblaInstance.embla.reInit();
+        const newIndex = Math.min(currentIndex, slides.length - 1);
+        emblaInstance.embla.scrollTo(newIndex);
       } else {
         window.dispatchEvent(new Event('resize', { bubbles: true }));
       }

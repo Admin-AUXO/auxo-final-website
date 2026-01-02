@@ -150,47 +150,6 @@ const serviceIcons = [
   .services-stages-section [data-reveal] {
     will-change: transform, opacity;
   }
-
-  .services-carousel-wrapper,
-  .services-carousel-wrapper .carousel-viewport,
-  .services-carousel-wrapper .carousel-container {
-    overflow: hidden;
-  }
-
-  .services-carousel-wrapper .carousel-track,
-  .services-carousel-wrapper .embla__container {
-    overflow: visible !important;
-  }
-
-  @media (min-width: 1024px) {
-    .services-carousel-wrapper .carousel-slide,
-    .services-carousel-wrapper .embla__slide {
-      width: calc((100% - 4.5rem) / 4);
-      flex: 0 0 calc((100% - 4.5rem) / 4);
-    }
-
-    .services-carousel-wrapper .carousel-track {
-      gap: 1.5rem;
-      justify-content: center;
-    }
-
-    .services-carousel-wrapper .service-card-redesigned[data-variant="carousel"]:hover,
-    .service-card-redesigned[data-variant="grid"]:hover {
-      z-index: var(--z-content);
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .services-carousel-wrapper .carousel-slide,
-    .services-carousel-wrapper .embla__slide {
-      width: calc((100% - 6rem) / 4);
-      flex: 0 0 calc((100% - 6rem) / 4);
-    }
-
-    .services-carousel-wrapper .carousel-track {
-      gap: 2rem;
-    }
-  }
 </style>
 
 <script>

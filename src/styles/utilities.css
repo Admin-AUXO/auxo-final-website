@@ -145,13 +145,7 @@
   animation-play-state: running;
 }
 
-.carousel-transition {
-  transition: transform var(--duration-normal) var(--easing-standard);
-}
-
-.carousel-dot-hidden {
-  display: none;
-}
+/* Carousel utilities now in components/carousels.css */
 
 .scroll-locked {
   overflow: hidden;

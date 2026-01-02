@@ -155,6 +155,7 @@
 
   --carousel-gap-mobile: 0.75rem;
   --carousel-gap-tablet: 1rem;
+  --carousel-gap-desktop: 1.5rem;
 
   --card-min-height-sm: 320px;
   --card-min-height-lg: 360px;

@@ -62,20 +62,11 @@ function createCarouselManager(config: CarouselConfig) {
 
     const container = document.getElementById(containerId);
 
-    if (!container) {
-      if (import.meta.env.DEV) {
-        console.warn('Carousel element not found:', containerId);
-      }
-      return;
-    }
+    if (!container) return;
 
     const hasSlides = container.querySelectorAll('.embla__slide').length > 0;
 
     if (!hasSlides) {
-      if (import.meta.env.DEV) {
-        console.warn(`Carousel ${containerId} not ready: no slides found`);
-      }
-
       setTimeout(() => {
         const retryHasSlides = container.querySelectorAll('.embla__slide').length > 0;
         if (retryHasSlides) {
@@ -84,32 +75,32 @@ function createCarouselManager(config: CarouselConfig) {
           observeOnce(container, init, { threshold: 0.01 });
         }
       }, 100);
-
       return;
     }
 
-    if (!document.body.contains(container)) {
-      if (import.meta.env.DEV) {
-        console.warn(`Carousel container ${containerId} was removed from DOM`);
-      }
-      return;
-    }
+    if (!document.body.contains(container)) return;
 
     cleanup();
+
+    const isMobile = window.innerWidth < 768;
+    const mobileOptions = isMobile ? {
+      slidesToScroll: 1,
+      duration: 12,
+    } : {
+      slidesToScroll: 1,
+      duration: 15,
+    };
 
     try {
       state.instance = new EmblaCarouselWrapper(container, {
         loop: true,
         autoplay: true,
         align: "center",
-        slidesToScroll: 1,
-        dragFree: false,
+        dragFree: true,
+        ...mobileOptions,
         ...carouselOptions,
       });
     } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error(`Failed to initialize carousel ${containerId}:`, error);
-      }
       return;
     }
 
@@ -127,11 +118,7 @@ function createCarouselManager(config: CarouselConfig) {
           if (state.instance?.embla && container.offsetWidth > 0 && document.body.contains(container)) {
             try {
               state.instance.embla.reInit();
-            } catch (error) {
-              if (import.meta.env.DEV) {
-                console.error(`Failed to reinit carousel ${containerId}:`, error);
-              }
-            }
+            } catch (error) {}
           }
         }, 100);
       });

@@ -162,90 +162,7 @@ details.group\/details summary::-webkit-details-marker {
     text-align: center;
   }
 
-  .service-process-section,
-  .service-benefits-section {
-    overflow: hidden;
-    width: 100%;
-    max-width: 100%;
-    position: relative;
-  }
-
-  .service-process-carousel-wrapper,
-  .service-benefits-carousel-wrapper {
-    overflow: hidden;
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    position: relative;
-  }
-
-  .service-process-carousel-wrapper .carousel-container,
-  .service-benefits-carousel-wrapper .carousel-container {
-    overflow: hidden;
-    width: 100%;
-    max-width: 100%;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-  }
-
-  .service-process-carousel-wrapper .embla__container.carousel-track,
-  .service-benefits-carousel-wrapper .embla__container.carousel-track {
-    padding-left: var(--grid-padding-mobile);
-    padding-right: var(--grid-padding-mobile);
-    margin-left: 0;
-    margin-right: 0;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .service-process-carousel-wrapper .carousel-track,
-  .service-benefits-carousel-wrapper .carousel-track {
-    display: flex;
-    align-items: stretch;
-    gap: 1rem;
-    padding-left: 0;
-    padding-right: 0;
-    transform: translateZ(0);
-    transition: none;
-  }
-
-  .service-process-carousel-wrapper .embla__slide,
-  .service-benefits-carousel-wrapper .embla__slide {
-    flex: 0 0 100%;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    height: auto;
-    align-self: stretch;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .service-process-carousel-wrapper .carousel-slide,
-  .service-benefits-carousel-wrapper .carousel-slide {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-self: stretch;
-  }
-
-  .service-process-carousel-wrapper .carousel-slide > div,
-  .service-benefits-carousel-wrapper .carousel-slide > div {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    min-height: auto;
-  }
-
-  .service-process-carousel-wrapper .embla__container,
-  .service-benefits-carousel-wrapper .embla__container {
-    align-items: stretch;
-  }
+  /* Carousel styles now handled in components/carousels.css */
 }
 
 @media (min-width: 641px) and (max-width: 1023px) {
@@ -278,27 +195,7 @@ details.group\/details summary::-webkit-details-marker {
     justify-content: flex-start;
   }
 
-  .service-process-carousel-wrapper,
-  .service-benefits-carousel-wrapper {
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .service-process-carousel-wrapper .embla__container.carousel-track,
-  .service-benefits-carousel-wrapper .embla__container.carousel-track {
-    padding-left: var(--grid-padding-sm);
-    padding-right: var(--grid-padding-sm);
-    align-items: stretch;
-  }
-
-  .service-process-carousel-wrapper .embla__slide,
-  .service-benefits-carousel-wrapper .embla__slide {
-    width: 100%;
-    max-width: 100%;
-    align-self: stretch;
-  }
+  /* Carousel styles now handled in components/carousels.css */
 }
 
 @media (min-width: 1024px) {
@@ -334,14 +231,5 @@ details.group\/details summary::-webkit-details-marker {
     filter: none;
   }
 
-  .service-process-carousel-wrapper .carousel-track,
-  .service-benefits-carousel-wrapper .carousel-track {
-    transition: none;
-    scroll-behavior: smooth;
-  }
-
-  .service-process-carousel-wrapper .embla__slide,
-  .service-benefits-carousel-wrapper .embla__slide {
-    transition: none;
-  }
+  /* Carousel styles now handled in components/carousels.css */
 }
