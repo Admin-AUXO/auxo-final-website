@@ -1,7 +1,7 @@
 #particle-background {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   background-color: transparent;
   opacity: 1;
@@ -18,18 +18,17 @@
   pointer-events: none;
 }
 
-main#main-content.z-content {
+/* Hero section needs relative positioning for particle background */
+section.hero-section {
   position: relative;
-  z-index: var(--z-content);
+  overflow: hidden;
 }
 
-footer.z-content {
+/* Ensure hero content is above particles */
+section.hero-section .hero-content {
   position: relative;
-  z-index: var(--z-content);
-  background-color: var(--bg-card);
+  z-index: 1;
 }
-
-/* Body positioning removed to prevent stacking context issues */
 
 :root.light #particle-background {
   opacity: 0.9;

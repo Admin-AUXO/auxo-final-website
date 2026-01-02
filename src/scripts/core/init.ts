@@ -86,8 +86,11 @@ export function initCoreFeatures(): void {
   }
 }
 
-export function initPageFeatures(showParticles: boolean = false): void {
-  if (showParticles) initHeroBackground();
+export function initPageFeatures(): void {
+  const particleCanvas = document.getElementById('particle-canvas');
+  if (particleCanvas) {
+    initHeroBackground();
+  }
 
   setTimeout(() => {
     Promise.all([

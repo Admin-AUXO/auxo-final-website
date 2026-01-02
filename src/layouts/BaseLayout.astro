@@ -7,7 +7,6 @@ import MetaTags from "@/components/common/MetaTags.astro";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar.astro";
 import FloatingCalendarButton from "@/components/widgets/FloatingCalendarButton.astro";
 import CalendarModal from "@/components/widgets/CalendarModal.astro";
-import ParticleBackground from "@/components/effects/ParticleBackground.astro";
 
 import "@/styles/base/reset.css";
 import "@/styles/base.css";
@@ -16,10 +15,9 @@ import "@/styles/global.css";
 export interface Props {
   title?: string;
   description?: string;
-  showParticles?: boolean;
 }
 
-const { title, description, showParticles = true } = Astro.props;
+const { title, description } = Astro.props;
 
 const siteData = await getSiteConfigData();
 const pageTitle = title || siteData.name;
@@ -27,7 +25,7 @@ const pageDescription = description || siteData.description;
 ---
 
 <!doctype html>
-<html lang="en" class="dark" data-show-particles={showParticles}>
+<html lang="en" class="dark">
   <head>
     <MetaTags 
       title={pageTitle}
@@ -210,7 +208,6 @@ const pageDescription = description || siteData.description;
     </a>
 
     <ScrollProgressBar />
-    {showParticles && <ParticleBackground />}
     <Navigation />
     <main id="main-content" class="relative z-content" style="padding-top: var(--nav-current-height); min-height: calc(100vh - var(--nav-current-height));">
       <slot />
@@ -329,9 +326,8 @@ const pageDescription = description || siteData.description;
 
       const initAll = async () => {
         await waitForCSS();
-        const showParticles = document.documentElement.dataset.showParticles === 'true';
         initCoreFeatures();
-        initPageFeatures(showParticles);
+        initPageFeatures();
       };
 
       if (document.readyState === 'loading') {
@@ -349,10 +345,9 @@ const pageDescription = description || siteData.description;
 
       document.addEventListener('astro:page-load', async () => {
         await waitForCSS();
-        const newShowParticles = document.documentElement.dataset.showParticles === 'true';
         reinitOnPageLoad();
         setTimeout(() => {
-          initPageFeatures(newShowParticles);
+          initPageFeatures();
           initMobileScrollOptimizations();
         }, 100);
       });

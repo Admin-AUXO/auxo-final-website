@@ -10,7 +10,7 @@ export interface Props {
 const { title, description, serviceName } = Astro.props;
 ---
 
-<BaseLayout title={`${serviceName} | AUXO Data Labs`} description={description} showParticles={false}>
+<BaseLayout title={`${serviceName} | AUXO Data Labs`} description={description}>
   <slot name="hero" />
   <slot name="overview" />
   <slot name="benefits" />
