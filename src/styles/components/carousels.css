@@ -130,44 +130,18 @@
   }
 }
 
-.carousel-card {
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-  min-height: auto !important;
-  background: var(--bg-card) !important;
-  border: 1px solid rgba(var(--accent-green-rgb), 0.12) !important;
-  border-radius: 0.875rem !important;
-  padding: 1.25rem !important;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-.carousel-card-benefit {
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-  min-height: auto !important;
-  background: var(--bg-card) !important;
-  border: 1px solid rgba(var(--accent-green-rgb), 0.10) !important;
-  border-radius: 1rem !important;
-  padding: 1.25rem !important;
-  transition: border-color 0.3s ease !important;
-  position: relative !important;
-  overflow: hidden !important;
-}
-
+.carousel-card,
+.carousel-card-benefit,
 .carousel-card-process {
   display: flex !important;
   flex-direction: column !important;
   height: 100% !important;
   min-height: auto !important;
   background: var(--bg-card) !important;
-  border: 1px solid rgba(var(--accent-green-rgb), 0.10) !important;
-  border-radius: 1rem !important;
-  padding: 1.25rem !important;
-  transition: border-color 0.5s ease !important;
+  border: var(--carousel-card-border) !important;
+  border-radius: var(--carousel-card-radius) !important;
+  padding: var(--carousel-card-padding-mobile) !important;
+  transition: var(--carousel-card-transition) !important;
   position: relative !important;
   overflow: hidden !important;
 }
@@ -178,10 +152,10 @@
   height: 100% !important;
   min-height: auto !important;
   background: var(--bg-card) !important;
-  border: 1px solid var(--border-color-light) !important;
-  border-radius: 0.75rem !important;
-  padding: 1.25rem !important;
-  transition: border-color 0.3s ease !important;
+  border: var(--accordion-border) !important;
+  border-radius: var(--accordion-radius) !important;
+  padding: var(--carousel-card-padding-mobile) !important;
+  transition: var(--carousel-card-transition) !important;
   position: relative !important;
   overflow: hidden !important;
 }
@@ -262,12 +236,9 @@
 @media (min-width: 640px) {
   .carousel-card,
   .carousel-card-benefit,
+  .carousel-card-process,
   .carousel-card-about {
-    padding: 1.5rem !important;
-  }
-
-  .carousel-card-process {
-    padding: 1.5rem !important;
+    padding: var(--carousel-card-padding-desktop) !important;
   }
 
   .carousel-card-title {
@@ -287,12 +258,9 @@
 @media (min-width: 1024px) {
   .carousel-card,
   .carousel-card-benefit,
+  .carousel-card-process,
   .carousel-card-about {
-    padding: 1.5rem !important;
-  }
-
-  .carousel-card-process {
-    padding: 1.5rem !important;
+    padding: var(--carousel-card-padding-desktop) !important;
   }
 
   .carousel-card-title {

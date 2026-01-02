@@ -37,6 +37,16 @@
   --overlay-black-98: rgba(0, 0, 0, 0.98);
   --overlay-white-98: rgba(255, 255, 255, 0.98);
 
+  --carousel-card-border: 1px solid var(--accent-green-opacity-1);
+  --carousel-card-radius: 1rem;
+  --carousel-card-padding-mobile: 1.25rem;
+  --carousel-card-padding-desktop: 1.5rem;
+  --carousel-card-transition: border-color 0.2s ease;
+
+  --accordion-border: 1px solid var(--border-color-light);
+  --accordion-radius: 0.75rem;
+  --accordion-transition: border-color 0.2s ease;
+
   --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-brand: 'Montserrat', system-ui, sans-serif;
