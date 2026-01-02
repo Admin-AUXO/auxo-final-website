@@ -24,6 +24,61 @@ function shouldActivateCarousel(activateOnDesktop: boolean, breakpoint: number):
   return activateOnDesktop ? width >= breakpoint : width < breakpoint;
 }
 
+function getResponsiveOptions(slideCount: number): Partial<EmblaCarouselOptions> {
+  const width = window.innerWidth || document.documentElement.clientWidth;
+  const isMobile = width < 768;
+  const isTablet = width >= 768 && width < 1024;
+  const isDesktop = width >= 1024;
+
+  if (slideCount <= 2) {
+    return {
+      align: 'center',
+      containScroll: 'keepSnaps',
+      slidesToScroll: 1,
+      dragFree: false,
+      duration: isMobile ? 20 : 25,
+    };
+  }
+
+  if (isMobile) {
+    return {
+      align: 'center',
+      containScroll: 'trimSnaps',
+      slidesToScroll: 1,
+      dragFree: false,
+      duration: 20,
+    };
+  }
+
+  if (isTablet) {
+    return {
+      align: 'center',
+      containScroll: slideCount > 3 ? 'trimSnaps' : 'keepSnaps',
+      slidesToScroll: 1,
+      dragFree: false,
+      duration: 22,
+    };
+  }
+
+  if (isDesktop) {
+    return {
+      align: 'center',
+      containScroll: slideCount > 3 ? 'trimSnaps' : 'keepSnaps',
+      slidesToScroll: 1,
+      dragFree: false,
+      duration: 25,
+    };
+  }
+
+  return {
+    align: 'center',
+    containScroll: 'trimSnaps',
+    slidesToScroll: 1,
+    dragFree: false,
+    duration: 25,
+  };
+}
+
 function createCarouselManager(config: CarouselConfig) {
   const {
     containerId,
@@ -81,23 +136,14 @@ function createCarouselManager(config: CarouselConfig) {
     state.isInitializing = true;
 
     const slideCount = slides.length;
-    const isMobile = window.innerWidth < 768;
+    const responsiveOptions = getResponsiveOptions(slideCount);
 
     const baseOptions: EmblaCarouselOptions = {
       loop: true,
       autoplay: true,
-      align: 'center',
-      containScroll: false,
-      dragFree: false,
-      slidesToScroll: 1,
-      duration: isMobile ? 15 : 20,
+      ...responsiveOptions,
       ...carouselOptions,
     };
-
-    if (slideCount <= 2) {
-      baseOptions.align = 'start';
-      baseOptions.containScroll = 'keepSnaps';
-    }
 
     try {
       state.instance = new EmblaCarouselWrapper(container, baseOptions);

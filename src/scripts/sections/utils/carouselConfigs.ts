@@ -6,7 +6,9 @@ const BASE_OPTIONS = {
   autoplay: true,
   pauseOnHover: false,
   align: 'center' as const,
-  containScroll: false as const,
+  containScroll: 'trimSnaps' as const,
+  dragFree: false,
+  skipSnaps: false,
 };
 
 export const CAROUSEL_CONFIGS: CarouselConfig[] = [
@@ -18,7 +20,7 @@ export const CAROUSEL_CONFIGS: CarouselConfig[] = [
   {
     containerId: "mission-vision-carousel-container",
     breakpoint: BREAKPOINTS.LG,
-    carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 5000, align: 'start', containScroll: 'keepSnaps' },
+    carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 5000 },
   },
   {
     containerId: "global-metrics-carousel-container",

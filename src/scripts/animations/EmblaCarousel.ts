@@ -3,7 +3,7 @@ import type { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
 const DEFAULT_AUTOPLAY_INTERVAL = 4000;
-const DEFAULT_DURATION = 20;
+const DEFAULT_DURATION = 25;
 
 export interface EmblaCarouselOptions {
   loop?: boolean;
@@ -12,10 +12,11 @@ export interface EmblaCarouselOptions {
   pauseOnHover?: boolean;
   pauseOnTouch?: boolean;
   align?: 'start' | 'center' | 'end';
-  slidesToScroll?: number;
+  slidesToScroll?: number | 'auto';
   dragFree?: boolean;
   duration?: number;
   containScroll?: 'trimSnaps' | 'keepSnaps' | false;
+  skipSnaps?: boolean;
   onSlideChange?: (index: number) => void;
 }
 
@@ -38,7 +39,8 @@ export class EmblaCarouselWrapper {
       slidesToScroll = 1,
       dragFree = false,
       duration = DEFAULT_DURATION,
-      containScroll = false,
+      containScroll = 'trimSnaps',
+      skipSnaps = false,
       onSlideChange,
     } = options;
 
@@ -65,13 +67,13 @@ export class EmblaCarouselWrapper {
       dragFree,
       containScroll,
       duration,
-      dragThreshold: 3,
-      skipSnaps: false,
+      dragThreshold: 10,
+      skipSnaps,
       watchDrag: true,
       watchResize: true,
       watchSlides: true,
       axis: 'x',
-      inViewThreshold: 0.5,
+      inViewThreshold: 0.7,
       startIndex: 0,
       watchFocus: false,
     };
