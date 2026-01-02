@@ -16,7 +16,6 @@ interface Props {
       description: string;
       descriptionHighlight?: string | string[];
       icon: string;
-      useCases: string[];
       keyBenefit: string;
       keyBenefitHighlight?: string | string[];
     }[];
@@ -82,18 +81,6 @@ const { content } = Astro.props;
                 <div class="impact-industry-benefit">
                   <Icon name="mdi:trending-up" class="w-4 h-4 sm:w-5 sm:h-5 text-accent-green flex-shrink-0" />
                   <span class="impact-industry-benefit-text">{industry.keyBenefit}</span>
-                </div>
-
-                <div class="impact-industry-use-cases">
-                  <p class="impact-industry-section-label">Key Use Cases</p>
-                  <div class="impact-industry-use-cases-grid">
-                    {industry.useCases.map((useCase) => (
-                      <div class="impact-industry-use-case-item">
-                        <span class="impact-industry-use-case-text">{useCase}</span>
-                        <Icon name="mdi:check-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-green flex-shrink-0" />
-                      </div>
-                    ))}
-                  </div>
                 </div>
               </div>
             </div>

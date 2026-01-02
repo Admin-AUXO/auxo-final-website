@@ -17,7 +17,6 @@ interface Props {
       bestFor: string;
       bestForHighlight?: string | string[];
       deliverables: string[];
-      idealFor: string[];
     }[];
   };
 }
@@ -121,15 +120,6 @@ const modelIcons = [
                           <Icon name="mdi:check-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-green flex-shrink-0" />
                           <span class="models-accordion-deliverable-text">{deliverable}</span>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div class="models-accordion-section">
-                    <p class="models-accordion-section-label">Ideal For</p>
-                    <div class="models-accordion-tags">
-                      {model.idealFor.map((tag) => (
-                        <span class="models-accordion-tag">{tag}</span>
                       ))}
                     </div>
                   </div>
