@@ -18,7 +18,12 @@ function updateProgress(scrollProgress: number = 0): void {
 }
 
 function handleLenisScroll(data: { scroll: number }): void {
-  updateProgress(data.scroll * 100);
+  const scrollTop = data.scroll * window.innerHeight;
+  const scrollHeight = document.documentElement.scrollHeight;
+  const viewportHeight = window.innerHeight;
+  const scrollableHeight = scrollHeight - viewportHeight;
+  const progress = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
+  updateProgress(progress);
 }
 
 function handleNativeScroll(): void {
@@ -33,7 +38,14 @@ function handleNativeScroll(): void {
 
 function handleResize(): void {
   if (lenisInstance) {
-    setTimeout(() => updateProgress(lenisInstance.scroll * 100), 100);
+    setTimeout(() => {
+      const scrollTop = lenisInstance.scroll * window.innerHeight;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const viewportHeight = window.innerHeight;
+      const scrollableHeight = scrollHeight - viewportHeight;
+      const progress = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
+      updateProgress(progress);
+    }, 100);
   } else {
     handleNativeScroll();
   }
@@ -54,7 +66,12 @@ export function initScrollProgress(): void {
 
   if (lenisInstance) {
     lenisInstance.on('scroll', handleLenisScroll);
-    updateProgress(lenisInstance.scroll * 100);
+    const scrollTop = lenisInstance.scroll * window.innerHeight;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const viewportHeight = window.innerHeight;
+    const scrollableHeight = scrollHeight - viewportHeight;
+    const initialProgress = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
+    updateProgress(initialProgress);
   } else {
     scrollHandler = handleNativeScroll;
     window.addEventListener('scroll', scrollHandler, { passive: true });
