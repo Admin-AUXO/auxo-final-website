@@ -1,0 +1,69 @@
+---
+import type { HomepageContent } from '@/data/content/homepage';
+import SectionContainer from '@/components/layouts/SectionContainer.astro';
+import ParticleBackground from '@/components/effects/ParticleBackground.astro';
+
+interface Props {
+  content: HomepageContent["problem"];
+}
+
+const { content: problemContent } = Astro.props;
+---
+
+<SectionContainer
+  id="value-proposition"
+  padding="lg"
+  background="surface"
+  class="relative flex items-center overflow-hidden transition-colors value-proposition-section"
+>
+  <ParticleBackground />
+
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-7xl mx-auto w-full">
+      <div class="text-center py-12 sm:py-16 lg:py-24 xl:py-28 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto space-y-8 sm:space-y-12 lg:space-y-16">
+          <div
+            class="space-y-4 sm:space-y-6"
+            data-reveal="fade-down"
+            data-reveal-duration="200"
+            data-reveal-easing="ease-out"
+            data-reveal-delay="0"
+          >
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-theme-primary transition-colors font-display">
+              Most companies collect data.
+            </h2>
+            <p class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold leading-tight text-theme-secondary/80 transition-colors font-display">
+              Few convert it into decisions.
+            </p>
+          </div>
+
+          <div
+            class="w-16 sm:w-20 lg:w-24 h-1 mx-auto bg-gradient-to-r from-accent-blue via-accent-purple to-accent-blue bg-[length:200%_100%] animate-gradient"
+            data-reveal="fade"
+            data-reveal-duration="200"
+            data-reveal-easing="ease-out"
+            data-reveal-delay="50"
+            aria-hidden="true"
+          ></div>
+
+          <div
+            class="space-y-4 sm:space-y-6"
+            data-reveal="fade-up"
+            data-reveal-duration="200"
+            data-reveal-easing="ease-out"
+            data-reveal-delay="100"
+          >
+            <p class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight text-theme-primary transition-colors font-display">
+              <span class="highlight-gradient inline-block">AUXO</span> bridges the gap
+            </p>
+            <p class="text-xl sm:text-2xl lg:text-3xl font-medium leading-relaxed text-theme-secondary/70 transition-colors max-w-4xl mx-auto font-body">
+              connecting business understanding with data intelligence.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</SectionContainer>
+
+

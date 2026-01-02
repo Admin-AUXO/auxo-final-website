@@ -28,10 +28,26 @@
   }
 }
 
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .animate-pulse {
   animation: pulse var(--animation-duration-gradient) var(--easing-standard) infinite;
 }
 
 .animate-drift {
   animation: drift var(--animation-duration-gradient) var(--easing-standard) infinite;
+}
+
+.animate-gradient {
+  animation: gradient 3s ease infinite;
 }

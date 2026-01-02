@@ -155,10 +155,6 @@
   top: calc(var(--scroll-y, 0) * -1px);
 }
 
-.typing-container {
-  min-height: var(--typing-min-height, auto);
-}
-
 .animation-delay-0 { animation-delay: 0ms; }
 .animation-delay-50 { animation-delay: 50ms; }
 .animation-delay-100 { animation-delay: 100ms; }

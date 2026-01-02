@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getSiteConfigData } from "@/lib/sanity/siteConfig";
 import HeroSection from "@/components/sections/home/HeroSection.astro";
-import ValueProposition from "@/components/sections/home/ValueProposition.astro";
+import ProblemSolutionSection from "@/components/sections/home/ProblemSolutionSection.astro";
 import CapabilitiesSection from "@/components/sections/home/CapabilitiesSection.astro";
 import ServicesIntroSection from "@/components/sections/home/ServicesIntroSection.astro";
 import MethodologySection from "@/components/sections/home/MethodologySection.astro";
@@ -18,7 +18,7 @@ const [homepageContent, siteData] = await Promise.all([
 
 <BaseLayout title="Data Analytics Consultancy Dubai, UAE | AUXO Data Labs" description={siteData.description}>
   <HeroSection content={homepageContent.hero} />
-  <ValueProposition content={homepageContent.problem} />
+  <ProblemSolutionSection content={homepageContent.problem} />
   <div data-lazy-load>
     <ServicesIntroSection content={homepageContent.servicesIntro} />
   </div>
