@@ -22,8 +22,13 @@ export default defineConfig({
     inlineStylesheets: 'auto',
   },
   compressHTML: true,
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'viewport',
+  },
   image: {
     service: { entrypoint: 'astro/assets/services/sharp' },
+    remotePatterns: [{ protocol: 'https' }],
   },
   vite: {
     optimizeDeps: {
@@ -55,13 +60,17 @@ export default defineConfig({
           chunkFileNames: '_astro/[name]-[hash].js',
           entryFileNames: '_astro/[name]-[hash].js',
           assetFileNames: '_astro/[name]-[hash].[ext]',
-          experimentalMinChunkSize: 1000,
+          experimentalMinChunkSize: 1500,
           manualChunks(id) {
-            // Split large vendor packages into separate chunks for better caching
-            if (id.includes('embla-carousel')) return 'ui-vendor';
-            if (id.includes('astro-icon') || id.includes('@iconify')) return 'icons';
-            if (id.includes('@sanity/') || id.includes('groq')) return 'sanity';
-            if (id.includes('zod')) return 'utils';
+            if (id.includes('node_modules')) {
+              if (id.includes('embla-carousel')) return 'ui-vendor';
+              if (id.includes('astro-icon') || id.includes('@iconify')) return 'icons';
+              if (id.includes('@sanity/') || id.includes('groq')) return 'sanity';
+              if (id.includes('react') || id.includes('react-dom')) return 'react-vendor';
+              if (id.includes('@emailjs')) return 'emailjs';
+              if (id.includes('lenis')) return 'lenis';
+              if (id.includes('zod')) return 'utils';
+            }
           },
         },
         onwarn(warning, warn) {

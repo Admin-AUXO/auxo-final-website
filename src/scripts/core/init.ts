@@ -8,6 +8,7 @@ import { initAccordions, cleanupAccordions } from '../utils/accordions';
 import { cleanupAllCarousels } from '../utils/carousels';
 import { autoInitCarousels } from '../sections/autoInit';
 import { forceUnlockScroll } from '../navigation/utils';
+import { initWebVitals } from '../utils/webVitals';
 
 let isInitialized = false;
 let lazyLoadingObserver: IntersectionObserver | null = null;
@@ -28,16 +29,24 @@ function initLazyLoading(): void {
   const remainingElements = Array.from(lazyElements).slice(immediateLoadCount);
   if (remainingElements.length === 0) return;
 
+  const isMobile = window.innerWidth < 768;
+  const rootMargin = isMobile ? '100px' : '200px';
+
   lazyLoadingObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         const el = entry.target as HTMLElement;
-        el.classList.add('lazy-loaded');
-        el.removeAttribute('data-lazy-load');
+        requestAnimationFrame(() => {
+          el.classList.add('lazy-loaded');
+          el.removeAttribute('data-lazy-load');
+        });
         lazyLoadingObserver?.unobserve(el);
       }
     });
-  }, { rootMargin: '50px', threshold: 0.01 });
+  }, {
+    rootMargin,
+    threshold: 0.01
+  });
 
   remainingElements.forEach((element) => lazyLoadingObserver?.observe(element));
 }
@@ -52,6 +61,8 @@ function cleanupLazyLoading(): void {
 export function initCoreFeatures(): void {
   if (isInitialized) return;
   isInitialized = true;
+
+  initWebVitals();
 
   const runCriticalInit = () => {
     try {

@@ -63,10 +63,13 @@ const finalCanonical = canonicalUrl || `${siteUrl}${Astro.url.pathname}`;
 
 <link rel="preconnect" href="https://cdn.sanity.io" />
 <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+<link rel="preconnect" href="https://api.emailjs.com" />
+<link rel="dns-prefetch" href="https://api.emailjs.com" />
 <link rel="preconnect" href="https://calendar.app.google" crossorigin />
 <link rel="dns-prefetch" href="https://calendar.app.google" />
-<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+<link rel="modulepreload" href="/_astro/hoisted.js" as="script" />
+<link rel="modulepreload" href="/_astro/page.js" as="script" />
 
 <link rel="canonical" href={finalCanonical} />
 
