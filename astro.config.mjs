@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sanity from '@sanity/astro';
+import react from '@astrojs/react';
 import icon from 'astro-icon';
 import sitemap from '@astrojs/sitemap';
 import path from 'node:path';
@@ -89,6 +90,7 @@ export default defineConfig({
       useCdn: false,
       studioBasePath: '/studio',
     })] : []),
+    react(),
     tailwind({
       applyBaseStyles: false,
     }),

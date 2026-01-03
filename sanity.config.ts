@@ -7,10 +7,10 @@ export default defineConfig({
   name: 'auxo-website',
   title: 'AUXO Data Labs',
 
-  projectId: process.env.SANITY_PROJECT_ID || '4ddas0r0',
-  dataset: process.env.SANITY_DATASET || 'production',
+  projectId: import.meta.env.SANITY_PROJECT_ID || '4ddas0r0',
+  dataset: import.meta.env.SANITY_DATASET || 'production',
 
-  plugins: process.env.NODE_ENV === 'development' ? [
+  plugins: import.meta.env.DEV ? [
     structureTool(),
     visionTool(),
   ] : [],
@@ -19,5 +19,5 @@ export default defineConfig({
     types: schemaTypes,
   },
 
-  basePath: process.env.NODE_ENV === 'development' ? '/studio' : undefined,
+  basePath: import.meta.env.DEV ? '/studio' : undefined,
 });
