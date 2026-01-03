@@ -51,6 +51,20 @@
         "@modelcontextprotocol/server-memory"
       ],
       "description": "Persistent knowledge graph across sessions"
+    },
+    "sanity": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@sanity/mcp-server"
+      ],
+      "env": {
+        "SANITY_PROJECT_ID": "${SANITY_PROJECT_ID}",
+        "SANITY_DATASET": "${SANITY_DATASET}",
+        "SANITY_API_TOKEN": "${SANITY_API_TOKEN}",
+        "SANITY_API_VERSION": "${SANITY_API_VERSION}"
+      },
+      "description": "Sanity CMS content management and GROQ queries"
     }
   }
 }

@@ -25,7 +25,11 @@
     "mcp:playwright": "npx @playwright/mcp --port 3000",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "test:headed": "playwright test --headed"
+    "test:headed": "playwright test --headed",
+    "sanity:backup": "./scripts/export-sanity-data.sh",
+    "sanity:backup:quick": "npx sanity dataset export production sanity-data/backup-$(date +%Y%m%d_%H%M%S).tar.gz --no-assets",
+    "sanity:restore": "npx sanity dataset import",
+    "sanity:typegen": "npx sanity schema extract && npx sanity typegen generate"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
@@ -60,6 +64,7 @@
     "tailwindcss": "^3.4.18",
     "terser": "^5.44.1",
     "tsx": "^4.21.0",
+    "tweetsodium": "^0.0.4",
     "typescript": "^5.9.3"
   },
   "overrides": {

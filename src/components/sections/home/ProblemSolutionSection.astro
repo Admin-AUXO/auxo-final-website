@@ -1,126 +1,90 @@
 ---
 import type { HomepageContent } from '@/data/content/homepage';
-import SectionContainer from '@/components/layouts/SectionContainer.astro';
 
 interface Props {
   content: HomepageContent["problem"];
 }
 
 const { content: problemContent } = Astro.props;
+
+const highlightAuxo = (text: string) => {
+  return text.replace(/\b(AUXO|Auxo)\b/g, '<span class="auxo-highlight">$1</span>');
+};
+
+const line1Html = highlightAuxo(problemContent.line1);
+const line2Html = highlightAuxo(problemContent.line2);
 ---
 
-<SectionContainer
-  id="problem-solution"
-  padding="lg"
-  class="relative flex items-center transition-colors problem-solution-section"
->
-  <div class="absolute inset-0 pointer-events-none opacity-30" aria-hidden="true">
-    <div class="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-accent-green/20 to-transparent"></div>
-    <div class="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-accent-green/20 to-transparent"></div>
-  </div>
+<section id="problem-solution" class="problem-solution-section">
+  <div class="content-wrapper">
+    <div
+      class="problem-statement"
+      data-reveal="fade-down"
+      data-reveal-duration="200"
+      data-reveal-easing="ease-out"
+      data-reveal-delay="0"
+    >
+      <p set:html={line1Html} />
+    </div>
 
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-7xl mx-auto w-full">
-      <div class="text-center py-16 sm:py-20 lg:py-28 xl:py-32 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto">
-          <div
-            class="problem-statement-card relative backdrop-blur-sm bg-gradient-to-br from-accent-green/5 via-transparent to-accent-purple/5 rounded-3xl border border-accent-green/10 p-8 sm:p-12 lg:p-14 xl:p-16 mb-12 sm:mb-16 lg:mb-24"
-            data-reveal="fade-down"
-            data-reveal-duration="200"
-            data-reveal-easing="ease-out"
-            data-reveal-delay="0"
-          >
-            <p class="text-lg sm:text-xl lg:text-2xl font-medium leading-relaxed text-theme-secondary/70 transition-colors font-body">
-              Most companies collect data. Few convert it into decisions.
-            </p>
-          </div>
-
-          <div
-            class="flex items-center justify-center gap-3 mb-10 sm:mb-14 lg:mb-20"
-            data-reveal="fade"
-            data-reveal-duration="200"
-            data-reveal-easing="ease-out"
-            data-reveal-delay="50"
-            aria-hidden="true"
-          >
-            <div class="w-12 sm:w-16 lg:w-20 h-px bg-gradient-to-r from-transparent to-accent-green/50"></div>
-            <div class="flex gap-2">
-              <div class="w-2 h-2 rounded-full bg-accent-green/60 animate-pulse"></div>
-              <div class="w-2 h-2 rounded-full bg-accent-purple/60 animate-pulse" style="animation-delay: 0.2s;"></div>
-              <div class="w-2 h-2 rounded-full bg-accent-blue/60 animate-pulse" style="animation-delay: 0.4s;"></div>
-            </div>
-            <div class="w-12 sm:w-16 lg:w-20 h-px bg-gradient-to-l from-transparent to-accent-green/50"></div>
-          </div>
-
-          <div
-            class="solution-statement relative"
-            data-reveal="fade-up"
-            data-reveal-duration="200"
-            data-reveal-easing="ease-out"
-            data-reveal-delay="100"
-          >
-            <div class="relative">
-              <div class="absolute -inset-8 sm:-inset-12 lg:-inset-16 bg-gradient-to-r from-accent-green/20 via-accent-purple/20 to-accent-blue/20 blur-3xl animate-pulse" aria-hidden="true" style="animation-duration: 4s;"></div>
-              <div class="absolute -inset-6 sm:-inset-10 bg-gradient-to-br from-accent-green/15 via-accent-purple/15 to-accent-green/15 blur-2xl" aria-hidden="true"></div>
-
-              <div class="relative space-y-6 sm:space-y-8 lg:space-y-10">
-                <div class="relative inline-block">
-                  <div class="absolute -inset-3 bg-gradient-to-r from-accent-green/30 via-accent-purple/30 to-accent-green/30 blur-xl animate-pulse" aria-hidden="true" style="animation-duration: 2s;"></div>
-                  <h2 class="relative text-4xl sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black leading-tight font-display">
-                    <span class="highlight-gradient inline-block relative drop-shadow-2xl">AUXO</span>
-                    <span class="bg-gradient-to-r from-accent-green via-accent-purple to-accent-green bg-clip-text text-transparent bg-[length:200%_100%] animate-gradient"> bridges the gap</span>
-                  </h2>
-                  <div class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-green/50 to-transparent blur-sm" aria-hidden="true"></div>
-                </div>
-
-                <p class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold leading-relaxed bg-gradient-to-r from-theme-primary via-accent-green/80 to-theme-primary bg-clip-text text-transparent transition-colors max-w-5xl mx-auto font-body bg-[length:200%_100%] animate-gradient">
-                  connecting business understanding with data intelligence.
-                </p>
-              </div>
-
-              <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-2/3 h-3 bg-gradient-to-r from-transparent via-accent-green/30 to-transparent blur-md" aria-hidden="true"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div
+      class="solution-statement"
+      data-reveal="fade-up"
+      data-reveal-duration="200"
+      data-reveal-easing="ease-out"
+      data-reveal-delay="100"
+    >
+      <p set:html={line2Html} />
     </div>
   </div>
-</SectionContainer>
+</section>
 
 <style>
 .problem-solution-section {
-  min-height: 70vh;
+  width: 100%;
+  padding: 2rem 1.5rem 8rem;
+  background: transparent;
+}
+
+.content-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 3rem;
+  text-align: center;
 }
 
-@media (max-width: 767px) {
+.problem-statement p {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 600;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.solution-statement p {
+  font-size: clamp(1.75rem, 4.5vw, 3.25rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.problem-statement p :global(.auxo-highlight),
+.solution-statement p :global(.auxo-highlight) {
+  color: var(--accent-green);
+  font-weight: 900;
+}
+
+@media (max-width: 768px) {
   .problem-solution-section {
-    min-height: 60vh;
+    padding: 1.5rem 1.5rem 5rem;
   }
 
-  .problem-statement-card {
-    backdrop-filter: blur(8px);
+  .content-wrapper {
+    gap: 2rem;
   }
-}
-
-.problem-statement-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, var(--accent-green), transparent, var(--accent-purple));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-.solution-statement {
-  position: relative;
 }
 </style>
-
-

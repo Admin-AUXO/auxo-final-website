@@ -77,3 +77,19 @@ const labelBaseClass = "block text-sm font-bold text-theme-primary mb-2 font-bod
   </form>
 </div>
 
+<script>
+  import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from '@/scripts/forms/emailHandler';
+
+  function initContactForm() {
+    const form = document.getElementById('contact-form-element') as HTMLFormElement;
+    if (!form) return;
+
+    initEmailJS();
+    form.addEventListener('submit', handleContactFormSubmit);
+    addRealTimeValidation(form);
+  }
+
+  if (typeof window !== 'undefined') {
+    document.addEventListener('astro:page-load', initContactForm);
+  }
+</script>

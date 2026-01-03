@@ -3,21 +3,40 @@ import { validateContactForm, getFormData, showFieldError, hideFieldError } from
 import { showSuccess, showError } from '@/scripts/utils/notifications';
 
 const EMAILJS_CONFIG = {
-  serviceId: 'YOUR_SERVICE_ID',
-  templateId: 'YOUR_TEMPLATE_ID',
-  publicKey: 'YOUR_PUBLIC_KEY',
+  serviceId: import.meta.env.PUBLIC_EMAILJS_SERVICE_ID || '',
+  templateId: import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID || '',
+  publicKey: import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY || '',
 };
 
 let emailjsInitialized = false;
+let lastSubmitTime = 0;
+const RATE_LIMIT_MS = 60000;
 
 export function initEmailJS() {
   if (emailjsInitialized) return;
-  emailjs.init(EMAILJS_CONFIG.publicKey);
-  emailjsInitialized = true;
+  if (EMAILJS_CONFIG.publicKey) {
+    emailjs.init(EMAILJS_CONFIG.publicKey);
+    emailjsInitialized = true;
+  }
+}
+
+function debounce<T extends (...args: any[]) => void>(func: T, wait: number): T {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+  return ((...args: Parameters<T>) => {
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  }) as T;
 }
 
 export async function handleContactFormSubmit(event: Event) {
   event.preventDefault();
+
+  const now = Date.now();
+  if (now - lastSubmitTime < RATE_LIMIT_MS) {
+    const remainingSeconds = Math.ceil((RATE_LIMIT_MS - (now - lastSubmitTime)) / 1000);
+    showError(`Please wait ${remainingSeconds} seconds before submitting again.`);
+    return;
+  }
 
   const form = event.target as HTMLFormElement;
   const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
@@ -48,12 +67,8 @@ export async function handleContactFormSubmit(event: Event) {
   submitButton.classList.add('opacity-75', 'cursor-not-allowed');
 
   try {
-    if (
-      EMAILJS_CONFIG.serviceId === 'YOUR_SERVICE_ID' ||
-      EMAILJS_CONFIG.templateId === 'YOUR_TEMPLATE_ID' ||
-      EMAILJS_CONFIG.publicKey === 'YOUR_PUBLIC_KEY'
-    ) {
-      throw new Error('EmailJS is not configured. Please set up your EmailJS credentials in src/scripts/forms/emailHandler.ts');
+    if (!EMAILJS_CONFIG.serviceId || !EMAILJS_CONFIG.templateId || !EMAILJS_CONFIG.publicKey) {
+      throw new Error('EmailJS is not configured. Please check your environment variables.');
     }
 
     const response = await emailjs.send(
@@ -70,8 +85,12 @@ export async function handleContactFormSubmit(event: Event) {
     );
 
     if (response.status === 200) {
+      lastSubmitTime = now;
       showSuccess('Message sent successfully! We\'ll get back to you soon.');
       form.reset();
+      form.querySelectorAll('input, textarea').forEach((input) => {
+        hideFieldError(input as HTMLInputElement | HTMLTextAreaElement);
+      });
 
       if (typeof window !== 'undefined' && window.gtag) {
         window.gtag('event', 'form_submission', {
@@ -100,7 +119,7 @@ export function addRealTimeValidation(form: HTMLFormElement) {
   form.querySelectorAll('input, textarea').forEach((input) => {
     const element = input as HTMLInputElement | HTMLTextAreaElement;
 
-    element.addEventListener('blur', () => {
+    const validateField = debounce(() => {
       const fieldName = element.name;
       const value = element.value;
 
@@ -122,8 +141,12 @@ export function addRealTimeValidation(form: HTMLFormElement) {
       } else {
         hideFieldError(element);
       }
-    });
+    }, 500);
 
-    element.addEventListener('input', () => hideFieldError(element));
+    element.addEventListener('blur', validateField);
+    element.addEventListener('input', () => {
+      hideFieldError(element);
+      validateField();
+    });
   });
 }

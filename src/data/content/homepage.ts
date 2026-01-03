@@ -80,6 +80,7 @@ export interface HomepageContent {
     items: TechStackItem[];
   };
   problem: {
-    valueProposition: string;
+    line1: string;
+    line2: string;
   };
 }

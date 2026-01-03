@@ -1,6 +1,7 @@
 import { defineConfig } from 'sanity';
-import { deskTool } from 'sanity/desk';
+import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
+import { schemaTypes } from './schemas';
 
 export default defineConfig({
   name: 'auxo-website',
@@ -10,9 +11,13 @@ export default defineConfig({
   dataset: process.env.SANITY_DATASET || 'production',
 
   plugins: process.env.NODE_ENV === 'development' ? [
-    deskTool(),
+    structureTool(),
     visionTool(),
   ] : [],
+
+  schema: {
+    types: schemaTypes,
+  },
 
   basePath: process.env.NODE_ENV === 'development' ? '/studio' : undefined,
 });

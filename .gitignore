@@ -99,8 +99,9 @@ junit.xml
 *.seed
 *.pid.lock
 
-# Sanity maintenance scripts (contain sensitive tokens)
-/scripts/
+# Sanity data backups (local only)
+sanity-data/*.tar.gz
+sanity-data/*.ndjson
 
 # GitHub tokens
 .github-token

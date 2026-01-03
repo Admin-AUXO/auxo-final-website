@@ -13,7 +13,8 @@ export const homepageQuery = groq`*[_type == "homepage"] | order(_updatedAt desc
     scrollIndicator
   },
   problem {
-    valueProposition
+    line1,
+    line2
   },
   finalCta {
     title,
