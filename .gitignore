@@ -89,6 +89,7 @@ coverage/
 test-results/
 playwright-report/
 junit.xml
+.playwright-mcp/
 
 # Misc
 *.log
