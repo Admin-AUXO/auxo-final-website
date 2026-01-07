@@ -15,7 +15,7 @@ export interface Props {
 const {
   title,
   description,
-  lastUpdated = "January 2025",
+  lastUpdated = "January 7, 2026",
 } = Astro.props;
 
 const LEGAL_PAGES = [
@@ -30,7 +30,7 @@ const LEGAL_PAGES = [
   description={description || `${title} for AUXO Data Labs`}
 >
   <SectionContainer
-    id="legal-content"
+    id="legal-section"
     padding="lg"
     background="surface"
     class="relative min-h-[85vh]"
@@ -38,22 +38,27 @@ const LEGAL_PAGES = [
     <BackgroundDecorations gradients={["hero"]} />
     
     <div class="grid-container relative z-10">
-      <div class="col-span-full max-w-6xl mx-auto">
-        <SectionHeader
-          title={title}
-          subtitle={description}
-          wrapperClass="mb-8 sm:mb-12"
-        />
-
-        <div class="flex items-center gap-2 mb-6 sm:mb-8 text-sm text-theme-secondary font-body bg-theme-card/50 border border-accent-green/10 rounded-xl px-4 py-2.5 w-fit mx-auto sm:mx-0">
-          <Icon name="mdi:calendar-outline" class="w-4 h-4 text-accent-green" />
-          <span>Last updated: <strong class="text-theme-primary">{lastUpdated}</strong></span>
+      <div class="col-span-full max-w-5xl mx-auto">
+        <div class="mb-8 sm:mb-12">
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-theme-primary mb-4 font-display">
+            {title}
+          </h1>
+          {description && (
+            <p class="text-base sm:text-lg text-theme-secondary font-body max-w-3xl">
+              {description}
+            </p>
+          )}
         </div>
 
-        <div class="lg:hidden mb-6">
+        <div class="flex items-center gap-2 mb-8 sm:mb-10 text-sm text-theme-secondary font-body bg-theme-card/60 backdrop-blur-sm border border-accent-green/20 rounded-xl px-4 py-3 w-fit">
+          <Icon name="mdi:calendar-outline" class="w-4 h-4 text-accent-green flex-shrink-0" />
+          <span>Last updated: <strong class="text-theme-primary font-semibold">{lastUpdated}</strong></span>
+        </div>
+
+        <div class="lg:hidden mb-8">
           <button
             id="mobile-toc-toggle"
-            class="w-full flex items-center justify-between gap-3 p-4 bg-theme-card border-2 border-accent-green/20 rounded-xl hover:border-accent-green/40 transition-all duration-fast group"
+            class="w-full flex items-center justify-between gap-3 p-4 bg-theme-card/80 backdrop-blur-sm border-2 border-accent-green/20 rounded-xl hover:border-accent-green/40 transition-all duration-200 group"
             aria-expanded="false"
             aria-controls="mobile-table-of-contents"
           >
@@ -61,57 +66,59 @@ const LEGAL_PAGES = [
               <Icon name="mdi:format-list-bulleted" class="w-5 h-5 text-accent-green" />
               <span class="text-sm font-semibold text-theme-primary font-body">Table of Contents</span>
             </div>
-            <Icon name="mdi:chevron-down" class="w-5 h-5 text-accent-green transition-transform duration-fast group-aria-expanded:rotate-180" />
+            <Icon name="mdi:chevron-down" class="w-5 h-5 text-accent-green transition-transform duration-200 group-aria-expanded:rotate-180" />
           </button>
           <div
             id="mobile-table-of-contents"
-            class="hidden mt-3 bg-theme-card border-2 border-accent-green/20 rounded-xl p-4"
+            class="hidden mt-3 bg-theme-card/80 backdrop-blur-sm border-2 border-accent-green/20 rounded-xl p-4"
           >
             <nav id="table-of-contents-mobile" class="space-y-2 text-sm">
             </nav>
           </div>
         </div>
 
-        <div class="grid lg:grid-cols-[280px_1fr] gap-8 lg:gap-12">
+        <div class="grid lg:grid-cols-[240px_1fr] gap-8 lg:gap-12">
           <aside class="hidden lg:block">
-            <div class="sticky top-24">
-              <div class="bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6">
-                <h3 class="text-lg font-bold text-theme-primary mb-4 font-display flex items-center gap-2">
+            <div class="sticky top-28">
+              <div class="bg-theme-card/80 backdrop-blur-sm border-2 border-accent-green/20 rounded-2xl p-5 shadow-lg hover:border-accent-green/30 transition-colors duration-300">
+                <h3 class="text-base font-bold text-theme-primary mb-4 font-display flex items-center gap-2">
                   <Icon name="mdi:format-list-bulleted" class="w-5 h-5 text-accent-green" />
                   Contents
                 </h3>
-                <nav id="table-of-contents" class="space-y-2 text-sm">
+                <nav id="table-of-contents" class="space-y-1.5 text-sm">
                 </nav>
               </div>
             </div>
           </aside>
 
           <div class="min-w-0">
-            <div class="bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6 sm:p-8 lg:p-10 prose prose-lg max-w-none legal-content">
-          <slot />
-        </div>
+            <article class="legal-page bg-theme-card/60 backdrop-blur-sm border-2 border-accent-green/20 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-xl hover:border-accent-green/30 transition-colors duration-300">
+              <div class="legal-content">
+                <slot />
+              </div>
+            </article>
 
-        <div class="mt-10 sm:mt-12 pt-8 border-t border-accent-green/10">
+            <div class="mt-10 sm:mt-12 pt-8 border-t border-accent-green/20">
               <h3 class="text-lg font-bold text-theme-primary mb-6 font-display flex items-center gap-2">
                 <Icon name="mdi:file-document-multiple" class="w-5 h-5 text-accent-green" />
-            Related Legal Documents
-          </h3>
-          <div class="grid sm:grid-cols-3 gap-4">
-            {LEGAL_PAGES.map((page) => (
-              <a
-                href={page.href}
-                class="flex items-center gap-3 p-4 rounded-xl bg-accent-green/5 border border-accent-green/20 hover:bg-accent-green/10 hover:border-accent-green/40 hover:shadow-lg hover:shadow-accent-green/10 transition-all duration-fast group"
-              >
-                <Icon
-                  name={page.icon}
-                  class="w-5 h-5 text-accent-green flex-shrink-0 group-hover:scale-110 transition-transform"
-                />
-                <span class="text-sm font-semibold text-theme-primary group-hover:text-accent-green transition-colors font-body">
-                  {page.label}
-                </span>
-              </a>
-            ))}
-          </div>
+                Related Legal Documents
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {LEGAL_PAGES.map((page) => (
+                  <a
+                    href={page.href}
+                    class="flex items-center gap-3 p-4 rounded-xl bg-accent-green/5 border border-accent-green/20 hover:bg-accent-green/10 hover:border-accent-green/40 hover:shadow-lg hover:shadow-accent-green/10 transition-all duration-200 group"
+                  >
+                    <Icon
+                      name={page.icon}
+                      class="w-5 h-5 text-accent-green flex-shrink-0 group-hover:scale-110 transition-transform"
+                    />
+                    <span class="text-sm font-semibold text-theme-primary group-hover:text-accent-green transition-colors font-body">
+                      {page.label}
+                    </span>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -129,205 +136,3 @@ const LEGAL_PAGES = [
     initTableOfContents();
   }
 </script>
-
-<style>
-  .legal-content {
-    color: var(--theme-primary);
-  }
-  
-  .legal-content h2 {
-    color: var(--theme-primary);
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin-top: 3rem;
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    padding-left: 0;
-    border-bottom: 2px solid var(--accent-green-opacity-20);
-    font-family: var(--font-display);
-    position: relative;
-    scroll-margin-top: 2rem;
-    letter-spacing: -0.01em;
-  }
-  
-  .legal-content h2:first-child {
-    margin-top: 0;
-  }
-  
-  .legal-content h2::before {
-    content: '';
-    position: absolute;
-    left: -1.5rem;
-    top: 0;
-    bottom: 0.75rem;
-    width: 4px;
-    background: var(--accent-green);
-    border-radius: 2px;
-    opacity: 0.6;
-  }
-  
-  .legal-content h3 {
-    color: var(--theme-primary);
-    font-size: 1.35rem;
-    font-weight: 600;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-    margin-left: 0.5rem;
-    border-left: 3px solid var(--accent-green-opacity-30);
-    font-family: var(--font-display);
-    scroll-margin-top: 2rem;
-    letter-spacing: -0.005em;
-  }
-  
-  .legal-content p {
-    color: var(--theme-secondary);
-    margin-bottom: 1.25rem;
-    line-height: 1.8;
-    font-family: var(--font-body);
-    font-size: 1rem;
-  }
-  
-  .legal-content ul,
-  .legal-content ol {
-    color: var(--theme-secondary);
-    margin-bottom: 1.5rem;
-    padding-left: 2rem;
-    font-family: var(--font-body);
-  }
-  
-  .legal-content ul {
-    list-style: none;
-    padding-left: 1.5rem;
-  }
-  
-  .legal-content ul li {
-    position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.8;
-  }
-  
-  .legal-content ul li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.65em;
-    width: 6px;
-    height: 6px;
-    background: var(--accent-green);
-    border-radius: 50%;
-    opacity: 0.6;
-  }
-  
-  .legal-content ol {
-    counter-reset: list-counter;
-  }
-  
-  .legal-content ol li {
-    counter-increment: list-counter;
-    margin-bottom: 0.75rem;
-    line-height: 1.8;
-    padding-left: 0.5rem;
-  }
-  
-  .legal-content ol li::marker {
-    color: var(--accent-green);
-    font-weight: 600;
-  }
-  
-  .legal-content strong {
-    color: var(--theme-primary);
-    font-weight: 600;
-  }
-  
-  .legal-content a {
-    color: var(--accent-green);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    transition: all 0.2s;
-    font-weight: 500;
-  }
-  
-  .legal-content a:hover {
-    color: var(--accent-green);
-    opacity: 0.8;
-    text-decoration-thickness: 2px;
-  }
-  
-  .legal-content > * + * {
-    margin-top: 0;
-  }
-  
-  .legal-content h2 + p {
-    margin-top: 1.5rem;
-  }
-  
-  .legal-content table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1.5rem 0 2rem 0;
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-  }
-  
-  .legal-content table thead {
-    background-color: rgba(var(--accent-green-rgb), 0.1);
-  }
-  
-  .legal-content table th {
-    padding: 0.75rem 1rem;
-    text-align: left;
-    border: 1px solid rgba(var(--accent-green-rgb), 0.2);
-    font-weight: 600;
-    color: var(--text-primary);
-    font-size: 0.9rem;
-  }
-  
-  .legal-content table td {
-    padding: 0.75rem 1rem;
-    border: 1px solid rgba(var(--accent-green-rgb), 0.2);
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-  
-  .legal-content table tbody tr:nth-child(even) {
-    background-color: rgba(var(--accent-green-rgb), 0.03);
-  }
-  
-  .legal-content table tbody tr:hover {
-    background-color: rgba(var(--accent-green-rgb), 0.08);
-  }
-  
-  .legal-content table code {
-    background-color: rgba(var(--accent-green-rgb), 0.1);
-    padding: 0.2rem 0.4rem;
-    border-radius: 0.25rem;
-    font-family: 'Courier New', monospace;
-    font-size: 0.85em;
-    color: var(--accent-green);
-  }
-  
-  @media (max-width: 768px) {
-    .legal-content table {
-      font-size: 0.85rem;
-    }
-    
-    .legal-content table th,
-    .legal-content table td {
-      padding: 0.5rem 0.75rem;
-    }
-  }
-  
-  @media (max-width: 1024px) {
-    .legal-content h2::before {
-      display: none;
-    }
-    
-    .legal-content h2 {
-      padding-left: 0;
-    }
-  }
-</style>
-
-

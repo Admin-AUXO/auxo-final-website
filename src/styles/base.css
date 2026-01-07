@@ -83,8 +83,7 @@ section,
 }
 
 .grid-container {
-  overflow: hidden;
-  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 [data-reveal] {

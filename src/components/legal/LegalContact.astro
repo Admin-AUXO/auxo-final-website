@@ -1,5 +1,6 @@
 ---
 import { getSiteConfigData } from "@/lib/sanity/siteConfig";
+import { Icon } from "astro-icon/components";
 
 export interface Props {
   email?: string;
@@ -15,10 +16,24 @@ const {
 } = Astro.props;
 ---
 
-<h2>{title}</h2>
-<p>{intro}</p>
-<p>
-  <strong>Email:</strong> <a href={`mailto:${email}`}>{email}</a><br />
-  <strong>Address:</strong> {siteData.address.street}, {siteData.address.city}, {siteData.address.country}
-</p>
+<div class="mt-10 pt-8 border-t border-accent-green/20">
+  <h2>{title}</h2>
+  <p class="mb-4">{intro}</p>
+  <div class="space-y-3">
+    <div class="flex items-center gap-3">
+      <Icon name="mdi:email-outline" class="w-5 h-5 text-accent-green flex-shrink-0" />
+      <div>
+        <strong class="text-theme-primary block mb-1">Email</strong>
+        <a href={`mailto:${email}`} class="text-accent-green hover:opacity-80 transition-opacity font-semibold">{email}</a>
+      </div>
+    </div>
+    <div class="flex items-start gap-3">
+      <Icon name="mdi:map-marker-outline" class="w-5 h-5 text-accent-green flex-shrink-0 mt-0.5" />
+      <div>
+        <strong class="text-theme-primary block mb-1">Address</strong>
+        <p class="text-theme-secondary m-0">{siteData.address.street}, {siteData.address.city}, {siteData.address.country}</p>
+      </div>
+    </div>
+  </div>
+</div>
 
