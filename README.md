@@ -12,7 +12,7 @@ A modern, high-performance website for AUXO Data Labs built with Astro, TypeScri
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Admin-AUXO/auxo-final-website.git
+   git clone https://gitlab.com/admin-auxo-group/auxo-final-website.git
    cd auxo-final-website
    ```
 
@@ -77,15 +77,21 @@ NODE_ENV=development
 
 ## 🚀 Deployment
 
-### GitHub Pages (Automatic)
-The project automatically deploys to GitHub Pages on pushes to the `main` branch.
+### GitLab Pages (Automatic)
+The project automatically deploys to GitLab Pages on pushes to the `main` branch using GitLab CI/CD.
 
-**Required GitHub Secrets:**
-- `SANITY_PROJECT_ID`
-- `SANITY_API_TOKEN`
+**Required GitLab CI/CD Variables:**
+Configure these in your GitLab project under **Settings > CI/CD > Variables**:
+- `SANITY_PROJECT_ID` - Your Sanity project ID
+- `SANITY_API_TOKEN` - Your Sanity API token (mark as masked and protected)
 - `SANITY_DATASET` (optional, defaults to 'production')
 - `SITE_URL` (optional, defaults to 'https://auxodata.com')
 - `BASE_PATH` (optional, defaults to '/')
+
+**Accessing Your Site:**
+After deployment, your site will be available at:
+- `https://<username>.gitlab.io/<project-name>/` (default GitLab Pages URL)
+- Or your custom domain if configured in **Settings > Pages**
 
 ### Manual Deployment
 
@@ -124,7 +130,7 @@ The project automatically deploys to GitHub Pages on pushes to the `main` branch
 4. Run tests: `npm run build:check`
 5. Commit your changes (`git commit -m 'feat: add amazing feature'`)
 6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Create a Pull Request
+7. Create a Merge Request
 
 ## 📄 License
 

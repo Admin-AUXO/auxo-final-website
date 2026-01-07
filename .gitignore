@@ -14,9 +14,6 @@ pnpm-debug.log*
 lerna-debug.log*
 .pnpm-debug.log*
 .npm-cache/
-node-v20/
-openssl-3.6.0/
-/Users/ammu/auxo/auxo-final-website/openssl-3.6.0
 
 # environment variables
 .env
@@ -104,9 +101,7 @@ junit.xml
 sanity-data/*.tar.gz
 sanity-data/*.ndjson
 
-# GitHub tokens
+# Secrets and tokens
 .github-token
-
-# Claude Code MCP server configurations
-*.ms
+.gitlab-token
 

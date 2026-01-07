@@ -1,0 +1,51 @@
+image: node:20
+
+variables:
+  NODE_VERSION: "20"
+  DIST_DIR: "dist"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  before_script:
+    - npm ci --prefer-offline --no-audit
+  script:
+    - |
+      export SANITY_PROJECT_ID="${SANITY_PROJECT_ID}"
+      export SANITY_DATASET="${SANITY_DATASET:-production}"
+      export SANITY_API_TOKEN="${SANITY_API_TOKEN}"
+      export SANITY_API_VERSION="${SANITY_API_VERSION:-2024-01-01}"
+      export SITE_URL="${SITE_URL:-https://auxodata.com}"
+      export BASE_PATH="${BASE_PATH:-/}"
+      export NODE_ENV="production"
+      npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+  only:
+    - main
+    - merge_requests
+
+pages:
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - echo "Deploying to GitLab Pages..."
+    - mkdir -p public
+    - cp -r dist/* public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+
