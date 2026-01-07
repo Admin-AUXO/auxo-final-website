@@ -1,0 +1,14 @@
+{
+  "defaults": {
+    "timeout": 1000,
+    "wait": 500,
+    "standard": "WCAG2AA",
+    "runners": ["axe"]
+  },
+  "urls": [
+    "https://auxodata.com",
+    "https://auxodata.com/about",
+    "https://auxodata.com/services",
+    "https://auxodata.com/contact"
+  ]
+}

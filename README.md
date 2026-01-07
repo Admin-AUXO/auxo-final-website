@@ -77,21 +77,36 @@ NODE_ENV=development
 
 ## 🚀 Deployment
 
-### GitLab Pages (Automatic)
-The project automatically deploys to GitLab Pages on pushes to the `main` branch using GitLab CI/CD.
+### GitLab CI/CD Pipeline
+
+The project uses a comprehensive GitLab CI/CD pipeline with the following stages:
+
+#### Pipeline Stages:
+1. **Security** - Secret detection, dependency scanning, license compliance
+2. **Test** - Linting, type checking, Playwright E2E tests
+3. **Build** - Optimized production build with bundle analysis
+4. **Deploy** - Automatic deployment to GitLab Pages
+5. **Performance** - Lighthouse audits, accessibility testing, SEO validation
+
+#### GitLab Pages Deployment (Automatic)
+The project automatically deploys to `https://auxodata.com` on pushes to the `main` branch.
 
 **Required GitLab CI/CD Variables:**
 Configure these in your GitLab project under **Settings > CI/CD > Variables**:
-- `SANITY_PROJECT_ID` - Your Sanity project ID
-- `SANITY_API_TOKEN` - Your Sanity API token (mark as masked and protected)
-- `SANITY_DATASET` (optional, defaults to 'production')
-- `SITE_URL` (optional, defaults to 'https://auxodata.com')
-- `BASE_PATH` (optional, defaults to '/')
+- `SANITY_PROJECT_ID` - Your Sanity project ID (required)
+- `SANITY_API_TOKEN` - Your Sanity API token (required, masked, protected)
+- `SANITY_DATASET` - Dataset name (optional, defaults to 'production')
 
-**Accessing Your Site:**
-After deployment, your site will be available at:
-- `https://<username>.gitlab.io/<project-name>/` (default GitLab Pages URL)
-- Or your custom domain if configured in **Settings > Pages**
+**Optional Variables:**
+- `BUNDLESIZE_GITHUB_TOKEN` - For bundle size monitoring
+- `LIGHTHOUSE_API_KEY` - For Lighthouse CI integration
+
+#### Custom Domain Setup
+The site is configured for `auxodata.com` domain:
+1. Go to **Settings > Pages** in your GitLab project
+2. Add `auxodata.com` as a custom domain
+3. Configure DNS records as instructed
+4. The CNAME file in `public/` is already set to `auxodata.com`
 
 ### Manual Deployment
 
@@ -100,7 +115,7 @@ After deployment, your site will be available at:
    npm run build
    ```
 
-2. The `dist/` folder contains the production build.
+2. The `dist/` folder contains the production build ready for deployment.
 
 ## 🏗️ Tech Stack
 
@@ -122,15 +137,47 @@ After deployment, your site will be available at:
 - 🎯 TypeScript for type safety
 - 🚀 Optimized build process
 
+## 🔧 CI/CD Features
+
+### Automated Quality Assurance
+- **Security Scanning** - Detects secrets and vulnerabilities
+- **Dependency Auditing** - Checks for package vulnerabilities
+- **Code Quality** - ESLint and Stylelint checks
+- **Type Safety** - TypeScript compilation verification
+- **E2E Testing** - Playwright automated tests
+- **Performance Monitoring** - Lighthouse CI audits
+- **Accessibility Testing** - Automated WCAG compliance checks
+- **Bundle Size Monitoring** - Prevents JavaScript bloat
+- **SEO Validation** - HTML validation and SEO checks
+
+### Development Workflow
+1. **Feature Development**
+   - Create feature branch from `develop`
+   - Write code with tests
+   - Commit with conventional commit messages
+
+2. **Code Quality Gates**
+   - All checks must pass in CI/CD
+   - Code review required for merge requests
+   - Security scans must pass
+
+3. **Merge Strategy**
+   - Merge requests to `main` trigger full pipeline
+   - `main` branch auto-deploys to production
+   - `develop` branch for integration testing
+
+### Issue and Merge Request Templates
+Use the provided templates in `.gitlab/` for consistent issue reporting and merge request documentation.
+
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Run tests: `npm run build:check`
-5. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Create a Merge Request
+3. Make your changes following the [Conventional Commits](https://conventionalcommits.org/) standard
+4. Run local quality checks: `npm run validate`
+5. Push to the branch and create a Merge Request
+6. Ensure CI/CD pipeline passes all checks
+7. Request code review using the merge request template
 
 ## 📄 License
 

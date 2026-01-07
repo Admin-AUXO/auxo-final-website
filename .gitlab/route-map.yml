@@ -1,0 +1,35 @@
+# GitLab Pages routing configuration for auxodata.com
+# This file maps routes to specific pages for better SEO and user experience
+
+/:
+  url: /
+  content-type: text/html
+
+/about:
+  url: /about/
+  content-type: text/html
+
+/services:
+  url: /services/
+  content-type: text/html
+
+/contact:
+  url: /contact/
+  content-type: text/html
+
+/legal/*:
+  url: /legal/:splat
+  content-type: text/html
+
+/services/*:
+  url: /services/:splat
+  content-type: text/html
+
+# Redirects for SEO
+/blog:
+  url: /services/consulting
+  status: 301
+
+/news:
+  url: /about
+  status: 301

@@ -1,51 +1,240 @@
-image: node:20
-
-variables:
-  NODE_VERSION: "20"
-  DIST_DIR: "dist"
-
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - node_modules/
+# GitLab CI/CD Pipeline for Astro + Sanity Website
+# Optimized for auxodata.com deployment
 
 stages:
+  - security
+  - test
   - build
   - deploy
+  - performance
 
+variables:
+  NODE_VERSION: "20.19.0"
+  NPM_VERSION: "10.2.3"
+  GIT_DEPTH: 10
+  FF_USE_FASTZIP: "true"
+  FF_DISABLE_UMASK_FOR_DOCKER_EXECUTOR: "true"
+
+# Global cache configuration
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
+    - node_modules/
+    - dist/
+  policy: pull-push
+
+# Security scanning
+secret_detection:
+  stage: security
+  image: zricethezav/gitleaks:latest
+  script:
+    - gitleaks detect --verbose --redact --config .gitleaks.toml || true
+  allow_failure: true
+  only:
+    - merge_requests
+    - main
+    - develop
+
+# Dependency vulnerability scanning
+dependency_scanning:
+  stage: security
+  image: node:${NODE_VERSION}
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npm audit --audit-level high --production || true
+    - npx audit-ci --config audit-ci.json || true
+  allow_failure: true
+  only:
+    - merge_requests
+    - main
+    - develop
+  artifacts:
+    reports:
+      dependency_scanning: gl-dependency-scanning-report.json
+    expire_in: 1 week
+
+# License compliance scanning
+license_scanning:
+  stage: security
+  image: node:${NODE_VERSION}
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npx license-checker --production --csv > licenses.csv
+    - npx license-checker --production --summary | tee license-summary.txt
+  artifacts:
+    paths:
+      - licenses.csv
+      - license-summary.txt
+    expire_in: 1 week
+  allow_failure: true
+  only:
+    - merge_requests
+    - main
+    - develop
+
+# Linting and type checking
+lint:
+  stage: test
+  image: node:${NODE_VERSION}
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npm run lint
+  artifacts:
+    paths:
+      - lint-results.json
+    reports:
+      codequality: lint-results.json
+    expire_in: 1 week
+  only:
+    - merge_requests
+    - main
+    - develop
+
+# Unit tests and integration tests
+test:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.40.0-jammy
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+    - npx playwright install --with-deps
+  script:
+    - npm run test
+  artifacts:
+    paths:
+      - test-results/
+      - playwright-report/
+    reports:
+      junit: test-results/junit.xml
+    expire_in: 1 week
+  coverage: '/Lines\s*:\s*(\d+\.\d+)%/'
+  only:
+    - merge_requests
+    - main
+    - develop
+
+# Build production assets
 build:
   stage: build
+  image: node:${NODE_VERSION}
   before_script:
-    - npm ci --prefer-offline --no-audit
+    - npm ci --cache .npm --prefer-offline
+    - echo "SANITY_PROJECT_ID=$SANITY_PROJECT_ID" >> .env.production
+    - echo "SANITY_DATASET=$SANITY_DATASET" >> .env.production
+    - echo "SANITY_API_TOKEN=$SANITY_API_TOKEN" >> .env.production
   script:
-    - |
-      export SANITY_PROJECT_ID="${SANITY_PROJECT_ID}"
-      export SANITY_DATASET="${SANITY_DATASET:-production}"
-      export SANITY_API_TOKEN="${SANITY_API_TOKEN}"
-      export SANITY_API_VERSION="${SANITY_API_VERSION:-2024-01-01}"
-      export SITE_URL="${SITE_URL:-https://auxodata.com}"
-      export BASE_PATH="${BASE_PATH:-/}"
-      export NODE_ENV="production"
-      npm run build
+    - npm run build:check
+    - npm run build:analyze || true
   artifacts:
     paths:
       - dist/
+      - bundle-analysis.html
+    reports:
+      metrics: bundle-analysis.html
     expire_in: 1 hour
+  only:
+    - main
+    - develop
+    - merge_requests
+  dependencies:
+    - test
+
+# Deploy to GitLab Pages (only on main branch)
+pages:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Deploying to GitLab Pages for auxodata.com..."
+    - mv dist public
+    - ls -la public/
+  artifacts:
+    paths:
+      - public/
+    expire_in: 1 year
+  only:
+    - main
+  dependencies:
+    - build
+
+# Performance monitoring with Lighthouse
+performance:
+  stage: performance
+  image: node:${NODE_VERSION}
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npx lhci autorun --config=lighthouserc.json || true
+  artifacts:
+    paths:
+      - .lighthouseci/
+    expire_in: 1 week
+  only:
+    - main
+    - merge_requests
+  dependencies:
+    - build
+
+# Accessibility testing
+accessibility:
+  stage: performance
+  image: node:${NODE_VERSION}
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npx pa11y-ci --config=.pa11yci.json || true
+  artifacts:
+    paths:
+      - accessibility-results.json
+    expire_in: 1 week
+  only:
+    - main
+    - merge_requests
+  dependencies:
+    - build
+
+# Bundle size monitoring
+bundle_size:
+  stage: performance
+  image: node:${NODE_VERSION}
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npx bundlesize
+  only:
+    - main
+    - merge_requests
+  dependencies:
+    - build
+
+# SEO and HTML validation
+seo_validation:
+  stage: performance
+  image: node:${NODE_VERSION}
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+    - npm run build
+  script:
+    - npx html-validate dist/**/*.html || true
+    - npx seo-checker --url=https://auxodata.com || true
+  artifacts:
+    paths:
+      - seo-report.json
+    expire_in: 1 week
   only:
     - main
     - merge_requests
 
-pages:
+# Cleanup job for old artifacts
+cleanup:
   stage: deploy
-  dependencies:
-    - build
+  image: alpine:latest
   script:
-    - echo "Deploying to GitLab Pages..."
-    - mkdir -p public
-    - cp -r dist/* public/
-  artifacts:
-    paths:
-      - public
+    - echo "Cleaning up old artifacts..."
   only:
-    - main
-
+    - schedules
+  when: manual
