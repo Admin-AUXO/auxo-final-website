@@ -13,7 +13,7 @@ try {
     projectId: finalProjectId,
     dataset: finalDataset,
     useCdn: import.meta.env.PROD,
-    apiVersion: '2025-01-03',
+    apiVersion: '2024-01-01',
     token,
     requestTagPrefix: 'auxo-website',
     perspective: import.meta.env.PROD ? 'published' : 'raw',

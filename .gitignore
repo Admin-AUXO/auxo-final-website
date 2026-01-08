@@ -98,8 +98,8 @@ junit.xml
 *.pid.lock
 
 # Sanity data backups (local only)
-sanity-data/*.tar.gz
-sanity-data/*.ndjson
+sanity-data/*
+!sanity-data/.gitkeep
 
 # Secrets and tokens
 .github-token

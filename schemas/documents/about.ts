@@ -22,9 +22,9 @@ export default defineType({
       type: 'object',
       fields: [
         { name: 'title', title: 'Title', type: 'string' },
-        { name: 'mission', title: 'Mission', type: 'text' },
+        { name: 'missionText', title: 'Mission Statement', type: 'text' },
         { name: 'missionHighlight', title: 'Mission Highlight', type: 'array', of: [{ type: 'string' }] },
-        { name: 'vision', title: 'Vision', type: 'text' },
+        { name: 'visionText', title: 'Vision Statement', type: 'text' },
         { name: 'visionHighlight', title: 'Vision Highlight', type: 'array', of: [{ type: 'string' }] },
       ],
     }),

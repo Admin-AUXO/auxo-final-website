@@ -10,7 +10,6 @@ export default defineType({
       title: 'Hero Section',
       type: 'object',
       fields: [
-        { name: 'headline', title: 'Headline', type: 'string' },
         { name: 'headlineLine1', title: 'Headline Line 1', type: 'string' },
         { name: 'headlineLine2', title: 'Headline Line 2', type: 'string' },
         { name: 'description', title: 'Description', type: 'text' },
@@ -20,8 +19,8 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'stages',
-      title: 'Stages Section',
+      name: 'serviceOfferings',
+      title: 'Service Offerings Section',
       type: 'object',
       fields: [
         { name: 'title', title: 'Title', type: 'string' },
@@ -75,8 +74,8 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'models',
-      title: 'Models Section',
+      name: 'engagementModels',
+      title: 'Engagement Models Section',
       type: 'object',
       fields: [
         { name: 'title', title: 'Title', type: 'string' },
@@ -84,7 +83,7 @@ export default defineType({
         { name: 'descriptionHighlight', title: 'Description Highlight', type: 'array', of: [{ type: 'string' }] },
         {
           name: 'models',
-          title: 'Models',
+          title: 'Engagement Models',
           type: 'array',
           of: [{
             type: 'object',

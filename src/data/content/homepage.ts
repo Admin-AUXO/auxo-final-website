@@ -65,7 +65,7 @@ export interface HomepageContent {
     subheading: string;
     cards: CapabilityCard[];
   };
-  servicesIntro: {
+  featuredServices: {
     title: string;
     subheading: string;
     items: ServiceIntroItem[];
@@ -79,7 +79,7 @@ export interface HomepageContent {
     subtitle: string;
     items: TechStackItem[];
   };
-  problem: {
+  valueProposition: {
     line1: string;
     line2: string;
   };

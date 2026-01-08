@@ -11,8 +11,8 @@ export default defineType({
       type: 'hero',
     }),
     defineField({
-      name: 'problem',
-      title: 'Problem-Solution Section',
+      name: 'valueProposition',
+      title: 'Value Proposition Section',
       type: 'object',
       description: 'The second section showcasing the problem and solution',
       fields: [
@@ -33,8 +33,8 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'servicesIntro',
-      title: 'Services Introduction',
+      name: 'featuredServices',
+      title: 'Featured Services',
       type: 'object',
       fields: [
         { name: 'title', title: 'Title', type: 'string' },

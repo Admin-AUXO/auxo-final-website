@@ -59,7 +59,6 @@ export interface ServiceDetail {
 
 export interface ServicesContent {
   hero: {
-    headline: string;
     headlineLine1: string;
     headlineLine2: string;
     description: string;
@@ -67,7 +66,7 @@ export interface ServicesContent {
     ctaText?: string;
     ctaHref?: string;
   };
-  stages: {
+  serviceOfferings: {
     title: string;
     description: string;
     descriptionHighlight?: string | string[];
@@ -96,7 +95,7 @@ export interface ServicesContent {
     goal: string;
     goalHighlight?: string | string[];
   };
-  models: {
+  engagementModels: {
     title: string;
     description: string;
     descriptionHighlight?: string | string[];

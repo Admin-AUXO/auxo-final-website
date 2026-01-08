@@ -31,7 +31,10 @@
     "sanity:backup": "./scripts/export-sanity-data.sh",
     "sanity:backup:quick": "npx sanity dataset export production sanity-data/backup-$(date +%Y%m%d_%H%M%S).tar.gz --no-assets",
     "sanity:restore": "npx sanity dataset import",
-    "sanity:typegen": "npx sanity schema extract && npx sanity typegen generate"
+    "sanity:typegen": "npx sanity schema extract && npx sanity typegen generate",
+    "sanity:schema": "node scripts/generate-schema.js",
+    "sanity:deploy": "node scripts/deploy-schema.js",
+    "sanity:migrate": "node scripts/migrate-data.js"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",

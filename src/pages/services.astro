@@ -15,9 +15,9 @@ const servicesContent = await getServicesContent();
   description="Analytics as a Service, built for impact. Discover our eight service offerings aligned to the analytics maturity curve, from Foundation Readiness to Autonomy Readiness Review."
 >
   <HeroSection content={servicesContent.hero} />
-  <ServicesStageSection content={servicesContent.stages} />
+  <ServicesStageSection content={servicesContent.serviceOfferings} />
   <ImpactSection content={servicesContent.impact} />
-  <ModelsSection content={servicesContent.models} />
+  <ModelsSection content={servicesContent.engagementModels} />
   <CtaSection
     id="services-cta"
     title={servicesContent.cta.title}

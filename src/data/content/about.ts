@@ -7,9 +7,9 @@ export interface AboutContent {
   };
   mission: {
     title: string;
-    mission: string;
+    missionText: string;
     missionHighlight?: string | string[];
-    vision: string;
+    visionText: string;
     visionHighlight?: string | string[];
   };
   purpose: {

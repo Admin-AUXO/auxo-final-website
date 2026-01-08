@@ -12,7 +12,7 @@ export const homepageQuery = groq`*[_type == "homepage"] | order(_updatedAt desc
     },
     scrollIndicator
   },
-  problem {
+  valueProposition {
     line1,
     line2
   },
@@ -53,7 +53,7 @@ export const homepageQuery = groq`*[_type == "homepage"] | order(_updatedAt desc
       metric
     }
   },
-  servicesIntro {
+  featuredServices {
     title,
     subheading,
     items[] {
@@ -81,7 +81,6 @@ export const homepageQuery = groq`*[_type == "homepage"] | order(_updatedAt desc
 
 export const servicesQuery = groq`*[_type == "services"][0]{
   hero {
-    headline,
     headlineLine1,
     headlineLine2,
     description,
@@ -89,7 +88,7 @@ export const servicesQuery = groq`*[_type == "services"][0]{
     ctaText,
     ctaHref
   },
-  stages {
+  serviceOfferings {
     title,
     description,
     descriptionHighlight,
@@ -118,7 +117,7 @@ export const servicesQuery = groq`*[_type == "services"][0]{
     goal,
     goalHighlight
   },
-  models {
+  engagementModels {
     title,
     description,
     descriptionHighlight,
@@ -269,9 +268,9 @@ export const aboutQuery = groq`*[_type == "about"] | order(_updatedAt desc)[0]{
   },
   mission {
     title,
-    mission,
+    missionText,
     missionHighlight,
-    vision,
+    visionText,
     visionHighlight
   },
   purpose {

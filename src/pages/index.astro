@@ -21,10 +21,10 @@ const [homepageContent, siteData] = await Promise.all([
   <div class="hero-problem-wrapper relative">
     <ParticleBackground />
     <HeroSection content={homepageContent.hero} />
-    <ProblemSolutionSection content={homepageContent.problem} />
+    <ProblemSolutionSection content={homepageContent.valueProposition} />
   </div>
   <div data-lazy-load>
-    <ServicesIntroSection content={homepageContent.servicesIntro} />
+    <ServicesIntroSection content={homepageContent.featuredServices} />
   </div>
   <div data-lazy-load>
     <TechStackSection content={homepageContent.techStack} />
