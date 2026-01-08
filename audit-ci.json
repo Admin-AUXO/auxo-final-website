@@ -4,14 +4,8 @@
   "critical": true,
   "low": false,
   "summary": true,
-  "allowlist": [
-    "GHSA-1234-5678-9abc",
-    "GHSA-w3h7-8r2f-q2c3"
-  ],
-  "path-allowlist": [
-    "/test/",
-    "/spec/"
-  ],
+  "allowlist": [],
+  "path-allowlist": ["/test/", "/spec/"],
   "report": {
     "type": "json",
     "path": "gl-dependency-scanning-report.json"

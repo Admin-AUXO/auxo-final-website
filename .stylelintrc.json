@@ -17,11 +17,6 @@
     "selector-pseudo-class-no-unknown": null,
     "keyframes-name-pattern": null,
     "declaration-block-no-duplicate-properties": null,
-    "declaration-block-no-redundant-longhand-properties": [
-      true,
-      {
-        "ignoreShorthands": ["/overflow/"]
-      }
-    ]
+    "declaration-block-no-redundant-longhand-properties": [true, {"ignoreShorthands": ["/overflow/"]}]
   }
 }
