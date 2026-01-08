@@ -43,7 +43,7 @@ dependency_scanning:
   stage: security
   image: node:${NODE_VERSION}
   before_script:
-    - npm ci --cache .npm --prefer-offline
+    - npm ci --cache .npm --prefer-offline --legacy-peer-deps
   script:
     - npm audit --audit-level high --production || true
     - npx audit-ci --config audit-ci.json || true
@@ -61,8 +61,8 @@ license_scanning:
   stage: security
   image: node:${NODE_VERSION}
   before_script:
-    - npm ci --cache .npm --prefer-offline
-    - npm install --save-dev license-checker || true
+    - npm ci --cache .npm --prefer-offline --legacy-peer-deps
+    - npm install --save-dev license-checker --legacy-peer-deps || true
   script:
     - npx license-checker --production --csv > licenses.csv || echo "license-checker not available"
     - npx license-checker --production --summary | tee license-summary.txt || echo "license-checker not available"
@@ -83,7 +83,7 @@ lint:
   stage: test
   image: node:${NODE_VERSION}
   before_script:
-    - npm ci --cache .npm --prefer-offline
+    - npm ci --cache .npm --prefer-offline --legacy-peer-deps
   script:
     - npm run lint
   artifacts:
@@ -100,7 +100,7 @@ test:
   stage: test
   image: mcr.microsoft.com/playwright:v1.57.0-jammy
   before_script:
-    - npm ci --cache .npm --prefer-offline
+    - npm ci --cache .npm --prefer-offline --legacy-peer-deps
     - npx playwright install --with-deps
   script:
     - npm run test:ci
@@ -123,7 +123,7 @@ build:
   stage: build
   image: node:${NODE_VERSION}
   before_script:
-    - npm ci --cache .npm --prefer-offline
+    - npm ci --cache .npm --prefer-offline --legacy-peer-deps
   script:
     - npm run build
   artifacts:
@@ -160,8 +160,8 @@ performance:
   stage: performance
   image: node:${NODE_VERSION}
   before_script:
-    - npm ci --cache .npm --prefer-offline
-    - npm install --save-dev @lhci/cli || true
+    - npm ci --cache .npm --prefer-offline --legacy-peer-deps
+    - npm install --save-dev @lhci/cli --legacy-peer-deps || true
   script:
     - npx lhci autorun --config=lighthouserc.json || echo "Lighthouse CI not available"
   artifacts:
@@ -181,8 +181,8 @@ accessibility:
   stage: performance
   image: node:${NODE_VERSION}
   before_script:
-    - npm ci --cache .npm --prefer-offline
-    - npm install --save-dev pa11y-ci || true
+    - npm ci --cache .npm --prefer-offline --legacy-peer-deps
+    - npm install --save-dev pa11y-ci --legacy-peer-deps || true
   script:
     - npx pa11y-ci --config=.pa11yci.json || echo "Pa11y CI not available"
   artifacts:
@@ -202,9 +202,9 @@ bundle_size:
   stage: performance
   image: node:${NODE_VERSION}
   before_script:
-    - npm ci --cache .npm --prefer-offline
+    - npm ci --cache .npm --prefer-offline --legacy-peer-deps
   script:
-    - npm run bundlesize || echo "Bundle size check skipped"
+    - npx bundlesize || echo "Bundle size check skipped"
   only:
     - main
     - merge_requests
@@ -217,8 +217,8 @@ seo_validation:
   stage: performance
   image: node:${NODE_VERSION}
   before_script:
-    - npm ci --cache .npm --prefer-offline
-    - npm install --save-dev html-validate || true
+    - npm ci --cache .npm --prefer-offline --legacy-peer-deps
+    - npm install --save-dev html-validate --legacy-peer-deps || true
   script:
     - npx html-validate dist/**/*.html || echo "HTML validation skipped"
     - echo "SEO validation skipped (seo-checker not available)"
