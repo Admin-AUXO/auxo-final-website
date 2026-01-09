@@ -139,11 +139,16 @@ export function trackEngagement(params: {
   engagementTime?: number;
   value?: number;
 }): void {
-  trackEvent('user_engagement', {
+  const eventParams: Record<string, string | number | boolean | unknown[] | Record<string, unknown>> = {
     engagement_type: params.engagementType,
-    engagement_time_msec: params.engagementTime,
     value: params.value || 1,
-  });
+  };
+  
+  if (params.engagementTime !== undefined) {
+    eventParams.engagement_time_msec = params.engagementTime;
+  }
+  
+  trackEvent('user_engagement', eventParams);
 }
 
 export function trackSearch(searchTerm: string, location?: string): void {
