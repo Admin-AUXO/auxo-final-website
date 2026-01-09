@@ -50,7 +50,7 @@ function createNotificationElement(config: NotificationConfig): HTMLElement {
 
   const closeButton = document.createElement('button');
   closeButton.className = 'ml-3 opacity-70 hover:opacity-100 transition-opacity';
-  closeButton.innerHTML = '×';
+  closeButton.textContent = '×';
   closeButton.style.cssText = 'float: right; font-size: 24px; line-height: 1; background: none; border: none; color: white; cursor: pointer; padding: 0; margin: -4px 0 0 12px;';
   closeButton.setAttribute('aria-label', 'Close notification');
 
