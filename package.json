@@ -31,8 +31,7 @@
     "sanity:typegen": "npx sanity schema extract && npx sanity typegen generate",
     "sanity:schema": "node scripts/generate-schema.js",
     "sanity:deploy": "node scripts/deploy-schema.js",
-    "sanity:migrate": "node scripts/migrate-data.js",
-    "gtm:setup": "node scripts/setup-gtm.js"
+    "sanity:migrate": "node scripts/migrate-data.js"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
@@ -48,7 +47,6 @@
     "astro-icon": "^1.1.5",
     "embla-carousel": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
-    "googleapis": "^144.0.0",
     "lenis": "^1.2.11",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
