@@ -9,7 +9,7 @@ stages:
   - performance
 
 variables:
-  NODE_VERSION: "20.19.0"
+  NODE_VERSION: "20.19.1"
   NPM_VERSION: "10.2.3"
   GIT_DEPTH: 10
   FF_USE_FASTZIP: "true"
@@ -28,7 +28,9 @@ cache:
 # Security scanning
 secret_detection:
   stage: security
-  image: zricethezav/gitleaks:latest
+  image:
+    name: zricethezav/gitleaks:latest
+    entrypoint: [""]
   before_script:
     - echo "Starting secret detection scan..."
   script:
