@@ -18,7 +18,7 @@ tags = ["id", "sanity"]
 
 [allowlist]
 description = "global allow lists"
-files = [
+paths = [
   '''^\.?gitleaks\.toml$''',
   '''(.*?)(png|jpg|jpeg|gif|svg|webp|ico|bmp|tiff|ttf|woff|woff2|eot)$''',
   '''(.*?)(lock|sum)$''',
