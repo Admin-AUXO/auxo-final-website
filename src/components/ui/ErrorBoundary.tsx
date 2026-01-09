@@ -30,12 +30,15 @@ class ErrorBoundary extends Component<Props, State> {
       this.props.onError(error, errorInfo);
     }
 
-    // Send to analytics in production
-    if (import.meta.env.PROD && typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'exception', {
-        description: error.message,
-        fatal: false,
-      });
+    if (import.meta.env.PROD && typeof window !== 'undefined') {
+      import('@/scripts/analytics/ga4').then(({ trackError }) => {
+        trackError({
+          errorMessage: error.message,
+          errorType: error.name || 'ErrorBoundary',
+          fatal: false,
+          location: window.location.pathname,
+        });
+      }).catch(() => {});
     }
   }
 

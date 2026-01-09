@@ -1,4 +1,5 @@
 import { createCalendarModal } from '@/scripts/utils/modalManager';
+import { trackCalendarBooking } from '@/scripts/analytics/ga4';
 
 const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2C0u3FKkxjcB1xO6fM48pvPj4Gu32PZAMVDq889-Nuer8fP_zWvl95xV_r4O5fm2Ry_KP1vnNG?gv=true';
 const MODAL_ID = 'calendar-modal';
@@ -291,6 +292,13 @@ function setupCalendarButton(button: HTMLElement): void {
   const handleClick = (e: MouseEvent | KeyboardEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    trackCalendarBooking({
+      location: window.location.pathname,
+      buttonText: button.textContent?.trim() || 'Schedule Meeting',
+      context: button.getAttribute('data-context') || button.closest('[data-section]')?.getAttribute('data-section') || 'unknown',
+    });
+
     openCalendarModal();
   };
 

@@ -1,6 +1,7 @@
 import emailjs from '@emailjs/browser';
 import { validateContactForm, getFormData, showFieldError, hideFieldError } from './validation';
 import { showSuccess, showError } from '@/scripts/utils/notifications';
+import { trackFormSubmission, trackFormStart, trackFormAbandonment } from '@/scripts/analytics/ga4';
 
 const EMAILJS_CONFIG = {
   serviceId: import.meta.env.PUBLIC_EMAILJS_SERVICE_ID || '',
@@ -92,12 +93,11 @@ export async function handleContactFormSubmit(event: Event) {
         hideFieldError(input as HTMLInputElement | HTMLTextAreaElement);
       });
 
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', 'form_submission', {
-          event_category: 'Contact',
-          event_label: 'Contact Form',
-        });
-      }
+      trackFormSubmission({
+        formName: 'Contact Form',
+        formLocation: window.location.pathname,
+        formType: 'contact',
+      });
     } else {
       throw new Error('Failed to send message');
     }
@@ -116,6 +116,28 @@ export async function handleContactFormSubmit(event: Event) {
 }
 
 export function addRealTimeValidation(form: HTMLFormElement) {
+  let formStartTracked = false;
+  let fieldsFilled = 0;
+  let formAbandoned = false;
+
+  const trackFormInteraction = () => {
+    if (!formStartTracked) {
+      trackFormStart('Contact Form', window.location.pathname);
+      formStartTracked = true;
+    }
+  };
+
+  const trackAbandonment = () => {
+    if (formStartTracked && !formAbandoned && fieldsFilled > 0) {
+      trackFormAbandonment('Contact Form', fieldsFilled);
+      formAbandoned = true;
+    }
+  };
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('beforeunload', trackAbandonment);
+  }
+
   form.querySelectorAll('input, textarea').forEach((input) => {
     const element = input as HTMLInputElement | HTMLTextAreaElement;
 
@@ -143,7 +165,15 @@ export function addRealTimeValidation(form: HTMLFormElement) {
       }
     }, 500);
 
-    element.addEventListener('blur', validateField);
+    element.addEventListener('focus', trackFormInteraction, { once: true });
+
+    element.addEventListener('blur', () => {
+      validateField();
+      if (element.value.trim()) {
+        fieldsFilled++;
+      }
+    });
+
     element.addEventListener('input', () => {
       hideFieldError(element);
       validateField();

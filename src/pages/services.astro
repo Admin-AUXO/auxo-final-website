@@ -55,6 +55,15 @@ const breadcrumbSchema = {
     class="services-cta-section"
   />
 
+  <script>
+    import { trackServiceCategoryView } from '@/scripts/analytics/ga4';
+
+    if (typeof window !== 'undefined') {
+      document.addEventListener('astro:page-load', () => {
+        trackServiceCategoryView('data-analytics-services');
+      });
+    }
+  </script>
 </BaseLayout>
 
 

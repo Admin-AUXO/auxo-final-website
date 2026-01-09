@@ -104,4 +104,7 @@ sanity-data/*
 # Secrets and tokens
 .github-token
 .gitlab-token
+*auxodata*.json
+@auxodata*.json
+gtm-service-account.json
 

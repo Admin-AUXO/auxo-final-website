@@ -9,9 +9,13 @@ import { cleanupAllCarousels } from '../utils/carousels';
 import { autoInitCarousels } from '../sections/autoInit';
 import { forceUnlockScroll } from '../navigation/utils';
 import { initWebVitals } from '../utils/webVitals';
+import { initGA4Tracking } from '../analytics/ga4';
+import { initInteractionTracking } from '../analytics/navigationTracking';
 
 let isInitialized = false;
 let lazyLoadingObserver: IntersectionObserver | null = null;
+let ga4Cleanup: (() => void) | null = null;
+let interactionCleanup: (() => void) | null = null;
 
 function initLazyLoading(): void {
   if (lazyLoadingObserver) return;
@@ -80,6 +84,10 @@ export function initCoreFeatures(): void {
       initFloatingButton();
       initAccordions();
       initLazyLoading();
+
+      ga4Cleanup = initGA4Tracking();
+      interactionCleanup = initInteractionTracking();
+
       setTimeout(() => {
         try {
           refreshScrollAnimations();
@@ -195,6 +203,16 @@ export function cleanupCoreFeatures(): void {
   cleanupAllCarousels();
   cleanupLazyLoading();
   destroySmoothScroll();
+
+  if (ga4Cleanup) {
+    ga4Cleanup();
+    ga4Cleanup = null;
+  }
+
+  if (interactionCleanup) {
+    interactionCleanup();
+    interactionCleanup = null;
+  }
 
   isInitialized = false;
 }

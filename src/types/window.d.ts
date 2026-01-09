@@ -1,7 +1,4 @@
 interface Window {
-  gtag?: (
-    command: string,
-    targetId: string,
-    config?: Record<string, unknown>
-  ) => void;
+  gtag?: (...args: unknown[]) => void;
+  dataLayer?: unknown[];
 }
