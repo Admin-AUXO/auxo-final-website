@@ -29,8 +29,15 @@ cache:
 secret_detection:
   stage: security
   image: zricethezav/gitleaks:latest
+  before_script:
+    - echo "Starting secret detection scan..."
   script:
-    - gitleaks detect --verbose --redact --config .gitleaks.toml || true
+    - |
+      if [ -f .gitleaks.toml ]; then
+        gitleaks detect --source . --verbose --redact --config .gitleaks.toml || true
+      else
+        gitleaks detect --source . --verbose --redact || true
+      fi
   allow_failure: true
   only:
     - merge_requests

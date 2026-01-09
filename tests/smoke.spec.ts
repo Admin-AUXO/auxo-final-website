@@ -8,7 +8,7 @@ test.describe('Smoke Tests', () => {
 
   test('homepage has navigation', async ({ page }) => {
     await page.goto('/');
-    const nav = page.locator('nav');
+    const nav = page.locator('nav#main-navigation');
     await expect(nav).toBeVisible();
   });
 });
