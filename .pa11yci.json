@@ -3,12 +3,18 @@
     "timeout": 1000,
     "wait": 500,
     "standard": "WCAG2AA",
-    "runners": ["axe"]
+    "runners": ["axe"],
+    "reporters": [
+      ["json", { "fileName": "./accessibility-results.json" }],
+      ["cli"]
+    ],
+    "includeNotices": true,
+    "includeWarnings": true
   },
   "urls": [
-    "https://auxodata.com",
-    "https://auxodata.com/about",
-    "https://auxodata.com/services",
-    "https://auxodata.com/contact"
+    "http://localhost:4341/",
+    "http://localhost:4341/about",
+    "http://localhost:4341/services",
+    "http://localhost:4341/contact"
   ]
 }

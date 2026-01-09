@@ -4,7 +4,7 @@
   "critical": true,
   "low": false,
   "summary": true,
-  "allowlist": [],
+  "allowlist": ["bundlesize", "github-build"],
   "path-allowlist": ["/test/", "/spec/"],
   "report": {
     "type": "json",

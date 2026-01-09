@@ -8,11 +8,12 @@ interface Props {
 const { content: problemContent } = Astro.props;
 
 const highlightAuxo = (text: string) => {
+  if (!text) return '';
   return text.replace(/\b(AUXO|Auxo)\b/g, '<span class="auxo-highlight">$1</span>');
 };
 
-const line1Html = highlightAuxo(problemContent.line1);
-const line2Html = highlightAuxo(problemContent.line2);
+const line1Html = highlightAuxo(problemContent?.line1 || '');
+const line2Html = highlightAuxo(problemContent?.line2 || '');
 ---
 
 <section id="problem-solution" class="problem-solution-section">

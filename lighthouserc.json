@@ -4,7 +4,7 @@
       "numberOfRuns": 3,
       "startServerCommand": "npm run preview",
       "startServerReadyPattern": "Local:.+(https?://.+)",
-      "url": ["https://auxodata.com"]
+      "url": ["http://localhost:4341/", "http://localhost:4341/about", "http://localhost:4341/services", "http://localhost:4341/contact"]
     },
     "assert": {
       "assertions": {

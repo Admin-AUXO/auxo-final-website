@@ -328,7 +328,7 @@
   border: 1px solid rgba(var(--accent-green-rgb), 0.2);
   color: var(--text-secondary);
   line-height: var(--legal-line-height-normal);
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   font-size: var(--legal-font-size-xs);
 }
 

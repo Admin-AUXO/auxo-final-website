@@ -93,9 +93,6 @@ NODE_ENV=development
 - `npm run clean:temp` - Remove temporary files
 - `npm run clean:all` - Clean all build artifacts
 
-### Other
-- `npm run bundlesize` - Check bundle size limits
-
 ## 🚀 Deployment
 
 ### GitLab CI/CD Pipeline
@@ -111,6 +108,11 @@ The project uses a comprehensive GitLab CI/CD pipeline with the following stages
 
 #### GitLab Pages Deployment (Automatic)
 The project automatically deploys to `https://auxodata.com` on pushes to the `main` branch.
+
+#### Public Visibility (GitLab Settings)
+To ensure the project and GitLab Pages are publicly accessible:
+- Set **Project visibility** to **Public** under **Settings > General > Visibility, project features, permissions**
+- Under **Settings > Pages**, set **Access control** to **Everyone** (or disable access control)
 
 **Required GitLab CI/CD Variables:**
 Configure these in your GitLab project under **Settings > CI/CD > Variables**:

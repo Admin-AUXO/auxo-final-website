@@ -1,7 +1,7 @@
 .legal-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1.5rem 0 2rem 0;
+  margin: 1.5rem 0 2rem;
   font-family: var(--font-body);
   font-size: 0.875rem;
   display: block;
@@ -57,7 +57,7 @@
   border: 1px solid rgba(var(--accent-green-rgb), 0.2);
   color: var(--text-secondary);
   line-height: 1.6;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   font-size: 0.875rem;
 }
 

@@ -25,6 +25,7 @@ interface Props {
 }
 
 const { content } = Astro.props;
+const services = content?.services?.filter(Boolean) || [];
 
 const serviceIcons = [
   "mdi:layers",
@@ -65,12 +66,12 @@ const serviceIcons = [
           Services for <span class="text-accent-green font-black text-[1.05em]">Every Stage</span>
         </h2>
         <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body">
-          <HighlightText text={content.description} highlight="Eight" highlightClass="text-accent-green font-bold" />
+          <HighlightText text={content?.description || ''} highlight="Eight" highlightClass="text-accent-green font-bold" />
         </p>
       </div>
 
       <div class="hidden lg:grid lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 mb-10 sm:mb-12 lg:mb-16 overflow-hidden">
-        {content.services.map((service, index) => (
+        {services.map((service, index) => (
           <div
             class="overflow-hidden"
             data-reveal="fade-up"
@@ -81,9 +82,9 @@ const serviceIcons = [
             <Card
               variant="service"
               icon={serviceIcons[index]}
-              title={service.name}
-              description={service.description}
-              link={createUrl(service.link)}
+              title={service?.name || ''}
+              description={service?.description || ''}
+              link={createUrl(service?.link || '#')}
               index={index}
               isCarousel={false}
             />
@@ -94,12 +95,12 @@ const serviceIcons = [
       <Carousel
         containerId="services-carousel-container"
         trackId="services-carousel-track"
-        items={content.services}
+        items={services}
         wrapperClass="services-carousel services-carousel-wrapper"
         breakpoint={1024}
         activateOnDesktop={false}
       >
-        {content.services.map((service, index) => (
+        {services.map((service, index) => (
           <div
             class="carousel-slide embla__slide"
             data-index={index}
@@ -111,9 +112,9 @@ const serviceIcons = [
             <Card
               variant="service"
               icon={serviceIcons[index]}
-              title={service.name}
-              description={service.description}
-              link={createUrl(service.link)}
+              title={service?.name || ''}
+              description={service?.description || ''}
+              link={createUrl(service?.link || '#')}
               index={index}
               isCarousel={true}
             />
@@ -133,7 +134,7 @@ const serviceIcons = [
 
           <div class="relative z-10">
             <p class="text-body-xl sm:text-[1.1875rem] lg:text-[1.375rem] xl:text-[1.5rem] text-theme-primary leading-relaxed font-body text-center">
-              <HighlightText text={content.codeEdge} highlight={["consistent quality", "common language"]} highlightClass="text-accent-green font-bold" />
+              <HighlightText text={content?.codeEdge || ''} highlight={["consistent quality", "common language"]} highlightClass="text-accent-green font-bold" />
             </p>
           </div>
         </div>

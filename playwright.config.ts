@@ -6,7 +6,12 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  reporter: process.env.CI
+    ? [
+        ['junit', { outputFile: 'test-results/junit.xml' }],
+        ['html', { outputFolder: 'playwright-report' }],
+      ]
+    : 'html',
   use: {
     baseURL: 'http://localhost:4340',
     trace: 'on-first-retry',
@@ -22,5 +27,6 @@ export default defineConfig({
     command: 'npm run dev',
     url: 'http://localhost:4340',
     reuseExistingServer: !process.env.CI,
+    timeout: 120 * 1000,
   },
 });
