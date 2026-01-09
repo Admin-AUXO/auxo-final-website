@@ -80,15 +80,26 @@ export class EmblaCarouselWrapper {
 
     this._embla = EmblaCarousel(container, emblaOptions, plugins);
 
+    if (!this._embla) {
+      this.isDestroyed = true;
+      return;
+    }
+
     this._embla.on('select', this.handleSelect);
     this._embla.on('reInit', this.handleSelect);
 
     this.handleSelect();
 
-    if (autoplay && this.autoplayPlugin) {
+    if (autoplay && this.autoplayPlugin && this._embla) {
       requestAnimationFrame(() => {
-        if (!this.isDestroyed && this.autoplayPlugin) {
-          this.autoplayPlugin.play();
+        if (!this.isDestroyed && this.autoplayPlugin && this._embla && this._embla.scrollSnapList && this._embla.scrollSnapList().length > 0) {
+          try {
+            this.autoplayPlugin.play();
+          } catch (error) {
+            if (import.meta.env.DEV) {
+              console.warn('Failed to start carousel autoplay:', error);
+            }
+          }
         }
       });
     }

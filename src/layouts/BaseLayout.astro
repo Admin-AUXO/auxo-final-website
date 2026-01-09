@@ -223,9 +223,44 @@ const webPageSchema = {
         'Could not establish connection', 'Receiving end does not exist',
         'wrappedSendMessageCallback', 'polyfill.js', 'chrome-extension://',
         'moz-extension://', 'safari-extension://', 'frame_start.js',
-        'Failed to execute \'removeChild\'', 'is not a child of this node'
+        'Failed to execute \'removeChild\'', 'is not a child of this node',
+        'A listener indicated an asynchronous response'
       ];
-      
+
+      const crossOriginPatterns = [
+        'auxodata.com/_astro/page.js', 'auxodata.com/_astro/hoisted.js',
+        'https://auxodata.com/_astro/', '/_astro/page.js', '/_astro/hoisted.js'
+      ];
+
+      const originalConsoleError = console.error;
+      const originalConsoleWarn = console.warn;
+
+      console.error = function(...args) {
+        const message = args.join(' ');
+        if (
+          extensionPatterns.some(p => message.includes(p)) ||
+          crossOriginPatterns.some(p => message.includes(p)) ||
+          recaptchaPatterns.some(p => message.includes(p)) ||
+          blockedPatterns.some(p => message.includes(p))
+        ) {
+          return;
+        }
+        originalConsoleError.apply(console, args);
+      };
+
+      console.warn = function(...args) {
+        const message = args.join(' ');
+        if (
+          extensionPatterns.some(p => message.includes(p)) ||
+          crossOriginPatterns.some(p => message.includes(p)) ||
+          recaptchaPatterns.some(p => message.includes(p)) ||
+          blockedPatterns.some(p => message.includes(p))
+        ) {
+          return;
+        }
+        originalConsoleWarn.apply(console, args);
+      };
+
       window.addEventListener('error', (e) => {
         const target = e.target || e.currentTarget;
         const message = e.message || '';
@@ -249,6 +284,12 @@ const webPageSchema = {
           e.stopPropagation();
           return;
         }
+
+        if (crossOriginPatterns.some(pattern => message.includes(pattern) || filename.includes(pattern) || url.includes(pattern))) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
       }, true);
       
       window.addEventListener('unhandledrejection', (e) => {
@@ -264,6 +305,11 @@ const webPageSchema = {
         }
 
         if (extensionPatterns.some(pattern => reason.includes(pattern))) {
+          e.preventDefault();
+          return;
+        }
+
+        if (crossOriginPatterns.some(pattern => reason.includes(pattern))) {
           e.preventDefault();
           return;
         }
