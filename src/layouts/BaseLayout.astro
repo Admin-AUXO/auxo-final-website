@@ -4,6 +4,7 @@ import { getSiteConfigData } from "@/lib/sanity/siteConfig";
 import Navigation from "@/components/common/Navigation.astro";
 import Footer from "@/components/common/Footer.astro";
 import MetaTags from "@/components/common/MetaTags.astro";
+import StructuredData from "@/components/common/StructuredData.astro";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar.astro";
 import FloatingCalendarButton from "@/components/widgets/FloatingCalendarButton.astro";
 import CalendarModal from "@/components/widgets/CalendarModal.astro";
@@ -22,6 +23,74 @@ const { title, description } = Astro.props;
 const siteData = await getSiteConfigData();
 const pageTitle = title || siteData.name;
 const pageDescription = description || siteData.description;
+
+const organizationSchema = {
+  name: siteData.name,
+  url: siteData.url,
+  logo: `${siteData.url}/logo.svg`,
+  description: siteData.description,
+  email: siteData.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: siteData.address.street,
+    addressLocality: siteData.address.city,
+    addressCountry: siteData.address.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: siteData.address.coordinates.lat,
+    longitude: siteData.address.coordinates.lng,
+  },
+  sameAs: [
+    siteData.social.linkedin,
+    siteData.social.twitter,
+  ],
+  foundingDate: siteData.founded.toString(),
+  numberOfEmployees: {
+    '@type': 'QuantitativeValue',
+    value: '10-50',
+  },
+  areaServed: ['GCC', 'Europe', 'Global'],
+  serviceType: 'Data Analytics Consulting',
+};
+
+const websiteSchema = {
+  name: siteData.name,
+  url: siteData.url,
+  description: siteData.description,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteData.url}/?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const webPageSchema = {
+  name: pageTitle,
+  description: pageDescription,
+  url: `${siteData.url}${Astro.url.pathname}`,
+  inLanguage: 'en-US',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: siteData.name,
+    url: siteData.url,
+  },
+  about: {
+    '@type': 'Organization',
+    name: siteData.name,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: siteData.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteData.url}/logo.svg`,
+    },
+  },
+};
 ---
 
 <!doctype html>
@@ -34,6 +103,9 @@ const pageDescription = description || siteData.description;
       siteUrl={siteData.url}
       themeColor={siteData.themeColor}
     />
+    <StructuredData type="Organization" data={organizationSchema} />
+    <StructuredData type="WebSite" data={websiteSchema} />
+    <StructuredData type="WebPage" data={webPageSchema} />
     <script>
       (function initViewTransitions() {
         if (typeof document === 'undefined' || !('startViewTransition' in document)) return;

@@ -1,0 +1,18 @@
+---
+export interface Props {
+  type: 'Organization' | 'WebSite' | 'WebPage' | 'BreadcrumbList' | 'Service' | 'Article';
+  data: Record<string, any>;
+}
+
+const { type, data } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': type,
+  ...data,
+};
+
+const schemaJson = JSON.stringify(schema, null, 2);
+---
+
+<script type="application/ld+json" set:html={schemaJson} />

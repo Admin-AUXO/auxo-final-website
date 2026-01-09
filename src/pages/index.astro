@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getSiteConfigData } from "@/lib/sanity/siteConfig";
+import StructuredData from "@/components/common/StructuredData.astro";
 import HeroSection from "@/components/sections/home/HeroSection.astro";
 import ProblemSolutionSection from "@/components/sections/home/ProblemSolutionSection.astro";
 import CapabilitiesSection from "@/components/sections/home/CapabilitiesSection.astro";
@@ -15,9 +16,42 @@ const [homepageContent, siteData] = await Promise.all([
   getHomepageContent(),
   getSiteConfigData(),
 ]);
+
+const serviceSchema = {
+  serviceType: 'Data Analytics Consulting',
+  provider: {
+    '@type': 'Organization',
+    name: siteData.name,
+    url: siteData.url,
+  },
+  areaServed: [
+    {
+      '@type': 'Country',
+      name: 'United Arab Emirates',
+    },
+    {
+      '@type': 'GeoCircle',
+      geoMidpoint: {
+        '@type': 'GeoCoordinates',
+        latitude: siteData.address.coordinates.lat,
+        longitude: siteData.address.coordinates.lng,
+      },
+      geoRadius: {
+        '@type': 'Distance',
+        name: 'Global',
+      },
+    },
+  ],
+  description: siteData.description,
+  offers: {
+    '@type': 'Offer',
+    description: 'Enterprise-grade data analytics consulting services',
+  },
+};
 ---
 
 <BaseLayout title="Data Analytics Consultancy Dubai, UAE | AUXO Data Labs" description={siteData.description}>
+  <StructuredData type="Service" data={serviceSchema} />
   <div class="hero-problem-wrapper relative">
     <ParticleBackground />
     <HeroSection content={homepageContent.hero} />

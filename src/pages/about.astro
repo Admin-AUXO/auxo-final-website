@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import StructuredData from "@/components/common/StructuredData.astro";
+import { getSiteConfigData } from "@/lib/sanity/siteConfig";
 import HeroSection from "@/components/sections/about/HeroSection.astro";
 import MissionVisionSection from "@/components/sections/about/MissionVisionSection.astro";
 import PurposeSection from "@/components/sections/about/PurposeSection.astro";
@@ -10,13 +12,34 @@ import GlobalSection from "@/components/sections/about/GlobalSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
 import { getAboutContent } from "@/lib/sanity/data";
 
-const aboutContent = await getAboutContent();
+const [aboutContent, siteData] = await Promise.all([
+  getAboutContent(),
+  getSiteConfigData(),
+]);
+
+const breadcrumbSchema = {
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteData.url,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'About',
+      item: `${siteData.url}/about`,
+    },
+  ],
+};
 ---
 
 <BaseLayout
   title="About Us | AUXO Data Labs"
   description="Learn about AUXO Data Labs - a modern analytics consultancy that bridges business strategy and data execution. Discover our mission, vision, and approach."
 >
+  <StructuredData type="BreadcrumbList" data={breadcrumbSchema} />
   <HeroSection content={aboutContent.hero} />
   <MissionVisionSection content={aboutContent.mission} />
   <PurposeSection content={aboutContent.purpose} />

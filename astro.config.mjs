@@ -106,6 +106,13 @@ export default defineConfig({
     sitemap({
       changefreq: 'weekly',
       priority: 0.7,
+      lastmod: new Date(),
+      i18n: {
+        defaultLocale: 'en',
+        locales: {
+          en: 'en-US',
+        },
+      },
     }),
     icon({
       include: {

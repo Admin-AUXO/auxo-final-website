@@ -1,0 +1,57 @@
+# AUXO Data Labs - AI Crawler Information
+
+# About AUXO Data Labs
+AUXO Data Labs is a Dubai-based data analytics consultancy serving sophisticated clients across the GCC, Europe, and global markets. We deliver enterprise-grade expertise with the efficiency and direct access of a modern, agile firm.
+
+# Core Services
+- Data Analytics Consulting
+- Business Intelligence Solutions
+- Data Engineering
+- Machine Learning & AI Implementation
+- Data Strategy & Governance
+- Cloud Data Architecture
+- Analytics Maturity Assessment
+- Custom Analytics Solutions
+
+# Key Information
+- Location: Dubai Internet City, Dubai, United Arab Emirates
+- Founded: 2025
+- Industries Served: 8+ industries including Finance, Retail, Healthcare, Manufacturing, Technology, Real Estate, Hospitality, Government
+- Technologies: AWS, Azure, Google Cloud, Snowflake, Databricks, Tableau, Power BI, Apache Airflow, Apache Kafka, Apache Spark, dbt, Looker, Metabase, Apache Superset, TensorFlow, PyTorch, Hugging Face, scikit-learn, MLflow, PostgreSQL, MongoDB, Redis, Elasticsearch, Python, Docker, Kubernetes
+
+# Contact
+- Website: https://auxodata.com
+- Email: hello@auxodata.com
+- LinkedIn: https://www.linkedin.com/company/auxo-data/
+- Twitter: https://x.com/AuxoData
+
+# Service Offerings
+1. Foundation Readiness Assessment
+2. Data Infrastructure Setup
+3. Analytics Implementation
+4. Advanced Analytics & ML
+5. Real-time Analytics
+6. Self-Service Analytics Enablement
+7. Analytics Optimization
+8. Autonomy Readiness Review
+
+# Engagement Models
+- Project-Based Consulting
+- Retainer-Based Support
+- Embedded Analytics Teams
+- Training & Enablement Programs
+
+# Key Differentiators
+- 15+ years of combined experience
+- Enterprise-grade expertise with agile delivery
+- Direct access to senior consultants
+- GCC, Europe, and global market experience
+- Modern tech stack expertise
+- Data-driven decision making focus
+
+# Target Audience
+- C-level executives seeking data-driven insights
+- Data teams needing advanced analytics capabilities
+- Organizations looking to modernize their data infrastructure
+- Companies requiring ML/AI implementation
+- Businesses seeking analytics maturity improvement
