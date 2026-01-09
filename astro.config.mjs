@@ -58,7 +58,6 @@ export default defineConfig({
         maxParallelFileOps: 3,
         output: {
           chunkFileNames: '_astro/[name]-[hash].js',
-          entryFileNames: '_astro/[name]-[hash].js',
           assetFileNames: '_astro/[name]-[hash].[ext]',
           experimentalMinChunkSize: 1500,
           manualChunks(id) {
