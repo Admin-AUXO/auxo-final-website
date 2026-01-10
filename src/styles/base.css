@@ -143,7 +143,7 @@ section,
     touch-action: pan-y;
     overscroll-behavior: contain none;
     scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -165,9 +165,7 @@ section,
       touch-action: pan-y !important;
       transform: translate3d(0, 0, 0) !important;
       will-change: scroll-position !important;
-      -webkit-transform: translate3d(0, 0, 0) !important;
       backface-visibility: hidden !important;
-      -webkit-backface-visibility: hidden !important;
     }
 
     [data-modal-content],

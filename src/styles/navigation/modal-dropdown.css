@@ -31,7 +31,6 @@
   bottom: 0;
   background: linear-gradient(to bottom, var(--overlay-black-40) 0%, var(--overlay-black-60) 100%);
   backdrop-filter: blur(var(--blur-xs));
-  -webkit-backdrop-filter: blur(var(--blur-xs));
   transition: opacity var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1),
     visibility var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
@@ -71,11 +70,12 @@
   transform: translateY(0) scale(1);
 }
 
-@keyframes dropdownSlideDown {
+@keyframes dropdown-slide-down {
   0% {
     transform: translateY(-20px) scale(0.98);
     opacity: 0;
   }
+
   100% {
     transform: translateY(0) scale(1);
     opacity: 1;
@@ -154,18 +154,18 @@
     radial-gradient(circle at 1px 1px, var(--accent-green-opacity-02) 1px, transparent 0);
   background-size: clamp(20px, 4vw, 40px) clamp(20px, 4vw, 40px);
   opacity: 0.3;
-  mask: radial-gradient(ellipse 100% 100% at 50% 50%, black 40%, transparent 70%);
   mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 40%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 40%, transparent 70%);
 }
 
 @keyframes float {
   0%, 100% {
     transform: translate(0, 0) scale(1);
   }
+
   33% {
     transform: translate(clamp(15px, 3vw, 30px), clamp(-15px, -3vw, -30px)) scale(1.1);
   }
+
   66% {
     transform: translate(clamp(-10px, -2vw, -20px), clamp(10px, 2vw, 20px)) scale(0.9);
   }
@@ -236,19 +236,19 @@
   min-height: 3.5rem;
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .dropdown-modal-header .col-span-full {
     min-height: 4rem;
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .dropdown-modal-header .col-span-full {
     min-height: 4.5rem;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .dropdown-modal-header .col-span-full {
     min-height: 4.5rem;
   }
@@ -259,21 +259,21 @@
   padding-right: var(--grid-padding-mobile);
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .dropdown-modal-header .grid-container {
     padding-left: var(--grid-padding-sm);
     padding-right: var(--grid-padding-sm);
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .dropdown-modal-header .grid-container {
     padding-left: var(--grid-padding-sm);
     padding-right: var(--grid-padding-sm);
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .dropdown-modal-header .grid-container {
     padding-left: var(--grid-padding-lg);
     padding-right: var(--grid-padding-lg);
@@ -288,11 +288,12 @@
   }
 }
 
-@keyframes fadeInUp {
+@keyframes fade-in-up {
   from {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -300,6 +301,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [style*="animation: fade-in-up"],
   [style*="animation: fadeInUp"] {
     animation: none;
   }

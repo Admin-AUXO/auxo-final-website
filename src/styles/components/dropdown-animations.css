@@ -1,5 +1,5 @@
 .dropdown-service-card-animated {
-  animation: fadeInUp 0.3s ease-out backwards;
+  animation: fade-in-up 0.3s ease-out backwards;
 }
 
 .dropdown-service-card-animated[data-card-index="0"] {
@@ -34,11 +34,12 @@
   animation-delay: calc(7 * 0.04s);
 }
 
-@keyframes fadeInUp {
+@keyframes fade-in-up {
   from {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

@@ -36,7 +36,7 @@ body.scroll-locked #main-navigation,
   gap: 0.5rem;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   #main-navigation .hidden.lg\\:flex {
     display: flex;
   }
@@ -64,7 +64,7 @@ body.scroll-locked #main-navigation,
   transition: height var(--duration-normal) var(--easing-standard);
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   #main-navigation {
     position: fixed !important;
     top: 0;
@@ -83,7 +83,7 @@ body.scroll-locked #main-navigation,
   }
 }
 
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   #main-navigation {
     --nav-current-height: var(--nav-height-xl);
   }
@@ -100,7 +100,6 @@ body.scroll-locked #main-navigation,
 #main-navigation.nav-scrolled {
   background-color: var(--bg-primary);
   backdrop-filter: blur(var(--blur-nav));
-  -webkit-backdrop-filter: blur(var(--blur-nav));
   box-shadow: var(--shadow-nav-scrolled-dark);
   border-bottom: 1px solid var(--accent-green-opacity-30);
 }
@@ -121,7 +120,7 @@ body.scroll-locked #main-navigation,
   color: var(--text-primary);
 }
 
-@media (max-width: 1023px) {
+@media (width <= 1023px) {
   #main-navigation .col-span-full {
     position: relative;
     display: flex;
@@ -209,7 +208,7 @@ body.scroll-locked #main-navigation,
   position: absolute;
   top: 100%;
   left: 0;
-  background: rgba(255, 0, 0, 0.9);
+  background: rgb(255 0 0 / 90%);
   color: white;
   padding: 2px 4px;
   font-size: 10px;
@@ -228,7 +227,7 @@ body.scroll-locked #main-navigation,
   position: fixed;
   top: 0;
   right: 0;
-  background: rgba(0, 0, 255, 0.9);
+  background: rgb(0 0 255 / 90%);
   color: white;
   padding: 2px 4px;
   font-size: 10px;

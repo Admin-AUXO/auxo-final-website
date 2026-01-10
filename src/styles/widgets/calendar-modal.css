@@ -33,7 +33,6 @@
   z-index: var(--z-base);
   background: var(--overlay-black-75);
   backdrop-filter: blur(var(--blur-sm));
-  -webkit-backdrop-filter: blur(var(--blur-sm));
 }
 
 :root.light .calendar-modal-overlay {
@@ -232,7 +231,6 @@
   contain: layout style paint;
   touch-action: pan-y;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
   user-select: none;
   max-height: 100%;
   box-sizing: border-box;
@@ -312,6 +310,7 @@
     opacity: 0.3;
     transform: translate(-50%, -50%) scaleX(0.8);
   }
+
   50% {
     opacity: 0.8;
     transform: translate(-50%, -50%) scaleX(1.2);
@@ -329,7 +328,7 @@
     linear-gradient(0deg, var(--accent-green-opacity-02) 0%, transparent 2%, transparent 98%, var(--accent-green-opacity-02) 100%);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .calendar-modal {
     align-items: center;
   }

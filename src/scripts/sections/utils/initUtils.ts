@@ -1,3 +1,5 @@
+import { logger } from '@/lib/logger';
+
 let lastPagePath = typeof window !== 'undefined' ? window.location.pathname : '';
 
 export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): void {
@@ -6,8 +8,8 @@ export function setupSectionInit(initFn: () => void, cleanupFn?: () => void): vo
       try {
         initFn();
       } catch (error) {
-        if (import.meta.env.DEV && attempts < 3) {
-          console.warn('Section init failed, retrying:', error);
+        if (attempts < 3) {
+          logger.warn('Section init failed, retrying:', error);
           setTimeout(() => attemptInit(attempts + 1), 100 * (attempts + 1));
         }
       }
@@ -41,6 +43,6 @@ export function setupPageAnimations(): void {
   import('../../utils/scrollReveal')
     .then((m) => m.refreshWithDelay())
     .catch((error) => {
-      if (import.meta.env.DEV) console.error('Scroll animations refresh failed:', error);
+      logger.error('Scroll animations refresh failed:', error);
     });
 }

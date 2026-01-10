@@ -1,6 +1,7 @@
 import EmblaCarousel from 'embla-carousel';
 import type { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
+import { logger } from '@/lib/logger';
 
 const DEFAULT_AUTOPLAY_INTERVAL = 4000;
 const DEFAULT_DURATION = 25;
@@ -96,9 +97,7 @@ export class EmblaCarouselWrapper {
           try {
             this.autoplayPlugin.play();
           } catch (error) {
-            if (import.meta.env.DEV) {
-              console.warn('Failed to start carousel autoplay:', error);
-            }
+            logger.warn('Failed to start carousel autoplay:', error);
           }
         }
       });

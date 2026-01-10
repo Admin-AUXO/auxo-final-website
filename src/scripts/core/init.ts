@@ -12,6 +12,7 @@ import { initWebVitals } from '../utils/webVitals';
 import { initGA4Tracking } from '../analytics/ga4';
 import { initInteractionTracking } from '../analytics/navigationTracking';
 import { initEnhancedTracking } from '../analytics/enhancedTracking';
+import { logger } from '@/lib/logger';
 
 let isInitialized = false;
 let lazyLoadingObserver: IntersectionObserver | null = null;
@@ -106,7 +107,7 @@ export function initCoreFeatures(): void {
       initScrollAnimations();
       initLazyLoading();
     } catch (error) {
-      if (import.meta.env.DEV) console.warn('Critical init error:', error);
+      logger.warn('Critical init error:', error);
     }
   };
 
@@ -118,7 +119,6 @@ export function initCoreFeatures(): void {
       ga4Cleanup = initGA4Tracking();
       interactionCleanup = initInteractionTracking();
 
-      // Initialize enhanced tracking (session quality, ecommerce)
       const { cleanup } = initEnhancedTracking();
       enhancedTrackingCleanup = cleanup;
 
@@ -126,11 +126,11 @@ export function initCoreFeatures(): void {
         try {
           refreshScrollAnimations();
         } catch (error) {
-          if (import.meta.env.DEV) console.warn('Scroll animation refresh error:', error);
+          logger.warn('Scroll animation refresh error:', error);
         }
       }, 50);
     } catch (error) {
-      if (import.meta.env.DEV) console.warn('Deferred init error:', error);
+      logger.warn('Deferred init error:', error);
     }
   };
 
@@ -178,9 +178,7 @@ export function initPageFeatures(): void {
       try {
         autoInitCarousels();
       } catch (error) {
-        if (import.meta.env.DEV) {
-          console.error('Carousel initialization failed:', error);
-        }
+        logger.error('Carousel initialization failed:', error);
       }
     };
 
@@ -208,7 +206,7 @@ export function initPageFeatures(): void {
         calendar.setupGoogleCalendar();
         theme.initThemeToggle();
       }).catch((error) => {
-        if (import.meta.env.DEV) console.error('Failed to load modules:', error);
+        logger.error('Failed to load modules:', error);
       });
     }, { timeout: 1000 });
   } else {
@@ -220,7 +218,7 @@ export function initPageFeatures(): void {
         calendar.setupGoogleCalendar();
         theme.initThemeToggle();
       }).catch((error) => {
-        if (import.meta.env.DEV) console.error('Failed to load modules:', error);
+        logger.error('Failed to load modules:', error);
       });
     }, 100);
   }

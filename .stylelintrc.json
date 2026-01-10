@@ -2,21 +2,15 @@
   "extends": ["stylelint-config-standard", "stylelint-config-tailwindcss"],
   "plugins": ["stylelint-order"],
   "rules": {
-    "declaration-no-important": null,
-    "no-duplicate-selectors": null,
-    "at-rule-no-unknown": null,
-    "property-no-vendor-prefix": null,
-    "media-feature-range-notation": null,
     "selector-class-pattern": null,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global", "flex", "hidden"]
+      }
+    ],
+    "property-no-vendor-prefix": null,
     "no-descending-specificity": null,
-    "color-function-notation": null,
-    "color-function-alias-notation": null,
-    "alpha-value-notation": null,
-    "rule-empty-line-before": null,
-    "custom-property-empty-line-before": null,
-    "selector-pseudo-class-no-unknown": null,
-    "keyframes-name-pattern": null,
-    "declaration-block-no-duplicate-properties": null,
-    "declaration-block-no-redundant-longhand-properties": [true, {"ignoreShorthands": ["/overflow/"]}]
+    "no-duplicate-selectors": null
   }
 }

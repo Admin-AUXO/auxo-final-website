@@ -34,7 +34,7 @@ section.hero-section .hero-content {
   opacity: 0.9;
 }
 
-@media (max-width: 767px) {
+@media (width <= 767px) {
   #particle-background {
     opacity: 0.9;
   }

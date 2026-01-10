@@ -1,4 +1,5 @@
 import { observeThemeChange } from './observers';
+import { logger } from '@/lib/logger';
 
 let particleSystem: any = null;
 let isInitialized = false;
@@ -19,9 +20,7 @@ async function initParticleSystem(): Promise<void> {
     particleSystem = new GalaxyParticleSystem(canvas);
     isInitialized = true;
   } catch (error) {
-    if (import.meta.env.DEV) {
-      if (import.meta.env.DEV) console.error("Particle system failed:", error);
-    }
+    logger.error("Particle system failed:", error);
   }
 }
 

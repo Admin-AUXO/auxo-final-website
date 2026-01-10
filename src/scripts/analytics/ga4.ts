@@ -1,3 +1,5 @@
+import { logger } from '@/lib/logger';
+
 const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-WBMKHRWS7Z';
 const GA4_DEBUG_MODE = import.meta.env.DEV || import.meta.env.PUBLIC_GA4_DEBUG === 'true';
 
@@ -11,11 +13,11 @@ const DEDUP_WINDOW_MS = 1000;
 function validateEventName(name: string): boolean {
   if (!name || typeof name !== 'string') return false;
   if (name.length > MAX_EVENT_NAME_LENGTH) {
-    if (GA4_DEBUG_MODE) console.warn(`GA4: Event name too long: ${name} (max ${MAX_EVENT_NAME_LENGTH})`);
+    logger.warn(`GA4: Event name too long: ${name} (max ${MAX_EVENT_NAME_LENGTH})`);
     return false;
   }
   if (!/^[a-z][a-z0-9_]*$/.test(name)) {
-    if (GA4_DEBUG_MODE) console.warn(`GA4: Invalid event name format: ${name} (must be snake_case)`);
+    logger.warn(`GA4: Invalid event name format: ${name} (must be snake_case)`);
     return false;
   }
   return true;
@@ -26,8 +28,8 @@ function sanitizeParamValue(value: unknown): string | number | boolean | null {
   if (typeof value === 'boolean' || typeof value === 'number') return value;
   if (typeof value === 'string') {
     const sanitized = value.slice(0, MAX_PARAM_LENGTH);
-    if (sanitized !== value && GA4_DEBUG_MODE) {
-      console.warn(`GA4: Parameter value truncated from ${value.length} to ${MAX_PARAM_LENGTH} chars`);
+    if (sanitized !== value) {
+      logger.warn(`GA4: Parameter value truncated from ${value.length} to ${MAX_PARAM_LENGTH} chars`);
     }
     return sanitized;
   }
@@ -44,12 +46,12 @@ function sanitizeParams(
 
   for (const [key, value] of Object.entries(params)) {
     if (paramCount >= MAX_PARAMS_PER_EVENT) {
-      if (GA4_DEBUG_MODE) console.warn(`GA4: Too many parameters, truncating at ${MAX_PARAMS_PER_EVENT}`);
+      logger.warn(`GA4: Too many parameters, truncating at ${MAX_PARAMS_PER_EVENT}`);
       break;
     }
 
     if (!/^[a-z][a-z0-9_]*$/.test(key)) {
-      if (GA4_DEBUG_MODE) console.warn(`GA4: Invalid parameter name: ${key} (must be snake_case)`);
+      logger.warn(`GA4: Invalid parameter name: ${key} (must be snake_case)`);
       continue;
     }
 
@@ -106,9 +108,9 @@ function isDuplicateEvent(eventName: string, params?: Record<string, unknown>): 
 
 export function isGA4Available(): boolean {
   if (typeof window === 'undefined') return false;
-  
+
   if (!checkConsent()) {
-    if (GA4_DEBUG_MODE) console.debug('GA4: Analytics consent not granted');
+    logger.debug('GA4: Analytics consent not granted');
     return false;
   }
   
@@ -126,9 +128,9 @@ export function trackEvent(
   if (!isGA4Available()) return;
 
   const sanitizedParams = sanitizeParams(params);
-  
+
   if (isDuplicateEvent(eventName, sanitizedParams)) {
-    if (GA4_DEBUG_MODE) console.debug(`GA4: Duplicate event suppressed: ${eventName}`);
+    logger.debug(`GA4: Duplicate event suppressed: ${eventName}`);
     return;
   }
 
@@ -140,22 +142,16 @@ export function trackEvent(
 
     if (typeof window.gtag === 'function') {
       window.gtag('event', eventName, eventParams);
-      if (GA4_DEBUG_MODE) {
-        console.log(`GA4 Event: ${eventName}`, eventParams);
-      }
+      logger.log(`GA4 Event: ${eventName}`, eventParams);
     } else if (Array.isArray(window.dataLayer)) {
       window.dataLayer.push({
         event: eventName,
         ...eventParams,
       });
-      if (GA4_DEBUG_MODE) {
-        console.log(`GA4 DataLayer: ${eventName}`, eventParams);
-      }
+      logger.log(`GA4 DataLayer: ${eventName}`, eventParams);
     }
   } catch (error) {
-    if (GA4_DEBUG_MODE) {
-      console.error('GA4 tracking error:', error, { eventName, params });
-    }
+    logger.error('GA4 tracking error:', error, { eventName, params });
   }
 }
 
@@ -450,13 +446,9 @@ export function setUserProperties(properties: Record<string, string | number | b
       });
     }
 
-    if (GA4_DEBUG_MODE) {
-      console.log('[GA4] User properties set:', sanitized);
-    }
+    logger.log('[GA4] User properties set:', sanitized);
   } catch (error) {
-    if (GA4_DEBUG_MODE) {
-      console.warn('[GA4] User properties error:', error);
-    }
+    logger.warn('[GA4] User properties error:', error);
   }
 }
 

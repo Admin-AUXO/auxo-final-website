@@ -58,7 +58,7 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .fab-button {
     bottom: 2rem;
     right: 2rem;
@@ -72,14 +72,14 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .fab-button {
     bottom: 2.5rem;
     right: 2.5rem;
   }
 }
 
-@media (max-height: 600px) {
+@media (height <= 600px) {
   .fab-button {
     bottom: 1rem;
     right: 1rem;
@@ -122,14 +122,14 @@
   }
 }
 
-@media (max-width: 1023px) {
+@media (width <= 1023px) {
   .fab-button {
     bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
     right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right)));
   }
 }
 
-@media (max-height: 600px) and (orientation: landscape) {
+@media (height <= 600px) and (orientation: landscape) {
   .fab-button {
     bottom: 1rem;
     right: 1rem;

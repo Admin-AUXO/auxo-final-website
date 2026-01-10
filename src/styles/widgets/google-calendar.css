@@ -4,9 +4,6 @@
   pointer-events: auto;
   z-index: var(--z-interactive, 10);
   user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
 }
 
 :global([data-google-calendar-open]:focus-visible) {
@@ -21,9 +18,8 @@
 }
 
 :global(button[data-google-calendar-open]) {
-  appearance: none;
   -webkit-appearance: none;
-  -moz-appearance: none;
+  appearance: none;
   border: none;
   background: inherit;
   font: inherit;

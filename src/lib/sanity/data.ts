@@ -16,6 +16,7 @@ import type { AboutContent } from '@/data/content/about';
 import type { SiteConfig } from '@/data/content/siteConfig';
 import type { FooterContent } from '@/data/content/footer';
 import type { NavigationContent } from '@/data/content/navigation';
+import { logger } from '@/lib/logger';
 
 const fetchWithError = async <T>(
   query: string,
@@ -96,10 +97,10 @@ export async function getServicesContent(): Promise<ServicesContent> {
       ]);
 
       if (!generalData) {
-        console.error('Services query returned null/undefined');
-        console.error('Query:', servicesQuery);
+        logger.error('Services query returned null/undefined');
+        logger.error('Query:', servicesQuery);
         const testQuery = await sanityClient!.fetch('*[_type == "services"][0]{_id,_type}');
-        console.error('Test query result:', testQuery);
+        logger.error('Test query result:', testQuery);
         throw new Error('No services content found in Sanity');
       }
 
@@ -140,7 +141,7 @@ export async function getServicesContent(): Promise<ServicesContent> {
       details: detailsData || [],
     };
     } catch (error) {
-      console.error('Error fetching services content:', error);
+      logger.error('Error fetching services content:', error);
       throw error;
     }
   });
@@ -156,7 +157,7 @@ export async function getServiceDetailBySlug(slug: string): Promise<ServiceDetai
       const data = await sanityClient!.fetch<ServiceDetail>(serviceDetailBySlugQuery, { slug });
       return data || null;
     } catch (error) {
-      if (import.meta.env.DEV) console.error(`Service detail fetch failed for "${slug}":`, error);
+      logger.error(`Service detail fetch failed for "${slug}":`, error);
       return null;
     }
   });

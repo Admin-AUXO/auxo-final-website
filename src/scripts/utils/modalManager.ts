@@ -1,4 +1,5 @@
 import { lockScroll, unlockScroll } from '@/scripts/navigation/utils';
+import { logger } from '@/lib/logger';
 
 export interface ModalConfig {
   modalId: string;
@@ -27,7 +28,7 @@ class ModalManager {
 
   create(config: ModalConfig): ModalInstance {
     if (this.modals.has(config.modalId)) {
-      if (import.meta.env.DEV) console.warn(`Modal with id "${config.modalId}" already exists`);
+      logger.warn(`Modal with id "${config.modalId}" already exists`);
       return this.modals.get(config.modalId)!;
     }
 
@@ -83,7 +84,7 @@ class ModalInstanceImpl implements ModalInstance {
   private initialize(): void {
     this.modal = document.getElementById(this.config.modalId);
     if (!this.modal) {
-      if (import.meta.env.DEV) console.error(`Modal element with id "${this.config.modalId}" not found`);
+      logger.error(`Modal element with id "${this.config.modalId}" not found`);
       return;
     }
 

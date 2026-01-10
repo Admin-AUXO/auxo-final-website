@@ -1,3 +1,5 @@
+import { logger } from '@/lib/logger';
+
 export interface ConsentState {
   ad_storage: 'granted' | 'denied';
   ad_user_data: 'granted' | 'denied';
@@ -107,7 +109,7 @@ export function getStoredConsent(): ConsentPreferences | null {
 
     return parsed.preferences as ConsentPreferences;
   } catch (error) {
-    console.error('Error reading consent preferences:', error);
+    logger.error('Error reading consent preferences:', error);
     return null;
   }
 }
@@ -124,7 +126,7 @@ function storeConsent(preferences: ConsentPreferences): void {
 
     localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(data));
   } catch (error) {
-    console.error('Error storing consent preferences:', error);
+    logger.error('Error storing consent preferences:', error);
   }
 }
 
@@ -152,7 +154,7 @@ export function clearConsent(): void {
   try {
     localStorage.removeItem(CONSENT_STORAGE_KEY);
   } catch (error) {
-    console.error('Error clearing consent:', error);
+    logger.error('Error clearing consent:', error);
   }
 }
 

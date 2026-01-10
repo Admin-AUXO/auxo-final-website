@@ -6,7 +6,6 @@
 .glassmorphism-card {
   background-color: var(--bg-card);
   backdrop-filter: blur(var(--blur-sm));
-  -webkit-backdrop-filter: blur(var(--blur-sm));
   opacity: var(--opacity-backdrop);
 }
 
@@ -125,7 +124,7 @@
   );
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .section-gradient-hero {
     background:
       radial-gradient(
@@ -221,7 +220,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .section-gradient-hero {
     background:
       radial-gradient(

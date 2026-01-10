@@ -82,16 +82,15 @@ details[open] .service-accordion-content {
   -webkit-tap-highlight-color: transparent !important;
   touch-action: manipulation !important;
   user-select: none !important;
-  -webkit-user-select: none !important;
   list-style: none !important;
 }
 
 .service-accordion-summary:hover {
-  background-color: rgba(var(--accent-green-rgb), 0.03) !important;
+  background-color: rgb(var(--accent-green-rgb), 0.03) !important;
 }
 
 .service-accordion-summary:active {
-  background-color: rgba(var(--accent-green-rgb), 0.05) !important;
+  background-color: rgb(var(--accent-green-rgb), 0.05) !important;
 }
 
 .service-accordion-summary:focus-visible {
@@ -105,7 +104,7 @@ details[open] .service-accordion-content {
 
 .service-accordion-item[open] .service-accordion-indicator,
 details[open] .service-accordion-indicator {
-  background-color: rgba(var(--accent-green-rgb), 0.15) !important;
+  background-color: rgb(var(--accent-green-rgb), 0.15) !important;
 }
 
 .accordion-item,
@@ -113,7 +112,7 @@ details[open] .service-accordion-indicator {
   touch-action: manipulation !important;
 }
 
-@media (max-width: 1023px) {
+@media (width <= 1023px) {
   .accordion-container,
   .methodology-accordion {
     touch-action: pan-y !important;
@@ -144,6 +143,6 @@ details[open] .service-accordion-indicator {
   }
 
   .service-accordion-summary:active {
-    background-color: rgba(var(--accent-green-rgb), 0.05) !important;
+    background-color: rgb(var(--accent-green-rgb), 0.05) !important;
   }
 }

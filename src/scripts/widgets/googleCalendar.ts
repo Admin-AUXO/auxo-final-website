@@ -1,5 +1,6 @@
 import { createCalendarModal } from '@/scripts/utils/modalManager';
 import { trackCalendarBooking } from '@/scripts/analytics/ga4';
+import { logger } from '@/lib/logger';
 
 const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2C0u3FKkxjcB1xO6fM48pvPj4Gu32PZAMVDq889-Nuer8fP_zWvl95xV_r4O5fm2Ry_KP1vnNG?gv=true';
 const MODAL_ID = 'calendar-modal';
@@ -70,7 +71,7 @@ function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
       const loadingEl = getLoadingElement();
       if (loadingEl) loadingEl.setAttribute('hidden', '');
     } catch (error) {
-      if (import.meta.env.DEV) console.warn('Calendar iframe load handling error:', error);
+      logger.warn('Calendar iframe load handling error:', error);
     }
   };
 
@@ -252,7 +253,7 @@ function openCalendarModal(): void {
 
   const modal = getModal();
   if (!modal) {
-    if (import.meta.env.DEV) console.warn('Calendar modal missing');
+    logger.warn('Calendar modal missing');
     return;
   }
 
@@ -373,7 +374,7 @@ export function setupGoogleCalendar(): void {
   try {
     initializeGoogleCalendar();
   } catch (error) {
-    if (import.meta.env.DEV) console.error('Google Calendar setup failed:', error);
+    logger.error('Google Calendar setup failed:', error);
   }
 }
 

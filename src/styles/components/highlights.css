@@ -2,8 +2,8 @@
   position: relative;
   background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-green-secondary) 100%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-weight: 800;
   display: inline-block;
 }
@@ -27,14 +27,14 @@
 }
 
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .highlight-gradient::after {
     height: 4px;
     bottom: -3px;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .highlight-gradient::after {
     height: 5px;
     bottom: -4px;
@@ -58,8 +58,8 @@
   );
   background-size: 200% 100%;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   line-height: 1.2;
   padding-bottom: var(--spacing-em-sm);
   padding-top: var(--spacing-em-xs);
@@ -68,7 +68,6 @@
   animation: gradientFill var(--animation-duration-gradient) ease-in-out infinite;
   will-change: background-position;
   transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 

@@ -19,13 +19,13 @@
   letter-spacing: -0.01em;
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .logo-tagline {
     font-size: 1.25rem;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .logo-tagline {
     font-size: 1.5rem;
   }
@@ -46,21 +46,21 @@
   overflow: visible;
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .logo-subtitle {
     font-size: 0.65rem;
     letter-spacing: 0.05em;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .logo-subtitle {
     font-size: 0.7rem;
     letter-spacing: 0.06em;
   }
 }
 
-@media (max-width: 1023px) {
+@media (width <= 1023px) {
   .logo-text-container {
     display: none;
   }

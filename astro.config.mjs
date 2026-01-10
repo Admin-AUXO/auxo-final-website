@@ -48,9 +48,7 @@ export default defineConfig({
       chunkSizeWarningLimit: 500,
       terserOptions: {
         compress: {
-          drop_console: true,
           drop_debugger: true,
-          pure_funcs: ['console.log', 'console.info', 'console.debug'],
         },
         mangle: { safari10: true },
       },
@@ -70,15 +68,6 @@ export default defineConfig({
               if (id.includes('lenis')) return 'lenis';
             }
           },
-        },
-        onwarn(warning, warn) {
-          if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.id?.includes('@astrojs/internal-helpers')) return;
-          if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.id?.includes('node_modules')) return;
-          if (warning.code === 'ROLLUP_WARNING' && warning.message?.includes('chunk size')) return;
-          if (warning.code === 'EMPTY_BUNDLE') return;
-          if (warning.message?.includes('Generated an empty chunk')) return;
-          if (warning.message?.includes('isRemoteAllowed') || warning.message?.includes('matchHostname') || warning.message?.includes('matchPathname') || warning.message?.includes('matchPort') || warning.message?.includes('matchProtocol')) return;
-          warn(warning);
         },
       },
     },

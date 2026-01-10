@@ -2,13 +2,13 @@
   --nav-height: var(--nav-height-mobile);
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   :root {
     --nav-height: var(--nav-height-sm);
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   :root {
     --nav-height: var(--nav-height-lg);
   }

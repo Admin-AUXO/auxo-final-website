@@ -2,6 +2,7 @@ import emailjs from '@emailjs/browser';
 import { validateContactForm, getFormData, showFieldError, hideFieldError } from './validation';
 import { showSuccess, showError } from '@/scripts/utils/notifications';
 import { trackFormSubmission, trackFormStart, trackFormAbandonment } from '@/scripts/analytics/ga4';
+import { logger } from '@/lib/logger';
 
 const EMAILJS_CONFIG = {
   serviceId: import.meta.env.PUBLIC_EMAILJS_SERVICE_ID || '',
@@ -102,7 +103,7 @@ export async function handleContactFormSubmit(event: Event) {
       throw new Error('Failed to send message');
     }
   } catch (error) {
-    if (import.meta.env.DEV) console.error('Email send failed:', error);
+    logger.error('Email send failed:', error);
     if (error instanceof Error && error.message.includes('not configured')) {
       showError(error.message);
     } else {

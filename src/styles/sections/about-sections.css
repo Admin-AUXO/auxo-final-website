@@ -17,7 +17,7 @@
   display: inline-block;
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .approach-section .section-pattern-grid {
     background-size: 40px 40px;
   }
@@ -28,7 +28,7 @@
   }
 }
 
-@media (min-width: 641px) {
+@media (width >= 641px) {
   .code-letter {
     font-size: 1.4em;
     margin-right: 0.02em;
@@ -58,7 +58,7 @@
     );
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .partnership-pattern {
     background-size: 15px 15px;
     opacity: 0.3;
@@ -111,7 +111,7 @@
     );
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .team-gradient {
     background:
       radial-gradient(
@@ -147,20 +147,20 @@
     );
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .global-section .section-pattern-mesh {
     background-size: 40px 40px;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .global-section .section-pattern-mesh {
     background-size: 70px 70px;
     opacity: 0.5;
   }
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .mission-vision-section,
   .purpose-section,
   .approach-section,

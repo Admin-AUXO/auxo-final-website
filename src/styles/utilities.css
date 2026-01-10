@@ -28,7 +28,7 @@
   gap: var(--grid-gap-mobile, 1rem);
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .grid-container {
     padding-left: var(--grid-padding-sm, 1.5rem);
     padding-right: var(--grid-padding-sm, 1.5rem);
@@ -36,7 +36,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .grid-container {
     padding-left: var(--grid-padding-lg, 2rem);
     padding-right: var(--grid-padding-lg, 2rem);
@@ -58,7 +58,7 @@
 .col-span-12 { grid-column: span 12; }
 .col-span-full { grid-column: 1 / -1; }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .sm\:col-span-1 { grid-column: span 1; }
   .sm\:col-span-2 { grid-column: span 2; }
   .sm\:col-span-3 { grid-column: span 3; }
@@ -74,7 +74,7 @@
   .sm\:col-span-full { grid-column: 1 / -1; }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .md\:col-span-1 { grid-column: span 1; }
   .md\:col-span-2 { grid-column: span 2; }
   .md\:col-span-3 { grid-column: span 3; }
@@ -90,7 +90,7 @@
   .md\:col-span-full { grid-column: 1 / -1; }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .lg\:col-span-1 { grid-column: span 1; }
   .lg\:col-span-2 { grid-column: span 2; }
   .lg\:col-span-3 { grid-column: span 3; }
@@ -106,7 +106,7 @@
   .lg\:col-span-full { grid-column: 1 / -1; }
 }
 
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .xl\:col-span-1 { grid-column: span 1; }
   .xl\:col-span-2 { grid-column: span 2; }
   .xl\:col-span-3 { grid-column: span 3; }
@@ -193,6 +193,7 @@
 .transition-slow { transition: var(--transition-slow); }
 .transition-transform { transition: transform var(--duration-normal) var(--easing-standard); }
 .transition-opacity { transition: opacity var(--duration-normal) var(--easing-standard); }
+
 .transition-colors {
   transition: color var(--duration-normal) var(--easing-standard),
               background-color var(--duration-normal) var(--easing-standard),
@@ -233,7 +234,7 @@
 }
 
 .smooth-appear {
-  animation: fadeInUp var(--animation-duration-slow) var(--easing-standard) backwards;
+  animation: fade-in-up var(--animation-duration-slow) var(--easing-standard) backwards;
 }
 
 .smooth-appear-delay-1 {

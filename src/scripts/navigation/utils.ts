@@ -1,4 +1,5 @@
 import { BREAKPOINTS } from '../constants';
+import { logger } from '@/lib/logger';
 
 export function updateNavHeight(): void {
   try {
@@ -12,7 +13,7 @@ export function updateNavHeight(): void {
       document.documentElement.style.setProperty('--nav-current-height', currentHeight);
     }
   } catch (error) {
-    if (import.meta.env.DEV) console.warn('Nav height update error:', error);
+    logger.warn('Nav height update error:', error);
   }
 }
 

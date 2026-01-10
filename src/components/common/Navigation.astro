@@ -144,13 +144,14 @@ const navItems = items.map(({ _key, ...item }) => ({
 
 <script>
   import { initializeNavigationComponents } from "@/scripts/navigation/index";
+  import { logger } from "@/lib/logger";
 
   if (typeof window !== 'undefined') {
     requestAnimationFrame(() => {
       try {
         initializeNavigationComponents();
       } catch (error) {
-        if (import.meta.env.DEV) console.warn('Navigation init warning:', error);
+        logger.warn('Navigation init warning:', error);
       }
     });
   }

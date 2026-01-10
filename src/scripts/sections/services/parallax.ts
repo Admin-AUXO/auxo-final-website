@@ -1,3 +1,5 @@
+import { logger } from '@/lib/logger';
+
 let parallaxElements: NodeListOf<HTMLElement> | null = null;
 let parallaxCleanup: (() => void) | null = null;
 
@@ -30,8 +32,8 @@ export function setupParallax(): void {
   if (lenisInstance) {
     lenisInstance.on('scroll', handleParallax);
     parallaxCleanup = () => lenisInstance.off('scroll', handleParallax);
-  } else if (import.meta.env.DEV) {
-    console.warn('Lenis not available for parallax effects');
+  } else {
+    logger.warn('Lenis not available for parallax effects');
   }
 }
 

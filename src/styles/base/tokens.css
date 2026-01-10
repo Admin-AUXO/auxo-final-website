@@ -4,39 +4,33 @@
   --bg-primary: #000;
   --text-primary: #FFF;
   --text-secondary: #A0A0A0;
-  --text-tertiary: rgb(140, 140, 140);
+  --text-tertiary: rgb(140 140 140);
   --text-on-accent: #000;
-
-  --bg-secondary: rgb(20, 20, 20);
-  --bg-card: rgb(15, 15, 15);
-  --bg-surface: rgb(25, 25, 25);
-  --bg-elevated: rgb(35, 35, 35);
-
-  --border-color: rgb(40, 40, 40);
-  --border-color-light: rgb(50, 50, 50);
-
-  --accent-green-opacity-02: rgba(var(--accent-green-rgb), 0.02);
-  --accent-green-opacity-05: rgba(var(--accent-green-rgb), 0.05);
-  --accent-green-opacity-08: rgba(var(--accent-green-rgb), 0.08);
-  --accent-green-opacity-1: rgba(var(--accent-green-rgb), 0.1);
-  --accent-green-opacity-15: rgba(var(--accent-green-rgb), 0.15);
-  --accent-green-opacity-18: rgba(var(--accent-green-rgb), 0.18);
-  --accent-green-opacity-2: rgba(var(--accent-green-rgb), 0.2);
-  --accent-green-opacity-20: rgba(var(--accent-green-rgb), 0.20);
-  --accent-green-opacity-25: rgba(var(--accent-green-rgb), 0.25);
-  --accent-green-opacity-30: rgba(var(--accent-green-rgb), 0.3);
-
-  --accent-green-secondary: rgba(var(--accent-green-rgb), 0.8);
+  --bg-secondary: rgb(20 20 20);
+  --bg-card: rgb(15 15 15);
+  --bg-surface: rgb(25 25 25);
+  --bg-elevated: rgb(35 35 35);
+  --border-color: rgb(40 40 40);
+  --border-color-light: rgb(50 50 50);
+  --accent-green-opacity-02: rgb(var(--accent-green-rgb), 0.02);
+  --accent-green-opacity-05: rgb(var(--accent-green-rgb), 0.05);
+  --accent-green-opacity-08: rgb(var(--accent-green-rgb), 0.08);
+  --accent-green-opacity-1: rgb(var(--accent-green-rgb), 0.1);
+  --accent-green-opacity-15: rgb(var(--accent-green-rgb), 0.15);
+  --accent-green-opacity-18: rgb(var(--accent-green-rgb), 0.18);
+  --accent-green-opacity-2: rgb(var(--accent-green-rgb), 0.2);
+  --accent-green-opacity-20: rgb(var(--accent-green-rgb), 0.20);
+  --accent-green-opacity-25: rgb(var(--accent-green-rgb), 0.25);
+  --accent-green-opacity-30: rgb(var(--accent-green-rgb), 0.3);
+  --accent-green-secondary: rgb(var(--accent-green-rgb), 0.8);
   --scrollbar-thumb: var(--accent-green-opacity-30);
   --scrollbar-thumb-hover: var(--accent-green-opacity-30);
-  --overlay-white: rgba(255, 255, 255, 0.1);
-
-  --overlay-black-75: rgba(0, 0, 0, 0.75);
-  --overlay-black-40: rgba(0, 0, 0, 0.4);
-  --overlay-black-60: rgba(0, 0, 0, 0.6);
-  --overlay-black-98: rgba(0, 0, 0, 0.98);
-  --overlay-white-98: rgba(255, 255, 255, 0.98);
-
+  --overlay-white: rgb(255 255 255 / 10%);
+  --overlay-black-75: rgb(0 0 0 / 75%);
+  --overlay-black-40: rgb(0 0 0 / 40%);
+  --overlay-black-60: rgb(0 0 0 / 60%);
+  --overlay-black-98: rgb(0 0 0 / 98%);
+  --overlay-white-98: rgb(255 255 255 / 98%);
   --card-padding-sm: 1rem;
   --card-padding-md: 1.25rem;
   --card-padding-lg: 1.5rem;
@@ -44,7 +38,6 @@
   --card-padding-mobile: 1rem;
   --card-padding-tablet: 1.25rem;
   --card-padding-desktop: 1.5rem;
-
   --section-padding-mobile: 1rem;
   --section-padding-tablet: 1.5rem;
   --section-padding-desktop: 2rem;
@@ -52,30 +45,25 @@
   --section-padding-y-md: 5rem;
   --section-padding-y-lg: 7rem;
   --section-padding-y-xl: 9rem;
-
   --modal-padding-mobile: 1rem;
   --modal-padding-tablet: 1.5rem;
   --modal-padding-desktop: 2rem;
   --modal-header-height-mobile: 3.5rem;
   --modal-header-height-desktop: 4rem;
-
   --carousel-card-border: 1px solid var(--accent-green-opacity-1);
   --carousel-card-radius: 1rem;
   --carousel-card-padding-mobile: 1.25rem;
   --carousel-card-padding-desktop: 1.5rem;
   --carousel-card-transition: border-color 0.2s ease;
-
   --accordion-border: 1px solid var(--border-color-light);
   --accordion-radius: 0.75rem;
   --accordion-padding-mobile: 1rem;
   --accordion-padding-desktop: 1.25rem;
   --accordion-transition: border-color 0.2s ease;
-
   --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-brand: 'Montserrat', system-ui, sans-serif;
   --logo-text-color: var(--text-on-accent);
-
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -85,19 +73,16 @@
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 1.875rem;
   --font-size-4xl: 2.25rem;
-
   --line-height-tight: 1.25;
   --line-height-snug: 1.375;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.625;
   --line-height-loose: 1.75;
-
   --duration-fast: 200ms;
   --duration-normal: 250ms;
   --duration-slow: 300ms;
   --theme-transition: 150ms;
   --timing-smooth: var(--easing-standard);
-
   --spacing-1: 0.25rem;
   --spacing-2: 0.5rem;
   --spacing-3: 0.75rem;
@@ -108,7 +93,6 @@
   --spacing-10: 2.5rem;
   --spacing-12: 3rem;
   --spacing-16: 4rem;
-
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
@@ -116,45 +100,38 @@
   --spacing-xl: 2rem;
   --spacing-2xl: 2.5rem;
   --spacing-3xl: 3rem;
-
   --gap-xs: 0.5rem;
   --gap-sm: 0.75rem;
   --gap-md: 1rem;
   --gap-lg: 1.5rem;
   --gap-xl: 2rem;
   --gap-2xl: 2.5rem;
-
   --gap-mobile: 1rem;
   --gap-tablet: 1.5rem;
   --gap-desktop: 2rem;
-
   --grid-padding-mobile: 1rem;
   --grid-padding-sm: 1.5rem;
   --grid-padding-md: 1.5rem;
   --grid-padding-lg: 2rem;
   --grid-padding-xl: 2.5rem;
   --grid-max-width: 1280px;
-
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.1);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  --shadow-sm: 0 2px 4px 0 rgb(0 0 0 / 6%);
+  --shadow-md: 0 4px 8px -2px rgb(0 0 0 / 10%);
   --shadow-accent: 0 4px 12px var(--accent-green-opacity-15);
-  --shadow-nav-scrolled-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-nav-scrolled-light: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  --shadow-dropdown-menu: 0 20px 60px rgba(0, 0, 0, 0.3);
-  --shadow-mobile-dropdown-view-all: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-mobile-dropdown-view-all-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-
+  --shadow-nav-scrolled-dark: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  --shadow-nav-scrolled-light: 0 4px 6px -1px rgb(0 0 0 / 5%), 0 2px 4px -1px rgb(0 0 0 / 3%);
+  --shadow-dropdown-menu: 0 20px 60px rgb(0 0 0 / 30%);
+  --shadow-mobile-dropdown-view-all: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  --shadow-mobile-dropdown-view-all-hover: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
   --opacity-disabled: 0.5;
   --opacity-overlay: 0.5;
   --opacity-backdrop: 0.95;
   --opacity-nav-scrolled: 0.98;
   --opacity-card-hover: 0.15;
-
   --error-color: #EF4444;
   --warning-color: #F59E0B;
   --info-color: #3B82F6;
-
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
@@ -162,12 +139,10 @@
   --radius-2xl: 1.25rem;
   --radius-3xl: 1.5rem;
   --radius-dot-active: 4px;
-
   --blur-xs: 2px;
   --blur-sm: 10px;
   --blur-md: 12px;
   --blur-nav: 8px;
-
   --z-base: 1;
   --z-content: 10;
   --z-floating-button: 102;
@@ -181,18 +156,15 @@
   --z-calendar-modal: 9999;
   --z-modals: 9999;
   --z-maximum: 2147483647;
-
   --calendar-modal-overlay-bg: linear-gradient(
     135deg,
-    rgba(var(--accent-green-rgb), 0.05) 0%,
-    rgba(0, 0, 0, 0.9) 50%,
-    rgba(var(--accent-green-rgb), 0.03) 100%
+    rgb(var(--accent-green-rgb), 0.05) 0%,
+    rgb(0 0 0 / 90%) 50%,
+    rgb(var(--accent-green-rgb), 0.03) 100%
   );
-
   --icon-size-sm: 20px;
   --icon-size-md: 24px;
   --icon-size-lg: 32px;
-
   --min-height-card: 300px;
   --scroll-progress-height: 3px;
   --scroll-progress-height-mobile: 2px;
@@ -202,7 +174,6 @@
   --nav-height-xl: 5rem;
   --nav-current-height: var(--nav-height-sm);
   --nav-scroll-padding: calc(var(--nav-current-height) + 1rem);
-
   --width-90: 90%;
   --width-60: 60%;
   --nav-indicator-width: 75%;
@@ -219,11 +190,9 @@
   --scrollbar-height: 6px;
   --scrollbar-thumb-radius: 3px;
   --gradient-overlay-height: 20px;
-
   --pattern-size-sm: 20px;
   --pattern-size-md: 50px;
   --pattern-bg-size: var(--pattern-size-sm);
-
   --animation-duration-fast: 200ms;
   --animation-duration-normal: 250ms;
   --animation-duration-slow: 300ms;
@@ -231,33 +200,26 @@
   --animation-duration-slowest: 2s;
   --animation-duration-gradient: 5s;
   --animation-duration-counter: 2s;
-
   --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
-
   --carousel-gap-mobile: 1.25rem;
   --carousel-gap-tablet: 1.75rem;
   --carousel-gap-desktop: 2rem;
-
   --card-min-height-sm: 320px;
   --card-min-height-lg: 360px;
   --card-min-height-accordion: 62.5rem;
-
   --metric-min-height: 2.5em;
   --metric-line-height: 1.25;
-
   --particle-opacity-min: 0.15;
   --particle-opacity-max: 0.35;
   --particle-link-opacity: 0.2;
   --particle-triangle-opacity: 0.08;
   --particle-cursor-opacity: 0.12;
-
   --btn-primary-bg: var(--accent-green);
   --btn-primary-text: var(--text-on-accent);
   --btn-primary-text-hover: var(--text-on-accent);
-  --btn-primary-bg-hover: rgba(var(--accent-green-rgb), 0.85);
-  --btn-primary-bg-active: rgba(var(--accent-green-rgb), 0.75);
+  --btn-primary-bg-hover: rgb(var(--accent-green-rgb), 0.85);
+  --btn-primary-bg-active: rgb(var(--accent-green-rgb), 0.75);
   --btn-primary-bg-disabled: var(--accent-green-opacity-30);
-
   --btn-secondary-bg: var(--bg-surface);
   --btn-secondary-text: var(--text-primary);
   --btn-secondary-border: var(--border-color);
@@ -265,21 +227,18 @@
   --btn-secondary-border-hover: var(--accent-green);
   --btn-secondary-bg-disabled: var(--bg-surface);
   --btn-secondary-text-disabled: var(--text-tertiary);
-
   --btn-ghost-bg: transparent;
   --btn-ghost-text: var(--text-primary);
   --btn-ghost-border: transparent;
   --btn-ghost-bg-hover: var(--bg-surface);
   --btn-ghost-border-hover: var(--border-color);
   --btn-ghost-bg-active: var(--bg-elevated);
-
   --btn-outline-bg: transparent;
   --btn-outline-text: var(--text-primary);
   --btn-outline-border: var(--accent-green);
   --btn-outline-bg-hover: var(--accent-green);
   --btn-outline-text-disabled: var(--text-tertiary);
   --btn-outline-border-disabled: var(--border-color);
-
   --transition-base: all var(--duration-normal) var(--timing-smooth);
   --transition-fast: all var(--duration-fast) var(--timing-smooth);
   --transition-slow: all var(--duration-slow) var(--timing-smooth);
@@ -296,46 +255,39 @@
   --bg-primary: #FFF;
   --text-primary: #111827;
   --text-secondary: #4B5563;
-  --text-tertiary: rgb(107, 114, 128);
+  --text-tertiary: rgb(107 114 128);
   --text-on-accent: #FFF;
-
-  --bg-secondary: rgb(249, 250, 251);
-  --bg-card: rgb(255, 255, 255);
-  --bg-surface: rgb(243, 244, 246);
-  --bg-elevated: rgb(229, 231, 235);
-
-  --border-color: rgb(229, 231, 235);
-  --border-color-light: rgb(243, 244, 246);
-
-  --accent-green-opacity-02: rgba(var(--accent-green-rgb), 0.02);
-  --accent-green-opacity-05: rgba(var(--accent-green-rgb), 0.05);
-  --accent-green-opacity-08: rgba(var(--accent-green-rgb), 0.08);
-  --accent-green-opacity-1: rgba(var(--accent-green-rgb), 0.1);
-  --accent-green-opacity-15: rgba(var(--accent-green-rgb), 0.15);
-  --accent-green-opacity-18: rgba(var(--accent-green-rgb), 0.18);
-  --accent-green-opacity-2: rgba(var(--accent-green-rgb), 0.2);
-  --accent-green-opacity-20: rgba(var(--accent-green-rgb), 0.20);
-  --accent-green-opacity-25: rgba(var(--accent-green-rgb), 0.25);
-  --accent-green-opacity-30: rgba(var(--accent-green-rgb), 0.3);
-
-  --btn-primary-bg-hover: rgba(var(--accent-green-rgb), 0.85);
-  --btn-primary-bg-active: rgba(var(--accent-green-rgb), 0.75);
-
-  --accent-green-secondary: rgba(var(--accent-green-rgb), 0.8);
+  --bg-secondary: rgb(249 250 251);
+  --bg-card: rgb(255 255 255);
+  --bg-surface: rgb(243 244 246);
+  --bg-elevated: rgb(229 231 235);
+  --border-color: rgb(229 231 235);
+  --border-color-light: rgb(243 244 246);
+  --accent-green-opacity-02: rgb(var(--accent-green-rgb), 0.02);
+  --accent-green-opacity-05: rgb(var(--accent-green-rgb), 0.05);
+  --accent-green-opacity-08: rgb(var(--accent-green-rgb), 0.08);
+  --accent-green-opacity-1: rgb(var(--accent-green-rgb), 0.1);
+  --accent-green-opacity-15: rgb(var(--accent-green-rgb), 0.15);
+  --accent-green-opacity-18: rgb(var(--accent-green-rgb), 0.18);
+  --accent-green-opacity-2: rgb(var(--accent-green-rgb), 0.2);
+  --accent-green-opacity-20: rgb(var(--accent-green-rgb), 0.20);
+  --accent-green-opacity-25: rgb(var(--accent-green-rgb), 0.25);
+  --accent-green-opacity-30: rgb(var(--accent-green-rgb), 0.3);
+  --btn-primary-bg-hover: rgb(var(--accent-green-rgb), 0.85);
+  --btn-primary-bg-active: rgb(var(--accent-green-rgb), 0.75);
+  --accent-green-secondary: rgb(var(--accent-green-rgb), 0.8);
   --scrollbar-thumb: var(--accent-green-opacity-30);
   --scrollbar-thumb-hover: var(--accent-green-opacity-30);
-  --overlay-white: rgba(255, 255, 255, 0.1);
-
-  --overlay-black-75: rgba(0, 0, 0, 0.75);
-  --overlay-black-40: rgba(0, 0, 0, 0.4);
-  --overlay-black-60: rgba(0, 0, 0, 0.6);
-  --overlay-black-98: rgba(0, 0, 0, 0.98);
-  --overlay-white-98: rgba(255, 255, 255, 0.98);
-
+  --overlay-white: rgb(255 255 255 / 10%);
+  --overlay-black-75: rgb(0 0 0 / 75%);
+  --overlay-black-40: rgb(0 0 0 / 40%);
+  --overlay-black-60: rgb(0 0 0 / 60%);
+  --overlay-black-98: rgb(0 0 0 / 98%);
+  --overlay-white-98: rgb(255 255 255 / 98%);
   --calendar-modal-overlay-bg: linear-gradient(
     135deg,
-    rgba(var(--accent-green-rgb), 0.08) 0%,
-    rgba(0, 0, 0, 0.85) 50%,
-    rgba(var(--accent-green-rgb), 0.05) 100%
+    rgb(var(--accent-green-rgb), 0.08) 0%,
+    rgb(0 0 0 / 85%) 50%,
+    rgb(var(--accent-green-rgb), 0.05) 100%
   );
 }

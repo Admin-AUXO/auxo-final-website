@@ -9,7 +9,7 @@
   -webkit-overflow-scrolling: touch;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .legal-table {
     font-size: 0.9375rem;
     display: table;
@@ -19,7 +19,7 @@
 
 .legal-table thead {
   display: table-header-group;
-  background-color: rgba(var(--accent-green-rgb), 0.1);
+  background-color: rgb(var(--accent-green-rgb), 0.1);
 }
 
 .legal-table tbody {
@@ -31,20 +31,20 @@
 }
 
 .legal-table thead tr {
-  background-color: rgba(var(--accent-green-rgb), 0.1);
+  background-color: rgb(var(--accent-green-rgb), 0.1);
 }
 
 .legal-table th {
   padding: 0.75rem 1rem;
   text-align: left;
-  border: 1px solid rgba(var(--accent-green-rgb), 0.2);
+  border: 1px solid rgb(var(--accent-green-rgb), 0.2);
   font-weight: 600;
   color: var(--text-primary);
   font-size: 0.875rem;
   white-space: nowrap;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .legal-table th {
     padding: 1rem 1.25rem;
     font-size: 0.9375rem;
@@ -54,14 +54,14 @@
 
 .legal-table td {
   padding: 0.75rem 1rem;
-  border: 1px solid rgba(var(--accent-green-rgb), 0.2);
+  border: 1px solid rgb(var(--accent-green-rgb), 0.2);
   color: var(--text-secondary);
   line-height: 1.6;
   overflow-wrap: break-word;
   font-size: 0.875rem;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .legal-table td {
     padding: 1rem 1.25rem;
     font-size: 0.9375rem;
@@ -69,15 +69,15 @@
 }
 
 .legal-table tbody tr:nth-child(even) {
-  background-color: rgba(var(--accent-green-rgb), 0.03);
+  background-color: rgb(var(--accent-green-rgb), 0.03);
 }
 
 .legal-table tbody tr:hover {
-  background-color: rgba(var(--accent-green-rgb), 0.08);
+  background-color: rgb(var(--accent-green-rgb), 0.08);
 }
 
 .legal-table code {
-  background-color: rgba(var(--accent-green-rgb), 0.1);
+  background-color: rgb(var(--accent-green-rgb), 0.1);
   padding: 0.2rem 0.4rem;
   border-radius: 0.25rem;
   font-family: 'Courier New', monospace;

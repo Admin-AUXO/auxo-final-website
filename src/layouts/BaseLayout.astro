@@ -121,6 +121,9 @@ const webPageSchema = {
         document.addEventListener('astro:after-swap', setViewTransitionName);
       })();
     </script>
+    <script is:inline>
+      import { logger } from '@/lib/logger';
+    </script>
     <script is:inline define:vars={{ baseUrl: import.meta.env.BASE_URL }}>
       (function() {
         if (typeof document === 'undefined' || !document.documentElement || !document.body) return;

@@ -69,7 +69,7 @@
   font-family: "Courier New", Monaco, monospace;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .metric-highlight .text-theme-primary.whitespace-pre-line {
     min-height: var(--metric-min-height);
     line-height: var(--metric-line-height);

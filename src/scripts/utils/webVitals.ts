@@ -1,5 +1,6 @@
 import { onCLS, onFCP, onINP, onLCP, onTTFB, type Metric } from 'web-vitals';
 import { trackEvent } from '../analytics/ga4';
+import { logger } from '@/lib/logger';
 
 interface WebVitalMetric {
   name: string;
@@ -39,10 +40,8 @@ function sendToGA4(metric: Metric): void {
     navigationType: metric.navigationType,
   };
 
-  if (import.meta.env.DEV) {
-    const emoji = webVitalMetric.rating === 'good' ? '✓' : webVitalMetric.rating === 'needs-improvement' ? '⚠' : '✗';
-    console.log(`${emoji} ${metric.name}: ${webVitalMetric.value}${metric.name === 'CLS' ? '' : 'ms'} (${webVitalMetric.rating})`);
-  }
+  const emoji = webVitalMetric.rating === 'good' ? '✓' : webVitalMetric.rating === 'needs-improvement' ? '⚠' : '✗';
+  logger.log(`${emoji} ${metric.name}: ${webVitalMetric.value}${metric.name === 'CLS' ? '' : 'ms'} (${webVitalMetric.rating})`);
 
   trackEvent('web_vitals', {
     event_category: 'Web Vitals',
@@ -106,9 +105,7 @@ export function initWebVitals(): void {
     onLCP(handleMetric);
     onTTFB(handleMetric);
   } catch (error) {
-    if (import.meta.env.DEV) {
-      console.warn('Web Vitals tracking error:', error);
-    }
+    logger.warn('Web Vitals tracking error:', error);
   }
 }
 
@@ -124,9 +121,7 @@ export function trackPerformanceMark(markName: string): void {
       non_interaction: true,
     });
   } catch (error) {
-    if (import.meta.env.DEV) {
-      console.debug('Performance mark error:', error);
-    }
+    logger.debug('Performance mark error:', error);
   }
 }
 
@@ -148,9 +143,7 @@ export function trackPerformanceMeasure(
       non_interaction: true,
     });
   } catch (error) {
-    if (import.meta.env.DEV) {
-      console.debug('Performance measure error:', error);
-    }
+    logger.debug('Performance measure error:', error);
   }
 }
 

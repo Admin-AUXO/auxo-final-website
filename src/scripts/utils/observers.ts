@@ -1,3 +1,5 @@
+import { logger } from '@/lib/logger';
+
 export interface IntersectionObserverOptions {
   root?: Element | null;
   rootMargin?: string;
@@ -32,7 +34,7 @@ function initThemeObserver(): void {
             try {
               callback(isDark, wasDark);
             } catch (error) {
-              if (import.meta.env.DEV) console.error('Theme observer failed:', error);
+              logger.error('Theme observer failed:', error);
             }
           });
           
