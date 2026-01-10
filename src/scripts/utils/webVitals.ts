@@ -82,13 +82,13 @@ export function initWebVitals(): void {
       hasUserInteracted = true;
       flushBufferedMetrics();
       interactionEvents.forEach(event => {
-        document.removeEventListener(event, markUserInteraction, { passive: true });
+        document.removeEventListener(event, markUserInteraction);
       });
     }
   };
 
   interactionEvents.forEach(event => {
-    document.addEventListener(event, markUserInteraction, { passive: true, once: true });
+    document.addEventListener(event, markUserInteraction, { once: true });
   });
 
   try {

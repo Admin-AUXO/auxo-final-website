@@ -41,12 +41,8 @@ const finalCanonical = canonicalUrl || `${siteUrl}${Astro.url.pathname}`;
 
 <script is:inline>
   window.dataLayer = window.dataLayer || [];
-
-  // Google Consent Mode v2 - Initialize BEFORE GTM loads
   function gtag(){dataLayer.push(arguments);}
 
-  // Set default consent state (privacy-first approach)
-  // EEA regions: Strict defaults
   gtag('consent', 'default', {
     'ad_storage': 'denied',
     'ad_user_data': 'denied',
@@ -59,7 +55,6 @@ const finalCanonical = canonicalUrl || `${siteUrl}${Astro.url.pathname}`;
     'region': ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','GB','IS','LI','NO','CH']
   });
 
-  // Non-EEA regions: More permissive defaults
   gtag('consent', 'default', {
     'ad_storage': 'denied',
     'ad_user_data': 'denied',
@@ -71,20 +66,17 @@ const finalCanonical = canonicalUrl || `${siteUrl}${Astro.url.pathname}`;
     'region': ['US','CA','AU','NZ','AE','SA','QA','KW','BH','OM']
   });
 
-  // Initialize data layer with standard structure
   window.dataLayer.push({
     'gtm.start': new Date().getTime(),
     'event': 'gtm.js'
   });
 </script>
 
-<!-- Google Tag Manager -->
 <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-N6547BGW');</script>
-<!-- End Google Tag Manager -->
 <meta name="description" content={description} />
 <meta name="keywords" content={keywords} />
 <meta name="author" content={author} />
@@ -126,7 +118,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:site" content="@AuxoData" />
 <meta name="twitter:creator" content="@AuxoData" />
 
-<!-- Preconnect for GTM and GA4 -->
 <link rel="preconnect" href="https://www.googletagmanager.com" />
 <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 <link rel="preconnect" href="https://www.google-analytics.com" />

@@ -6,7 +6,7 @@ import LegalContact from "@/components/legal/LegalContact.astro";
 <LegalLayout
   title="Cookie Policy"
   description="Learn about how AUXO Data Labs uses cookies and similar tracking technologies on our website."
-  lastUpdated="January 7, 2026"
+  lastUpdated="January 10, 2026"
 >
   <h2>1. What Are Cookies</h2>
   <p>
@@ -16,6 +16,9 @@ import LegalContact from "@/components/legal/LegalContact.astro";
   <h2>2. How We Use Cookies</h2>
   <p>
     AUXO Data Labs uses cookies and similar tracking technologies to enable essential functionality (login, preferences), measure Site performance and behaviour, personalize content and marketing, and enhance security and fraud detection.
+  </p>
+  <p>
+    <span class="highlight">We implement Google Consent Mode v2</span>, ensuring that cookies respect your consent preferences and comply with privacy regulations including GDPR, CCPA, and UAE PDPL. Analytics and marketing cookies are only activated after you provide explicit consent.
   </p>
 
   <h2>3. Your Choices</h2>
@@ -41,12 +44,12 @@ import LegalContact from "@/components/legal/LegalContact.astro";
 
   <h2>5. Cookie Declaration</h2>
   <p>
-    The following table provides details about the cookies we use on our Site:
+    The following table provides details about the cookies and local storage items we use on our Site:
   </p>
   <table class="legal-table">
     <thead>
       <tr>
-        <th>Cookie Name</th>
+        <th>Name</th>
         <th>Provider</th>
         <th>Purpose</th>
         <th>Duration</th>
@@ -56,59 +59,38 @@ import LegalContact from "@/components/legal/LegalContact.astro";
     <tbody>
       <tr>
         <td><code>_ga</code></td>
-        <td>Google Analytics</td>
-        <td>Distinguish users for statistics.</td>
+        <td>Google Analytics 4</td>
+        <td>Distinguish unique users and sessions.</td>
         <td>2 years</td>
         <td>Analytics</td>
       </tr>
       <tr>
-        <td><code>_gid</code></td>
-        <td>Google Analytics</td>
-        <td>Track unique sessions.</td>
-        <td>24 hours</td>
+        <td><code>_ga_*</code></td>
+        <td>Google Analytics 4</td>
+        <td>Store and count page views.</td>
+        <td>2 years</td>
         <td>Analytics</td>
       </tr>
       <tr>
-        <td><code>_gat</code></td>
-        <td>Google Analytics</td>
-        <td>Throttle request rate.</td>
-        <td>1 minute</td>
-        <td>Performance</td>
+        <td><code>auxo_consent_preferences</code></td>
+        <td>AUXO Data Labs</td>
+        <td>Store your cookie consent preferences.</td>
+        <td>Persistent</td>
+        <td>Essential</td>
       </tr>
       <tr>
-        <td><code>IDE</code></td>
-        <td>DoubleClick (Google)</td>
-        <td>Serve targeted ads.</td>
-        <td>1 year</td>
-        <td>Marketing</td>
-      </tr>
-      <tr>
-        <td><code>test_cookie</code></td>
-        <td>DoubleClick (Google)</td>
-        <td>Verify browser support.</td>
-        <td>15 minutes</td>
+        <td><code>theme</code></td>
+        <td>AUXO Data Labs</td>
+        <td>Remember your light/dark theme preference.</td>
+        <td>Persistent</td>
         <td>Functionality</td>
       </tr>
       <tr>
-        <td><code>ajs_anonymous_id</code></td>
-        <td>Segment</td>
-        <td>Identify anonymous user.</td>
-        <td>1 year</td>
-        <td>Analytics</td>
-      </tr>
-      <tr>
-        <td><code>ajs_user_id</code></td>
-        <td>Segment</td>
-        <td>Identify logged-in user.</td>
-        <td>1 year</td>
-        <td>Analytics</td>
-      </tr>
-      <tr>
-        <td><code>ajs_group_id</code></td>
-        <td>Segment</td>
-        <td>Group-level analytics.</td>
-        <td>1 year</td>
-        <td>Analytics</td>
+        <td><code>_gcl_au</code></td>
+        <td>Google Tag Manager</td>
+        <td>Store and track conversions (with consent).</td>
+        <td>90 days</td>
+        <td>Marketing</td>
       </tr>
     </tbody>
   </table>
@@ -140,7 +122,16 @@ import LegalContact from "@/components/legal/LegalContact.astro";
 
   <h2>7. Web Beacons and Similar Technologies</h2>
   <p>
-    In addition to cookies, we may use other similar technologies: <strong>Web Beacons</strong> (small images embedded in web pages or emails that track page views), <strong>Pixel Tags</strong> (similar to web beacons, used to track user behavior and measure communication effectiveness), <strong>Local Storage</strong> (data stored locally in your browser for enhanced functionality), and <strong>Session Storage</strong> (temporary data stored for a single session). These technologies work similarly to cookies and are subject to the same privacy considerations outlined in our <a href="/legal/privacy-policy">Privacy Policy</a>.
+    In addition to cookies, we use other technologies to enhance your experience:
+  </p>
+  <ul>
+    <li><strong>Local Storage:</strong> Stores your theme preferences and session data locally in your browser. This data never leaves your device.</li>
+    <li><strong>Session Storage:</strong> Temporary data stored for a single browsing session (e.g., scroll position during page transitions).</li>
+    <li><strong>Web Beacons (Pixel Tags):</strong> Small images in emails that track opens and clicks (only with your consent for marketing emails).</li>
+    <li><strong>Service Workers:</strong> Background scripts that enable offline functionality and faster page loads.</li>
+  </ul>
+  <p>
+    These technologies respect your consent preferences and are subject to the same privacy protections outlined in our Privacy Policy.
   </p>
 
   <h2>8. Updates to This Cookie Policy</h2>

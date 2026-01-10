@@ -164,12 +164,10 @@ export function getConsentUrlParameters(): string {
   const consent = getStoredConsent();
   if (!consent) return '';
 
-  const params = new URLSearchParams({
+  return new URLSearchParams({
     gcs: [
       consent.analytics ? 'G100' : 'G000',
       consent.marketing ? 'G100' : 'G000',
     ].join(','),
-  });
-
-  return params.toString();
+  }).toString();
 }

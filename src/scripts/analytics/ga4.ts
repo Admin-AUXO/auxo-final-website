@@ -341,21 +341,6 @@ export function trackFormAbandonment(formName: string, fieldsFilled: number): vo
   });
 }
 
-export function trackVideo(params: {
-  action: 'play' | 'pause' | 'complete' | 'progress';
-  videoTitle: string;
-  videoUrl?: string;
-  percentage?: number;
-}): void {
-  trackEvent('video_' + params.action, {
-    event_category: 'video',
-    event_label: params.videoTitle,
-    video_title: params.videoTitle,
-    video_url: params.videoUrl || '',
-    video_percent: params.percentage || 0,
-  });
-}
-
 export function trackError(params: {
   errorMessage: string;
   errorType: string;

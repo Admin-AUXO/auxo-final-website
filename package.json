@@ -32,11 +32,9 @@
     "sanity:schema": "node scripts/generate-schema.js",
     "sanity:deploy": "node scripts/deploy-schema.js",
     "sanity:migrate": "node scripts/migrate-data.js",
-    "gtm:setup": "npx tsx scripts/gtm-setup-complete.ts",
-    "gtm:add-missing": "npx tsx scripts/gtm-add-missing-tags.ts",
     "gtm:check": "npx tsx scripts/gtm-check.ts",
-    "gtm:cleanup": "npx tsx scripts/gtm-cleanup.ts",
-    "gtm:publish": "npx tsx scripts/gtm-publish.ts"
+    "gtm:optimize": "npx tsx scripts/gtm-optimize.ts",
+    "gtm:cleanup-vars": "npx tsx scripts/gtm-cleanup-variables.ts"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",

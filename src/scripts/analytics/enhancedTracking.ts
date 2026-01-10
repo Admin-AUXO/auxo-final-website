@@ -20,67 +20,6 @@ export function trackViewItemList(params: {
   });
 }
 
-export function trackSelectItem(params: {
-  item_list_id: string;
-  item_list_name: string;
-  items: Array<{
-    item_id: string;
-    item_name: string;
-    item_category: string;
-    price?: number;
-    index?: number;
-  }>;
-}): void {
-  trackEvent('select_item', {
-    item_list_id: params.item_list_id,
-    item_list_name: params.item_list_name,
-    items: params.items,
-  });
-}
-
-export function trackBeginCheckout(params: {
-  currency?: string;
-  value: number;
-  items: Array<{
-    item_id: string;
-    item_name: string;
-    item_category: string;
-    price: number;
-    quantity: number;
-  }>;
-  coupon?: string;
-}): void {
-  const eventParams: Record<string, string | number | boolean | unknown[] | Record<string, unknown>> = {
-    currency: params.currency || 'USD',
-    value: params.value,
-    items: params.items,
-  };
-
-  if (params.coupon) {
-    eventParams.coupon = params.coupon;
-  }
-
-  trackEvent('begin_checkout', eventParams);
-}
-
-export function trackAddToCart(params: {
-  currency?: string;
-  value: number;
-  items: Array<{
-    item_id: string;
-    item_name: string;
-    item_category: string;
-    price: number;
-    quantity: number;
-  }>;
-}): void {
-  trackEvent('add_to_cart', {
-    currency: params.currency || 'USD',
-    value: params.value,
-    items: params.items,
-  });
-}
-
 export class SessionQualityTracker {
   private startTime: number;
   private engagementTime: number = 0;
@@ -274,58 +213,6 @@ export function setEnhancedUserProperties(properties: {
   }
 }
 
-export function trackEnhancedConversion(params: {
-  email?: string;
-  phone_number?: string;
-  first_name?: string;
-  last_name?: string;
-  company?: string;
-  address?: {
-    street?: string;
-    city?: string;
-    region?: string;
-    postal_code?: string;
-    country?: string;
-  };
-}): void {
-  if (typeof window === 'undefined') return;
-
-  const hashedData: Record<string, unknown> = {};
-
-  if (params.email) {
-    hashedData.sha256_email_address = params.email;
-  }
-
-  if (params.phone_number) {
-    hashedData.sha256_phone_number = params.phone_number;
-  }
-
-  if (params.first_name) {
-    hashedData.sha256_first_name = params.first_name.toLowerCase().trim();
-  }
-
-  if (params.last_name) {
-    hashedData.sha256_last_name = params.last_name.toLowerCase().trim();
-  }
-
-  if (params.address) {
-    hashedData.address = {
-      sha256_street: params.address.street?.toLowerCase().trim(),
-      city: params.address.city?.toLowerCase().trim(),
-      region: params.address.region?.toLowerCase().trim(),
-      postal_code: params.address.postal_code?.replace(/\s/g, '').toLowerCase(),
-      country: params.address.country?.toLowerCase().trim(),
-    };
-  }
-
-  if (window.dataLayer) {
-    window.dataLayer.push({
-      event: 'enhanced_conversion',
-      enhanced_conversion_data: hashedData,
-    });
-  }
-}
-
 export function trackCustomEvent(params: {
   event_name: string;
   event_category?: string;
@@ -350,25 +237,6 @@ export function trackCustomEvent(params: {
   }
 
   trackEvent(params.event_name, eventParams);
-}
-
-export function trackElementVisibility(params: {
-  element_id: string;
-  element_name: string;
-  element_category?: string;
-  visible_time?: number;
-}): void {
-  const eventParams: Record<string, string | number | boolean | unknown[] | Record<string, unknown>> = {
-    event_category: 'Visibility',
-    event_label: params.element_name,
-    element_id: params.element_id,
-    element_name: params.element_name,
-    element_category: params.element_category || 'unknown',
-    visible_time: params.visible_time || 0,
-    non_interaction: true,
-  };
-
-  trackEvent('element_visibility', eventParams);
 }
 
 export function initEnhancedTracking(): { sessionTracker: SessionQualityTracker; cleanup: () => void } {

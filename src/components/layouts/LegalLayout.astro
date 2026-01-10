@@ -19,10 +19,13 @@ const {
 } = Astro.props;
 
 const LEGAL_PAGES = [
-  { href: createUrl("legal/privacy-policy"), label: "Privacy Policy", icon: "mdi:shield-lock" },
-  { href: createUrl("legal/terms"), label: "Terms of Service", icon: "mdi:file-document" },
-  { href: createUrl("legal/cookie-policy"), label: "Cookie Policy", icon: "mdi:cookie" },
+  { href: createUrl("legal/privacy-policy"), label: "Privacy Policy", icon: "mdi:shield-lock", path: "legal/privacy-policy" },
+  { href: createUrl("legal/terms"), label: "Terms of Service", icon: "mdi:file-document", path: "legal/terms" },
+  { href: createUrl("legal/cookie-policy"), label: "Cookie Policy", icon: "mdi:cookie", path: "legal/cookie-policy" },
 ] as const;
+
+const currentPath = Astro.url.pathname.replace(/^\//, '').replace(/\/$/, '');
+const relatedPages = LEGAL_PAGES.filter(page => !currentPath.includes(page.path));
 ---
 
 <BaseLayout
@@ -103,8 +106,8 @@ const LEGAL_PAGES = [
                 <Icon name="mdi:file-document-multiple" class="w-5 h-5 text-accent-green" />
                 Related Legal Documents
               </h3>
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {LEGAL_PAGES.map((page) => (
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {relatedPages.map((page) => (
                   <a
                     href={page.href}
                     class="flex items-center gap-3 p-4 rounded-xl bg-accent-green/5 border border-accent-green/20 hover:bg-accent-green/10 hover:border-accent-green/40 hover:shadow-lg hover:shadow-accent-green/10 transition-all duration-200 group"
