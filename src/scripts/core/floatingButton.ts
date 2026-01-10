@@ -1,10 +1,6 @@
 import { getScrollTop } from '@/scripts/utils/scrollHelpers';
 import { SCROLL_THRESHOLDS, BREAKPOINTS } from '@/scripts/constants';
 
-const FAB_SCROLL_THRESHOLD = SCROLL_THRESHOLDS.FLOATING_BUTTON_SHOW;
-const FAB_HIDE_DELAY = SCROLL_THRESHOLDS.FLOATING_BUTTON_HIDE_INITIAL;
-const FAB_SCROLL_HIDE_THRESHOLD = SCROLL_THRESHOLDS.FLOATING_BUTTON_ANDROID_DELAY;
-
 let lastScrollTop = 0;
 let hideTimeout: number | null = null;
 let isFabHidden = false;
@@ -12,18 +8,15 @@ let isInitialized = false;
 let scrollHandler: (() => void) | null = null;
 let resizeHandler: (() => void) | null = null;
 
-function getFabElement(): HTMLElement | null {
-  return document.getElementById('floating-calendar-button');
-}
-
 function updateFabVisibility(scrollTop: number): void {
-  const fab = getFabElement();
+  const fab = document.getElementById('floating-calendar-button');
   if (!fab) return;
 
   const scrollDelta = scrollTop - lastScrollTop;
-  const scrollingDown = scrollDelta > 0 && Math.abs(scrollDelta) > FAB_SCROLL_HIDE_THRESHOLD;
-  const scrollingUp = scrollDelta < 0 && Math.abs(scrollDelta) > FAB_SCROLL_HIDE_THRESHOLD;
-  const scrolledPastThreshold = scrollTop > FAB_SCROLL_THRESHOLD;
+  const absDelta = Math.abs(scrollDelta);
+  const scrollingDown = scrollDelta > 0 && absDelta > SCROLL_THRESHOLDS.FLOATING_BUTTON_ANDROID_DELAY;
+  const scrollingUp = scrollDelta < 0 && absDelta > SCROLL_THRESHOLDS.FLOATING_BUTTON_ANDROID_DELAY;
+  const scrolledPastThreshold = scrollTop > SCROLL_THRESHOLDS.FLOATING_BUTTON_SHOW;
 
   if (hideTimeout) {
     clearTimeout(hideTimeout);
@@ -33,17 +26,17 @@ function updateFabVisibility(scrollTop: number): void {
   if (scrollingDown && scrolledPastThreshold && !isFabHidden) {
     fab.classList.add('fab-hidden');
     isFabHidden = true;
-  } else if (scrollingUp || scrollTop <= FAB_SCROLL_THRESHOLD) {
+  } else if (scrollingUp || scrollTop <= SCROLL_THRESHOLDS.FLOATING_BUTTON_SHOW) {
     fab.classList.remove('fab-hidden');
     isFabHidden = false;
 
-    if (scrollTop > FAB_SCROLL_THRESHOLD) {
+    if (scrollTop > SCROLL_THRESHOLDS.FLOATING_BUTTON_SHOW) {
       hideTimeout = window.setTimeout(() => {
         if (!isFabHidden) {
           fab.classList.add('fab-hidden');
           isFabHidden = true;
         }
-      }, FAB_HIDE_DELAY);
+      }, SCROLL_THRESHOLDS.FLOATING_BUTTON_HIDE_INITIAL);
     }
   }
 
@@ -51,11 +44,10 @@ function updateFabVisibility(scrollTop: number): void {
 }
 
 export function initFloatingButton(): void {
-  const fab = getFabElement();
+  const fab = document.getElementById('floating-calendar-button');
   if (!fab) return;
 
   const isMobile = window.innerWidth < BREAKPOINTS.LG;
-  const isAndroid = /Android/i.test(navigator.userAgent);
 
   if (isInitialized) {
     if (!isMobile) {
@@ -73,22 +65,20 @@ export function initFloatingButton(): void {
   isInitialized = true;
 
   let lastScrollTime = 0;
-  const scrollThrottleDelay = isAndroid ? 100 : 32;
+  const scrollThrottleDelay = /Android/i.test(navigator.userAgent) ? 100 : 32;
 
   scrollHandler = (): void => {
     const now = Date.now();
     if (now - lastScrollTime < scrollThrottleDelay) return;
 
     lastScrollTime = now;
-    const scrollTop = getScrollTop();
-    updateFabVisibility(scrollTop);
+    updateFabVisibility(getScrollTop());
   };
 
   window.addEventListener('scroll', scrollHandler, { passive: true });
 
   resizeHandler = (): void => {
-    const newIsMobile = window.innerWidth < BREAKPOINTS.LG;
-    if (!newIsMobile) {
+    if (window.innerWidth >= BREAKPOINTS.LG) {
       fab.classList.remove('fab-hidden');
       isFabHidden = false;
       if (hideTimeout) {
@@ -100,9 +90,7 @@ export function initFloatingButton(): void {
 
   window.addEventListener('resize', resizeHandler, { passive: true });
 
-  requestAnimationFrame(() => {
-    updateFabVisibility(getScrollTop());
-  });
+  requestAnimationFrame(() => updateFabVisibility(getScrollTop()));
 }
 
 export function cleanupFloatingButton(): void {

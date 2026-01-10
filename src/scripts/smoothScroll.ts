@@ -4,15 +4,15 @@ import { getScrollTop } from './utils/scrollHelpers';
 import { SCROLL_OFFSETS } from './constants';
 import { forceUnlockScroll } from './navigation/utils';
 
+const IDLE_THRESHOLD = 60;
+
 let lenis: Lenis | null = null;
 let isMobile = false;
 let rafId: number | null = null;
 let anchorClickHandlers: Array<{ anchor: Element; handler: (e: Event) => void }> = [];
 let pageLoadHandler: (() => void) | null = null;
-
 let lastScrollY = 0;
 let idleFrameCount = 0;
-const IDLE_THRESHOLD = 60;
 let isRafPaused = false;
 let resumeRafHandler: (() => void) | null = null;
 
@@ -56,28 +56,24 @@ function setupAnchorLinks(): void {
 }
 
 function handleHashNavigation(): void {
-  if (window.location.hash) {
-    const target = document.querySelector(window.location.hash) as HTMLElement;
-    if (target) {
-      if (document.body.classList.contains('scroll-locked')) {
-        forceUnlockScroll();
-      }
+  if (!window.location.hash) return;
 
-      if (lenis) {
-        requestAnimationFrame(() => {
-          lenis?.scrollTo(target, { immediate: true, offset: -SCROLL_OFFSETS.DEFAULT });
-        });
-      } else {
-        requestAnimationFrame(() => {
-          const offset = SCROLL_OFFSETS.DEFAULT;
-          const rect = target.getBoundingClientRect();
-          const scrollTop = getScrollTop();
-          const targetPosition = rect.top + scrollTop - offset;
-          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-        });
-      }
-    }
+  const target = document.querySelector(window.location.hash) as HTMLElement;
+  if (!target) return;
+
+  if (document.body.classList.contains('scroll-locked')) {
+    forceUnlockScroll();
   }
+
+  requestAnimationFrame(() => {
+    if (lenis) {
+      lenis.scrollTo(target, { immediate: true, offset: -SCROLL_OFFSETS.DEFAULT });
+    } else {
+      const rect = target.getBoundingClientRect();
+      const targetPosition = rect.top + getScrollTop() - SCROLL_OFFSETS.DEFAULT;
+      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+    }
+  });
 }
 
 export function initSmoothScroll() {
@@ -164,13 +160,7 @@ export function scrollToElement(target: string | HTMLElement, options?: { offset
   const element = typeof target === 'string' ? document.querySelector(target) as HTMLElement : target;
   if (!element) return;
 
-  const offset = options?.offset || 0;
-
-  if (options?.immediate) {
-    lenis.scrollTo(element, { offset, immediate: true });
-  } else {
-    lenis.scrollTo(element, { offset });
-  }
+  lenis.scrollTo(element, { offset: options?.offset || 0, immediate: options?.immediate });
 }
 
 export function destroySmoothScroll() {

@@ -11,9 +11,9 @@ const accordionStates = new Map<HTMLElement, AccordionState>();
 function handleAccordionToggle(accordion: HTMLElement, summary: HTMLElement, e: Event): void {
   e.preventDefault();
   e.stopPropagation();
-  
+
   const isOpen = accordion.hasAttribute('open');
-  
+
   if (isOpen) {
     accordion.removeAttribute('open');
     summary.setAttribute('aria-expanded', 'false');
@@ -21,10 +21,10 @@ function handleAccordionToggle(accordion: HTMLElement, summary: HTMLElement, e: 
     accordion.setAttribute('open', '');
     summary.setAttribute('aria-expanded', 'true');
   }
-  
-  accordion.dispatchEvent(new CustomEvent('accordion-toggle', { 
+
+  accordion.dispatchEvent(new CustomEvent('accordion-toggle', {
     detail: { isOpen: !isOpen },
-    bubbles: true 
+    bubbles: true
   }));
 }
 
@@ -38,14 +38,12 @@ function setupAccordion(accordion: HTMLElement): void {
   summary.setAttribute('aria-expanded', String(isOpen));
   summary.setAttribute('role', 'button');
   summary.setAttribute('tabindex', '0');
-  
+
   if (!accordion.hasAttribute('role')) {
     accordion.setAttribute('role', 'region');
   }
 
-  const clickHandler = (e: MouseEvent | TouchEvent) => {
-    handleAccordionToggle(accordion, summary, e);
-  };
+  const clickHandler = (e: MouseEvent | TouchEvent) => handleAccordionToggle(accordion, summary, e);
 
   const keyHandler = (e: KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -90,10 +88,8 @@ export function initAccordions(): void {
   const accordions = document.querySelectorAll<HTMLElement>(
     '.service-accordion-item, .accordion-item, [class*="-accordion-item"], details[class*="accordion"]'
   );
-  
-  accordions.forEach((accordion) => {
-    setupAccordion(accordion);
-  });
+
+  accordions.forEach(setupAccordion);
 }
 
 export function cleanupAccordions(): void {

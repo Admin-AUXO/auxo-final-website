@@ -3,11 +3,8 @@ import { getNavElements, updateNavHeight } from './utils';
 import { getScrollTop } from '@/scripts/utils/scrollHelpers';
 import { SCROLL_THRESHOLDS } from '@/scripts/constants';
 
-const SCROLL_THRESHOLD = SCROLL_THRESHOLDS.SCROLL_INDICATOR_THRESHOLD;
-
 function updateNavState(nav: HTMLElement, scrollTop: number): void {
-  const shouldBeScrolled = scrollTop > SCROLL_THRESHOLD;
-  nav.classList.toggle('nav-scrolled', shouldBeScrolled);
+  nav.classList.toggle('nav-scrolled', scrollTop > SCROLL_THRESHOLDS.SCROLL_INDICATOR_THRESHOLD);
 }
 
 function handleLenisScroll(data: { scroll: number }): void {
@@ -58,14 +55,9 @@ export function setupScrollEffects(): void {
     window.addEventListener('scroll', handleScroll, { passive: true });
   }
 
-  requestAnimationFrame(() => {
-    const initialScrollTop = getScrollTop();
-    updateNavState(nav, initialScrollTop);
-  });
+  requestAnimationFrame(() => updateNavState(nav, getScrollTop()));
 
   document.addEventListener('themechange', () => {
-    requestAnimationFrame(() => {
-      if (nav) updateNavState(nav, getScrollTop());
-    });
+    requestAnimationFrame(() => updateNavState(nav, getScrollTop()));
   });
 }
