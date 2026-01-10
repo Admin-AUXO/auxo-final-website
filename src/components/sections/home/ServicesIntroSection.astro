@@ -14,8 +14,11 @@ interface Props {
 }
 
 const { content } = Astro.props;
+
+const hasContent = Boolean((content?.title && content.title.trim()) || (content?.items && Array.isArray(content.items) && content.items.length > 0));
 ---
 
+{hasContent && (
 <SectionContainer
   id="services-intro"
   padding="normal"
@@ -29,7 +32,7 @@ const { content } = Astro.props;
       <SectionHeader
         title={content.title}
         subtitle={content.subheading}
-        highlight="Starting Points"
+        highlight="Common Starting Points"
         subtitleHighlight="begin"
       />
 
@@ -40,7 +43,7 @@ const { content } = Astro.props;
               variant="service"
               icon={item.icon}
               title={item.title}
-              description={item.description}
+              description={item.shortDescription || item.description}
               link={item.link ? createUrl(item.link) : undefined}
               index={index}
               isCarousel={false}
@@ -63,7 +66,7 @@ const { content } = Astro.props;
               variant="service"
               icon={item.icon}
               title={item.title}
-              description={item.description}
+              description={item.shortDescription || item.description}
               link={item.link ? createUrl(item.link) : undefined}
               index={index}
               isCarousel={true}
@@ -86,9 +89,12 @@ const { content } = Astro.props;
     </div>
   </div>
 </SectionContainer>
+)}
 
+{hasContent && (
 <script>
   import { autoInitCarousels } from "@/scripts/sections/autoInit";
   autoInitCarousels();
 </script>
+)}
 

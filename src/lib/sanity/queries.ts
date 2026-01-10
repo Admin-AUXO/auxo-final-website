@@ -61,6 +61,7 @@ export const homepageQuery = groq`*[_type == "homepage"] | order(_updatedAt desc
       icon,
       title,
       description,
+      shortDescription,
       descriptionHighlight,
       link
     },
@@ -95,6 +96,7 @@ export const servicesQuery = groq`*[_type == "services"][0]{
     services[] {
       name,
       description,
+      shortDescription,
       descriptionHighlight,
       link
     },

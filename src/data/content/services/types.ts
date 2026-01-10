@@ -73,6 +73,7 @@ export interface ServicesContent {
     services: {
       name: string;
       description: string;
+      shortDescription?: string;
       descriptionHighlight?: string | string[];
       link: string;
     }[];

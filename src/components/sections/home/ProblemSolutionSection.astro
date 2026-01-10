@@ -12,33 +12,43 @@ const highlightAuxo = (text: string) => {
   return text.replace(/\b(AUXO|Auxo)\b/g, '<span class="auxo-highlight">$1</span>');
 };
 
-const line1Html = highlightAuxo(problemContent?.line1 || '');
-const line2Html = highlightAuxo(problemContent?.line2 || '');
+const line1 = problemContent?.line1 || '';
+const line2 = problemContent?.line2 || '';
+const line1Html = highlightAuxo(line1);
+const line2Html = highlightAuxo(line2);
+
+const hasContent = Boolean((line1 && line1.trim()) || (line2 && line2.trim()));
 ---
 
-<section id="problem-solution" class="problem-solution-section">
-  <div class="content-wrapper">
-    <div
-      class="problem-statement"
-      data-reveal="fade-down"
-      data-reveal-duration="200"
-      data-reveal-easing="ease-out"
-      data-reveal-delay="0"
-    >
-      <p set:html={line1Html} />
-    </div>
+{hasContent && (
+  <section id="problem-solution" class="problem-solution-section">
+    <div class="content-wrapper">
+      {line1Html && (
+        <div
+          class="problem-statement"
+          data-reveal="fade-down"
+          data-reveal-duration="200"
+          data-reveal-easing="ease-out"
+          data-reveal-delay="0"
+        >
+          <p set:html={line1Html} />
+        </div>
+      )}
 
-    <div
-      class="solution-statement"
-      data-reveal="fade-up"
-      data-reveal-duration="200"
-      data-reveal-easing="ease-out"
-      data-reveal-delay="100"
-    >
-      <p set:html={line2Html} />
+      {line2Html && (
+        <div
+          class="solution-statement"
+          data-reveal="fade-up"
+          data-reveal-duration="200"
+          data-reveal-easing="ease-out"
+          data-reveal-delay="100"
+        >
+          <p set:html={line2Html} />
+        </div>
+      )}
     </div>
-  </div>
-</section>
+  </section>
+)}
 
 <style>
 .problem-solution-section {

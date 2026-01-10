@@ -1,5 +1,11 @@
+/**
+ * Core Web Vitals Tracking for GA4
+ * Tracks performance metrics: LCP, FID, CLS, INP, FCP, TTFB
+ * @see https://web.dev/vitals/
+ */
+
 import { onCLS, onFCP, onINP, onLCP, onTTFB, type Metric } from 'web-vitals';
-import { trackEvent } from '../analytics/ga4';
+import { trackEvent } from './ga4';
 
 interface WebVitalMetric {
   name: string;
@@ -10,9 +16,13 @@ interface WebVitalMetric {
   navigationType: string;
 }
 
+/**
+ * Get rating based on metric thresholds (2026 standards)
+ */
 function getRating(metric: Metric): 'good' | 'needs-improvement' | 'poor' {
   const { name, value } = metric;
 
+  // Updated thresholds for 2026
   const thresholds = {
     CLS: { good: 0.1, poor: 0.25 },
     FCP: { good: 1800, poor: 3000 },
@@ -29,6 +39,9 @@ function getRating(metric: Metric): 'good' | 'needs-improvement' | 'poor' {
   return 'poor';
 }
 
+/**
+ * Send web vital metric to GA4
+ */
 function sendToGA4(metric: Metric): void {
   const webVitalMetric: WebVitalMetric = {
     name: metric.name,
@@ -39,11 +52,7 @@ function sendToGA4(metric: Metric): void {
     navigationType: metric.navigationType,
   };
 
-  if (import.meta.env.DEV) {
-    const emoji = webVitalMetric.rating === 'good' ? '✓' : webVitalMetric.rating === 'needs-improvement' ? '⚠' : '✗';
-    console.log(`${emoji} ${metric.name}: ${webVitalMetric.value}${metric.name === 'CLS' ? '' : 'ms'} (${webVitalMetric.rating})`);
-  }
-
+  // Send to GA4 with recommended event structure
   trackEvent('web_vitals', {
     event_category: 'Web Vitals',
     event_label: metric.name,
@@ -54,9 +63,10 @@ function sendToGA4(metric: Metric): void {
     metric_rating: webVitalMetric.rating,
     metric_name: metric.name,
     navigation_type: metric.navigationType,
-    non_interaction: true,
+    non_interaction: true, // Don't affect bounce rate
   });
 
+  // Also send to dataLayer for GTM
   if (typeof window !== 'undefined' && window.dataLayer) {
     window.dataLayer.push({
       event: 'core_web_vitals',
@@ -65,16 +75,21 @@ function sendToGA4(metric: Metric): void {
   }
 }
 
+/**
+ * Initialize Core Web Vitals tracking
+ */
 export function initWebVitals(): void {
   if (typeof window === 'undefined') return;
 
   try {
+    // Track all Core Web Vitals
     onCLS(sendToGA4);
     onFCP(sendToGA4);
     onINP(sendToGA4);
     onLCP(sendToGA4);
     onTTFB(sendToGA4);
 
+    // Track page load time
     if (window.performance && window.performance.timing) {
       window.addEventListener('load', () => {
         setTimeout(() => {
@@ -96,11 +111,13 @@ export function initWebVitals(): void {
       });
     }
 
+    // Track long tasks (performance bottlenecks)
     if ('PerformanceObserver' in window) {
       try {
         const observer = new PerformanceObserver((list) => {
           for (const entry of list.getEntries()) {
             if (entry.duration > 50) {
+              // Long task threshold
               trackEvent('long_task', {
                 event_category: 'Performance',
                 task_duration: Math.round(entry.duration),
@@ -113,9 +130,8 @@ export function initWebVitals(): void {
 
         observer.observe({ entryTypes: ['longtask'] });
       } catch (e) {
-        if (import.meta.env.DEV) {
-          console.debug('Long task monitoring not supported');
-        }
+        // PerformanceObserver may not be fully supported
+        console.debug('Long task monitoring not supported');
       }
     }
   } catch (error) {
@@ -125,6 +141,9 @@ export function initWebVitals(): void {
   }
 }
 
+/**
+ * Track custom performance marks
+ */
 export function trackPerformanceMark(markName: string): void {
   if (typeof window === 'undefined' || !window.performance) return;
 
@@ -137,12 +156,13 @@ export function trackPerformanceMark(markName: string): void {
       non_interaction: true,
     });
   } catch (error) {
-    if (import.meta.env.DEV) {
-      console.debug('Performance mark error:', error);
-    }
+    console.debug('Performance mark error:', error);
   }
 }
 
+/**
+ * Track custom performance measure
+ */
 export function trackPerformanceMeasure(
   measureName: string,
   startMark: string,
@@ -161,12 +181,13 @@ export function trackPerformanceMeasure(
       non_interaction: true,
     });
   } catch (error) {
-    if (import.meta.env.DEV) {
-      console.debug('Performance measure error:', error);
-    }
+    console.debug('Performance measure error:', error);
   }
 }
 
+/**
+ * Get current page performance metrics
+ */
 export function getPerformanceMetrics(): Record<string, number> | null {
   if (typeof window === 'undefined' || !window.performance || !window.performance.timing) {
     return null;

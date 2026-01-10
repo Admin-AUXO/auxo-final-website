@@ -11,26 +11,56 @@ import { forceUnlockScroll } from '../navigation/utils';
 import { initWebVitals } from '../utils/webVitals';
 import { initGA4Tracking } from '../analytics/ga4';
 import { initInteractionTracking } from '../analytics/navigationTracking';
+import { initEnhancedTracking } from '../analytics/enhancedTracking';
 
 let isInitialized = false;
 let lazyLoadingObserver: IntersectionObserver | null = null;
 let ga4Cleanup: (() => void) | null = null;
 let interactionCleanup: (() => void) | null = null;
+let enhancedTrackingCleanup: (() => void) | null = null;
 
 function initLazyLoading(): void {
-  if (lazyLoadingObserver) return;
+  if (lazyLoadingObserver) {
+    lazyLoadingObserver.disconnect();
+    lazyLoadingObserver = null;
+  }
 
   const lazyElements = document.querySelectorAll('[data-lazy-load]');
   if (!lazyElements.length) return;
 
+  const checkIfInViewport = (el: Element): boolean => {
+    const rect = el.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+    return (
+      rect.top < windowHeight + 200 &&
+      rect.bottom > -200 &&
+      rect.left < windowWidth + 200 &&
+      rect.right > -200
+    );
+  };
+
   const immediateLoadCount = Math.min(2, lazyElements.length);
-  for (let i = 0; i < immediateLoadCount; i++) {
+  const elementsToLoad: HTMLElement[] = [];
+
+  for (let i = 0; i < lazyElements.length; i++) {
     const el = lazyElements[i] as HTMLElement;
-    el.classList.add('lazy-loaded');
-    el.removeAttribute('data-lazy-load');
+    if (i < immediateLoadCount || checkIfInViewport(el)) {
+      elementsToLoad.push(el);
+    }
   }
 
-  const remainingElements = Array.from(lazyElements).slice(immediateLoadCount);
+  elementsToLoad.forEach((el) => {
+    requestAnimationFrame(() => {
+      el.classList.add('lazy-loaded');
+      el.removeAttribute('data-lazy-load');
+    });
+  });
+
+  const remainingElements = Array.from(lazyElements).filter(
+    (el) => !elementsToLoad.includes(el as HTMLElement)
+  );
+
   if (remainingElements.length === 0) return;
 
   const isMobile = window.innerWidth < 768;
@@ -73,6 +103,8 @@ export function initCoreFeatures(): void {
       initSmoothScroll();
       initScrollProgress();
       initNavigation();
+      initScrollAnimations();
+      initLazyLoading();
     } catch (error) {
       if (import.meta.env.DEV) console.warn('Critical init error:', error);
     }
@@ -80,13 +112,15 @@ export function initCoreFeatures(): void {
 
   const runDeferredInit = () => {
     try {
-      initScrollAnimations();
       initFloatingButton();
       initAccordions();
-      initLazyLoading();
 
       ga4Cleanup = initGA4Tracking();
       interactionCleanup = initInteractionTracking();
+
+      // Initialize enhanced tracking (session quality, ecommerce)
+      const { cleanup } = initEnhancedTracking();
+      enhancedTrackingCleanup = cleanup;
 
       setTimeout(() => {
         try {
@@ -212,6 +246,11 @@ export function cleanupCoreFeatures(): void {
   if (interactionCleanup) {
     interactionCleanup();
     interactionCleanup = null;
+  }
+
+  if (enhancedTrackingCleanup) {
+    enhancedTrackingCleanup();
+    enhancedTrackingCleanup = null;
   }
 
   isInitialized = false;

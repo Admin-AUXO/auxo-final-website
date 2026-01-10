@@ -1,0 +1,523 @@
+---
+/**
+ * Cookie Consent Banner Component
+ * Implements Google Consent Mode v2 with user preferences
+ */
+---
+
+<div id="cookie-consent-banner" class="cookie-consent-banner" role="dialog" aria-label="Cookie Consent" aria-describedby="cookie-consent-description" data-consent-banner>
+  <div class="cookie-consent-content">
+    <div class="cookie-consent-text">
+      <h2 class="cookie-consent-title">Your Privacy Matters</h2>
+      <p id="cookie-consent-description" class="cookie-consent-description">
+        We use cookies to enhance your experience, analyze site traffic, and personalize content. You can manage your preferences below.
+        <a href="/legal/cookie-policy" class="cookie-consent-link">Learn more</a>
+      </p>
+    </div>
+
+    <div class="cookie-consent-actions">
+      <button type="button" class="cookie-btn cookie-btn-manage" data-action="manage">
+        Manage Preferences
+      </button>
+      <button type="button" class="cookie-btn cookie-btn-reject" data-action="reject">
+        Reject All
+      </button>
+      <button type="button" class="cookie-btn cookie-btn-accept" data-action="accept">
+        Accept All
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="cookie-preferences-modal" class="cookie-modal" role="dialog" aria-labelledby="cookie-modal-title" aria-modal="true" data-consent-modal>
+  <div class="cookie-modal-overlay" data-close-modal></div>
+  <div class="cookie-modal-content">
+    <div class="cookie-modal-header">
+      <h2 id="cookie-modal-title" class="cookie-modal-title">Cookie Preferences</h2>
+      <button type="button" class="cookie-modal-close" data-close-modal aria-label="Close">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="cookie-modal-body">
+      <p class="cookie-modal-intro">
+        We use different types of cookies to optimize your experience on our website. Click on the categories below to learn more and adjust your preferences.
+      </p>
+
+      <div class="cookie-category">
+        <div class="cookie-category-header">
+          <label class="cookie-toggle">
+            <input type="checkbox" checked disabled data-category="necessary" />
+            <span class="cookie-toggle-slider"></span>
+          </label>
+          <div class="cookie-category-info">
+            <h3 class="cookie-category-title">Essential Cookies <span class="cookie-required">(Required)</span></h3>
+            <p class="cookie-category-description">
+              These cookies are necessary for the website to function and cannot be disabled. They are usually set in response to your actions, such as setting privacy preferences or filling in forms.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cookie-category">
+        <div class="cookie-category-header">
+          <label class="cookie-toggle">
+            <input type="checkbox" data-category="analytics" />
+            <span class="cookie-toggle-slider"></span>
+          </label>
+          <div class="cookie-category-info">
+            <h3 class="cookie-category-title">Analytics Cookies</h3>
+            <p class="cookie-category-description">
+              These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously. This helps us improve our website.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cookie-category">
+        <div class="cookie-category-header">
+          <label class="cookie-toggle">
+            <input type="checkbox" data-category="marketing" />
+            <span class="cookie-toggle-slider"></span>
+          </label>
+          <div class="cookie-category-info">
+            <h3 class="cookie-category-title">Marketing Cookies</h3>
+            <p class="cookie-category-description">
+              These cookies are used to track visitors across websites to display relevant advertisements and measure campaign effectiveness.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cookie-category">
+        <div class="cookie-category-header">
+          <label class="cookie-toggle">
+            <input type="checkbox" data-category="preferences" />
+            <span class="cookie-toggle-slider"></span>
+          </label>
+          <div class="cookie-category-info">
+            <h3 class="cookie-category-title">Preference Cookies</h3>
+            <p class="cookie-category-description">
+              These cookies enable the website to remember choices you make (such as your theme preference) and provide enhanced, more personalized features.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cookie-modal-footer">
+      <button type="button" class="cookie-btn cookie-btn-secondary" data-action="reject-modal">
+        Reject All
+      </button>
+      <button type="button" class="cookie-btn cookie-btn-primary" data-action="save-preferences">
+        Save Preferences
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2147483647;
+    background: linear-gradient(135deg, rgba(18, 18, 18, 0.98) 0%, rgba(30, 30, 30, 0.98) 100%);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .cookie-consent-banner.show {
+    transform: translateY(0);
+  }
+
+  .cookie-consent-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .cookie-consent-text {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  .cookie-consent-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .cookie-consent-description {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .cookie-consent-link {
+    color: #10b981;
+    text-decoration: underline;
+    transition: color 0.2s;
+  }
+
+  .cookie-consent-link:hover {
+    color: #34d399;
+  }
+
+  .cookie-consent-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .cookie-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .cookie-btn-manage {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .cookie-btn-manage:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .cookie-btn-reject {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .cookie-btn-reject:hover {
+    background: rgba(239, 68, 68, 0.2);
+  }
+
+  .cookie-btn-accept {
+    background: #10b981;
+    color: #ffffff;
+  }
+
+  .cookie-btn-accept:hover {
+    background: #059669;
+  }
+
+  /* Modal Styles */
+  .cookie-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2147483648;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .cookie-modal.show {
+    display: flex;
+  }
+
+  .cookie-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+  }
+
+  .cookie-modal-content {
+    position: relative;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .cookie-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .cookie-modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  .cookie-modal-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+  }
+
+  .cookie-modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+
+  .cookie-modal-body {
+    padding: 1.5rem;
+  }
+
+  .cookie-modal-intro {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 1.5rem 0;
+    line-height: 1.6;
+  }
+
+  .cookie-category {
+    margin-bottom: 1.5rem;
+  }
+
+  .cookie-category-header {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .cookie-toggle {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .cookie-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .cookie-toggle input:disabled + .cookie-toggle-slider {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .cookie-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: 0.3s;
+    border-radius: 24px;
+  }
+
+  .cookie-toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+  }
+
+  .cookie-toggle input:checked + .cookie-toggle-slider {
+    background-color: #10b981;
+  }
+
+  .cookie-toggle input:checked + .cookie-toggle-slider:before {
+    transform: translateX(24px);
+  }
+
+  .cookie-category-info {
+    flex: 1;
+  }
+
+  .cookie-category-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .cookie-required {
+    font-size: 0.75rem;
+    color: #10b981;
+    font-weight: 500;
+  }
+
+  .cookie-category-description {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .cookie-modal-footer {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: flex-end;
+  }
+
+  .cookie-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .cookie-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .cookie-btn-primary {
+    background: #10b981;
+    color: #ffffff;
+  }
+
+  .cookie-btn-primary:hover {
+    background: #059669;
+  }
+
+  @media (max-width: 768px) {
+    .cookie-consent-content {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .cookie-consent-actions {
+      flex-direction: column;
+    }
+
+    .cookie-btn {
+      width: 100%;
+    }
+
+    .cookie-modal-footer {
+      flex-direction: column-reverse;
+    }
+  }
+</style>
+
+<script>
+  import {
+    initConsentMode,
+    acceptAllConsent,
+    rejectAllConsent,
+    updateConsent,
+    hasConsentChoice,
+    type ConsentPreferences,
+  } from '@/scripts/analytics/consent';
+
+  // Initialize consent mode BEFORE any other tracking
+  initConsentMode();
+
+  function initCookieConsent() {
+    const banner = document.querySelector('[data-consent-banner]');
+    const modal = document.querySelector('[data-consent-modal]');
+
+    if (!banner || !modal) return;
+
+    // Show banner if no consent choice has been made
+    if (!hasConsentChoice()) {
+      setTimeout(() => {
+        banner.classList.add('show');
+      }, 1000);
+    }
+
+    // Accept all
+    document.querySelectorAll('[data-action="accept"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        acceptAllConsent();
+        banner.classList.remove('show');
+        modal.classList.remove('show');
+      });
+    });
+
+    // Reject all
+    document.querySelectorAll('[data-action="reject"], [data-action="reject-modal"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        rejectAllConsent();
+        banner.classList.remove('show');
+        modal.classList.remove('show');
+      });
+    });
+
+    // Manage preferences
+    document.querySelector('[data-action="manage"]')?.addEventListener('click', () => {
+      banner.classList.remove('show');
+      modal.classList.add('show');
+    });
+
+    // Close modal
+    document.querySelectorAll('[data-close-modal]').forEach((el) => {
+      el.addEventListener('click', () => {
+        modal.classList.remove('show');
+      });
+    });
+
+    // Save preferences
+    document.querySelector('[data-action="save-preferences"]')?.addEventListener('click', () => {
+      const preferences: ConsentPreferences = {
+        necessary: true,
+        analytics: (document.querySelector('[data-category="analytics"]') as HTMLInputElement)?.checked || false,
+        marketing: (document.querySelector('[data-category="marketing"]') as HTMLInputElement)?.checked || false,
+        preferences: (document.querySelector('[data-category="preferences"]') as HTMLInputElement)?.checked || false,
+      };
+
+      updateConsent(preferences);
+      modal.classList.remove('show');
+    });
+  }
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCookieConsent);
+  } else {
+    initCookieConsent();
+  }
+
+  // Reinitialize on page transitions
+  document.addEventListener('astro:page-load', initCookieConsent);
+</script>

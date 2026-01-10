@@ -83,7 +83,7 @@ const serviceIcons = [
               variant="service"
               icon={serviceIcons[index]}
               title={service?.name || ''}
-              description={service?.description || ''}
+              description={service?.shortDescription || service?.description || ''}
               link={createUrl(service?.link || '#')}
               index={index}
               isCarousel={false}
@@ -113,7 +113,7 @@ const serviceIcons = [
               variant="service"
               icon={serviceIcons[index]}
               title={service?.name || ''}
-              description={service?.description || ''}
+              description={service?.shortDescription || service?.description || ''}
               link={createUrl(service?.link || '#')}
               index={index}
               isCarousel={true}
@@ -122,6 +122,7 @@ const serviceIcons = [
         ))}
       </Carousel>
 
+      {content?.codeEdge && (
       <div
         class="mt-10 sm:mt-12 lg:mt-16"
         data-reveal="fade-up"
@@ -139,6 +140,7 @@ const serviceIcons = [
           </div>
         </div>
       </div>
+      )}
     </div>
   </div>
 </SectionContainer>

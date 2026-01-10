@@ -35,6 +35,7 @@ export default defineType({
             fields: [
               { name: 'name', title: 'Name', type: 'string' },
               { name: 'description', title: 'Description', type: 'text' },
+              { name: 'shortDescription', title: 'Short Description', type: 'string', description: 'Short description for cards (max 120 characters)' },
               { name: 'descriptionHighlight', title: 'Description Highlight', type: 'array', of: [{ type: 'string' }] },
               { name: 'link', title: 'Link', type: 'string' },
             ],

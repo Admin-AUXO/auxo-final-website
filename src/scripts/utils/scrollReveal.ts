@@ -142,6 +142,20 @@ function createObserver(): IntersectionObserver {
   );
 }
 
+function checkIfInViewport(element: Element): boolean {
+  const rect = element.getBoundingClientRect();
+  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+  const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+  const offset = globalOptions.offset;
+  
+  return (
+    rect.top < windowHeight + offset &&
+    rect.bottom > -offset &&
+    rect.left < windowWidth + offset &&
+    rect.right > -offset
+  );
+}
+
 function initializeElements(): void {
   if (globalOptions.disable) return;
 
@@ -150,20 +164,44 @@ function initializeElements(): void {
   if (elements.length === 0) return;
 
   elements.forEach((element) => {
-    const { animation } = parseAnimationAttributes(element);
+    const { animation, duration, delay, easing } = parseAnimationAttributes(element);
     const initialTransform = getInitialTransform(animation);
     const isFade = animation.includes('fade');
     const isZoom = animation.includes('zoom');
+    const isMobile = isMobileDevice();
+    const mobileDuration = isMobile ? Math.min(duration, 150) : duration;
+    const mobileDelay = isMobile ? Math.min(delay, 20) : delay;
+
+    const isAlreadyInViewport = checkIfInViewport(element);
 
     element.classList.add('reveal-init');
-    requestAnimationFrame(() => {
-      element.style.opacity = isFade || isZoom ? '0' : '1';
-      element.style.transform = initialTransform;
-      element.style.willChange = 'opacity, transform';
-    });
+    
+    if (isAlreadyInViewport) {
+      requestAnimationFrame(() => {
+        element.style.opacity = '1';
+        element.style.transform = 'none';
+        element.style.willChange = 'opacity, transform';
+        element.classList.add('reveal-animated');
+        element.classList.remove('reveal-init');
+        element._revealAnimated = true;
+        
+        setTimeout(() => {
+          requestAnimationFrame(() => {
+            element.style.willChange = 'auto';
+            element.style.transition = '';
+          });
+        }, mobileDuration + mobileDelay);
+      });
+    } else {
+      requestAnimationFrame(() => {
+        element.style.opacity = isFade || isZoom ? '0' : '1';
+        element.style.transform = initialTransform;
+        element.style.willChange = 'opacity, transform';
+      });
 
-    if (observer) {
-      observer.observe(element);
+      if (observer) {
+        observer.observe(element);
+      }
     }
   });
 }
@@ -179,6 +217,14 @@ export function init(options: ScrollRevealOptions = {}): void {
       observer = null;
     }
     isInitialized = false;
+    
+    const elements = document.querySelectorAll<RevealElement>('[data-reveal]');
+    elements.forEach((element) => {
+      element.style.opacity = '1';
+      element.style.transform = 'none';
+      element.classList.add('reveal-animated');
+      element.classList.remove('reveal-init');
+    });
     return;
   }
 
@@ -190,10 +236,52 @@ export function init(options: ScrollRevealOptions = {}): void {
   observer = createObserver();
   isInitialized = true;
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeElements, { once: true });
-  } else {
+  const initializeAndCheck = () => {
     initializeElements();
+    
+    setTimeout(() => {
+      const elements = document.querySelectorAll<RevealElement>('[data-reveal]');
+      elements.forEach((element) => {
+        if (!element._revealAnimated && checkIfInViewport(element)) {
+          const rect = element.getBoundingClientRect();
+          const entry = {
+            target: element,
+            isIntersecting: true,
+            intersectionRatio: 1,
+            boundingClientRect: rect,
+            rootBounds: null,
+            intersectionRect: rect,
+            time: Date.now(),
+          } as IntersectionObserverEntry;
+          animateElement(element, entry);
+        }
+      });
+    }, 50);
+    
+    setTimeout(() => {
+      const elements = document.querySelectorAll<RevealElement>('[data-reveal].reveal-init');
+      elements.forEach((element) => {
+        if (checkIfInViewport(element)) {
+          const rect = element.getBoundingClientRect();
+          const entry = {
+            target: element,
+            isIntersecting: true,
+            intersectionRatio: 1,
+            boundingClientRect: rect,
+            rootBounds: null,
+            intersectionRect: rect,
+            time: Date.now(),
+          } as IntersectionObserverEntry;
+          animateElement(element, entry);
+        }
+      });
+    }, 500);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAndCheck, { once: true });
+  } else {
+    initializeAndCheck();
   }
 }
 

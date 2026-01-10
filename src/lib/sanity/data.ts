@@ -75,7 +75,7 @@ export async function getHomepageContent(): Promise<HomepageContent> {
       featuredServices: {
         title: data.featuredServices?.title || '',
         subheading: data.featuredServices?.subheading || '',
-        items: data.featuredServices?.items?.filter(Boolean) || [],
+        items: (data.featuredServices?.items || []).filter((item: any) => item && (item.title || item.description)),
         navigationButton: data.featuredServices?.navigationButton || { text: '', href: '' },
       },
       techStack: {
@@ -89,16 +89,21 @@ export async function getHomepageContent(): Promise<HomepageContent> {
 
 export async function getServicesContent(): Promise<ServicesContent> {
   return sanityCache.get('services', async () => {
-    const [generalData, detailsData] = await Promise.all([
-      sanityClient!.fetch<Omit<ServicesContent, 'details'>>(servicesQuery),
-      sanityClient!.fetch<ServiceDetail[]>(serviceDetailsQuery),
-    ]);
+    try {
+      const [generalData, detailsData] = await Promise.all([
+        sanityClient!.fetch<Omit<ServicesContent, 'details'>>(servicesQuery),
+        sanityClient!.fetch<ServiceDetail[]>(serviceDetailsQuery),
+      ]);
 
-    if (!generalData) {
-      throw new Error('No services content found in Sanity');
-    }
+      if (!generalData) {
+        console.error('Services query returned null/undefined');
+        console.error('Query:', servicesQuery);
+        const testQuery = await sanityClient!.fetch('*[_type == "services"][0]{_id,_type}');
+        console.error('Test query result:', testQuery);
+        throw new Error('No services content found in Sanity');
+      }
 
-    return {
+      return {
       hero: generalData.hero || {
         headlineLine1: '',
         headlineLine2: '',
@@ -134,6 +139,10 @@ export async function getServicesContent(): Promise<ServicesContent> {
       },
       details: detailsData || [],
     };
+    } catch (error) {
+      console.error('Error fetching services content:', error);
+      throw error;
+    }
   });
 }
 

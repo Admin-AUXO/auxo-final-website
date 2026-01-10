@@ -75,29 +75,21 @@ export function initCTATracking(): () => void {
 export function initThemeTracking(): () => void {
   if (typeof window === 'undefined') return () => {};
 
-  const handleThemeChange = () => {
-    const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  const handleThemeChange = (e: Event) => {
+    const customEvent = e as CustomEvent;
+    const theme = customEvent.detail?.theme;
+
+    if (!theme) return;
 
     import('./ga4').then(({ trackThemeChange }) => {
       trackThemeChange(theme);
     });
   };
 
-  const observer = new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-        handleThemeChange();
-      }
-    }
-  });
-
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['class'],
-  });
+  document.addEventListener('themechange', handleThemeChange);
 
   return () => {
-    observer.disconnect();
+    document.removeEventListener('themechange', handleThemeChange);
   };
 }
 

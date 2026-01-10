@@ -20,6 +20,7 @@ export interface ServiceIntroItem {
   icon: string;
   title: string;
   description: string;
+  shortDescription?: string;
   descriptionHighlight?: string | string[];
   link?: string;
 }

@@ -8,6 +8,7 @@ import StructuredData from "@/components/common/StructuredData.astro";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar.astro";
 import FloatingCalendarButton from "@/components/widgets/FloatingCalendarButton.astro";
 import CalendarModal from "@/components/widgets/CalendarModal.astro";
+import CookieConsent from "@/components/common/CookieConsent.astro";
 
 import "@/styles/base/reset.css";
 import "@/styles/base.css";
@@ -338,6 +339,7 @@ const webPageSchema = {
     <Footer />
     <FloatingCalendarButton />
     <CalendarModal />
+    <CookieConsent />
 
     <script>
       import { initCoreFeatures, reinitOnPageLoad, initPageFeatures } from "@/scripts/core/init";
