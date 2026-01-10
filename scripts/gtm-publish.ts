@@ -58,20 +58,35 @@ async function publishGTMContainer() {
     const versionResponse = await gtm.accounts.containers.workspaces.create_version({
       path: workspacePath,
       requestBody: {
-        name: '2026 Best Practices - Consent Mode v2, Core Web Vitals, Enhanced Tracking',
+        name: '2026 Best Practices - Complete GA4/GTM Setup',
         notes: `Automated deployment - ${new Date().toISOString()}
 
-Added configurations:
-- Consent Mode v2 with region-specific defaults
-- Core Web Vitals tracking (LCP, INP, CLS, FCP, TTFB)
-- Session Quality tracking (engagement rate, scroll depth, clicks)
-- Enhanced Conversion tracking with PII hashing
-- Page Performance and Long Task monitoring
-- 15 DataLayer variables for event data capture
-- 13 custom event triggers
-- 8 GA4 event tags
+GA4/GTM Best Practices Implementation:
+- Consent Mode v2 with region-specific defaults (EEA & non-EEA)
+- Event deduplication and parameter validation
+- Standardized event naming (snake_case)
+- Debug mode support
+- Consent-aware event tracking
 
-All following 2026 Google Analytics 4 best practices.`,
+Tracking Coverage:
+- Core Web Vitals (LCP, INP, CLS, FCP, TTFB)
+- User interactions (clicks, scrolls, navigation)
+- Form tracking (start, submission, abandonment)
+- Engagement metrics (session quality, scroll depth)
+- Enhanced Conversion tracking with PII hashing
+- Performance monitoring (page load, long tasks)
+- Video interactions (play, pause, complete, progress)
+- Error tracking (exceptions)
+- Search and theme changes
+
+GTM Configuration:
+- 50+ DataLayer variables for event data capture
+- 30+ custom event triggers
+- 25+ GA4 event tags with proper parameter mapping
+- Measurement ID override for all tags
+- Proper trigger-to-tag associations
+
+All following 2026 Google Analytics 4 and GTM best practices.`,
       },
     });
 

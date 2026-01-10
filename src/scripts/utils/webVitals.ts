@@ -68,56 +68,43 @@ function sendToGA4(metric: Metric): void {
 export function initWebVitals(): void {
   if (typeof window === 'undefined') return;
 
-  try {
-    onCLS(sendToGA4);
-    onFCP(sendToGA4);
-    onINP(sendToGA4);
-    onLCP(sendToGA4);
-    onTTFB(sendToGA4);
-
-    if (window.performance && window.performance.timing) {
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          const perfData = window.performance.timing;
-          const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-          const domReadyTime = perfData.domContentLoadedEventEnd - perfData.navigationStart;
-          const dnsTime = perfData.domainLookupEnd - perfData.domainLookupStart;
-          const tcpTime = perfData.connectEnd - perfData.connectStart;
-
-          trackEvent('page_performance', {
-            event_category: 'Performance',
-            page_load_time: Math.round(pageLoadTime),
-            dom_ready_time: Math.round(domReadyTime),
-            dns_time: Math.round(dnsTime),
-            tcp_time: Math.round(tcpTime),
-            non_interaction: true,
-          });
-        }, 0);
+  let hasUserInteracted = false;
+  const bufferedMetrics: Metric[] = [];
+  const interactionEvents = ['click', 'keydown', 'scroll', 'touchstart', 'mousedown'];
+  
+  const flushBufferedMetrics = () => {
+    bufferedMetrics.forEach(metric => sendToGA4(metric));
+    bufferedMetrics.length = 0;
+  };
+  
+  const markUserInteraction = () => {
+    if (!hasUserInteracted) {
+      hasUserInteracted = true;
+      flushBufferedMetrics();
+      interactionEvents.forEach(event => {
+        document.removeEventListener(event, markUserInteraction, { passive: true });
       });
     }
+  };
 
-    if ('PerformanceObserver' in window) {
-      try {
-        const observer = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            if (entry.duration > 50) {
-              trackEvent('long_task', {
-                event_category: 'Performance',
-                task_duration: Math.round(entry.duration),
-                task_name: entry.name,
-                non_interaction: true,
-              });
-            }
-          }
-        });
+  interactionEvents.forEach(event => {
+    document.addEventListener(event, markUserInteraction, { passive: true, once: true });
+  });
 
-        observer.observe({ entryTypes: ['longtask'] });
-      } catch (e) {
-        if (import.meta.env.DEV) {
-          console.debug('Long task monitoring not supported');
-        }
+  try {
+    const handleMetric = (metric: Metric) => {
+      if (hasUserInteracted) {
+        sendToGA4(metric);
+      } else {
+        bufferedMetrics.push(metric);
       }
-    }
+    };
+
+    onCLS(handleMetric);
+    onFCP(handleMetric);
+    onINP(handleMetric);
+    onLCP(handleMetric);
+    onTTFB(handleMetric);
   } catch (error) {
     if (import.meta.env.DEV) {
       console.warn('Web Vitals tracking error:', error);

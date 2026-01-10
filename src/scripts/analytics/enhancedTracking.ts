@@ -90,6 +90,7 @@ export class SessionQualityTracker {
   private isActive: boolean = true;
   private lastActivityTime: number;
   private engagementInterval: number | null = null;
+  private scrollTimeout: number | null = null;
 
   constructor() {
     this.startTime = Date.now();
@@ -116,13 +117,31 @@ export class SessionQualityTracker {
 
     document.addEventListener('click', () => {
       this.clicks++;
+      if (this.clicks === 1 || this.clicks % 5 === 0) {
+        this.sendSessionQuality();
+      }
     });
 
     window.addEventListener('scroll', () => {
       const scrollPercent = Math.round(
         ((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100
       );
+      const previousDepth = this.scrollDepth;
       this.scrollDepth = Math.max(this.scrollDepth, scrollPercent);
+      
+      if (scrollPercent >= 50 && previousDepth < 50) {
+        this.sendSessionQuality();
+      } else if (scrollPercent >= 90 && previousDepth < 90) {
+        this.sendSessionQuality();
+      }
+      
+      if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
+      this.scrollTimeout = window.setTimeout(() => {
+        if (this.scrollDepth > 0) {
+          this.sendSessionQuality();
+        }
+        this.scrollTimeout = null;
+      }, 5000);
     }, { passive: true });
 
     this.engagementInterval = window.setInterval(() => {
@@ -131,13 +150,6 @@ export class SessionQualityTracker {
       }
     }, 1000);
 
-    window.addEventListener('beforeunload', () => {
-      this.sendSessionQuality();
-    });
-
-    setInterval(() => {
-      this.sendSessionQuality();
-    }, 30000);
   }
 
   private recordActivity(): void {
@@ -167,6 +179,8 @@ export class SessionQualityTracker {
   }
 
   public sendSessionQuality(): void {
+    if (this.clicks === 0 && this.scrollDepth === 0) return;
+
     const sessionDuration = Math.round((Date.now() - this.startTime) / 1000);
 
     trackEvent('session_quality', {
@@ -185,6 +199,11 @@ export class SessionQualityTracker {
   public destroy(): void {
     if (this.engagementInterval) {
       clearInterval(this.engagementInterval);
+      this.engagementInterval = null;
+    }
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout);
+      this.scrollTimeout = null;
     }
   }
 }
