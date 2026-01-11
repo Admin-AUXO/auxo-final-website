@@ -39,8 +39,8 @@ html.loaded {
 }
 
 body {
-  overflow: auto !important;
   overflow-x: hidden !important;
+  overflow-y: auto !important;
   position: relative !important;
 }
 

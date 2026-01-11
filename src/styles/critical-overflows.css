@@ -1,0 +1,129 @@
+/* Critical overflow rules - loaded last to override Tailwind utilities */
+html,
+html.loaded {
+  contain: none !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+body,
+body.loaded {
+  position: static !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+/* Section overflow containment */
+section,
+[class*="-section"] {
+  overflow-x: hidden !important;
+  overflow-y: clip !important;
+  max-width: 100vw !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  position: relative !important;
+  isolation: isolate !important;
+}
+
+#main-content {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch !important;
+  -ms-overflow-style: none !important;
+}
+
+.grid-container {
+  overflow-x: hidden !important;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transition-property: opacity, transform;
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+[data-reveal].reveal-animated {
+  opacity: 1;
+  will-change: auto;
+}
+
+/* Sections that need vertical overflow for decorative elements */
+.hero-section,
+.service-hero-section,
+.service-overview-section,
+.service-process-section,
+.service-benefits-section,
+.service-outcomes-section,
+.service-cta-section,
+.models-section,
+.impact-section {
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+}
+
+@media (width <= 767px) {
+  html {
+    min-height: 100%;
+    touch-action: pan-y !important;
+    overscroll-behavior: contain none !important;
+    scroll-behavior: smooth !important;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    min-height: 100dvh;
+    touch-action: pan-y !important;
+    overscroll-behavior: contain none !important;
+    scroll-behavior: smooth !important;
+    text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html.loaded,
+  body.loaded {
+    height: auto;
+    max-height: none;
+    overscroll-behavior-y: auto !important;
+    scroll-behavior: smooth !important;
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    @media (width <= 767px) {
+      html,
+      body {
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior: contain !important;
+        touch-action: pan-y !important;
+        transform: translate3d(0, 0, 0) !important;
+        will-change: scroll-position !important;
+        backface-visibility: hidden !important;
+      }
+    }
+  }
+}
+
+@media (width >= 769px) {
+  html,
+  body {
+    overscroll-behavior: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  html {
+    scroll-behavior: smooth !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal].reveal-animated {
+    will-change: auto !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

@@ -78,22 +78,9 @@ html.loaded body {
 section,
 [class*="-section"] {
   overflow-anchor: none;
-  overflow-x: hidden;
   max-width: 100vw;
 }
 
-.grid-container {
-  overflow-x: hidden;
-}
-
-[data-reveal] {
-  opacity: 0;
-  transition-property: opacity, transform;
-}
-
-[data-reveal].reveal-animated {
-  opacity: 1;
-}
 
 [data-lazy-load] {
   opacity: 0;
@@ -312,14 +299,3 @@ section,
 
 }
 
-html,
-html.loaded {
-  contain: none !important;
-  overflow: visible !important;
-}
-
-body,
-body.loaded {
-  position: static !important;
-  overflow: visible auto !important;
-}

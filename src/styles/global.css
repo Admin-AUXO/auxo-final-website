@@ -28,3 +28,6 @@
 @import url('./sections/services-individual.css');
 @import url('./sections/contact-sections.css');
 @import url('./widgets/google-calendar.css');
+
+/* Critical overflow rules - must load last */
+@import url('./critical-overflows.css');

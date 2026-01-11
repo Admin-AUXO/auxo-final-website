@@ -4,7 +4,8 @@
 .service-benefits-section,
 .service-outcomes-section,
 .service-cta-section {
-  overflow: visible;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
 }
 
 .process-stepper-wrapper {
