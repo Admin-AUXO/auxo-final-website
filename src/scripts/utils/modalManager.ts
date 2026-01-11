@@ -175,47 +175,18 @@ class ModalInstanceImpl implements ModalInstance {
     if (!e?.target) return;
 
     const target = e.target as HTMLElement;
+    const shouldClose = target === this.overlay ||
+      (this.closeButtons && Array.from(this.closeButtons).some(button => button === target || button.contains(target))) ||
+      (this.config.enableClickOutsideClose !== false && this.modal && !this.modal.contains(target));
 
-    if (target === this.overlay) {
-      e.preventDefault();
-      e.stopPropagation();
+    if (!shouldClose) return;
 
-      if (this.config.onBeforeClose && !this.config.onBeforeClose()) {
-        return;
-      }
+    e.preventDefault();
+    e.stopPropagation();
 
-      this.close();
-      return;
-    }
+    if (this.config.onBeforeClose && !this.config.onBeforeClose()) return;
 
-    if (this.closeButtons) {
-      const isCloseButton = Array.from(this.closeButtons).some(button => button === target || button.contains(target));
-      if (isCloseButton) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (this.config.onBeforeClose && !this.config.onBeforeClose()) {
-          return;
-        }
-
-        this.close();
-        return;
-      }
-    }
-
-    if (this.config.enableClickOutsideClose !== false && this.modal) {
-      const isDescendant = this.modal.contains(target);
-      if (!isDescendant) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (this.config.onBeforeClose && !this.config.onBeforeClose()) {
-          return;
-        }
-
-        this.close();
-      }
-    }
+    this.close();
   };
 
   private handleKeydown = (e: KeyboardEvent): void => {
@@ -232,9 +203,7 @@ class ModalInstanceImpl implements ModalInstance {
 
     this.manager._setActiveModal(this);
 
-    if (this.config.scrollLock !== false) {
-      lockScroll();
-    }
+    if (this.config.scrollLock !== false) lockScroll();
 
     this.modal.removeAttribute('hidden');
     this.modal.setAttribute('aria-hidden', 'false');
@@ -252,9 +221,7 @@ class ModalInstanceImpl implements ModalInstance {
 
     this.manager._setActiveModal(null);
 
-    if (this.config.scrollLock !== false) {
-      unlockScroll();
-    }
+    if (this.config.scrollLock !== false) unlockScroll();
 
     this.modal.setAttribute('hidden', '');
     this.modal.setAttribute('aria-hidden', 'true');

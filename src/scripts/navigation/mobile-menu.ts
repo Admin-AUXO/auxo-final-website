@@ -46,54 +46,47 @@ function calculateDropdownHeight(content: HTMLElement): number {
 function animateDropdownOpen(content: HTMLElement, icon: Element | null, buttonEl: HTMLElement): void {
   content.classList.remove('hidden');
   content.style.display = 'block';
-  
+
   const targetHeight = calculateDropdownHeight(content);
   content.style.setProperty('--dropdown-max-height', `${targetHeight}px`);
   content.classList.remove('dropdown-opening', 'dropdown-closing');
-  
+
   requestAnimationFrame(() => {
     content.classList.add('dropdown-opening');
-    
+
     const childItems = content.querySelectorAll('.mobile-nav-link');
     childItems.forEach((item) => {
-      (item as HTMLElement).style.opacity = '1';
-      (item as HTMLElement).style.transform = 'translateX(0)';
+      const el = item as HTMLElement;
+      el.style.opacity = '1';
+      el.style.transform = 'translateX(0)';
     });
-    
+
     setTimeout(() => {
       const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
-      if (menuContent) {
-        const wrapper = buttonEl.closest('.mobile-dropdown-wrapper') as HTMLElement;
-        if (wrapper) {
-          const wrapperRect = wrapper.getBoundingClientRect();
-          const menuRect = menuContent.getBoundingClientRect();
-          const padding = 24;
+      const wrapper = buttonEl.closest('.mobile-dropdown-wrapper') as HTMLElement;
+      if (!menuContent || !wrapper) return;
 
-          const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const menuRect = menuContent.getBoundingClientRect();
+      const padding = 24;
+      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-          if (!isTouch && wrapperRect.top < menuRect.top + padding) {
-            const scrollAmount = menuContent.scrollTop + (wrapperRect.top - menuRect.top) - padding;
-            menuContent.scrollTo({
-              top: Math.max(0, scrollAmount),
-              behavior: 'smooth'
-            });
-          } else if (!isTouch && wrapperRect.bottom > menuRect.bottom - padding) {
-            const scrollAmount = menuContent.scrollTop + (wrapperRect.bottom - menuRect.bottom) + padding;
-            menuContent.scrollTo({
-              top: Math.min(menuContent.scrollHeight - menuContent.clientHeight, scrollAmount),
-              behavior: 'smooth'
-            });
-          }
-          else if (wrapperRect.top < menuRect.top) {
-            wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }
+      if (!isTouch) {
+        if (wrapperRect.top < menuRect.top + padding) {
+          const scrollAmount = menuContent.scrollTop + (wrapperRect.top - menuRect.top) - padding;
+          menuContent.scrollTo({ top: Math.max(0, scrollAmount), behavior: 'smooth' });
+        } else if (wrapperRect.bottom > menuRect.bottom - padding) {
+          const scrollAmount = menuContent.scrollTop + (wrapperRect.bottom - menuRect.bottom) + padding;
+          menuContent.scrollTo({ top: Math.min(menuContent.scrollHeight - menuContent.clientHeight, scrollAmount), behavior: 'smooth' });
         }
+      } else if (wrapperRect.top < menuRect.top) {
+        wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }, 150);
-    
+
     setTimeout(() => resetDropdownStyles(content), DROPDOWN_ANIMATION_DURATION);
   });
-  
+
   icon?.classList.add('open');
   buttonEl.setAttribute('aria-expanded', 'true');
 }
@@ -124,15 +117,11 @@ function animateDropdownClose(content: HTMLElement, icon: Element | null, button
 function toggleMobileDropdown(buttonEl: HTMLElement): void {
   const content = findDropdownContent(buttonEl);
   if (!content) return;
-  
+
   const icon = buttonEl.querySelector('.dropdown-arrow-mobile');
   const isHidden = content.classList.contains('hidden');
-  
-  if (isHidden) {
-    animateDropdownOpen(content, icon, buttonEl);
-  } else {
-    animateDropdownClose(content, icon, buttonEl);
-  }
+
+  isHidden ? animateDropdownOpen(content, icon, buttonEl) : animateDropdownClose(content, icon, buttonEl);
 }
 
 export function setupMobileDropdowns(): void {
@@ -204,12 +193,12 @@ function deactivateFocusTrap(): void {
 function resetMobileDropdowns(): void {
   document.querySelectorAll('#mobile-menu .mobile-dropdown-content').forEach(content => {
     const button = content.previousElementSibling as HTMLElement;
-    if (button?.classList.contains('mobile-dropdown-btn')) {
-      resetDropdownStyles(content as HTMLElement);
-      content.classList.add('hidden');
-      button.setAttribute('aria-expanded', 'false');
-      button.querySelector('.dropdown-arrow-mobile')?.classList.remove('open');
-    }
+    if (!button?.classList.contains('mobile-dropdown-btn')) return;
+
+    resetDropdownStyles(content as HTMLElement);
+    content.classList.add('hidden');
+    button.setAttribute('aria-expanded', 'false');
+    button.querySelector('.dropdown-arrow-mobile')?.classList.remove('open');
   });
 }
 
@@ -315,14 +304,8 @@ function openMobileMenu(): void {
 export function toggleMobileMenu(): void {
   const { mobileMenu } = getNavElements();
   if (!mobileMenu) return;
-  
-  const isOpen = mobileMenu.classList.contains('is-open');
-  
-  if (isOpen) {
-    closeMobileMenu();
-  } else {
-    openMobileMenu();
-  }
+
+  mobileMenu.classList.contains('is-open') ? closeMobileMenu() : openMobileMenu();
 }
 
 function handleMenuButtonClick(e: Event): void {
@@ -414,27 +397,27 @@ function setupSwipeHandlers(): void {
 
 function handleKeyboard(e: Event): void {
   const keyboardEvent = e as KeyboardEvent;
-  
+
   if (keyboardEvent.key === 'Escape') {
     const { mobileMenu } = getNavElements();
     if (mobileMenu?.classList.contains('is-open')) {
       e.preventDefault();
       closeMobileMenu();
     }
+    return;
   }
-  
+
   if (keyboardEvent.key === 'ArrowDown' || keyboardEvent.key === 'ArrowUp') {
     const activeElement = document.activeElement as HTMLElement;
-    if (activeElement?.classList.contains('mobile-dropdown-btn')) {
-      e.preventDefault();
-      
-      const content = findDropdownContent(activeElement);
-      if (content && content.classList.contains('dropdown-opening')) {
-        const firstItem = content.querySelector('.mobile-nav-link') as HTMLElement;
-        firstItem?.focus();
-      } else {
-        toggleMobileDropdown(activeElement);
-      }
+    if (!activeElement?.classList.contains('mobile-dropdown-btn')) return;
+
+    e.preventDefault();
+    const content = findDropdownContent(activeElement);
+    if (content?.classList.contains('dropdown-opening')) {
+      const firstItem = content.querySelector('.mobile-nav-link') as HTMLElement;
+      firstItem?.focus();
+    } else {
+      toggleMobileDropdown(activeElement);
     }
   }
 }

@@ -36,13 +36,13 @@ function parseAnimationAttributes(element: RevealElement): {
   offset: number;
   easing: string;
 } {
-  const animation = element.getAttribute('data-reveal') || 'fade-up';
-  const duration = parseInt(element.getAttribute('data-reveal-duration') || String(globalOptions.duration), 10);
-  const delay = parseInt(element.getAttribute('data-reveal-delay') || String(globalOptions.delay), 10);
-  const offset = parseInt(element.getAttribute('data-reveal-offset') || String(globalOptions.offset), 10);
-  const easing = element.getAttribute('data-reveal-easing') || globalOptions.easing;
-
-  return { animation, duration, delay, offset, easing };
+  return {
+    animation: element.getAttribute('data-reveal') || 'fade-up',
+    duration: parseInt(element.getAttribute('data-reveal-duration') || String(globalOptions.duration), 10),
+    delay: parseInt(element.getAttribute('data-reveal-delay') || String(globalOptions.delay), 10),
+    offset: parseInt(element.getAttribute('data-reveal-offset') || String(globalOptions.offset), 10),
+    easing: element.getAttribute('data-reveal-easing') || globalOptions.easing
+  };
 }
 
 function getInitialTransform(animation: string): string {
@@ -91,10 +91,7 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
 
   requestAnimationFrame(() => {
     element.style.transition = `${transitionProperty} ${mobileDuration}ms cubic-bezier(${cubicBezier})`;
-
-    if (mobileDelay > 0) {
-      element.style.transitionDelay = `${mobileDelay}ms`;
-    }
+    if (mobileDelay > 0) element.style.transitionDelay = `${mobileDelay}ms`;
   });
 
   requestAnimationFrame(() => {
@@ -156,15 +153,36 @@ function checkIfInViewport(element: Element): boolean {
   );
 }
 
+function applyInitialStyles(element: RevealElement, isFade: boolean, isZoom: boolean, initialTransform: string): void {
+  element.style.opacity = isFade || isZoom ? '0' : '1';
+  element.style.transform = initialTransform;
+  element.style.willChange = 'opacity, transform';
+}
+
+function applyRevealedStyles(element: RevealElement, mobileDuration: number, mobileDelay: number): void {
+  element.style.opacity = '1';
+  element.style.transform = 'none';
+  element.style.willChange = 'opacity, transform';
+  element.classList.add('reveal-animated');
+  element.classList.remove('reveal-init');
+  element._revealAnimated = true;
+
+  setTimeout(() => {
+    requestAnimationFrame(() => {
+      element.style.willChange = 'auto';
+      element.style.transition = '';
+    });
+  }, mobileDuration + mobileDelay);
+}
+
 function initializeElements(): void {
   if (globalOptions.disable) return;
 
   const elements = document.querySelectorAll<RevealElement>('[data-reveal]');
-
   if (elements.length === 0) return;
 
   elements.forEach((element) => {
-    const { animation, duration, delay, easing } = parseAnimationAttributes(element);
+    const { animation, duration, delay } = parseAnimationAttributes(element);
     const initialTransform = getInitialTransform(animation);
     const isFade = animation.includes('fade');
     const isZoom = animation.includes('zoom');
@@ -172,36 +190,13 @@ function initializeElements(): void {
     const mobileDuration = isMobile ? Math.min(duration, 150) : duration;
     const mobileDelay = isMobile ? Math.min(delay, 20) : delay;
 
-    const isAlreadyInViewport = checkIfInViewport(element);
-
     element.classList.add('reveal-init');
-    
-    if (isAlreadyInViewport) {
-      requestAnimationFrame(() => {
-        element.style.opacity = '1';
-        element.style.transform = 'none';
-        element.style.willChange = 'opacity, transform';
-        element.classList.add('reveal-animated');
-        element.classList.remove('reveal-init');
-        element._revealAnimated = true;
-        
-        setTimeout(() => {
-          requestAnimationFrame(() => {
-            element.style.willChange = 'auto';
-            element.style.transition = '';
-          });
-        }, mobileDuration + mobileDelay);
-      });
-    } else {
-      requestAnimationFrame(() => {
-        element.style.opacity = isFade || isZoom ? '0' : '1';
-        element.style.transform = initialTransform;
-        element.style.willChange = 'opacity, transform';
-      });
 
-      if (observer) {
-        observer.observe(element);
-      }
+    if (checkIfInViewport(element)) {
+      requestAnimationFrame(() => applyRevealedStyles(element, mobileDuration, mobileDelay));
+    } else {
+      requestAnimationFrame(() => applyInitialStyles(element, isFade, isZoom, initialTransform));
+      observer?.observe(element);
     }
   });
 }
@@ -236,46 +231,31 @@ export function init(options: ScrollRevealOptions = {}): void {
   observer = createObserver();
   isInitialized = true;
 
+  const createIntersectionEntry = (element: RevealElement): IntersectionObserverEntry => {
+    const rect = element.getBoundingClientRect();
+    return {
+      target: element,
+      isIntersecting: true,
+      intersectionRatio: 1,
+      boundingClientRect: rect,
+      rootBounds: null,
+      intersectionRect: rect,
+      time: Date.now(),
+    } as IntersectionObserverEntry;
+  };
+
+  const checkAndAnimateElements = (selector: string) => {
+    document.querySelectorAll<RevealElement>(selector).forEach((element) => {
+      if (!element._revealAnimated && checkIfInViewport(element)) {
+        animateElement(element, createIntersectionEntry(element));
+      }
+    });
+  };
+
   const initializeAndCheck = () => {
     initializeElements();
-    
-    setTimeout(() => {
-      const elements = document.querySelectorAll<RevealElement>('[data-reveal]');
-      elements.forEach((element) => {
-        if (!element._revealAnimated && checkIfInViewport(element)) {
-          const rect = element.getBoundingClientRect();
-          const entry = {
-            target: element,
-            isIntersecting: true,
-            intersectionRatio: 1,
-            boundingClientRect: rect,
-            rootBounds: null,
-            intersectionRect: rect,
-            time: Date.now(),
-          } as IntersectionObserverEntry;
-          animateElement(element, entry);
-        }
-      });
-    }, 50);
-    
-    setTimeout(() => {
-      const elements = document.querySelectorAll<RevealElement>('[data-reveal].reveal-init');
-      elements.forEach((element) => {
-        if (checkIfInViewport(element)) {
-          const rect = element.getBoundingClientRect();
-          const entry = {
-            target: element,
-            isIntersecting: true,
-            intersectionRatio: 1,
-            boundingClientRect: rect,
-            rootBounds: null,
-            intersectionRect: rect,
-            time: Date.now(),
-          } as IntersectionObserverEntry;
-          animateElement(element, entry);
-        }
-      });
-    }, 500);
+    setTimeout(() => checkAndAnimateElements('[data-reveal]'), 50);
+    setTimeout(() => checkAndAnimateElements('[data-reveal].reveal-init'), 500);
   };
 
   if (document.readyState === 'loading') {

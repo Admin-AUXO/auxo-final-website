@@ -13,6 +13,12 @@ const LOAD_TIMEOUT = 15000;
 const initializedButtons = new WeakSet<HTMLElement>();
 let swipeCleanup: (() => void) | null = null;
 
+// Cached DOM elements
+let cachedModal: HTMLElement | null = null;
+let cachedIframe: HTMLIFrameElement | null = null;
+let cachedContent: HTMLElement | null = null;
+let cachedLoading: HTMLElement | null = null;
+
 function setupEnhancedScrolling(element: HTMLElement, config: { touchAction?: string; overscrollBehavior?: string } = {}): void {
   const { touchAction = 'pan-y', overscrollBehavior = 'contain' } = config;
   element.style.touchAction = touchAction;
@@ -42,22 +48,38 @@ function setupScrollIndicators(container: HTMLElement, indicatorTop?: HTMLElemen
   updateIndicators();
 }
 
+// Initialize and cache DOM elements
+function initializeCachedElements(): void {
+  if (!cachedModal) cachedModal = document.getElementById(MODAL_ID);
+  if (cachedModal && !cachedIframe) cachedIframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement | null;
+  if (cachedModal && !cachedContent) cachedContent = cachedModal.querySelector('[data-calendar-content]') as HTMLElement | null;
+  if (cachedModal && !cachedLoading) cachedLoading = cachedModal.querySelector('[data-calendar-loading]') as HTMLElement | null;
+}
+
 function getModal(): HTMLElement | null {
-  return document.getElementById(MODAL_ID);
+  if (!cachedModal) cachedModal = document.getElementById(MODAL_ID);
+  return cachedModal;
 }
 
 function getIframe(): HTMLIFrameElement | null {
-  return document.getElementById(IFRAME_ID) as HTMLIFrameElement | null;
+  if (!cachedIframe) cachedIframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement | null;
+  return cachedIframe;
 }
 
 function getContentElement(): HTMLElement | null {
-  const modal = getModal();
-  return modal?.querySelector('[data-calendar-content]') as HTMLElement | null;
+  if (!cachedContent) {
+    const modal = getModal();
+    cachedContent = modal?.querySelector('[data-calendar-content]') as HTMLElement | null;
+  }
+  return cachedContent;
 }
 
 function getLoadingElement(): HTMLElement | null {
-  const modal = getModal();
-  return modal?.querySelector('[data-calendar-loading]') as HTMLElement | null;
+  if (!cachedLoading) {
+    const modal = getModal();
+    cachedLoading = modal?.querySelector('[data-calendar-loading]') as HTMLElement | null;
+  }
+  return cachedLoading;
 }
 
 function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
@@ -78,11 +100,11 @@ function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
   const handleError = () => {
     if (hasLoaded) return;
     const loading = getLoadingElement();
-    if (loading) {
-      loading.setAttribute('hidden', '');
-      const errorText = loading.querySelector('.calendar-loading-text');
-      if (errorText) errorText.textContent = 'Failed to load calendar. Please try again.';
-    }
+    if (!loading) return;
+
+    loading.setAttribute('hidden', '');
+    const errorText = loading.querySelector('.calendar-loading-text');
+    if (errorText) errorText.textContent = 'Failed to load calendar. Please try again.';
   };
 
   loadTimeout = window.setTimeout(() => {
@@ -95,10 +117,8 @@ function setupIframeErrorHandling(iframe: HTMLIFrameElement): void {
 
 function updateScrollIndicators(): void {
   const content = getContentElement();
-  if (!content) return;
-
   const iframe = getIframe();
-  if (!iframe) return;
+  if (!content || !iframe) return;
 
   try {
     const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
@@ -110,27 +130,23 @@ function updateScrollIndicators(): void {
     const scrollTop = iframeDoc.documentElement.scrollTop || iframeDoc.body.scrollTop;
     const scrollHeight = iframeDoc.documentElement.scrollHeight || iframeDoc.body.scrollHeight;
     const clientHeight = iframeDoc.documentElement.clientHeight || iframeDoc.body.clientHeight;
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - SCROLL_THRESHOLD;
 
-    const topIndicator = content.querySelector('[data-calendar-scroll-top]');
-    const bottomIndicator = content.querySelector('[data-calendar-scroll-bottom]');
-
-    if (topIndicator) {
-      topIndicator.classList.toggle('visible', scrollTop > SCROLL_THRESHOLD);
-    }
-    if (bottomIndicator) {
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - SCROLL_THRESHOLD;
-      bottomIndicator.classList.toggle('visible', !isAtBottom);
-    }
+    toggleIndicators(content, '[data-calendar-scroll-top]', '[data-calendar-scroll-bottom]', scrollTop > SCROLL_THRESHOLD, !isAtBottom);
   } catch {
     showAllIndicators(content);
   }
 }
 
+function toggleIndicators(content: HTMLElement, topSelector: string, bottomSelector: string, topVisible: boolean, bottomVisible: boolean): void {
+  const topIndicator = content.querySelector(topSelector);
+  const bottomIndicator = content.querySelector(bottomSelector);
+  if (topIndicator) topIndicator.classList.toggle('visible', topVisible);
+  if (bottomIndicator) bottomIndicator.classList.toggle('visible', bottomVisible);
+}
+
 function showAllIndicators(content: HTMLElement): void {
-  const topIndicator = content.querySelector('[data-calendar-scroll-top]');
-  const bottomIndicator = content.querySelector('[data-calendar-scroll-bottom]');
-  topIndicator?.classList.add('visible');
-  bottomIndicator?.classList.add('visible');
+  toggleIndicators(content, '[data-calendar-scroll-top]', '[data-calendar-scroll-bottom]', true, true);
 }
 
 function setupModalScroll(): void {
@@ -156,9 +172,7 @@ function handleKeyboardNavigation(e: KeyboardEvent): void {
   const iframe = getIframe();
   if (!iframe) return;
 
-  if (!iframe.matches(':focus-within')) {
-    iframe.focus();
-  }
+  if (!iframe.matches(':focus-within')) iframe.focus();
 
   try {
     const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
@@ -166,31 +180,32 @@ function handleKeyboardNavigation(e: KeyboardEvent): void {
 
     const scrollAmount = 100;
     const pageScrollAmount = iframeDoc.documentElement.clientHeight * 0.8;
+    const docElement = iframeDoc.documentElement;
 
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        iframeDoc.documentElement.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+        docElement.scrollBy({ top: scrollAmount, behavior: 'smooth' });
         break;
       case 'ArrowUp':
         e.preventDefault();
-        iframeDoc.documentElement.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+        docElement.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
         break;
       case 'PageDown':
         e.preventDefault();
-        iframeDoc.documentElement.scrollBy({ top: pageScrollAmount, behavior: 'smooth' });
+        docElement.scrollBy({ top: pageScrollAmount, behavior: 'smooth' });
         break;
       case 'PageUp':
         e.preventDefault();
-        iframeDoc.documentElement.scrollBy({ top: -pageScrollAmount, behavior: 'smooth' });
+        docElement.scrollBy({ top: -pageScrollAmount, behavior: 'smooth' });
         break;
       case 'Home':
         e.preventDefault();
-        iframeDoc.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+        docElement.scrollTo({ top: 0, behavior: 'smooth' });
         break;
       case 'End':
         e.preventDefault();
-        iframeDoc.documentElement.scrollTo({ top: iframeDoc.documentElement.scrollHeight, behavior: 'smooth' });
+        docElement.scrollTo({ top: docElement.scrollHeight, behavior: 'smooth' });
         break;
     }
 
@@ -251,6 +266,7 @@ function openCalendarModal(): void {
     calendarModalInstance = createCalendarModal();
   }
 
+  initializeCachedElements();
   const modal = getModal();
   if (!modal) {
     logger.warn('Calendar modal missing');
@@ -258,20 +274,18 @@ function openCalendarModal(): void {
   }
 
   const iframe = getIframe();
-  if (iframe) {
-    const loading = getLoadingElement();
-    if (loading) {
-      loading.removeAttribute('hidden');
-      const errorText = loading.querySelector('.calendar-loading-text');
-      if (errorText) {
-        errorText.textContent = 'Loading calendar...';
-      }
-    }
+  if (!iframe) return;
 
-    iframe.src = CALENDAR_URL;
-    setupIframeErrorHandling(iframe);
-    setupModalScroll();
+  const loading = getLoadingElement();
+  if (loading) {
+    loading.removeAttribute('hidden');
+    const errorText = loading.querySelector('.calendar-loading-text');
+    if (errorText) errorText.textContent = 'Loading calendar...';
   }
+
+  iframe.src = CALENDAR_URL;
+  setupIframeErrorHandling(iframe);
+  setupModalScroll();
 
   requestAnimationFrame(() => {
     updateScrollIndicators();

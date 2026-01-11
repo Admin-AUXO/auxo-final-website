@@ -23,18 +23,16 @@ function positionDropdown(button: HTMLElement, menu: HTMLElement): void {
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
 
-  let left = buttonRect.left;
-  let top = buttonRect.bottom + DROPDOWN_OFFSET;
-
   const spaceBelow = viewportHeight - buttonRect.bottom;
   const spaceAbove = buttonRect.top;
   const menuHeight = menuRect.height || 300;
-
-  if (spaceBelow < menuHeight && spaceAbove > spaceBelow) {
-    top = buttonRect.top - menuHeight - DROPDOWN_OFFSET;
-  }
-
   const menuWidth = menuRect.width || 200;
+
+  let left = buttonRect.left;
+  let top = spaceBelow < menuHeight && spaceAbove > spaceBelow
+    ? buttonRect.top - menuHeight - DROPDOWN_OFFSET
+    : buttonRect.bottom + DROPDOWN_OFFSET;
+
   if (left + menuWidth > viewportWidth - DROPDOWN_PADDING) {
     left = Math.max(DROPDOWN_PADDING, viewportWidth - menuWidth - DROPDOWN_PADDING);
     menu.classList.add('dropdown-right-aligned');
@@ -42,9 +40,7 @@ function positionDropdown(button: HTMLElement, menu: HTMLElement): void {
     menu.classList.remove('dropdown-right-aligned');
   }
 
-  if (left < DROPDOWN_PADDING) {
-    left = DROPDOWN_PADDING;
-  }
+  left = Math.max(left, DROPDOWN_PADDING);
 
   menu.style.position = 'fixed';
   menu.style.left = `${left}px`;
@@ -99,21 +95,15 @@ function closeDropdown(dropdown: HTMLElement): void {
   state.isTransitioning = true;
 
   menu.classList.remove('open');
-  button?.classList.remove('open');
-  button?.classList.remove('services-modal-open');
+  button?.classList.remove('open', 'services-modal-open');
   arrow?.classList.remove('open');
   overlay?.classList.remove('open');
 
   button?.setAttribute('aria-expanded', 'false');
   overlay?.setAttribute('aria-hidden', 'true');
 
-  if (isModal) {
-    document.body.classList.remove('dropdown-open');
-  }
-
-  if (state.openDropdown === dropdown) {
-    state.openDropdown = null;
-  }
+  if (isModal) document.body.classList.remove('dropdown-open');
+  if (state.openDropdown === dropdown) state.openDropdown = null;
   state.dropdownHoverState = false;
 
   const duration = isModal ? MODAL_DROPDOWN_ANIMATION_DURATION : STANDARD_DROPDOWN_ANIMATION_DURATION;
@@ -187,33 +177,25 @@ function scheduleDropdownClose(dropdown: HTMLElement): void {
 function setupToggleClickHandler(toggle: HTMLElement): void {
   if (toggle.dataset.dropdownInitialized === 'true') return;
   toggle.dataset.dropdownInitialized = 'true';
-  
+
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  
+
   const handleToggle = (e: Event) => {
     e.preventDefault();
     e.stopPropagation();
     e.stopImmediatePropagation();
 
     const dropdown = toggle.closest('.dropdown-container') as HTMLElement;
-    if (!dropdown) return;
-
-    if (state.isTransitioning) return;
+    if (!dropdown || state.isTransitioning) return;
 
     const isModal = dropdown.hasAttribute('data-modal-dropdown');
     const menuSelector = isModal ? SELECTORS.MODAL_MENU : SELECTORS.STANDARD_MENU;
     const menu = dropdown.querySelector(menuSelector) as HTMLElement;
     if (!menu) return;
 
-    const isCurrentlyOpen = menu.classList.contains('open');
-    
-    if (isCurrentlyOpen) {
-      closeDropdown(dropdown);
-    } else {
-      openDropdownMenu(dropdown);
-    }
+    menu.classList.contains('open') ? closeDropdown(dropdown) : openDropdownMenu(dropdown);
   };
-  
+
   addTrackedListener(toggle, 'click', handleToggle, { capture: true, passive: false });
 
   if (isTouchDevice) {
@@ -223,7 +205,6 @@ function setupToggleClickHandler(toggle: HTMLElement): void {
 
 function setupHoverHandlers(container: HTMLElement, menu: HTMLElement): void {
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  
   if (isTouchDevice) return;
 
   const handleMouseEnter = () => {
@@ -232,11 +213,10 @@ function setupHoverHandlers(container: HTMLElement, menu: HTMLElement): void {
   };
 
   const handleContainerMouseLeave = (e: Event) => {
-    if (state.openDropdown === container && !state.isTransitioning) {
-      const relatedTarget = (e as MouseEvent).relatedTarget as HTMLElement;
-      if (relatedTarget && menu.contains(relatedTarget)) return;
-      scheduleDropdownClose(container);
-    }
+    if (state.openDropdown !== container || state.isTransitioning) return;
+    const relatedTarget = (e as MouseEvent).relatedTarget as HTMLElement;
+    if (relatedTarget && menu.contains(relatedTarget)) return;
+    scheduleDropdownClose(container);
   };
 
   const handleMenuMouseLeave = (e: Event) => {
@@ -265,16 +245,15 @@ export function initializeDropdowns(): void {
     const { menu, button, arrow, overlay } = getDropdownElements(containerEl, isModal);
 
     menu?.classList.remove('open');
-    button?.classList.remove('open');
-    button?.classList.remove('services-modal-open');
+    button?.classList.remove('open', 'services-modal-open');
     button?.setAttribute('aria-expanded', 'false');
     arrow?.classList.remove('open');
     overlay?.classList.remove('open');
     overlay?.setAttribute('aria-hidden', 'true');
 
     if (isModal) {
-      if (overlay) overlay.style.removeProperty('z-index');
-      if (menu) menu.style.removeProperty('z-index');
+      overlay?.style.removeProperty('z-index');
+      menu?.style.removeProperty('z-index');
       document.body.classList.remove('dropdown-open');
     }
   });
