@@ -279,7 +279,9 @@ seo_validation:
     - merge_requests
   needs:
     - build
-  allow_failure: true# Cleanup job for old artifacts
+  allow_failure: true
+
+# Cleanup job for old artifacts
 cleanup:
   stage: deploy
   image: alpine:latest
