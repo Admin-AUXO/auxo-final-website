@@ -2,8 +2,8 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { google } from 'googleapis';
 
-const GTM_ACCOUNT_ID = '6213267808';
-const GTM_CONTAINER_ID = '222715686';
+const GTM_ACCOUNT_ID = '6332993563';
+const GTM_CONTAINER_ID = '240117459';
 const SERVICE_ACCOUNT_PATH = join(process.cwd(), 'auxodata-1a2b6e31bc0d.json');
 
 interface GTMVariable {
@@ -30,7 +30,12 @@ async function getAuthClient() {
 
   const auth = new google.auth.GoogleAuth({
     credentials: keyFile,
-    scopes: ['https://www.googleapis.com/auth/tagmanager.edit.containers'],
+    scopes: [
+      'https://www.googleapis.com/auth/tagmanager.edit.containers',
+      'https://www.googleapis.com/auth/tagmanager.edit.containerversions',
+      'https://www.googleapis.com/auth/tagmanager.publish',
+      'https://www.googleapis.com/auth/tagmanager.manage.accounts',
+    ],
   });
 
   return await auth.getClient();
@@ -76,36 +81,27 @@ async function createDataLayerVariables(tagmanager: any, workspacePath: string) 
 async function createTriggers(tagmanager: any, workspacePath: string): Promise<Record<string, string>> {
   console.log('\n🎯 Creating Triggers...');
 
-  const triggers: Record<string, GTMTrigger> = {
+  const triggers: Record<string, any> = {
     attribution_ready: {
       name: 'Custom Event - attribution_data_ready',
       type: 'customEvent',
-      customEventFilter: [{
-        parameter: [
-          { key: 'arg0', value: '{{_event}}', type: 'template' },
-          { key: 'arg1', value: 'attribution_data_ready', type: 'template' },
-        ]
-      }],
+      parameter: [
+        { key: 'eventName', value: 'attribution_data_ready', type: 'template' }
+      ],
     },
     page_not_found: {
       name: 'Custom Event - page_not_found',
       type: 'customEvent',
-      customEventFilter: [{
-        parameter: [
-          { key: 'arg0', value: '{{_event}}', type: 'template' },
-          { key: 'arg1', value: 'page_not_found', type: 'template' },
-        ]
-      }],
+      parameter: [
+        { key: 'eventName', value: 'page_not_found', type: 'template' }
+      ],
     },
     rage_click: {
       name: 'Custom Event - rage_click',
       type: 'customEvent',
-      customEventFilter: [{
-        parameter: [
-          { key: 'arg0', value: '{{_event}}', type: 'template' },
-          { key: 'arg1', value: 'rage_click', type: 'template' },
-        ]
-      }],
+      parameter: [
+        { key: 'eventName', value: 'rage_click', type: 'template' }
+      ],
     },
   };
 
@@ -175,11 +171,43 @@ async function deployGTMConfiguration() {
     const triggers = await createTriggers(tagmanager, workspacePath);
 
     console.log('\n✨ Configuration deployment complete!');
+    console.log('\n📦 Publishing container...');
+
+    const versionName = `Advanced Analytics v${new Date().toISOString().split('T')[0]}`;
+    const versionDescription = `
+Automated deployment of advanced analytics tracking:
+- 14 DataLayer variables for attribution and session tracking
+- Custom event triggers for 404, rage clicks, and attribution
+- Client ID, Session ID, and UTM parameter tracking
+- PII redaction and privacy compliance
+- Enhanced form analytics and engagement tracking
+    `.trim();
+
+    const version = await tagmanager.accounts.containers.workspaces.create_version({
+      path: workspacePath,
+      requestBody: {
+        name: versionName,
+        notes: versionDescription,
+      },
+    });
+
+    console.log(`  ✓ Version created: ${versionName}`);
+
+    if (version.data.containerVersion) {
+      const publishResult = await tagmanager.accounts.containers.versions.publish({
+        path: version.data.containerVersion.path,
+      });
+
+      console.log(`  ✓ Container published successfully!`);
+      console.log(`  📊 Version: ${publishResult.data.containerVersion?.containerVersionId}`);
+      console.log(`  🔗 Container ID: GTM-N6547BGW`);
+    }
+
+    console.log('\n✅ Deployment and publication complete!');
     console.log('\n📝 Next Steps:');
-    console.log('  1. Review changes in GTM workspace');
-    console.log('  2. Test using GTM Preview mode');
-    console.log('  3. Publish container when ready');
-    console.log('\n💡 To publish automatically, uncomment the publish code section');
+    console.log('  1. Test your website to verify tracking');
+    console.log('  2. Check GA4 DebugView for events');
+    console.log('  3. Monitor GTM Preview mode if needed');
 
   } catch (error: any) {
     console.error('\n❌ Deployment failed:', error.message);
@@ -190,8 +218,4 @@ async function deployGTMConfiguration() {
   }
 }
 
-if (require.main === module) {
-  deployGTMConfiguration();
-}
-
-export { deployGTMConfiguration };
+deployGTMConfiguration().catch(console.error);
