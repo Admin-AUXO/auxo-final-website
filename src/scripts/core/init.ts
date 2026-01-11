@@ -12,6 +12,7 @@ import { initWebVitals } from '../utils/webVitals';
 import { initGA4Tracking } from '../analytics/ga4';
 import { initInteractionTracking } from '../analytics/navigationTracking';
 import { initEnhancedTracking } from '../analytics/enhancedTracking';
+import { initUTMTracking } from '../analytics/utmTracking';
 import { logger } from '@/lib/logger';
 
 let isInitialized = false;
@@ -115,6 +116,9 @@ export function initCoreFeatures(): void {
     try {
       initFloatingButton();
       initAccordions();
+
+      // Initialize UTM tracking first to capture parameters
+      initUTMTracking();
 
       ga4Cleanup = initGA4Tracking();
       interactionCleanup = initInteractionTracking();

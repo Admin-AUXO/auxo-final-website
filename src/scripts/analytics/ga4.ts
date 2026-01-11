@@ -1,4 +1,5 @@
 import { logger } from '@/lib/logger';
+import { getAttributionParams } from './utmTracking';
 
 const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-WBMKHRWS7Z';
 const GA4_DEBUG_MODE = import.meta.env.DEV || import.meta.env.PUBLIC_GA4_DEBUG === 'true';
@@ -135,7 +136,11 @@ export function trackEvent(
   }
 
   try {
+    // Get attribution parameters and merge with event params
+    const attributionParams = getAttributionParams();
+
     const eventParams = {
+      ...attributionParams,
       ...sanitizedParams,
       ...(GA4_DEBUG_MODE && { debug_mode: true }),
     };
