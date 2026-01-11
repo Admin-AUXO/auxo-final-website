@@ -1,6 +1,5 @@
 .models-section {
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
+  overflow: hidden visible !important;
 }
 
 .models-section .section-pattern-grid {
@@ -323,8 +322,7 @@
 }
 
 .impact-section {
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
+  overflow: hidden visible !important;
 }
 
 .impact-section .section-pattern-mesh {

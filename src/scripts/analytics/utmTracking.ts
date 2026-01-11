@@ -15,7 +15,7 @@ const UTM_PARAMS = [
 type UTMParam = typeof UTM_PARAMS[number];
 
 interface UTMData {
-  [key: string]: string;
+  [key: string]: string | number;
 }
 
 interface AttributionData {
@@ -128,15 +128,15 @@ function determineTrafficSource(utmData: UTMData, referrerInfo: ReturnType<typeo
 } {
   if (utmData.utm_source && utmData.utm_medium) {
     return {
-      source: utmData.utm_source,
-      medium: utmData.utm_medium,
+      source: String(utmData.utm_source),
+      medium: String(utmData.utm_medium),
     };
   }
 
   if (utmData.utm_source) {
     return {
-      source: utmData.utm_source,
-      medium: utmData.utm_medium || 'none',
+      source: String(utmData.utm_source),
+      medium: utmData.utm_medium ? String(utmData.utm_medium) : 'none',
     };
   }
 

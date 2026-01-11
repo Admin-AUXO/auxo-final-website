@@ -165,6 +165,11 @@ async function deployGTMConfiguration() {
     }
 
     const workspacePath = workspace?.path;
+
+    if (!workspacePath) {
+      throw new Error('Failed to get workspace path');
+    }
+
     console.log(`🔧 Workspace: ${workspacePath}\n`);
 
     await createDataLayerVariables(tagmanager, workspacePath);
@@ -193,13 +198,13 @@ Automated deployment of advanced analytics tracking:
 
     console.log(`  ✓ Version created: ${versionName}`);
 
-    if (version.data.containerVersion) {
+    if (version?.data?.containerVersion?.path) {
       const publishResult = await tagmanager.accounts.containers.versions.publish({
         path: version.data.containerVersion.path,
       });
 
       console.log(`  ✓ Container published successfully!`);
-      console.log(`  📊 Version: ${publishResult.data.containerVersion?.containerVersionId}`);
+      console.log(`  📊 Version: ${publishResult?.data?.containerVersion?.containerVersionId}`);
       console.log(`  🔗 Container ID: GTM-N6547BGW`);
     }
 

@@ -1,7 +1,6 @@
 section,
 [class*="-section"] {
-  overflow-x: hidden !important;
-  overflow-y: clip !important;
+  overflow: hidden clip !important;
   max-width: 100vw;
   scrollbar-width: none;
   -ms-overflow-style: none;

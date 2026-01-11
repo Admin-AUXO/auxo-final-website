@@ -2,8 +2,7 @@
   position: relative;
   width: 100%;
   min-height: 100svh;
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
+  overflow: hidden visible !important;
   display: flex;
   flex-direction: column;
   justify-content: center;
