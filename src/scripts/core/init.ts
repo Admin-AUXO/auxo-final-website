@@ -13,6 +13,9 @@ import { initGA4Tracking } from '../analytics/ga4';
 import { initInteractionTracking } from '../analytics/navigationTracking';
 import { initEnhancedTracking } from '../analytics/enhancedTracking';
 import { initUTMTracking } from '../analytics/utmTracking';
+import { initIdentifiers } from '../analytics/identifiers';
+import { initAdvancedEngagement } from '../analytics/advancedEngagement';
+import { initFormAnalytics } from '../analytics/formAnalytics';
 import { logger } from '@/lib/logger';
 
 let isInitialized = false;
@@ -20,6 +23,8 @@ let lazyLoadingObserver: IntersectionObserver | null = null;
 let ga4Cleanup: (() => void) | null = null;
 let interactionCleanup: (() => void) | null = null;
 let enhancedTrackingCleanup: (() => void) | null = null;
+let advancedEngagementTracker: any = null;
+let formAnalyticsTracker: any = null;
 
 function initLazyLoading(): void {
   if (lazyLoadingObserver) {
@@ -118,6 +123,7 @@ export function initCoreFeatures(): void {
       initAccordions();
 
       // Initialize UTM tracking first to capture parameters
+      initIdentifiers();
       initUTMTracking();
 
       ga4Cleanup = initGA4Tracking();
@@ -125,6 +131,9 @@ export function initCoreFeatures(): void {
 
       const { cleanup } = initEnhancedTracking();
       enhancedTrackingCleanup = cleanup;
+
+      advancedEngagementTracker = initAdvancedEngagement();
+      formAnalyticsTracker = initFormAnalytics();
 
       setTimeout(() => {
         try {
@@ -253,6 +262,16 @@ export function cleanupCoreFeatures(): void {
   if (enhancedTrackingCleanup) {
     enhancedTrackingCleanup();
     enhancedTrackingCleanup = null;
+  }
+
+  if (advancedEngagementTracker) {
+    advancedEngagementTracker.destroy();
+    advancedEngagementTracker = null;
+  }
+
+  if (formAnalyticsTracker) {
+    formAnalyticsTracker.destroy();
+    formAnalyticsTracker = null;
   }
 
   isInitialized = false;

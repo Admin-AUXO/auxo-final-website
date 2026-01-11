@@ -1,5 +1,7 @@
 import { logger } from '@/lib/logger';
 import { getAttributionParams } from './utmTracking';
+import { sanitizeForGA4, redactURL } from './privacy';
+import { getClientId, getSessionId, getSessionNumber } from './identifiers';
 
 const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-WBMKHRWS7Z';
 const GA4_DEBUG_MODE = import.meta.env.DEV || import.meta.env.PUBLIC_GA4_DEBUG === 'true';
@@ -138,10 +140,22 @@ export function trackEvent(
   try {
     // Get attribution parameters and merge with event params
     const attributionParams = getAttributionParams();
+    const clientId = getClientId();
+    const sessionId = getSessionId();
+    const sessionNumber = getSessionNumber();
 
-    const eventParams = {
+    const baseParams = {
       ...attributionParams,
       ...sanitizedParams,
+      client_id: clientId,
+      session_id: sessionId,
+      session_number: sessionNumber,
+    };
+
+    const sanitized = sanitizeForGA4(baseParams);
+
+    const eventParams = {
+      ...sanitized,
       ...(GA4_DEBUG_MODE && { debug_mode: true }),
     };
 
@@ -165,10 +179,12 @@ export function trackPageView(
   title?: string,
   params?: Record<string, string | number | boolean>
 ): void {
+  const pageLocation = typeof window !== 'undefined' ? redactURL(window.location.href) : path;
+
   trackEvent('page_view', {
     page_path: path,
     page_title: title || (typeof document !== 'undefined' ? document.title : ''),
-    page_location: typeof window !== 'undefined' ? window.location.href : path,
+    page_location: pageLocation,
     ...params,
   });
 }

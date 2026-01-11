@@ -1,0 +1,197 @@
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { google } from 'googleapis';
+
+const GTM_ACCOUNT_ID = '6213267808';
+const GTM_CONTAINER_ID = '222715686';
+const SERVICE_ACCOUNT_PATH = join(process.cwd(), 'auxodata-1a2b6e31bc0d.json');
+
+interface GTMVariable {
+  name: string;
+  type: string;
+  parameter: Array<{ key: string; value: string; type: string }>;
+}
+
+interface GTMTag {
+  name: string;
+  type: string;
+  parameter: Array<{ key: string; value: string; type: string; list?: any[] }>;
+  firingTriggerId?: string[];
+}
+
+interface GTMTrigger {
+  name: string;
+  type: string;
+  customEventFilter?: Array<{ parameter: Array<{ key: string; value: string; type: string }> }>;
+}
+
+async function getAuthClient() {
+  const keyFile = JSON.parse(readFileSync(SERVICE_ACCOUNT_PATH, 'utf-8'));
+
+  const auth = new google.auth.GoogleAuth({
+    credentials: keyFile,
+    scopes: ['https://www.googleapis.com/auth/tagmanager.edit.containers'],
+  });
+
+  return await auth.getClient();
+}
+
+async function createDataLayerVariables(tagmanager: any, workspacePath: string) {
+  console.log('\n📊 Creating DataLayer Variables...');
+
+  const variables: GTMVariable[] = [
+    { name: 'DLV - session_count', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'session_count', type: 'template' }] },
+    { name: 'DLV - source', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'source', type: 'template' }] },
+    { name: 'DLV - medium', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'medium', type: 'template' }] },
+    { name: 'DLV - client_id', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'client_id', type: 'template' }] },
+    { name: 'DLV - session_id', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'session_id', type: 'template' }] },
+    { name: 'DLV - utm_source', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'utm_source', type: 'template' }] },
+    { name: 'DLV - utm_medium', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'utm_medium', type: 'template' }] },
+    { name: 'DLV - utm_campaign', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'utm_campaign', type: 'template' }] },
+    { name: 'DLV - utm_term', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'utm_term', type: 'template' }] },
+    { name: 'DLV - utm_content', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'utm_content', type: 'template' }] },
+    { name: 'DLV - ft_source', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'ft_source', type: 'template' }] },
+    { name: 'DLV - ft_medium', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'ft_medium', type: 'template' }] },
+    { name: 'DLV - lt_source', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'lt_source', type: 'template' }] },
+    { name: 'DLV - lt_medium', type: 'v', parameter: [{ key: 'dataLayerVersion', value: '2', type: 'integer' }, { key: 'name', value: 'lt_medium', type: 'template' }] },
+  ];
+
+  for (const variable of variables) {
+    try {
+      await tagmanager.accounts.containers.workspaces.variables.create({
+        parent: workspacePath,
+        requestBody: variable,
+      });
+      console.log(`  ✓ Created: ${variable.name}`);
+    } catch (error: any) {
+      if (error.message.includes('already exists')) {
+        console.log(`  ⊙ Exists: ${variable.name}`);
+      } else {
+        console.error(`  ✗ Failed: ${variable.name} - ${error.message}`);
+      }
+    }
+  }
+}
+
+async function createTriggers(tagmanager: any, workspacePath: string): Promise<Record<string, string>> {
+  console.log('\n🎯 Creating Triggers...');
+
+  const triggers: Record<string, GTMTrigger> = {
+    attribution_ready: {
+      name: 'Custom Event - attribution_data_ready',
+      type: 'customEvent',
+      customEventFilter: [{
+        parameter: [
+          { key: 'arg0', value: '{{_event}}', type: 'template' },
+          { key: 'arg1', value: 'attribution_data_ready', type: 'template' },
+        ]
+      }],
+    },
+    page_not_found: {
+      name: 'Custom Event - page_not_found',
+      type: 'customEvent',
+      customEventFilter: [{
+        parameter: [
+          { key: 'arg0', value: '{{_event}}', type: 'template' },
+          { key: 'arg1', value: 'page_not_found', type: 'template' },
+        ]
+      }],
+    },
+    rage_click: {
+      name: 'Custom Event - rage_click',
+      type: 'customEvent',
+      customEventFilter: [{
+        parameter: [
+          { key: 'arg0', value: '{{_event}}', type: 'template' },
+          { key: 'arg1', value: 'rage_click', type: 'template' },
+        ]
+      }],
+    },
+  };
+
+  const createdTriggers: Record<string, string> = {};
+
+  for (const [key, trigger] of Object.entries(triggers)) {
+    try {
+      const response = await tagmanager.accounts.containers.workspaces.triggers.create({
+        parent: workspacePath,
+        requestBody: trigger,
+      });
+      createdTriggers[key] = response.data.triggerId;
+      console.log(`  ✓ Created: ${trigger.name}`);
+    } catch (error: any) {
+      if (error.message.includes('already exists')) {
+        console.log(`  ⊙ Exists: ${trigger.name}`);
+        const list = await tagmanager.accounts.containers.workspaces.triggers.list({
+          parent: workspacePath,
+        });
+        const existing = list.data.trigger?.find((t: any) => t.name === trigger.name);
+        if (existing) {
+          createdTriggers[key] = existing.triggerId;
+        }
+      } else {
+        console.error(`  ✗ Failed: ${trigger.name} - ${error.message}`);
+      }
+    }
+  }
+
+  return createdTriggers;
+}
+
+async function deployGTMConfiguration() {
+  try {
+    console.log('🚀 Starting GTM Configuration Deployment\n');
+
+    const authClient = await getAuthClient();
+    const tagmanager = google.tagmanager({ version: 'v2', auth: authClient as any });
+
+    const accountPath = `accounts/${GTM_ACCOUNT_ID}`;
+    const containerPath = `${accountPath}/containers/${GTM_CONTAINER_ID}`;
+
+    console.log(`📦 Container: ${containerPath}`);
+
+    const workspaces = await tagmanager.accounts.containers.workspaces.list({
+      parent: containerPath,
+    });
+
+    let workspace = workspaces.data.workspace?.find((w: any) => w.name.includes('Default Workspace'));
+
+    if (!workspace) {
+      console.log('Creating new workspace...');
+      const newWorkspace = await tagmanager.accounts.containers.workspaces.create({
+        parent: containerPath,
+        requestBody: {
+          name: 'Analytics Enhancement Workspace',
+          description: 'Automated deployment of advanced analytics tracking',
+        },
+      });
+      workspace = newWorkspace.data;
+    }
+
+    const workspacePath = workspace?.path;
+    console.log(`🔧 Workspace: ${workspacePath}\n`);
+
+    await createDataLayerVariables(tagmanager, workspacePath);
+    const triggers = await createTriggers(tagmanager, workspacePath);
+
+    console.log('\n✨ Configuration deployment complete!');
+    console.log('\n📝 Next Steps:');
+    console.log('  1. Review changes in GTM workspace');
+    console.log('  2. Test using GTM Preview mode');
+    console.log('  3. Publish container when ready');
+    console.log('\n💡 To publish automatically, uncomment the publish code section');
+
+  } catch (error: any) {
+    console.error('\n❌ Deployment failed:', error.message);
+    if (error.response?.data) {
+      console.error('Details:', JSON.stringify(error.response.data, null, 2));
+    }
+    process.exit(1);
+  }
+}
+
+if (require.main === module) {
+  deployGTMConfiguration();
+}
+
+export { deployGTMConfiguration };
