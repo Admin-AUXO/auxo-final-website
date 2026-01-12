@@ -13,6 +13,7 @@ import CookieConsent from "@/components/common/CookieConsent.astro";
 import "@/styles/base/reset.css";
 import "@/styles/base.css";
 import "@/styles/global.css";
+import "@/styles/features/tab-engagement.css";
 
 export interface Props {
   title?: string;
@@ -600,6 +601,7 @@ const faqSchema = {
 
     <script>
       import { initCoreFeatures, reinitOnPageLoad, initPageFeatures } from "@/scripts/core/init";
+      import { initTabEngagement } from "@/scripts/utils/tabEngagement";
 
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
@@ -710,6 +712,20 @@ const faqSchema = {
         await waitForCSS();
         initCoreFeatures();
         initPageFeatures();
+
+        // Tab engagement features
+        initTabEngagement({
+          titleMessages: [
+            '👋 Come back to AUXO!',
+            '✨ Your data insights await',
+            '📊 Transform your analytics',
+            '⚡ AUXO Data Labs',
+          ],
+          titleInterval: 2000,
+          faviconEnabled: true,
+          inactivityThreshold: 300000, // 5 minutes
+          showWelcomeBack: true,
+        });
       };
 
       if (document.readyState === 'loading') {

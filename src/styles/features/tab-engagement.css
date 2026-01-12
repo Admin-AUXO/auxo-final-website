@@ -1,0 +1,332 @@
+/* Tab Engagement & Re-engagement Features */
+
+.auxo-engagement-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgb(var(--accent-green-rgb), 0.08) 0%,
+    rgb(0 0 0 / 85%) 50%,
+    rgb(var(--accent-green-rgb), 0.05) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1rem;
+}
+
+.auxo-engagement-overlay-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.auxo-engagement-overlay-exit {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.auxo-engagement-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 2px solid var(--accent-green-opacity-30);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  max-width: 28rem;
+  width: 100%;
+  text-align: center;
+  box-shadow:
+    0 20px 60px rgb(0 0 0 / 40%),
+    0 0 80px rgb(var(--accent-green-rgb), 0.15);
+  transform: translateY(20px) scale(0.95);
+  opacity: 0;
+  animation: auxo-engagement-card-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards;
+  overflow: hidden;
+}
+
+@keyframes auxo-engagement-card-enter {
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.auxo-engagement-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-green),
+    transparent
+  );
+  animation: auxo-engagement-glow 2s ease-in-out infinite;
+}
+
+@keyframes auxo-engagement-glow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.auxo-engagement-card::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(
+    circle,
+    rgb(var(--accent-green-rgb), 0.15) 0%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.auxo-engagement-icon {
+  position: relative;
+  z-index: 1;
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgb(var(--accent-green-rgb), 0.15) 0%,
+    rgb(var(--accent-green-rgb), 0.05) 100%
+  );
+  border: 2px solid rgb(var(--accent-green-rgb), 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: auxo-engagement-icon-pulse 2s ease-in-out infinite;
+}
+
+@keyframes auxo-engagement-icon-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgb(var(--accent-green-rgb), 0.4);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgb(var(--accent-green-rgb), 0);
+  }
+}
+
+.auxo-engagement-icon-svg {
+  width: 2rem;
+  height: 2rem;
+  color: var(--accent-green);
+  animation: auxo-engagement-icon-bounce 1s ease-in-out 0.3s;
+}
+
+@keyframes auxo-engagement-icon-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.auxo-engagement-title {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+}
+
+.auxo-engagement-message {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--text-secondary);
+  margin: 0 0 2rem;
+  line-height: 1.6;
+}
+
+.auxo-engagement-button {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-on-accent);
+  background: var(--accent-green);
+  border: 2px solid transparent;
+  border-radius: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgb(var(--accent-green-rgb), 0.3);
+  min-height: 3.5rem;
+  white-space: nowrap;
+}
+
+.auxo-engagement-button:hover {
+  background: rgb(var(--accent-green-rgb), 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgb(var(--accent-green-rgb), 0.4);
+}
+
+.auxo-engagement-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgb(var(--accent-green-rgb), 0.3);
+}
+
+.auxo-engagement-button-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke-width: 2.5;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auxo-engagement-button:hover .auxo-engagement-button-icon {
+  transform: translateX(4px);
+}
+
+/* Mobile optimizations */
+@media (width <= 640px) {
+  .auxo-engagement-overlay {
+    padding: 1rem;
+  }
+
+  .auxo-engagement-card {
+    padding: 2rem 1.5rem;
+    border-radius: 1.25rem;
+  }
+
+  .auxo-engagement-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .auxo-engagement-icon-svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .auxo-engagement-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.625rem;
+  }
+
+  .auxo-engagement-message {
+    font-size: 0.9375rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .auxo-engagement-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.9375rem;
+    min-height: 3rem;
+    width: 100%;
+  }
+}
+
+/* Tablet optimizations */
+@media (width >= 641px) and (width <= 1023px) {
+  .auxo-engagement-card {
+    padding: 2.25rem 2rem;
+  }
+
+  .auxo-engagement-title {
+    font-size: 1.625rem;
+  }
+
+  .auxo-engagement-message {
+    font-size: 1rem;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .auxo-engagement-overlay,
+  .auxo-engagement-card,
+  .auxo-engagement-button,
+  .auxo-engagement-icon {
+    animation: none !important;
+    transition: opacity 0.2s ease, visibility 0.2s ease !important;
+  }
+
+  .auxo-engagement-card {
+    transform: none !important;
+  }
+
+  .auxo-engagement-button:hover {
+    transform: none !important;
+  }
+
+  .auxo-engagement-button-icon {
+    transition: none !important;
+  }
+}
+
+/* Light theme adjustments */
+@media (prefers-color-scheme: light) {
+  .auxo-engagement-overlay {
+    background: linear-gradient(
+      135deg,
+      rgb(var(--accent-green-rgb), 0.12) 0%,
+      rgb(255 255 255 / 92%) 50%,
+      rgb(var(--accent-green-rgb), 0.08) 100%
+    );
+  }
+
+  .auxo-engagement-card {
+    box-shadow:
+      0 20px 60px rgb(0 0 0 / 12%),
+      0 0 80px rgb(var(--accent-green-rgb), 0.2);
+  }
+}
+
+/* Dark theme enhancements */
+@media (prefers-color-scheme: dark) {
+  .auxo-engagement-card::after {
+    background: radial-gradient(
+      circle,
+      rgb(var(--accent-green-rgb), 0.2) 0%,
+      transparent 70%
+    );
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  .auxo-engagement-card {
+    border-width: 3px;
+  }
+
+  .auxo-engagement-button {
+    border-width: 3px;
+    border-color: var(--accent-green);
+  }
+}
