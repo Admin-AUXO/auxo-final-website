@@ -66,6 +66,10 @@
   overflow: hidden;
 }
 
+.methodology-section .grid-container {
+  overflow-x: clip !important;
+}
+
 .methodology-section .section-pattern-grid {
   background-size: var(--pattern-size-md) var(--pattern-size-md);
 }
@@ -112,6 +116,10 @@
 
 .services-intro-section {
   overflow: hidden;
+}
+
+.services-intro-section .grid-container {
+  overflow-x: clip !important;
 }
 
 .services-intro-section::after {

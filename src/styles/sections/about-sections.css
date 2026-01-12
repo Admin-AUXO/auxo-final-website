@@ -2,6 +2,10 @@
   overflow: hidden;
 }
 
+.approach-section .grid-container {
+  overflow-x: clip !important;
+}
+
 .approach-section .section-pattern-grid {
   background-size: 60px 60px;
 }
@@ -128,6 +132,10 @@
   overflow: hidden;
 }
 
+.global-section .grid-container {
+  overflow-x: clip !important;
+}
+
 .global-section .section-pattern-mesh {
   background-size: 50px 50px, 100px 100px;
   background-position: 0 0, 25px 25px;
@@ -171,6 +179,12 @@
     overflow: hidden;
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
+  }
+
+  .mission-vision-section .grid-container,
+  .approach-section .grid-container,
+  .global-section .grid-container {
+    overflow-x: clip !important;
   }
 
   .mission-card .bg-theme-card,

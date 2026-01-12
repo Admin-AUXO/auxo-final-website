@@ -1,0 +1,48 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@playwright/mcp"],
+      "description": "Browser automation and testing"
+    },
+    "filesystem": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@modelcontextprotocol/server-filesystem", "YOUR_PROJECT_PATH_HERE"],
+      "description": "Read/search project files"
+    },
+    "git": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@cyanheads/git-mcp-server"],
+      "description": "Git operations and repo management"
+    },
+    "fetch": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@modelcontextprotocol/server-fetch"],
+      "description": "Fetch and process web content"
+    },
+    "github": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      },
+      "description": "GitHub operations (requires token in .env)"
+    },
+    "memory": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@modelcontextprotocol/server-memory"],
+      "description": "Persistent knowledge graph across sessions"
+    },
+    "sanity": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@sanity/mcp-server"],
+      "env": {
+        "SANITY_PROJECT_ID": "${SANITY_PROJECT_ID}",
+        "SANITY_DATASET": "${SANITY_DATASET}",
+        "SANITY_API_TOKEN": "${SANITY_API_TOKEN}",
+        "SANITY_API_VERSION": "${SANITY_API_VERSION}"
+      },
+      "description": "Sanity CMS content management and GROQ queries"
+    }
+  }
+}

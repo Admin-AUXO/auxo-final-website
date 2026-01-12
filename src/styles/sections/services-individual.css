@@ -7,6 +7,15 @@
   overflow: hidden visible !important;
 }
 
+.service-hero-section .grid-container,
+.service-overview-section .grid-container,
+.service-process-section .grid-container,
+.service-benefits-section .grid-container,
+.service-outcomes-section .grid-container,
+.service-cta-section .grid-container {
+  overflow-x: clip !important;
+}
+
 .process-stepper-wrapper {
   padding-top: 1rem;
   padding-bottom: 1rem;

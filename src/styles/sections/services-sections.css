@@ -2,6 +2,10 @@
   overflow: hidden visible !important;
 }
 
+.models-section .grid-container {
+  overflow-x: clip !important;
+}
+
 .models-section .section-pattern-grid {
   background-size: 60px 60px;
   opacity: 0.5;
@@ -323,6 +327,10 @@
 
 .impact-section {
   overflow: hidden visible !important;
+}
+
+.impact-section .grid-container {
+  overflow-x: clip !important;
 }
 
 .impact-section .section-pattern-mesh {
