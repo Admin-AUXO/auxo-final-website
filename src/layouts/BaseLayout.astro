@@ -746,12 +746,34 @@ const faqSchema = {
         }
       });
 
+      document.addEventListener('astro:before-preparation', async () => {
+        const { destroyTabEngagement } = await import('@/scripts/utils/tabEngagement');
+        destroyTabEngagement();
+      });
+
       document.addEventListener('astro:page-load', async () => {
         await waitForCSS();
         reinitOnPageLoad();
         setTimeout(() => {
           initPageFeatures();
           initMobileScrollOptimizations();
+
+          try {
+            initTabEngagement({
+              titleMessages: [
+                '👋 Come back to AUXO!',
+                '✨ Your data insights await',
+                '📊 Transform your analytics',
+                '⚡ AUXO Data Labs',
+              ],
+              titleInterval: 2000,
+              faviconEnabled: true,
+              inactivityThreshold: 300000,
+              showWelcomeBack: true,
+            });
+          } catch (e) {
+            console.error('Tab engagement reinit error:', e);
+          }
         }, 100);
       });
     </script>

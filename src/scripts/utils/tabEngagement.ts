@@ -20,6 +20,7 @@ class TabEngagementManager {
   private faviconInterval: number | null = null;
   private originalFavicon: string = '';
   private faviconIndex: number = 0;
+  private cleanup: (() => void) | null = null;
 
   private readonly emojis = {
     wave: ['👋', '✨'],
@@ -68,25 +69,31 @@ class TabEngagementManager {
       return;
     }
 
-    document.addEventListener('visibilitychange', () => {
+    const visibilityHandler = () => {
       if (document.hidden) {
         this.onTabHidden();
       } else {
         this.onTabVisible();
       }
-    }, false);
+    };
 
-    window.addEventListener('blur', () => {
-      if (!document.hidden) {
-        this.onTabHidden();
-      }
-    });
+    const blurHandler = () => {
+      this.onTabHidden();
+    };
 
-    window.addEventListener('focus', () => {
-      if (!document.hidden) {
-        this.onTabVisible();
-      }
-    });
+    const focusHandler = () => {
+      this.onTabVisible();
+    };
+
+    document.addEventListener('visibilitychange', visibilityHandler, false);
+    window.addEventListener('blur', blurHandler, false);
+    window.addEventListener('focus', focusHandler, false);
+
+    this.cleanup = () => {
+      document.removeEventListener('visibilitychange', visibilityHandler);
+      window.removeEventListener('blur', blurHandler);
+      window.removeEventListener('focus', focusHandler);
+    };
   }
 
   private setupInactivityDetection(): void {
@@ -294,10 +301,21 @@ class TabEngagementManager {
 
     if (this.inactivityTimer) {
       clearTimeout(this.inactivityTimer);
+      this.inactivityTimer = null;
+    }
+
+    if (this.cleanup) {
+      this.cleanup();
+      this.cleanup = null;
     }
 
     document.title = this.originalTitle;
     this.setFavicon(this.originalFavicon);
+
+    const overlay = document.getElementById('auxo-welcome-back-overlay');
+    if (overlay) {
+      overlay.remove();
+    }
   }
 }
 
