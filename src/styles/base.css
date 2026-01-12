@@ -8,8 +8,6 @@
 
 html {
   max-width: 100vw;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
   width: 100%;
   min-height: 100%;
   -webkit-overflow-scrolling: touch;
@@ -18,12 +16,6 @@ html {
   scroll-padding-top: var(--nav-scroll-padding, 4rem);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-html::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
 }
 
 html.loading {
@@ -45,15 +37,8 @@ body {
   transition: background-color var(--theme-transition) var(--timing-smooth),
     color var(--theme-transition) var(--timing-smooth);
   max-width: 100vw;
-  scrollbar-width: none;
   -ms-overflow-scrolling: touch;
   width: 100%;
-}
-
-body::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
 }
 
 html.loading body {
