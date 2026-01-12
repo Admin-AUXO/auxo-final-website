@@ -713,19 +713,24 @@ const faqSchema = {
         initCoreFeatures();
         initPageFeatures();
 
-        // Tab engagement features
-        initTabEngagement({
-          titleMessages: [
-            '👋 Come back to AUXO!',
-            '✨ Your data insights await',
-            '📊 Transform your analytics',
-            '⚡ AUXO Data Labs',
-          ],
-          titleInterval: 2000,
-          faviconEnabled: true,
-          inactivityThreshold: 300000, // 5 minutes
-          showWelcomeBack: true,
-        });
+        setTimeout(() => {
+          try {
+            initTabEngagement({
+              titleMessages: [
+                '👋 Come back to AUXO!',
+                '✨ Your data insights await',
+                '📊 Transform your analytics',
+                '⚡ AUXO Data Labs',
+              ],
+              titleInterval: 2000,
+              faviconEnabled: true,
+              inactivityThreshold: 300000,
+              showWelcomeBack: true,
+            });
+          } catch (e) {
+            console.error('Tab engagement init error:', e);
+          }
+        }, 500);
       };
 
       if (document.readyState === 'loading') {

@@ -63,10 +63,27 @@ class TabEngagementManager {
   }
 
   private setupVisibilityListener(): void {
+    if (typeof document.hidden === 'undefined') {
+      console.warn('Visibility API not supported');
+      return;
+    }
+
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         this.onTabHidden();
       } else {
+        this.onTabVisible();
+      }
+    }, false);
+
+    window.addEventListener('blur', () => {
+      if (!document.hidden) {
+        this.onTabHidden();
+      }
+    });
+
+    window.addEventListener('focus', () => {
+      if (!document.hidden) {
         this.onTabVisible();
       }
     });
