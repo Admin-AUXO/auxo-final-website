@@ -93,52 +93,148 @@ const organizationSchema = {
   ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Data Analytics Services',
+    name: 'Data Analytics as a Service',
     itemListElement: [
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Data Strategy & Consulting',
-          description: 'Strategic data planning and advisory services'
+          name: 'Foundation Readiness',
+          description: 'Assess and prepare your data infrastructure for analytics success',
+          category: 'Data Strategy & Assessment'
         }
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Data Engineering',
-          description: 'ETL/ELT pipelines, data warehousing, and infrastructure'
+          name: 'Reporting Reset',
+          description: 'Modernize reporting capabilities with dynamic, interactive analytics',
+          category: 'Business Intelligence'
         }
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Business Intelligence',
-          description: 'BI dashboards, reporting, and data visualization'
+          name: 'Performance Diagnostics',
+          description: 'Identify and optimize performance bottlenecks across your analytics stack',
+          category: 'Data Engineering'
         }
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Machine Learning & AI',
-          description: 'ML model development and AI implementation'
+          name: 'Forecasting Lab',
+          description: 'Build predictive models for better planning using statistical and ML techniques',
+          category: 'Machine Learning & Predictive Analytics'
         }
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Cloud Analytics',
-          description: 'Cloud-based data platforms on AWS, Azure, and GCP'
+          name: 'Decision Playbooks',
+          description: 'Create structured frameworks for key business decisions with data integration',
+          category: 'Analytics Strategy'
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Smart Automation',
+          description: 'Automate repetitive analytics workflows and data pipelines',
+          category: 'Data Engineering & Automation'
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Augmented Intelligence Studio',
+          description: 'Leverage AI to enhance analytical capabilities with pattern recognition and automated insights',
+          category: 'Artificial Intelligence'
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Autonomy Readiness Review',
+          description: 'Prepare your team for self-service analytics with governance and training',
+          category: 'Analytics Enablement'
         }
       }
     ]
   },
   expertise: 'Data Analytics, Business Intelligence, Machine Learning, Data Engineering, Cloud Computing',
   slogan: 'Transforming Data into Strategic Advantage',
+  audience: {
+    '@type': 'Audience',
+    audienceType: [
+      'Business Executives',
+      'C-Suite Leaders',
+      'Chief Data Officers',
+      'Chief Technology Officers',
+      'Data Analytics Teams',
+      'Business Intelligence Professionals'
+    ],
+    geographicArea: [
+      {
+        '@type': 'Place',
+        name: 'Dubai',
+        containedInPlace: {
+          '@type': 'Place',
+          name: 'United Arab Emirates'
+        }
+      },
+      {
+        '@type': 'Place',
+        name: 'GCC Region'
+      },
+      {
+        '@type': 'Place',
+        name: 'Europe'
+      }
+    ]
+  },
+  makesOffer: [
+    {
+      '@type': 'Offer',
+      name: 'Diagnostic & Roadmap Sprint',
+      description: 'Quick assessment and strategic planning with current state analysis, maturity evaluation, and prioritized roadmap',
+      category: 'Strategic Consulting'
+    },
+    {
+      '@type': 'Offer',
+      name: 'Delivery Wave',
+      description: 'Project-based implementation with time-boxed, outcome-focused execution',
+      category: 'Project Delivery'
+    },
+    {
+      '@type': 'Offer',
+      name: 'Managed Analytics Program',
+      description: 'Ongoing partnership with dedicated analytics team for continuous capability development',
+      category: 'Managed Services'
+    },
+    {
+      '@type': 'Offer',
+      name: 'Strategic Co-Pilot',
+      description: 'Executive-level advisory with fractional leadership and strategic guidance',
+      category: 'Executive Advisory'
+    }
+  ],
+  industry: [
+    'Real Estate & Property',
+    'Hospitality & Tourism',
+    'Retail & Luxury Brands',
+    'Financial Services',
+    'Logistics & Trade',
+    'Government & Public Sector',
+    'Ecommerce'
+  ],
 };
 
 const websiteSchema = {
@@ -205,6 +301,52 @@ const webPageSchema = {
     cssSelector: ['main', 'h1', 'h2', 'p']
   },
 };
+
+const faqSchema = {
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What services does AUXO Data Labs provide?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'AUXO Data Labs provides eight core analytics services: Foundation Readiness (data infrastructure assessment), Reporting Reset (modernizing reporting), Performance Diagnostics (optimization), Forecasting Lab (predictive modeling), Decision Playbooks (decision frameworks), Smart Automation (workflow automation), Augmented Intelligence Studio (AI-enhanced analytics), and Autonomy Readiness Review (self-service analytics enablement).'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Which industries does AUXO serve?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'AUXO specializes in Real Estate & Property, Hospitality & Tourism, Retail & Luxury Brands, Financial Services, Logistics & Trade, Government & Public Sector, and Ecommerce sectors across the GCC, Europe, and global markets.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Where is AUXO Data Labs located?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'AUXO Data Labs is based in Dubai Internet City, Dubai, United Arab Emirates, serving clients across the GCC region, Europe, and globally.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'What engagement models does AUXO offer?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'AUXO offers four engagement models: Diagnostic & Roadmap Sprint (quick assessment and planning), Delivery Wave (project-based implementation), Managed Analytics Program (ongoing partnership), and Strategic Co-Pilot (executive advisory and fractional leadership).'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'What technologies does AUXO work with?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'AUXO works with leading data platforms including AWS, Azure, Google Cloud Platform, Snowflake, Databricks, Tableau, Power BI, and implements solutions using modern data engineering, machine learning, and AI technologies.'
+      }
+    }
+  ]
+};
 ---
 
 <!doctype html>
@@ -220,6 +362,7 @@ const webPageSchema = {
     <StructuredData type="Organization" data={organizationSchema} />
     <StructuredData type="WebSite" data={websiteSchema} />
     <StructuredData type="WebPage" data={webPageSchema} />
+    <StructuredData type="FAQPage" data={faqSchema} />
     <script>
       (function initViewTransitions() {
         if (typeof document === 'undefined' || !('startViewTransition' in document)) return;

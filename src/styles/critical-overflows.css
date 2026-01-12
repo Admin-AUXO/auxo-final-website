@@ -31,10 +31,6 @@ section,
   -ms-overflow-style: none !important;
 }
 
-.grid-container {
-  overflow-x: hidden !important;
-}
-
 [data-reveal] {
   opacity: 0;
   transition-property: opacity, transform;
