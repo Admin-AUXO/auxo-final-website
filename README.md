@@ -12,7 +12,7 @@ A modern, high-performance website for AUXO Data Labs built with Astro, TypeScri
 
 1. **Clone the repository**
    ```bash
-   git clone https://gitlab.com/admin-auxo-group/auxo-final-website.git
+   git clone https://github.com/Admin-AUXO/auxo-final-website.git
    cd auxo-final-website
    ```
 
@@ -95,44 +95,42 @@ NODE_ENV=development
 
 ## 🚀 Deployment
 
-### GitLab CI/CD Pipeline
+### GitHub Actions & GitHub Pages
 
-The project uses a comprehensive GitLab CI/CD pipeline with the following stages:
+The project uses GitHub Actions for CI/CD with automatic deployment to GitHub Pages.
 
-#### Pipeline Stages:
-1. **Security** - Secret detection, dependency scanning, license compliance
-2. **Test** - Linting, type checking, Playwright E2E tests
-3. **Build** - Optimized production build with bundle analysis
-4. **Deploy** - Automatic deployment to GitLab Pages
-5. **Performance** - Lighthouse audits, accessibility testing, SEO validation
+#### Deployment Process:
+1. **Build** - Optimized production build with Astro
+2. **Deploy** - Automatic deployment to GitHub Pages on pushes to `main` branch
 
-#### GitLab Pages Deployment (Automatic)
-The project automatically deploys to `https://auxodata.com` on pushes to the `main` branch.
+#### GitHub Pages Deployment (Automatic)
+The project automatically deploys to GitHub Pages when changes are pushed to the `main` branch. The GitHub Actions workflow (`.github/workflows/deploy.yml`) handles the build and deployment process.
 
-#### Public Visibility (GitLab Settings)
-To ensure the project and GitLab Pages are publicly accessible:
-- Set **Project visibility** to **Public** under **Settings > General > Visibility, project features, permissions**
-- Under **Settings > Pages**, set **Access control** to **Everyone** (or disable access control)
+#### GitHub Pages Setup
+1. Go to **Settings > Pages** in your GitHub repository
+2. Under **Source**, select **GitHub Actions**
+3. The site will be deployed to `https://admin-auxo.github.io/auxo-final-website/` or your custom domain
 
-**Required GitLab CI/CD Variables:**
-Configure these in your GitLab project under **Settings > CI/CD > Variables**:
+**Required GitHub Secrets:**
+Configure these in your GitHub repository under **Settings > Secrets and variables > Actions**:
 - `SANITY_PROJECT_ID` - Your Sanity project ID (required)
-- `SANITY_API_TOKEN` - Your Sanity API token (required, masked, protected)
+- `SANITY_API_TOKEN` - Your Sanity API token (required)
 - `SANITY_DATASET` - Dataset name (optional, defaults to 'production')
 - `SANITY_API_VERSION` - API version (optional, defaults to '2024-01-01')
+- `SITE_URL` - Your site URL (optional, defaults to 'https://auxodata.com')
 
-**Optional Variables:**
-- `BUNDLESIZE_GITHUB_TOKEN` - For bundle size monitoring
-- `LIGHTHOUSE_API_KEY` - For Lighthouse CI integration
+**Optional Secrets:**
 - `PUBLIC_EMAILJS_SERVICE_ID` - EmailJS service ID
 - `PUBLIC_EMAILJS_TEMPLATE_ID` - EmailJS template ID
 - `PUBLIC_EMAILJS_PUBLIC_KEY` - EmailJS public key
 
 #### Custom Domain Setup
 The site is configured for `auxodata.com` domain:
-1. Go to **Settings > Pages** in your GitLab project
-2. Add `auxodata.com` as a custom domain
-3. Configure DNS records as instructed
+1. Go to **Settings > Pages** in your GitHub repository
+2. Enter `auxodata.com` in the **Custom domain** field
+3. Configure DNS records:
+   - Add a CNAME record pointing to `admin-auxo.github.io`
+   - Or add A records for GitHub Pages IP addresses
 4. The CNAME file in `public/` is already set to `auxodata.com`
 
 ### Manual Deployment
@@ -168,15 +166,10 @@ The site is configured for `auxodata.com` domain:
 ## 🔧 CI/CD Features
 
 ### Automated Quality Assurance
-- **Security Scanning** - Detects secrets and vulnerabilities
-- **Dependency Auditing** - Checks for package vulnerabilities
-- **Code Quality** - TypeScript and Stylelint checks
+- **Automated Building** - Production-optimized builds via GitHub Actions
 - **Type Safety** - TypeScript compilation verification
-- **E2E Testing** - Playwright automated tests
-- **Performance Monitoring** - Lighthouse CI audits
-- **Accessibility Testing** - Automated WCAG compliance checks
-- **Bundle Size Monitoring** - Prevents JavaScript bloat
-- **SEO Validation** - HTML validation and SEO checks
+- **Dependency Management** - Automated npm installation and caching
+- **Build Verification** - Validates output and creates required files
 
 ### Development Workflow
 1. **Feature Development**
@@ -185,16 +178,13 @@ The site is configured for `auxodata.com` domain:
    - Commit with conventional commit messages
 
 2. **Code Quality Gates**
-   - All checks must pass in CI/CD
-   - Code review required for merge requests
-   - Security scans must pass
+   - Run local quality checks: `npm run validate`
+   - Ensure all tests pass before pushing
 
-3. **Merge Strategy**
-   - Merge requests to `main` trigger full pipeline
-   - `main` branch auto-deploys to production
-
-### Issue and Merge Request Templates
-Use the provided templates in `.gitlab/` for consistent issue reporting and merge request documentation.
+3. **Deployment Strategy**
+   - Push to `main` branch triggers automatic deployment
+   - GitHub Actions builds and deploys to GitHub Pages
+   - Changes go live automatically after successful build
 
 ## 🤝 Contributing
 
@@ -202,9 +192,9 @@ Use the provided templates in `.gitlab/` for consistent issue reporting and merg
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes following the [Conventional Commits](https://conventionalcommits.org/) standard
 4. Run local quality checks: `npm run validate`
-5. Push to the branch and create a Merge Request
-6. Ensure CI/CD pipeline passes all checks
-7. Request code review using the merge request template
+5. Push to the branch and create a Pull Request
+6. Ensure all tests and quality checks pass
+7. Request code review for your Pull Request
 
 ## 📄 License
 
