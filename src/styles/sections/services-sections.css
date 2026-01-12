@@ -1,7 +1,3 @@
-.models-section {
-  overflow: hidden visible !important;
-}
-
 .models-section .grid-container {
   overflow-x: clip !important;
 }
@@ -323,10 +319,6 @@
   .models-accordion-deliverable-text {
     font-size: 0.875rem;
   }
-}
-
-.impact-section {
-  overflow: hidden visible !important;
 }
 
 .impact-section .grid-container {

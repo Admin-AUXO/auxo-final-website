@@ -1,12 +1,3 @@
-.service-hero-section,
-.service-overview-section,
-.service-process-section,
-.service-benefits-section,
-.service-outcomes-section,
-.service-cta-section {
-  overflow: hidden visible !important;
-}
-
 .service-hero-section .grid-container,
 .service-overview-section .grid-container,
 .service-process-section .grid-container,

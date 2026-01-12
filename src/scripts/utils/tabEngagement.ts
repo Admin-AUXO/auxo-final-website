@@ -53,6 +53,8 @@ class TabEngagementManager {
     this.originalTitle = document.title;
     this.originalFavicon = this.getFaviconHref();
 
+    console.log('[TabEngagement] Initialized with title:', this.originalTitle);
+
     if (this.config.enabled) {
       this.init();
     }
@@ -64,35 +66,23 @@ class TabEngagementManager {
   }
 
   private setupVisibilityListener(): void {
-    if (typeof document.hidden === 'undefined') {
-      console.warn('Visibility API not supported');
+    if (typeof document.hidden === 'undefined' || typeof document.visibilityState === 'undefined') {
+      console.warn('Page Visibility API not supported');
       return;
     }
 
     const visibilityHandler = () => {
-      if (document.hidden) {
+      if (document.visibilityState === 'hidden') {
         this.onTabHidden();
-      } else {
+      } else if (document.visibilityState === 'visible') {
         this.onTabVisible();
       }
     };
 
-    const blurHandler = () => {
-      this.onTabHidden();
-    };
-
-    const focusHandler = () => {
-      this.onTabVisible();
-    };
-
     document.addEventListener('visibilitychange', visibilityHandler, false);
-    window.addEventListener('blur', blurHandler, false);
-    window.addEventListener('focus', focusHandler, false);
 
     this.cleanup = () => {
-      document.removeEventListener('visibilitychange', visibilityHandler);
-      window.removeEventListener('blur', blurHandler);
-      window.removeEventListener('focus', focusHandler);
+      document.removeEventListener('visibilitychange', visibilityHandler, false);
     };
   }
 
@@ -112,6 +102,7 @@ class TabEngagementManager {
 
   private onTabHidden(): void {
     this.isTabVisible = false;
+    console.log('[TabEngagement] Tab hidden - starting animations');
 
     this.startTitleAnimation();
 
@@ -126,6 +117,7 @@ class TabEngagementManager {
 
   private onTabVisible(): void {
     this.isTabVisible = true;
+    console.log('[TabEngagement] Tab visible - stopping animations');
 
     this.stopTitleAnimation();
     this.stopFaviconAnimation();

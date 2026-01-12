@@ -62,10 +62,6 @@
   }
 }
 
-.methodology-section {
-  overflow: hidden;
-}
-
 .methodology-section .grid-container {
   overflow-x: clip !important;
 }
@@ -114,10 +110,6 @@
   }
 }
 
-.services-intro-section {
-  overflow: hidden;
-}
-
 .services-intro-section .grid-container {
   overflow-x: clip !important;
 }
@@ -161,9 +153,6 @@
   position: relative;
 }
 
-.final-cta-section {
-  overflow: hidden;
-}
 
 .final-cta-section .section-gradient-hero {
   z-index: 1;
