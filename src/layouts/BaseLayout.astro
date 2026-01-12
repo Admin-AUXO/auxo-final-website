@@ -27,6 +27,7 @@ const pageDescription = description || siteData.description;
 
 const organizationSchema = {
   name: siteData.name,
+  alternateName: 'AUXO Data Labs',
   url: siteData.url,
   logo: `${siteData.url}/logo.svg`,
   description: siteData.description,
@@ -51,8 +52,93 @@ const organizationSchema = {
     '@type': 'QuantitativeValue',
     value: '10-50',
   },
-  areaServed: ['GCC', 'Europe', 'Global'],
+  areaServed: [
+    {
+      '@type': 'Place',
+      name: 'GCC Region',
+      description: 'Gulf Cooperation Council countries including UAE, Saudi Arabia, Qatar, Kuwait, Bahrain, and Oman'
+    },
+    {
+      '@type': 'Place',
+      name: 'Europe',
+      description: 'European markets'
+    },
+    {
+      '@type': 'Place',
+      name: 'Global',
+      description: 'Worldwide data analytics consulting services'
+    }
+  ],
   serviceType: 'Data Analytics Consulting',
+  knowsAbout: [
+    'Data Analytics',
+    'Business Intelligence',
+    'Data Engineering',
+    'Machine Learning',
+    'Artificial Intelligence',
+    'Cloud Analytics',
+    'Data Strategy',
+    'ETL/ELT',
+    'Data Warehousing',
+    'Big Data',
+    'Predictive Analytics',
+    'Data Visualization',
+    'AWS',
+    'Azure',
+    'Google Cloud Platform',
+    'Snowflake',
+    'Databricks',
+    'Tableau',
+    'Power BI'
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Data Analytics Services',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Data Strategy & Consulting',
+          description: 'Strategic data planning and advisory services'
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Data Engineering',
+          description: 'ETL/ELT pipelines, data warehousing, and infrastructure'
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Business Intelligence',
+          description: 'BI dashboards, reporting, and data visualization'
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Machine Learning & AI',
+          description: 'ML model development and AI implementation'
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Cloud Analytics',
+          description: 'Cloud-based data platforms on AWS, Azure, and GCP'
+        }
+      }
+    ]
+  },
+  expertise: 'Data Analytics, Business Intelligence, Machine Learning, Data Engineering, Cloud Computing',
+  slogan: 'Transforming Data into Strategic Advantage',
 };
 
 const websiteSchema = {
@@ -90,6 +176,33 @@ const webPageSchema = {
       '@type': 'ImageObject',
       url: `${siteData.url}/logo.svg`,
     },
+  },
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteData.url
+      },
+      ...(Astro.url.pathname !== '/' ? [{
+        '@type': 'ListItem',
+        position: 2,
+        name: pageTitle,
+        item: `${siteData.url}${Astro.url.pathname}`
+      }] : [])
+    ]
+  },
+  mainEntity: {
+    '@type': 'Organization',
+    name: siteData.name,
+    description: siteData.description,
+    url: siteData.url,
+  },
+  speakable: {
+    '@type': 'SpeakableSpecification',
+    cssSelector: ['main', 'h1', 'h2', 'p']
   },
 };
 ---
