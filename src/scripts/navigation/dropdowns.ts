@@ -146,11 +146,9 @@ function openDropdownMenu(dropdown: HTMLElement): void {
     menu.classList.add('open');
     button.setAttribute('aria-expanded', 'true');
     if (arrow) arrow.classList.add('open');
-    
+
     if (isModal) {
       button.classList.add('services-modal-open');
-      if (overlay) overlay.style.removeProperty('z-index');
-      if (menu) menu.style.removeProperty('z-index');
     }
 
     setTimeout(() => state.isTransitioning = false,
@@ -252,8 +250,6 @@ export function initializeDropdowns(): void {
     overlay?.setAttribute('aria-hidden', 'true');
 
     if (isModal) {
-      overlay?.style.removeProperty('z-index');
-      menu?.style.removeProperty('z-index');
       document.body.classList.remove('dropdown-open');
     }
   });
