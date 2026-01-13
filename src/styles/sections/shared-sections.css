@@ -1,17 +1,18 @@
-section,
-[class*="-section"] {
-  overflow: hidden clip !important;
-  max-width: 100vw;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  position: relative;
-  isolation: isolate;
-}
 
 [class*="-carousel-section"],
 [class*="carousel-section"] {
   overflow: visible !important;
+  overflow-x: visible !important;
   max-width: 100% !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+[class*="-carousel-section"]::-webkit-scrollbar,
+[class*="carousel-section"]::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 [class*="-carousel-section"] .carousel-viewport,
@@ -19,7 +20,19 @@ section,
 [class*="-carousel-section"] [class*="carousel-wrapper"],
 [class*="carousel-section"] [class*="carousel-wrapper"] {
   overflow: visible !important;
+  overflow-x: visible !important;
   max-width: 100% !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+[class*="-carousel-section"] .carousel-viewport::-webkit-scrollbar,
+[class*="carousel-section"] .carousel-viewport::-webkit-scrollbar,
+[class*="-carousel-section"] [class*="carousel-wrapper"]::-webkit-scrollbar,
+[class*="carousel-section"] [class*="carousel-wrapper"]::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 section:not([class*="py-"], [class*="padding"]),

@@ -2,13 +2,6 @@
   overflow: hidden;
 }
 
-.approach-section:has(.approach-carousel-section) {
-  overflow: visible !important;
-}
-
-.approach-section .grid-container {
-  overflow-x: visible !important;
-}
 
 .approach-section .section-pattern-grid {
   background-size: 60px 60px;
@@ -136,17 +129,6 @@
   overflow: hidden;
 }
 
-.global-section:has(.global-metrics-carousel-section) {
-  overflow: visible !important;
-}
-
-.global-section .grid-container {
-  overflow-x: clip !important;
-}
-
-.global-section:has(.global-metrics-carousel-section) .grid-container {
-  overflow-x: visible !important;
-}
 
 .global-section .section-pattern-mesh {
   background-size: 50px 50px, 100px 100px;
@@ -192,20 +174,6 @@
     padding-bottom: 2.5rem;
   }
 
-  .mission-vision-section .grid-container,
-  .approach-section .grid-container,
-  .global-section .grid-container {
-    overflow-x: visible !important;
-  }
-
-.mission-vision-section:has(.mission-vision-carousel-section) {
-  overflow: visible !important;
-}
-
-.mission-vision-section:has(.mission-vision-carousel-section) .grid-container {
-  overflow-x: visible !important;
-}
-
   .mission-card .bg-theme-card,
   .vision-card .bg-theme-card,
   .name-origin-card .bg-theme-surface,
@@ -230,65 +198,3 @@
   }
 }
 
-.mission-vision-carousel-section {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  position: relative !important;
-}
-
-.mission-vision-carousel-section .carousel-viewport,
-.mission-vision-carousel-section .mission-vision-carousel-wrapper {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-}
-
-.approach-carousel-section {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  position: relative !important;
-}
-
-.approach-carousel-section .carousel-viewport,
-.approach-carousel-section .code-principles-carousel-wrapper {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-}
-
-.global-metrics-carousel-section {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  position: relative !important;
-}
-
-.global-metrics-carousel-section .carousel-viewport,
-.global-metrics-carousel-section .global-metrics-carousel-wrapper {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-}
-
-@media (width <= 767px) {
-  .mission-vision-carousel-section,
-  .approach-carousel-section,
-  .global-metrics-carousel-section {
-    overflow: visible !important;
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-
-  .mission-vision-carousel-section .carousel-viewport,
-  .mission-vision-carousel-section .mission-vision-carousel-wrapper,
-  .approach-carousel-section .carousel-viewport,
-  .approach-carousel-section .code-principles-carousel-wrapper,
-  .global-metrics-carousel-section .carousel-viewport,
-  .global-metrics-carousel-section .global-metrics-carousel-wrapper {
-    overflow: visible !important;
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-}
