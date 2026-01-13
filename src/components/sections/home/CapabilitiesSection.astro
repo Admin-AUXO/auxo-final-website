@@ -66,28 +66,30 @@ const { content } = Astro.props;
         ))}
       </div>
 
-      <Carousel
-        containerId="capabilities-carousel-container"
-        trackId="capabilities-carousel-track"
-        items={content.cards}
-        wrapperClass="capabilities-carousel capabilities-carousel-wrapper"
-        breakpoint={768}
-        activateOnDesktop={false}
-      >
-        {content.cards.map((card, index) => (
-          <div class="carousel-slide embla__slide" data-index={index}>
-            <Card
-              variant="capability"
-              icon={card.icon}
-              title={card.title}
-              description={card.description}
-              metric={card.metric}
-              index={index}
-              isCarousel={true}
-            />
-          </div>
-        ))}
-      </Carousel>
+      <div class="capabilities-carousel-section">
+        <Carousel
+          containerId="capabilities-carousel-container"
+          trackId="capabilities-carousel-track"
+          items={content.cards}
+          wrapperClass="capabilities-carousel capabilities-carousel-wrapper"
+          breakpoint={768}
+          activateOnDesktop={false}
+        >
+          {content.cards.map((card, index) => (
+            <div class="carousel-slide embla__slide" data-index={index}>
+              <Card
+                variant="capability"
+                icon={card.icon}
+                title={card.title}
+                description={card.description}
+                metric={card.metric}
+                index={index}
+                isCarousel={true}
+              />
+            </div>
+          ))}
+        </Carousel>
+      </div>
     </div>
   </div>
 </SectionContainer>

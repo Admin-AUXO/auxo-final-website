@@ -816,3 +816,49 @@
     font-size: 1rem;
   }
 }
+
+.service-benefits-carousel-section {
+  overflow: visible !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+.service-benefits-carousel-section .carousel-viewport,
+.service-benefits-carousel-section .service-benefits-carousel-wrapper {
+  overflow: visible !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.service-process-carousel-section {
+  overflow: visible !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+.service-process-carousel-section .carousel-viewport,
+.service-process-carousel-section .service-process-carousel-wrapper {
+  overflow: visible !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+@media (width <= 767px) {
+  .service-benefits-carousel-section,
+  .service-process-carousel-section {
+    overflow: visible !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .service-benefits-carousel-section .carousel-viewport,
+  .service-benefits-carousel-section .service-benefits-carousel-wrapper,
+  .service-process-carousel-section .carousel-viewport,
+  .service-process-carousel-section .service-process-carousel-wrapper {
+    overflow: visible !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}

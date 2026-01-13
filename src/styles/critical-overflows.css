@@ -38,6 +38,18 @@ section,
 [class*="-carousel-section"],
 [class*="carousel-section"] {
   overflow: visible !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+[class*="-carousel-section"] .carousel-viewport,
+[class*="carousel-section"] .carousel-viewport,
+[class*="-carousel-section"] [class*="carousel-wrapper"],
+[class*="carousel-section"] [class*="carousel-wrapper"] {
+  overflow: visible !important;
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 @media (width <= 767px) {
@@ -45,6 +57,16 @@ section,
   [class*="carousel-section"] {
     overflow: visible !important;
     max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  [class*="-carousel-section"] .carousel-viewport,
+  [class*="carousel-section"] .carousel-viewport,
+  [class*="-carousel-section"] [class*="carousel-wrapper"],
+  [class*="carousel-section"] [class*="carousel-wrapper"] {
+    overflow: visible !important;
+    max-width: 100% !important;
+    width: 100% !important;
   }
 }
 

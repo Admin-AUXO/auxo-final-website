@@ -70,16 +70,17 @@ const missionVisionItems = [
         </div>
       </div>
 
-      <Carousel
-        containerId="mission-vision-carousel-container"
-        trackId="mission-vision-carousel-track"
-        items={missionVisionItems}
-        wrapperClass="lg:hidden mission-vision-carousel mission-vision-carousel-wrapper"
-        breakpoint={1024}
-        activateOnDesktop={false}
-      >
-        {missionVisionItems.map((item, index) => (
-            <div class="carousel-slide embla__slide" data-index={index}>
+      <div class="mission-vision-carousel-section">
+        <Carousel
+          containerId="mission-vision-carousel-container"
+          trackId="mission-vision-carousel-track"
+          items={missionVisionItems}
+          wrapperClass="lg:hidden mission-vision-carousel mission-vision-carousel-wrapper"
+          breakpoint={1024}
+          activateOnDesktop={false}
+        >
+          {missionVisionItems.map((item, index) => (
+              <div class="carousel-slide embla__slide" data-index={index}>
             <div class={`carousel-card-about group lg:hover:border-accent-green/40 ${item.type}-card`}>
               <div class={`absolute ${item.type === "mission" ? "top-0 right-0" : "top-0 left-0"} w-32 h-32 bg-accent-green/5 rounded-full blur-3xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500`}></div>
               <div class="relative z-10 flex flex-col h-full">
@@ -95,6 +96,7 @@ const missionVisionItems = [
           </div>
         ))}
       </Carousel>
+      </div>
     </div>
   </div>
 </SectionContainer>

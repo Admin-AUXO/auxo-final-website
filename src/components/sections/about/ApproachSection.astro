@@ -76,37 +76,39 @@ const principleIcons = {
         ))}
       </div>
 
-      <Carousel
-        containerId="code-carousel-container"
-        trackId="code-carousel-track"
-        items={content.principles}
-        wrapperClass="md:hidden code-principles-carousel code-principles-carousel-wrapper"
-        breakpoint={768}
-        activateOnDesktop={false}
-      >
-        {content.principles.map((principle, index) => (
-          <div class="carousel-slide embla__slide" data-index={index}>
-            <div class="carousel-card-about group lg:hover:border-accent-green/40">
-              <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div class="relative z-10 flex flex-col h-full">
-                <div class="flex items-center justify-between mb-2.5">
-                  <h3 class="font-bold text-theme-primary font-display flex items-baseline">
-                    <span class="text-accent-green font-black text-[1.2em] code-letter">{principle.letter}</span>
-                    <span class="code-title-rest">{principle.title.slice(principle.letter.length)}</span>
-                  </h3>
-                  <div class="w-9 h-9 sm:w-10 sm:h-10 bg-accent-green/10 rounded-lg flex items-center justify-center lg:group-hover:bg-accent-green/20 transition-colors duration-300 flex-shrink-0 ml-3">
-                    <Icon name={principleIcons[principle.letter as keyof typeof principleIcons]} class="w-4.5 h-4.5 sm:w-5 sm:h-5 text-accent-green" />
+      <div class="approach-carousel-section">
+        <Carousel
+          containerId="code-carousel-container"
+          trackId="code-carousel-track"
+          items={content.principles}
+          wrapperClass="md:hidden code-principles-carousel code-principles-carousel-wrapper"
+          breakpoint={768}
+          activateOnDesktop={false}
+        >
+          {content.principles.map((principle, index) => (
+            <div class="carousel-slide embla__slide" data-index={index}>
+              <div class="carousel-card-about group lg:hover:border-accent-green/40">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                  <div class="flex items-center justify-between mb-2.5">
+                    <h3 class="font-bold text-theme-primary font-display flex items-baseline">
+                      <span class="text-accent-green font-black text-[1.2em] code-letter">{principle.letter}</span>
+                      <span class="code-title-rest">{principle.title.slice(principle.letter.length)}</span>
+                    </h3>
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-accent-green/10 rounded-lg flex items-center justify-center lg:group-hover:bg-accent-green/20 transition-colors duration-300 flex-shrink-0 ml-3">
+                      <Icon name={principleIcons[principle.letter as keyof typeof principleIcons]} class="w-4.5 h-4.5 sm:w-5 sm:h-5 text-accent-green" />
+                    </div>
                   </div>
-                </div>
 
-                <p class="text-theme-secondary leading-relaxed font-body flex-grow">
-                  {principle.description}
-                </p>
+                  <p class="text-theme-secondary leading-relaxed font-body flex-grow">
+                    {principle.description}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </Carousel>
+          ))}
+        </Carousel>
+      </div>
     </div>
   </div>
 </SectionContainer>

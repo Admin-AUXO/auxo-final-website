@@ -145,36 +145,38 @@ const metrics = [
           </div>
         </div>
 
-        <Carousel
-          containerId="global-metrics-carousel-container"
-          trackId="global-metrics-carousel-track"
-          items={metrics}
-          wrapperClass="md:hidden global-metrics-carousel global-metrics-carousel-wrapper mb-6"
-          breakpoint={768}
-          activateOnDesktop={false}
-        >
-          {metrics.map((metric, index) => (
-            <div class="carousel-slide embla__slide" data-index={index}>
-              <div class="carousel-card-about global-metric-card group">
-                <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div class="relative z-10 flex gap-3 h-full">
-                  <div class="flex-shrink-0">
-                    <div class="w-11 h-11 sm:w-12 sm:h-12 bg-accent-green/10 border-2 border-accent-green/20 rounded-lg flex items-center justify-center lg:group-hover:bg-accent-green/20 lg:group-hover:border-accent-green/40 transition-colors duration-300">
-                      <Icon name={metric.icon} class="w-5.5 h-5.5 sm:w-6 sm:h-6 text-accent-green" />
+        <div class="global-metrics-carousel-section">
+          <Carousel
+            containerId="global-metrics-carousel-container"
+            trackId="global-metrics-carousel-track"
+            items={metrics}
+            wrapperClass="md:hidden global-metrics-carousel global-metrics-carousel-wrapper mb-6"
+            breakpoint={768}
+            activateOnDesktop={false}
+          >
+            {metrics.map((metric, index) => (
+              <div class="carousel-slide embla__slide" data-index={index}>
+                <div class="carousel-card-about global-metric-card group">
+                  <div class="absolute top-0 right-0 w-24 h-24 bg-accent-green/5 rounded-full blur-2xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div class="relative z-10 flex gap-3 h-full">
+                    <div class="flex-shrink-0">
+                      <div class="w-11 h-11 sm:w-12 sm:h-12 bg-accent-green/10 border-2 border-accent-green/20 rounded-lg flex items-center justify-center lg:group-hover:bg-accent-green/20 lg:group-hover:border-accent-green/40 transition-colors duration-300">
+                        <Icon name={metric.icon} class="w-5.5 h-5.5 sm:w-6 sm:h-6 text-accent-green" />
+                      </div>
                     </div>
-                  </div>
-                  <div class="flex-1 flex flex-col min-w-0">
-                    <div class="mb-2">
-                      <p class="font-bold text-theme-primary font-display leading-tight">{metric.label}</p>
-                      <p class="text-xs uppercase tracking-wider text-accent-green font-semibold font-body mt-0.5">{metric.sublabel}</p>
+                    <div class="flex-1 flex flex-col min-w-0">
+                      <div class="mb-2">
+                        <p class="font-bold text-theme-primary font-display leading-tight">{metric.label}</p>
+                        <p class="text-xs uppercase tracking-wider text-accent-green font-semibold font-body mt-0.5">{metric.sublabel}</p>
+                      </div>
+                      <p class="text-body-base text-theme-secondary leading-relaxed font-body flex-grow">{metric.description}</p>
                     </div>
-                    <p class="text-body-base text-theme-secondary leading-relaxed font-body flex-grow">{metric.description}</p>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </Carousel>
+            ))}
+          </Carousel>
+        </div>
 
         <div class="md:hidden">
           <div class="bg-theme-card border border-theme-light rounded-xl p-6 relative overflow-hidden group lg:hover:border-accent-green/30 transition-colors duration-300">

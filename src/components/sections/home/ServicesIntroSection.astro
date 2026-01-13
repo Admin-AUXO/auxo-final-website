@@ -52,28 +52,30 @@ const hasContent = Boolean((content?.title && content.title.trim()) || (content?
         ))}
       </div>
 
-      <Carousel
-        containerId="services-carousel-container"
-        trackId="services-carousel-track"
-        items={content.items}
-        wrapperClass="services-carousel-mobile services-carousel-wrapper"
-        breakpoint={1024}
-        activateOnDesktop={false}
-      >
-        {content.items.map((item, index) => (
-          <div class="carousel-slide embla__slide" data-index={index}>
-            <Card
-              variant="service"
-              icon={item.icon}
-              title={item.title}
-              description={item.shortDescription || item.description}
-              link={item.link ? createUrl(item.link) : undefined}
-              index={index}
-              isCarousel={true}
-            />
-          </div>
-        ))}
-      </Carousel>
+      <div class="services-intro-carousel-section">
+        <Carousel
+          containerId="services-carousel-container"
+          trackId="services-carousel-track"
+          items={content.items}
+          wrapperClass="services-carousel-mobile services-carousel-wrapper"
+          breakpoint={1024}
+          activateOnDesktop={false}
+        >
+          {content.items.map((item, index) => (
+            <div class="carousel-slide embla__slide" data-index={index}>
+              <Card
+                variant="service"
+                icon={item.icon}
+                title={item.title}
+                description={item.shortDescription || item.description}
+                link={item.link ? createUrl(item.link) : undefined}
+                index={index}
+                isCarousel={true}
+              />
+            </div>
+          ))}
+        </Carousel>
+      </div>
 
       <div class="text-center mt-8 sm:mt-10 lg:mt-12 px-4" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
         <Button
