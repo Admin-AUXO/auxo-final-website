@@ -67,6 +67,14 @@ section::-webkit-scrollbar,
   max-width: 100% !important;
 }
 
+.grid-container:has(.carousel-viewport),
+[class*="container"]:has(.carousel-viewport),
+.grid-container:has(.embla),
+[class*="container"]:has(.embla) {
+  overflow-x: visible !important;
+  max-width: 100% !important;
+}
+
 [data-reveal] {
   opacity: 0;
   transition-property: opacity, transform;
