@@ -35,8 +35,7 @@
     cursor: default !important;
     touch-action: pan-x pinch-zoom !important;
     -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior-x: contain !important;
-    overscroll-behavior-y: auto !important;
+    overscroll-behavior: contain auto !important;
   }
 
   .carousel-container:active {
@@ -62,8 +61,7 @@
     cursor: default !important;
     touch-action: pan-x pinch-zoom !important;
     -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior-x: contain !important;
-    overscroll-behavior-y: auto !important;
+    overscroll-behavior: contain auto !important;
   }
 }
 

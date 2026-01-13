@@ -747,8 +747,7 @@
   .impact-carousel-section .carousel-container,
   .impact-carousel-section .impact-carousel-container {
     touch-action: pan-x pinch-zoom !important;
-    overscroll-behavior-x: contain !important;
-    overscroll-behavior-y: auto !important;
+    overscroll-behavior: contain auto !important;
     cursor: default !important;
   }
 

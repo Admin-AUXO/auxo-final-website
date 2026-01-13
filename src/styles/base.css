@@ -235,8 +235,7 @@ section,
   .impact-carousel-track,
   .impact-carousel-wrapper {
     touch-action: pan-x pinch-zoom !important;
-    overscroll-behavior-x: contain !important;
-    overscroll-behavior-y: auto !important;
+    overscroll-behavior: contain auto !important;
   }
 
   .carousel-slide,
