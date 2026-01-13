@@ -3,7 +3,7 @@
 }
 
 .approach-section .grid-container {
-  overflow-x: clip !important;
+  overflow-x: visible !important;
 }
 
 .approach-section .section-pattern-grid {
@@ -183,7 +183,7 @@
   .mission-vision-section .grid-container,
   .approach-section .grid-container,
   .global-section .grid-container {
-    overflow-x: clip !important;
+    overflow-x: visible !important;
   }
 
   .mission-card .bg-theme-card,
