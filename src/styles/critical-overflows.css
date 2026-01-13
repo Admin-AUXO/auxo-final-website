@@ -32,19 +32,6 @@ div:has([class*="-carousel-section"]),
 div:has([class*="carousel-section"]) {
   overflow-x: visible !important;
   max-width: 100% !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-div:has(.carousel-viewport)::-webkit-scrollbar,
-div:has(.carousel-container)::-webkit-scrollbar,
-div:has(.carousel-track)::-webkit-scrollbar,
-div:has(.embla)::-webkit-scrollbar,
-div:has([class*="-carousel-section"])::-webkit-scrollbar,
-div:has([class*="carousel-section"])::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
 }
 
 /* Section overflow containment */
@@ -70,23 +57,6 @@ section:has(.embla),
 [class*="-section"]:has(.embla) {
   overflow: visible !important;
   overflow-x: visible !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-section:has([class*="-carousel-section"])::-webkit-scrollbar,
-section:has([class*="carousel-section"])::-webkit-scrollbar,
-section:has(.carousel-viewport)::-webkit-scrollbar,
-section:has(.carousel-container)::-webkit-scrollbar,
-section:has(.embla)::-webkit-scrollbar,
-[class*="-section"]:has([class*="-carousel-section"])::-webkit-scrollbar,
-[class*="-section"]:has([class*="carousel-section"])::-webkit-scrollbar,
-[class*="-section"]:has(.carousel-viewport)::-webkit-scrollbar,
-[class*="-section"]:has(.carousel-container)::-webkit-scrollbar,
-[class*="-section"]:has(.embla)::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
 }
 
 [class*="-carousel-section"],
@@ -96,16 +66,6 @@ section:has(.embla)::-webkit-scrollbar,
   max-width: 100% !important;
   width: 100% !important;
   position: relative !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-  z-index: 0 !important;
-}
-
-[class*="-carousel-section"]::-webkit-scrollbar,
-[class*="carousel-section"]::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
 }
 
 [class*="-carousel-section"] .carousel-viewport,
@@ -116,43 +76,6 @@ section:has(.embla)::-webkit-scrollbar,
   overflow-x: visible !important;
   max-width: 100% !important;
   width: 100% !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-  position: relative !important;
-  z-index: 0 !important;
-}
-
-[class*="-carousel-section"] .carousel-viewport::-webkit-scrollbar,
-[class*="carousel-section"] .carousel-viewport::-webkit-scrollbar,
-[class*="-carousel-section"] [class*="carousel-wrapper"]::-webkit-scrollbar,
-[class*="carousel-section"] [class*="carousel-wrapper"]::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-
-[class*="-carousel-section"] .embla__slide,
-[class*="carousel-section"] .embla__slide,
-[class*="-carousel-section"] .carousel-slide,
-[class*="carousel-section"] .carousel-slide {
-  visibility: visible !important;
-  opacity: 1 !important;
-  display: block !important;
-  position: relative !important;
-  z-index: 1 !important;
-  transform: translateZ(0) !important;
-  backface-visibility: visible !important;
-  -webkit-backface-visibility: visible !important;
-}
-
-[class*="-carousel-section"] .embla__slide > *,
-[class*="carousel-section"] .embla__slide > *,
-[class*="-carousel-section"] .carousel-slide > *,
-[class*="carousel-section"] .carousel-slide > * {
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: relative !important;
-  z-index: 1 !important;
 }
 
 .carousel-track,
@@ -203,19 +126,6 @@ section:has(.embla)::-webkit-scrollbar,
   div:has([class*="-carousel-section"]),
   div:has([class*="carousel-section"]) {
     overflow-x: visible !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-  }
-
-  div:has(.carousel-viewport)::-webkit-scrollbar,
-  div:has(.carousel-container)::-webkit-scrollbar,
-  div:has(.carousel-track)::-webkit-scrollbar,
-  div:has(.embla)::-webkit-scrollbar,
-  div:has([class*="-carousel-section"])::-webkit-scrollbar,
-  div:has([class*="carousel-section"])::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
   }
 
   .carousel-track,
@@ -239,25 +149,6 @@ section:has(.embla)::-webkit-scrollbar,
   [class*="container"]:has([class*="-carousel-section"]),
   [class*="container"]:has([class*="carousel-section"]) {
     overflow-x: visible !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-  }
-
-  .grid-container:has(.carousel-viewport)::-webkit-scrollbar,
-  .grid-container:has(.carousel-container)::-webkit-scrollbar,
-  .grid-container:has(.carousel-track)::-webkit-scrollbar,
-  .grid-container:has(.embla)::-webkit-scrollbar,
-  .grid-container:has([class*="-carousel-section"])::-webkit-scrollbar,
-  .grid-container:has([class*="carousel-section"])::-webkit-scrollbar,
-  [class*="container"]:has(.carousel-viewport)::-webkit-scrollbar,
-  [class*="container"]:has(.carousel-container)::-webkit-scrollbar,
-  [class*="container"]:has(.carousel-track)::-webkit-scrollbar,
-  [class*="container"]:has(.embla)::-webkit-scrollbar,
-  [class*="container"]:has([class*="-carousel-section"])::-webkit-scrollbar,
-  [class*="container"]:has([class*="carousel-section"])::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
   }
 }
 
@@ -281,19 +172,6 @@ section::-webkit-scrollbar,
 #main-content:has([class*="-carousel-section"]),
 #main-content:has([class*="carousel-section"]) {
   overflow-x: visible !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-#main-content:has(.carousel-viewport)::-webkit-scrollbar,
-#main-content:has(.carousel-container)::-webkit-scrollbar,
-#main-content:has(.carousel-track)::-webkit-scrollbar,
-#main-content:has(.embla)::-webkit-scrollbar,
-#main-content:has([class*="-carousel-section"])::-webkit-scrollbar,
-#main-content:has([class*="carousel-section"])::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
 }
 
 .grid-container,
@@ -326,19 +204,6 @@ section::-webkit-scrollbar,
   -webkit-backface-visibility: hidden;
 }
 
-[data-reveal].embla__slide,
-[data-reveal].carousel-slide,
-.embla__slide[data-reveal],
-.carousel-slide[data-reveal] {
-  backface-visibility: visible !important;
-  -webkit-backface-visibility: visible !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  z-index: 1 !important;
-  position: relative !important;
-  transform: translateZ(0) !important;
-}
-
 [data-reveal].reveal-animated {
   opacity: 1;
   will-change: auto;
@@ -359,6 +224,36 @@ section::-webkit-scrollbar,
   -ms-overflow-style: none !important;
 }
 
+.impact-section .grid-container {
+  overflow-x: visible !important;
+}
+
+.impact-carousel-section {
+  overflow: visible !important;
+  max-width: 100% !important;
+}
+
+.impact-carousel-section .grid-container {
+  overflow-x: visible !important;
+}
+
+.impact-carousel-section .carousel-viewport,
+.impact-carousel-section .impact-carousel-wrapper {
+  overflow: visible !important;
+  max-width: 100% !important;
+}
+
+.impact-carousel-section .embla__slide {
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.impact-carousel-section .impact-industry-card {
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: flex !important;
+}
 
 .hero-section::-webkit-scrollbar,
 .service-hero-section::-webkit-scrollbar,

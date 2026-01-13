@@ -88,31 +88,18 @@ export class EmblaCarouselWrapper {
 
     this._embla.on('select', this.handleSelect);
     this._embla.on('reInit', this.handleSelect);
-    this._embla.on('settle', this.ensureSlideVisibility);
 
     this.handleSelect();
-    this.ensureSlideVisibility();
-
-    requestAnimationFrame(() => {
-      if (!this.isDestroyed && this._embla) {
-        this._embla.reInit();
-        this.ensureSlideVisibility();
-        this._embla.scrollTo(0);
-      }
-    });
 
     if (autoplay && this.autoplayPlugin && this._embla) {
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          if (!this.isDestroyed && this.autoplayPlugin && this._embla && this._embla.scrollSnapList && this._embla.scrollSnapList().length > 0) {
-            try {
-              this._embla.scrollTo(0);
-              this.autoplayPlugin.play();
-            } catch (error) {
-              logger.warn('Failed to start carousel autoplay:', error);
-            }
+        if (!this.isDestroyed && this.autoplayPlugin && this._embla && this._embla.scrollSnapList && this._embla.scrollSnapList().length > 0) {
+          try {
+            this.autoplayPlugin.play();
+          } catch (error) {
+            logger.warn('Failed to start carousel autoplay:', error);
           }
-        });
+        }
       });
     }
   }
@@ -121,22 +108,6 @@ export class EmblaCarouselWrapper {
     if (!this._embla || this.isDestroyed) return;
     const selectedIndex = this._embla.selectedScrollSnap();
     this.onSlideChangeCallback?.(selectedIndex);
-    this.ensureSlideVisibility();
-  };
-
-  private ensureSlideVisibility = (): void => {
-    if (!this._embla || this.isDestroyed) return;
-    const slides = this.container.querySelectorAll('.embla__slide');
-    slides.forEach((slide) => {
-      const element = slide as HTMLElement;
-      element.style.visibility = 'visible';
-      element.style.opacity = '1';
-      element.style.display = 'block';
-      if (element.style.width === '0px' || element.style.width === '0') {
-        element.style.width = '';
-        element.style.minWidth = '';
-      }
-    });
   };
 
   get embla(): EmblaCarouselType | null {

@@ -7,6 +7,15 @@
   overflow-x: clip !important;
 }
 
+.service-process-section:has(.service-process-carousel-section),
+.service-benefits-section:has(.service-benefits-carousel-section) {
+  overflow: visible !important;
+}
+
+.service-process-section:has(.service-process-carousel-section) .grid-container,
+.service-benefits-section:has(.service-benefits-carousel-section) .grid-container {
+  overflow-x: visible !important;
+}
 
 .process-stepper-wrapper {
   padding-top: 1rem;

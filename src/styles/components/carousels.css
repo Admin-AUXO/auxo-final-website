@@ -2,32 +2,14 @@
   position: relative !important;
   width: 100% !important;
   overflow: visible !important;
-  overflow-x: visible !important;
   padding: 0.5rem 0 !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-.carousel-viewport::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
 }
 
 @media (width <= 767px) {
   .carousel-viewport {
     overflow: visible !important;
-    overflow-x: visible !important;
     touch-action: none !important;
     -webkit-overflow-scrolling: touch !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-  }
-
-  .carousel-viewport::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
   }
 
   .carousel-viewport .carousel-container {
@@ -37,15 +19,11 @@
 
 .carousel-container {
   overflow: hidden !important;
-  overflow-x: hidden !important;
   touch-action: pan-x !important;
   -webkit-tap-highlight-color: transparent !important;
   cursor: grab !important;
   -webkit-overflow-scrolling: touch !important;
   will-change: transform !important;
-  position: relative !important;
-  z-index: 0 !important;
-  transform: translateZ(0) !important;
 }
 
 .carousel-container:active {
@@ -96,16 +74,6 @@
   margin: 0 !important;
   padding: 0 !important;
   touch-action: pan-x !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  display: block !important;
-  position: relative !important;
-  z-index: 1 !important;
-  width: 85% !important;
-  max-width: 320px !important;
-  transform: translateZ(0) !important;
-  backface-visibility: visible !important;
-  -webkit-backface-visibility: visible !important;
 }
 
 @media (width <= 767px) {
@@ -124,17 +92,22 @@
   }
 }
 
+.carousel-slide {
+  width: 85% !important;
+  max-width: 320px !important;
+}
+
 .carousel-slide > *,
 .embla__slide > * {
   height: 100% !important;
   min-height: auto !important;
   display: flex !important;
   flex-direction: column !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  width: 100% !important;
-  position: relative !important;
-  z-index: 1 !important;
+}
+
+.embla__slide {
+  width: 85% !important;
+  max-width: 320px !important;
 }
 
 @media (width >= 480px) {
