@@ -54,8 +54,8 @@ const serviceIcons = [
     <BackgroundDecorations gradients={["hero"]} />
   </div>
 
-  <div class="grid-container relative z-10 overflow-hidden">
-    <div class="col-span-full max-w-[1400px] mx-auto w-full overflow-hidden">
+  <div class="grid-container relative z-10">
+    <div class="col-span-full max-w-[1400px] mx-auto w-full">
       <div
         class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
         data-reveal="fade-down"
@@ -70,7 +70,7 @@ const serviceIcons = [
         </p>
       </div>
 
-      <div class="hidden lg:grid lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 mb-10 sm:mb-12 lg:mb-16 overflow-hidden">
+      <div class="hidden lg:grid lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 mb-10 sm:mb-12 lg:mb-16">
         {services.map((service, index) => (
           <div
             class="overflow-hidden"
@@ -146,10 +146,6 @@ const serviceIcons = [
 </SectionContainer>
 
 <style>
-  .services-stages-section {
-    overflow: hidden;
-  }
-
   .services-stages-section [data-reveal] {
     will-change: transform, opacity;
   }
