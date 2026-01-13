@@ -35,6 +35,19 @@ section,
   -ms-overflow-style: none !important;
 }
 
+[class*="-carousel-section"],
+[class*="carousel-section"] {
+  overflow: visible !important;
+}
+
+@media (width <= 767px) {
+  [class*="-carousel-section"],
+  [class*="carousel-section"] {
+    overflow: visible !important;
+    max-width: 100% !important;
+  }
+}
+
 section::-webkit-scrollbar,
 [class*="-section"]::-webkit-scrollbar {
   display: none !important;
@@ -145,6 +158,23 @@ section::-webkit-scrollbar,
     overscroll-behavior: contain none !important;
     scroll-behavior: smooth !important;
     scroll-padding-top: 6rem;
+  }
+
+  .carousel-container,
+  .carousel-track,
+  .carousel-viewport,
+  .embla,
+  .embla__container,
+  .impact-carousel-container,
+  .impact-carousel-track {
+    touch-action: pan-x pinch-zoom !important;
+    overscroll-behavior-x: contain !important;
+    overscroll-behavior-y: auto !important;
+  }
+
+  .carousel-slide,
+  .embla__slide {
+    touch-action: pan-x !important;
   }
 
   body {

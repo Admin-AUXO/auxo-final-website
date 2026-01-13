@@ -732,6 +732,46 @@
   }
 }
 
+@media (width <= 767px) {
+  .impact-carousel-section {
+    overflow: visible !important;
+    touch-action: none !important;
+  }
+
+  .impact-carousel-section .carousel-viewport,
+  .impact-carousel-section .impact-carousel-wrapper {
+    overflow: visible !important;
+    touch-action: none !important;
+  }
+
+  .impact-carousel-section .carousel-container,
+  .impact-carousel-section .impact-carousel-container {
+    touch-action: pan-x pinch-zoom !important;
+    overscroll-behavior-x: contain !important;
+    overscroll-behavior-y: auto !important;
+    cursor: default !important;
+  }
+
+  .impact-carousel-section .carousel-track,
+  .impact-carousel-section .impact-carousel-track {
+    touch-action: pan-x pinch-zoom !important;
+    cursor: default !important;
+  }
+
+  .impact-carousel-section .embla__slide {
+    touch-action: pan-x !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .impact-carousel-section .impact-industry-card {
+    touch-action: pan-x !important;
+  }
+
+  .impact-carousel-section .impact-industry-card a {
+    touch-action: manipulation !important;
+  }
+}
+
 .impact-goal-card {
   background: rgb(var(--accent-green-rgb), 0.05);
   border: 1px solid rgb(var(--accent-green-rgb), 0.15);

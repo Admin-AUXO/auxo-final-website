@@ -226,6 +226,33 @@ section,
     pointer-events: auto;
   }
 
+  .carousel-container,
+  .carousel-track,
+  .carousel-viewport,
+  .embla,
+  .embla__container,
+  .impact-carousel-container,
+  .impact-carousel-track,
+  .impact-carousel-wrapper {
+    touch-action: pan-x pinch-zoom !important;
+    overscroll-behavior-x: contain !important;
+    overscroll-behavior-y: auto !important;
+  }
+
+  .carousel-slide,
+  .embla__slide,
+  .impact-carousel-section .embla__slide {
+    touch-action: pan-x !important;
+  }
+
+  .carousel-card a,
+  .carousel-card-about a,
+  .carousel-card-benefit a,
+  .carousel-card-process a,
+  .impact-industry-card a {
+    touch-action: manipulation !important;
+  }
+
   summary {
     touch-action: manipulation;
     cursor: pointer;

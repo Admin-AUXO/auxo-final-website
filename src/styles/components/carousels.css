@@ -5,16 +5,43 @@
   padding: 0.5rem 0 !important;
 }
 
+@media (width <= 767px) {
+  .carousel-viewport {
+    overflow: visible !important;
+    touch-action: none !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .carousel-viewport .carousel-container {
+    touch-action: pan-x pinch-zoom !important;
+  }
+}
+
 .carousel-container {
   overflow: hidden !important;
   touch-action: pan-x !important;
   -webkit-tap-highlight-color: transparent !important;
   cursor: grab !important;
   -webkit-overflow-scrolling: touch !important;
+  will-change: transform !important;
 }
 
 .carousel-container:active {
   cursor: grabbing !important;
+}
+
+@media (width <= 767px) {
+  .carousel-container {
+    cursor: default !important;
+    touch-action: pan-x pinch-zoom !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+    overscroll-behavior-y: auto !important;
+  }
+
+  .carousel-container:active {
+    cursor: default !important;
+  }
 }
 
 .carousel-track {
@@ -27,6 +54,17 @@
   backface-visibility: hidden !important;
   padding-left: var(--section-padding-mobile) !important;
   padding-right: var(--section-padding-mobile) !important;
+  will-change: transform !important;
+}
+
+@media (width <= 767px) {
+  .carousel-track {
+    cursor: default !important;
+    touch-action: pan-x pinch-zoom !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+    overscroll-behavior-y: auto !important;
+  }
 }
 
 .carousel-slide,
@@ -37,6 +75,23 @@
   height: auto !important;
   margin: 0 !important;
   padding: 0 !important;
+  touch-action: pan-x !important;
+}
+
+@media (width <= 767px) {
+  .carousel-slide,
+  .embla__slide {
+    touch-action: pan-x !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+  }
+
+  .carousel-slide > *,
+  .embla__slide > * {
+    touch-action: pan-x !important;
+    pointer-events: auto !important;
+  }
 }
 
 .carousel-slide {
@@ -267,6 +322,23 @@
 
   .carousel-card-description {
     font-size: var(--font-size-sm) !important;
+  }
+}
+
+@media (width <= 767px) {
+  .carousel-card,
+  .carousel-card-about,
+  .carousel-card-benefit,
+  .carousel-card-process {
+    touch-action: pan-x !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .carousel-card a,
+  .carousel-card-about a,
+  .carousel-card-benefit a,
+  .carousel-card-process a {
+    touch-action: manipulation !important;
   }
 }
 
