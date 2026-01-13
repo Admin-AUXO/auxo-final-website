@@ -47,8 +47,11 @@
   position: fixed;
   z-index: var(--z-services-dropdown);
   isolation: isolate;
-  inset: calc(var(--nav-height) + env(safe-area-inset-top)) 0 0;
-  height: auto;
+  top: calc(var(--nav-height) + env(safe-area-inset-top));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100dvh - var(--nav-height) - env(safe-area-inset-top));
   max-height: calc(100dvh - var(--nav-height) - env(safe-area-inset-top));
   overflow: hidden;
   pointer-events: none;

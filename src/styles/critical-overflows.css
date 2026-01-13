@@ -82,6 +82,48 @@ section::-webkit-scrollbar,
   -ms-overflow-style: none !important;
 }
 
+.impact-carousel-section {
+  overflow: visible !important;
+  max-width: 100% !important;
+}
+
+.impact-carousel-section .carousel-viewport,
+.impact-carousel-section .impact-carousel-wrapper {
+  overflow: visible !important;
+  max-width: 100% !important;
+}
+
+.impact-section .grid-container {
+  overflow-x: visible !important;
+}
+
+.impact-carousel-section {
+  overflow: visible !important;
+  max-width: 100% !important;
+}
+
+.impact-carousel-section .grid-container {
+  overflow-x: visible !important;
+}
+
+.impact-carousel-section .carousel-viewport,
+.impact-carousel-section .impact-carousel-wrapper {
+  overflow: visible !important;
+  max-width: 100% !important;
+}
+
+.impact-carousel-section .embla__slide {
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.impact-carousel-section .impact-industry-card {
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: flex !important;
+}
+
 .hero-section::-webkit-scrollbar,
 .service-hero-section::-webkit-scrollbar,
 .service-overview-section::-webkit-scrollbar,

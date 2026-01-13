@@ -38,7 +38,6 @@ class TabEngagementManager {
     this.config = {
       enabled: true,
       titleMessages: [
-        '👋 Come back to AUXO!',
         '✨ Your data insights await',
         '📊 Let\'s transform your analytics',
         '⚡ AUXO Data Labs',

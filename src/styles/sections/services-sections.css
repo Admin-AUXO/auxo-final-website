@@ -325,10 +325,210 @@
   overflow-x: clip !important;
 }
 
+.impact-section {
+  overflow: hidden visible !important;
+}
+
+.impact-carousel-section {
+  overflow: visible !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
 .impact-section .section-pattern-mesh {
   background-size: 40px 40px, 80px 80px;
   background-position: 0 0, 20px 20px;
   opacity: 0.4;
+}
+
+.impact-carousel-wrapper {
+  display: block !important;
+  width: 100% !important;
+  overflow: visible !important;
+  position: relative !important;
+  max-width: 100% !important;
+}
+
+.impact-carousel-wrapper.carousel-viewport {
+  overflow: visible !important;
+  max-width: 100% !important;
+}
+
+.impact-carousel-container {
+  overflow: hidden !important;
+  width: 100% !important;
+  display: block !important;
+  max-width: 100% !important;
+  position: relative !important;
+}
+
+.impact-carousel-container.embla {
+  overflow: hidden !important;
+}
+
+.impact-carousel-track {
+  display: flex !important;
+  align-items: stretch !important;
+  gap: var(--carousel-gap-mobile) !important;
+  width: max-content !important;
+  min-width: 100% !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.impact-carousel-track.embla__container {
+  display: flex !important;
+  width: max-content !important;
+  overflow: visible !important;
+}
+
+.impact-carousel-section .carousel-viewport.impact-carousel-wrapper {
+  overflow: visible !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+.impact-carousel-section .carousel-container.impact-carousel-container {
+  overflow: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.impact-carousel-section .carousel-track.impact-carousel-track {
+  overflow: visible !important;
+  width: max-content !important;
+  display: flex !important;
+}
+
+.impact-carousel-section .embla__slide.carousel-slide {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 85% !important;
+  max-width: 320px !important;
+}
+
+@media (width >= 480px) {
+  .impact-carousel-section .embla__slide.carousel-slide {
+    width: 75% !important;
+    max-width: 340px !important;
+  }
+}
+
+@media (width >= 640px) {
+  .impact-carousel-section .embla__slide.carousel-slide {
+    width: 65% !important;
+    max-width: 360px !important;
+  }
+}
+
+@media (width >= 768px) {
+  .impact-carousel-section .embla__slide.carousel-slide {
+    width: calc(50% - 1.5rem) !important;
+    max-width: 380px !important;
+  }
+}
+
+@media (width >= 1024px) {
+  .impact-carousel-section .embla__slide.carousel-slide {
+    width: calc(45% - 1.5rem) !important;
+    max-width: 400px !important;
+  }
+}
+
+@media (width >= 1280px) {
+  .impact-carousel-section .embla__slide.carousel-slide {
+    width: calc(40% - 1.5rem) !important;
+    max-width: 420px !important;
+  }
+}
+
+@media (width >= 1536px) {
+  .impact-carousel-section .embla__slide.carousel-slide {
+    width: calc(35% - 1.5rem) !important;
+    max-width: 440px !important;
+  }
+}
+
+.impact-carousel-track .embla__slide {
+  flex: 0 0 auto !important;
+  min-width: 0 !important;
+  width: 85% !important;
+  max-width: 320px !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: auto !important;
+  min-height: 200px !important;
+}
+
+.impact-carousel-track .embla__slide > * {
+  height: 100% !important;
+  min-height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@media (width >= 480px) {
+  .impact-carousel-track .embla__slide {
+    width: 75% !important;
+    max-width: 340px !important;
+  }
+}
+
+@media (width >= 640px) {
+  .impact-carousel-track {
+    gap: var(--carousel-gap-tablet) !important;
+  }
+
+  .impact-carousel-track .embla__slide {
+    width: 65% !important;
+    max-width: 360px !important;
+  }
+}
+
+@media (width >= 768px) {
+  .impact-carousel-track {
+    gap: var(--carousel-gap-tablet) !important;
+  }
+
+  .impact-carousel-track .embla__slide {
+    width: calc(50% - 1.5rem) !important;
+    max-width: 380px !important;
+  }
+}
+
+@media (width >= 1024px) {
+  .impact-carousel-track {
+    gap: var(--carousel-gap-desktop) !important;
+  }
+
+  .impact-carousel-track .embla__slide {
+    width: calc(45% - 1.5rem) !important;
+    max-width: 400px !important;
+  }
+}
+
+@media (width >= 1280px) {
+  .impact-carousel-track .embla__slide {
+    width: calc(40% - 1.5rem) !important;
+    max-width: 420px !important;
+  }
+}
+
+@media (width >= 1536px) {
+  .impact-carousel-track .embla__slide {
+    width: calc(35% - 1.5rem) !important;
+    max-width: 440px !important;
+  }
 }
 
 .impact-industry-card {
@@ -344,6 +544,9 @@
   min-height: auto !important;
   position: relative !important;
   overflow: hidden !important;
+  width: 100% !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .impact-industry-card::before {
@@ -367,60 +570,71 @@
 }
 
 .impact-industry-card-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgb(var(--accent-green-rgb), 0.1);
-  flex-shrink: 0;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+  border-bottom: 1px solid rgb(var(--accent-green-rgb), 0.1) !important;
+  flex-shrink: 0 !important;
+  width: 100% !important;
+  visibility: visible !important;
 }
 
 .impact-industry-icon {
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 0.5rem;
-  background: rgb(var(--accent-green-rgb), 0.1);
-  border: 1px solid rgb(var(--accent-green-rgb), 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+  border-radius: 0.5rem !important;
+  background: rgb(var(--accent-green-rgb), 0.1) !important;
+  border: 1px solid rgb(var(--accent-green-rgb), 0.2) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 @media (width >= 640px) {
   .impact-industry-icon {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
   }
 }
 
 .impact-industry-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1.35;
-  font-family: var(--font-display);
-  flex: 1;
-  min-width: 0;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+  line-height: 1.35 !important;
+  font-family: var(--font-display) !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
 }
 
 @media (width >= 640px) {
   .impact-industry-title {
-    font-size: 1.0625rem;
+    font-size: 1.0625rem !important;
   }
 }
 
 @media (width >= 1024px) {
   .impact-industry-title {
-    font-size: 1.125rem;
+    font-size: 1.125rem !important;
   }
 }
 
 .impact-industry-description {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  font-family: var(--font-body);
+  font-size: 0.875rem !important;
+  color: var(--text-secondary) !important;
+  line-height: 1.6 !important;
+  font-family: var(--font-body) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
+  width: 100% !important;
 }
 
 @media (width >= 640px) {
@@ -442,11 +656,14 @@
 }
 
 .impact-industry-benefit-text {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--accent-green);
-  line-height: 1.4;
-  font-family: var(--font-body);
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  color: var(--accent-green) !important;
+  line-height: 1.4 !important;
+  font-family: var(--font-body) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
 }
 
 @media (width >= 640px) {
@@ -465,6 +682,53 @@
 
   .impact-industry-benefit-text {
     font-size: 0.875rem !important;
+  }
+}
+
+.impact-carousel-section {
+  width: 100% !important;
+  overflow: visible !important;
+  max-width: 100% !important;
+  position: relative !important;
+}
+
+.impact-carousel-section .carousel-viewport {
+  display: block !important;
+  width: 100% !important;
+  overflow: visible !important;
+  max-width: 100% !important;
+  position: relative !important;
+}
+
+.impact-carousel-section .carousel-container {
+  overflow: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.impact-carousel-section .embla__slide {
+  min-height: 200px !important;
+  height: auto !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.impact-carousel-section .embla__slide .impact-industry-card {
+  min-height: 200px !important;
+  height: 100% !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@media (width >= 1024px) {
+  .impact-carousel-section .embla__slide {
+    min-height: 250px !important;
+  }
+
+  .impact-carousel-section .embla__slide .impact-industry-card {
+    min-height: 250px !important;
   }
 }
 
