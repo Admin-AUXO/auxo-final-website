@@ -66,7 +66,7 @@ export class EmblaCarouselWrapper {
       align,
       slidesToScroll,
       dragFree,
-      containScroll,
+      containScroll: loop ? false : containScroll,
       duration,
       dragThreshold: 10,
       skipSnaps,
@@ -90,6 +90,23 @@ export class EmblaCarouselWrapper {
     this._embla.on('reInit', this.handleSelect);
 
     this.handleSelect();
+
+    if (loop && this._embla) {
+      const slideCount = this._embla.slideNodes().length;
+      if (slideCount > 2) {
+        requestAnimationFrame(() => {
+          if (!this.isDestroyed && this._embla) {
+            this._embla.reInit();
+            const middleIndex = Math.floor(slideCount / 2);
+            setTimeout(() => {
+              if (!this.isDestroyed && this._embla) {
+                this._embla.scrollTo(middleIndex, false);
+              }
+            }, 50);
+          }
+        });
+      }
+    }
 
     if (autoplay && this.autoplayPlugin && this._embla) {
       requestAnimationFrame(() => {

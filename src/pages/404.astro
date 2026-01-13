@@ -6,7 +6,6 @@ import { Icon } from "astro-icon/components";
 import { createUrl } from "@/utils/url";
 
 const requestedPath = Astro.url.pathname;
-const referrer = Astro.request.headers.get('referer') || 'unknown';
 ---
 
 <BaseLayout title="404 - Page Not Found | AUXO Data Labs" description="The page you're looking for doesn't exist.">
@@ -63,13 +62,13 @@ const referrer = Astro.request.headers.get('referer') || 'unknown';
   </section>
 </BaseLayout>
 
-<script define:vars={{ requestedPath, referrer }}>
+<script define:vars={{ requestedPath }}>
   if (typeof window !== 'undefined') {
     import('@/scripts/analytics/ga4').then(({ trackEvent }) => {
       trackEvent('page_not_found', {
         page_path: requestedPath,
         page_location: window.location.href,
-        page_referrer: referrer,
+        page_referrer: document.referrer || 'unknown',
         error_type: '404',
       });
     });

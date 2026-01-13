@@ -18,12 +18,36 @@ section,
 .service-benefits-section,
 .service-process-section {
   overflow: visible !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.services-intro-section::-webkit-scrollbar,
+.capabilities-section::-webkit-scrollbar,
+.mission-vision-section::-webkit-scrollbar,
+.approach-section::-webkit-scrollbar,
+.global-section::-webkit-scrollbar,
+.impact-section::-webkit-scrollbar,
+.service-benefits-section::-webkit-scrollbar,
+.service-process-section::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 [class*="-carousel-section"],
 [class*="carousel-section"] {
   overflow: visible !important;
   max-width: 100% !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+[class*="-carousel-section"]::-webkit-scrollbar,
+[class*="carousel-section"]::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 [class*="-carousel-section"] .carousel-viewport,
@@ -32,6 +56,17 @@ section,
 [class*="carousel-section"] [class*="carousel-wrapper"] {
   overflow: visible !important;
   max-width: 100% !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+[class*="-carousel-section"] .carousel-viewport::-webkit-scrollbar,
+[class*="carousel-section"] .carousel-viewport::-webkit-scrollbar,
+[class*="-carousel-section"] [class*="carousel-wrapper"]::-webkit-scrollbar,
+[class*="carousel-section"] [class*="carousel-wrapper"]::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 section:not([class*="py-"], [class*="padding"]),

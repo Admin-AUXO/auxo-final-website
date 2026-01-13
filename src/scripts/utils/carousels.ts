@@ -40,42 +40,12 @@ function getResponsiveOptions(slideCount: number): Partial<EmblaCarouselOptions>
     };
   }
 
-  if (isMobile) {
-    return {
-      align: 'center',
-      containScroll: 'trimSnaps',
-      slidesToScroll: 1,
-      dragFree: false,
-      duration: 20,
-    };
-  }
-
-  if (isTablet) {
-    return {
-      align: 'center',
-      containScroll: slideCount > 3 ? 'trimSnaps' : 'keepSnaps',
-      slidesToScroll: 1,
-      dragFree: false,
-      duration: 22,
-    };
-  }
-
-  if (isDesktop) {
-    return {
-      align: 'center',
-      containScroll: slideCount > 3 ? 'trimSnaps' : 'keepSnaps',
-      slidesToScroll: 1,
-      dragFree: false,
-      duration: 25,
-    };
-  }
-
   return {
     align: 'center',
-    containScroll: 'trimSnaps',
+    containScroll: false,
     slidesToScroll: 1,
     dragFree: false,
-    duration: 25,
+    duration: isMobile ? 20 : isTablet ? 22 : 25,
   };
 }
 
@@ -137,12 +107,14 @@ function createCarouselManager(config: CarouselConfig) {
 
     const slideCount = slides.length;
     const responsiveOptions = getResponsiveOptions(slideCount);
+    const shouldLoop = slideCount > 2;
 
     const baseOptions: EmblaCarouselOptions = {
-      loop: true,
+      loop: shouldLoop,
       autoplay: true,
       ...responsiveOptions,
       ...carouselOptions,
+      containScroll: shouldLoop ? false : (carouselOptions.containScroll ?? responsiveOptions.containScroll),
     };
 
     try {

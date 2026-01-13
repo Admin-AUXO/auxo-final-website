@@ -6,7 +6,6 @@ const BASE_OPTIONS = {
   autoplay: true,
   pauseOnHover: false,
   align: 'center' as const,
-  containScroll: 'trimSnaps' as const,
   dragFree: false,
   skipSnaps: false,
 };

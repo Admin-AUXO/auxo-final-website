@@ -1,4 +1,3 @@
-/* Critical overflow rules - loaded last to override Tailwind utilities */
 html,
 html.loaded {
   contain: none !important;
@@ -34,7 +33,6 @@ div:has([class*="carousel-section"]) {
   max-width: 100% !important;
 }
 
-/* Section overflow containment */
 section,
 [class*="-section"] {
   overflow: hidden !important;
@@ -57,99 +55,6 @@ section:has(.embla),
 [class*="-section"]:has(.embla) {
   overflow: visible !important;
   overflow-x: visible !important;
-}
-
-[class*="-carousel-section"],
-[class*="carousel-section"] {
-  overflow: visible !important;
-  overflow-x: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  position: relative !important;
-}
-
-[class*="-carousel-section"] .carousel-viewport,
-[class*="carousel-section"] .carousel-viewport,
-[class*="-carousel-section"] [class*="carousel-wrapper"],
-[class*="carousel-section"] [class*="carousel-wrapper"] {
-  overflow: visible !important;
-  overflow-x: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-}
-
-.carousel-track,
-.embla__container {
-  overflow: visible !important;
-  overflow-x: visible !important;
-  max-width: none !important;
-  width: max-content !important;
-}
-
-@media (width <= 767px) {
-  section:has([class*="-carousel-section"]),
-  section:has([class*="carousel-section"]),
-  section:has(.carousel-viewport),
-  section:has(.carousel-container),
-  section:has(.embla),
-  [class*="-section"]:has([class*="-carousel-section"]),
-  [class*="-section"]:has([class*="carousel-section"]),
-  [class*="-section"]:has(.carousel-viewport),
-  [class*="-section"]:has(.carousel-container),
-  [class*="-section"]:has(.embla) {
-    overflow: visible !important;
-    overflow-x: visible !important;
-  }
-
-  [class*="-carousel-section"],
-  [class*="carousel-section"] {
-    overflow: visible !important;
-    overflow-x: visible !important;
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-
-  [class*="-carousel-section"] .carousel-viewport,
-  [class*="carousel-section"] .carousel-viewport,
-  [class*="-carousel-section"] [class*="carousel-wrapper"],
-  [class*="carousel-section"] [class*="carousel-wrapper"] {
-    overflow: visible !important;
-    overflow-x: visible !important;
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-
-  div:has(.carousel-viewport),
-  div:has(.carousel-container),
-  div:has(.carousel-track),
-  div:has(.embla),
-  div:has([class*="-carousel-section"]),
-  div:has([class*="carousel-section"]) {
-    overflow-x: visible !important;
-  }
-
-  .carousel-track,
-  .embla__container {
-    overflow: visible !important;
-    overflow-x: visible !important;
-    max-width: none !important;
-    width: max-content !important;
-  }
-
-  .grid-container:has(.carousel-viewport),
-  .grid-container:has(.carousel-container),
-  .grid-container:has(.carousel-track),
-  .grid-container:has(.embla),
-  .grid-container:has([class*="-carousel-section"]),
-  .grid-container:has([class*="carousel-section"]),
-  [class*="container"]:has(.carousel-viewport),
-  [class*="container"]:has(.carousel-container),
-  [class*="container"]:has(.carousel-track),
-  [class*="container"]:has(.embla),
-  [class*="container"]:has([class*="-carousel-section"]),
-  [class*="container"]:has([class*="carousel-section"]) {
-    overflow-x: visible !important;
-  }
 }
 
 section::-webkit-scrollbar,
@@ -209,7 +114,6 @@ section::-webkit-scrollbar,
   will-change: auto;
 }
 
-/* Sections that need vertical overflow for decorative elements */
 .hero-section,
 .service-hero-section,
 .service-overview-section,
@@ -226,33 +130,6 @@ section::-webkit-scrollbar,
 
 .impact-section .grid-container {
   overflow-x: visible !important;
-}
-
-.impact-carousel-section {
-  overflow: visible !important;
-  max-width: 100% !important;
-}
-
-.impact-carousel-section .grid-container {
-  overflow-x: visible !important;
-}
-
-.impact-carousel-section .carousel-viewport,
-.impact-carousel-section .impact-carousel-wrapper {
-  overflow: visible !important;
-  max-width: 100% !important;
-}
-
-.impact-carousel-section .embla__slide {
-  visibility: visible !important;
-  opacity: 1 !important;
-  display: block !important;
-}
-
-.impact-carousel-section .impact-industry-card {
-  visibility: visible !important;
-  opacity: 1 !important;
-  display: flex !important;
 }
 
 .hero-section::-webkit-scrollbar,

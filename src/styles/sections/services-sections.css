@@ -329,206 +329,10 @@
   overflow: hidden visible !important;
 }
 
-.impact-carousel-section {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  position: relative !important;
-}
-
 .impact-section .section-pattern-mesh {
   background-size: 40px 40px, 80px 80px;
   background-position: 0 0, 20px 20px;
   opacity: 0.4;
-}
-
-.impact-carousel-wrapper {
-  display: block !important;
-  width: 100% !important;
-  overflow: visible !important;
-  position: relative !important;
-  max-width: 100% !important;
-}
-
-.impact-carousel-wrapper.carousel-viewport {
-  overflow: visible !important;
-  max-width: 100% !important;
-}
-
-.impact-carousel-container {
-  overflow: hidden !important;
-  width: 100% !important;
-  display: block !important;
-  max-width: 100% !important;
-  position: relative !important;
-}
-
-.impact-carousel-container.embla {
-  overflow: hidden !important;
-}
-
-.impact-carousel-track {
-  display: flex !important;
-  align-items: stretch !important;
-  gap: var(--carousel-gap-mobile) !important;
-  width: max-content !important;
-  min-width: 100% !important;
-  position: relative !important;
-  overflow: visible !important;
-}
-
-.impact-carousel-track.embla__container {
-  display: flex !important;
-  width: max-content !important;
-  overflow: visible !important;
-}
-
-.impact-carousel-section .carousel-viewport.impact-carousel-wrapper {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  display: block !important;
-}
-
-.impact-carousel-section .carousel-container.impact-carousel-container {
-  overflow: hidden !important;
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-.impact-carousel-section .carousel-track.impact-carousel-track {
-  overflow: visible !important;
-  width: max-content !important;
-  display: flex !important;
-}
-
-.impact-carousel-section .embla__slide.carousel-slide {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  width: 85% !important;
-  max-width: 320px !important;
-}
-
-@media (width >= 480px) {
-  .impact-carousel-section .embla__slide.carousel-slide {
-    width: 75% !important;
-    max-width: 340px !important;
-  }
-}
-
-@media (width >= 640px) {
-  .impact-carousel-section .embla__slide.carousel-slide {
-    width: 65% !important;
-    max-width: 360px !important;
-  }
-}
-
-@media (width >= 768px) {
-  .impact-carousel-section .embla__slide.carousel-slide {
-    width: calc(50% - 1.5rem) !important;
-    max-width: 380px !important;
-  }
-}
-
-@media (width >= 1024px) {
-  .impact-carousel-section .embla__slide.carousel-slide {
-    width: calc(45% - 1.5rem) !important;
-    max-width: 400px !important;
-  }
-}
-
-@media (width >= 1280px) {
-  .impact-carousel-section .embla__slide.carousel-slide {
-    width: calc(40% - 1.5rem) !important;
-    max-width: 420px !important;
-  }
-}
-
-@media (width >= 1536px) {
-  .impact-carousel-section .embla__slide.carousel-slide {
-    width: calc(35% - 1.5rem) !important;
-    max-width: 440px !important;
-  }
-}
-
-.impact-carousel-track .embla__slide {
-  flex: 0 0 auto !important;
-  min-width: 0 !important;
-  width: 85% !important;
-  max-width: 320px !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: relative !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  height: auto !important;
-  min-height: 200px !important;
-}
-
-.impact-carousel-track .embla__slide > * {
-  height: 100% !important;
-  min-height: auto !important;
-  display: flex !important;
-  flex-direction: column !important;
-  width: 100% !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-@media (width >= 480px) {
-  .impact-carousel-track .embla__slide {
-    width: 75% !important;
-    max-width: 340px !important;
-  }
-}
-
-@media (width >= 640px) {
-  .impact-carousel-track {
-    gap: var(--carousel-gap-tablet) !important;
-  }
-
-  .impact-carousel-track .embla__slide {
-    width: 65% !important;
-    max-width: 360px !important;
-  }
-}
-
-@media (width >= 768px) {
-  .impact-carousel-track {
-    gap: var(--carousel-gap-tablet) !important;
-  }
-
-  .impact-carousel-track .embla__slide {
-    width: calc(50% - 1.5rem) !important;
-    max-width: 380px !important;
-  }
-}
-
-@media (width >= 1024px) {
-  .impact-carousel-track {
-    gap: var(--carousel-gap-desktop) !important;
-  }
-
-  .impact-carousel-track .embla__slide {
-    width: calc(45% - 1.5rem) !important;
-    max-width: 400px !important;
-  }
-}
-
-@media (width >= 1280px) {
-  .impact-carousel-track .embla__slide {
-    width: calc(40% - 1.5rem) !important;
-    max-width: 420px !important;
-  }
-}
-
-@media (width >= 1536px) {
-  .impact-carousel-track .embla__slide {
-    width: calc(35% - 1.5rem) !important;
-    max-width: 440px !important;
-  }
 }
 
 .impact-industry-card {
@@ -685,41 +489,14 @@
   }
 }
 
-.impact-carousel-section {
-  width: 100% !important;
-  overflow: visible !important;
-  max-width: 100% !important;
-  position: relative !important;
-}
-
-.impact-carousel-section .carousel-viewport {
-  display: block !important;
-  width: 100% !important;
-  overflow: visible !important;
-  max-width: 100% !important;
-  position: relative !important;
-}
-
-.impact-carousel-section .carousel-container {
-  overflow: hidden !important;
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
 .impact-carousel-section .embla__slide {
   min-height: 200px !important;
   height: auto !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
 }
 
 .impact-carousel-section .embla__slide .impact-industry-card {
   min-height: 200px !important;
   height: 100% !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
 }
 
 @media (width >= 1024px) {
@@ -732,43 +509,8 @@
   }
 }
 
-@media (width <= 767px) {
-  .impact-carousel-section {
-    overflow: visible !important;
-    touch-action: none !important;
-  }
-
-  .impact-carousel-section .carousel-viewport,
-  .impact-carousel-section .impact-carousel-wrapper {
-    overflow: visible !important;
-    touch-action: none !important;
-  }
-
-  .impact-carousel-section .carousel-container,
-  .impact-carousel-section .impact-carousel-container {
-    touch-action: pan-x pinch-zoom !important;
-    overscroll-behavior: contain auto !important;
-    cursor: default !important;
-  }
-
-  .impact-carousel-section .carousel-track,
-  .impact-carousel-section .impact-carousel-track {
-    touch-action: pan-x pinch-zoom !important;
-    cursor: default !important;
-  }
-
-  .impact-carousel-section .embla__slide {
-    touch-action: pan-x !important;
-    -webkit-tap-highlight-color: transparent !important;
-  }
-
-  .impact-carousel-section .impact-industry-card {
-    touch-action: pan-x !important;
-  }
-
-  .impact-carousel-section .impact-industry-card a {
-    touch-action: manipulation !important;
-  }
+.impact-carousel-section .impact-industry-card a {
+  touch-action: manipulation !important;
 }
 
 .impact-goal-card {
@@ -816,48 +558,3 @@
   }
 }
 
-.service-benefits-carousel-section {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  position: relative !important;
-}
-
-.service-benefits-carousel-section .carousel-viewport,
-.service-benefits-carousel-section .service-benefits-carousel-wrapper {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-}
-
-.service-process-carousel-section {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  position: relative !important;
-}
-
-.service-process-carousel-section .carousel-viewport,
-.service-process-carousel-section .service-process-carousel-wrapper {
-  overflow: visible !important;
-  max-width: 100% !important;
-  width: 100% !important;
-}
-
-@media (width <= 767px) {
-  .service-benefits-carousel-section,
-  .service-process-carousel-section {
-    overflow: visible !important;
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-
-  .service-benefits-carousel-section .carousel-viewport,
-  .service-benefits-carousel-section .service-benefits-carousel-wrapper,
-  .service-process-carousel-section .carousel-viewport,
-  .service-process-carousel-section .service-process-carousel-wrapper {
-    overflow: visible !important;
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-}

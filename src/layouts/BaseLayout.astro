@@ -601,7 +601,6 @@ const faqSchema = {
 
     <script>
       import { initCoreFeatures, reinitOnPageLoad, initPageFeatures } from "@/scripts/core/init";
-      import { initTabEngagement } from "@/scripts/utils/tabEngagement";
 
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
@@ -713,8 +712,9 @@ const faqSchema = {
         initCoreFeatures();
         initPageFeatures();
 
-        setTimeout(() => {
+        setTimeout(async () => {
           try {
+            const { initTabEngagement } = await import('@/scripts/utils/tabEngagement');
             initTabEngagement({
               titleMessages: [
                 '👋 Come back to AUXO!',
@@ -754,11 +754,12 @@ const faqSchema = {
       document.addEventListener('astro:page-load', async () => {
         await waitForCSS();
         reinitOnPageLoad();
-        setTimeout(() => {
+        setTimeout(async () => {
           initPageFeatures();
           initMobileScrollOptimizations();
 
           try {
+            const { initTabEngagement } = await import('@/scripts/utils/tabEngagement');
             initTabEngagement({
               titleMessages: [
                 '👋 Come back to AUXO!',

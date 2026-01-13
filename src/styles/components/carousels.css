@@ -2,67 +2,74 @@
   position: relative !important;
   width: 100% !important;
   overflow: visible !important;
+  overflow-x: visible !important;
   padding: 0.5rem 0 !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  z-index: 0 !important;
 }
 
-@media (width <= 767px) {
-  .carousel-viewport {
-    overflow: visible !important;
-    touch-action: none !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
-
-  .carousel-viewport .carousel-container {
-    touch-action: pan-x pinch-zoom !important;
-  }
+.carousel-viewport::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
-.carousel-container {
+.carousel-container,
+.carousel-container.embla {
   overflow: hidden !important;
+  overflow-x: hidden !important;
+  width: 100% !important;
+  position: relative !important;
   touch-action: pan-x !important;
   -webkit-tap-highlight-color: transparent !important;
   cursor: grab !important;
   -webkit-overflow-scrolling: touch !important;
   will-change: transform !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  z-index: 0 !important;
+}
+
+.carousel-container::-webkit-scrollbar,
+.carousel-container.embla::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .carousel-container:active {
   cursor: grabbing !important;
 }
 
-@media (width <= 767px) {
-  .carousel-container {
-    cursor: default !important;
-    touch-action: pan-x pinch-zoom !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain auto !important;
-  }
-
-  .carousel-container:active {
-    cursor: default !important;
-  }
-}
-
-.carousel-track {
+.carousel-track,
+.carousel-track.embla__container,
+.embla__container {
   display: flex !important;
   align-items: stretch !important;
-  gap: var(--carousel-gap-mobile) !important;
+  gap: var(--carousel-gap-mobile, 1rem) !important;
+  padding-left: var(--section-padding-mobile, 1rem) !important;
+  padding-right: var(--section-padding-mobile, 1rem) !important;
+  overflow: visible !important;
+  overflow-x: visible !important;
+  width: max-content !important;
+  min-width: 100% !important;
+  position: relative !important;
   touch-action: pan-x !important;
   user-select: none !important;
   cursor: grab !important;
   backface-visibility: hidden !important;
-  padding-left: var(--section-padding-mobile) !important;
-  padding-right: var(--section-padding-mobile) !important;
   will-change: transform !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-@media (width <= 767px) {
-  .carousel-track {
-    cursor: default !important;
-    touch-action: pan-x pinch-zoom !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain auto !important;
-  }
+.carousel-track::-webkit-scrollbar,
+.carousel-track.embla__container::-webkit-scrollbar,
+.embla__container::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .carousel-slide,
@@ -74,25 +81,14 @@
   margin: 0 !important;
   padding: 0 !important;
   touch-action: pan-x !important;
-}
-
-@media (width <= 767px) {
-  .carousel-slide,
-  .embla__slide {
-    touch-action: pan-x !important;
-    -webkit-tap-highlight-color: transparent !important;
-    user-select: none !important;
-    -webkit-user-select: none !important;
-  }
-
-  .carousel-slide > *,
-  .embla__slide > * {
-    touch-action: pan-x !important;
-    pointer-events: auto !important;
-  }
-}
-
-.carousel-slide {
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 1 !important;
+  transform: translateZ(0) !important;
+  backface-visibility: visible !important;
+  -webkit-backface-visibility: visible !important;
   width: 85% !important;
   max-width: 320px !important;
 }
@@ -103,11 +99,11 @@
   min-height: auto !important;
   display: flex !important;
   flex-direction: column !important;
-}
-
-.embla__slide {
-  width: 85% !important;
-  max-width: 320px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 @media (width >= 480px) {
@@ -119,10 +115,12 @@
 }
 
 @media (width >= 640px) {
-  .carousel-track {
-    gap: var(--carousel-gap-tablet) !important;
-    padding-left: var(--section-padding-tablet) !important;
-    padding-right: var(--section-padding-tablet) !important;
+  .carousel-track,
+  .carousel-track.embla__container,
+  .embla__container {
+    gap: var(--carousel-gap-tablet, 1.5rem) !important;
+    padding-left: var(--section-padding-tablet, 1.5rem) !important;
+    padding-right: var(--section-padding-tablet, 1.5rem) !important;
   }
 
   .carousel-slide,
@@ -133,10 +131,12 @@
 }
 
 @media (width >= 768px) {
-  .carousel-track {
-    gap: var(--carousel-gap-tablet) !important;
-    padding-left: var(--section-padding-desktop) !important;
-    padding-right: var(--section-padding-desktop) !important;
+  .carousel-track,
+  .carousel-track.embla__container,
+  .embla__container {
+    gap: var(--carousel-gap-tablet, 1.5rem) !important;
+    padding-left: var(--section-padding-desktop, 2rem) !important;
+    padding-right: var(--section-padding-desktop, 2rem) !important;
   }
 
   .carousel-slide,
@@ -147,10 +147,12 @@
 }
 
 @media (width >= 1024px) {
-  .carousel-track {
-    gap: var(--carousel-gap-desktop) !important;
-    padding-left: var(--spacing-12) !important;
-    padding-right: var(--spacing-12) !important;
+  .carousel-track,
+  .carousel-track.embla__container,
+  .embla__container {
+    gap: var(--carousel-gap-desktop, 2rem) !important;
+    padding-left: var(--spacing-12, 3rem) !important;
+    padding-right: var(--spacing-12, 3rem) !important;
   }
 
   .carousel-slide,
@@ -161,9 +163,11 @@
 }
 
 @media (width >= 1280px) {
-  .carousel-track {
-    padding-left: var(--spacing-16) !important;
-    padding-right: var(--spacing-16) !important;
+  .carousel-track,
+  .carousel-track.embla__container,
+  .embla__container {
+    padding-left: var(--spacing-16, 4rem) !important;
+    padding-right: var(--spacing-16, 4rem) !important;
   }
 
   .carousel-slide,
@@ -181,9 +185,65 @@
   }
 }
 
+@media (width <= 767px) {
+  .carousel-viewport {
+    overflow: visible !important;
+    overflow-x: visible !important;
+    touch-action: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  .carousel-viewport::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .carousel-container,
+  .carousel-container.embla {
+    cursor: default !important;
+    touch-action: pan-x pinch-zoom !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain auto !important;
+  }
+
+  .carousel-container:active {
+    cursor: default !important;
+  }
+
+  .carousel-track,
+  .carousel-track.embla__container,
+  .embla__container {
+    cursor: default !important;
+    touch-action: pan-x pinch-zoom !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain auto !important;
+    overflow: visible !important;
+    overflow-x: visible !important;
+    width: max-content !important;
+  }
+
+  .carousel-slide,
+  .embla__slide {
+    touch-action: pan-x !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+  }
+
+  .carousel-slide > *,
+  .embla__slide > * {
+    touch-action: pan-x !important;
+    pointer-events: auto !important;
+  }
+}
+
 .carousel-card,
 .carousel-card-benefit,
-.carousel-card-process {
+.carousel-card-process,
+.carousel-card-about {
   display: flex !important;
   flex-direction: column !important;
   height: 100% !important;
@@ -195,20 +255,9 @@
   transition: var(--carousel-card-transition) !important;
   position: relative !important;
   overflow: hidden !important;
-}
-
-.carousel-card-about {
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-  min-height: auto !important;
-  background: var(--bg-card) !important;
-  border: var(--accordion-border) !important;
-  border-radius: var(--accordion-radius) !important;
-  padding: var(--carousel-card-padding-mobile) !important;
-  transition: var(--carousel-card-transition) !important;
-  position: relative !important;
-  overflow: hidden !important;
+  width: 100% !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .carousel-card::before {
