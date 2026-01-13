@@ -250,6 +250,9 @@ class TabEngagementManager {
 
     document.body.appendChild(overlay);
 
+    // Ensure scroll is enabled
+    this.ensureScrollEnabled();
+
     requestAnimationFrame(() => {
       overlay.classList.add('auxo-engagement-overlay-visible');
     });
@@ -259,10 +262,11 @@ class TabEngagementManager {
     }, 5000);
 
     const dismissBtn = overlay.querySelector('[data-dismiss-overlay]');
-    dismissBtn?.addEventListener('click', () => {
+    const handleDismiss = () => {
       clearTimeout(autoDismissTimer);
       this.dismissOverlay(overlay);
-    });
+    };
+    dismissBtn?.addEventListener('click', handleDismiss, { once: true });
 
     const escapeHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -278,9 +282,35 @@ class TabEngagementManager {
     overlay.classList.remove('auxo-engagement-overlay-visible');
     overlay.classList.add('auxo-engagement-overlay-exit');
 
+    // Ensure scroll is enabled when dismissing
+    this.ensureScrollEnabled();
+
     setTimeout(() => {
       overlay.remove();
+      // Double-check scroll is enabled after removal
+      this.ensureScrollEnabled();
     }, 300);
+  }
+
+  private ensureScrollEnabled(): void {
+    // Force unlock any scroll locks
+    if (typeof document === 'undefined') return;
+
+    // Remove any scroll-locked classes
+    document.documentElement.classList.remove('scroll-locked');
+    document.body.classList.remove('scroll-locked');
+
+    // Clear any overflow styles
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    document.body.style.paddingRight = '';
+    document.body.style.removeProperty('--scrollbar-width');
+
+    // Restart Lenis if available
+    const lenisInstance = typeof window !== 'undefined' ? (window as any).__lenis : null;
+    if (lenisInstance && lenisInstance.start) {
+      lenisInstance.start();
+    }
   }
 
   public updateConfig(config: Partial<TabEngagementConfig>): void {
