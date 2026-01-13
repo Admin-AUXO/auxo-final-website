@@ -8,6 +8,18 @@ section,
   isolation: isolate;
 }
 
+/* Override for sections containing carousels */
+.services-intro-section,
+.capabilities-section,
+.mission-vision-section,
+.approach-section,
+.global-section,
+.impact-section,
+.service-benefits-section,
+.service-process-section {
+  overflow: visible !important;
+}
+
 [class*="-carousel-section"],
 [class*="carousel-section"] {
   overflow: visible !important;
