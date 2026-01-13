@@ -8,6 +8,20 @@ section,
   isolation: isolate;
 }
 
+[class*="-carousel-section"],
+[class*="carousel-section"] {
+  overflow: visible !important;
+  max-width: 100% !important;
+}
+
+[class*="-carousel-section"] .carousel-viewport,
+[class*="carousel-section"] .carousel-viewport,
+[class*="-carousel-section"] [class*="carousel-wrapper"],
+[class*="carousel-section"] [class*="carousel-wrapper"] {
+  overflow: visible !important;
+  max-width: 100% !important;
+}
+
 section:not([class*="py-"], [class*="padding"]),
 [class*="-section"]:not([class*="py-"], [class*="padding"]) {
   padding-left: var(--grid-padding-mobile, 1rem);

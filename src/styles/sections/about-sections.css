@@ -2,6 +2,10 @@
   overflow: hidden;
 }
 
+.approach-section:has(.approach-carousel-section) {
+  overflow: visible !important;
+}
+
 .approach-section .grid-container {
   overflow-x: visible !important;
 }
@@ -132,8 +136,16 @@
   overflow: hidden;
 }
 
+.global-section:has(.global-metrics-carousel-section) {
+  overflow: visible !important;
+}
+
 .global-section .grid-container {
   overflow-x: clip !important;
+}
+
+.global-section:has(.global-metrics-carousel-section) .grid-container {
+  overflow-x: visible !important;
 }
 
 .global-section .section-pattern-mesh {
@@ -185,6 +197,14 @@
   .global-section .grid-container {
     overflow-x: visible !important;
   }
+
+.mission-vision-section:has(.mission-vision-carousel-section) {
+  overflow: visible !important;
+}
+
+.mission-vision-section:has(.mission-vision-carousel-section) .grid-container {
+  overflow-x: visible !important;
+}
 
   .mission-card .bg-theme-card,
   .vision-card .bg-theme-card,
