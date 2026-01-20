@@ -3,7 +3,7 @@ import { Icon } from 'astro-icon/components';
 import type { NavItem, DropdownItem } from '@/data/content/navigation';
 import { createUrl } from '@/utils/url';
 import NavLink from './NavLink.astro';
-import CtaButton from '@/components/ui/CtaButton.astro';
+import Button from '@/components/ui/Button.astro';
 
 interface Props {
   item: Omit<NavItem, '_key'>;
@@ -115,27 +115,29 @@ const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-c
                   Need help choosing? <a href={createUrl('contact')} class="text-accent-green hover:underline font-medium transition-colors duration-fast">Contact our team</a>
                 </p>
                 <div class="hidden lg:flex items-center gap-2 pointer-events-auto flex-shrink-0 ml-auto">
-                  <CtaButton
+                  <Button
+                    variant="cta"
                     href={createUrl('services')}
                     showArrow={true}
-                    aria-label="View all services"
+                    ariaLabel="View all services"
                   >
                     View All Services
-                  </CtaButton>
+                  </Button>
                 </div>
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 md:gap-6 w-full lg:hidden py-3 sm:py-4">
                   <p class="text-xs sm:text-sm md:text-base text-theme-secondary opacity-70 text-center sm:text-left flex-1 min-w-0">
                     Need help choosing? <a href={createUrl('contact')} class="text-accent-green hover:underline font-medium transition-colors duration-fast">Contact our team</a>
                   </p>
                   <div class="flex items-center gap-2 flex-shrink-0">
-                    <CtaButton
-                      href={createUrl('services')}
+                    <Button
+                      variant="cta"
                       size="md"
+                      href={createUrl('services')}
                       showArrow={true}
-                      aria-label="View all services"
+                      ariaLabel="View all services"
                     >
                       View All Services
-                    </CtaButton>
+                    </Button>
                   </div>
                 </div>
               </div>

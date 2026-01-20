@@ -23,12 +23,14 @@ export const state: NavigationState = {
   lastScrollTop: 0,
 };
 
-export const eventListeners: Array<{
-  element: EventTarget;
-  event: string;
-  handler: EventListener;
-  options?: boolean | AddEventListenerOptions;
-}> = [];
+let navigationAbortController: AbortController | null = null;
+
+export function getNavigationAbortController(): AbortController {
+  if (!navigationAbortController) {
+    navigationAbortController = new AbortController();
+  }
+  return navigationAbortController;
+}
 
 export function addTrackedListener(
   element: EventTarget,
@@ -36,9 +38,27 @@ export function addTrackedListener(
   handler: EventListener,
   options?: boolean | AddEventListenerOptions
 ): void {
-  element.addEventListener(event, handler, options);
-  eventListeners.push({ element, event, handler, options });
+  const controller = getNavigationAbortController();
+  const listenerOptions = typeof options === 'boolean'
+    ? { capture: options, signal: controller.signal }
+    : { ...options, signal: controller.signal };
+
+  element.addEventListener(event, handler, listenerOptions);
 }
+
+export function cleanupNavigationListeners(): void {
+  if (navigationAbortController) {
+    navigationAbortController.abort();
+    navigationAbortController = null;
+  }
+}
+
+export const eventListeners: Array<{
+  element: EventTarget;
+  event: string;
+  handler: EventListener;
+  options?: boolean | AddEventListenerOptions;
+}> = [];
 
 export function clearDropdownTimer(): void {
   if (state.dropdownLeaveTimer) {

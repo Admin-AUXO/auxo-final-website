@@ -92,9 +92,7 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
   requestAnimationFrame(() => {
     element.style.transition = `${transitionProperty} ${mobileDuration}ms cubic-bezier(${cubicBezier})`;
     if (mobileDelay > 0) element.style.transitionDelay = `${mobileDelay}ms`;
-  });
 
-  requestAnimationFrame(() => {
     if (entry.isIntersecting) {
       element.style.opacity = '1';
       element.style.transform = 'none';
@@ -103,11 +101,9 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
       element._revealAnimated = true;
 
       setTimeout(() => {
-        requestAnimationFrame(() => {
-          element.style.willChange = 'auto';
-          element.style.transition = '';
-        });
-      }, mobileDuration + mobileDelay);
+        element.style.willChange = 'auto';
+        element.style.transition = '';
+      }, mobileDuration + mobileDelay + 50);
     } else if (!globalOptions.once) {
       element.style.opacity = isFade ? '0' : '1';
       element.style.transform = initialTransform;

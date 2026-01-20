@@ -1,31 +1,13 @@
 ---
-import { Icon } from "astro-icon/components";
-import Button from "@/components/ui/Button.astro";
 import HeroLayout from "@/components/ui/HeroLayout.astro";
+import HeroCTAButton from "@/components/ui/HeroCTAButton.astro";
 import type { HomepageContent } from "@/data/content/homepage";
-import { createUrl } from "@/utils/url";
-import { shouldOpenCalendly } from "@/utils/ctaRules";
 
 interface Props {
   content: HomepageContent["hero"];
 }
 
 const { content } = Astro.props;
-
-const ctaText = content.primaryCta?.text || "Learn more";
-const ctaHref = content.primaryCta?.href || "about";
-const shouldOpenCalendlyBtn = shouldOpenCalendly({
-  text: ctaText,
-  href: ctaHref,
-  context: 'hero'
-});
-
-const cta = {
-  text: shouldOpenCalendlyBtn ? "Schedule a Meeting" : ctaText,
-  href: shouldOpenCalendlyBtn ? undefined : createUrl(ctaHref),
-  variant: "primary" as const,
-  googleCalendar: shouldOpenCalendlyBtn,
-};
 ---
 
 <HeroLayout
@@ -54,21 +36,11 @@ const cta = {
   )}
 
   <div class="hero-follow-content" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
-    <div class="hero-cta-container">
-      <Button
-        variant={cta.variant}
-        size="lg"
-        href={cta.href}
-        googleCalendar={cta.googleCalendar}
-        class="hero-cta-button group/btn"
-      >
-        <span class="whitespace-nowrap">{cta.text}</span>
-        <Icon
-          name="mdi:arrow-right"
-          class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300"
-        />
-      </Button>
-    </div>
+    <HeroCTAButton
+      text={content.primaryCta?.text || "Learn more"}
+      href={content.primaryCta?.href || "about"}
+      context="hero"
+    />
   </div>
 </HeroLayout>
 

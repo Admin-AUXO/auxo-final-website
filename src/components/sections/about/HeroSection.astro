@@ -1,11 +1,8 @@
 ---
-import { Icon } from "astro-icon/components";
-import Button from "@/components/ui/Button.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
 import HeroLayout from "@/components/ui/HeroLayout.astro";
+import HeroCTAButton from "@/components/ui/HeroCTAButton.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
-import { createUrl } from "@/utils/url";
-import { shouldOpenCalendly } from "@/utils/ctaRules";
 
 interface Props {
   content: {
@@ -22,11 +19,6 @@ const bridgePart = headlineParts.slice(0, 2).join(" ");
 const leftPart = headlineParts.slice(2, 4).join(" ");
 const middlePart = headlineParts[4];
 const rightPart = headlineParts.slice(5).join(" ");
-const shouldOpenCalendlyBtn = shouldOpenCalendly({
-  text: content.ctaText,
-  href: content.ctaHref,
-  context: 'hero'
-});
 ---
 
 <HeroLayout
@@ -73,18 +65,11 @@ const shouldOpenCalendlyBtn = shouldOpenCalendly({
   </div>
 
   <div class="about-hero-follow-content hero-follow-content" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
-    <div class="hero-cta-container">
-      <Button
-        variant="primary"
-        size="lg"
-        href={shouldOpenCalendlyBtn ? undefined : createUrl(content.ctaHref)}
-        googleCalendar={shouldOpenCalendlyBtn}
-        class="hero-cta-button group/btn"
-      >
-        <span class="whitespace-nowrap">{shouldOpenCalendlyBtn ? "Schedule a Meeting" : content.ctaText}</span>
-        <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300" />
-      </Button>
-    </div>
+    <HeroCTAButton
+      text={content.ctaText}
+      href={content.ctaHref}
+      context="about"
+    />
   </div>
 </HeroLayout>
 

@@ -1,14 +1,11 @@
 import emailjs from '@emailjs/browser';
+import { env } from '@/config/env';
 import { validateContactForm, getFormData, showFieldError, hideFieldError } from './validation';
 import { showSuccess, showError } from '@/scripts/utils/notifications';
 import { trackFormSubmission, trackFormStart, trackFormAbandonment } from '@/scripts/analytics/ga4';
 import { logger } from '@/lib/logger';
 
-const EMAILJS_CONFIG = {
-  serviceId: import.meta.env.PUBLIC_EMAILJS_SERVICE_ID || '',
-  templateId: import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID || '',
-  publicKey: import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY || '',
-};
+const EMAILJS_CONFIG = env.emailjs;
 
 let emailjsInitialized = false;
 let lastSubmitTime = 0;

@@ -1,10 +1,11 @@
 import { logger } from '@/lib/logger';
+import { env } from '@/config/env';
 import { getAttributionParams } from './utmTracking';
 import { sanitizeForGA4, redactURL } from './privacy';
 import { getClientId, getSessionId, getSessionNumber } from './identifiers';
 
-const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-WBMKHRWS7Z';
-const GA4_DEBUG_MODE = import.meta.env.DEV || import.meta.env.PUBLIC_GA4_DEBUG === 'true';
+const GA4_MEASUREMENT_ID = env.analytics.measurementId;
+const GA4_DEBUG_MODE = env.analytics.debug;
 
 const MAX_PARAM_LENGTH = 100;
 const MAX_EVENT_NAME_LENGTH = 40;

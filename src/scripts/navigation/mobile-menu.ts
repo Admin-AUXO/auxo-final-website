@@ -1,5 +1,5 @@
 import { state, addTrackedListener } from './state';
-import { getNavElements, resetDropdownStyles, findDropdownContent, lockScroll, unlockScroll } from './utils';
+import { getNavElements, resetDropdownStyles, findDropdownContent, scrollLock } from './utils';
 import { DROPDOWN_ANIMATION_DURATION, DROPDOWN_CLOSE_DELAY } from './state';
 
 const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -235,7 +235,7 @@ export function closeMobileMenu(): void {
   mobileMenuButton?.setAttribute('aria-expanded', 'false');
   mobileMenuButton?.focus();
   
-  unlockScroll();
+  scrollLock.unlock('mobile-menu');
   resetMobileDropdowns();
 }
 
@@ -281,7 +281,7 @@ function openMobileMenu(): void {
   
   nav?.setAttribute('data-menu-open', 'true');
   mobileMenuButton.setAttribute('aria-expanded', 'true');
-  lockScroll();
+  scrollLock.lock('mobile-menu');
 
   createFocusTrap(mobileMenu, mobileMenuButton);
 

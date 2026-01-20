@@ -1,6 +1,6 @@
 ---
 export interface Props {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'outline';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'outline' | 'cta';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   href?: string;
@@ -11,6 +11,7 @@ export interface Props {
   ariaLabel?: string;
   id?: string;
   googleCalendar?: boolean;
+  showArrow?: boolean;
 }
 
 const {
@@ -25,6 +26,7 @@ const {
   ariaLabel,
   id,
   googleCalendar = false,
+  showArrow = false,
 } = Astro.props;
 
 const isGoogleCalendar = googleCalendar === true;
@@ -41,6 +43,7 @@ const variantClasses = {
   tertiary: 'btn-ghost',
   ghost: 'btn-ghost',
   outline: 'btn-outline',
+  cta: 'nav-cta border-2 border-accent-green bg-transparent text-accent-green hover:bg-accent-green/10 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:bg-accent-green/20 active:translate-y-0 relative group/cta',
 };
 
 const baseClasses = `
@@ -83,7 +86,27 @@ const tagProps = (href && !isGoogleCalendar)
   aria-disabled={disabled ? 'true' : undefined}
   {...tagProps}
 >
-  <slot />
+  {variant === 'cta' ? (
+    <>
+      <span class="relative z-10">
+        <slot />
+      </span>
+      {showArrow && (
+        <svg
+          width="1em"
+          height="1em"
+          viewBox="0 0 24 24"
+          class="w-4 h-4 flex-shrink-0 group-hover/cta:translate-x-1 transition-transform duration-300 relative z-10"
+          aria-hidden="true"
+        >
+          <use href="#ai:mdi:arrow-right"></use>
+        </svg>
+      )}
+      <span class="absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 group-hover/cta:opacity-100 transition-opacity duration-fast"></span>
+    </>
+  ) : (
+    <slot />
+  )}
 </Tag>
 
 

@@ -1,7 +1,7 @@
 import { initSmoothScroll, destroySmoothScroll } from '../smoothScroll';
 import { init as initScrollAnimations, cleanup as cleanupScrollAnimations, refresh as refreshScrollAnimations } from '../utils/scrollReveal';
 import { initScrollProgress, cleanupScrollProgress } from './scrollProgress';
-import { initNavigation, cleanupNavigation } from './navigation';
+import { initNavigation, cleanupNavigation } from '../navigation/index';
 import { initFloatingButton, cleanupFloatingButton } from './floatingButton';
 import { initHeroBackground, cleanupHeroBackground } from '../utils/heroBackground';
 import { initAccordions, cleanupAccordions } from '../utils/accordions';

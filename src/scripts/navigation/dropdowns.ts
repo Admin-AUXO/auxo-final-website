@@ -1,5 +1,5 @@
 import { state, addTrackedListener, clearDropdownTimer, DROPDOWN_LEAVE_DELAY } from './state';
-import { lockScroll, unlockScroll } from './utils';
+import { scrollLock } from './utils';
 
 const autoUpdateCleanups = new Map<HTMLElement, () => void>();
 
@@ -115,7 +115,7 @@ function closeDropdown(dropdown: HTMLElement): void {
   requestAnimationFrame(() => {
     setTimeout(() => {
       if (menu) menu.style.cssText = '';
-      if (isModal) unlockScroll();
+      if (isModal) scrollLock.unlock('dropdown-modal');
       state.isTransitioning = false;
     }, duration);
   });
@@ -136,7 +136,7 @@ function openDropdownMenu(dropdown: HTMLElement): void {
   if (isModal && overlay) {
     overlay.classList.add('open');
     overlay.setAttribute('aria-hidden', 'false');
-    lockScroll();
+    scrollLock.lock('dropdown-modal');
     document.body.classList.add('dropdown-open');
   } else {
     updateDropdownPosition(button, menu);

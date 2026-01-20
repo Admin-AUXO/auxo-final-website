@@ -1,22 +1,15 @@
 ---
-import { Icon } from "astro-icon/components";
 import HighlightText from '@/components/ui/HighlightText.astro';
 import BackgroundDecorations from '@/components/ui/BackgroundDecorations.astro';
-import Button from '@/components/ui/Button.astro';
 import HeroLayout from '@/components/ui/HeroLayout.astro';
+import HeroCTAButton from '@/components/ui/HeroCTAButton.astro';
 import type { ServiceDetail } from '@/data/content/services';
-import { shouldOpenCalendly } from '@/utils/ctaRules';
 
 interface Props {
   service: ServiceDetail;
 }
 
 const { service } = Astro.props;
-const shouldOpenCalendlyBtn = shouldOpenCalendly({
-  text: service.cta.ctaText,
-  href: service.cta.ctaHref,
-  context: 'service'
-});
 ---
 
 <HeroLayout
@@ -78,18 +71,12 @@ const shouldOpenCalendlyBtn = shouldOpenCalendly({
     data-reveal-duration="200"
     data-reveal-easing="ease-out"
   >
-    <div class="hero-cta-container">
-      <Button
-        variant="primary"
-        size="lg"
-        href={shouldOpenCalendlyBtn ? undefined : service.cta.ctaHref}
-        googleCalendar={shouldOpenCalendlyBtn}
-        class="hero-cta-button group/btn"
-      >
-        <span class="whitespace-nowrap">{shouldOpenCalendlyBtn ? "Book a Consultation" : service.cta.ctaText}</span>
-        <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300" />
-      </Button>
-    </div>
+    <HeroCTAButton
+      text={service.cta.ctaText}
+      href={service.cta.ctaHref}
+      context="service"
+      calendlyText="Book a Consultation"
+    />
   </div>
 </HeroLayout>
 

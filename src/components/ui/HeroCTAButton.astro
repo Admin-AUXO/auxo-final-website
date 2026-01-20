@@ -1,0 +1,51 @@
+---
+import { Icon } from "astro-icon/components";
+import Button from "@/components/ui/Button.astro";
+import { createUrl } from "@/utils/url";
+import { shouldOpenCalendly } from "@/utils/ctaRules";
+
+interface Props {
+  text: string;
+  href?: string;
+  context?: 'hero' | 'about' | 'service';
+  calendlyText?: string;
+  variant?: 'primary' | 'secondary' | 'tertiary';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const {
+  text,
+  href = '',
+  context = 'hero',
+  calendlyText,
+  variant = 'primary',
+  size = 'lg',
+  class: className = ''
+} = Astro.props;
+
+const shouldOpenCalendlyBtn = shouldOpenCalendly({
+  text,
+  href,
+  context
+});
+
+const finalText = shouldOpenCalendlyBtn ? (calendlyText || "Schedule a Meeting") : text;
+const finalHref = shouldOpenCalendlyBtn ? undefined : createUrl(href);
+---
+
+<div class="hero-cta-container">
+  <Button
+    variant={variant}
+    size={size}
+    href={finalHref}
+    googleCalendar={shouldOpenCalendlyBtn}
+    class={`hero-cta-button group/btn ${className}`}
+  >
+    <span class="whitespace-nowrap">{finalText}</span>
+    <Icon
+      name="mdi:arrow-right"
+      class="w-4 h-4 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300"
+    />
+  </Button>
+</div>
