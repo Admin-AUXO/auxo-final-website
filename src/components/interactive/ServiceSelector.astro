@@ -1,0 +1,551 @@
+---
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const questions = [
+  {
+    id: 'challenge',
+    question: 'What\'s your biggest data challenge?',
+    options: [
+      { value: 'reporting', label: 'Slow or inaccurate reporting', weight: { foundation: 3, reset: 2 } },
+      { value: 'infrastructure', label: 'Data infrastructure issues', weight: { foundation: 3, engineering: 2 } },
+      { value: 'insights', label: 'Extracting actionable insights', weight: { diagnostics: 3, playbooks: 2 } },
+      { value: 'automation', label: 'Manual processes and inefficiency', weight: { automation: 3, augmented: 2 } },
+    ],
+  },
+  {
+    id: 'maturity',
+    question: 'How would you describe your data maturity?',
+    options: [
+      { value: 'starting', label: 'Just getting started with data', weight: { foundation: 3, engineering: 1 } },
+      { value: 'basic', label: 'Basic reports and dashboards', weight: { reset: 3, diagnostics: 2 } },
+      { value: 'intermediate', label: 'Advanced analytics in place', weight: { forecasting: 3, playbooks: 2 } },
+      { value: 'advanced', label: 'Looking to scale or optimize', weight: { automation: 3, augmented: 2, autonomy: 1 } },
+    ],
+  },
+  {
+    id: 'goal',
+    question: 'What\'s your primary goal?',
+    options: [
+      { value: 'build', label: 'Build data foundations', weight: { foundation: 3, engineering: 2 } },
+      { value: 'improve', label: 'Improve existing systems', weight: { reset: 3, diagnostics: 2 } },
+      { value: 'predict', label: 'Predict future outcomes', weight: { forecasting: 3, augmented: 2 } },
+      { value: 'scale', label: 'Scale with automation', weight: { automation: 3, autonomy: 2 } },
+    ],
+  },
+  {
+    id: 'team',
+    question: 'What\'s your team size?',
+    options: [
+      { value: 'small', label: 'Small team (1-10)', weight: { foundation: 1, reset: 1 } },
+      { value: 'medium', label: 'Medium team (11-50)', weight: { diagnostics: 1, playbooks: 1 } },
+      { value: 'large', label: 'Large team (51-200)', weight: { automation: 1, augmented: 1 } },
+      { value: 'enterprise', label: 'Enterprise (200+)', weight: { autonomy: 1, augmented: 1 } },
+    ],
+  },
+];
+
+const serviceMap = {
+  foundation: {
+    title: 'Foundation Readiness',
+    path: '/services/data-foundations/foundation-readiness',
+    description: 'Build solid data infrastructure from the ground up',
+  },
+  reset: {
+    title: 'Reporting Reset',
+    path: '/services/data-foundations/reporting-reset',
+    description: 'Transform your reporting for accuracy and speed',
+  },
+  engineering: {
+    title: 'Data Engineering',
+    path: '/services/data-engineering',
+    description: 'Scalable pipelines and infrastructure',
+  },
+  diagnostics: {
+    title: 'Performance Diagnostics',
+    path: '/services/data-insights/performance-diagnostics',
+    description: 'Identify and resolve data bottlenecks',
+  },
+  forecasting: {
+    title: 'Forecasting Lab',
+    path: '/services/data-insights/forecasting-lab',
+    description: 'Predict trends with advanced models',
+  },
+  playbooks: {
+    title: 'Decision Playbooks',
+    path: '/services/data-insights/decision-playbooks',
+    description: 'Data-driven decision frameworks',
+  },
+  automation: {
+    title: 'Smart Automation',
+    path: '/services/intelligent-automation/smart-automation',
+    description: 'Automate repetitive data workflows',
+  },
+  augmented: {
+    title: 'Augmented Intelligence',
+    path: '/services/intelligent-automation/augmented-intelligence',
+    description: 'AI-powered analytics assistance',
+  },
+  autonomy: {
+    title: 'Autonomy Readiness',
+    path: '/services/intelligent-automation/autonomy-readiness',
+    description: 'Self-optimizing data systems',
+  },
+};
+---
+
+<div class={`service-selector ${className}`}>
+  <div class="selector-container">
+    <div class="selector-header">
+      <h2 class="selector-title">Find Your Perfect Service</h2>
+      <p class="selector-subtitle">Answer a few questions to discover which service best fits your needs</p>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" data-progress="0"></div>
+    </div>
+
+    <div class="quiz-container">
+      {questions.map((q, index) => (
+        <div class="question-step" data-step={index} style={index === 0 ? '' : 'display: none;'}>
+          <div class="question-number">Question {index + 1} of {questions.length}</div>
+          <h3 class="question-text">{q.question}</h3>
+          <div class="options-grid">
+            {q.options.map((option) => (
+              <button
+                type="button"
+                class="option-button"
+                data-question={q.id}
+                data-value={option.value}
+                data-weights={JSON.stringify(option.weight)}
+              >
+                <span class="option-label">{option.label}</span>
+                <span class="option-icon">→</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div class="results-step" style="display: none;">
+        <div class="results-icon">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="30" stroke="var(--accent-green)" stroke-width="3" fill="none" />
+            <path d="M20 32L28 40L44 24" stroke="var(--accent-green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <h3 class="results-title">We recommend:</h3>
+        <div class="recommended-service">
+          <h4 class="service-title" data-service-title></h4>
+          <p class="service-description" data-service-description></p>
+          <div class="results-actions">
+            <a href="#" class="btn-primary" data-service-link>Learn More</a>
+            <button type="button" class="btn-secondary" data-restart>Start Over</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .service-selector {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+
+  .selector-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border-theme);
+    border-radius: 1.5rem;
+    padding: 3rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .selector-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .selector-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .selector-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .progress-bar {
+    height: 8px;
+    background: var(--bg-surface);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+
+  .question-step {
+    animation: slideIn 0.4s ease;
+  }
+
+  .question-number {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent-green);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .question-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    line-height: 1.3;
+  }
+
+  .options-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .option-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-surface);
+    border: 2px solid var(--border-theme);
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    width: 100%;
+  }
+
+  .option-button:hover {
+    border-color: var(--accent-green);
+    background: var(--bg-card);
+    transform: translateX(4px);
+  }
+
+  .option-button:focus {
+    outline: 2px solid var(--accent-green);
+    outline-offset: 2px;
+  }
+
+  .option-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .option-icon {
+    font-size: 1.25rem;
+    color: var(--accent-green);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.3s ease;
+  }
+
+  .option-button:hover .option-icon {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .results-step {
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+  }
+
+  .results-icon {
+    margin: 0 auto 2rem;
+    animation: scaleIn 0.5s ease;
+  }
+
+  .results-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .recommended-service {
+    background: var(--bg-surface);
+    border: 2px solid var(--accent-green);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .service-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--accent-green);
+    margin-bottom: 1rem;
+  }
+
+  .service-description {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .results-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: var(--accent-green);
+    color: var(--bg-primary);
+    border: 2px solid var(--accent-green);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--accent-green);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 2px solid var(--border-theme);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .selector-container {
+      padding: 2rem 1.5rem;
+    }
+
+    .selector-title {
+      font-size: 1.5rem;
+    }
+
+    .question-text {
+      font-size: 1.25rem;
+    }
+
+    .option-button {
+      padding: 1rem 1.25rem;
+    }
+
+    .results-actions {
+      flex-direction: column;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .question-step,
+    .results-step,
+    .results-icon,
+    .option-button,
+    .progress-fill {
+      animation: none;
+      transition: none;
+    }
+
+    .option-button:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script define:vars={{ serviceMap, questions }}>
+  const state = {
+    currentStep: 0,
+    answers: {},
+    scores: {},
+  };
+
+  function updateProgress() {
+    const progress = ((state.currentStep + 1) / questions.length) * 100;
+    const progressFill = document.querySelector('.progress-fill');
+    if (progressFill) {
+      progressFill.setAttribute('data-progress', progress.toString());
+      progressFill.style.width = `${progress}%`;
+    }
+  }
+
+  function showStep(stepIndex) {
+    const steps = document.querySelectorAll('.question-step');
+    steps.forEach((step, index) => {
+      step.style.display = index === stepIndex ? 'block' : 'none';
+    });
+  }
+
+  function showResults() {
+    document.querySelectorAll('.question-step').forEach(step => {
+      step.style.display = 'none';
+    });
+
+    const topService = Object.entries(state.scores).reduce((a, b) =>
+      (b[1] > a[1] ? b : a)
+    );
+
+    const service = serviceMap[topService[0]];
+    const resultsStep = document.querySelector('.results-step');
+
+    if (resultsStep && service) {
+      resultsStep.style.display = 'block';
+
+      const titleEl = resultsStep.querySelector('[data-service-title]');
+      const descEl = resultsStep.querySelector('[data-service-description]');
+      const linkEl = resultsStep.querySelector('[data-service-link]');
+
+      if (titleEl) titleEl.textContent = service.title;
+      if (descEl) descEl.textContent = service.description;
+      if (linkEl) linkEl.setAttribute('href', service.path);
+
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'quiz_completed', {
+          recommended_service: service.title,
+          answers: JSON.stringify(state.answers),
+        });
+      }
+    }
+  }
+
+  function handleAnswer(questionId, value, weights) {
+    state.answers[questionId] = value;
+
+    Object.entries(weights).forEach(([service, weight]) => {
+      state.scores[service] = (state.scores[service] || 0) + weight;
+    });
+
+    state.currentStep++;
+
+    if (state.currentStep < questions.length) {
+      showStep(state.currentStep);
+      updateProgress();
+
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'quiz_answer', {
+          question: questionId,
+          answer: value,
+          step: state.currentStep,
+        });
+      }
+    } else {
+      showResults();
+    }
+  }
+
+  function restart() {
+    state.currentStep = 0;
+    state.answers = {};
+    state.scores = {};
+
+    showStep(0);
+    updateProgress();
+
+    const resultsStep = document.querySelector('.results-step');
+    if (resultsStep) {
+      resultsStep.style.display = 'none';
+    }
+
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'quiz_restart');
+    }
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('.option-button').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const target = e.currentTarget;
+        const questionId = target.getAttribute('data-question');
+        const value = target.getAttribute('data-value');
+        const weightsStr = target.getAttribute('data-weights');
+
+        if (questionId && value && weightsStr) {
+          try {
+            const weights = JSON.parse(weightsStr);
+            handleAnswer(questionId, value, weights);
+          } catch (error) {
+            console.error('Failed to parse weights:', error);
+          }
+        }
+      });
+    });
+
+    const restartBtn = document.querySelector('[data-restart]');
+    if (restartBtn) {
+      restartBtn.addEventListener('click', restart);
+    }
+
+    updateProgress();
+  });
+</script>

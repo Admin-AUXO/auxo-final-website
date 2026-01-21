@@ -14,28 +14,33 @@ export function getOptimizedImageUrl(
   height?: number,
   quality: number = 80
 ): string {
-  let url = urlFor(source).width(width).quality(quality).auto('format');
-  
+  let url = urlFor(source)
+    .width(width)
+    .quality(quality)
+    .auto('format')
+    .fit('max');
+
   if (height) {
     url = url.height(height);
   }
-  
+
   return url.url();
 }
-
 export function getResponsiveImage(
   source: SanityImageSource,
   widths: number[] = [640, 768, 1024, 1280],
-  aspectRatio?: number
+  aspectRatio?: number,
+  quality: number = 80
 ) {
   const baseUrl = urlFor(source);
-  const quality = 80;
-  
-  const buildSrcset = (format: 'webp' | 'auto') =>
+
+  const buildSrcset = (format: 'avif' | 'webp' | 'auto') =>
     widths
       .map((width) => {
-        let url = baseUrl.width(width).quality(quality);
-        if (format === 'webp') {
+        let url = baseUrl.width(width).quality(quality).fit('max');
+        if (format === 'avif') {
+          url = url.format('avif');
+        } else if (format === 'webp') {
           url = url.format('webp');
         } else {
           url = url.auto('format');
@@ -48,8 +53,9 @@ export function getResponsiveImage(
       .join(', ');
 
   return {
-    src: baseUrl.width(widths[widths.length - 1]).quality(quality).url(),
+    src: baseUrl.width(widths[widths.length - 1]).quality(quality).auto('format').url(),
     srcset: buildSrcset('auto'),
+    srcsetAvif: buildSrcset('avif'),
     srcsetWebP: buildSrcset('webp'),
     sizes: '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 1280px',
   };

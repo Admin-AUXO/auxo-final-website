@@ -373,6 +373,10 @@ function initializeGoogleCalendar(): void {
 
   document.addEventListener('astro:page-load', () => setTimeout(initFunctions, 100), { once: false });
 
+  document.addEventListener('astro:before-preparation', () => {
+    closeCalendarModal();
+  });
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initFunctions, { once: true });
   } else {

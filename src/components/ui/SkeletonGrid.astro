@@ -1,0 +1,52 @@
+---
+import SkeletonCard from './SkeletonCard.astro';
+
+export interface Props {
+  variant?: 'service' | 'team' | 'case-study' | 'blog';
+  count?: number;
+  columns?: number;
+  class?: string;
+}
+
+const {
+  variant = 'service',
+  count = 6,
+  columns = 3,
+  class: className = '',
+} = Astro.props;
+
+const items = Array.from({ length: count }, (_, i) => i);
+---
+
+<div
+  class={`skeleton-grid ${className}`}
+  style={`--columns: ${columns};`}
+  aria-busy="true"
+  aria-label="Loading content..."
+>
+  {items.map(() => (
+    <SkeletonCard variant={variant} />
+  ))}
+</div>
+
+<style>
+  .skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns, 3), 1fr);
+    gap: 2rem;
+    width: 100%;
+  }
+
+  @media (max-width: 1024px) {
+    .skeleton-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .skeleton-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>

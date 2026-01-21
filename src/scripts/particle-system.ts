@@ -65,6 +65,23 @@ const CONSTANTS = {
 } as const;
 
 
+interface DeviceCapabilities {
+  memory: number;
+  cores: number;
+  connectionType: string;
+  batteryLevel?: number;
+  isCharging?: boolean;
+  isLowEnd: boolean;
+}
+
+interface PerformanceMetrics {
+  fps: number;
+  frameCount: number;
+  lastFrameTime: number;
+  lowFpsCount: number;
+  qualityReductionTriggered: boolean;
+}
+
 export class GalaxyParticleSystem {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
@@ -76,7 +93,19 @@ export class GalaxyParticleSystem {
   private resizeObserver: ResizeObserver | null = null;
   private centerX = 0;
   private centerY = 0;
-  
+
+  // Performance monitoring
+  private deviceCapabilities: DeviceCapabilities;
+  private performanceMetrics: PerformanceMetrics = {
+    fps: 60,
+    frameCount: 0,
+    lastFrameTime: performance.now(),
+    lowFpsCount: 0,
+    qualityReductionTriggered: false,
+  };
+  private isDisabled = false;
+  private qualityLevel: 'high' | 'medium' | 'low' = 'high';
+
   private config = {
     starCount: 0,
     accentStarRatio: CONSTANTS.ACCENT_STAR_RATIO,
@@ -100,6 +129,14 @@ export class GalaxyParticleSystem {
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
+    this.deviceCapabilities = this.detectDeviceCapabilities();
+
+    if (this.deviceCapabilities.isLowEnd) {
+      this.isDisabled = true;
+      console.log('[ParticleSystem] Disabled on low-end device:', this.deviceCapabilities);
+      return;
+    }
+
     const context = canvas.getContext('2d', { alpha: true });
     if (!context) {
       throw new Error('Could not get 2D context from canvas');
@@ -111,6 +148,50 @@ export class GalaxyParticleSystem {
     this.setupEventListeners();
     this.createStars();
     this.animate();
+    this.monitorBatteryStatus();
+  }
+
+  private detectDeviceCapabilities(): DeviceCapabilities {
+    // @ts-ignore
+    const memory = navigator.deviceMemory || 4;
+    const cores = navigator.hardwareConcurrency || 4;
+    // @ts-ignore
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const connectionType = connection?.effectiveType || 'unknown';
+    const isLowEnd = memory < 4 || cores < 4 || connectionType === 'slow-2g' || connectionType === '2g';
+
+    return { memory, cores, connectionType, isLowEnd };
+  }
+
+  private async monitorBatteryStatus() {
+    try {
+      // @ts-ignore
+      if ('getBattery' in navigator) {
+        // @ts-ignore
+        const battery = await navigator.getBattery();
+
+        this.deviceCapabilities.batteryLevel = battery.level;
+        this.deviceCapabilities.isCharging = battery.charging;
+
+        if (battery.level < 0.2 && !battery.charging) {
+          console.log('[ParticleSystem] Low battery detected, reducing quality');
+          this.reduceQuality('battery');
+        }
+
+        battery.addEventListener('levelchange', () => {
+          this.deviceCapabilities.batteryLevel = battery.level;
+          if (battery.level < 0.2 && !battery.charging && !this.performanceMetrics.qualityReductionTriggered) {
+            this.reduceQuality('battery');
+          }
+        });
+
+        battery.addEventListener('chargingchange', () => {
+          this.deviceCapabilities.isCharging = battery.charging;
+        });
+      }
+    } catch (error) {
+      console.log('[ParticleSystem] Battery API not supported');
+    }
   }
 
   private initializeConfig() {
@@ -120,20 +201,22 @@ export class GalaxyParticleSystem {
 
     if (isMobile) {
       Object.assign(this.config, {
-        starCount: 80,
+        starCount: 40,
         speed: 0.1,
         rotationSpeed: 0.0001,
         twinkleSpeed: 0.02,
         mouseInfluence: 0.3,
       });
+      this.qualityLevel = 'low';
     } else if (isTablet) {
       Object.assign(this.config, {
-        starCount: 150,
+        starCount: 100,
         speed: 0.15,
         rotationSpeed: 0.00015,
         twinkleSpeed: 0.025,
         mouseInfluence: 0.5,
       });
+      this.qualityLevel = 'medium';
     } else {
       Object.assign(this.config, {
         starCount: 250,
@@ -142,9 +225,55 @@ export class GalaxyParticleSystem {
         twinkleSpeed: 0.03,
         mouseInfluence: 0.8,
       });
+      this.qualityLevel = 'high';
     }
 
+    console.log(`[ParticleSystem] Initialized with ${this.config.starCount} particles (quality: ${this.qualityLevel})`);
     this.updateThemeColors();
+  }
+
+  private reduceQuality(reason: 'fps' | 'battery') {
+    if (this.performanceMetrics.qualityReductionTriggered) return;
+
+    this.performanceMetrics.qualityReductionTriggered = true;
+    const oldCount = this.config.starCount;
+
+    this.config.starCount = Math.floor(this.config.starCount / 2);
+    this.config.speed *= 0.7;
+    this.config.rotationSpeed *= 0.7;
+    this.config.twinkleSpeed *= 0.7;
+    this.stars = this.stars.slice(0, this.config.starCount);
+
+    console.log(
+      `[ParticleSystem] Quality reduced due to ${reason}:`,
+      `${oldCount} → ${this.config.starCount} particles`,
+      this.deviceCapabilities
+    );
+  }
+
+  private monitorPerformance() {
+    const now = performance.now();
+    const deltaTime = now - this.performanceMetrics.lastFrameTime;
+    this.performanceMetrics.lastFrameTime = now;
+
+    if (deltaTime > 0) {
+      this.performanceMetrics.fps = 1000 / deltaTime;
+      this.performanceMetrics.frameCount++;
+
+      if (this.performanceMetrics.fps < 30) {
+        this.performanceMetrics.lowFpsCount++;
+
+        if (this.performanceMetrics.lowFpsCount > 90 && !this.performanceMetrics.qualityReductionTriggered) {
+          this.reduceQuality('fps');
+        }
+      } else {
+        this.performanceMetrics.lowFpsCount = 0;
+      }
+
+      if (this.performanceMetrics.frameCount % 300 === 0) {
+        console.log(`[ParticleSystem] FPS: ${Math.round(this.performanceMetrics.fps)}, Quality: ${this.qualityLevel}`);
+      }
+    }
   }
 
   private updateThemeColors() {
@@ -575,6 +704,14 @@ export class GalaxyParticleSystem {
   }
 
   private animate() {
+    // Skip animation if disabled
+    if (this.isDisabled) {
+      return;
+    }
+
+    // Monitor performance and trigger quality reduction if needed
+    this.monitorPerformance();
+
     this.updateStars();
     this.draw();
     this.animationId = requestAnimationFrame(() => this.animate());

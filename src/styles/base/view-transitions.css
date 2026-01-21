@@ -1,0 +1,155 @@
+/* View Transitions API */
+::view-transition-group(*) {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+::view-transition-old(main-content),
+::view-transition-new(main-content) {
+  animation-duration: 0.3s;
+}
+
+
+::view-transition-old(main-content) {
+  animation-name: fade-out;
+}
+
+::view-transition-new(main-content) {
+  animation-name: fade-in;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+::view-transition-old(slide-page) {
+  animation-name: slide-out-left;
+}
+
+::view-transition-new(slide-page) {
+  animation-name: slide-in-right;
+}
+
+@keyframes slide-out-left {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+
+::view-transition-old(card),
+::view-transition-new(card) {
+  animation-duration: 0.4s;
+}
+
+::view-transition-old(card) {
+  animation-name: scale-down;
+}
+
+::view-transition-new(card) {
+  animation-name: scale-up;
+}
+
+@keyframes scale-down {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+}
+
+@keyframes scale-up {
+  from {
+    transform: scale(1.05);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+::view-transition-old(navigation),
+::view-transition-new(navigation) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+
+header {
+  view-transition-name: navigation;
+}
+
+
+main {
+  view-transition-name: main-content;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+
+@supports not (view-transition-name: none) {
+  html.transitioning {
+    opacity: 0.95;
+    transition: opacity 0.2s ease;
+  }
+}
+
+
+html.transitioning {
+  cursor: progress;
+}
+
+
+.preserve-scroll {
+  view-transition-name: preserve-scroll;
+}
+
+::view-transition-old(preserve-scroll),
+::view-transition-new(preserve-scroll) {
+  animation: none;
+  height: 100%;
+}

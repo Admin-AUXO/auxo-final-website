@@ -1,9 +1,10 @@
 import emailjs from '@emailjs/browser';
 import { env } from '@/config/env';
-import { validateContactForm, getFormData, showFieldError, hideFieldError } from './validation';
+import { validateContactForm, getFormData, showFieldError, hideFieldError, showFieldSuccess, hideFieldSuccess } from './validation';
 import { showSuccess, showError } from '@/scripts/utils/notifications';
 import { trackFormSubmission, trackFormStart, trackFormAbandonment } from '@/scripts/analytics/ga4';
 import { logger } from '@/lib/logger';
+import { DraftManager } from './draftManager';
 
 const EMAILJS_CONFIG = env.emailjs;
 
@@ -86,10 +87,24 @@ export async function handleContactFormSubmit(event: Event) {
     if (response.status === 200) {
       lastSubmitTime = now;
       showSuccess('Message sent successfully! We\'ll get back to you soon.');
+
+      // Clear draft after successful submission
+      const draftManager = (form as any)._draftManager as DraftManager | undefined;
+      if (draftManager) {
+        draftManager.clearDraft();
+      }
+
       form.reset();
       form.querySelectorAll('input, textarea').forEach((input) => {
         hideFieldError(input as HTMLInputElement | HTMLTextAreaElement);
+        hideFieldSuccess(input as HTMLInputElement | HTMLTextAreaElement);
       });
+
+      // Reset character counter
+      const messageCounter = document.getElementById('message-counter');
+      if (messageCounter) {
+        messageCounter.textContent = '0/500';
+      }
 
       trackFormSubmission({
         formName: 'Contact Form',
@@ -118,6 +133,13 @@ export function addRealTimeValidation(form: HTMLFormElement) {
   let fieldsFilled = 0;
   let formAbandoned = false;
 
+  // Initialize draft manager
+  const draftManager = new DraftManager(form, 'contact-form');
+  draftManager.init();
+
+  // Store reference to draft manager on form for cleanup
+  (form as any)._draftManager = draftManager;
+
   const trackFormInteraction = () => {
     if (!formStartTracked) {
       trackFormStart('Contact Form', window.location.pathname);
@@ -136,6 +158,29 @@ export function addRealTimeValidation(form: HTMLFormElement) {
     window.addEventListener('beforeunload', trackAbandonment);
   }
 
+  // Setup character counter for message field
+  const messageField = form.querySelector('#message') as HTMLTextAreaElement;
+  const messageCounter = document.getElementById('message-counter');
+
+  if (messageField && messageCounter) {
+    const updateCounter = () => {
+      const length = messageField.value.length;
+      const maxLength = 500;
+      messageCounter.textContent = `${length}/${maxLength}`;
+
+      // Change color when approaching limit
+      if (length > maxLength * 0.9) {
+        messageCounter.classList.add('text-accent-green', 'font-bold');
+        messageCounter.classList.remove('text-theme-tertiary');
+      } else {
+        messageCounter.classList.remove('text-accent-green', 'font-bold');
+        messageCounter.classList.add('text-theme-tertiary');
+      }
+    };
+
+    messageField.addEventListener('input', updateCounter);
+  }
+
   form.querySelectorAll('input, textarea').forEach((input) => {
     const element = input as HTMLInputElement | HTMLTextAreaElement;
 
@@ -143,8 +188,17 @@ export function addRealTimeValidation(form: HTMLFormElement) {
       const fieldName = element.name;
       const value = element.value;
 
+      // Company is optional, don't validate if empty
       if (fieldName === 'company' && !value) {
         hideFieldError(element);
+        hideFieldSuccess(element);
+        return;
+      }
+
+      // Don't validate if field is empty (except on blur)
+      if (!value && element !== document.activeElement) {
+        hideFieldError(element);
+        hideFieldSuccess(element);
         return;
       }
 
@@ -155,11 +209,20 @@ export function addRealTimeValidation(form: HTMLFormElement) {
         const fieldError = validation.error.errors.find((error) => error.path[0] === fieldName);
         if (fieldError) {
           showFieldError(element, fieldError.message);
+          hideFieldSuccess(element);
         } else {
+          // Field is valid
           hideFieldError(element);
+          if (value) {
+            showFieldSuccess(element);
+          }
         }
       } else {
+        // All form is valid, show success for this field if it has a value
         hideFieldError(element);
+        if (value) {
+          showFieldSuccess(element);
+        }
       }
     }, 500);
 
@@ -173,7 +236,10 @@ export function addRealTimeValidation(form: HTMLFormElement) {
     });
 
     element.addEventListener('input', () => {
+      // Remove error immediately on input
       hideFieldError(element);
+
+      // Validate field after debounce
       validateField();
     });
   });

@@ -47,14 +47,20 @@ const labelBaseClass = "block text-sm font-bold text-theme-primary mb-2 font-bod
     </div>
 
     <div>
-      <label for="message" class={labelBaseClass}>
-        Message <span class="text-accent-green">*</span>
-      </label>
+      <div class="flex items-center justify-between mb-2">
+        <label for="message" class={labelBaseClass + " mb-0"}>
+          Message <span class="text-accent-green">*</span>
+        </label>
+        <span id="message-counter" class="text-xs text-theme-tertiary font-mono font-body" aria-live="polite">
+          0/500
+        </span>
+      </div>
       <textarea
         id="message"
         name="message"
         required
         rows="4"
+        maxlength="500"
         class={`${inputBaseClass} resize-y min-h-[var(--textarea-min-height)]`}
         placeholder="Tell us about your project or challenge..."
       ></textarea>

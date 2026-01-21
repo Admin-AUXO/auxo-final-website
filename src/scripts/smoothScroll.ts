@@ -81,15 +81,29 @@ export function initSmoothScroll() {
 
   isMobile = isMobileDevice();
 
+  if (isMobile) {
+    console.log('[SmoothScroll] Mobile detected, using native smooth scroll');
+    setupAnchorLinks();
+
+    if (pageLoadHandler) {
+      document.removeEventListener('astro:page-load', pageLoadHandler);
+    }
+    pageLoadHandler = handleHashNavigation;
+    document.addEventListener('astro:page-load', pageLoadHandler);
+
+    document.documentElement.style.scrollBehavior = 'smooth';
+    return;
+  }
+
   lenis = new Lenis({
-    duration: isMobile ? 0.8 : 1.0,
+    duration: 1.0,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
     smoothWheel: true,
-    wheelMultiplier: isMobile ? 1.2 : 1.5,
+    wheelMultiplier: 1.5,
     syncTouch: true,
-    touchMultiplier: isMobile ? 1.8 : 2.0,
+    touchMultiplier: 2.0,
     infinite: false,
   });
 
@@ -181,6 +195,10 @@ export function destroySmoothScroll() {
     if (typeof window !== 'undefined') {
       delete (window as any).__lenis;
     }
+  }
+
+  if (isMobile) {
+    document.documentElement.style.scrollBehavior = '';
   }
 
   anchorClickHandlers.forEach(({ anchor, handler }) => {

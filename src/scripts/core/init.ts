@@ -9,22 +9,13 @@ import { cleanupAllCarousels } from '../utils/carousels';
 import { autoInitCarousels } from '../sections/autoInit';
 import { forceUnlockScroll } from '../navigation/utils';
 import { initWebVitals } from '../utils/webVitals';
-import { initGA4Tracking } from '../analytics/ga4';
-import { initInteractionTracking } from '../analytics/navigationTracking';
-import { initEnhancedTracking } from '../analytics/enhancedTracking';
-import { initUTMTracking } from '../analytics/utmTracking';
-import { initIdentifiers } from '../analytics/identifiers';
-import { initAdvancedEngagement } from '../analytics/advancedEngagement';
-import { initFormAnalytics } from '../analytics/formAnalytics';
+import { initConditionalAnalytics, cleanupConditionalAnalytics } from '../analytics/conditionalLoader';
+import { initKeyboardNavigation, cleanupKeyboardNavigation } from '../utils/keyboardNavigation';
+import { registerServiceWorker } from './serviceWorker';
 import { logger } from '@/lib/logger';
 
 let isInitialized = false;
 let lazyLoadingObserver: IntersectionObserver | null = null;
-let ga4Cleanup: (() => void) | null = null;
-let interactionCleanup: (() => void) | null = null;
-let enhancedTrackingCleanup: (() => void) | null = null;
-let advancedEngagementTracker: any = null;
-let formAnalyticsTracker: any = null;
 
 function initLazyLoading(): void {
   if (lazyLoadingObserver) {
@@ -107,6 +98,7 @@ export function initCoreFeatures(): void {
 
   const runCriticalInit = () => {
     try {
+      initKeyboardNavigation();
       initSmoothScroll();
       initScrollProgress();
       initNavigation();
@@ -121,19 +113,8 @@ export function initCoreFeatures(): void {
     try {
       initFloatingButton();
       initAccordions();
-
-      // Initialize UTM tracking first to capture parameters
-      initIdentifiers();
-      initUTMTracking();
-
-      ga4Cleanup = initGA4Tracking();
-      interactionCleanup = initInteractionTracking();
-
-      const { cleanup } = initEnhancedTracking();
-      enhancedTrackingCleanup = cleanup;
-
-      advancedEngagementTracker = initAdvancedEngagement();
-      formAnalyticsTracker = initFormAnalytics();
+      initConditionalAnalytics();
+      registerServiceWorker();
 
       setTimeout(() => {
         try {
@@ -248,31 +229,8 @@ export function cleanupCoreFeatures(): void {
   cleanupAllCarousels();
   cleanupLazyLoading();
   destroySmoothScroll();
-
-  if (ga4Cleanup) {
-    ga4Cleanup();
-    ga4Cleanup = null;
-  }
-
-  if (interactionCleanup) {
-    interactionCleanup();
-    interactionCleanup = null;
-  }
-
-  if (enhancedTrackingCleanup) {
-    enhancedTrackingCleanup();
-    enhancedTrackingCleanup = null;
-  }
-
-  if (advancedEngagementTracker) {
-    advancedEngagementTracker.destroy();
-    advancedEngagementTracker = null;
-  }
-
-  if (formAnalyticsTracker) {
-    formAnalyticsTracker.destroy();
-    formAnalyticsTracker = null;
-  }
+  cleanupConditionalAnalytics();
+  cleanupKeyboardNavigation();
 
   isInitialized = false;
 }

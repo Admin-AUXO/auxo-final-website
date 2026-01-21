@@ -62,6 +62,10 @@ class ScrollLockService {
     if (this.getTotalLocks() === 1) {
       this.applyLock();
     }
+
+    if (typeof window !== 'undefined' && (window as any).__DEBUG_SCROLL_LOCK) {
+      console.log(`[ScrollLock] Lock acquired by "${id}" (count: ${currentCount + 1}, total: ${this.getTotalLocks()})`);
+    }
   }
 
   unlock(id: string): void {
@@ -78,6 +82,10 @@ class ScrollLockService {
 
     if (this.getTotalLocks() === 0) {
       this.removeLock();
+    }
+
+    if (typeof window !== 'undefined' && (window as any).__DEBUG_SCROLL_LOCK) {
+      console.log(`[ScrollLock] Lock released by "${id}" (was: ${currentCount}, now: ${currentCount > 0 ? currentCount - 1 : 0}, total: ${this.getTotalLocks()})`);
     }
   }
 
@@ -108,6 +116,17 @@ class ScrollLockService {
 }
 
 export const scrollLock = new ScrollLockService();
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeunload', () => {
+    scrollLock.forceUnlockAll();
+  });
+
+  document.addEventListener('astro:before-preparation', () => {
+    scrollLock.forceUnlockAll();
+  });
+}
+
 export function lockScroll(): void {
   scrollLock.lock('legacy');
 }
@@ -118,4 +137,25 @@ export function unlockScroll(): void {
 
 export function forceUnlockScroll(): void {
   scrollLock.forceUnlockAll();
+}
+
+if (typeof window !== 'undefined') {
+  (window as any).__debugScrollLock = () => {
+    const locks = scrollLock.getActiveLocks();
+    const isLocked = scrollLock.isLocked();
+    console.log('[ScrollLock Debug]', {
+      isLocked,
+      activeLocks: locks,
+      totalLocks: locks.length,
+      bodyClasses: Array.from(document.body.classList),
+      bodyOverflow: document.body.style.overflow,
+      htmlOverflow: document.documentElement.style.overflow,
+    });
+    return { isLocked, activeLocks: locks };
+  };
+
+  (window as any).__forceUnlockScroll = () => {
+    console.log('[ScrollLock] Forcing unlock of all scroll locks');
+    scrollLock.forceUnlockAll();
+  };
 }

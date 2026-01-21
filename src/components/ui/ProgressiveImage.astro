@@ -1,0 +1,98 @@
+---
+import { getResponsiveImage } from '@/lib/sanity/image';
+import type { SanityImageSource } from '@sanity/image-url';
+
+export interface Props {
+  src: SanityImageSource;
+  alt: string;
+  widths?: number[];
+  aspectRatio?: number;
+  quality?: number;
+  priority?: boolean;
+  class?: string;
+  sizes?: string;
+}
+
+const {
+  src,
+  alt,
+  widths = [640, 768, 1024, 1280],
+  aspectRatio,
+  quality = 80,
+  priority = false,
+  class: className = '',
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 1280px',
+} = Astro.props;
+
+const responsive = getResponsiveImage(src, widths, aspectRatio, quality);
+
+const lqipWidth = 20;
+const lqipQuality = 30;
+const lqip = getResponsiveImage(src, [lqipWidth], aspectRatio, lqipQuality);
+
+const loadingStrategy = priority ? 'eager' : 'lazy';
+---
+
+<div class={`progressive-image-container ${className}`}>
+  <picture>
+    <source
+      type="image/avif"
+      srcset={responsive.srcsetAvif}
+      sizes={sizes}
+    />
+    <source
+      type="image/webp"
+      srcset={responsive.srcsetWebP}
+      sizes={sizes}
+    />
+    <img
+      src={responsive.src}
+      srcset={responsive.srcset}
+      sizes={sizes}
+      alt={alt}
+      loading={loadingStrategy}
+      decoding="async"
+      class="progressive-image"
+      style={`background-image: url('${lqip.src}'); background-size: cover;`}
+    />
+  </picture>
+</div>
+
+<style>
+  .progressive-image-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progressive-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: blur(20px);
+    transform: scale(1.1);
+    transition: filter 0.3s ease-out, transform 0.3s ease-out;
+  }
+
+  .progressive-image.loaded {
+    filter: blur(0);
+    transform: scale(1);
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const images = document.querySelectorAll('.progressive-image');
+
+    images.forEach((img) => {
+      if (img instanceof HTMLImageElement) {
+        if (img.complete) {
+          img.classList.add('loaded');
+        } else {
+          img.addEventListener('load', () => {
+            img.classList.add('loaded');
+          }, { once: true });
+        }
+      }
+    });
+  });
+</script>

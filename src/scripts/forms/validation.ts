@@ -27,7 +27,7 @@ export const contactFormSchema = z.object({
   message: z
     .string()
     .min(20, 'Message must be at least 20 characters')
-    .max(2000, 'Message must be less than 2000 characters'),
+    .max(500, 'Message must be less than 500 characters'),
 });
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;
@@ -79,5 +79,35 @@ export function hideFieldError(input: HTMLInputElement | HTMLTextAreaElement) {
 
 export function showFieldSuccess(input: HTMLInputElement | HTMLTextAreaElement) {
   hideFieldError(input);
+  input.classList.remove('border-accent-green/20', 'border-red-500');
   input.classList.add('border-accent-green', 'focus:border-accent-green');
+  input.parentElement?.querySelector('.validation-success')?.remove();
+
+  const successElement = document.createElement('div');
+  successElement.className = 'validation-success absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center';
+  successElement.innerHTML = `
+    <svg class="w-5 h-5 text-accent-green animate-scale-in" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+    </svg>
+  `;
+
+  const parent = input.parentElement;
+  if (parent) {
+    if (!parent.style.position) {
+      parent.style.position = 'relative';
+    }
+
+    if (input.tagName === 'TEXTAREA') {
+      successElement.style.top = '50px';
+      successElement.style.transform = 'none';
+    }
+
+    parent.appendChild(successElement);
+  }
+}
+
+export function hideFieldSuccess(input: HTMLInputElement | HTMLTextAreaElement) {
+  input.classList.remove('border-accent-green');
+  input.classList.add('border-accent-green/20');
+  input.parentElement?.querySelector('.validation-success')?.remove();
 }

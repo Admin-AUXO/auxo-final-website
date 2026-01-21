@@ -1,0 +1,96 @@
+---
+import { getOptimizedImageUrl } from '@/lib/sanity/image';
+import type { SanityImageSource } from '@sanity/image-url';
+
+export interface Props {
+  src: SanityImageSource | string;
+  alt: string;
+  width: number;
+  height?: number;
+  quality?: number;
+  priority?: boolean;
+  class?: string;
+  objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  objectPosition?: string;
+  loading?: 'lazy' | 'eager';
+  decoding?: 'async' | 'sync' | 'auto';
+  sizes?: string;
+  [key: string]: any;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  quality = 80,
+  priority = false,
+  class: className = '',
+  objectFit = 'cover',
+  objectPosition = 'center',
+  loading,
+  decoding = 'async',
+  sizes,
+  ...rest
+} = Astro.props;
+
+const isSanityImage = typeof src === 'object' || (typeof src === 'string' && src.includes('sanity'));
+let imageUrl: string;
+let srcset: string = '';
+
+if (isSanityImage) {
+  imageUrl = getOptimizedImageUrl(src, width, height, quality);
+  const imageUrl2x = getOptimizedImageUrl(src, width * 2, height ? height * 2 : undefined, quality);
+  srcset = `${imageUrl} 1x, ${imageUrl2x} 2x`;
+} else {
+  imageUrl = src as string;
+}
+
+const loadingStrategy = loading || (priority ? 'eager' : 'lazy');
+const sizesAttr = sizes || `(max-width: ${width}px) 100vw, ${width}px`;
+const aspectRatio = height ? width / height : undefined;
+const paddingBottom = aspectRatio ? `${(1 / aspectRatio) * 100}%` : undefined;
+---
+
+<div
+  class={`optimized-image-container ${className}`}
+  style={paddingBottom ? `position: relative; padding-bottom: ${paddingBottom};` : undefined}
+>
+  <img
+    src={imageUrl}
+    srcset={srcset || undefined}
+    sizes={isSanityImage ? sizesAttr : undefined}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loadingStrategy}
+    decoding={decoding}
+    style={`object-fit: ${objectFit}; object-position: ${objectPosition};` + (paddingBottom ? ' position: absolute; top: 0; left: 0; width: 100%; height: 100%;' : '')}
+    {...rest}
+  />
+</div>
+
+<style>
+  .optimized-image-container {
+    overflow: hidden;
+  }
+
+  .optimized-image-container img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .optimized-image-container[style*="padding-bottom"] {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .optimized-image-container[style*="padding-bottom"] img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>

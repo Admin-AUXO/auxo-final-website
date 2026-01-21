@@ -1,0 +1,336 @@
+---
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const stats = [
+  { value: '500+', label: 'Data Pipelines Built', suffix: '' },
+  { value: '98', label: 'Client Satisfaction', suffix: '%' },
+  { value: '50M+', label: 'Records Processed Daily', suffix: '' },
+  { value: '15+', label: 'Years Combined Experience', suffix: '' },
+];
+
+const certifications = [
+  { name: 'AWS Partner', logo: '/images/certifications/aws-partner.svg', url: 'https://aws.amazon.com/partners/' },
+  { name: 'Snowflake Partner', logo: '/images/certifications/snowflake-partner.svg', url: 'https://www.snowflake.com/en/data-cloud/partners/' },
+  { name: 'Databricks Partner', logo: '/images/certifications/databricks-partner.svg', url: 'https://www.databricks.com/partners' },
+  { name: 'ISO 27001 Certified', logo: '/images/certifications/iso-27001.svg', url: 'https://www.iso.org/isoiec-27001-information-security.html' },
+];
+---
+
+<section class={`trust-section ${className}`}>
+  <div class="container">
+    <div class="section-header" data-reveal="fade-up">
+      <h2 class="section-title">Trusted by Organizations Worldwide</h2>
+      <p class="section-subtitle">
+        Delivering enterprise-grade analytics solutions with proven results
+      </p>
+    </div>
+
+    <div class="stats-grid">
+      {stats.map((stat, index) => (
+        <div class="stat-card" data-reveal="fade-up" data-reveal-delay={index * 100}>
+          <div class="stat-value" data-count-up data-target={stat.value.replace(/\D/g, '')}>
+            0{stat.suffix}
+          </div>
+          <div class="stat-label">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="certifications-section">
+      <h3 class="certifications-title" data-reveal="fade-up">Partnerships & Certifications</h3>
+      <div class="certifications-grid">
+        {certifications.map((cert, index) => (
+          <a
+            href={cert.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="certification-card"
+            data-reveal="fade-up"
+            data-reveal-delay={200 + index * 100}
+            aria-label={cert.name}
+          >
+            <img
+              src={cert.logo}
+              alt={cert.name}
+              class="certification-logo"
+              loading="lazy"
+              width="120"
+              height="60"
+            />
+            <span class="certification-name">{cert.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust-section {
+    padding: 6rem 0;
+    background: var(--bg-surface);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trust-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-theme), transparent);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    margin-bottom: 5rem;
+  }
+
+  .stat-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-theme);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(163, 230, 53, 0.15);
+    border-color: var(--accent-green);
+  }
+
+  .stat-value {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--accent-green);
+    font-family: var(--font-mono);
+    margin-bottom: 0.75rem;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .certifications-section {
+    padding-top: 3rem;
+    border-top: 1px solid var(--border-theme);
+  }
+
+  .certifications-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: var(--text-primary);
+  }
+
+  .certifications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .certification-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-theme);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    min-height: 160px;
+  }
+
+  .certification-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-green);
+    box-shadow: 0 8px 24px rgba(163, 230, 53, 0.1);
+  }
+
+  .certification-logo {
+    max-width: 120px;
+    height: 60px;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(0.7);
+    transition: filter 0.3s ease;
+  }
+
+  .certification-card:hover .certification-logo {
+    filter: grayscale(0%) opacity(1);
+  }
+
+  .certification-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    transition: color 0.3s ease;
+  }
+
+  .certification-card:hover .certification-name {
+    color: var(--accent-green);
+  }
+
+  @media (max-width: 768px) {
+    .trust-section {
+      padding: 4rem 0;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      padding: 1.5rem 1rem;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+    }
+
+    .certifications-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .certification-card {
+      padding: 1.5rem 1rem;
+      min-height: 140px;
+    }
+
+    .certification-logo {
+      max-width: 100px;
+      height: 50px;
+    }
+
+    .certification-name {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stat-card,
+    .certification-card {
+      transition: none;
+    }
+
+    .stat-card:hover,
+    .certification-card:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  function animateCounter(element: Element, target: string, duration: number = 2000) {
+    const hasPlus = target.includes('+');
+    const hasM = target.includes('M');
+    const numericTarget = parseInt(target.replace(/\D/g, ''), 10);
+
+    if (isNaN(numericTarget)) return;
+
+    const startTime = performance.now();
+    const suffix = element.textContent?.match(/[%+M]/g)?.join('') || '';
+
+    function update(currentTime: number) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const current = Math.floor(numericTarget * easeOutQuart);
+
+      let displayValue = current.toString();
+      if (hasM && current >= 1) {
+        displayValue = current + 'M';
+      }
+      if (hasPlus) {
+        displayValue += '+';
+      }
+
+      element.textContent = displayValue + (suffix.includes('%') ? '%' : '');
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        element.textContent = target;
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const counters = entry.target.querySelectorAll('[data-count-up]');
+
+          counters.forEach((counter, index) => {
+            const target = counter.getAttribute('data-target');
+            if (target) {
+              setTimeout(() => {
+                animateCounter(counter, target);
+              }, index * 100);
+            }
+          });
+
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    const trustSection = document.querySelector('.trust-section');
+    if (trustSection) {
+      observer.observe(trustSection);
+    }
+  });
+</script>

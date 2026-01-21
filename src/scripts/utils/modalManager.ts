@@ -201,6 +201,8 @@ class ModalInstanceImpl implements ModalInstance {
   open(): void {
     if (!this.modal || this.isDestroyed) return;
 
+    if (this.isOpen()) return;
+
     this.manager._setActiveModal(this);
 
     if (this.config.scrollLock !== false) lockScroll();
@@ -218,6 +220,8 @@ class ModalInstanceImpl implements ModalInstance {
 
   close(): void {
     if (!this.modal || this.isDestroyed) return;
+
+    if (!this.isOpen()) return;
 
     this.manager._setActiveModal(null);
 
