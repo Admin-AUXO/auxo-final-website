@@ -5,14 +5,12 @@ import FooterContactInfo from "./FooterContactInfo.astro";
 import FooterSocialLinks from "./FooterSocialLinks.astro";
 import { getFooterContent } from "@/lib/sanity/data";
 import { getBaseUrl, createUrl } from "@/utils/url";
-import { getLanguageFromUrl } from "@/i18n";
 
 const base = getBaseUrl();
-const lang = getLanguageFromUrl(Astro.url);
 const currentYear = new Date().getFullYear();
 const privacyUrl = createUrl("legal/privacy-policy");
 
-const { sections } = await getFooterContent(lang);
+const { sections } = await getFooterContent();
 const footerSections = sections.map(({ _key, ...section }) => ({
   ...section,
   links: section.links.map(({ _key: linkKey, ...link }) => link),

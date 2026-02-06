@@ -11,12 +11,9 @@ import PartnershipSection from "@/components/sections/about/PartnershipSection.a
 import GlobalSection from "@/components/sections/about/GlobalSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
 import { getAboutContent } from "@/lib/sanity/data";
-import { getLanguageFromUrl } from "@/i18n";
-
-const lang = getLanguageFromUrl(Astro.url);
 
 const [aboutContent, siteData] = await Promise.all([
-  getAboutContent(lang),
+  getAboutContent(),
   getSiteConfigData(),
 ]);
 

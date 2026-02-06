@@ -11,12 +11,9 @@ import TechStackSection from "@/components/sections/home/TechStackSection.astro"
 import FinalCta from "@/components/sections/home/FinalCta.astro";
 import ParticleBackground from "@/components/effects/ParticleBackground.astro";
 import { getHomepageContent } from "@/lib/sanity/data";
-import { getLanguageFromUrl } from "@/i18n";
-
-const lang = getLanguageFromUrl(Astro.url);
 
 const [homepageContent, siteData] = await Promise.all([
-  getHomepageContent(lang),
+  getHomepageContent(),
   getSiteConfigData(),
 ]);
 

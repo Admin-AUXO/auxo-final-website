@@ -8,12 +8,9 @@ import ImpactSection from "@/components/sections/services/ImpactSection.astro";
 import ModelsSection from "@/components/sections/services/ModelsSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
 import { getServicesContent } from "@/lib/sanity/data";
-import { getLanguageFromUrl } from "@/i18n";
-
-const lang = getLanguageFromUrl(Astro.url);
 
 const [servicesContent, siteData] = await Promise.all([
-  getServicesContent(lang),
+  getServicesContent(),
   getSiteConfigData(),
 ]);
 
