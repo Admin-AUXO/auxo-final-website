@@ -1,5 +1,6 @@
 ---
 import { getSiteConfigData } from "@/lib/sanity/siteConfig";
+import { getLanguageFromUrl } from "@/i18n";
 
 import Navigation from "@/components/common/Navigation.astro";
 import Footer from "@/components/common/Footer.astro";
@@ -14,6 +15,7 @@ import "@/styles/base/reset.css";
 import "@/styles/base.css";
 import "@/styles/global.css";
 import "@/styles/features/tab-engagement.css";
+import "@/styles/base/rtl.css";
 
 export interface Props {
   title?: string;
@@ -21,6 +23,9 @@ export interface Props {
 }
 
 const { title, description } = Astro.props;
+
+const lang = getLanguageFromUrl(Astro.url);
+const dir = lang === 'ar' ? 'rtl' : 'ltr';
 
 const siteData = await getSiteConfigData();
 const pageTitle = title || siteData.name;
@@ -351,7 +356,7 @@ const faqSchema = {
 ---
 
 <!doctype html>
-<html lang="en" class="dark scrollbar-hide">
+<html lang={lang} dir={dir} class="dark scrollbar-hide">
   <head>
     <MetaTags
       title={pageTitle}

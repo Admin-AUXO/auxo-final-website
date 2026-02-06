@@ -1,0 +1,54 @@
+---
+import ServiceLayout from "@/layouts/ServiceLayout.astro";
+import ServiceHeroSection from "@/components/sections/services/ServiceHeroSection.astro";
+import ServiceOverviewSection from "@/components/sections/services/ServiceOverviewSection.astro";
+import ServiceBenefitsSection from "@/components/sections/services/ServiceBenefitsSection.astro";
+import ServiceProcessSection from "@/components/sections/services/ServiceProcessSection.astro";
+import ServiceOutcomesSection from "@/components/sections/services/ServiceOutcomesSection.astro";
+import CtaSection from "@/components/sections/common/CtaSection.astro";
+import { getServicesContent, getServiceDetailBySlug } from "@/lib/sanity/data";
+import { getLanguageFromUrl } from "@/i18n";
+
+export async function getStaticPaths() {
+  const servicesContent = await getServicesContent('ar');
+  return servicesContent.details.map((service) => ({
+    params: { slug: service.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return new Response(null, { status: 404, statusText: "Service not found" });
+}
+
+const lang = getLanguageFromUrl(Astro.url);
+const service = await getServiceDetailBySlug(slug, lang);
+
+if (!service) {
+  return new Response(null, { status: 404, statusText: "Service not found" });
+}
+---
+
+<ServiceLayout title={`${service.name} | AUXO Data Labs`} description={service.hero.description} serviceName={service.name}>
+  <ServiceHeroSection service={service} slot="hero" />
+  <ServiceOverviewSection service={service} slot="overview" />
+  <ServiceBenefitsSection service={service} slot="benefits" />
+  <ServiceProcessSection service={service} slot="process" />
+  <ServiceOutcomesSection service={service} slot="outcomes" />
+  <CtaSection
+    id="service-cta"
+    title={service.cta.title}
+    titleHighlight={service.cta.title.split(' ').slice(-3)}
+    description={service.cta.description}
+    descriptionHighlight={service.cta.descriptionHighlight}
+    ctaText={service.cta.ctaText}
+    ctaHref={service.cta.ctaHref}
+    variant="elevated"
+    background="elevated"
+    maxWidth="4xl"
+    additionalInfo="هل أنت مستعد لمناقشة احتياجاتك المحددة؟ يستجيب فريقنا عادةً خلال 24 ساعة."
+    class="service-cta-section"
+    slot="cta"
+  />
+</ServiceLayout>

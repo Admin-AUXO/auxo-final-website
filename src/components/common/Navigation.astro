@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from "@/components/ui/ThemeToggle.astro";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher.astro";
 import Logo from "./Logo.astro";
 import NavLink from "@/components/navigation/NavLink.astro";
 import NavDropdown from "@/components/navigation/NavDropdown.astro";
@@ -7,12 +8,14 @@ import Button from "@/components/ui/Button.astro";
 import { getNavigationContent } from "@/lib/sanity/data";
 import { getSiteConfigData } from "@/lib/sanity/siteConfig";
 import { getBaseUrl, createUrl } from "@/utils/url";
+import { getLanguageFromUrl } from "@/i18n";
 
 const base = getBaseUrl();
+const lang = getLanguageFromUrl(Astro.url);
 const contactUrl = createUrl("contact");
 
 const [{ items }, siteData] = await Promise.all([
-  getNavigationContent(),
+  getNavigationContent(lang),
   getSiteConfigData(),
 ]);
 const navItems = items.map(({ _key, ...item }) => ({
@@ -36,8 +39,9 @@ const navItems = items.map(({ _key, ...item }) => ({
             <NavLink item={item} />
           )
         )}
-        <div class="ml-2">
+        <div class="flex items-center gap-2 ml-2">
           <ThemeToggle />
+          <LanguageSwitcher />
         </div>
         <Button
           variant="cta"
@@ -50,8 +54,9 @@ const navItems = items.map(({ _key, ...item }) => ({
       </div>
 
       <div class="flex items-center gap-2 sm:gap-3 lg:hidden flex-shrink-0 pointer-events-auto mobile-nav-controls">
-        <div class="flex items-center justify-center pointer-events-auto flex-shrink-0">
-          <ThemeToggle />
+        <div class="flex items-center gap-2 pointer-events-auto flex-shrink-0">
+          <ThemeToggle isMobileSwitch={true} />
+          <LanguageSwitcher isMobile={true} />
         </div>
         <button type="button" id="mobile-menu-button" class="mobile-menu-button relative text-theme-secondary hover:text-theme-primary p-2 rounded-xl hover:bg-theme-surface/80 active:bg-theme-surface transition-all duration-fast focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:ring-offset-2 focus:ring-offset-theme-primary pointer-events-auto flex-shrink-0 min-w-[var(--touch-target-min)] min-h-[var(--touch-target-min)] w-[var(--touch-target-min)] h-[var(--touch-target-min)] flex items-center justify-center touch-manipulation group/btn" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-menu">
           <div class="relative w-6 h-6" aria-hidden="true">

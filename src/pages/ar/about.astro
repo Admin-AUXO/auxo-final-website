@@ -1,0 +1,71 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import StructuredData from "@/components/common/StructuredData.astro";
+import { getSiteConfigData } from "@/lib/sanity/siteConfig";
+import HeroSection from "@/components/sections/about/HeroSection.astro";
+import MissionVisionSection from "@/components/sections/about/MissionVisionSection.astro";
+import PurposeSection from "@/components/sections/about/PurposeSection.astro";
+import ApproachSection from "@/components/sections/about/ApproachSection.astro";
+import TeamSection from "@/components/sections/about/TeamSection.astro";
+import PartnershipSection from "@/components/sections/about/PartnershipSection.astro";
+import GlobalSection from "@/components/sections/about/GlobalSection.astro";
+import CtaSection from "@/components/sections/common/CtaSection.astro";
+import { getAboutContent } from "@/lib/sanity/data";
+import { getLanguageFromUrl } from "@/i18n";
+
+const lang = getLanguageFromUrl(Astro.url);
+
+const [aboutContent, siteData] = await Promise.all([
+  getAboutContent(lang),
+  getSiteConfigData(),
+]);
+
+const breadcrumbSchema = {
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteData.url,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'About',
+      item: `${siteData.url}/ar/about`,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="من نحن | AUXO Data Labs"
+  description="تعرف على AUXO Data Labs - شركة استشارات تحليلات حديثة تربط بين استراتيجية الأعمال وتنفيذ البيانات."
+>
+  <StructuredData type="BreadcrumbList" data={breadcrumbSchema} />
+  <HeroSection content={aboutContent.hero} />
+  <MissionVisionSection content={aboutContent.mission} />
+  <PurposeSection content={aboutContent.purpose} />
+  <ApproachSection content={aboutContent.approach} />
+  <TeamSection content={aboutContent.team} />
+  <PartnershipSection content={aboutContent.partnership} />
+  <GlobalSection content={aboutContent.global} />
+  <CtaSection
+    id="about-cta"
+    title={aboutContent.cta.title}
+    titleHighlight="Partnership"
+    description={aboutContent.cta.description}
+    descriptionHighlight={aboutContent.cta.descriptionHighlight}
+    ctaText={aboutContent.cta.ctaText}
+    ctaHref={aboutContent.cta.ctaHref}
+    variant="standard"
+    background="default"
+    maxWidth="4xl"
+    class="about-cta-section"
+  />
+
+  <script>
+    import { setupPageAnimations, setupSectionInit } from "@/scripts/sections/utils/initUtils";
+    setupSectionInit(setupPageAnimations);
+  </script>
+</BaseLayout>

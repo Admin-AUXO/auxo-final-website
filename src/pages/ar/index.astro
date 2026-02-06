@@ -1,0 +1,91 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getSiteConfigData } from "@/lib/sanity/siteConfig";
+import StructuredData from "@/components/common/StructuredData.astro";
+import HeroSection from "@/components/sections/home/HeroSection.astro";
+import ProblemSolutionSection from "@/components/sections/home/ProblemSolutionSection.astro";
+import CapabilitiesSection from "@/components/sections/home/CapabilitiesSection.astro";
+import ServicesIntroSection from "@/components/sections/home/ServicesIntroSection.astro";
+import MethodologySection from "@/components/sections/home/MethodologySection.astro";
+import TechStackSection from "@/components/sections/home/TechStackSection.astro";
+import FinalCta from "@/components/sections/home/FinalCta.astro";
+import ParticleBackground from "@/components/effects/ParticleBackground.astro";
+import { getHomepageContent } from "@/lib/sanity/data";
+import { getLanguageFromUrl } from "@/i18n";
+
+const lang = getLanguageFromUrl(Astro.url);
+
+const [homepageContent, siteData] = await Promise.all([
+  getHomepageContent(lang),
+  getSiteConfigData(),
+]);
+
+const serviceSchema = {
+  serviceType: 'Data Analytics Consulting',
+  provider: {
+    '@type': 'Organization',
+    name: siteData.name,
+    url: siteData.url,
+  },
+  areaServed: [
+    {
+      '@type': 'Country',
+      name: 'United Arab Emirates',
+    },
+    {
+      '@type': 'GeoCircle',
+      geoMidpoint: {
+        '@type': 'GeoCoordinates',
+        latitude: siteData.address.coordinates.lat,
+        longitude: siteData.address.coordinates.lng,
+      },
+      geoRadius: {
+        '@type': 'Distance',
+        name: 'Global',
+      },
+    },
+  ],
+  description: siteData.description,
+  offers: {
+    '@type': 'Offer',
+    description: 'Enterprise-grade data analytics consulting services',
+  },
+};
+---
+
+<BaseLayout title="استشارات تحليل البيانات دبي، الإمارات | AUXO Data Labs" description={siteData.description}>
+  <StructuredData type="Service" data={serviceSchema} />
+  <div class="hero-problem-wrapper relative">
+    <ParticleBackground />
+    <HeroSection content={homepageContent.hero} />
+    <ProblemSolutionSection content={homepageContent.valueProposition} />
+  </div>
+  <div data-lazy-load>
+    <ServicesIntroSection content={homepageContent.featuredServices} />
+  </div>
+  <div data-lazy-load>
+    <TechStackSection content={homepageContent.techStack} />
+  </div>
+  <div data-lazy-load>
+    <CapabilitiesSection content={homepageContent.capabilities} />
+  </div>
+  <div data-lazy-load>
+    <MethodologySection content={homepageContent.methodology} />
+  </div>
+  <div data-lazy-load>
+    <FinalCta content={homepageContent.finalCta} />
+  </div>
+</BaseLayout>
+
+<style>
+.hero-problem-wrapper {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-problem-wrapper :global(#particle-background) {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+</style>
