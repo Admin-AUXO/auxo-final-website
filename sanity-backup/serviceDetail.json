@@ -1,0 +1,2978 @@
+﻿[
+    {
+        "_createdAt":  "2025-12-20T02:40:18Z",
+        "_id":  "serviceDetail-augmented-intelligence-studio",
+        "_rev":  "w258lxaGLrvXChHhCsFE3g",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T16:54:55Z",
+        "benefits":  {
+                         "description":  "Expand analytical capabilities with AI-powered tools and automation.",
+                         "descriptionHighlight":  [
+                                                      "Expand analytical capabilities"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "AI algorithms that identify complex patterns and relationships in data.",
+                                              "icon":  "mdi:magnify-scan",
+                                              "title":  "Pattern Discovery"
+                                          },
+                                          {
+                                              "description":  "Machine learning models for forecasting and prediction.",
+                                              "icon":  "mdi:head-lightbulb",
+                                              "title":  "Predictive Analytics"
+                                          },
+                                          {
+                                              "description":  "AI-powered analysis of text, documents, and unstructured data.",
+                                              "icon":  "mdi:text-recognition",
+                                              "title":  "Natural Language Processing"
+                                          },
+                                          {
+                                              "description":  "AI-driven automation of complex analytical tasks.",
+                                              "icon":  "mdi:auto-fix",
+                                              "title":  "Intelligent Automation"
+                                          }
+                                      ],
+                         "title":  "Augmented Intelligence Benefits"
+                     },
+        "cta":  {
+                    "ctaHref":  "/contact",
+                    "ctaText":  "Launch AI Studio",
+                    "description":  "Implement AI-powered tools that expand your analytical capabilities and improve decision-making.",
+                    "descriptionHighlight":  [
+                                                 "expand your analytical capabilities"
+                                             ],
+                    "title":  "Enhance Analytics with AI"
+                },
+        "hero":  {
+                     "description":  "Apply AI to enhance analytical capabilities across your organization. We implement AI-powered tools for pattern recognition, predictive analytics, and automated insights, augmenting your team\u0027s analytical capacity.",
+                     "descriptionHighlight":  [
+                                                  "AI-powered tools"
+                                              ],
+                     "keyBenefits":  [
+                                         "AI-powered data analysis",
+                                         "Automated insight discovery",
+                                         "Intelligent recommendations",
+                                         "Enhanced decision support"
+                                     ],
+                     "subtitle":  "Augmented Intelligence Studio",
+                     "title":  "Enhance Analytics with AI"
+                 },
+        "icon":  "mdi:brain",
+        "language":  "en",
+        "name":  "Augmented Intelligence Studio",
+        "outcomes":  {
+                         "description":  "Enhanced analytical capabilities and improved business outcomes through AI.",
+                         "descriptionHighlight":  [
+                                                      "Enhanced analytical capabilities"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "Increase in analytical processing speed",
+                                             "label":  "Analysis Speed",
+                                             "value":  "10x"
+                                         },
+                                         {
+                                             "description":  "Improvement in identifying hidden patterns",
+                                             "label":  "Pattern Discovery",
+                                             "value":  "85%"
+                                         },
+                                         {
+                                             "description":  "Accuracy of AI-powered predictions",
+                                             "label":  "Prediction Accuracy",
+                                             "value":  "90%"
+                                         },
+                                         {
+                                             "description":  "Increase in actionable insights generated",
+                                             "label":  "Insight Volume",
+                                             "value":  "5x"
+                                         }
+                                     ],
+                         "title":  "Expected Results"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "Data volumes exceeding human analysis capacity",
+                                            "Difficulty identifying complex patterns and relationships",
+                                            "Time-intensive manual analysis of unstructured data",
+                                            "Limited ability to predict future outcomes and trends"
+                                        ],
+                         "description":  "AI extends what analysts can accomplish by automating routine analysis, identifying patterns humans might miss, and processing larger datasets faster. Our Augmented Intelligence Studio implements AI tools that work alongside your team.",
+                         "descriptionHighlight":  [
+                                                      "work alongside"
+                                                  ],
+                         "solutions":  [
+                                           "AI-powered pattern recognition and anomaly detection",
+                                           "Natural language processing for unstructured data analysis",
+                                           "Machine learning models for predictive analytics",
+                                           "Intelligent automation of analytical workflows"
+                                       ],
+                         "title":  "AI-Enhanced Analytics"
+                     },
+        "process":  {
+                        "description":  "A 14-week program to implement AI-powered analytical capabilities.",
+                        "descriptionHighlight":  [
+                                                     "14-week program"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "AI readiness report",
+                                                               "Data assessment",
+                                                               "Infrastructure evaluation"
+                                                           ],
+                                          "description":  "Evaluate data quality, infrastructure, and analytical needs.",
+                                          "step":  1,
+                                          "title":  "AI Readiness Assessment"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Use case catalog",
+                                                               "Impact assessment",
+                                                               "Priority ranking"
+                                                           ],
+                                          "description":  "Identify high-impact applications for AI and machine learning.",
+                                          "step":  2,
+                                          "title":  "Use Case Identification"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Data pipelines",
+                                                               "Feature engineering",
+                                                               "Quality validation"
+                                                           ],
+                                          "description":  "Prepare and curate data for AI model training and deployment.",
+                                          "step":  3,
+                                          "title":  "Data Preparation"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Model prototypes",
+                                                               "Performance testing",
+                                                               "Model validation"
+                                                           ],
+                                          "description":  "Build and train AI/ML models for specific analytical tasks.",
+                                          "step":  4,
+                                          "title":  "Model Development"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "API development",
+                                                               "Workflow integration",
+                                                               "User interface design"
+                                                           ],
+                                          "description":  "Integrate AI models into existing analytical workflows.",
+                                          "step":  5,
+                                          "title":  "Integration \u0026 Deployment"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "User training",
+                                                               "Documentation",
+                                                               "Governance framework"
+                                                           ],
+                                          "description":  "Train users and establish AI governance and best practices.",
+                                          "step":  6,
+                                          "title":  "Training \u0026 Adoption"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Performance monitoring",
+                                                               "Model retraining",
+                                                               "Optimization procedures"
+                                                           ],
+                                          "description":  "Implement monitoring and continuous improvement processes.",
+                                          "step":  7,
+                                          "title":  "Monitoring \u0026 Optimization"
+                                      }
+                                  ],
+                        "title":  "Augmented Intelligence Process"
+                    },
+        "shortDescription":  "Leverage AI to enhance analytical capabilities",
+        "slug":  "augmented-intelligence-studio"
+    },
+    {
+        "_createdAt":  "2026-01-21T16:54:57Z",
+        "_id":  "serviceDetail-augmented-intelligence-studio-ar",
+        "_rev":  "w258lxaGLrvXChHhCsHZYC",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T18:34:47Z",
+        "benefits":  {
+                         "description":  "وسّع القدرات التحليلية بأدوات وأتمتة مدعومة بالذكاء الاصطناعي.",
+                         "descriptionHighlight":  [
+                                                      "وسّع القدرات التحليلية"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "خوارزميات ذكاء اصطناعي تحدد الأنماط والعلاقات المعقدة في البيانات.",
+                                              "icon":  "mdi:database-search",
+                                              "title":  "اكتشاف الأنماط"
+                                          },
+                                          {
+                                              "description":  "نماذج التعلم الآلي للتنبؤ والتوقع.",
+                                              "icon":  "mdi:lightbulb-on",
+                                              "title":  "التحليلات التنبؤية"
+                                          },
+                                          {
+                                              "description":  "تحليل مدعوم بالذكاء الاصطناعي للنصوص، الوثائق، والبيانات غير المهيكلة.",
+                                              "icon":  "mdi:text-recognition",
+                                              "title":  "معالجة اللغة الطبيعية"
+                                          },
+                                          {
+                                              "description":  "أتمتة مدفوعة بالذكاء الاصطناعي للمهام التحليلية المعقدة.",
+                                              "icon":  "mdi:auto-fix",
+                                              "title":  "الأتمتة الذكية"
+                                          }
+                                      ],
+                         "title":  "فوائد الذكاء المعزز"
+                     },
+        "cta":  {
+                    "ctaHref":  "/ar/contact",
+                    "ctaText":  "أطلق استوديو الذكاء الاصطناعي",
+                    "description":  "نفذ أدوات مدعومة بالذكاء الاصطناعي تعزز قدراتك التحليلية وتحسّن اتخاذ القرارات.",
+                    "descriptionHighlight":  [
+                                                 "عزز قدراتك التحليلية"
+                                             ],
+                    "title":  "عزز التحليلات بالذكاء الاصطناعي"
+                },
+        "hero":  {
+                     "description":  "طبّق الذكاء الاصطناعي لتعزيز القدرات التحليلية عبر مؤسستك. ننفذ أدوات مدعومة بالذكاء الاصطناعي للتعرف على الأنماط، التحليلات التنبؤية، والرؤى الآلية، معززين القدرة التحليلية لفريقك.",
+                     "descriptionHighlight":  [
+                                                  "أدوات مدعومة بالذكاء الاصطناعي"
+                                              ],
+                     "keyBenefits":  [
+                                         "تحليل بيانات مدعوم بالذكاء الاصطناعي",
+                                         "اكتشاف رؤى آلي",
+                                         "توصيات ذكية",
+                                         "دعم قرار محسّن"
+                                     ],
+                     "subtitle":  "استوديو الذكاء المعزز",
+                     "title":  "عزز التحليلات بالذكاء الاصطناعي"
+                 },
+        "icon":  "mdi:brain",
+        "language":  "ar",
+        "name":  "استوديو الذكاء المعزز",
+        "outcomes":  {
+                         "description":  "قدرات تحليلية محسّنة ونتائج أعمال محسّنة من خلال الذكاء الاصطناعي.",
+                         "descriptionHighlight":  [
+                                                      "قدرات تحليلية محسّنة"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "زيادة في سرعة المعالجة التحليلية",
+                                             "label":  "سرعة التحليل",
+                                             "value":  "10x"
+                                         },
+                                         {
+                                             "description":  "تحسن في تحديد الأنماط الخفية",
+                                             "label":  "اكتشاف الأنماط",
+                                             "value":  "85%"
+                                         },
+                                         {
+                                             "description":  "دقة التنبؤات المدعومة بالذكاء الاصطناعي",
+                                             "label":  "دقة التنبؤ",
+                                             "value":  "90%"
+                                         },
+                                         {
+                                             "description":  "زيادة في الرؤى القابلة للتنفيذ المولدة",
+                                             "label":  "حجم الرؤى",
+                                             "value":  "5x"
+                                         }
+                                     ],
+                         "title":  "النتائج المتوقعة"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "أحجام بيانات تتجاوز قدرة التحليل البشري",
+                                            "صعوبة في تحديد الأنماط والعلاقات المعقدة",
+                                            "تحليل يدوي مستهلك للوقت للبيانات غير المهيكلة",
+                                            "قدرة محدودة على التنبؤ بالنتائج والاتجاهات المستقبلية"
+                                        ],
+                         "description":  "الذكاء الاصطناعي يوسع ما يمكن للمحللين إنجازه بأتمتة التحليل الروتيني، تحديد الأنماط التي قد يفوتها البشر، ومعالجة مجموعات بيانات أكبر بشكل أسرع. استوديو الذكاء المعزز لدينا ينفذ أدوات ذكاء اصطناعي تعمل جنباً إلى جنب مع فريقك.",
+                         "descriptionHighlight":  [
+                                                      "تعمل جنباً إلى جنب"
+                                                  ],
+                         "solutions":  [
+                                           "التعرف على الأنماط وكشف الشذوذ المدعوم بالذكاء الاصطناعي",
+                                           "معالجة اللغة الطبيعية لتحليل البيانات غير المهيكلة",
+                                           "نماذج التعلم الآلي للتحليلات التنبؤية",
+                                           "أتمتة ذكية لسير العمل التحليلي"
+                                       ],
+                         "title":  "تحليلات محسّنة بالذكاء الاصطناعي"
+                     },
+        "process":  {
+                        "description":  "برنامج 14 أسبوع لتنفيذ قدرات تحليلية مدعومة بالذكاء الاصطناعي.",
+                        "descriptionHighlight":  [
+                                                     "برنامج 14 أسبوع"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "تقرير جاهزية الذكاء الاصطناعي",
+                                                               "تقييم البيانات",
+                                                               "تقييم البنية التحتية"
+                                                           ],
+                                          "description":  "تقييم جودة البيانات، البنية التحتية، والاحتياجات التحليلية.",
+                                          "step":  1,
+                                          "title":  "تقييم جاهزية الذكاء الاصطناعي"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "كتالوج حالات الاستخدام",
+                                                               "تقييم التأثير",
+                                                               "ترتيب الأولوية"
+                                                           ],
+                                          "description":  "تحديد تطبيقات عالية التأثير للذكاء الاصطناعي والتعلم الآلي.",
+                                          "step":  2,
+                                          "title":  "تحديد حالات الاستخدام"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "خطوط البيانات",
+                                                               "هندسة الميزات",
+                                                               "التحقق من الجودة"
+                                                           ],
+                                          "description":  "إعداد وتنظيم البيانات لتدريب ونشر نموذج الذكاء الاصطناعي.",
+                                          "step":  3,
+                                          "title":  "إعداد البيانات"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "نماذج أولية",
+                                                               "اختبار الأداء",
+                                                               "التحقق من النموذج"
+                                                           ],
+                                          "description":  "بناء وتدريب نماذج الذكاء الاصطناعي/التعلم الآلي لمهام تحليلية محددة.",
+                                          "step":  4,
+                                          "title":  "تطوير النموذج"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "تطوير API",
+                                                               "تكامل سير العمل",
+                                                               "تصميم واجهة المستخدم"
+                                                           ],
+                                          "description":  "دمج نماذج الذكاء الاصطناعي في سير العمل التحليلي الحالي.",
+                                          "step":  5,
+                                          "title":  "التكامل والنشر"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "تدريب المستخدم",
+                                                               "التوثيق",
+                                                               "إطار الحوكمة"
+                                                           ],
+                                          "description":  "تدريب المستخدمين وإنشاء حوكمة الذكاء الاصطناعي وأفضل الممارسات.",
+                                          "step":  6,
+                                          "title":  "التدريب والاعتماد"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "مراقبة الأداء",
+                                                               "إعادة تدريب النموذج",
+                                                               "إجراءات التحسين"
+                                                           ],
+                                          "description":  "تنفيذ المراقبة وعمليات التحسين المستمر.",
+                                          "step":  7,
+                                          "title":  "المراقبة والتحسين"
+                                      }
+                                  ],
+                        "title":  "عملية الذكاء المعزز"
+                    },
+        "shortDescription":  "استفد من الذكاء الاصطناعي لتعزيز القدرات التحليلية",
+        "slug":  "augmented-intelligence-studio"
+    },
+    {
+        "_createdAt":  "2025-12-20T02:40:19Z",
+        "_id":  "serviceDetail-autonomy-readiness-review",
+        "_rev":  "w258lxaGLrvXChHhCsFEA0",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T16:54:58Z",
+        "benefits":  {
+                         "description":  "Build a data-capable organization where users can find answers independently.",
+                         "descriptionHighlight":  [
+                                                      "data-capable organization"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "User-friendly tools that enable business users to analyze data without technical support.",
+                                              "icon":  "mdi:toolbox",
+                                              "title":  "Self-Service Tools"
+                                          },
+                                          {
+                                              "description":  "Governance framework that balances access with data quality and security.",
+                                              "icon":  "mdi:shield-account",
+                                              "title":  "Data Governance"
+                                          },
+                                          {
+                                              "description":  "Training programs tailored to different user skill levels and roles.",
+                                              "icon":  "mdi:school",
+                                              "title":  "User Training"
+                                          },
+                                          {
+                                              "description":  "Strategies to drive adoption and build data literacy across the organization.",
+                                              "icon":  "mdi:account-group",
+                                              "title":  "Change Management"
+                                          }
+                                      ],
+                         "title":  "Autonomy Benefits"
+                     },
+        "cta":  {
+                    "ctaHref":  "/contact",
+                    "ctaText":  "Start Autonomy Review",
+                    "description":  "Build self-service analytics capabilities that empower users across your organization.",
+                    "descriptionHighlight":  [
+                                                 "self-service analytics capabilities"
+                                             ],
+                    "title":  "Enable Analytics Autonomy"
+                },
+        "hero":  {
+                     "description":  "Prepare your organization for self-service analytics. We assess readiness, implement governance frameworks, and develop training programs that enable business users to access and analyze data independently.",
+                     "descriptionHighlight":  [
+                                                  "self-service analytics"
+                                              ],
+                     "keyBenefits":  [
+                                         "Self-service analytics capabilities",
+                                         "Data governance and security",
+                                         "User training and adoption",
+                                         "Scalable analytics infrastructure"
+                                     ],
+                     "subtitle":  "Autonomy Readiness Review",
+                     "title":  "Enable Self-Service Analytics"
+                 },
+        "icon":  "mdi:shield-account",
+        "language":  "en",
+        "name":  "Autonomy Readiness Review",
+        "outcomes":  {
+                         "description":  "Increased analytics autonomy and reduced dependency on central teams.",
+                         "descriptionHighlight":  [
+                                                      "analytics autonomy"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "Percentage of analytics created by business users",
+                                             "label":  "Self-Service Adoption",
+                                             "value":  "80%"
+                                         },
+                                         {
+                                             "description":  "Reduction in time from question to answer",
+                                             "label":  "Time to Insight",
+                                             "value":  "70%"
+                                         },
+                                         {
+                                             "description":  "Improvement in user satisfaction with analytics",
+                                             "label":  "User Satisfaction",
+                                             "value":  "90%"
+                                         },
+                                         {
+                                             "description":  "Reduction in IT support requests for analytics",
+                                             "label":  "IT Efficiency",
+                                             "value":  "60%"
+                                         }
+                                     ],
+                         "title":  "Expected Results"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "IT bottlenecks preventing timely data access",
+                                            "Lack of data literacy and analytical skills",
+                                            "Inadequate governance and security controls",
+                                            "Resistance to change and technology adoption"
+                                        ],
+                         "description":  "Self-service analytics empowers business users to answer their own questions without waiting for IT or analytics teams. Our Autonomy Readiness Review ensures you have the right governance, tools, and training to make this successful.",
+                         "descriptionHighlight":  [
+                                                      "right governance, tools, and training"
+                                                  ],
+                         "solutions":  [
+                                           "Comprehensive autonomy assessment and roadmap",
+                                           "Data governance and security framework implementation",
+                                           "User training and change management programs",
+                                           "Self-service tool deployment and adoption support"
+                                       ],
+                         "title":  "Building Analytics Capability"
+                     },
+        "process":  {
+                        "description":  "A 10-week program to enable self-service analytics.",
+                        "descriptionHighlight":  [
+                                                     "10-week program"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "Maturity assessment",
+                                                               "Skills gap analysis",
+                                                               "Infrastructure evaluation"
+                                                           ],
+                                          "description":  "Evaluate current analytics maturity, skills, and infrastructure.",
+                                          "step":  1,
+                                          "title":  "Readiness Assessment"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Governance policies",
+                                                               "Security protocols",
+                                                               "Access control models"
+                                                           ],
+                                          "description":  "Design data governance and security frameworks.",
+                                          "step":  2,
+                                          "title":  "Governance Design"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Platform configuration",
+                                                               "Data catalog setup",
+                                                               "User interface design"
+                                                           ],
+                                          "description":  "Configure self-service analytics platform and tools.",
+                                          "step":  3,
+                                          "title":  "Platform Setup"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Training curriculum",
+                                                               "Learning materials",
+                                                               "Certification programs"
+                                                           ],
+                                          "description":  "Develop training curriculum and materials for different user levels.",
+                                          "step":  4,
+                                          "title":  "Training Program"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Pilot results",
+                                                               "User feedback",
+                                                               "Program refinements"
+                                                           ],
+                                          "description":  "Launch pilot program with select users and gather feedback.",
+                                          "step":  5,
+                                          "title":  "Pilot Program"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Rollout plan",
+                                                               "Change management",
+                                                               "Support procedures"
+                                                           ],
+                                          "description":  "Expand successful pilot across the organization.",
+                                          "step":  6,
+                                          "title":  "Organization Rollout"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Usage analytics",
+                                                               "Support system",
+                                                               "Continuous improvement"
+                                                           ],
+                                          "description":  "Establish ongoing monitoring and user support.",
+                                          "step":  7,
+                                          "title":  "Monitoring \u0026 Support"
+                                      }
+                                  ],
+                        "title":  "Autonomy Readiness Process"
+                    },
+        "shortDescription":  "Prepare your team for self-service analytics",
+        "slug":  "autonomy-readiness-review"
+    },
+    {
+        "_createdAt":  "2026-01-21T16:54:59Z",
+        "_id":  "serviceDetail-autonomy-readiness-review-ar",
+        "_rev":  "w258lxaGLrvXChHhCsbV24",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-22T05:26:29Z",
+        "benefits":  {
+                         "description":  "ابنِ مؤسسة قادرة على البيانات حيث يمكن للمستخدمين إيجاد الإجابات بشكل مستقل.",
+                         "descriptionHighlight":  [
+                                                      "مؤسسة قادرة على البيانات"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "أدوات سهلة الاستخدام تمكّن مستخدمي الأعمال من تحليل البيانات دون دعم تقني.",
+                                              "icon":  "mdi:toolbox",
+                                              "title":  "أدوات الخدمة الذاتية"
+                                          },
+                                          {
+                                              "description":  "إطار حوكمة يوازن الوصول مع جودة البيانات والأمان.",
+                                              "icon":  "mdi:shield-check",
+                                              "title":  "حوكمة البيانات"
+                                          },
+                                          {
+                                              "description":  "برامج تدريبية مخصصة لمستويات مهارات وأدوار مختلفة.",
+                                              "icon":  "mdi:school",
+                                              "title":  "تدريب المستخدمين"
+                                          },
+                                          {
+                                              "description":  "استراتيجيات لدفع الاعتماد وبناء محو الأمية البيانية عبر المؤسسة.",
+                                              "icon":  "mdi:account-group",
+                                              "title":  "استراتيجيات الاعتماد"
+                                          }
+                                      ],
+                         "title":  "فوائد جاهزية الاستقلالية"
+                     },
+        "cta":  {
+                    "ctaHref":  "/ar/contact",
+                    "ctaText":  "ابدأ مراجعة الجاهزية",
+                    "description":  "جهز مؤسستك للتحليلات ذاتية الخدمة الحقيقية بالمهارات، الأدوات، والحوكمة.",
+                    "descriptionHighlight":  [
+                                                 "التحليلات ذاتية الخدمة الحقيقية"
+                                             ],
+                    "title":  "ابنِ استقلالية التحليلات"
+                },
+        "hero":  {
+                     "description":  "بناء مؤسسة قادرة على البيانات حيث يمكن للمستخدمين إيجاد الإجابات بشكل مستقل. نقيّم الجاهزية التنظيمية، نوفر التدريب، ننشئ الحوكمة، ونضمن أن فريقك يمكنه استخدام، تفسير، والعمل بناءً على التحليلات بشكل مستقل.",
+                     "descriptionHighlight":  [
+                                                  "بشكل مستقل"
+                                              ],
+                     "keyBenefits":  [
+                                         "تقييم الجاهزية التنظيمية",
+                                         "برامج تدريب شاملة",
+                                         "أطر الحوكمة",
+                                         "استراتيجيات بناء ثقافة البيانات"
+                                     ],
+                     "subtitle":  "مراجعة جاهزية الاستقلالية",
+                     "title":  "جهز فريقك للتحليلات ذاتية الخدمة"
+                 },
+        "icon":  "mdi:shield-check",
+        "language":  "ar",
+        "name":  "مراجعة جاهزية الاستقلالية",
+        "outcomes":  {
+                         "description":  "تحسينات قابلة للقياس في استقلالية المستخدم ومحو الأمية البيانية.",
+                         "descriptionHighlight":  [
+                                                      "استقلالية المستخدم"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "من المستخدمين يصلون للتحليلات بشكل مستقل",
+                                             "label":  "اعتماد الخدمة الذاتية",
+                                             "value":  "75%"
+                                         },
+                                         {
+                                             "description":  "تحسن في مهارات محو الأمية البيانية",
+                                             "label":  "محو الأمية البيانية",
+                                             "value":  "80%"
+                                         },
+                                         {
+                                             "description":  "تقليل في طلبات التقارير لتكنولوجيا المعلومات",
+                                             "label":  "الاعتماد على تكنولوجيا المعلومات",
+                                             "value":  "60%"
+                                         },
+                                         {
+                                             "description":  "أسرع للوصول للرؤى",
+                                             "label":  "الوقت للرؤية",
+                                             "value":  "70%"
+                                         }
+                                     ],
+                         "title":  "النتائج المتوقعة"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "المستخدمون يفتقرون إلى المهارات للتحليلات ذاتية الخدمة",
+                                            "لا توجد حوكمة تؤدي إلى مشاكل جودة البيانات",
+                                            "ثقافة منخفضة لمحو الأمية البيانية",
+                                            "الاعتماد المفرط على فرق البيانات المركزية"
+                                        ],
+                         "description":  "الهدف النهائي للتحليلات ليس الاعتماد على فريق مركزي — بل تمكين كل فريق من إيجاد إجاباته الخاصة. مراجعة جاهزية الاستقلالية تقيّم جاهزيتك وتبني المهارات، الحوكمة، والثقافة اللازمة للتحليلات ذاتية الخدمة الحقيقية.",
+                         "descriptionHighlight":  [
+                                                      "التحليلات ذاتية الخدمة الحقيقية"
+                                                  ],
+                         "solutions":  [
+                                           "تقييم الجاهزية التنظيمية",
+                                           "برامج تدريب مخصصة لمستويات المهارة",
+                                           "أطر الحوكمة التي توازن الوصول مع الجودة",
+                                           "استراتيجيات بناء ثقافة البيانات"
+                                       ],
+                         "title":  "بناء استقلالية التحليلات"
+                     },
+        "process":  {
+                        "description":  "برنامج 12 أسبوع لبناء جاهزية التحليلات ذاتية الخدمة.",
+                        "descriptionHighlight":  [
+                                                     "برنامج 12 أسبوع"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "تقييم المهارات",
+                                                               "مراجعة الأدوات",
+                                                               "تقييم ثقافي"
+                                                           ],
+                                          "description":  "تقييم المهارات الحالية، الأدوات، والاستعداد الثقافي.",
+                                          "step":  1,
+                                          "title":  "تقييم الجاهزية"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "إطار الحوكمة",
+                                                               "سياسات الوصول",
+                                                               "معايير الجودة"
+                                                           ],
+                                          "description":  "إنشاء سياسات وضوابط الحوكمة.",
+                                          "step":  2,
+                                          "title":  "تصميم الحوكمة"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "خطط تعليمية",
+                                                               "مواد التدريب",
+                                                               "برامج الشهادات"
+                                                           ],
+                                          "description":  "إنشاء برامج تدريب مخصصة للأدوار المختلفة.",
+                                          "step":  3,
+                                          "title":  "تطوير التدريب"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "توصيات الأدوات",
+                                                               "إعداد المنصة",
+                                                               "عمليات التكامل"
+                                                           ],
+                                          "description":  "اختيار وإعداد أدوات التحليلات ذاتية الخدمة.",
+                                          "step":  4,
+                                          "title":  "اختيار الأدوات"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "نتائج التجريبي",
+                                                               "ملاحظات المستخدم",
+                                                               "التحسينات"
+                                                           ],
+                                          "description":  "تشغيل برنامج تجريبي مع مستخدمين مختارين.",
+                                          "step":  5,
+                                          "title":  "البرنامج التجريبي"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "خطة الطرح",
+                                                               "جلسات تدريبية",
+                                                               "نظام الدعم"
+                                                           ],
+                                          "description":  "طرح التحليلات ذاتية الخدمة عبر المؤسسة.",
+                                          "step":  6,
+                                          "title":  "الطرح الكامل"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "برنامج الدعم",
+                                                               "خطة التحسين",
+                                                               "مقاييس النجاح"
+                                                           ],
+                                          "description":  "إنشاء عمليات للدعم والتحسين المستمر.",
+                                          "step":  7,
+                                          "title":  "التحسين المستمر"
+                                      }
+                                  ],
+                        "title":  "عملية مراجعة الاستقلالية"
+                    },
+        "shortDescription":  "جهز فريقك للتحليلات ذاتية الخدمة",
+        "slug":  "autonomy-readiness-review"
+    },
+    {
+        "_createdAt":  "2025-12-20T02:40:15Z",
+        "_id":  "serviceDetail-decision-playbooks",
+        "_rev":  "wg5Sic927AwHQ9KTY2LmFI",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T16:55:00Z",
+        "benefits":  {
+                         "description":  "Improve how your organization makes important decisions.",
+                         "descriptionHighlight":  [
+                                                      "important decisions"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "Clear, repeatable processes for different types of business decisions.",
+                                              "icon":  "mdi:clipboard-list",
+                                              "title":  "Structured Frameworks"
+                                          },
+                                          {
+                                              "description":  "Well-defined evaluation criteria based on business priorities.",
+                                              "icon":  "mdi:checkbox-marked",
+                                              "title":  "Decision Criteria"
+                                          },
+                                          {
+                                              "description":  "Seamless access to relevant data and analytics during decision-making.",
+                                              "icon":  "mdi:database-plus",
+                                              "title":  "Data Integration"
+                                          },
+                                          {
+                                              "description":  "Systematic documentation of decisions, rationale, and outcomes.",
+                                              "icon":  "mdi:file-document",
+                                              "title":  "Documentation"
+                                          }
+                                      ],
+                         "title":  "Decision Playbooks Benefits"
+                     },
+        "cta":  {
+                    "ctaHref":  "/contact",
+                    "ctaText":  "Build Decision Playbooks",
+                    "description":  "Create frameworks that improve the quality and speed of critical business decisions.",
+                    "descriptionHighlight":  [
+                                                 "quality and speed"
+                                             ],
+                    "title":  "Standardize Your Decisions"
+                },
+        "hero":  {
+                     "description":  "Create structured frameworks that improve decision quality and speed. We develop decision playbooks that standardize processes, incorporate relevant data, and ensure consistency across your organization.",
+                     "descriptionHighlight":  [
+                                                  "structured frameworks"
+                                              ],
+                     "keyBenefits":  [
+                                         "Structured decision frameworks",
+                                         "Data-driven decision criteria",
+                                         "Accelerated decision timelines",
+                                         "Improved decision quality and consistency"
+                                     ],
+                     "subtitle":  "Decision Playbooks Service",
+                     "title":  "Standardize Critical Decisions"
+                 },
+        "icon":  "mdi:book-open-variant",
+        "language":  "en",
+        "name":  "Decision Playbooks",
+        "outcomes":  {
+                         "description":  "Improved decision speed, quality, and consistency across the organization.",
+                         "descriptionHighlight":  [
+                                                      "decision speed, quality"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "Reduction in time to make key decisions",
+                                             "label":  "Decision Speed",
+                                             "value":  "50%"
+                                         },
+                                         {
+                                             "description":  "Improvement in decision outcome quality",
+                                             "label":  "Decision Quality",
+                                             "value":  "75%"
+                                         },
+                                         {
+                                             "description":  "Adherence to standardized decision processes",
+                                             "label":  "Process Consistency",
+                                             "value":  "90%"
+                                         },
+                                         {
+                                             "description":  "Improvement in stakeholder satisfaction",
+                                             "label":  "Stakeholder Satisfaction",
+                                             "value":  "85%"
+                                         }
+                                     ],
+                         "title":  "Expected Results"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "Inconsistent decision-making processes across teams",
+                                            "Lack of clear decision criteria and frameworks",
+                                            "Slow decision timelines impacting business agility",
+                                            "Poor documentation of decision rationale and outcomes"
+                                        ],
+                         "description":  "Consistent, high-quality decisions require clear frameworks. Our Decision Playbooks provide repeatable processes that ensure key decisions are made with the right data, criteria, and stakeholder input.",
+                         "descriptionHighlight":  [
+                                                      "repeatable processes"
+                                                  ],
+                         "solutions":  [
+                                           "Standardized decision frameworks",
+                                           "Data-driven decision criteria",
+                                           "Automated decision support tools",
+                                           "Decision documentation and tracking"
+                                       ],
+                         "title":  "Better Decisions Through Structure"
+                     },
+        "process":  {
+                        "description":  "An 8-week program to create and implement decision frameworks.",
+                        "descriptionHighlight":  [
+                                                     "8-week program"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "Decision catalog",
+                                                               "Process mapping",
+                                                               "Pain point analysis"
+                                                           ],
+                                          "description":  "Identify key decisions and current decision-making processes.",
+                                          "step":  1,
+                                          "title":  "Decision Inventory"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Decision frameworks",
+                                                               "Evaluation criteria",
+                                                               "Process flows"
+                                                           ],
+                                          "description":  "Design structured frameworks for each decision type.",
+                                          "step":  2,
+                                          "title":  "Framework Design"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Data requirements",
+                                                               "Analytics integration",
+                                                               "Dashboard design"
+                                                           ],
+                                          "description":  "Identify and integrate relevant data sources and analytics.",
+                                          "step":  3,
+                                          "title":  "Data Integration"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Decision templates",
+                                                               "Calculation tools",
+                                                               "Documentation forms"
+                                                           ],
+                                          "description":  "Create decision support tools and templates.",
+                                          "step":  4,
+                                          "title":  "Tool Development"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Pilot results",
+                                                               "User feedback",
+                                                               "Framework refinements"
+                                                           ],
+                                          "description":  "Test frameworks with real decisions and refine based on feedback.",
+                                          "step":  5,
+                                          "title":  "Pilot Testing"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Training materials",
+                                                               "Implementation plan",
+                                                               "Support procedures"
+                                                           ],
+                                          "description":  "Train teams and implement decision playbooks across the organization.",
+                                          "step":  6,
+                                          "title":  "Training \u0026 Rollout"
+                                      }
+                                  ],
+                        "title":  "Decision Playbooks Process"
+                    },
+        "shortDescription":  "Create structured frameworks for key decisions",
+        "slug":  "decision-playbooks"
+    },
+    {
+        "_createdAt":  "2026-01-21T16:55:01Z",
+        "_id":  "serviceDetail-decision-playbooks-ar",
+        "_rev":  "zgN7w2rbd9kseJ0L6mgJIZ",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T18:32:36Z",
+        "benefits":  {
+                         "description":  "قرارات أفضل، أسرع، وأكثر اتساقاً.",
+                         "descriptionHighlight":  [
+                                                      "أفضل، أسرع، أكثر اتساقاً"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "قرارات موحدة عبر الفرق والأقسام.",
+                                              "icon":  "mdi:clipboard-list",
+                                              "title":  "الاتساق"
+                                          },
+                                          {
+                                              "description":  "قرارات أسرع مع أطر واضحة وبيانات جاهزة.",
+                                              "icon":  "mdi:checkbox-marked",
+                                              "title":  "السرعة"
+                                          },
+                                          {
+                                              "description":  "قرارات محسّنة مع إرشادات قائمة على الأدلة.",
+                                              "icon":  "mdi:database-plus",
+                                              "title":  "الجودة"
+                                          },
+                                          {
+                                              "description":  "تمكين المزيد من الأشخاص من اتخاذ قرارات جيدة.",
+                                              "icon":  "mdi:file-document",
+                                              "title":  "قابلية التوسع"
+                                          }
+                                      ],
+                         "title":  "فوائد كتيبات القرار"
+                     },
+        "cta":  {
+                    "ctaHref":  "/ar/contact",
+                    "ctaText":  "ابدأ كتيبات القرار",
+                    "description":  "أنشئ أطر قرار منظمة تمكّن فريقك من اتخاذ قرارات متسقة عالية الجودة.",
+                    "descriptionHighlight":  [
+                                                 "قرارات متسقة عالية الجودة"
+                                             ],
+                    "title":  "ابنِ كتيبات القرار"
+                },
+        "hero":  {
+                     "description":  "حوّل القرارات المخصصة إلى عمليات قابلة للتكرار. نصمم كتيبات القرار المبنية على البيانات للقرارات الرئيسية — التسعير، تخصيص الموارد، استهداف العملاء — حتى يتخذ فريقك قرارات متسقة عالية الجودة على نطاق واسع.",
+                     "descriptionHighlight":  [
+                                                  "كتيبات القرار المبنية على البيانات"
+                                              ],
+                     "keyBenefits":  [
+                                         "أطر قرار منظمة",
+                                         "عمليات قابلة للتكرار",
+                                         "توصيات مبنية على البيانات",
+                                         "قرارات متسقة"
+                                     ],
+                     "subtitle":  "خدمة كتيبات القرار",
+                     "title":  "أنشئ أطراً منظمة للقرارات الرئيسية"
+                 },
+        "icon":  "mdi:book-open-variant",
+        "language":  "ar",
+        "name":  "كتيبات القرار",
+        "outcomes":  {
+                         "description":  "تحسينات قابلة للقياس في سرعة وجودة القرار.",
+                         "descriptionHighlight":  [
+                                                      "سرعة وجودة القرار"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "أسرع في اتخاذ القرارات الرئيسية",
+                                             "label":  "سرعة القرار",
+                                             "value":  "50%"
+                                         },
+                                         {
+                                             "description":  "من القرارات تتبع الأطر الموحدة",
+                                             "label":  "الاتساق",
+                                             "value":  "90%"
+                                         },
+                                         {
+                                             "description":  "يُبلغون عن ثقة محسّنة في القرارات",
+                                             "label":  "رضا صناع القرار",
+                                             "value":  "85%"
+                                         },
+                                         {
+                                             "description":  "تحسن في نتائج القرار",
+                                             "label":  "جودة القرار",
+                                             "value":  "60%"
+                                         }
+                                     ],
+                         "title":  "النتائج المتوقعة"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "اتخاذ قرارات غير متسق عبر الفرق",
+                                            "قلة الأطر لقرارات معقدة",
+                                            "الاعتماد على الحدس بدلاً من البيانات",
+                                            "قرارات بطيئة بسبب نقص العملية"
+                                        ],
+                         "description":  "القرارات المهمة لا ينبغي أن تعتمد على من يتخذها. كتيبات القرار تُرسّخ أفضل الممارسات في أطر قابلة للتكرار تضمن الاتساق، الجودة، والسرعة عبر مؤسستك.",
+                         "descriptionHighlight":  [
+                                                      "أطر قابلة للتكرار"
+                                                  ],
+                         "solutions":  [
+                                           "أطر قرار منظمة ومبنية على البيانات",
+                                           "عمليات قابلة للتكرار للقرارات الرئيسية",
+                                           "إرشادات وأدوات القرار",
+                                           "نماذج تسجيل وترتيب أولويات القرار"
+                                       ],
+                         "title":  "قرارات متسقة على نطاق واسع"
+                     },
+        "process":  {
+                        "description":  "برنامج 8 أسابيع لبناء كتيبات القرار.",
+                        "descriptionHighlight":  [
+                                                     "برنامج 8 أسابيع"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "خريطة القرار",
+                                                               "تحليل أصحاب المصلحة",
+                                                               "تقييم الأولوية"
+                                                           ],
+                                          "description":  "تحديد القرارات الرئيسية وأصحاب المصلحة والنتائج.",
+                                          "step":  1,
+                                          "title":  "رسم خريطة القرار"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "قوالب إطار القرار",
+                                                               "معايير التقييم",
+                                                               "نماذج التسجيل"
+                                                           ],
+                                          "description":  "تصميم أطر القرار بالمعايير ومقاييس التقييم.",
+                                          "step":  2,
+                                          "title":  "تصميم الإطار"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "نماذج البيانات",
+                                                               "مقاييس القرار",
+                                                               "لوحات المعلومات"
+                                                           ],
+                                          "description":  "بناء طبقات البيانات لدعم القرارات.",
+                                          "step":  3,
+                                          "title":  "تطوير البيانات"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "وثائق كتيب اللعب",
+                                                               "إرشادات القرار",
+                                                               "أمثلة"
+                                                           ],
+                                          "description":  "توثيق إرشادات وعمليات القرار.",
+                                          "step":  4,
+                                          "title":  "بناء كتيب اللعب"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "نتائج التجريب",
+                                                               "ملاحظات المستخدم",
+                                                               "تحسينات"
+                                                           ],
+                                          "description":  "اختبار كتيبات اللعب مع صناع القرار الفعليين.",
+                                          "step":  5,
+                                          "title":  "التجريب"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "مواد تدريبية",
+                                                               "ورش عمل",
+                                                               "شهادات"
+                                                           ],
+                                          "description":  "تدريب الفرق على استخدام كتيبات القرار.",
+                                          "step":  6,
+                                          "title":  "التدريب والتمكين"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "خطة الطرح",
+                                                               "إرشادات التنفيذ",
+                                                               "إجراءات الدعم"
+                                                           ],
+                                          "description":  "طرح كتيبات القرار عبر المؤسسة.",
+                                          "step":  7,
+                                          "title":  "التنفيذ"
+                                      }
+                                  ],
+                        "title":  "عملية كتيبات القرار"
+                    },
+        "shortDescription":  "أنشئ أطراً منظمة للقرارات الرئيسية",
+        "slug":  "decision-playbooks"
+    },
+    {
+        "_createdAt":  "2025-12-20T02:40:13Z",
+        "_id":  "serviceDetail-forecasting-lab",
+        "_rev":  "wg5Sic927AwHQ9KTY2LmUI",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T16:55:03Z",
+        "benefits":  {
+                         "description":  "Make better plans based on reliable predictions of future outcomes.",
+                         "descriptionHighlight":  [
+                                                      "reliable predictions"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "Statistical and machine learning models tailored to your specific forecasting needs.",
+                                              "icon":  "mdi:function-variant",
+                                              "title":  "Advanced Models"
+                                          },
+                                          {
+                                              "description":  "Forecasting processes that update automatically as new data arrives.",
+                                              "icon":  "mdi:cog-play",
+                                              "title":  "Automated Pipelines"
+                                          },
+                                          {
+                                              "description":  "What-if analysis capabilities to evaluate different planning scenarios.",
+                                              "icon":  "mdi:ab-testing",
+                                              "title":  "Scenario Analysis"
+                                          },
+                                          {
+                                              "description":  "Continuous tracking and improvement of forecast accuracy over time.",
+                                              "icon":  "mdi:chart-line-variant",
+                                              "title":  "Accuracy Monitoring"
+                                          }
+                                      ],
+                         "title":  "Forecasting Lab Benefits"
+                     },
+        "cta":  {
+                    "ctaHref":  "/contact",
+                    "ctaText":  "Launch Forecasting Lab",
+                    "description":  "Develop predictive models that improve planning and decision-making across your organization.",
+                    "descriptionHighlight":  [
+                                                 "improve planning"
+                                             ],
+                    "title":  "Build Forecasting Capabilities"
+                },
+        "hero":  {
+                     "description":  "Develop accurate forecasting models that improve planning and decision-making. We build sophisticated models for demand forecasting, financial planning, and scenario analysis using statistical and machine learning techniques.",
+                     "descriptionHighlight":  [
+                                                  "accurate forecasting models"
+                                              ],
+                     "keyBenefits":  [
+                                         "Advanced predictive modeling",
+                                         "Demand forecasting and planning",
+                                         "Financial forecasting accuracy",
+                                         "Scenario planning capabilities"
+                                     ],
+                     "subtitle":  "Forecasting Lab Service",
+                     "title":  "Build Predictive Capabilities"
+                 },
+        "icon":  "mdi:crystal-ball",
+        "language":  "en",
+        "name":  "Forecasting Lab",
+        "outcomes":  {
+                         "description":  "Improved forecasting accuracy leading to better planning outcomes.",
+                         "descriptionHighlight":  [
+                                                      "better planning outcomes"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "Improvement in forecast accuracy vs. baseline",
+                                             "label":  "Forecast Accuracy",
+                                             "value":  "85%+"
+                                         },
+                                         {
+                                             "description":  "Reduction in planning cycle time",
+                                             "label":  "Planning Efficiency",
+                                             "value":  "40%"
+                                         },
+                                         {
+                                             "description":  "Reduction in excess inventory costs",
+                                             "label":  "Inventory Optimization",
+                                             "value":  "25%"
+                                         },
+                                         {
+                                             "description":  "Improvement in revenue forecasting accuracy",
+                                             "label":  "Revenue Impact",
+                                             "value":  "15%"
+                                         }
+                                     ],
+                         "title":  "Expected Results"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "Inaccurate forecasting leading to poor planning decisions",
+                                            "Lack of sophisticated modeling capabilities",
+                                            "Manual forecasting processes prone to bias",
+                                            "Inability to model complex scenarios and variables"
+                                        ],
+                         "description":  "Better forecasts lead to better plans. Our Forecasting Lab builds models that predict key business metrics with greater accuracy than traditional methods, giving you a clearer view of what\u0027s ahead.",
+                         "descriptionHighlight":  [
+                                                      "greater accuracy"
+                                                  ],
+                         "solutions":  [
+                                           "Advanced statistical and machine learning models",
+                                           "Automated forecasting pipelines",
+                                           "Scenario planning and what-if analysis",
+                                           "Model validation and accuracy monitoring"
+                                       ],
+                         "title":  "The Value of Forecasting"
+                     },
+        "process":  {
+                        "description":  "A 10-week program to build and deploy forecasting capabilities.",
+                        "descriptionHighlight":  [
+                                                     "10-week program"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "Requirements document",
+                                                               "Success criteria",
+                                                               "Data requirements"
+                                                           ],
+                                          "description":  "Understand forecasting needs and business objectives.",
+                                          "step":  1,
+                                          "title":  "Business Requirements"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Data quality assessment",
+                                                               "Feature engineering",
+                                                               "Training datasets"
+                                                           ],
+                                          "description":  "Collect, clean, and prepare historical data for modeling.",
+                                          "step":  2,
+                                          "title":  "Data Preparation"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Model prototypes",
+                                                               "Performance comparison",
+                                                               "Model selection"
+                                                           ],
+                                          "description":  "Build and test multiple forecasting approaches.",
+                                          "step":  3,
+                                          "title":  "Model Development"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Validation results",
+                                                               "Accuracy metrics",
+                                                               "Error analysis"
+                                                           ],
+                                          "description":  "Rigorous testing and validation of selected models.",
+                                          "step":  4,
+                                          "title":  "Model Validation"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Production pipeline",
+                                                               "Monitoring dashboard",
+                                                               "Alert system"
+                                                           ],
+                                          "description":  "Deploy models to production with monitoring and alerting.",
+                                          "step":  5,
+                                          "title":  "Production Deployment"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "System integration",
+                                                               "User training",
+                                                               "Documentation"
+                                                           ],
+                                          "description":  "Integrate forecasts into business processes and train users.",
+                                          "step":  6,
+                                          "title":  "Integration \u0026 Training"
+                                      }
+                                  ],
+                        "title":  "Forecasting Lab Process"
+                    },
+        "shortDescription":  "Build predictive models for better planning",
+        "slug":  "forecasting-lab"
+    },
+    {
+        "_createdAt":  "2026-01-21T16:55:04Z",
+        "_id":  "serviceDetail-forecasting-lab-ar",
+        "_rev":  "wg5Sic927AwHQ9KTY2PnJn",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T18:33:51Z",
+        "benefits":  {
+                         "description":  "خطط بثقة مع رؤى تنبؤية.",
+                         "descriptionHighlight":  [
+                                                      "خطط بثقة"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "تنبؤ دقيق بطلب العملاء والاتجاهات.",
+                                              "icon":  "mdi:trending-up",
+                                              "title":  "توقع الطلب"
+                                          },
+                                          {
+                                              "description":  "توقعات الإيرادات والنفقات الموثوقة.",
+                                              "icon":  "mdi:finance",
+                                              "title":  "التوقع المالي"
+                                          },
+                                          {
+                                              "description":  "نمذجة نتائج \"ماذا لو\" لدعم التخطيط الاستراتيجي.",
+                                              "icon":  "mdi:chart-timeline-variant",
+                                              "title":  "تخطيط السيناريوهات"
+                                          },
+                                          {
+                                              "description":  "تحديد الأنماط والاتجاهات الناشئة في وقت مبكر.",
+                                              "icon":  "mdi:chart-line",
+                                              "title":  "كشف الاتجاهات"
+                                          }
+                                      ],
+                         "title":  "فوائد التنبؤ"
+                     },
+        "cta":  {
+                    "ctaHref":  "/ar/contact",
+                    "ctaText":  "أطلق مختبر التنبؤ",
+                    "description":  "ابنِ نماذج تنبؤية تمكّن التخطيط الاستباقي واتخاذ القرارات الواثقة.",
+                    "descriptionHighlight":  [
+                                                 "التخطيط الاستباقي"
+                                             ],
+                    "title":  "ابدأ مختبر التنبؤ"
+                },
+        "hero":  {
+                     "description":  "تحوّل من التخطيط التفاعلي إلى الاستباقي. نطور نماذج تنبؤ متطورة تتنبأ بالطلب، الإيرادات، والاتجاهات — مما يمكّن فريقك من التخطيط بثقة واتخاذ قرارات مستنيرة.",
+                     "descriptionHighlight":  [
+                                                  "نماذج تنبؤ متطورة"
+                                              ],
+                     "keyBenefits":  [
+                                         "نماذج توقع الطلب",
+                                         "توقعات الإيرادات",
+                                         "تخطيط السيناريوهات",
+                                         "تحليلات الاتجاهات"
+                                     ],
+                     "subtitle":  "خدمة مختبر التنبؤ",
+                     "title":  "ابنِ نماذج تنبؤية للتخطيط الأفضل"
+                 },
+        "icon":  "mdi:crystal-ball",
+        "language":  "ar",
+        "name":  "مختبر التنبؤ",
+        "outcomes":  {
+                         "description":  "تحسينات قابلة للقياس في دقة التخطيط والقرارات الاستباقية.",
+                         "descriptionHighlight":  [
+                                                      "دقة التخطيط"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "دقة في التنبؤات على مدى 3 أشهر",
+                                             "label":  "دقة التنبؤ",
+                                             "value":  "85%"
+                                         },
+                                         {
+                                             "description":  "تقليل في أخطاء التخطيط",
+                                             "label":  "تحسين التخطيط",
+                                             "value":  "60%"
+                                         },
+                                         {
+                                             "description":  "أسرع في اتخاذ قرارات التخطيط",
+                                             "label":  "زمن القرار",
+                                             "value":  "40%"
+                                         },
+                                         {
+                                             "description":  "تحسن في كفاءة تخصيص الموارد",
+                                             "label":  "تحسين الموارد",
+                                             "value":  "30%"
+                                         }
+                                     ],
+                         "title":  "النتائج المتوقعة"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "تخطيط قائم على الحدس بدلاً من البيانات",
+                                            "صعوبة في التنبؤ بالطلب والإيرادات",
+                                            "نقص الأدوات للتخطيط بالسيناريوهات",
+                                            "تنبؤات غير دقيقة تؤدي إلى قرارات سيئة"
+                                        ],
+                         "description":  "القرارات الجيدة تتطلب فهم ليس فقط ما حدث، ولكن ما من المحتمل أن يحدث. مختبر التنبؤ الخاص بنا يبني نماذج تنبؤية تساعدك على التخطيط بثقة وتوقع التحديات والفرص.",
+                         "descriptionHighlight":  [
+                                                      "التخطيط بثقة"
+                                                  ],
+                         "solutions":  [
+                                           "نماذج توقع الطلب المتقدمة",
+                                           "التنبؤ بالإيرادات والتوقع المالي",
+                                           "تخطيط السيناريوهات وتحليل الحساسية",
+                                           "تحسين النماذج التنبؤية ومراقبتها"
+                                       ],
+                         "title":  "توقع المستقبل"
+                     },
+        "process":  {
+                        "description":  "برنامج 10 أسابيع لبناء قدرات التنبؤ.",
+                        "descriptionHighlight":  [
+                                                     "برنامج 10 أسابيع"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "كتالوج حالات الاستخدام",
+                                                               "تقييم الأولوية",
+                                                               "تحديد النطاق"
+                                                           ],
+                                          "description":  "تحديد احتياجات التنبؤ الرئيسية والأولويات التجارية.",
+                                          "step":  1,
+                                          "title":  "تحديد حالات الاستخدام"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "مستودع البيانات",
+                                                               "خطوط البيانات",
+                                                               "التحقق من الجودة"
+                                                           ],
+                                          "description":  "جمع ودمج البيانات التاريخية ذات الصلة.",
+                                          "step":  2,
+                                          "title":  "جمع البيانات"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "مجموعة الميزات",
+                                                               "التوثيق",
+                                                               "عملية التحقق"
+                                                           ],
+                                          "description":  "إنشاء ميزات تنبؤية من البيانات الخام.",
+                                          "step":  3,
+                                          "title":  "هندسة الميزات"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "نماذج أولية",
+                                                               "تقييمات الأداء",
+                                                               "توصيات النموذج"
+                                                           ],
+                                          "description":  "بناء واختبار نماذج تنبؤية متعددة.",
+                                          "step":  4,
+                                          "title":  "تطوير النموذج"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "نتائج التحقق",
+                                                               "تحليل الخطأ",
+                                                               "تقييم الثقة"
+                                                           ],
+                                          "description":  "التحقق من صحة دقة النموذج والموثوقية.",
+                                          "step":  5,
+                                          "title":  "التحقق من الصحة"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "نماذج الإنتاج",
+                                                               "واجهات برمجة التطبيقات",
+                                                               "إعداد المراقبة"
+                                                           ],
+                                          "description":  "نشر النماذج في الإنتاج مع المراقبة.",
+                                          "step":  6,
+                                          "title":  "النشر"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "دليل المستخدم",
+                                                               "جلسات تدريبية",
+                                                               "إجراءات الصيانة"
+                                                           ],
+                                          "description":  "تدريب الفريق على استخدام وصيانة النماذج التنبؤية.",
+                                          "step":  7,
+                                          "title":  "التدريب والتسليم"
+                                      }
+                                  ],
+                        "title":  "عملية مختبر التنبؤ"
+                    },
+        "shortDescription":  "ابنِ نماذج تنبؤية للتخطيط الأفضل",
+        "slug":  "forecasting-lab"
+    },
+    {
+        "_createdAt":  "2025-12-20T02:40:08Z",
+        "_id":  "serviceDetail-foundation-readiness",
+        "_rev":  "w258lxaGLrvXChHhCsFEJw",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T16:55:05Z",
+        "benefits":  {
+                         "description":  "A comprehensive foundation that enables analytics initiatives across your organization.",
+                         "descriptionHighlight":  [
+                                                      "comprehensive foundation"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "Thorough evaluation of current data infrastructure with specific recommendations for improvement.",
+                                              "icon":  "mdi:database-search",
+                                              "title":  "Data Architecture Assessment"
+                                          },
+                                          {
+                                              "description":  "Clear data ownership, security policies, and compliance standards tailored to your organization.",
+                                              "icon":  "mdi:shield-check",
+                                              "title":  "Governance Framework"
+                                          },
+                                          {
+                                              "description":  "Prioritized plan for infrastructure improvements aligned with business objectives.",
+                                              "icon":  "mdi:map-marker-path",
+                                              "title":  "Infrastructure Roadmap"
+                                          },
+                                          {
+                                              "description":  "Data quality monitoring and validation processes that ensure reliable analytics.",
+                                              "icon":  "mdi:quality-high",
+                                              "title":  "Quality Assurance"
+                                          }
+                                      ],
+                         "title":  "What You Get"
+                     },
+        "cta":  {
+                    "ctaHref":  "/contact",
+                    "ctaText":  "Start Foundation Assessment",
+                    "description":  "Let\u0027s assess your current data infrastructure and create a roadmap for analytics success.",
+                    "descriptionHighlight":  [
+                                                 "analytics success"
+                                             ],
+                    "title":  "Ready to Build Your Foundation?"
+                },
+        "hero":  {
+                     "description":  "Establish reliable data infrastructure that supports analytics initiatives. Our assessment identifies gaps in your data architecture, establishes governance frameworks, and creates a roadmap for scalable analytics capabilities.",
+                     "descriptionHighlight":  [
+                                                  "reliable data infrastructure"
+                                              ],
+                     "keyBenefits":  [
+                                         "Complete data infrastructure audit",
+                                         "Governance framework implementation",
+                                         "Scalable architecture roadmap",
+                                         "Risk assessment and mitigation"
+                                     ],
+                     "subtitle":  "Foundation Readiness Assessment",
+                     "title":  "Build a Solid Analytics Foundation"
+                 },
+        "icon":  "mdi:layers",
+        "language":  "en",
+        "name":  "Foundation Readiness",
+        "outcomes":  {
+                         "description":  "Quantifiable improvements in data infrastructure reliability and analytics readiness.",
+                         "descriptionHighlight":  [
+                                                      "Quantifiable improvements"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "Improvement in data accuracy and completeness",
+                                             "label":  "Data Quality Score",
+                                             "value":  "85%+"
+                                         },
+                                         {
+                                             "description":  "Increased system reliability and availability",
+                                             "label":  "Infrastructure Uptime",
+                                             "value":  "99.5%+"
+                                         },
+                                         {
+                                             "description":  "Reduction in time from data to actionable insights",
+                                             "label":  "Time to Insight",
+                                             "value":  "60%"
+                                         },
+                                         {
+                                             "description":  "Adherence to data governance standards",
+                                             "label":  "Governance Compliance",
+                                             "value":  "100%"
+                                         }
+                                     ],
+                         "title":  "Expected Results"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "Fragmented data sources and inconsistent quality",
+                                            "Lack of data governance and security protocols",
+                                            "Inadequate infrastructure for analytics workloads",
+                                            "Unclear data ownership and accountability"
+                                        ],
+                         "description":  "Analytics capabilities are only as strong as their underlying foundation. Our Foundation Readiness service evaluates your data infrastructure to identify what\u0027s working, what\u0027s missing, and what needs improvement to support your analytics goals.",
+                         "descriptionHighlight":  [
+                                                      "underlying foundation"
+                                                  ],
+                         "solutions":  [
+                                           "Comprehensive data architecture assessment",
+                                           "Implementation of governance frameworks",
+                                           "Infrastructure optimization and modernization",
+                                           "Data quality and lineage establishment"
+                                       ],
+                         "title":  "Why Foundation Readiness Matters"
+                     },
+        "process":  {
+                        "description":  "A structured 6-week process that evaluates and strengthens your data foundation.",
+                        "descriptionHighlight":  [
+                                                     "6-week process"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "Infrastructure inventory",
+                                                               "Gap analysis report",
+                                                               "Risk assessment"
+                                                           ],
+                                          "description":  "Comprehensive audit of current data infrastructure, systems, and processes.",
+                                          "step":  1,
+                                          "title":  "Discovery \u0026 Assessment"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Architecture blueprint",
+                                                               "Technology recommendations",
+                                                               "Cost-benefit analysis"
+                                                           ],
+                                          "description":  "Design scalable data architecture that supports your analytics goals.",
+                                          "step":  2,
+                                          "title":  "Architecture Design"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Governance policies",
+                                                               "Data stewardship model",
+                                                               "Security protocols"
+                                                           ],
+                                          "description":  "Establish data governance policies and organizational structure.",
+                                          "step":  3,
+                                          "title":  "Governance Framework"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Phased implementation plan",
+                                                               "Resource requirements",
+                                                               "Success metrics"
+                                                           ],
+                                          "description":  "Create detailed implementation plan with timelines and milestones.",
+                                          "step":  4,
+                                          "title":  "Implementation Roadmap"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Pilot results",
+                                                               "Performance benchmarks",
+                                                               "Validation report"
+                                                           ],
+                                          "description":  "Test foundation components and validate against requirements.",
+                                          "step":  5,
+                                          "title":  "Pilot \u0026 Validation"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Training materials",
+                                                               "Documentation",
+                                                               "Support procedures"
+                                                           ],
+                                          "description":  "Train your team and provide documentation for ongoing maintenance.",
+                                          "step":  6,
+                                          "title":  "Knowledge Transfer"
+                                      }
+                                  ],
+                        "title":  "Our Approach"
+                    },
+        "shortDescription":  "Assess and prepare your data infrastructure",
+        "slug":  "foundation-readiness"
+    },
+    {
+        "_createdAt":  "2026-01-21T16:55:06Z",
+        "_id":  "serviceDetail-foundation-readiness-ar",
+        "_rev":  "wg5Sic927AwHQ9KTY2vXLI",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-22T05:27:50Z",
+        "benefits":  {
+                         "description":  "ابدأ رحلتك التحليلية بوضوح وثقة.",
+                         "descriptionHighlight":  [
+                                                      "وضوح وثقة"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "افهم حالة بياناتك الحالية وما يجب تحسينه.",
+                                              "icon":  "mdi:compass-outline",
+                                              "title":  "رؤية واضحة"
+                                          },
+                                          {
+                                              "description":  "احصل على خطة واضحة خطوة بخطوة لبناء قدرات التحليلات.",
+                                              "icon":  "mdi:file-document",
+                                              "title":  "خارطة طريق قابلة للتنفيذ"
+                                          },
+                                          {
+                                              "description":  "حدد الفرص للنجاح السريع وبناء الزخم.",
+                                              "icon":  "mdi:rocket-launch",
+                                              "title":  "انتصارات سريعة"
+                                          },
+                                          {
+                                              "description":  "تجنب الأخطاء المكلفة بمعالجة الفجوات في وقت مبكر.",
+                                              "icon":  "mdi:shield-check-outline",
+                                              "title":  "تخفيف المخاطر"
+                                          }
+                                      ],
+                         "title":  "فوائد جاهزية الأساس"
+                     },
+        "cta":  {
+                    "ctaHref":  "/ar/contact",
+                    "ctaText":  "ابدأ التقييم",
+                    "description":  "قيّم جاهزيتك للبيانات واحصل على خارطة طريق واضحة للنجاح التحليلي.",
+                    "descriptionHighlight":  [
+                                                 "خارطة طريق واضحة"
+                                             ],
+                    "title":  "ابدأ مع جاهزية الأساس"
+                },
+        "hero":  {
+                     "description":  "ابدأ رحلة التحليلات الخاصة بك بتقييم شامل. نقيّم بنيتك التحتية للبيانات الحالية، نحدد الفجوات والفرص، وننشئ خارطة طريق واضحة لبناء أساس قوي للتحليلات.",
+                     "descriptionHighlight":  [
+                                                  "تقييم شامل"
+                                              ],
+                     "keyBenefits":  [
+                                         "تقييم جاهزية البيانات",
+                                         "تقييم البنية التحتية",
+                                         "خارطة طريق استراتيجية",
+                                         "توصيات سريعة الفوز"
+                                     ],
+                     "subtitle":  "خدمة جاهزية الأساس",
+                     "title":  "قيّم وجهز بنيتك التحتية للبيانات"
+                 },
+        "icon":  "mdi:layers",
+        "language":  "ar",
+        "name":  "جاهزية الأساس",
+        "outcomes":  {
+                         "description":  "وضوح واتجاه للتحليلات المستقبلية.",
+                         "descriptionHighlight":  [
+                                                      "وضوح واتجاه"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "تقييم شامل وخارطة طريق",
+                                             "label":  "وقت التقييم",
+                                             "value":  "6 أسابيع"
+                                         },
+                                         {
+                                             "description":  "تحسن في درجة نضج التحليلات",
+                                             "label":  "النضج",
+                                             "value":  "+2 مستويات"
+                                         },
+                                         {
+                                             "description":  "فهم كامل للفجوات والفرص",
+                                             "label":  "الجاهزية",
+                                             "value":  "100%"
+                                         },
+                                         {
+                                             "description":  "ثقة في قرارات الاستثمار التحليلي",
+                                             "label":  "وضوح ROI",
+                                             "value":  "95%"
+                                         }
+                                     ],
+                         "title":  "النتائج المتوقعة"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "بيانات مجزأة عبر أنظمة متعددة",
+                                            "بنية تحتية غير واضحة للبيانات",
+                                            "عدم اليقين حول من أين تبدأ",
+                                            "فجوات في جودة البيانات وحوكمتها"
+                                        ],
+                         "description":  "قبل أن تتمكن من بناء تحليلات متقدمة، تحتاج إلى أساس متين. تقيّم خدمة جاهزية الأساس وضعك الحالي، تحدد ما يجب إصلاحه، وتنشئ خارطة طريق واضحة للنجاح التحليلي.",
+                         "descriptionHighlight":  [
+                                                      "خارطة طريق واضحة"
+                                                  ],
+                         "solutions":  [
+                                           "تقييم شامل للبيانات",
+                                           "تقييم البنية التحتية والبنية",
+                                           "خارطة طريق ذات أولويات للتنفيذ",
+                                           "مراجعة الحوكمة والامتثال"
+                                       ],
+                         "title":  "بناء أساس قوي"
+                     },
+        "process":  {
+                        "description":  "برنامج 6 أسابيع لتقييم الجاهزية وخارطة الطريق.",
+                        "descriptionHighlight":  [
+                                                     "برنامج 6 أسابيع"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "كتالوج البيانات",
+                                                               "خريطة تدفق البيانات",
+                                                               "تقييم مصدر البيانات"
+                                                           ],
+                                          "description":  "فهرس جميع مصادر البيانات، الأنظمة، وتدفقات البيانات.",
+                                          "step":  1,
+                                          "title":  "جرد البيانات"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "تقرير جودة البيانات",
+                                                               "تقييم الفجوة",
+                                                               "خطة التحسين"
+                                                           ],
+                                          "description":  "تقييم دقة البيانات، اكتمالها، واتساقها.",
+                                          "step":  2,
+                                          "title":  "مراجعة الجودة"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "وثيقة البنية",
+                                                               "تقييم التكنولوجيا",
+                                                               "توصيات البنية التحتية"
+                                                           ],
+                                          "description":  "تقييم البنية التحتية والبنية التقنية الحالية.",
+                                          "step":  3,
+                                          "title":  "تقييم البنية"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "إطار الحوكمة",
+                                                               "تقييم الامتثال",
+                                                               "توصيات الأمان"
+                                                           ],
+                                          "description":  "تقييم سياسات البيانات، الأمان، والامتثال.",
+                                          "step":  4,
+                                          "title":  "مراجعة الحوكمة"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "خارطة طريق استراتيجية",
+                                                               "خطة التنفيذ",
+                                                               "تقييم الموارد"
+                                                           ],
+                                          "description":  "إنشاء خطة تنفيذ ذات أولويات مع معالم واضحة.",
+                                          "step":  5,
+                                          "title":  "خارطة طريق التطوير"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "عرض تنفيذي",
+                                                               "ورشة عمل أصحاب المصلحة",
+                                                               "دليل التنفيذ"
+                                                           ],
+                                          "description":  "مشاركة النتائج والتوصيات مع أصحاب المصلحة.",
+                                          "step":  6,
+                                          "title":  "العرض التقديمي وورشة العمل"
+                                      }
+                                  ],
+                        "title":  "عملية جاهزية الأساس"
+                    },
+        "shortDescription":  "قيّم وجهز بنيتك التحتية للبيانات",
+        "slug":  "foundation-readiness"
+    },
+    {
+        "_createdAt":  "2025-12-20T02:40:12Z",
+        "_id":  "serviceDetail-performance-diagnostics",
+        "_rev":  "wg5Sic927AwHQ9KTY2LmYn",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T16:55:07Z",
+        "benefits":  {
+                         "description":  "Faster analytics systems that support timely decision-making.",
+                         "descriptionHighlight":  [
+                                                      "timely decision-making"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "Identify and rewrite slow queries for better performance.",
+                                              "icon":  "mdi:database-cog",
+                                              "title":  "Query Optimization"
+                                          },
+                                          {
+                                              "description":  "Implement performance monitoring and alerting to catch issues early.",
+                                              "icon":  "mdi:monitor-eye",
+                                              "title":  "System Monitoring"
+                                          },
+                                          {
+                                              "description":  "Optimize database, server, and network configurations for analytics workloads.",
+                                              "icon":  "mdi:tune",
+                                              "title":  "Infrastructure Tuning"
+                                          },
+                                          {
+                                              "description":  "Plan infrastructure capacity based on current usage and growth projections.",
+                                              "icon":  "mdi:chart-areaspline",
+                                              "title":  "Capacity Planning"
+                                          }
+                                      ],
+                         "title":  "Performance Optimization Benefits"
+                     },
+        "cta":  {
+                    "ctaHref":  "/contact",
+                    "ctaText":  "Start Performance Diagnostics",
+                    "description":  "Identify bottlenecks and optimize your analytics systems for better performance.",
+                    "descriptionHighlight":  [
+                                                 "better performance"
+                                             ],
+                    "title":  "Improve Analytics Performance"
+                },
+        "hero":  {
+                     "description":  "Identify and resolve performance bottlenecks across your analytics stack. We analyze queries, optimize databases, and implement monitoring to ensure your analytics systems perform efficiently.",
+                     "descriptionHighlight":  [
+                                                  "perform efficiently"
+                                              ],
+                     "keyBenefits":  [
+                                         "Query performance optimization",
+                                         "System bottleneck identification",
+                                         "Infrastructure tuning recommendations",
+                                         "Performance monitoring setup"
+                                     ],
+                     "subtitle":  "Performance Diagnostics Service",
+                     "title":  "Optimize Analytics Performance"
+                 },
+        "icon":  "mdi:chart-line",
+        "language":  "en",
+        "name":  "Performance Diagnostics",
+        "outcomes":  {
+                         "description":  "Measurable performance gains across your analytics infrastructure.",
+                         "descriptionHighlight":  [
+                                                      "Measurable performance gains"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "Average improvement in query execution speed",
+                                             "label":  "Query Performance",
+                                             "value":  "5x"
+                                         },
+                                         {
+                                             "description":  "Reduction in report generation time",
+                                             "label":  "Report Generation",
+                                             "value":  "60%"
+                                         },
+                                         {
+                                             "description":  "Improvement in user experience ratings",
+                                             "label":  "User Satisfaction",
+                                             "value":  "85%"
+                                         },
+                                         {
+                                             "description":  "Increase in system availability",
+                                             "label":  "System Uptime",
+                                             "value":  "99.9%"
+                                         }
+                                     ],
+                         "title":  "Performance Improvements"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "Slow query performance and long report generation times",
+                                            "Inefficient data models and query structures",
+                                            "Infrastructure limitations and resource constraints",
+                                            "Lack of performance monitoring and alerting"
+                                        ],
+                         "description":  "Slow analytics systems frustrate users and delay decisions. Our diagnostics pinpoint performance issues across your analytics infrastructure—from queries to infrastructure—and implement targeted optimizations.",
+                         "descriptionHighlight":  [
+                                                      "targeted optimizations"
+                                                  ],
+                         "solutions":  [
+                                           "Comprehensive performance analysis",
+                                           "Query optimization and tuning",
+                                           "Infrastructure capacity planning",
+                                           "Performance monitoring implementation"
+                                       ],
+                         "title":  "Performance Matters"
+                     },
+        "process":  {
+                        "description":  "A focused 4-week investigation and optimization program.",
+                        "descriptionHighlight":  [
+                                                     "4-week investigation"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "Performance baseline",
+                                                               "User impact assessment",
+                                                               "System health report"
+                                                           ],
+                                          "description":  "Comprehensive analysis of current system performance and user impact.",
+                                          "step":  1,
+                                          "title":  "Performance Assessment"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Bottleneck identification",
+                                                               "Root cause analysis",
+                                                               "Impact prioritization"
+                                                           ],
+                                          "description":  "Identify specific performance bottlenecks and root causes.",
+                                          "step":  2,
+                                          "title":  "Bottleneck Analysis"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Optimization strategy",
+                                                               "Implementation timeline",
+                                                               "Risk assessment"
+                                                           ],
+                                          "description":  "Develop detailed optimization plan with implementation roadmap.",
+                                          "step":  3,
+                                          "title":  "Optimization Planning"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Optimized configurations",
+                                                               "Performance test results",
+                                                               "Monitoring setup"
+                                                           ],
+                                          "description":  "Execute optimizations and validate performance improvements.",
+                                          "step":  4,
+                                          "title":  "Implementation \u0026 Testing"
+                                      }
+                                  ],
+                        "title":  "Performance Diagnostics Process"
+                    },
+        "shortDescription":  "Identify and optimize performance bottlenecks",
+        "slug":  "performance-diagnostics"
+    },
+    {
+        "_createdAt":  "2026-01-21T16:55:08Z",
+        "_id":  "serviceDetail-performance-diagnostics-ar",
+        "_rev":  "wg5Sic927AwHQ9KTY2vYTn",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-22T05:28:35Z",
+        "benefits":  {
+                         "description":  "أنظمة أسرع، مستخدمين أكثر سعادة، قرارات أفضل.",
+                         "descriptionHighlight":  [
+                                                      "أسرع، أكثر سعادة، أفضل"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "لوحات معلومات وتقارير تتحمّل بسرعة، مما يحسن رضا المستخدم.",
+                                              "icon":  "mdi:chart-line",
+                                              "title":  "استجابة أسرع"
+                                          },
+                                          {
+                                              "description":  "استخدام محسّن للموارد يقلل من تكاليف البنية التحتية.",
+                                              "icon":  "mdi:finance",
+                                              "title":  "كفاءة التكلفة"
+                                          },
+                                          {
+                                              "description":  "أنظمة مستقرة مع فترات تعطل أقل ومشاكل أداء أقل.",
+                                              "icon":  "mdi:shield-check",
+                                              "title":  "موثوقية محسّنة"
+                                          },
+                                          {
+                                              "description":  "اكتشف ومعالجة قضايا الأداء قبل أن تؤثر على المستخدمين.",
+                                              "icon":  "mdi:database-search",
+                                              "title":  "مراقبة استباقية"
+                                          }
+                                      ],
+                         "title":  "فوائد تشخيص الأداء"
+                     },
+        "cta":  {
+                    "ctaHref":  "/ar/contact",
+                    "ctaText":  "ابدأ التشخيص",
+                    "description":  "حدد وحل نقاط ضعف الأداء لتقديم تحليلات أسرع وأكثر موثوقية.",
+                    "descriptionHighlight":  [
+                                                 "أسرع وأكثر موثوقية"
+                                             ],
+                    "title":  "تحسين أداء التحليلات"
+                },
+        "hero":  {
+                     "description":  "أنظمة التحليلات البطيئة تحبط المستخدمين وتؤخر القرارات. تشخيصاتنا تحدد بدقة قضايا الأداء عبر بنيتك التحتية للتحليلات — من الاستعلامات إلى البنية التحتية — وتنفذ التحسينات المستهدفة.",
+                     "descriptionHighlight":  [
+                                                  "التحسينات المستهدفة"
+                                              ],
+                     "keyBenefits":  [
+                                         "تحليل أداء شامل",
+                                         "تحسين الاستعلامات وضبطها",
+                                         "تخطيط قدرات البنية التحتية",
+                                         "تنفيذ مراقبة الأداء"
+                                     ],
+                     "subtitle":  "خدمة تشخيص الأداء",
+                     "title":  "حدد وحسّن نقاط الضعف في الأداء"
+                 },
+        "icon":  "mdi:chart-line",
+        "language":  "ar",
+        "name":  "تشخيص الأداء",
+        "outcomes":  {
+                         "description":  "تحسينات أداء قابلة للقياس وتجربة مستخدم محسّنة.",
+                         "descriptionHighlight":  [
+                                                      "أداء قابل للقياس"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "تحسن في أوقات تنفيذ الاستعلام",
+                                             "label":  "سرعة الاستعلام",
+                                             "value":  "70%"
+                                         },
+                                         {
+                                             "description":  "أسرع في أوقات تحميل لوحة المعلومات",
+                                             "label":  "تحميل لوحة المعلومات",
+                                             "value":  "60%"
+                                         },
+                                         {
+                                             "description":  "من المستخدمين يُبلغون عن تجربة محسّنة",
+                                             "label":  "رضا المستخدم",
+                                             "value":  "85%"
+                                         },
+                                         {
+                                             "description":  "تقليل في تكاليف البنية التحتية",
+                                             "label":  "كفاءة الموارد",
+                                             "value":  "40%"
+                                         }
+                                     ],
+                         "title":  "النتائج المتوقعة"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "لوحات معلومات وتقارير بطيئة التحميل",
+                                            "استعلامات طويلة الأمد تحبط المستخدمين",
+                                            "عدم اليقين حول سبب مشاكل الأداء",
+                                            "موارد بنية تحتية غير فعالة"
+                                        ],
+                         "description":  "أنظمة التحليلات البطيئة تحبط المستخدمين وتؤخر القرارات. تشخيصاتنا تحدد بدقة قضايا الأداء عبر بنيتك التحتية للتحليلات — من الاستعلامات إلى البنية التحتية — وتنفذ التحسينات المستهدفة.",
+                         "descriptionHighlight":  [
+                                                      "التحسينات المستهدفة"
+                                                  ],
+                         "solutions":  [
+                                           "تحليل أداء شامل",
+                                           "تحسين وضبط الاستعلامات",
+                                           "تخطيط قدرات البنية التحتية",
+                                           "تنفيذ مراقبة الأداء"
+                                       ],
+                         "title":  "الأداء مهم"
+                     },
+        "process":  {
+                        "description":  "برنامج تحقيق وتحسين مركز لمدة 4 أسابيع.",
+                        "descriptionHighlight":  [
+                                                     "تحقيق 4 أسابيع"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "خط أساس الأداء",
+                                                               "تقييم تأثير المستخدم",
+                                                               "تقرير صحة النظام"
+                                                           ],
+                                          "description":  "تحليل شامل لأداء النظام الحالي وتأثير المستخدم.",
+                                          "step":  1,
+                                          "title":  "تقييم الأداء"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "تحديد نقاط الضعف",
+                                                               "تحليل السبب الجذري",
+                                                               "ترتيب أولويات التأثير"
+                                                           ],
+                                          "description":  "تحديد نقاط ضعف أداء محددة والأسباب الجذرية.",
+                                          "step":  2,
+                                          "title":  "تحليل نقاط الضعف"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "استراتيجية التحسين",
+                                                               "جدول زمني للتنفيذ",
+                                                               "تقييم المخاطر"
+                                                           ],
+                                          "description":  "تطوير استراتيجية تحسين مفصلة مع خارطة طريق التنفيذ.",
+                                          "step":  3,
+                                          "title":  "تخطيط التحسين"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "إعدادات محسّنة",
+                                                               "نتائج اختبار الأداء",
+                                                               "إعداد المراقبة"
+                                                           ],
+                                          "description":  "تنفيذ التحسينات والتحقق من تحسينات الأداء.",
+                                          "step":  4,
+                                          "title":  "التنفيذ والاختبار"
+                                      }
+                                  ],
+                        "title":  "عملية تشخيص الأداء"
+                    },
+        "shortDescription":  "حدد وحسّن نقاط الضعف في الأداء",
+        "slug":  "performance-diagnostics"
+    },
+    {
+        "_createdAt":  "2025-12-20T02:40:10Z",
+        "_id":  "serviceDetail-reporting-reset",
+        "_rev":  "w258lxaGLrvXChHhCsFETs",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T16:55:09Z",
+        "benefits":  {
+                         "description":  "Equip your organization with reporting tools that match the pace of business.",
+                         "descriptionHighlight":  [
+                                                      "pace of business"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "Business users can create their own reports and analyses without waiting for IT support.",
+                                              "icon":  "mdi:chart-donut-variant",
+                                              "title":  "Self-Service Analytics"
+                                          },
+                                          {
+                                              "description":  "Interactive dashboards that update automatically as new data becomes available.",
+                                              "icon":  "mdi:monitor-dashboard",
+                                              "title":  "Real-Time Dashboards"
+                                          },
+                                          {
+                                              "description":  "Schedule reports to generate and distribute automatically to stakeholders.",
+                                              "icon":  "mdi:file-send",
+                                              "title":  "Automated Distribution"
+                                          },
+                                          {
+                                              "description":  "Responsive dashboards and reports accessible from any device.",
+                                              "icon":  "mdi:cellphone-cog",
+                                              "title":  "Mobile Access"
+                                          }
+                                      ],
+                         "title":  "Modern Reporting Capabilities"
+                     },
+        "cta":  {
+                    "ctaHref":  "/contact",
+                    "ctaText":  "Start Reporting Reset",
+                    "description":  "Upgrade your reporting capabilities and enable self-service analytics across your organization.",
+                    "descriptionHighlight":  [
+                                                 "self-service analytics"
+                                             ],
+                    "title":  "Ready to Modernize Reporting?"
+                },
+        "hero":  {
+                     "description":  "Replace static reports with dynamic, interactive analytics. We modernize your reporting infrastructure, implement self-service capabilities, and create dashboards that support better decision-making.",
+                     "descriptionHighlight":  [
+                                                  "interactive analytics"
+                                              ],
+                     "keyBenefits":  [
+                                         "Self-service analytics platform",
+                                         "Interactive dashboards and reports",
+                                         "Automated report generation",
+                                         "Real-time data visualization"
+                                     ],
+                     "subtitle":  "Reporting Reset Service",
+                     "title":  "Modernize Your Reporting Infrastructure"
+                 },
+        "icon":  "mdi:chart-box",
+        "language":  "en",
+        "name":  "Reporting Reset",
+        "outcomes":  {
+                         "description":  "Significant improvements in reporting efficiency and user capability.",
+                         "descriptionHighlight":  [
+                                                      "reporting efficiency"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "Reduction in time to create new reports",
+                                             "label":  "Report Creation Time",
+                                             "value":  "75%"
+                                         },
+                                         {
+                                             "description":  "Increase in user satisfaction with reporting tools",
+                                             "label":  "User Satisfaction",
+                                             "value":  "90%+"
+                                         },
+                                         {
+                                             "description":  "Percentage of reports created by business users",
+                                             "label":  "Self-Service Adoption",
+                                             "value":  "80%"
+                                         },
+                                         {
+                                             "description":  "Faster access to business insights",
+                                             "label":  "Time to Insight",
+                                             "value":  "50%"
+                                         }
+                                     ],
+                         "title":  "Expected Results"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "Outdated reporting tools and processes",
+                                            "Manual report creation consuming valuable time",
+                                            "Limited user access to data and insights",
+                                            "Static reports that don\u0027t support dynamic decision-making"
+                                        ],
+                         "description":  "Traditional reporting often means waiting for IT to create static reports that are outdated by the time they\u0027re delivered. Modern reporting puts insights directly in the hands of business users with tools that update in real-time.",
+                         "descriptionHighlight":  [
+                                                      "real-time"
+                                                  ],
+                         "solutions":  [
+                                           "Modern BI platform implementation",
+                                           "Self-service analytics enablement",
+                                           "Automated reporting workflows",
+                                           "Interactive dashboard creation"
+                                       ],
+                         "title":  "The Case for Modern Reporting"
+                     },
+        "process":  {
+                        "description":  "An 8-week program to transform your reporting capabilities.",
+                        "descriptionHighlight":  [
+                                                     "8-week program"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "Reporting inventory",
+                                                               "User needs assessment",
+                                                               "Technology evaluation"
+                                                           ],
+                                          "description":  "Audit existing reports, tools, and user requirements.",
+                                          "step":  1,
+                                          "title":  "Current State Analysis"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Platform recommendation",
+                                                               "Architecture design",
+                                                               "Security configuration"
+                                                           ],
+                                          "description":  "Choose and configure the right BI platform for your needs.",
+                                          "step":  2,
+                                          "title":  "Platform Selection"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Data models",
+                                                               "ETL processes",
+                                                               "Quality validation"
+                                                           ],
+                                          "description":  "Clean, transform, and prepare data for reporting.",
+                                          "step":  3,
+                                          "title":  "Data Preparation"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Executive dashboards",
+                                                               "Operational reports",
+                                                               "User training materials"
+                                                           ],
+                                          "description":  "Create interactive dashboards and reports aligned to business needs.",
+                                          "step":  4,
+                                          "title":  "Dashboard Development"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Scheduling system",
+                                                               "Distribution lists",
+                                                               "Alert configurations"
+                                                           ],
+                                          "description":  "Implement automated report generation and distribution.",
+                                          "step":  5,
+                                          "title":  "Automation Setup"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Training sessions",
+                                                               "Documentation",
+                                                               "Support procedures"
+                                                           ],
+                                          "description":  "Train users on self-service tools and reporting best practices.",
+                                          "step":  6,
+                                          "title":  "User Training"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Test results",
+                                                               "Performance benchmarks",
+                                                               "User acceptance"
+                                                           ],
+                                          "description":  "Comprehensive testing of all reporting functionality.",
+                                          "step":  7,
+                                          "title":  "Testing \u0026 Validation"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Launch plan",
+                                                               "Support documentation",
+                                                               "Maintenance procedures"
+                                                           ],
+                                          "description":  "Launch the new system with ongoing support during transition.",
+                                          "step":  8,
+                                          "title":  "Go-Live \u0026 Support"
+                                      }
+                                  ],
+                        "title":  "Our Reporting Reset Process"
+                    },
+        "shortDescription":  "Modernize your reporting capabilities",
+        "slug":  "reporting-reset"
+    },
+    {
+        "_createdAt":  "2026-01-21T16:55:10Z",
+        "_id":  "serviceDetail-reporting-reset-ar",
+        "_rev":  "wg5Sic927AwHQ9KTY2PnSn",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T18:25:30Z",
+        "benefits":  {
+                         "description":  "جهز مؤسستك بأدوات تقارير تتوافق مع وتيرة الأعمال.",
+                         "descriptionHighlight":  [
+                                                      "وتيرة الأعمال"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "يمكن لمستخدمي الأعمال إنشاء تقاريرهم وتحليلاتهم الخاصة دون الانتظار لدعم تكنولوجيا المعلومات.",
+                                              "icon":  "mdi:chart-donut-variant",
+                                              "title":  "تحليلات ذاتية الخدمة"
+                                          },
+                                          {
+                                              "description":  "لوحات معلومات تفاعلية تتحدث تلقائياً مع توفر بيانات جديدة.",
+                                              "icon":  "mdi:monitor-dashboard",
+                                              "title":  "لوحات معلومات فورية"
+                                          },
+                                          {
+                                              "description":  "جدولة التقارير لتوليدها وتوزيعها تلقائياً لأصحاب المصلحة.",
+                                              "icon":  "mdi:file-send",
+                                              "title":  "التوزيع الآلي"
+                                          },
+                                          {
+                                              "description":  "لوحات معلومات وتقارير متجاوبة يمكن الوصول إليها من أي جهاز.",
+                                              "icon":  "mdi:cellphone-cog",
+                                              "title":  "الوصول عبر الأجهزة المحمولة"
+                                          }
+                                      ],
+                         "title":  "قدرات التقارير الحديثة"
+                     },
+        "cta":  {
+                    "ctaHref":  "/ar/contact",
+                    "ctaText":  "ابدأ إعادة ضبط التقارير",
+                    "description":  "قم بترقية قدرات التقارير الخاصة بك وتمكين التحليلات ذاتية الخدمة عبر مؤسستك.",
+                    "descriptionHighlight":  [
+                                                 "التحليلات ذاتية الخدمة"
+                                             ],
+                    "title":  "مستعد لتحديث التقارير؟"
+                },
+        "hero":  {
+                     "description":  "استبدل التقارير الثابتة بالتحليلات الديناميكية التفاعلية. نحدّث بنيتك التحتية للتقارير، ننفذ قدرات الخدمة الذاتية، وننشئ لوحات معلومات تدعم اتخاذ قرارات أفضل.",
+                     "descriptionHighlight":  [
+                                                  "التحليلات التفاعلية"
+                                              ],
+                     "keyBenefits":  [
+                                         "منصة تحليلات ذاتية الخدمة",
+                                         "لوحات معلومات وتقارير تفاعلية",
+                                         "إنشاء تقارير آلي",
+                                         "تصور بيانات فوري"
+                                     ],
+                     "subtitle":  "خدمة إعادة ضبط التقارير",
+                     "title":  "حدّث بنيتك التحتية للتقارير"
+                 },
+        "icon":  "mdi:chart-box",
+        "language":  "ar",
+        "name":  "إعادة ضبط التقارير",
+        "outcomes":  {
+                         "description":  "تحسينات كبيرة في كفاءة التقارير وقدرة المستخدم.",
+                         "descriptionHighlight":  [
+                                                      "كفاءة التقارير"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "تقليل في الوقت لإنشاء تقارير جديدة",
+                                             "label":  "وقت إنشاء التقارير",
+                                             "value":  "75%"
+                                         },
+                                         {
+                                             "description":  "زيادة في رضا المستخدم عن أدوات التقارير",
+                                             "label":  "رضا المستخدم",
+                                             "value":  "90%+"
+                                         },
+                                         {
+                                             "description":  "نسبة التقارير التي أنشأها مستخدمو الأعمال",
+                                             "label":  "اعتماد الخدمة الذاتية",
+                                             "value":  "80%"
+                                         },
+                                         {
+                                             "description":  "وصول أسرع لرؤى الأعمال",
+                                             "label":  "الوقت للرؤية",
+                                             "value":  "50%"
+                                         }
+                                     ],
+                         "title":  "النتائج المتوقعة"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "أدوات وعمليات تقارير قديمة",
+                                            "إنشاء تقارير يدوي يستهلك وقتاً ثميناً",
+                                            "وصول محدود للمستخدمين للبيانات والرؤى",
+                                            "تقارير ثابتة لا تدعم اتخاذ القرارات الديناميكي"
+                                        ],
+                         "description":  "التقارير التقليدية غالباً تعني الانتظار لقسم تكنولوجيا المعلومات لإنشاء تقارير ثابتة قديمة بحلول وقت تسليمها. التقارير الحديثة تضع الرؤى مباشرة في أيدي مستخدمي الأعمال بأدوات تتحدث في الوقت الفعلي.",
+                         "descriptionHighlight":  [
+                                                      "الوقت الفعلي"
+                                                  ],
+                         "solutions":  [
+                                           "تنفيذ منصة ذكاء أعمال حديثة",
+                                           "تمكين تحليلات ذاتية الخدمة",
+                                           "سير عمل تقارير آلية",
+                                           "إنشاء لوحات معلومات تفاعلية"
+                                       ],
+                         "title":  "حالة التقارير الحديثة"
+                     },
+        "process":  {
+                        "description":  "برنامج 8 أسابيع لتحويل قدرات التقارير الخاصة بك.",
+                        "descriptionHighlight":  [
+                                                     "برنامج 8 أسابيع"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "جرد التقارير",
+                                                               "تقييم احتياجات المستخدم",
+                                                               "تقييم التكنولوجيا"
+                                                           ],
+                                          "description":  "مراجعة التقارير، الأدوات، ومتطلبات المستخدمين الحالية.",
+                                          "step":  1,
+                                          "title":  "تحليل الحالة الحالية"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "توصية المنصة",
+                                                               "تصميم البنية",
+                                                               "إعداد الأمان"
+                                                           ],
+                                          "description":  "اختيار وإعداد منصة ذكاء الأعمال المناسبة لاحتياجاتك.",
+                                          "step":  2,
+                                          "title":  "اختيار المنصة"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "نماذج البيانات",
+                                                               "عمليات ETL",
+                                                               "التحقق من الجودة"
+                                                           ],
+                                          "description":  "تنظيف، تحويل، وإعداد البيانات للتقارير.",
+                                          "step":  3,
+                                          "title":  "إعداد البيانات"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "لوحات معلومات تنفيذية",
+                                                               "تقارير تشغيلية",
+                                                               "مواد تدريب المستخدم"
+                                                           ],
+                                          "description":  "إنشاء لوحات معلومات وتقارير تفاعلية متوافقة مع احتياجات الأعمال.",
+                                          "step":  4,
+                                          "title":  "تطوير لوحات المعلومات"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "نظام الجدولة",
+                                                               "قوائم التوزيع",
+                                                               "إعدادات التنبيهات"
+                                                           ],
+                                          "description":  "تنفيذ إنشاء وتوزيع التقارير التلقائي.",
+                                          "step":  5,
+                                          "title":  "إعداد الأتمتة"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "جلسات تدريبية",
+                                                               "التوثيق",
+                                                               "إجراءات الدعم"
+                                                           ],
+                                          "description":  "تدريب المستخدمين على أدوات الخدمة الذاتية وأفضل ممارسات التقارير.",
+                                          "step":  6,
+                                          "title":  "تدريب المستخدمين"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "نتائج الاختبار",
+                                                               "معايير الأداء",
+                                                               "قبول المستخدم"
+                                                           ],
+                                          "description":  "اختبار شامل لجميع وظائف التقارير.",
+                                          "step":  7,
+                                          "title":  "الاختبار والتحقق"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "خطة الإطلاق",
+                                                               "وثائق الدعم",
+                                                               "إجراءات الصيانة"
+                                                           ],
+                                          "description":  "إطلاق النظام الجديد مع دعم مستمر أثناء الانتقال.",
+                                          "step":  8,
+                                          "title":  "الإطلاق والدعم"
+                                      }
+                                  ],
+                        "title":  "عملية إعادة ضبط التقارير"
+                    },
+        "shortDescription":  "حدّث قدراتك في التقارير",
+        "slug":  "reporting-reset"
+    },
+    {
+        "_createdAt":  "2025-12-20T02:40:17Z",
+        "_id":  "serviceDetail-smart-automation",
+        "_rev":  "zgN7w2rbd9kseJ0L6mVW4Y",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T16:55:11Z",
+        "benefits":  {
+                         "description":  "Reduce manual effort and improve analytics consistency across your organization.",
+                         "descriptionHighlight":  [
+                                                      "analytics consistency"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "Reliable, automated data ingestion and processing workflows.",
+                                              "icon":  "mdi:pipe",
+                                              "title":  "Data Pipelines"
+                                          },
+                                          {
+                                              "description":  "Automated generation and distribution of reports and dashboards.",
+                                              "icon":  "mdi:file-chart",
+                                              "title":  "Report Automation"
+                                          },
+                                          {
+                                              "description":  "Centralized scheduling and monitoring of analytics workflows.",
+                                              "icon":  "mdi:cog-sync",
+                                              "title":  "Workflow Orchestration"
+                                          },
+                                          {
+                                              "description":  "Automated validation and error detection in data processing.",
+                                              "icon":  "mdi:shield-star",
+                                              "title":  "Quality Assurance"
+                                          }
+                                      ],
+                         "title":  "Smart Automation Benefits"
+                     },
+        "cta":  {
+                    "ctaHref":  "/contact",
+                    "ctaText":  "Start Smart Automation",
+                    "description":  "Eliminate repetitive tasks and scale your analytics capabilities through automation.",
+                    "descriptionHighlight":  [
+                                                 "scale your analytics"
+                                             ],
+                    "title":  "Automate Your Analytics"
+                },
+        "hero":  {
+                     "description":  "Eliminate repetitive manual work in analytics. We automate data pipelines, report generation, and analytical workflows, freeing your team to focus on analysis and insights rather than data processing.",
+                     "descriptionHighlight":  [
+                                                  "focus on analysis"
+                                              ],
+                     "keyBenefits":  [
+                                         "Automated data pipelines",
+                                         "Intelligent report generation",
+                                         "Workflow optimization",
+                                         "Scalable analytics processes"
+                                     ],
+                     "subtitle":  "Smart Automation Service",
+                     "title":  "Automate Analytics Workflows"
+                 },
+        "icon":  "mdi:robot",
+        "language":  "en",
+        "name":  "Smart Automation",
+        "outcomes":  {
+                         "description":  "Significant improvements in efficiency, consistency, and scalability.",
+                         "descriptionHighlight":  [
+                                                      "efficiency, consistency"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "Reduction in time spent on manual tasks",
+                                             "label":  "Time Savings",
+                                             "value":  "70%"
+                                         },
+                                         {
+                                             "description":  "Improvement in process consistency and reliability",
+                                             "label":  "Process Consistency",
+                                             "value":  "95%"
+                                         },
+                                         {
+                                             "description":  "Reduction in manual errors and inconsistencies",
+                                             "label":  "Error Reduction",
+                                             "value":  "80%"
+                                         },
+                                         {
+                                             "description":  "Increase in analytics processing capacity",
+                                             "label":  "Scalability",
+                                             "value":  "10x"
+                                         }
+                                     ],
+                         "title":  "Expected Results"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "Time-consuming manual data preparation and processing",
+                                            "Repetitive report generation and distribution",
+                                            "Inconsistent analytical processes and outputs",
+                                            "Limited scalability of manual analytics workflows"
+                                        ],
+                         "description":  "Manual analytics workflows are time-consuming, error-prone, and don\u0027t scale. Our Smart Automation service eliminates repetitive tasks, ensuring consistent, reliable analytics delivery while freeing analysts for higher-value work.",
+                         "descriptionHighlight":  [
+                                                      "higher-value work"
+                                                  ],
+                         "solutions":  [
+                                           "Automated data ingestion and processing pipelines",
+                                           "Intelligent report generation and distribution",
+                                           "Workflow orchestration and scheduling",
+                                           "Quality assurance and error handling automation"
+                                       ],
+                         "title":  "The Case for Automation"
+                     },
+        "process":  {
+                        "description":  "A 12-week program to automate analytics workflows.",
+                        "descriptionHighlight":  [
+                                                     "12-week program"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "Process documentation",
+                                                               "Automation opportunities",
+                                                               "Priority matrix"
+                                                           ],
+                                          "description":  "Map and analyze current manual processes and workflows.",
+                                          "step":  1,
+                                          "title":  "Workflow Analysis"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Architecture blueprint",
+                                                               "Technology selection",
+                                                               "Integration plan"
+                                                           ],
+                                          "description":  "Design automation architecture and select appropriate technologies.",
+                                          "step":  2,
+                                          "title":  "Architecture Design"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Data pipelines",
+                                                               "ETL processes",
+                                                               "Quality checks"
+                                                           ],
+                                          "description":  "Build automated data processing and analytics pipelines.",
+                                          "step":  3,
+                                          "title":  "Pipeline Development"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Report templates",
+                                                               "Scheduling system",
+                                                               "Distribution automation"
+                                                           ],
+                                          "description":  "Implement automated report generation and distribution.",
+                                          "step":  4,
+                                          "title":  "Report Automation"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Orchestration platform",
+                                                               "Monitoring dashboards",
+                                                               "Alert system"
+                                                           ],
+                                          "description":  "Implement workflow orchestration and monitoring.",
+                                          "step":  5,
+                                          "title":  "Orchestration Setup"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "Test scenarios",
+                                                               "Validation results",
+                                                               "Performance benchmarks"
+                                                           ],
+                                          "description":  "Comprehensive testing and validation of automated processes.",
+                                          "step":  6,
+                                          "title":  "Testing \u0026 Validation"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "User training",
+                                                               "Documentation",
+                                                               "Support procedures"
+                                                           ],
+                                          "description":  "Train team on maintaining and monitoring automated workflows.",
+                                          "step":  7,
+                                          "title":  "Training \u0026 Handover"
+                                      }
+                                  ],
+                        "title":  "Smart Automation Process"
+                    },
+        "shortDescription":  "Automate repetitive analytics workflows",
+        "slug":  "smart-automation"
+    },
+    {
+        "_createdAt":  "2026-01-21T16:55:12Z",
+        "_id":  "serviceDetail-smart-automation-ar",
+        "_rev":  "wg5Sic927AwHQ9KTY2PnXI",
+        "_type":  "serviceDetail",
+        "_updatedAt":  "2026-01-21T18:41:24Z",
+        "benefits":  {
+                         "description":  "قلل الجهد اليدوي وحسّن اتساق التحليلات عبر مؤسستك.",
+                         "descriptionHighlight":  [
+                                                      "اتساق التحليلات"
+                                                  ],
+                         "features":  [
+                                          {
+                                              "description":  "سير عمل استيعاب ومعالجة بيانات موثوق وآلي.",
+                                              "icon":  "mdi:pipe",
+                                              "title":  "خطوط البيانات"
+                                          },
+                                          {
+                                              "description":  "إنشاء وتوزيع تقارير ولوحات معلومات آلي.",
+                                              "icon":  "mdi:file-chart",
+                                              "title":  "أتمتة التقارير"
+                                          },
+                                          {
+                                              "description":  "جدولة ومراقبة مركزية لسير عمل التحليلات.",
+                                              "icon":  "mdi:database-cog",
+                                              "title":  "تنسيق سير العمل"
+                                          },
+                                          {
+                                              "description":  "التحقق الآلي وكشف الأخطاء في معالجة البيانات.",
+                                              "icon":  "mdi:shield-check",
+                                              "title":  "ضمان الجودة"
+                                          }
+                                      ],
+                         "title":  "فوائد الأتمتة الذكية"
+                     },
+        "cta":  {
+                    "ctaHref":  "/ar/contact",
+                    "ctaText":  "ابدأ الأتمتة الذكية",
+                    "description":  "تخلص من المهام المتكررة وقم بتوسيع قدرات التحليلات الخاصة بك من خلال الأتمتة.",
+                    "descriptionHighlight":  [
+                                                 "توسيع تحليلاتك"
+                                             ],
+                    "title":  "أتمت تحليلاتك"
+                },
+        "hero":  {
+                     "description":  "تخلص من العمل اليدوي المتكرر في التحليلات. نؤتمت خطوط البيانات، إنشاء التقارير، وسير العمل التحليلي، محررين فريقك للتركيز على التحليل والرؤى بدلاً من معالجة البيانات.",
+                     "descriptionHighlight":  [
+                                                  "التركيز على التحليل"
+                                              ],
+                     "keyBenefits":  [
+                                         "خطوط بيانات آلية",
+                                         "إنشاء تقارير ذكي",
+                                         "تحسين سير العمل",
+                                         "عمليات تحليلات قابلة للتوسع"
+                                     ],
+                     "subtitle":  "خدمة الأتمتة الذكية",
+                     "title":  "أتمت سير عمل التحليلات"
+                 },
+        "icon":  "mdi:robot",
+        "language":  "ar",
+        "name":  "الأتمتة الذكية",
+        "outcomes":  {
+                         "description":  "تحسينات كبيرة في الكفاءة، الاتساق، وقابلية التوسع.",
+                         "descriptionHighlight":  [
+                                                      "الكفاءة، الاتساق"
+                                                  ],
+                         "metrics":  [
+                                         {
+                                             "description":  "تقليل في الوقت المستغرق في المهام اليدوية",
+                                             "label":  "توفير الوقت",
+                                             "value":  "70%"
+                                         },
+                                         {
+                                             "description":  "تحسن في اتساق وموثوقية العملية",
+                                             "label":  "اتساق العملية",
+                                             "value":  "95%"
+                                         },
+                                         {
+                                             "description":  "تقليل في الأخطاء وعدم الاتساق اليدوي",
+                                             "label":  "تقليل الأخطاء",
+                                             "value":  "80%"
+                                         },
+                                         {
+                                             "description":  "زيادة في قدرة معالجة التحليلات",
+                                             "label":  "قابلية التوسع",
+                                             "value":  "10x"
+                                         }
+                                     ],
+                         "title":  "النتائج المتوقعة"
+                     },
+        "overview":  {
+                         "challenges":  [
+                                            "إعداد ومعالجة بيانات يدوية مستهلكة للوقت",
+                                            "إنشاء وتوزيع تقارير متكرر",
+                                            "عمليات تحليلية غير متسقة ومخرجات",
+                                            "قابلية توسع محدودة لسير العمل التحليلي اليدوي"
+                                        ],
+                         "description":  "سير العمل التحليلي اليدوي مستهلك للوقت، عرضة للأخطاء، ولا يتوسع. خدمة الأتمتة الذكية لدينا تتخلص من المهام المتكررة، تضمن تسليم تحليلات متسق وموثوق بينما تحرر المحللين للعمل ذي القيمة الأعلى.",
+                         "descriptionHighlight":  [
+                                                      "العمل ذي القيمة الأعلى"
+                                                  ],
+                         "solutions":  [
+                                           "خطوط استيعاب ومعالجة بيانات آلية",
+                                           "إنشاء وتوزيع تقارير ذكي",
+                                           "تنسيق وجدولة سير العمل",
+                                           "ضمان الجودة وأتمتة معالجة الأخطاء"
+                                       ],
+                         "title":  "حالة الأتمتة"
+                     },
+        "process":  {
+                        "description":  "برنامج 12 أسبوع لأتمتة سير عمل التحليلات.",
+                        "descriptionHighlight":  [
+                                                     "برنامج 12 أسبوع"
+                                                 ],
+                        "steps":  [
+                                      {
+                                          "deliverables":  [
+                                                               "توثيق العملية",
+                                                               "فرص الأتمتة",
+                                                               "مصفوفة الأولوية"
+                                                           ],
+                                          "description":  "رسم خريطة وتحليل العمليات والسير اليدوية الحالية.",
+                                          "step":  1,
+                                          "title":  "تحليل سير العمل"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "مخطط البنية",
+                                                               "اختيار التكنولوجيا",
+                                                               "خطة التكامل"
+                                                           ],
+                                          "description":  "تصميم بنية الأتمتة واختيار التقنيات المناسبة.",
+                                          "step":  2,
+                                          "title":  "تصميم البنية"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "خطوط البيانات",
+                                                               "عمليات ETL",
+                                                               "فحوصات الجودة"
+                                                           ],
+                                          "description":  "بناء خطوط معالجة بيانات وتحليلات آلية.",
+                                          "step":  3,
+                                          "title":  "تطوير خطوط البيانات"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "قوالب التقارير",
+                                                               "نظام الجدولة",
+                                                               "أتمتة التوزيع"
+                                                           ],
+                                          "description":  "تنفيذ إنشاء وتوزيع تقارير آلي.",
+                                          "step":  4,
+                                          "title":  "أتمتة التقارير"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "منصة التنسيق",
+                                                               "لوحات معلومات المراقبة",
+                                                               "نظام التنبيهات"
+                                                           ],
+                                          "description":  "تنفيذ تنسيق ومراقبة سير العمل.",
+                                          "step":  5,
+                                          "title":  "إعداد التنسيق"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "سيناريوهات الاختبار",
+                                                               "نتائج التحقق",
+                                                               "معايير الأداء"
+                                                           ],
+                                          "description":  "اختبار وتحقق شامل من العمليات الآلية.",
+                                          "step":  6,
+                                          "title":  "الاختبار والتحقق"
+                                      },
+                                      {
+                                          "deliverables":  [
+                                                               "تدريب المستخدم",
+                                                               "التوثيق",
+                                                               "إجراءات الدعم"
+                                                           ],
+                                          "description":  "تدريب الفريق على صيانة ومراقبة سير العمل الآلي.",
+                                          "step":  7,
+                                          "title":  "التدريب والتسليم"
+                                      }
+                                  ],
+                        "title":  "عملية الأتمتة الذكية"
+                    },
+        "shortDescription":  "أتمت سير العمل التحليلي المتكرر",
+        "slug":  "smart-automation"
+    }
+]

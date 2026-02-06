@@ -1,6 +1,6 @@
 import groq from 'groq';
 
-export const homepageQuery = groq`*[_type == "homepage" && language == "en"] | order(_updatedAt desc)[0]{
+export const homepageQuery = groq`*[_type == "homepage" && language == $lang] | order(_updatedAt desc)[0]{
   hero {
     title,
     titleHighlight,
@@ -80,7 +80,7 @@ export const homepageQuery = groq`*[_type == "homepage" && language == "en"] | o
   }
 }`;
 
-export const servicesQuery = groq`*[_type == "services" && language == "en"][0]{
+export const servicesQuery = groq`*[_type == "services" && language == $lang][0]{
   hero {
     headlineLine1,
     headlineLine2,
@@ -143,7 +143,7 @@ export const servicesQuery = groq`*[_type == "services" && language == "en"][0]{
   }
 }`;
 
-export const serviceDetailsQuery = groq`*[_type == "serviceDetail" && language == "en"] | order(name asc){
+export const serviceDetailsQuery = groq`*[_type == "serviceDetail" && language == $lang] | order(name asc){
   slug,
   name,
   shortDescription,
@@ -202,7 +202,7 @@ export const serviceDetailsQuery = groq`*[_type == "serviceDetail" && language =
   }
 }`;
 
-export const serviceDetailBySlugQuery = groq`*[_type == "serviceDetail" && language == "en" && slug == $slug][0]{
+export const serviceDetailBySlugQuery = groq`*[_type == "serviceDetail" && language == $lang && slug == $slug][0]{
   slug,
   name,
   shortDescription,
@@ -261,7 +261,7 @@ export const serviceDetailBySlugQuery = groq`*[_type == "serviceDetail" && langu
   }
 }`;
 
-export const aboutQuery = groq`*[_type == "about" && language == "en"] | order(_updatedAt desc)[0]{
+export const aboutQuery = groq`*[_type == "about" && language == $lang] | order(_updatedAt desc)[0]{
   hero {
     headline,
     description,
@@ -356,7 +356,7 @@ export const siteConfigQuery = groq`*[_type == "siteConfig"][0]{
   }
 }`;
 
-export const footerQuery = groq`*[_type == "footer" && language == "en"][0]{
+export const footerQuery = groq`*[_type == "footer" && language == $lang][0]{
   sections[] {
     _key,
     title,
@@ -369,7 +369,7 @@ export const footerQuery = groq`*[_type == "footer" && language == "en"][0]{
   }
 }`;
 
-export const navigationQuery = groq`*[_type == "navigation" && language == "en"][0]{
+export const navigationQuery = groq`*[_type == "navigation" && language == $lang][0]{
   items[] {
     _key,
     name,

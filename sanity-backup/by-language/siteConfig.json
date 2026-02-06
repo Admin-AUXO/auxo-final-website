@@ -1,0 +1,31 @@
+﻿{
+    "_createdAt":  "2025-12-20T05:25:35Z",
+    "_id":  "39e39c7a-52f7-4348-b04b-f3e25ed03a27",
+    "_rev":  "6sR35j6mIdEYpnSKTP9lBf",
+    "_type":  "siteConfig",
+    "_updatedAt":  "2025-12-20T05:25:41Z",
+    "address":  {
+                    "city":  "Dubai",
+                    "country":  "United Arab Emirates",
+                    "lat":  25.0957,
+                    "lng":  55.1694,
+                    "street":  "Dubai Internet City"
+                },
+    "description":  "AUXO is a Dubai-based data analytics consultancy serving sophisticated clients across the GCC, Europe, and global markets. We deliver enterprise-grade expertise with the efficiency and direct access of a modern, agile firm.",
+    "email":  "hello@auxodata.com",
+    "name":  "AUXO Data Labs",
+    "privacyEmail":  "privacy@auxodata.com",
+    "social":  {
+                   "linkedin":  "https://www.linkedin.com/company/auxo-data/",
+                   "twitter":  "https://x.com/AuxoData"
+               },
+    "stats":  {
+                  "foundingClients":  "10",
+                  "industriesServed":  "8+",
+                  "responseTime":  "\u003c24hrs",
+                  "technologiesMastered":  "15+",
+                  "yearsExperience":  "15+"
+              },
+    "tagline":  "Look Beyond Data",
+    "url":  "https://auxodata.com"
+}

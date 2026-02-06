@@ -1,0 +1,76 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Button from "@/components/ui/Button.astro";
+import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
+import { Icon } from "astro-icon/components";
+import { createUrl } from "@/utils/url";
+
+const requestedPath = Astro.url.pathname;
+---
+
+<BaseLayout title="404 - Page Not Found | AUXO Data Labs" description="The page you're looking for doesn't exist.">
+  <section class="relative min-h-screen flex items-center justify-center py-20 overflow-hidden">
+    <BackgroundDecorations gradients={["hero"]} patterns={["grid"]} />
+    
+    <div class="relative z-10 text-center max-w-3xl mx-auto px-4 w-full">
+      <div class="mb-8" data-reveal="fade-up" data-reveal-duration="200" data-reveal-delay="0" data-reveal-easing="ease-out">
+        <div class="inline-flex items-center justify-center w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-accent-green/10 border-2 border-accent-green/20 mb-6">
+          <Icon name="mdi:alert-circle" class="w-12 h-12 sm:w-16 sm:h-16 text-accent-green" />
+        </div>
+      </div>
+
+      <h1 class="text-6xl sm:text-7xl lg:text-8xl font-extrabold mb-4 sm:mb-6 text-theme-primary font-display" data-reveal="fade-up" data-reveal-delay="0" data-reveal-duration="200" data-reveal-easing="ease-out">
+        404
+      </h1>
+
+      <h2 class="text-h2 sm:text-h1 font-extrabold mb-4 sm:mb-6 text-theme-primary font-display" data-reveal="fade-up" data-reveal-delay="50" data-reveal-duration="200" data-reveal-easing="ease-out">
+        الصفحة غير موجودة
+      </h2>
+
+      <p class="text-body-lg sm:text-body-xl text-theme-secondary mb-8 sm:mb-12 leading-relaxed max-w-2xl mx-auto font-body" data-reveal="fade-up" data-reveal-delay="50" data-reveal-duration="200" data-reveal-easing="ease-out">
+        الصفحة التي تبحث عنها غير موجودة أو تم نقلها. دعنا نساعدك في العودة إلى المسار الصحيح.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-12" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
+        <Button variant="primary" href="/ar" size="lg" class="w-full sm:w-auto">
+          <Icon name="mdi:home" class="w-5 h-5" />
+          <span>الصفحة الرئيسية</span>
+        </Button>
+        <Button variant="outline" href="/ar/services" size="lg" class="w-full sm:w-auto">
+          <Icon name="mdi:briefcase" class="w-5 h-5" />
+          <span>عرض الخدمات</span>
+        </Button>
+      </div>
+
+      <div data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
+        <p class="text-sm text-theme-tertiary mb-4 font-body">روابط سريعة:</p>
+        <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+          <a href="/ar/about" class="text-accent-green hover:text-accent-green/80 hover:underline transition-colors font-medium font-body">
+            من نحن
+          </a>
+          <span class="text-theme-tertiary">•</span>
+          <a href="/ar/contact" class="text-accent-green hover:text-accent-green/80 hover:underline transition-colors font-medium font-body">
+            اتصل بنا
+          </a>
+          <span class="text-theme-tertiary">•</span>
+          <a href="/ar/services" class="text-accent-green hover:text-accent-green/80 hover:underline transition-colors font-medium font-body">
+            الخدمات
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script define:vars={{ requestedPath }}>
+  if (typeof window !== 'undefined') {
+    import('@/scripts/analytics/ga4').then(({ trackEvent }) => {
+      trackEvent('page_not_found', {
+        page_path: requestedPath,
+        page_location: window.location.href,
+        page_referrer: document.referrer || 'unknown',
+        error_type: '404',
+      });
+    });
+  }
+</script>

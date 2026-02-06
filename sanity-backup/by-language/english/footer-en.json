@@ -1,0 +1,61 @@
+﻿{
+    "_createdAt":  "2025-12-20T05:25:37Z",
+    "_id":  "76859af3-67bb-4a34-9c99-e3fa089acad6",
+    "_rev":  "wg5Sic927AwHQ9KTY2LmjI",
+    "_type":  "footer",
+    "_updatedAt":  "2026-01-21T16:55:18Z",
+    "language":  "en",
+    "sections":  [
+                     {
+                         "_key":  "6sR35j6mIdEYpnSKTP9ltq",
+                         "icon":  "mdi:book-open",
+                         "links":  [
+                                       {
+                                           "_key":  "6sR35j6mIdEYpnSKTP9lxr",
+                                           "href":  "/about",
+                                           "label":  "About Us"
+                                       },
+                                       {
+                                           "_key":  "6sR35j6mIdEYpnSKTP9m1s",
+                                           "href":  "/services",
+                                           "label":  "Services"
+                                       }
+                                   ],
+                         "title":  "Learn"
+                     },
+                     {
+                         "_key":  "6sR35j6mIdEYpnSKTP9m5t",
+                         "icon":  "mdi:handshake",
+                         "links":  [
+                                       {
+                                           "_key":  "6sR35j6mIdEYpnSKTP9m9u",
+                                           "href":  "/contact",
+                                           "label":  "Contact Us"
+                                       }
+                                   ],
+                         "title":  "Engage"
+                     },
+                     {
+                         "_key":  "6sR35j6mIdEYpnSKTP9mDv",
+                         "icon":  "mdi:shield-check",
+                         "links":  [
+                                       {
+                                           "_key":  "6sR35j6mIdEYpnSKTP9mHw",
+                                           "href":  "/legal/privacy-policy",
+                                           "label":  "Privacy Policy"
+                                       },
+                                       {
+                                           "_key":  "6sR35j6mIdEYpnSKTP9mLx",
+                                           "href":  "/legal/terms",
+                                           "label":  "Terms of Service"
+                                       },
+                                       {
+                                           "_key":  "6sR35j6mIdEYpnSKTP9mPy",
+                                           "href":  "/legal/cookie-policy",
+                                           "label":  "Cookie Policy"
+                                       }
+                                   ],
+                         "title":  "Legal"
+                     }
+                 ]
+}

@@ -1,0 +1,696 @@
+﻿[
+    {
+        "_createdAt":  "2025-12-20T02:59:20Z",
+        "_id":  "36c1a7cc-9504-4705-837a-466eaab2a289",
+        "_rev":  "wg5Sic927AwHQ9KTY2Llmn",
+        "_type":  "homepage",
+        "_updatedAt":  "2026-01-21T16:54:49Z",
+        "capabilities":  {
+                             "cards":  [
+                                           {
+                                               "_key":  "lbhjHDOgjU8GdK0hpQbMn9",
+                                               "description":  "Identifying where analytics creates value and building actionable roadmaps.",
+                                               "descriptionHighlight":  [
+                                                                            "creates value"
+                                                                        ],
+                                               "icon":  "mdi:compass-outline",
+                                               "metric":  "upto 3x faster\ntime‑to‑insights",
+                                               "title":  "Strategy Blueprint"
+                                           },
+                                           {
+                                               "_key":  "lbhjHDOgjU8GdK0hpQbMrS",
+                                               "description":  "Designing and implementing cloud data platforms, models, and pipelines.",
+                                               "descriptionHighlight":  [
+                                                                            "Designing and implementing"
+                                                                        ],
+                                               "icon":  "mdi:server-network",
+                                               "metric":  "upto 50% leaner\ndata processing costs",
+                                               "title":  "Data Foundations"
+                                           },
+                                           {
+                                               "_key":  "lbhjHDOgjU8GdK0hpQbMvl",
+                                               "description":  "Unifying metrics and dashboards into governed, self-serve BI layers.",
+                                               "descriptionHighlight":  [
+                                                                            "Unifying"
+                                                                        ],
+                                               "icon":  "mdi:view-dashboard-variant",
+                                               "metric":  "upto 5x decision velocity\ncompany‑wide",
+                                               "title":  "Insight Hub"
+                                           },
+                                           {
+                                               "_key":  "lbhjHDOgjU8GdK0hpQbN04",
+                                               "description":  "Building, deploying, and monitoring data science and ML solutions.",
+                                               "descriptionHighlight":  [
+                                                                            "Building, deploying"
+                                                                        ],
+                                               "icon":  "mdi:atom",
+                                               "metric":  "upto 30% elevated\nmodel precision",
+                                               "title":  "Pattern Lab"
+                                           },
+                                           {
+                                               "_key":  "lbhjHDOgjU8GdK0hpQbN4N",
+                                               "description":  "Transforming customer, product, and revenue data into growth insights.",
+                                               "descriptionHighlight":  [
+                                                                            "Transforming"
+                                                                        ],
+                                               "icon":  "mdi:chart-timeline-variant",
+                                               "metric":  "upto 25% faster\nrevenue growth",
+                                               "title":  "Growth Signals"
+                                           },
+                                           {
+                                               "_key":  "lbhjHDOgjU8GdK0hpQbN8g",
+                                               "description":  "Establishing policies and controls for reliable, secure, compliant data.",
+                                               "descriptionHighlight":  [
+                                                                            "Establishing"
+                                                                        ],
+                                               "icon":  "mdi:shield-check-outline",
+                                               "metric":  "upto 80% faster\ncompliance cycles",
+                                               "title":  "Trust Frameworks"
+                                           }
+                                       ],
+                             "subheading":  "Six disciplines powering every project.",
+                             "title":  "Six Core Capabilities"
+                         },
+        "featuredServices":  {
+                                 "items":  [
+                                               {
+                                                   "_key":  "6674cdf58fe6",
+                                                   "_type":  "object",
+                                                   "description":  "Define your data vision, identify opportunities, and build a roadmap for analytics success.",
+                                                   "icon":  "mdi:layers",
+                                                   "link":  "/services/foundation-readiness",
+                                                   "number":  "01",
+                                                   "shortDescription":  "Assess and prepare your data infrastructure",
+                                                   "title":  "Foundation Readiness"
+                                               },
+                                               {
+                                                   "_key":  "102d4674361f",
+                                                   "_type":  "object",
+                                                   "description":  "Build robust data pipelines, cloud platforms, and infrastructure that scales with your business.",
+                                                   "icon":  "mdi:chart-box",
+                                                   "link":  "/services/reporting-reset",
+                                                   "number":  "02",
+                                                   "shortDescription":  "Modernize your reporting capabilities",
+                                                   "title":  "Reporting Reset"
+                                               },
+                                               {
+                                                   "_key":  "05af6160979a",
+                                                   "_type":  "object",
+                                                   "description":  "Create self-serve dashboards and reporting layers that empower teams to make data-driven decisions.",
+                                                   "icon":  "mdi:chart-line",
+                                                   "link":  "/services/performance-diagnostics",
+                                                   "number":  "03",
+                                                   "shortDescription":  "Identify and optimize performance bottlenecks",
+                                                   "title":  "Performance Diagnostics"
+                                               }
+                                           ],
+                                 "navigationButton":  {
+                                                          "href":  "/services",
+                                                          "text":  "View all services"
+                                                      },
+                                 "subheading":  "Where most teams begin their analytics journey.",
+                                 "title":  "Three Common Starting Points"
+                             },
+        "finalCta":  {
+                         "body":  "Share your goals, current challenges, and timelines. You\u0027ll leave with a concise view of where analytics can create the most impact and what to do first—before you commit to anything.",
+                         "bodyHighlight":  [
+                                               "most impact",
+                                               "what to do first"
+                                           ],
+                         "ctaHref":  "/contact/",
+                         "ctaText":  "Book a discovery call",
+                         "reassuranceLine":  "No sales pitch—just a structured discussion and clear next steps.",
+                         "subtitle":  "Book a 30-minute discovery call.",
+                         "title":  "Find your next step"
+                     },
+        "hero":  {
+                     "primaryCta":  {
+                                        "href":  "/contact/",
+                                        "text":  "Book a discovery call"
+                                    },
+                     "scrollIndicator":  "Scroll More",
+                     "subtitle":  "AUXO delivers end-to-end DAAS — Data Analytics as a Service tailored to your organisation.",
+                     "subtitleHighlight":  [
+                                               "DAAS",
+                                               "Data Analytics as a Service"
+                                           ],
+                     "title":  "Intelligence,",
+                     "titleHighlight":  "Engineered."
+                 },
+        "language":  "en",
+        "methodology":  {
+                            "navigationButton":  {
+                                                     "href":  "/about/",
+                                                     "text":  "Learn about our approach"
+                                                 },
+                            "steps":  [
+                                          {
+                                              "_key":  "lbhjHDOgjU8GdK0hpQbMJ0",
+                                              "description":  "Explore the problem space, the decisions that matter most, and the realities of your data.",
+                                              "descriptionHighlight":  [
+                                                                           "decisions that matter most"
+                                                                       ],
+                                              "icon":  "mdi:database-search",
+                                              "number":  1,
+                                              "output":  "Discovery\nDocument",
+                                              "title":  "Explore"
+                                          },
+                                          {
+                                              "_key":  "lbhjHDOgjU8GdK0hpQbMNJ",
+                                              "description":  "Design the analytics strategy, architecture, and end‑user experience to support those decisions.",
+                                              "descriptionHighlight":  [
+                                                                           "analytics strategy"
+                                                                       ],
+                                              "icon":  "mdi:palette",
+                                              "number":  2,
+                                              "output":  "Technical\nSpecification",
+                                              "title":  "Design"
+                                          },
+                                          {
+                                              "_key":  "lbhjHDOgjU8GdK0hpQbMRc",
+                                              "description":  "Generate the solutions—pipelines, models, dashboards, and automations—that run in your real environment.",
+                                              "descriptionHighlight":  [
+                                                                           "pipelines, models, dashboards"
+                                                                       ],
+                                              "icon":  "mdi:rocket-launch",
+                                              "number":  3,
+                                              "output":  "Production\nCodebase",
+                                              "title":  "Generate"
+                                          },
+                                          {
+                                              "_key":  "lbhjHDOgjU8GdK0hpQbMVv",
+                                              "description":  "Embed these capabilities through training, governance, and change management so they become part of everyday work.",
+                                              "descriptionHighlight":  [
+                                                                           "training, governance"
+                                                                       ],
+                                              "icon":  "mdi:account-group-outline",
+                                              "number":  4,
+                                              "output":  "Training \u0026\nHandoff",
+                                              "title":  "Embed"
+                                          }
+                                      ],
+                            "subtitle":  "A practical four-step model",
+                            "title":  "AUXO",
+                            "titleHighlight":  "Edge"
+                        },
+        "problem":  {
+                        "valueProposition":  "Most organizations struggle with disconnected data, unclear metrics, and slow decision-making. AUXO transforms raw data into actionable intelligence that drives measurable business outcomes."
+                    },
+        "servicesIntro":  {
+                              "items":  [
+                                            {
+                                                "_key":  "cac95877cd4e",
+                                                "_type":  "object",
+                                                "description":  "Define your data vision, identify opportunities, and build a roadmap for analytics success.",
+                                                "icon":  "mdi:chart-line",
+                                                "link":  "/services/analytics-strategy",
+                                                "number":  "01",
+                                                "title":  "Analytics Strategy"
+                                            },
+                                            {
+                                                "_key":  "99c37db988f8",
+                                                "_type":  "object",
+                                                "description":  "Build robust data pipelines, cloud platforms, and infrastructure that scales with your business.",
+                                                "icon":  "mdi:database-cog",
+                                                "link":  "/services/data-engineering",
+                                                "number":  "02",
+                                                "title":  "Data Engineering"
+                                            },
+                                            {
+                                                "_key":  "701ddef75fab",
+                                                "_type":  "object",
+                                                "description":  "Create self-serve dashboards and reporting layers that empower teams to make data-driven decisions.",
+                                                "icon":  "mdi:chart-box",
+                                                "link":  "/services/business-intelligence",
+                                                "number":  "03",
+                                                "title":  "Business Intelligence"
+                                            }
+                                        ],
+                              "navigationButton":  {
+                                                       "href":  "/services",
+                                                       "text":  "View all services"
+                                                   },
+                              "subheading":  "Three starting points for your analytics journey",
+                              "title":  "Our Core Services"
+                          },
+        "techStack":  {
+                          "items":  [
+                                        {
+                                            "_key":  "40b629a6c980",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:python",
+                                            "name":  "Python"
+                                        },
+                                        {
+                                            "_key":  "8944a83045db",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:r",
+                                            "name":  "R"
+                                        },
+                                        {
+                                            "_key":  "c7dab89f38a5",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:amazonaws",
+                                            "name":  "AWS"
+                                        },
+                                        {
+                                            "_key":  "1401dbcf979e",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:microsoftazure",
+                                            "name":  "Azure"
+                                        },
+                                        {
+                                            "_key":  "d2fe7a5010a8",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:googlecloud",
+                                            "name":  "GCP"
+                                        },
+                                        {
+                                            "_key":  "bfe17d1c7b1b",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:snowflake",
+                                            "name":  "Snowflake"
+                                        },
+                                        {
+                                            "_key":  "288376fcfe60",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:databricks",
+                                            "name":  "Databricks"
+                                        },
+                                        {
+                                            "_key":  "9aaaa64502a0",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:tableau",
+                                            "name":  "Tableau"
+                                        },
+                                        {
+                                            "_key":  "498584a86752",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:powerbi",
+                                            "name":  "Power BI"
+                                        },
+                                        {
+                                            "_key":  "b999b189fdc8",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:looker",
+                                            "name":  "Looker"
+                                        },
+                                        {
+                                            "_key":  "4447ada71630",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:metabase",
+                                            "name":  "Metabase"
+                                        },
+                                        {
+                                            "_key":  "6301ab1677d2",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:apachesuperset",
+                                            "name":  "Apache Superset"
+                                        },
+                                        {
+                                            "_key":  "9a551ab93977",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:dbt",
+                                            "name":  "dbt"
+                                        },
+                                        {
+                                            "_key":  "fa14310e311d",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:apacheairflow",
+                                            "name":  "Airflow"
+                                        },
+                                        {
+                                            "_key":  "cd2bc1f11dae",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:apachespark",
+                                            "name":  "Spark"
+                                        },
+                                        {
+                                            "_key":  "c487e34faffb",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:apachekafka",
+                                            "name":  "Kafka"
+                                        },
+                                        {
+                                            "_key":  "a06e0201757c",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:tensorflow",
+                                            "name":  "TensorFlow"
+                                        },
+                                        {
+                                            "_key":  "483b7f5035f1",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:pytorch",
+                                            "name":  "PyTorch"
+                                        },
+                                        {
+                                            "_key":  "6910c57420d9",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:huggingface",
+                                            "name":  "Hugging Face"
+                                        },
+                                        {
+                                            "_key":  "985060c25b4f",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:scikitlearn",
+                                            "name":  "Scikit-learn"
+                                        },
+                                        {
+                                            "_key":  "a17b3b6448f1",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:mlflow",
+                                            "name":  "MLflow"
+                                        },
+                                        {
+                                            "_key":  "f64690579bcb",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:jupyter",
+                                            "name":  "Jupyter"
+                                        },
+                                        {
+                                            "_key":  "13f85afb6605",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:pandas",
+                                            "name":  "Pandas"
+                                        },
+                                        {
+                                            "_key":  "d05e2614aa86",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:numpy",
+                                            "name":  "NumPy"
+                                        },
+                                        {
+                                            "_key":  "08a5a2587e66",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:postgresql",
+                                            "name":  "PostgreSQL"
+                                        },
+                                        {
+                                            "_key":  "f5273db2b885",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:mongodb",
+                                            "name":  "MongoDB"
+                                        },
+                                        {
+                                            "_key":  "c6c50905ceb7",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:redis",
+                                            "name":  "Redis"
+                                        },
+                                        {
+                                            "_key":  "258ac337d0c7",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:elasticsearch",
+                                            "name":  "Elasticsearch"
+                                        },
+                                        {
+                                            "_key":  "81743d7d46f7",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:git",
+                                            "name":  "Git"
+                                        },
+                                        {
+                                            "_key":  "28b348c3aced",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:docker",
+                                            "name":  "Docker"
+                                        },
+                                        {
+                                            "_key":  "a1d22dadca16",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:kubernetes",
+                                            "name":  "Kubernetes"
+                                        },
+                                        {
+                                            "_key":  "502fbf883b3a",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:grafana",
+                                            "name":  "Grafana"
+                                        },
+                                        {
+                                            "_key":  "0e72663da537",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:prometheus",
+                                            "name":  "Prometheus"
+                                        },
+                                        {
+                                            "_key":  "4a3b41cc7857",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:influxdb",
+                                            "name":  "InfluxDB"
+                                        },
+                                        {
+                                            "_key":  "314902e1f45f",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:cockroachlabs",
+                                            "name":  "CockroachDB"
+                                        },
+                                        {
+                                            "_key":  "ef77a9de6281",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:apachecassandra",
+                                            "name":  "Cassandra"
+                                        },
+                                        {
+                                            "_key":  "49bd9de0b194",
+                                            "_type":  "object",
+                                            "icon":  "simple-icons:flask",
+                                            "name":  "Flask"
+                                        }
+                                    ],
+                          "subtitle":  "Modern analytics tools and platforms powering our solutions",
+                          "title":  "Technologies We Work With"
+                      },
+        "valueProposition":  {
+                                 "line1":  "Most companies collect data. Few convert it into decisions.",
+                                 "line2":  "AUXO bridges the gap — connecting business understanding with data intelligence."
+                             }
+    },
+    {
+        "_createdAt":  "2026-01-21T16:54:51Z",
+        "_id":  "36c1a7cc-9504-4705-837a-466eaab2a289-ar",
+        "_rev":  "zgN7w2rbd9kseJ0L6mdvlb",
+        "_type":  "homepage",
+        "_updatedAt":  "2026-01-21T18:19:58Z",
+        "capabilities":  {
+                             "cards":  [
+                                           {
+                                               "description":  "تحديد مواطن القيمة في التحليلات وبناء خرائط طريق قابلة للتنفيذ.",
+                                               "descriptionHighlight":  [
+                                                                            "مواطن القيمة"
+                                                                        ],
+                                               "icon":  "mdi:compass-outline",
+                                               "metric":  "حتى 3 أضعاف أسرع\nللوصول للرؤى",
+                                               "title":  "مخطط الاستراتيجية"
+                                           },
+                                           {
+                                               "description":  "تصميم وتنفيذ منصات البيانات السحابية، النماذج، وخطوط البيانات.",
+                                               "descriptionHighlight":  [
+                                                                            "تصميم وتنفيذ"
+                                                                        ],
+                                               "icon":  "mdi:server-network",
+                                               "metric":  "حتى 50% أقل\nفي تكاليف المعالجة",
+                                               "title":  "أسس البيانات"
+                                           },
+                                           {
+                                               "description":  "توحيد المقاييس ولوحات المعلومات في طبقات ذكاء الأعمال ذات الخدمة الذاتية المحكومة.",
+                                               "descriptionHighlight":  [
+                                                                            "توحيد"
+                                                                        ],
+                                               "icon":  "mdi:view-dashboard-variant",
+                                               "metric":  "حتى 5 أضعاف سرعة\nاتخاذ القرار",
+                                               "title":  "مركز الرؤى"
+                                           },
+                                           {
+                                               "description":  "بناء ونشر ومراقبة حلول علوم البيانات والتعلم الآلي.",
+                                               "descriptionHighlight":  [
+                                                                            "بناء ونشر"
+                                                                        ],
+                                               "icon":  "mdi:atom",
+                                               "metric":  "حتى 30% تحسن\nفي دقة النماذج",
+                                               "title":  "مختبر الأنماط"
+                                           },
+                                           {
+                                               "description":  "تحويل بيانات العملاء، المنتجات، والإيرادات إلى رؤى نمو.",
+                                               "descriptionHighlight":  [
+                                                                            "تحويل"
+                                                                        ],
+                                               "icon":  "mdi:chart-timeline-variant",
+                                               "metric":  "حتى 25% أسرع\nفي نمو الإيرادات",
+                                               "title":  "إشارات النمو"
+                                           },
+                                           {
+                                               "description":  "إنشاء السياسات والضوابط للبيانات الموثوقة والآمنة والمتوافقة.",
+                                               "descriptionHighlight":  [
+                                                                            "إنشاء"
+                                                                        ],
+                                               "icon":  "mdi:shield-check-outline",
+                                               "metric":  "حتى 80% أسرع\nفي دورات الامتثال",
+                                               "title":  "أطر الثقة"
+                                           }
+                                       ],
+                             "subheading":  "ستة تخصصات تدعم كل مشروع.",
+                             "title":  "ستة قدرات جوهرية"
+                         },
+        "featuredServices":  {
+                                 "items":  [
+                                               {
+                                                   "description":  "حدد رؤيتك للبيانات، اكتشف الفرص، وابنِ خارطة طريق لنجاح التحليلات.",
+                                                   "icon":  "mdi:layers",
+                                                   "link":  "/ar/services/foundation-readiness",
+                                                   "number":  "01",
+                                                   "shortDescription":  "قيّم وجهز بنيتك التحتية للبيانات",
+                                                   "title":  "جاهزية الأساس"
+                                               },
+                                               {
+                                                   "description":  "ابنِ خطوط بيانات قوية، منصات سحابية، وبنية تحتية تتوسع مع أعمالك.",
+                                                   "icon":  "mdi:chart-box",
+                                                   "link":  "/ar/services/reporting-reset",
+                                                   "number":  "02",
+                                                   "shortDescription":  "حدّث قدراتك في التقارير",
+                                                   "title":  "إعادة ضبط التقارير"
+                                               },
+                                               {
+                                                   "description":  "أنشئ لوحات معلومات وطبقات تقارير ذاتية الخدمة تمكّن الفرق من اتخاذ قرارات مبنية على البيانات.",
+                                                   "icon":  "mdi:chart-line",
+                                                   "link":  "/ar/services/performance-diagnostics",
+                                                   "number":  "03",
+                                                   "shortDescription":  "حدد وحسّن نقاط الضعف في الأداء",
+                                                   "title":  "تشخيص الأداء"
+                                               }
+                                           ],
+                                 "navigationButton":  {
+                                                          "href":  "/ar/services",
+                                                          "text":  "عرض جميع الخدمات"
+                                                      },
+                                 "subheading":  "من أين تبدأ معظم الفرق رحلتها التحليلية.",
+                                 "title":  "ثلاث نقاط بداية شائعة"
+                             },
+        "finalCta":  {
+                         "body":  "شارك أهدافك، التحديات الحالية، والجداول الزمنية. ستخرج برؤية واضحة حول أين يمكن للتحليلات أن تخلق أكبر تأثير وما يجب فعله أولاً — قبل أن تلتزم بأي شيء.",
+                         "bodyHighlight":  [
+                                               "أكبر تأثير",
+                                               "ما يجب فعله أولاً"
+                                           ],
+                         "ctaHref":  "/ar/contact/",
+                         "ctaText":  "احجز مكالمة استكشافية",
+                         "reassuranceLine":  "لا عروض بيع — فقط نقاش منظم وخطوات تالية واضحة.",
+                         "subtitle":  "احجز مكالمة استكشافية لمدة 30 دقيقة.",
+                         "title":  "اكتشف خطوتك التالية"
+                     },
+        "hero":  {
+                     "primaryCta":  {
+                                        "href":  "/ar/contact/",
+                                        "text":  "احجز مكالمة استكشافية"
+                                    },
+                     "scrollIndicator":  "تصفح المزيد",
+                     "subtitle":  "AUXO تُقدم خدمات تحليلات البيانات الشاملة - DAAS - مصممة خصيصاً لمؤسستك.",
+                     "subtitleHighlight":  [
+                                               "DAAS",
+                                               "خدمات تحليلات البيانات"
+                                           ],
+                     "title":  "الذكاء،",
+                     "titleHighlight":  "مُهندس."
+                 },
+        "language":  "ar",
+        "methodology":  {
+                            "navigationButton":  {
+                                                     "href":  "/ar/about/",
+                                                     "text":  "تعرف على منهجيتنا"
+                                                 },
+                            "steps":  [
+                                          {
+                                              "description":  "استكشف مجال المشكلة، القرارات الأكثر أهمية، وواقع بياناتك.",
+                                              "descriptionHighlight":  [
+                                                                           "القرارات الأكثر أهمية"
+                                                                       ],
+                                              "icon":  "mdi:database-search",
+                                              "number":  1,
+                                              "output":  "وثيقة\nالاستكشاف",
+                                              "title":  "استكشف"
+                                          },
+                                          {
+                                              "description":  "صمم استراتيجية التحليلات، البنية التقنية، وتجربة المستخدم النهائي لدعم هذه القرارات.",
+                                              "descriptionHighlight":  [
+                                                                           "استراتيجية التحليلات"
+                                                                       ],
+                                              "icon":  "mdi:palette",
+                                              "number":  2,
+                                              "output":  "المواصفات\nالتقنية",
+                                              "title":  "صمم"
+                                          },
+                                          {
+                                              "description":  "أنتج الحلول — خطوط البيانات، النماذج، لوحات المعلومات، والأتمتة — التي تعمل في بيئتك الفعلية.",
+                                              "descriptionHighlight":  [
+                                                                           "خطوط البيانات، النماذج، لوحات المعلومات"
+                                                                       ],
+                                              "icon":  "mdi:rocket-launch",
+                                              "number":  3,
+                                              "output":  "كود قاعدة\nالإنتاج",
+                                              "title":  "أنتج"
+                                          },
+                                          {
+                                              "description":  "ضمّن هذه القدرات من خلال التدريب، الحوكمة، وإدارة التغيير لتصبح جزءاً من العمل اليومي.",
+                                              "descriptionHighlight":  [
+                                                                           "التدريب، الحوكمة"
+                                                                       ],
+                                              "icon":  "mdi:account-group-outline",
+                                              "number":  4,
+                                              "output":  "التدريب و\nالتسليم",
+                                              "title":  "ضمّن"
+                                          }
+                                      ],
+                            "subtitle":  "نموذج عملي من أربع خطوات",
+                            "title":  "AUXO",
+                            "titleHighlight":  "Edge"
+                        },
+        "problem":  {
+                        "valueProposition":  "معظم المؤسسات تواجه بيانات مفككة، ومؤشرات غامضة، وبطء في اتخاذ القرارات. AUXO تحول البيانات الخام إلى ذكاء قابل للتنفيذ يقود نتائج أعمال قابلة للقياس."
+                    },
+        "servicesIntro":  {
+                              "items":  [
+                                            {
+                                                "_key":  "cac95877cd4e",
+                                                "_type":  "object",
+                                                "description":  "Define your data vision, identify opportunities, and build a roadmap for analytics success.",
+                                                "icon":  "mdi:chart-line",
+                                                "link":  "/services/analytics-strategy",
+                                                "number":  "01",
+                                                "title":  "Analytics Strategy"
+                                            },
+                                            {
+                                                "_key":  "99c37db988f8",
+                                                "_type":  "object",
+                                                "description":  "Build robust data pipelines, cloud platforms, and infrastructure that scales with your business.",
+                                                "icon":  "mdi:database-cog",
+                                                "link":  "/services/data-engineering",
+                                                "number":  "02",
+                                                "title":  "Data Engineering"
+                                            },
+                                            {
+                                                "_key":  "701ddef75fab",
+                                                "_type":  "object",
+                                                "description":  "Create self-serve dashboards and reporting layers that empower teams to make data-driven decisions.",
+                                                "icon":  "mdi:chart-box",
+                                                "link":  "/services/business-intelligence",
+                                                "number":  "03",
+                                                "title":  "Business Intelligence"
+                                            }
+                                        ],
+                              "navigationButton":  {
+                                                       "href":  "/services",
+                                                       "text":  "View all services"
+                                                   },
+                              "subheading":  "Three starting points for your analytics journey",
+                              "title":  "Our Core Services"
+                          },
+        "techStack":  {
+                          "subtitle":  "أدوات ومنصات تحليلات حديثة تدعم حلولنا",
+                          "title":  "التقنيات التي نعمل بها"
+                      },
+        "valueProposition":  {
+                                 "line1":  "معظم الشركات تجمع البيانات. القليل منها يحولها إلى قرارات.",
+                                 "line2":  "AUXO تسد الفجوة — تربط الفهم التجاري بذكاء البيانات."
+                             }
+    }
+]

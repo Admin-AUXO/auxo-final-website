@@ -1,0 +1,79 @@
+﻿{
+    "_createdAt":  "2025-12-21T06:37:59Z",
+    "_id":  "c0796d8b-db83-481e-af62-082b72ff6dc3",
+    "_rev":  "w258lxaGLrvXChHhCsFEl2",
+    "_type":  "navigation",
+    "_updatedAt":  "2026-01-21T16:55:16Z",
+    "items":  [
+                  {
+                      "_key":  "lbhjHDOgjU8GdK0hpRTzkL",
+                      "dropdown":  [
+                                       {
+                                           "_key":  "lbhjHDOgjU8GdK0hpRTzoe",
+                                           "description":  "Assess and prepare your data infrastructure",
+                                           "href":  "/services/foundation-readiness/",
+                                           "icon":  "mdi:layers",
+                                           "name":  "Foundation Readiness"
+                                       },
+                                       {
+                                           "_key":  "lbhjHDOgjU8GdK0hpRTzsx",
+                                           "description":  "Modernize your reporting capabilities",
+                                           "href":  "/services/reporting-reset/",
+                                           "icon":  "mdi:chart-box",
+                                           "name":  "Reporting Reset"
+                                       },
+                                       {
+                                           "_key":  "lbhjHDOgjU8GdK0hpRTzxG",
+                                           "description":  "Identify and optimize performance bottlenecks",
+                                           "href":  "/services/performance-diagnostics/",
+                                           "icon":  "mdi:chart-line",
+                                           "name":  "Performance Diagnostics"
+                                       },
+                                       {
+                                           "_key":  "lbhjHDOgjU8GdK0hpRU01Z",
+                                           "description":  "Advanced predictive analytics and forecasting",
+                                           "href":  "/services/forecasting-lab/",
+                                           "icon":  "mdi:crystal-ball",
+                                           "name":  "Forecasting Lab"
+                                       },
+                                       {
+                                           "_key":  "lbhjHDOgjU8GdK0hpRU05s",
+                                           "description":  "Structured frameworks for data-driven decisions",
+                                           "href":  "/services/decision-playbooks/",
+                                           "icon":  "mdi:book-open-variant",
+                                           "name":  "Decision Playbooks"
+                                       },
+                                       {
+                                           "_key":  "lbhjHDOgjU8GdK0hpRU0AB",
+                                           "description":  "Intelligent process automation solutions",
+                                           "href":  "/services/smart-automation/",
+                                           "icon":  "mdi:robot",
+                                           "name":  "Smart Automation"
+                                       },
+                                       {
+                                           "_key":  "lbhjHDOgjU8GdK0hpRU0EU",
+                                           "description":  "AI-powered analytics and insights",
+                                           "href":  "/services/augmented-intelligence-studio/",
+                                           "icon":  "mdi:brain",
+                                           "name":  "Augmented Intelligence Studio"
+                                       },
+                                       {
+                                           "_key":  "lbhjHDOgjU8GdK0hpRU0In",
+                                           "description":  "Evaluate and enhance autonomous capabilities",
+                                           "href":  "/services/autonomy-readiness-review/",
+                                           "icon":  "mdi:shield-account",
+                                           "name":  "Autonomy Readiness Review"
+                                       }
+                                   ],
+                      "href":  "/services/",
+                      "isModal":  true,
+                      "name":  "Services"
+                  },
+                  {
+                      "_key":  "lbhjHDOgjU8GdK0hpRU0N6",
+                      "href":  "/about/",
+                      "name":  "About"
+                  }
+              ],
+    "language":  "en"
+}

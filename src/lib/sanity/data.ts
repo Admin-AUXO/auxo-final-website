@@ -16,6 +16,7 @@ import type { AboutContent } from '@/data/content/about';
 import type { SiteConfig } from '@/data/content/siteConfig';
 import type { FooterContent } from '@/data/content/footer';
 import type { NavigationContent } from '@/data/content/navigation';
+import type { Language } from '@/i18n';
 import { logger } from '@/lib/logger';
 
 const fetchWithError = async <T>(
@@ -33,9 +34,9 @@ const fetchWithError = async <T>(
   });
 };
 
-export async function getHomepageContent(): Promise<HomepageContent> {
-  return sanityCache.get('homepage', async () => {
-    const data = await sanityClient!.fetch<HomepageContent>(homepageQuery);
+export async function getHomepageContent(lang: Language = 'en'): Promise<HomepageContent> {
+  return sanityCache.get(`homepage:${lang}`, async () => {
+    const data = await sanityClient!.fetch<HomepageContent>(homepageQuery, { lang });
     if (!data) {
       throw new Error('No homepage content found in Sanity');
     }
@@ -88,12 +89,12 @@ export async function getHomepageContent(): Promise<HomepageContent> {
   });
 }
 
-export async function getServicesContent(): Promise<ServicesContent> {
-  return sanityCache.get('services', async () => {
+export async function getServicesContent(lang: Language = 'en'): Promise<ServicesContent> {
+  return sanityCache.get(`services:${lang}`, async () => {
     try {
       const [generalData, detailsData] = await Promise.all([
-        sanityClient!.fetch<Omit<ServicesContent, 'details'>>(servicesQuery),
-        sanityClient!.fetch<ServiceDetail[]>(serviceDetailsQuery),
+        sanityClient!.fetch<Omit<ServicesContent, 'details'>>(servicesQuery, { lang }),
+        sanityClient!.fetch<ServiceDetail[]>(serviceDetailsQuery, { lang }),
       ]);
 
       if (!generalData) {
@@ -147,14 +148,14 @@ export async function getServicesContent(): Promise<ServicesContent> {
   });
 }
 
-export async function getServiceDetailBySlug(slug: string): Promise<ServiceDetail | null> {
+export async function getServiceDetailBySlug(slug: string, lang: Language = 'en'): Promise<ServiceDetail | null> {
   if (!slug || typeof slug !== 'string') {
     return null;
   }
 
-  return sanityCache.get(`service:${slug}`, async () => {
+  return sanityCache.get(`service:${slug}:${lang}`, async () => {
     try {
-      const data = await sanityClient!.fetch<ServiceDetail>(serviceDetailBySlugQuery, { slug });
+      const data = await sanityClient!.fetch<ServiceDetail>(serviceDetailBySlugQuery, { slug, lang });
       return data || null;
     } catch (error) {
       logger.error(`Service detail fetch failed for "${slug}":`, error);
@@ -163,19 +164,19 @@ export async function getServiceDetailBySlug(slug: string): Promise<ServiceDetai
   });
 }
 
-export async function getAboutContent(): Promise<AboutContent> {
-  return fetchWithError<AboutContent>(aboutQuery, 'about', 'No about content found in Sanity');
+export async function getAboutContent(lang: Language = 'en'): Promise<AboutContent> {
+  return fetchWithError<AboutContent>(aboutQuery, `about:${lang}`, 'No about content found in Sanity', { lang });
 }
 
 export async function getSiteConfig(): Promise<SiteConfig> {
   return fetchWithError<SiteConfig>(siteConfigQuery, 'siteConfig', 'No site configuration found in Sanity');
 }
 
-export async function getFooterContent(): Promise<FooterContent> {
-  return fetchWithError<FooterContent>(footerQuery, 'footer', 'No footer content found in Sanity');
+export async function getFooterContent(lang: Language = 'en'): Promise<FooterContent> {
+  return fetchWithError<FooterContent>(footerQuery, `footer:${lang}`, 'No footer content found in Sanity', { lang });
 }
 
-export async function getNavigationContent(): Promise<NavigationContent> {
-  return fetchWithError<NavigationContent>(navigationQuery, 'navigation', 'No navigation content found in Sanity');
+export async function getNavigationContent(lang: Language = 'en'): Promise<NavigationContent> {
+  return fetchWithError<NavigationContent>(navigationQuery, `navigation:${lang}`, 'No navigation content found in Sanity', { lang });
 }
 

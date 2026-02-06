@@ -101,6 +101,7 @@ export default defineConfig({
         defaultLocale: 'en',
         locales: {
           en: 'en-US',
+          ar: 'ar-AE',
         },
       },
     }),

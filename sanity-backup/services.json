@@ -1,0 +1,589 @@
+﻿[
+    {
+        "_createdAt":  "2025-12-20T03:02:38Z",
+        "_id":  "8caae047-0ccd-4061-9fe4-ed7b89560e3b",
+        "_rev":  "w258lxaGLrvXChHhCsFDwS",
+        "_type":  "services",
+        "_updatedAt":  "2026-01-21T16:54:52Z",
+        "cta":  {
+                    "ctaHref":  "/contact/",
+                    "ctaText":  "Book a discovery call",
+                    "description":  "Ready to start? If you already have a sense of where analytics needs to help—or just a list of pain points—this is the place to start the conversation. Share your context, and you\u0027ll get a clear view of which mix of Strategy Blueprint, Data Foundations, and ongoing Analytics as a Service makes sense for your situation.",
+                    "descriptionHighlight":  [
+                                                 "clear view",
+                                                 "Analytics as a Service"
+                                             ],
+                    "title":  "Turn Your Analytics Roadmap Into Reality"
+                },
+        "engagementModels":  {
+                                 "description":  "Select the approach that matches your organization\u0027s analytics maturity, timeline, and strategic goals. Each model is designed to deliver measurable value at the pace that works for you.",
+                                 "models":  [
+                                                {
+                                                    "_key":  "66c647686a85",
+                                                    "_type":  "object",
+                                                    "bestFor":  "Organizations ready to invest in analytics but need strategic direction first.",
+                                                    "deliverables":  [
+                                                                         "Current state assessment",
+                                                                         "Analytics maturity evaluation",
+                                                                         "Prioritized roadmap",
+                                                                         "Quick win recommendations"
+                                                                     ],
+                                                    "description":  "A focused, low‑risk starting point that transforms uncertainty into clarity. We assess your current state, identify quick wins, and create a prioritized roadmap aligned to your analytics maturity curve.",
+                                                    "name":  "Diagnostic \u0026 Roadmap Sprint",
+                                                    "subheadline":  "Quick Assessment \u0026 Strategic Planning"
+                                                },
+                                                {
+                                                    "_key":  "0f7f784d6321",
+                                                    "_type":  "object",
+                                                    "bestFor":  "Teams with clear objectives and defined outcomes in mind.",
+                                                    "deliverables":  [
+                                                                         "End-to-end service implementation",
+                                                                         "Production-ready analytics solutions",
+                                                                         "Documentation \u0026 knowledge transfer",
+                                                                         "Success metrics \u0026 reporting"
+                                                                     ],
+                                                    "description":  "Time‑boxed, outcome‑focused projects that deliver specific analytics capabilities end‑to‑end. Perfect for implementing defined services like Reporting Reset, Forecasting Lab, or Smart Automation.",
+                                                    "name":  "Delivery Wave",
+                                                    "subheadline":  "Project‑Based Implementation"
+                                                },
+                                                {
+                                                    "_key":  "dc01d44e3bb7",
+                                                    "_type":  "object",
+                                                    "bestFor":  "Organizations seeking a long‑term analytics partner for continuous innovation.",
+                                                    "deliverables":  [
+                                                                         "Continuous capability development",
+                                                                         "Rolling backlog delivery",
+                                                                         "Platform improvements \u0026 upkeep",
+                                                                         "Ongoing optimization \u0026 support"
+                                                                     ],
+                                                    "description":  "A dedicated analytics team that continuously designs, builds, and embeds new capabilities across your maturity curve. Think of us as your extended analytics function, owning delivery of your rolling backlog.",
+                                                    "name":  "Managed Analytics Program",
+                                                    "subheadline":  "Ongoing Partnership \u0026 Continuous Delivery"
+                                                },
+                                                {
+                                                    "_key":  "349011662764",
+                                                    "_type":  "object",
+                                                    "bestFor":  "Leadership teams and executives who need strategic guidance and fractional expertise.",
+                                                    "deliverables":  [
+                                                                         "Strategic advisory \u0026 planning",
+                                                                         "Architecture \u0026 vendor guidance",
+                                                                         "Team building \u0026 hiring support",
+                                                                         "Selective hands-on implementation"
+                                                                     ],
+                                                    "description":  "Executive‑level strategic guidance combined with targeted hands‑on support. Ideal for leadership teams building or reshaping their internal data function, making critical decisions, and navigating complex analytics challenges.",
+                                                    "name":  "Strategic Co‑Pilot",
+                                                    "subheadline":  "Advisory \u0026 Fractional Leadership"
+                                                }
+                                            ],
+                                 "title":  "Choose Your Engagement Model"
+                             },
+        "hero":  {
+                     "ctaHref":  "#models",
+                     "ctaText":  "Discover Your Model",
+                     "description":  "We meet you at any stage of the analytics maturity curve. We blend strategy consulting, data engineering, and applied data science into flexible Analytics as a Service models—delivering clear decisions, measurable results, and accelerated value.",
+                     "descriptionHighlight":  [
+                                                  "flexible Analytics as a Service models",
+                                                  "accelerated value"
+                                              ],
+                     "headlineLine1":  "Analytics as a Service,",
+                     "headlineLine2":  "built for impact."
+                 },
+        "impact":  {
+                       "description":  "We specialize in data‑rich, decision‑intensive environments where clarity and speed drive competitive advantage. Our analytics solutions are purpose-built for industries that demand precision, agility, and measurable outcomes.",
+                       "descriptionHighlight":  [
+                                                    "competitive advantage",
+                                                    "measurable outcomes"
+                                                ],
+                       "goal":  "Across every industry, our mission remains constant: deliver clarity and speed to complex decisions that drive measurable impact.",
+                       "goalHighlight":  [
+                                             "measurable impact"
+                                         ],
+                       "industries":  [
+                                          {
+                                              "_key":  "lbhjHDOgjU8GdK0hpQbFQf",
+                                              "description":  "Transform property portfolios with predictive analytics and investment optimization",
+                                              "descriptionHighlight":  [
+                                                                           "predictive analytics"
+                                                                       ],
+                                              "icon":  "mdi:domain",
+                                              "keyBenefit":  "Increase portfolio ROI by 15-25% through data-driven investment strategies",
+                                              "keyBenefitHighlight":  [
+                                                                          "15-25%"
+                                                                      ],
+                                              "name":  "Real Estate \u0026 Property",
+                                              "useCases":  [
+                                                               "Portfolio performance optimization",
+                                                               "Market trend forecasting",
+                                                               "Investment decision support",
+                                                               "Tenant analytics \u0026 retention"
+                                                           ]
+                                          },
+                                          {
+                                              "_key":  "lbhjHDOgjU8GdK0hpQbFUy",
+                                              "description":  "Maximize revenue through demand forecasting and dynamic pricing",
+                                              "descriptionHighlight":  [
+                                                                           "Maximize revenue"
+                                                                       ],
+                                              "icon":  "mdi:palm-tree",
+                                              "keyBenefit":  "Boost RevPAR by 10-20% with predictive pricing and demand optimization",
+                                              "keyBenefitHighlight":  [
+                                                                          "10-20%"
+                                                                      ],
+                                              "name":  "Hospitality \u0026 Tourism",
+                                              "useCases":  [
+                                                               "Revenue management \u0026 pricing",
+                                                               "Guest behavior analysis",
+                                                               "Demand forecasting",
+                                                               "Experience personalization"
+                                                           ]
+                                          },
+                                          {
+                                              "_key":  "lbhjHDOgjU8GdK0hpQbFZH",
+                                              "description":  "Elevate customer engagement with predictive analytics and inventory intelligence",
+                                              "descriptionHighlight":  [
+                                                                           "predictive analytics"
+                                                                       ],
+                                              "icon":  "mdi:shopping",
+                                              "keyBenefit":  "Improve customer retention by 30%+ through personalized engagement strategies",
+                                              "keyBenefitHighlight":  [
+                                                                          "30%+"
+                                                                      ],
+                                              "name":  "Retail \u0026 Luxury Brands",
+                                              "useCases":  [
+                                                               "Customer lifetime value optimization",
+                                                               "Inventory \u0026 supply chain intelligence",
+                                                               "Market trend prediction",
+                                                               "Omnichannel analytics"
+                                                           ]
+                                          },
+                                          {
+                                              "_key":  "lbhjHDOgjU8GdK0hpQbFda",
+                                              "description":  "Enhance risk management and optimize portfolios with sophisticated analytics",
+                                              "descriptionHighlight":  [
+                                                                           "sophisticated analytics"
+                                                                       ],
+                                              "icon":  "mdi:finance",
+                                              "keyBenefit":  "Reduce risk exposure by 20-30% while improving portfolio performance",
+                                              "keyBenefitHighlight":  [
+                                                                          "20-30%"
+                                                                      ],
+                                              "name":  "Financial Services",
+                                              "useCases":  [
+                                                               "Risk assessment \u0026 modeling",
+                                                               "Portfolio optimization",
+                                                               "Client relationship analytics",
+                                                               "Regulatory compliance insights"
+                                                           ]
+                                          },
+                                          {
+                                              "_key":  "lbhjHDOgjU8GdK0hpQbFht",
+                                              "description":  "Streamline operations and enhance supply chain visibility with real-time analytics",
+                                              "descriptionHighlight":  [
+                                                                           "real-time analytics"
+                                                                       ],
+                                              "icon":  "mdi:package-variant",
+                                              "keyBenefit":  "Cut operational costs by 15-25% through optimized logistics and forecasting",
+                                              "keyBenefitHighlight":  [
+                                                                          "15-25%"
+                                                                      ],
+                                              "name":  "Logistics \u0026 Trade",
+                                              "useCases":  [
+                                                               "Supply chain optimization",
+                                                               "Route \u0026 delivery intelligence",
+                                                               "Cost reduction analytics",
+                                                               "Demand forecasting"
+                                                           ]
+                                          },
+                                          {
+                                              "_key":  "lbhjHDOgjU8GdK0hpQbFmC",
+                                              "description":  "Improve public service delivery and optimize resource allocation with evidence-based analytics",
+                                              "descriptionHighlight":  [
+                                                                           "evidence-based analytics"
+                                                                       ],
+                                              "icon":  "mdi:gavel",
+                                              "keyBenefit":  "Improve service efficiency by 20-35% while reducing operational costs",
+                                              "keyBenefitHighlight":  [
+                                                                          "20-35%"
+                                                                      ],
+                                              "name":  "Government \u0026 Public Sector",
+                                              "useCases":  [
+                                                               "Resource allocation optimization",
+                                                               "Service delivery analytics",
+                                                               "Policy impact assessment",
+                                                               "Citizen engagement insights"
+                                                           ]
+                                          },
+                                          {
+                                              "_key":  "lbhjHDOgjU8GdK0hpQbFqV",
+                                              "description":  "Drive growth through customer analytics, conversion optimization, and inventory intelligence",
+                                              "descriptionHighlight":  [
+                                                                           "conversion optimization"
+                                                                       ],
+                                              "icon":  "mdi:cart",
+                                              "keyBenefit":  "Increase conversion rates by 25-40% through data-driven optimization strategies",
+                                              "keyBenefitHighlight":  [
+                                                                          "25-40%"
+                                                                      ],
+                                              "name":  "Ecommerce",
+                                              "useCases":  [
+                                                               "Conversion rate optimization",
+                                                               "Customer journey analytics",
+                                                               "Inventory \u0026 demand forecasting",
+                                                               "Personalization \u0026 recommendations"
+                                                           ]
+                                          }
+                                      ],
+                       "title":  "Industries We Serve"
+                   },
+        "language":  "en",
+        "serviceOfferings":  {
+                                 "codeEdge":  "Our methodology ensures consistent quality and a common language across strategy, engineering, analytics, growth, and governance—no matter which stage you start at.",
+                                 "description":  "Eight offerings aligned to the analytics maturity curve.",
+                                 "services":  [
+                                                  {
+                                                      "_key":  "c573174ee4b6",
+                                                      "_type":  "object",
+                                                      "description":  "Assess and prepare your data infrastructure for analytics. We evaluate your current data landscape, identify gaps, and create a readiness roadmap.",
+                                                      "link":  "/services/foundation-readiness",
+                                                      "name":  "Foundation Readiness",
+                                                      "shortDescription":  "Assess and prepare your data infrastructure"
+                                                  },
+                                                  {
+                                                      "_key":  "fe96512d7121",
+                                                      "_type":  "object",
+                                                      "description":  "Modernize your reporting capabilities. We help you move from siloed reports to unified, self-serve BI that gives decision-makers instant access to trusted metrics.",
+                                                      "link":  "/services/reporting-reset",
+                                                      "name":  "Reporting Reset",
+                                                      "shortDescription":  "Modernize your reporting capabilities"
+                                                  },
+                                                  {
+                                                      "_key":  "5bb3254a56ab",
+                                                      "_type":  "object",
+                                                      "description":  "Identify and optimize performance bottlenecks. We dig into operational data to uncover where costs are hidden, processes are inefficient, or quality is slipping – then recommend and implement targeted optimizations.",
+                                                      "link":  "/services/performance-diagnostics",
+                                                      "name":  "Performance Diagnostics",
+                                                      "shortDescription":  "Identify and optimize performance bottlenecks"
+                                                  },
+                                                  {
+                                                      "_key":  "e901fbbbb61e",
+                                                      "_type":  "object",
+                                                      "description":  "Build predictive models for better planning. We develop demand forecasting, financial projections, and scenario modeling that improve planning accuracy and enable proactive decision-making.",
+                                                      "link":  "/services/forecasting-lab",
+                                                      "name":  "Forecasting Lab",
+                                                      "shortDescription":  "Build predictive models for better planning"
+                                                  },
+                                                  {
+                                                      "_key":  "c49e143b3b23",
+                                                      "_type":  "object",
+                                                      "description":  "Create structured frameworks for key decisions. We design repeatable, data-driven decision processes for areas like pricing optimization, resource allocation, and customer targeting – so decisions are consistent and evidence-based.",
+                                                      "link":  "/services/decision-playbooks",
+                                                      "name":  "Decision Playbooks",
+                                                      "shortDescription":  "Create structured frameworks for key decisions"
+                                                  },
+                                                  {
+                                                      "_key":  "2ba7ef3b2892",
+                                                      "_type":  "object",
+                                                      "description":  "Automate repetitive analytics workflows. We identify manual, time-consuming processes (reporting, alerts, routine analyses) and automate them, freeing your team to focus on strategic work.",
+                                                      "link":  "/services/smart-automation",
+                                                      "name":  "Smart Automation",
+                                                      "shortDescription":  "Automate repetitive analytics workflows"
+                                                  },
+                                                  {
+                                                      "_key":  "a1c5214e4adc",
+                                                      "_type":  "object",
+                                                      "description":  "Leverage AI to enhance analytical capability. We build advanced machine learning solutions, deploy AI-powered recommendation engines, and create intelligent systems that operate at scale – from fraud detection to next-best-action recommendations.",
+                                                      "link":  "/services/augmented-intelligence-studio",
+                                                      "name":  "Augmented Intelligence Studio",
+                                                      "shortDescription":  "Leverage AI to enhance analytical capabilities"
+                                                  },
+                                                  {
+                                                      "_key":  "c591a6c7d235",
+                                                      "_type":  "object",
+                                                      "description":  "Prepare your team for self-service analytics. We assess organizational readiness, provide training, establish governance, and ensure your team can independently use, interpret, and act on analytics – moving you toward true analytics autonomy.",
+                                                      "link":  "/services/autonomy-readiness-review",
+                                                      "name":  "Autonomy Readiness Review",
+                                                      "shortDescription":  "Prepare your team for self-service analytics"
+                                                  }
+                                              ],
+                                 "title":  "Services for Every Stage"
+                             }
+    },
+    {
+        "_createdAt":  "2026-01-21T16:54:54Z",
+        "_id":  "8caae047-0ccd-4061-9fe4-ed7b89560e3b-ar",
+        "_rev":  "wg5Sic927AwHQ9KTY2OsGn",
+        "_type":  "services",
+        "_updatedAt":  "2026-01-21T18:19:59Z",
+        "cta":  {
+                    "ctaHref":  "/ar/contact/",
+                    "ctaText":  "احجز مكالمة استكشافية",
+                    "description":  "جاهز للبدء؟ إذا كان لديك بالفعل فكرة عن أين تحتاج التحليلات للمساعدة — أو مجرد قائمة بنقاط الألم — هذا هو المكان المناسب لبدء المحادثة. شارك سياقك، وستحصل على رؤية واضحة حول أي مزيج من مخطط الاستراتيجية، أسس البيانات، والتحليلات المستمرة كخدمة يناسب وضعك.",
+                    "descriptionHighlight":  [
+                                                 "رؤية واضحة",
+                                                 "التحليلات كخدمة"
+                                             ],
+                    "title":  "حوّل خارطة طريق التحليلات إلى واقع"
+                },
+        "engagementModels":  {
+                                 "description":  "اختر النهج الذي يتوافق مع نضج التحليلات في مؤسستك، الجدول الزمني، والأهداف الاستراتيجية. كل نموذج مصمم لتقديم قيمة قابلة للقياس بالوتيرة التي تناسبك.",
+                                 "models":  [
+                                                {
+                                                    "bestFor":  "المؤسسات المستعدة للاستثمار في التحليلات لكنها تحتاج إلى توجيه استراتيجي أولاً.",
+                                                    "deliverables":  [
+                                                                         "تقييم الوضع الحالي",
+                                                                         "تقييم نضج التحليلات",
+                                                                         "خارطة طريق ذات أولويات",
+                                                                         "توصيات للانتصارات السريعة"
+                                                                     ],
+                                                    "description":  "نقطة بداية محددة منخفضة المخاطر تحوّل الغموض إلى وضوح. نقيّم وضعك الحالي، نحدد الانتصارات السريعة، وننشئ خارطة طريق ذات أولويات متوافقة مع منحنى نضج التحليلات لديك.",
+                                                    "name":  "سباق التشخيص وخارطة الطريق",
+                                                    "subheadline":  "تقييم سريع وتخطيط استراتيجي"
+                                                },
+                                                {
+                                                    "bestFor":  "الفرق ذات الأهداف الواضحة والنتائج المحددة.",
+                                                    "deliverables":  [
+                                                                         "تنفيذ الخدمة من البداية للنهاية",
+                                                                         "حلول تحليلية جاهزة للإنتاج",
+                                                                         "التوثيق ونقل المعرفة",
+                                                                         "مقاييس النجاح والتقارير"
+                                                                     ],
+                                                    "description":  "مشاريع محددة الوقت ومركزة على النتائج تقدم قدرات تحليلية محددة من البداية إلى النهاية. مثالية لتنفيذ خدمات محددة مثل إعادة ضبط التقارير، مختبر التنبؤ، أو الأتمتة الذكية.",
+                                                    "name":  "موجة التنفيذ",
+                                                    "subheadline":  "تنفيذ قائم على المشاريع"
+                                                },
+                                                {
+                                                    "bestFor":  "المؤسسات الباحثة عن شريك تحليلات طويل الأمد للابتكار المستمر.",
+                                                    "deliverables":  [
+                                                                         "تطوير القدرات المستمر",
+                                                                         "تسليم الأعمال المتراكمة المتدحرجة",
+                                                                         "تحسينات المنصة والصيانة",
+                                                                         "التحسين والدعم المستمر"
+                                                                     ],
+                                                    "description":  "فريق تحليلات متخصص يصمم، يبني، ويضمّن قدرات جديدة باستمرار عبر منحنى نضجك. فكر بنا كامتداد لوظيفة التحليلات لديك، نمتلك تسليم الأعمال المتراكمة المتدحرجة.",
+                                                    "name":  "برنامج التحليلات المدارة",
+                                                    "subheadline":  "شراكة مستمرة وتسليم متواصل"
+                                                },
+                                                {
+                                                    "bestFor":  "فرق القيادة والتنفيذيين الذين يحتاجون إلى توجيه استراتيجي وخبرة جزئية.",
+                                                    "deliverables":  [
+                                                                         "الاستشارات والتخطيط الاستراتيجي",
+                                                                         "توجيه البنية التحتية والموردين",
+                                                                         "دعم بناء الفرق والتوظيف",
+                                                                         "تنفيذ عملي انتقائي"
+                                                                     ],
+                                                    "description":  "توجيه استراتيجي على مستوى تنفيذي مع دعم عملي مستهدف. مثالي لفرق القيادة التي تبني أو تعيد تشكيل وظيفة البيانات الداخلية، تتخذ قرارات حرجة، وتتنقل في تحديات تحليلية معقدة.",
+                                                    "name":  "المساعد الاستراتيجي",
+                                                    "subheadline":  "استشارات وقيادة جزئية"
+                                                }
+                                            ],
+                                 "title":  "اختر نموذج التعامل الخاص بك"
+                             },
+        "hero":  {
+                     "ctaHref":  "#models",
+                     "ctaText":  "اكتشف نموذجك",
+                     "description":  "نلتقي بك في أي مرحلة من منحنى نضج التحليلات. نمزج الاستشارات الاستراتيجية، هندسة البيانات، وعلوم البيانات التطبيقية في نماذج خدمات تحليلية مرنة — لتقديم قرارات واضحة، نتائج قابلة للقياس، وقيمة متسارعة.",
+                     "descriptionHighlight":  [
+                                                  "نماذج خدمات تحليلية مرنة",
+                                                  "قيمة متسارعة"
+                                              ],
+                     "headlineLine1":  "التحليلات كخدمة،",
+                     "headlineLine2":  "مصممة للتأثير."
+                 },
+        "impact":  {
+                       "description":  "نتخصص في بيئات غنية بالبيانات وكثيفة القرارات حيث الوضوح والسرعة يدفعان الميزة التنافسية. حلولنا التحليلية مصممة خصيصاً للقطاعات التي تتطلب الدقة، المرونة، والنتائج القابلة للقياس.",
+                       "descriptionHighlight":  [
+                                                    "الميزة التنافسية",
+                                                    "النتائج القابلة للقياس"
+                                                ],
+                       "goal":  "عبر كل قطاع، تبقى مهمتنا ثابتة: تقديم الوضوح والسرعة للقرارات المعقدة التي تدفع تأثيراً قابلاً للقياس.",
+                       "goalHighlight":  [
+                                             "تأثيراً قابلاً للقياس"
+                                         ],
+                       "industries":  [
+                                          {
+                                              "description":  "حول محفظة الممتلكات بالتحليلات التنبؤية وتحسين الاستثمار",
+                                              "descriptionHighlight":  [
+                                                                           "التحليلات التنبؤية"
+                                                                       ],
+                                              "icon":  "mdi:domain",
+                                              "keyBenefit":  "زيادة عائد المحفظة بنسبة 15-25% من خلال استراتيجيات استثمار مبنية على البيانات",
+                                              "keyBenefitHighlight":  [
+                                                                          "15-25%"
+                                                                      ],
+                                              "name":  "العقارات والممتلكات",
+                                              "useCases":  [
+                                                               "تحسين أداء المحفظة",
+                                                               "توقع اتجاهات السوق",
+                                                               "دعم قرارات الاستثمار",
+                                                               "تحليلات المستأجرين والاحتفاظ بهم"
+                                                           ]
+                                          },
+                                          {
+                                              "description":  "زيادة الإيرادات من خلال توقع الطلب والتسعير الديناميكي",
+                                              "descriptionHighlight":  [
+                                                                           "زيادة الإيرادات"
+                                                                       ],
+                                              "icon":  "mdi:palm-tree",
+                                              "keyBenefit":  "زيادة RevPAR بنسبة 10-20% مع التسعير التنبؤي وتحسين الطلب",
+                                              "keyBenefitHighlight":  [
+                                                                          "10-20%"
+                                                                      ],
+                                              "name":  "الضيافة والسياحة",
+                                              "useCases":  [
+                                                               "إدارة الإيرادات والتسعير",
+                                                               "تحليل سلوك الضيوف",
+                                                               "توقع الطلب",
+                                                               "تخصيص التجربة"
+                                                           ]
+                                          },
+                                          {
+                                              "description":  "ارتقِ بالتفاعل مع العملاء بالتحليلات التنبؤية وذكاء المخزون",
+                                              "descriptionHighlight":  [
+                                                                           "التحليلات التنبؤية"
+                                                                       ],
+                                              "icon":  "mdi:shopping",
+                                              "keyBenefit":  "تحسين الاحتفاظ بالعملاء بأكثر من 30% من خلال استراتيجيات تفاعل مخصصة",
+                                              "keyBenefitHighlight":  [
+                                                                          "30%+"
+                                                                      ],
+                                              "name":  "التجزئة والعلامات الفاخرة",
+                                              "useCases":  [
+                                                               "تحسين القيمة الدائمة للعميل",
+                                                               "ذكاء المخزون وسلسلة التوريد",
+                                                               "توقع اتجاهات السوق",
+                                                               "تحليلات متعددة القنوات"
+                                                           ]
+                                          },
+                                          {
+                                              "description":  "عزز إدارة المخاطر وحسّن المحافظ بالتحليلات المتطورة",
+                                              "descriptionHighlight":  [
+                                                                           "التحليلات المتطورة"
+                                                                       ],
+                                              "icon":  "mdi:finance",
+                                              "keyBenefit":  "تقليل التعرض للمخاطر بنسبة 20-30% مع تحسين أداء المحفظة",
+                                              "keyBenefitHighlight":  [
+                                                                          "20-30%"
+                                                                      ],
+                                              "name":  "الخدمات المالية",
+                                              "useCases":  [
+                                                               "تقييم ونمذجة المخاطر",
+                                                               "تحسين المحفظة",
+                                                               "تحليلات علاقات العملاء",
+                                                               "رؤى الامتثال التنظيمي"
+                                                           ]
+                                          },
+                                          {
+                                              "description":  "بسّط العمليات وعزز وضوح سلسلة التوريد بالتحليلات الفورية",
+                                              "descriptionHighlight":  [
+                                                                           "التحليلات الفورية"
+                                                                       ],
+                                              "icon":  "mdi:package-variant",
+                                              "keyBenefit":  "تقليل التكاليف التشغيلية بنسبة 15-25% من خلال اللوجستيات والتنبؤ المحسّن",
+                                              "keyBenefitHighlight":  [
+                                                                          "15-25%"
+                                                                      ],
+                                              "name":  "اللوجستيات والتجارة",
+                                              "useCases":  [
+                                                               "تحسين سلسلة التوريد",
+                                                               "ذكاء المسارات والتسليم",
+                                                               "تحليلات تقليل التكاليف",
+                                                               "توقع الطلب"
+                                                           ]
+                                          },
+                                          {
+                                              "description":  "حسّن تقديم الخدمات العامة وحسّن تخصيص الموارد بالتحليلات القائمة على الأدلة",
+                                              "descriptionHighlight":  [
+                                                                           "التحليلات القائمة على الأدلة"
+                                                                       ],
+                                              "icon":  "mdi:gavel",
+                                              "keyBenefit":  "تحسين كفاءة الخدمة بنسبة 20-35% مع تقليل التكاليف التشغيلية",
+                                              "keyBenefitHighlight":  [
+                                                                          "20-35%"
+                                                                      ],
+                                              "name":  "الحكومة والقطاع العام",
+                                              "useCases":  [
+                                                               "تحسين تخصيص الموارد",
+                                                               "تحليلات تقديم الخدمات",
+                                                               "تقييم تأثير السياسات",
+                                                               "رؤى مشاركة المواطنين"
+                                                           ]
+                                          },
+                                          {
+                                              "description":  "دفع النمو من خلال تحليلات العملاء، تحسين التحويل، وذكاء المخزون",
+                                              "descriptionHighlight":  [
+                                                                           "تحسين التحويل"
+                                                                       ],
+                                              "icon":  "mdi:cart",
+                                              "keyBenefit":  "زيادة معدلات التحويل بنسبة 25-40% من خلال استراتيجيات تحسين مبنية على البيانات",
+                                              "keyBenefitHighlight":  [
+                                                                          "25-40%"
+                                                                      ],
+                                              "name":  "التجارة الإلكترونية",
+                                              "useCases":  [
+                                                               "تحسين معدل التحويل",
+                                                               "تحليلات رحلة العميل",
+                                                               "توقع المخزون والطلب",
+                                                               "التخصيص والتوصيات"
+                                                           ]
+                                          }
+                                      ],
+                       "title":  "القطاعات التي نخدمها"
+                   },
+        "language":  "ar",
+        "serviceOfferings":  {
+                                 "codeEdge":  "منهجيتنا تضمن جودة متسقة ولغة مشتركة عبر الاستراتيجية، الهندسة، التحليلات، النمو، والحوكمة — بغض النظر عن المرحلة التي تبدأ منها.",
+                                 "description":  "ثماني خدمات متوافقة مع منحنى نضج التحليلات.",
+                                 "services":  [
+                                                  {
+                                                      "description":  "قيّم وجهز بنيتك التحتية للبيانات للتحليلات. نقيّم مشهد بياناتك الحالي، نحدد الفجوات، وننشئ خارطة طريق للجاهزية.",
+                                                      "link":  "/ar/services/foundation-readiness",
+                                                      "name":  "جاهزية الأساس",
+                                                      "shortDescription":  "قيّم وجهز بنيتك التحتية للبيانات"
+                                                  },
+                                                  {
+                                                      "description":  "حدّث قدراتك في التقارير. نساعدك على الانتقال من التقارير المعزولة إلى ذكاء أعمال موحد ذاتي الخدمة يمنح صناع القرار وصولاً فورياً للمقاييس الموثوقة.",
+                                                      "link":  "/ar/services/reporting-reset",
+                                                      "name":  "إعادة ضبط التقارير",
+                                                      "shortDescription":  "حدّث قدراتك في التقارير"
+                                                  },
+                                                  {
+                                                      "description":  "حدد وحسّن نقاط الضعف في الأداء. نتعمق في البيانات التشغيلية لكشف أين التكاليف المخفية، العمليات غير الفعالة، أو الجودة المتراجعة — ثم نوصي ونطبق التحسينات المستهدفة.",
+                                                      "link":  "/ar/services/performance-diagnostics",
+                                                      "name":  "تشخيص الأداء",
+                                                      "shortDescription":  "حدد وحسّن نقاط الضعف في الأداء"
+                                                  },
+                                                  {
+                                                      "description":  "ابنِ نماذج تنبؤية للتخطيط الأفضل. نطور توقع الطلب، التوقعات المالية، ونمذجة السيناريوهات التي تحسن دقة التخطيط وتمكّن اتخاذ القرارات الاستباقي.",
+                                                      "link":  "/ar/services/forecasting-lab",
+                                                      "name":  "مختبر التنبؤ",
+                                                      "shortDescription":  "ابنِ نماذج تنبؤية للتخطيط الأفضل"
+                                                  },
+                                                  {
+                                                      "description":  "أنشئ أطراً منظمة للقرارات الرئيسية. نصمم عمليات قرار قابلة للتكرار ومبنية على البيانات لمجالات مثل تحسين التسعير، تخصيص الموارد، واستهداف العملاء — حتى تكون القرارات متسقة ومبنية على الأدلة.",
+                                                      "link":  "/ar/services/decision-playbooks",
+                                                      "name":  "كتيبات القرار",
+                                                      "shortDescription":  "أنشئ أطراً منظمة للقرارات الرئيسية"
+                                                  },
+                                                  {
+                                                      "description":  "أتمت سير العمل التحليلي المتكرر. نحدد العمليات اليدوية المستهلكة للوقت (التقارير، التنبيهات، التحليلات الروتينية) ونؤتمتها، محررين فريقك للتركيز على العمل الاستراتيجي.",
+                                                      "link":  "/ar/services/smart-automation",
+                                                      "name":  "الأتمتة الذكية",
+                                                      "shortDescription":  "أتمت سير العمل التحليلي المتكرر"
+                                                  },
+                                                  {
+                                                      "description":  "استفد من الذكاء الاصطناعي لتعزيز القدرات التحليلية. نبني حلول التعلم الآلي المتقدمة، ننشر محركات توصية مدعومة بالذكاء الاصطناعي، وننشئ أنظمة ذكية تعمل على نطاق واسع — من كشف الاحتيال إلى توصيات الإجراء التالي الأفضل.",
+                                                      "link":  "/ar/services/augmented-intelligence-studio",
+                                                      "name":  "استوديو الذكاء المعزز",
+                                                      "shortDescription":  "استفد من الذكاء الاصطناعي لتعزيز القدرات التحليلية"
+                                                  },
+                                                  {
+                                                      "description":  "جهز فريقك للتحليلات ذاتية الخدمة. نقيّم الجاهزية التنظيمية، نوفر التدريب، نؤسس الحوكمة، ونضمن أن فريقك يمكنه استخدام، تفسير، والعمل بناءً على التحليلات بشكل مستقل — متحركاً نحو استقلالية تحليلية حقيقية.",
+                                                      "link":  "/ar/services/autonomy-readiness-review",
+                                                      "name":  "مراجعة جاهزية الاستقلالية",
+                                                      "shortDescription":  "جهز فريقك للتحليلات ذاتية الخدمة"
+                                                  }
+                                              ],
+                                 "title":  "خدمات لكل مرحلة"
+                             }
+    }
+]

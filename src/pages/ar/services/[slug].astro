@@ -10,7 +10,7 @@ import { getServicesContent, getServiceDetailBySlug } from "@/lib/sanity/data";
 import { getLanguageFromUrl } from "@/i18n";
 
 export async function getStaticPaths() {
-  const servicesContent = await getServicesContent('en');
+  const servicesContent = await getServicesContent('ar');
   return servicesContent.details.map((service) => ({
     params: { slug: service.slug },
   }));
@@ -52,4 +52,3 @@ if (!service) {
     slot="cta"
   />
 </ServiceLayout>
-

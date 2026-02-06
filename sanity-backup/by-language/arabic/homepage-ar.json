@@ -1,0 +1,227 @@
+﻿{
+    "_createdAt":  "2026-01-21T16:54:51Z",
+    "_id":  "36c1a7cc-9504-4705-837a-466eaab2a289-ar",
+    "_rev":  "zgN7w2rbd9kseJ0L6mdvlb",
+    "_type":  "homepage",
+    "_updatedAt":  "2026-01-21T18:19:58Z",
+    "capabilities":  {
+                         "cards":  [
+                                       {
+                                           "description":  "تحديد مواطن القيمة في التحليلات وبناء خرائط طريق قابلة للتنفيذ.",
+                                           "descriptionHighlight":  [
+                                                                        "مواطن القيمة"
+                                                                    ],
+                                           "icon":  "mdi:compass-outline",
+                                           "metric":  "حتى 3 أضعاف أسرع\nللوصول للرؤى",
+                                           "title":  "مخطط الاستراتيجية"
+                                       },
+                                       {
+                                           "description":  "تصميم وتنفيذ منصات البيانات السحابية، النماذج، وخطوط البيانات.",
+                                           "descriptionHighlight":  [
+                                                                        "تصميم وتنفيذ"
+                                                                    ],
+                                           "icon":  "mdi:server-network",
+                                           "metric":  "حتى 50% أقل\nفي تكاليف المعالجة",
+                                           "title":  "أسس البيانات"
+                                       },
+                                       {
+                                           "description":  "توحيد المقاييس ولوحات المعلومات في طبقات ذكاء الأعمال ذات الخدمة الذاتية المحكومة.",
+                                           "descriptionHighlight":  [
+                                                                        "توحيد"
+                                                                    ],
+                                           "icon":  "mdi:view-dashboard-variant",
+                                           "metric":  "حتى 5 أضعاف سرعة\nاتخاذ القرار",
+                                           "title":  "مركز الرؤى"
+                                       },
+                                       {
+                                           "description":  "بناء ونشر ومراقبة حلول علوم البيانات والتعلم الآلي.",
+                                           "descriptionHighlight":  [
+                                                                        "بناء ونشر"
+                                                                    ],
+                                           "icon":  "mdi:atom",
+                                           "metric":  "حتى 30% تحسن\nفي دقة النماذج",
+                                           "title":  "مختبر الأنماط"
+                                       },
+                                       {
+                                           "description":  "تحويل بيانات العملاء، المنتجات، والإيرادات إلى رؤى نمو.",
+                                           "descriptionHighlight":  [
+                                                                        "تحويل"
+                                                                    ],
+                                           "icon":  "mdi:chart-timeline-variant",
+                                           "metric":  "حتى 25% أسرع\nفي نمو الإيرادات",
+                                           "title":  "إشارات النمو"
+                                       },
+                                       {
+                                           "description":  "إنشاء السياسات والضوابط للبيانات الموثوقة والآمنة والمتوافقة.",
+                                           "descriptionHighlight":  [
+                                                                        "إنشاء"
+                                                                    ],
+                                           "icon":  "mdi:shield-check-outline",
+                                           "metric":  "حتى 80% أسرع\nفي دورات الامتثال",
+                                           "title":  "أطر الثقة"
+                                       }
+                                   ],
+                         "subheading":  "ستة تخصصات تدعم كل مشروع.",
+                         "title":  "ستة قدرات جوهرية"
+                     },
+    "featuredServices":  {
+                             "items":  [
+                                           {
+                                               "description":  "حدد رؤيتك للبيانات، اكتشف الفرص، وابنِ خارطة طريق لنجاح التحليلات.",
+                                               "icon":  "mdi:layers",
+                                               "link":  "/ar/services/foundation-readiness",
+                                               "number":  "01",
+                                               "shortDescription":  "قيّم وجهز بنيتك التحتية للبيانات",
+                                               "title":  "جاهزية الأساس"
+                                           },
+                                           {
+                                               "description":  "ابنِ خطوط بيانات قوية، منصات سحابية، وبنية تحتية تتوسع مع أعمالك.",
+                                               "icon":  "mdi:chart-box",
+                                               "link":  "/ar/services/reporting-reset",
+                                               "number":  "02",
+                                               "shortDescription":  "حدّث قدراتك في التقارير",
+                                               "title":  "إعادة ضبط التقارير"
+                                           },
+                                           {
+                                               "description":  "أنشئ لوحات معلومات وطبقات تقارير ذاتية الخدمة تمكّن الفرق من اتخاذ قرارات مبنية على البيانات.",
+                                               "icon":  "mdi:chart-line",
+                                               "link":  "/ar/services/performance-diagnostics",
+                                               "number":  "03",
+                                               "shortDescription":  "حدد وحسّن نقاط الضعف في الأداء",
+                                               "title":  "تشخيص الأداء"
+                                           }
+                                       ],
+                             "navigationButton":  {
+                                                      "href":  "/ar/services",
+                                                      "text":  "عرض جميع الخدمات"
+                                                  },
+                             "subheading":  "من أين تبدأ معظم الفرق رحلتها التحليلية.",
+                             "title":  "ثلاث نقاط بداية شائعة"
+                         },
+    "finalCta":  {
+                     "body":  "شارك أهدافك، التحديات الحالية، والجداول الزمنية. ستخرج برؤية واضحة حول أين يمكن للتحليلات أن تخلق أكبر تأثير وما يجب فعله أولاً — قبل أن تلتزم بأي شيء.",
+                     "bodyHighlight":  [
+                                           "أكبر تأثير",
+                                           "ما يجب فعله أولاً"
+                                       ],
+                     "ctaHref":  "/ar/contact/",
+                     "ctaText":  "احجز مكالمة استكشافية",
+                     "reassuranceLine":  "لا عروض بيع — فقط نقاش منظم وخطوات تالية واضحة.",
+                     "subtitle":  "احجز مكالمة استكشافية لمدة 30 دقيقة.",
+                     "title":  "اكتشف خطوتك التالية"
+                 },
+    "hero":  {
+                 "primaryCta":  {
+                                    "href":  "/ar/contact/",
+                                    "text":  "احجز مكالمة استكشافية"
+                                },
+                 "scrollIndicator":  "تصفح المزيد",
+                 "subtitle":  "AUXO تُقدم خدمات تحليلات البيانات الشاملة - DAAS - مصممة خصيصاً لمؤسستك.",
+                 "subtitleHighlight":  [
+                                           "DAAS",
+                                           "خدمات تحليلات البيانات"
+                                       ],
+                 "title":  "الذكاء،",
+                 "titleHighlight":  "مُهندس."
+             },
+    "language":  "ar",
+    "methodology":  {
+                        "navigationButton":  {
+                                                 "href":  "/ar/about/",
+                                                 "text":  "تعرف على منهجيتنا"
+                                             },
+                        "steps":  [
+                                      {
+                                          "description":  "استكشف مجال المشكلة، القرارات الأكثر أهمية، وواقع بياناتك.",
+                                          "descriptionHighlight":  [
+                                                                       "القرارات الأكثر أهمية"
+                                                                   ],
+                                          "icon":  "mdi:database-search",
+                                          "number":  1,
+                                          "output":  "وثيقة\nالاستكشاف",
+                                          "title":  "استكشف"
+                                      },
+                                      {
+                                          "description":  "صمم استراتيجية التحليلات، البنية التقنية، وتجربة المستخدم النهائي لدعم هذه القرارات.",
+                                          "descriptionHighlight":  [
+                                                                       "استراتيجية التحليلات"
+                                                                   ],
+                                          "icon":  "mdi:palette",
+                                          "number":  2,
+                                          "output":  "المواصفات\nالتقنية",
+                                          "title":  "صمم"
+                                      },
+                                      {
+                                          "description":  "أنتج الحلول — خطوط البيانات، النماذج، لوحات المعلومات، والأتمتة — التي تعمل في بيئتك الفعلية.",
+                                          "descriptionHighlight":  [
+                                                                       "خطوط البيانات، النماذج، لوحات المعلومات"
+                                                                   ],
+                                          "icon":  "mdi:rocket-launch",
+                                          "number":  3,
+                                          "output":  "كود قاعدة\nالإنتاج",
+                                          "title":  "أنتج"
+                                      },
+                                      {
+                                          "description":  "ضمّن هذه القدرات من خلال التدريب، الحوكمة، وإدارة التغيير لتصبح جزءاً من العمل اليومي.",
+                                          "descriptionHighlight":  [
+                                                                       "التدريب، الحوكمة"
+                                                                   ],
+                                          "icon":  "mdi:account-group-outline",
+                                          "number":  4,
+                                          "output":  "التدريب و\nالتسليم",
+                                          "title":  "ضمّن"
+                                      }
+                                  ],
+                        "subtitle":  "نموذج عملي من أربع خطوات",
+                        "title":  "AUXO",
+                        "titleHighlight":  "Edge"
+                    },
+    "problem":  {
+                    "valueProposition":  "معظم المؤسسات تواجه بيانات مفككة، ومؤشرات غامضة، وبطء في اتخاذ القرارات. AUXO تحول البيانات الخام إلى ذكاء قابل للتنفيذ يقود نتائج أعمال قابلة للقياس."
+                },
+    "servicesIntro":  {
+                          "items":  [
+                                        {
+                                            "_key":  "cac95877cd4e",
+                                            "_type":  "object",
+                                            "description":  "Define your data vision, identify opportunities, and build a roadmap for analytics success.",
+                                            "icon":  "mdi:chart-line",
+                                            "link":  "/services/analytics-strategy",
+                                            "number":  "01",
+                                            "title":  "Analytics Strategy"
+                                        },
+                                        {
+                                            "_key":  "99c37db988f8",
+                                            "_type":  "object",
+                                            "description":  "Build robust data pipelines, cloud platforms, and infrastructure that scales with your business.",
+                                            "icon":  "mdi:database-cog",
+                                            "link":  "/services/data-engineering",
+                                            "number":  "02",
+                                            "title":  "Data Engineering"
+                                        },
+                                        {
+                                            "_key":  "701ddef75fab",
+                                            "_type":  "object",
+                                            "description":  "Create self-serve dashboards and reporting layers that empower teams to make data-driven decisions.",
+                                            "icon":  "mdi:chart-box",
+                                            "link":  "/services/business-intelligence",
+                                            "number":  "03",
+                                            "title":  "Business Intelligence"
+                                        }
+                                    ],
+                          "navigationButton":  {
+                                                   "href":  "/services",
+                                                   "text":  "View all services"
+                                               },
+                          "subheading":  "Three starting points for your analytics journey",
+                          "title":  "Our Core Services"
+                      },
+    "techStack":  {
+                      "subtitle":  "أدوات ومنصات تحليلات حديثة تدعم حلولنا",
+                      "title":  "التقنيات التي نعمل بها"
+                  },
+    "valueProposition":  {
+                             "line1":  "معظم الشركات تجمع البيانات. القليل منها يحولها إلى قرارات.",
+                             "line2":  "AUXO تسد الفجوة — تربط الفهم التجاري بذكاء البيانات."
+                         }
+}
