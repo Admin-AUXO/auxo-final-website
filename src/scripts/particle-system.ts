@@ -84,7 +84,7 @@ interface PerformanceMetrics {
 
 export class GalaxyParticleSystem {
   private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
+  private ctx!: CanvasRenderingContext2D;
   private stars: Star[] = [];
   private mouseX = 0;
   private mouseY = 0;

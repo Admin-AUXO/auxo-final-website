@@ -4,8 +4,8 @@ import Logo from "./Logo.astro";
 import NavLink from "@/components/navigation/NavLink.astro";
 import NavDropdown from "@/components/navigation/NavDropdown.astro";
 import Button from "@/components/ui/Button.astro";
-import { getNavigationContent } from "@/lib/sanity/data";
-import { getSiteConfigData } from "@/lib/sanity/siteConfig";
+import { getNavigationContent } from "@/lib/data/navigation";
+import { getSiteConfigData } from "@/lib/data/siteConfig-compat";
 import { getBaseUrl, createUrl } from "@/utils/url";
 
 const base = getBaseUrl();

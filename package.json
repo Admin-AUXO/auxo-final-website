@@ -26,12 +26,6 @@
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
     "test:ci": "playwright test",
-    "sanity:backup": "./scripts/export-sanity-data.sh",
-    "sanity:restore": "npx sanity dataset import",
-    "sanity:typegen": "npx sanity schema extract && npx sanity typegen generate",
-    "sanity:schema": "node scripts/generate-schema.js",
-    "sanity:deploy": "node scripts/deploy-schema.js",
-    "sanity:migrate": "node scripts/migrate-data.js",
     "gtm:check": "npx tsx scripts/gtm-check.ts",
     "gtm:optimize": "npx tsx scripts/gtm-optimize.ts",
     "gtm:cleanup-vars": "npx tsx scripts/gtm-cleanup-variables.ts"
@@ -43,25 +37,18 @@
     "@emailjs/browser": "^4.4.1",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/simple-icons": "^1.2.63",
-    "@sanity/astro": "^3.2.11",
-    "@sanity/client": "^7.13.2",
-    "@sanity/image-url": "^2.0.2",
     "astro": "^5.14.6",
     "astro-icon": "^1.1.5",
     "embla-carousel": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
-    "googleapis": "^170.0.0",
     "lenis": "^1.2.11",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "tailwind-scrollbar-hide": "^4.0.0",
-    "web-vitals": "^5.1.0",
-    "zod": "^3.23.8"
+    "web-vitals": "^5.1.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
-    "@sanity/cli": "^5.0.1",
-    "@sanity/vision": "^5.1.0",
     "astro-edge": "^0.9.3",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.1.2",
@@ -75,7 +62,6 @@
     "tailwindcss": "^3.4.18",
     "terser": "^5.44.1",
     "tsx": "^4.21.0",
-    "tweetsodium": "^0.0.4",
     "typescript": "^5.9.3"
   },
   "overrides": {

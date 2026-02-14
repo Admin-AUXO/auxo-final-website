@@ -6,7 +6,7 @@ import ServiceBenefitsSection from "@/components/sections/services/ServiceBenefi
 import ServiceProcessSection from "@/components/sections/services/ServiceProcessSection.astro";
 import ServiceOutcomesSection from "@/components/sections/services/ServiceOutcomesSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
-import { getServicesContent, getServiceDetailBySlug } from "@/lib/sanity/data";
+import { getServicesContent, getServiceDetailBySlug } from "@/lib/data/services";
 
 export async function getStaticPaths() {
   const servicesContent = await getServicesContent();

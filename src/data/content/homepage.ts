@@ -61,6 +61,25 @@ export interface HomepageContent {
       href: string;
     };
   };
+  servicesIntro: {
+    title?: string;
+    subheading?: string;
+    items: {
+      icon?: string;
+      link?: string;
+      number?: string;
+      title: string;
+      titleHighlight?: string;
+      description: string;
+      descriptionHighlight?: string | string[];
+      ctaText?: string;
+      ctaHref?: string;
+    }[];
+    navigationButton?: {
+      text: string;
+      href: string;
+    };
+  };
   capabilities: {
     title: string;
     subheading: string;

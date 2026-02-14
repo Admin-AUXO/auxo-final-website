@@ -63,7 +63,6 @@ nul
 # IDE
 .vscode/
 .idea/
-.cursor/
 *.swp
 *.swo
 *~
@@ -98,8 +97,8 @@ junit.xml
 *.pid.lock
 
 # Sanity data backups (local only)
-sanity-data/*
-!sanity-data/.gitkeep
+exported-sanity-data/
+backup-data.ndjson
 
 # Secrets and tokens
 .github-token
@@ -112,10 +111,13 @@ gtm-service-account.json
 # Local configuration (use .example files as templates)
 .mcp.json
 
-# Temporary files
+# Temporary files and scripts
 tmp-*
 temp-*
 tmpclaude-*
+scripts/analyze-icons.js
+scripts/export-all-data.js
+scripts/convert-to-typescript.js
 
 # Logs (already covered by *.log but being explicit)
 logs/

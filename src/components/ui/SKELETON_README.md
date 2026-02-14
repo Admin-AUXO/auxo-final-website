@@ -65,7 +65,7 @@ import SkeletonGrid from '@/components/ui/SkeletonGrid.astro';
 
 ```astro
 ---
-import { getServices } from '@/lib/sanity/queries';
+import { getServices } from '@/lib/data/services';
 import SkeletonGrid from '@/components/ui/SkeletonGrid.astro';
 
 const services = await getServices();

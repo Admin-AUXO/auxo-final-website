@@ -1,0 +1,30 @@
+---
+description: CSS styling patterns for AUXO project
+globs: **/*.css
+alwaysApply: false
+---
+
+# CSS Patterns
+
+## Structure
+- Global styles in `src/styles/`
+- Component-specific styles scoped in `.astro` files
+- Follow existing file organization
+
+## Tailwind Usage
+- Prefer Tailwind utilities over custom CSS
+- Use `@apply` sparingly - only for complex patterns
+- Define custom utilities in `tailwind.config.js`
+- Use semantic color names from theme
+
+## Custom Properties
+- Use CSS custom properties for dynamic values
+- Namespace custom properties: `--auxo-*`
+- Define in `:root` or component scope
+- Support dark mode with `.dark` class
+
+## Performance
+- Minimize unused CSS
+- Avoid deep nesting (max 3 levels)
+- Use PostCSS optimizations
+- Keep selector specificity low

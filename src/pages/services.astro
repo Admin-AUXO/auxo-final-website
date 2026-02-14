@@ -1,13 +1,13 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import StructuredData from "@/components/common/StructuredData.astro";
-import { getSiteConfigData } from "@/lib/sanity/siteConfig";
+import { getSiteConfigData } from "@/lib/data/siteConfig-compat";
 import HeroSection from "@/components/sections/services/HeroSection.astro";
 import ServicesStageSection from "@/components/sections/services/ServicesStageSection.astro";
 import ImpactSection from "@/components/sections/services/ImpactSection.astro";
 import ModelsSection from "@/components/sections/services/ModelsSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
-import { getServicesContent } from "@/lib/sanity/data";
+import { getServicesContent } from "@/lib/data/services";
 
 const [servicesContent, siteData] = await Promise.all([
   getServicesContent(),

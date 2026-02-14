@@ -1,0 +1,31 @@
+---
+description: Astro component patterns and best practices
+globs: **/*.astro
+alwaysApply: false
+---
+
+# Astro Component Patterns
+
+## Component Structure
+- Use TypeScript for component scripts
+- Define Props interface at the top
+- Extract reusable logic to utilities
+- Keep components focused and single-purpose
+
+## Styling
+- Use Tailwind utility classes
+- Custom CSS in scoped `<style>` tags
+- Import global styles from `@/styles/`
+- Follow BEM conventions for custom CSS classes
+
+## Data Fetching
+- Content is stored in `@/data/content/` as TypeScript files
+- Import data modules from `@/lib/data/`
+- All data is statically imported at build time
+- Handle loading states with skeleton components
+
+## Performance
+- Use `client:*` directives intentionally
+- Prefer `client:visible` for below-fold content
+- Lazy load images with `loading="lazy"`
+- Minimize client-side JavaScript

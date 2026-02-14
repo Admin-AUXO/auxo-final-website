@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import StructuredData from "@/components/common/StructuredData.astro";
-import { getSiteConfigData } from "@/lib/sanity/siteConfig";
+import { getSiteConfigData } from "@/lib/data/siteConfig-compat";
 import HeroSection from "@/components/sections/about/HeroSection.astro";
 import MissionVisionSection from "@/components/sections/about/MissionVisionSection.astro";
 import PurposeSection from "@/components/sections/about/PurposeSection.astro";
@@ -10,7 +10,7 @@ import TeamSection from "@/components/sections/about/TeamSection.astro";
 import PartnershipSection from "@/components/sections/about/PartnershipSection.astro";
 import GlobalSection from "@/components/sections/about/GlobalSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
-import { getAboutContent } from "@/lib/sanity/data";
+import { getAboutContent } from "@/lib/data/about";
 
 const [aboutContent, siteData] = await Promise.all([
   getAboutContent(),

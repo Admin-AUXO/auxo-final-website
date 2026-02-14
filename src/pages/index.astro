@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getSiteConfigData } from "@/lib/sanity/siteConfig";
+import { getSiteConfigData } from "@/lib/data/siteConfig-compat";
 import StructuredData from "@/components/common/StructuredData.astro";
 import HeroSection from "@/components/sections/home/HeroSection.astro";
 import ProblemSolutionSection from "@/components/sections/home/ProblemSolutionSection.astro";
@@ -10,7 +10,7 @@ import MethodologySection from "@/components/sections/home/MethodologySection.as
 import TechStackSection from "@/components/sections/home/TechStackSection.astro";
 import FinalCta from "@/components/sections/home/FinalCta.astro";
 import ParticleBackground from "@/components/effects/ParticleBackground.astro";
-import { getHomepageContent } from "@/lib/sanity/data";
+import { getHomepageContent } from "@/lib/data/homepage";
 
 const [homepageContent, siteData] = await Promise.all([
   getHomepageContent(),

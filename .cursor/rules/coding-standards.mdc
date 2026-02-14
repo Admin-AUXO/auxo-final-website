@@ -1,0 +1,42 @@
+---
+description: AUXO project coding standards and output rules
+alwaysApply: true
+---
+
+# AUXO Coding Standards
+
+## ZERO-WASTE OUTPUT
+- Provide only code that changes
+- No unchanged functions or imports
+- No comments except: complex logic, TODO, FIXME
+- No docstrings unless class/public API
+- No header comments (# ===, # Part 1, etc.)
+- No inline explanations (# This does X, # Load data, etc.)
+- No cell markers in .py files (# %% Cell 1, etc.)
+
+## FILE CREATION
+- NEVER create .md files unless explicitly requested
+- NEVER create README, GUIDE, WORKFLOW, QUICK_START files
+- Only create files the user asks for
+- If context needed, put in code comments (minimal)
+
+## DIRECT ACTION
+- Execute immediately, no "I will..." or "Let me..."
+- No explanations before tool calls
+- Show results after completion only
+
+## RESEARCH FIRST
+- grep/read before writing code
+- Web search for library docs (2026)
+- Check file exists before modifying
+
+## CODE STYLE
+- Clean, readable code
+- No redundant variables
+- No excessive blank lines
+- Minimal vertical space
+
+## BATCHING
+- Group related changes
+- Don't commit after every edit
+- Accumulate tasks, execute together

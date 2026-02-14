@@ -1,0 +1,41 @@
+---
+description: TypeScript patterns for AUXO project
+globs: **/*.{ts,tsx,mts}
+alwaysApply: false
+---
+
+# TypeScript Patterns
+
+## Type Definitions
+- Use interfaces for object shapes
+- Use type aliases for unions/intersections
+- Export types from dedicated `@/types/` files
+- Avoid `any` - use `unknown` if needed
+
+## Path Aliases
+Use configured path aliases:
+- `@/*` - src root
+- `@/components/*` - components
+- `@/lib/*` - libraries
+- `@/utils/*` - utilities
+- `@/data/*` - static data
+- `@/types/*` - type definitions
+
+## Sanity Integration
+- Import client from `@/lib/sanity/client`
+- Use typed queries from `@/lib/sanity/queries`
+- Validate responses with Zod schemas
+- Handle null/undefined from CMS gracefully
+
+## Error Handling
+```typescript
+// ✅ GOOD
+try {
+  const data = await fetchData();
+  if (!data) throw new Error('No data');
+  return data;
+} catch (error) {
+  console.error('Fetch failed:', error);
+  return null;
+}
+```
