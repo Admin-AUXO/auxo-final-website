@@ -180,23 +180,23 @@ const SERVICE_CARD_BASE =
             </header>
             <main class="dropdown-modal-content-main overflow-y-auto">
               <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-8 py-8">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5 lg:gap-6">
+                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
                   {item.dropdown!.map(
                     (sub: DropdownItem, cardIndex: number) => (
                       <a
                         href={sub.href}
-                        class={`service-card group/card relative flex items-center gap-4 p-5 md:p-6 bg-gradient-to-br from-theme-card via-theme-card to-theme-surface border border-accent-green/20 hover:border-accent-green/50 rounded-2xl transition-all duration-400 dropdown-service-card-animated backdrop-blur-sm`}
+                        class={`service-card group/card relative flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4 p-4 sm:p-5 md:p-6 bg-gradient-to-br from-theme-card via-theme-card to-theme-surface border border-accent-green/20 hover:border-accent-green/50 rounded-2xl transition-all duration-400 dropdown-service-card-animated backdrop-blur-sm h-full`}
                         data-card-index={cardIndex}
                       >
-                        <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-accent-green/15 via-accent-green/10 to-accent-green/5 border border-accent-green/30 flex items-center justify-center flex-shrink-0 group-hover/card:scale-105 group-hover/card:rotate-3 group-hover/card:border-accent-green/60 transition-all duration-500 shadow-sm relative z-10">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-accent-green/15 via-accent-green/10 to-accent-green/5 border border-accent-green/30 flex items-center justify-center flex-shrink-0 group-hover/card:scale-105 group-hover/card:rotate-3 group-hover/card:border-accent-green/60 transition-all duration-500 shadow-sm relative z-10">
                           <Icon
                             name={sub.icon}
-                            class="w-6 h-6 md:w-7 md:h-7 text-accent-green group-hover/card:scale-110 transition-transform duration-500"
+                            class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-accent-green group-hover/card:scale-110 transition-transform duration-500"
                           />
                         </div>
 
-                        <div class="flex-1 flex flex-col gap-1 min-w-0 relative z-10 text-left">
-                          <h3 class="text-sm md:text-base font-bold text-theme-primary group-hover/card:text-accent-green transition-colors duration-400 truncate">
+                        <div class="flex-1 flex flex-col gap-1 min-w-0 relative z-10 text-center sm:text-left">
+                          <h3 class="text-xs sm:text-sm md:text-base font-bold text-theme-primary group-hover/card:text-accent-green transition-colors duration-400 leading-tight">
                             {sub.name}
                           </h3>
                           <div class="flex items-center gap-1.5 text-accent-green font-medium text-xs opacity-75 group-hover/card:opacity-100 transition-opacity duration-400">
