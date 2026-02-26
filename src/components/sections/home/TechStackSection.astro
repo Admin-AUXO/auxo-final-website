@@ -89,9 +89,15 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
   .tech-stack-marquee-track {
     display: flex;
     width: max-content;
-    animation: tech-stack-scroll 20s linear infinite;
+    animation: tech-stack-scroll 6s linear infinite;
     animation-play-state: running;
     will-change: transform;
+  }
+
+  @media (min-width: 768px) {
+    .tech-stack-marquee-track {
+      animation-duration: 10s;
+    }
   }
 
   .tech-stack-item {
