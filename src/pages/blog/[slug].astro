@@ -1,0 +1,267 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import StructuredData from "@/components/common/StructuredData.astro";
+import SectionContainer from "@/components/layouts/SectionContainer.astro";
+import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
+import { Icon } from "astro-icon/components";
+import { getSiteConfigData } from "@/lib/data/siteConfig-compat";
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("blog");
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const siteData = await getSiteConfigData();
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.publishDate.toISOString(),
+  dateModified: entry.data.publishDate.toISOString(),
+  publisher: {
+    "@type": "Organization",
+    name: "AUXO Data Labs",
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteData.url}/logo.svg`,
+    },
+  },
+};
+---
+
+<BaseLayout
+  title={`${entry.data.title} | AUXO Insights`}
+  description={entry.data.description}
+>
+  <StructuredData type="Article" data={articleSchema} />
+
+  <!-- Article Header -->
+  <SectionContainer
+    id="blog-header"
+    padding="lg"
+    background="default"
+    class="relative overflow-hidden pt-36 lg:pt-48 pb-12"
+  >
+    <BackgroundDecorations gradients={["top-right"]} patterns={["grid"]} />
+    <div class="grid-container relative z-10">
+      <div class="col-span-full max-w-4xl mx-auto text-center">
+        <!-- Tags -->
+        <div
+          class="flex flex-wrap items-center justify-center gap-2 mb-6"
+          data-reveal="fade-down"
+        >
+          {
+            entry.data.tags.map((tag) => (
+              <span class="text-xs font-semibold px-3 py-1.5 bg-accent-green/10 text-accent-green rounded-full uppercase tracking-wider border border-accent-green/20">
+                {tag}
+              </span>
+            ))
+          }
+        </div>
+
+        <h1
+          class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-theme-primary font-display leading-tight mb-6"
+          data-reveal="fade-up"
+          data-reveal-delay="100"
+        >
+          {entry.data.title}
+        </h1>
+
+        <p
+          class="text-lg md:text-xl text-theme-secondary font-body max-w-2xl mx-auto leading-relaxed mb-8"
+          data-reveal="fade-up"
+          data-reveal-delay="200"
+        >
+          {entry.data.description}
+        </p>
+
+        <!-- Meta info -->
+        <div
+          class="flex items-center justify-center gap-6 text-sm text-theme-secondary font-medium border-t border-b border-theme-light py-4 mx-auto max-w-xl"
+          data-reveal="fade-up"
+          data-reveal-delay="300"
+        >
+          <div class="flex items-center gap-2">
+            <Icon name="mdi:calendar-clock" class="w-5 h-5 text-accent-green" />
+            <time datetime={entry.data.publishDate.toISOString()}>
+              {
+                entry.data.publishDate.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+              }
+            </time>
+          </div>
+          <div class="flex items-center gap-2">
+            <Icon name="mdi:clock-outline" class="w-5 h-5 text-accent-green" />
+            <span>5 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </SectionContainer>
+
+  <!-- Article Content body -->
+  <SectionContainer
+    id="blog-content"
+    padding="normal"
+    background="elevated"
+    class="relative"
+  >
+    <div
+      class="grid-container relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6"
+    >
+      <!-- Sharing Toolbar (Left side floating on large screens) -->
+      <div
+        class="hidden lg:flex flex-col gap-4 absolute -left-16 top-0 sticky top-32 z-20"
+      >
+        <span
+          class="text-xs font-bold uppercase tracking-widest text-theme-secondary text-center mb-2"
+          style="writing-mode: vertical-rl; text-orientation: mixed;"
+          >Share</span
+        >
+        <button
+          id="share-twitter"
+          class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors disabled:opacity-50"
+        >
+          <Icon name="mdi:twitter" class="w-5 h-5" />
+        </button>
+        <button
+          id="share-linkedin"
+          class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors disabled:opacity-50"
+        >
+          <Icon name="mdi:linkedin" class="w-5 h-5" />
+        </button>
+        <button
+          id="share-copy"
+          class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors"
+        >
+          <Icon name="mdi:clipboard-text-outline" class="w-5 h-5" />
+        </button>
+      </div>
+
+      <!-- Markdown Prose -->
+      <article
+        class="prose prose-lg dark:prose-invert prose-headings:font-display prose-headings:font-bold prose-h2:text-accent-green prose-a:text-accent-green hover:prose-a:text-accent-green/80 prose-blockquote:border-l-accent-green prose-blockquote:bg-theme-surface prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-xl max-w-none col-span-full w-full mx-auto"
+        data-reveal="fade-up"
+      >
+        <Content />
+      </article>
+
+      <!-- Mobile Share -->
+      <div
+        class="lg:hidden col-span-full border-t border-theme-light mt-12 pt-8 flex items-center justify-center gap-6"
+      >
+        <span
+          class="text-sm font-bold text-theme-secondary uppercase tracking-widest"
+          >Share Article</span
+        >
+        <div class="flex gap-4">
+          <button
+            id="share-twitter-mobile"
+            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green transition-colors"
+            ><Icon name="mdi:twitter" class="w-5 h-5" /></button
+          >
+          <button
+            id="share-linkedin-mobile"
+            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green transition-colors"
+            ><Icon name="mdi:linkedin" class="w-5 h-5" /></button
+          >
+          <button
+            id="share-copy-mobile"
+            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green transition-colors"
+            ><Icon name="mdi:clipboard-text-outline" class="w-5 h-5" /></button
+          >
+        </div>
+      </div>
+    </div>
+  </SectionContainer>
+
+  <!-- More Posts Link -->
+  <SectionContainer
+    id="blog-footer"
+    padding="normal"
+    background="card"
+    class="text-center"
+  >
+    <div class="col-span-full">
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-2 text-theme-primary font-bold hover:text-accent-green transition-colors pb-1 border-b-2 border-accent-green group"
+      >
+        <Icon
+          name="mdi:arrow-left"
+          class="w-5 h-5 group-hover:-translate-x-1 transition-transform"
+        />
+        Back to all Insights
+      </a>
+    </div>
+  </SectionContainer>
+</BaseLayout>
+
+<script>
+  // Simple sharing logic
+  function setupSharing() {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(document.title);
+
+    const xLinks = document.querySelectorAll(
+      "#share-twitter, #share-twitter-mobile",
+    );
+    const liLinks = document.querySelectorAll(
+      "#share-linkedin, #share-linkedin-mobile",
+    );
+    const copyLinks = document.querySelectorAll(
+      "#share-copy, #share-copy-mobile",
+    );
+
+    xLinks.forEach((b) =>
+      b.addEventListener("click", () => {
+        window.open(
+          `https://twitter.com/intent/tweet?url=${url}&text=${title}`,
+          "_blank",
+        );
+      }),
+    );
+
+    liLinks.forEach((b) =>
+      b.addEventListener("click", () => {
+        window.open(
+          `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`,
+          "_blank",
+        );
+      }),
+    );
+
+    copyLinks.forEach((b) =>
+      b.addEventListener("click", async (e) => {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          const icon = (e.currentTarget as HTMLElement).querySelector("svg");
+          if (icon) {
+            icon.style.color = "var(--accent-green)";
+            setTimeout(() => (icon.style.color = ""), 2000);
+          }
+        } catch (err) {
+          console.error("Failed to copy", err);
+        }
+      }),
+    );
+  }
+
+  // Run on mount and Astro view transitions page load
+  if (typeof window !== "undefined") {
+    document.addEventListener("astro:page-load", () => {
+      setupSharing();
+    });
+  }
+</script>

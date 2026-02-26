@@ -1,0 +1,124 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import SectionContainer from "@/components/layouts/SectionContainer.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
+import { Icon } from "astro-icon/components";
+
+const allPosts = await getCollection("blog");
+allPosts.sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+---
+
+<BaseLayout
+  title="Insights & Blog | AUXO Data Labs"
+  description="Discover the latest in data analytics, engineering, and predictive modeling."
+>
+  <SectionContainer
+    id="blog-hero"
+    padding="lg"
+    background="default"
+    class="relative overflow-hidden pt-36 lg:pt-48 pb-16"
+  >
+    <BackgroundDecorations gradients={["top-right"]} patterns={["grid"]} />
+
+    <div class="grid-container relative z-10">
+      <div class="col-span-full max-w-4xl">
+        <div
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-green/10 border border-accent-green/20 text-accent-green font-medium text-sm mb-6"
+          data-reveal="fade-down"
+        >
+          <Icon name="mdi:book-open-variant" class="w-4 h-4" />
+          <span>Our Insights</span>
+        </div>
+        <h1
+          class="text-4xl md:text-5xl lg:text-7xl font-extrabold text-theme-primary font-display leading-tight mb-6"
+          data-reveal="fade-up"
+          data-reveal-delay="100"
+        >
+          Analytics <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-accent-green to-emerald-400"
+            >Insights</span
+          > & <br class="hidden sm:block" />Thought Leadership
+        </h1>
+        <p
+          class="text-lg md:text-xl text-theme-secondary font-body max-w-2xl leading-relaxed"
+          data-reveal="fade-up"
+          data-reveal-delay="200"
+        >
+          News, playbooks, and strategic analysis from the AUXO Data Labs team.
+        </p>
+      </div>
+    </div>
+  </SectionContainer>
+
+  <SectionContainer id="blog-grid" padding="normal" background="elevated">
+    <div class="grid-container relative z-10">
+      <div class="col-span-full">
+        {
+          allPosts.length === 0 ? (
+            <div class="text-center py-20 bg-theme-surface border border-theme-light rounded-3xl">
+              <Icon
+                name="mdi:note-edit"
+                class="w-16 h-16 text-theme-secondary mx-auto mb-4 opacity-50"
+              />
+              <h3 class="text-2xl font-bold text-theme-primary mb-2">
+                No posts yet
+              </h3>
+              <p class="text-theme-secondary">
+                Check back soon for new insights from our team.
+              </p>
+            </div>
+          ) : (
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {allPosts.map((post, index) => (
+                <a
+                  href={`/blog/${post.slug}`}
+                  class="group bg-theme-surface border border-theme-light hover:border-accent-green/50 rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-2 flex flex-col h-full"
+                  data-reveal="fade-up"
+                  data-reveal-delay={index * 100}
+                >
+                  <div class="p-8 flex flex-col h-full">
+                    <div class="flex flex-wrap gap-2 mb-4">
+                      {post.data.tags.map((tag) => (
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-accent-green/10 text-accent-green rounded-md uppercase tracking-wider">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <h2 class="text-xl lg:text-2xl font-bold text-theme-primary mb-3 font-display group-hover:text-accent-green transition-colors duration-300">
+                      {post.data.title}
+                    </h2>
+
+                    <p class="text-theme-secondary font-body leading-relaxed mb-6 flex-1 line-clamp-3">
+                      {post.data.description}
+                    </p>
+
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-theme-light">
+                      <span class="text-sm font-medium text-theme-secondary">
+                        {new Date(post.data.publishDate).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          },
+                        )}
+                      </span>
+                      <div class="w-8 h-8 rounded-full bg-accent-green/10 flex items-center justify-center group-hover:bg-accent-green group-hover:text-primary text-accent-green transition-colors duration-300">
+                        <Icon name="mdi:arrow-right" class="w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </SectionContainer>
+</BaseLayout>

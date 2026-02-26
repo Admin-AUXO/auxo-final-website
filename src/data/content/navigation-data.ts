@@ -60,6 +60,10 @@ export const navigationContent: NavigationContent = {
     {
       "href": "/about/",
       "name": "About"
+    },
+    {
+      "href": "/blog/",
+      "name": "Insights"
     }
   ]
 };
