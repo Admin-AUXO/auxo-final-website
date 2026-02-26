@@ -121,32 +121,36 @@ const articleSchema = {
       class="grid-container relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6"
     >
       <!-- Sharing Toolbar (Left side floating on large screens) -->
-      <div
-        class="hidden lg:flex flex-col gap-4 absolute -left-16 top-0 sticky top-32 z-20"
-      >
-        <span
-          class="text-xs font-bold uppercase tracking-widest text-theme-secondary text-center mb-2"
-          style="writing-mode: vertical-rl; text-orientation: mixed;"
-          >Share</span
-        >
-        <button
-          id="share-twitter"
-          class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors disabled:opacity-50"
-        >
-          <Icon name="mdi:twitter" class="w-5 h-5" />
-        </button>
-        <button
-          id="share-linkedin"
-          class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors disabled:opacity-50"
-        >
-          <Icon name="mdi:linkedin" class="w-5 h-5" />
-        </button>
-        <button
-          id="share-copy"
-          class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors"
-        >
-          <Icon name="mdi:clipboard-text-outline" class="w-5 h-5" />
-        </button>
+      <div class="hidden lg:block absolute -left-20 top-0 h-full w-12">
+        <div class="sticky top-32 flex flex-col items-center gap-4">
+          <span
+            class="text-xs font-bold uppercase tracking-widest text-theme-secondary mb-2"
+            style="writing-mode: vertical-rl; text-orientation: mixed;"
+          >
+            Share
+          </span>
+          <button
+            id="share-twitter"
+            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors disabled:opacity-50"
+            aria-label="Share on Twitter"
+          >
+            <Icon name="mdi:twitter" class="w-5 h-5" />
+          </button>
+          <button
+            id="share-linkedin"
+            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors disabled:opacity-50"
+            aria-label="Share on LinkedIn"
+          >
+            <Icon name="mdi:linkedin" class="w-5 h-5" />
+          </button>
+          <button
+            id="share-copy"
+            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors"
+            aria-label="Copy Link"
+          >
+            <Icon name="mdi:clipboard-text-outline" class="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
       <!-- Markdown Prose -->
