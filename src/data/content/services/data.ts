@@ -897,7 +897,7 @@ export const servicesContent: ServicesContent = {
           {
             "description": "Improvement in forecast accuracy vs. baseline",
             "label": "Forecast Accuracy",
-            "value": "85%+"
+            "value": "85%"
           },
           {
             "description": "Reduction in planning cycle time",
@@ -1072,12 +1072,12 @@ export const servicesContent: ServicesContent = {
           {
             "description": "Improvement in data accuracy and completeness",
             "label": "Data Quality Score",
-            "value": "85%+"
+            "value": "85%"
           },
           {
             "description": "Increased system reliability and availability",
             "label": "Infrastructure Uptime",
-            "value": "99.5%+"
+            "value": "99.5%"
           },
           {
             "description": "Reduction in time from data to actionable insights",
@@ -1407,7 +1407,7 @@ export const servicesContent: ServicesContent = {
           {
             "description": "Increase in user satisfaction with reporting tools",
             "label": "User Satisfaction",
-            "value": "90%+"
+            "value": "90%"
           },
           {
             "description": "Percentage of reports created by business users",

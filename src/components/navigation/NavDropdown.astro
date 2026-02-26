@@ -138,15 +138,18 @@ const SERVICE_CARD_BASE =
                       Contact our team
                     </a>
                   </p>
-                  <div class="hidden lg:flex items-center gap-2 pointer-events-auto flex-shrink-0 ml-auto">
-                    <Button
-                      variant="cta"
+                  <div class="hidden lg:flex items-center gap-2 pointer-events-auto flex-shrink-0 ml-auto group/viewall">
+                    <a
                       href={createUrl("services")}
-                      showArrow={true}
-                      ariaLabel="View all services"
+                      class="flex items-center gap-1.5 text-base font-bold text-theme-primary hover:text-accent-green transition-colors duration-fast"
+                      aria-label="View all services"
                     >
                       View All Services
-                    </Button>
+                      <Icon
+                        name="mdi:arrow-right"
+                        class="w-4 h-4 text-accent-green group-hover/viewall:translate-x-1 transition-transform duration-fast"
+                      />
+                    </a>
                   </div>
                   <div class="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 md:gap-6 w-full lg:hidden py-3 sm:py-4">
                     <p class="text-xs sm:text-sm md:text-base text-theme-secondary opacity-70 text-center sm:text-left flex-1 min-w-0">
@@ -158,16 +161,18 @@ const SERVICE_CARD_BASE =
                         Contact our team
                       </a>
                     </p>
-                    <div class="flex items-center gap-2 flex-shrink-0">
-                      <Button
-                        variant="cta"
-                        size="md"
+                    <div class="flex items-center gap-2 flex-shrink-0 group/viewall-mobile">
+                      <a
                         href={createUrl("services")}
-                        showArrow={true}
-                        ariaLabel="View all services"
+                        class="flex items-center gap-1.5 text-sm sm:text-base font-bold text-theme-primary hover:text-accent-green transition-colors duration-fast"
+                        aria-label="View all services"
                       >
                         View All Services
-                      </Button>
+                        <Icon
+                          name="mdi:arrow-right"
+                          class="w-4 h-4 text-accent-green group-hover/viewall-mobile:translate-x-1 transition-transform duration-fast"
+                        />
+                      </a>
                     </div>
                   </div>
                 </div>
