@@ -16,26 +16,80 @@ const { content } = Astro.props;
   scrollText={content.scrollIndicator}
   scrollAriaLabel={content.scrollIndicator}
 >
-  <div class="hero-headline mb-6 sm:mb-8 lg:mb-10 w-full" data-reveal="fade-down" data-reveal-duration="200" data-reveal-easing="ease-out">
+  <Fragment slot="background">
+    <div
+      class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix"
+    >
+      <!-- Light Mode Image -->
+      <img
+        src="/images/Cubes_organizing_into_grid_light.jpeg"
+        alt="Data organizing into a grid"
+        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-40 sm:opacity-60 dark:opacity-0"
+        fetchpriority="high"
+      />
+      <!-- Dark Mode Image -->
+      <img
+        src="/images/Cubes_organizing_into_grid_dark.jpeg"
+        alt="Data organizing into a grid"
+        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-0 dark:opacity-40 sm:dark:opacity-70"
+        fetchpriority="high"
+      />
+      <!-- Gradient over image to ensure text legibility -->
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-theme-surface/80 via-theme-surface/60 to-theme-primary"
+      >
+      </div>
+      <div class="absolute inset-0 bg-theme-primary/40"></div>
+    </div>
+  </Fragment>
+
+  <div
+    class="hero-headline mb-6 sm:mb-8 lg:mb-10 w-full relative z-10"
+    data-reveal="fade-down"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
     <h1
       class="hero-headline-text text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-4 sm:mb-6 lg:mb-8 w-full font-display"
     >
       <span class="block home-hero-title">{content.title}</span>
-      <span class="block mt-2 sm:mt-3 lg:mt-4" data-reveal="zoom-in" data-reveal-delay="0" data-reveal-duration="200" data-reveal-easing="ease-out">
-        <span class="highlight-gradient home-hero-highlight inline-block">{content.titleHighlight}</span>
+      <span
+        class="block mt-2 sm:mt-3 lg:mt-4"
+        data-reveal="zoom-in"
+        data-reveal-delay="0"
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
+        <span class="highlight-gradient home-hero-highlight inline-block"
+          >{content.titleHighlight}</span
+        >
       </span>
     </h1>
   </div>
 
-  {content.subtitle && (
-    <div class="hero-subtitle mb-8 sm:mb-10 lg:mb-12 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto hero-follow-content" data-reveal="fade-up" data-reveal-delay="50" data-reveal-duration="200" data-reveal-easing="ease-out">
-      <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body">
-        {content.subtitle}
-      </p>
-    </div>
-  )}
+  {
+    content.subtitle && (
+      <div
+        class="hero-subtitle mb-8 sm:mb-10 lg:mb-12 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto hero-follow-content relative z-10"
+        data-reveal="fade-up"
+        data-reveal-delay="50"
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
+        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body">
+          {content.subtitle}
+        </p>
+      </div>
+    )
+  }
 
-  <div class="hero-follow-content" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
+  <div
+    class="hero-follow-content relative z-10"
+    data-reveal="fade-up"
+    data-reveal-delay="100"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
     <HeroCTAButton
       text={content.primaryCta?.text || "Learn more"}
       href={content.primaryCta?.href || "about"}
@@ -43,5 +97,3 @@ const { content } = Astro.props;
     />
   </div>
 </HeroLayout>
-
-

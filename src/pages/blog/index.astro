@@ -22,19 +22,38 @@ allPosts.sort(
     background="default"
     class="relative overflow-hidden pt-36 lg:pt-48 pb-16"
   >
-    <BackgroundDecorations gradients={["top"]} patterns={["grid"]} />
+    <div
+      class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix"
+    >
+      <!-- Light Mode Image -->
+      <img
+        src="/images/Editorial_3d_illustration_of_a_glowing_emerald_green_light.jpeg"
+        alt="Data Insights"
+        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-40 sm:opacity-60 dark:opacity-0"
+        fetchpriority="high"
+      />
+      <!-- Dark Mode Image -->
+      <img
+        src="/images/Editorial_3d_illustration_of_a_glowing_emerald_green_dark.jpeg"
+        alt="Data Insights"
+        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-0 dark:opacity-40 sm:dark:opacity-70"
+        fetchpriority="high"
+      />
+      <!-- Gradients -->
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-theme-surface/90 via-theme-surface/60 to-theme-surface"
+      >
+      </div>
+      <div
+        class="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-theme-primary to-transparent opacity-50"
+      >
+      </div>
+    </div>
 
     <div class="grid-container relative z-10">
       <div
         class="col-span-full max-w-4xl mx-auto flex flex-col items-center text-center"
       >
-        <div
-          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-green/10 border border-accent-green/20 text-accent-green font-medium text-sm mb-6"
-          data-reveal="fade-down"
-        >
-          <Icon name="mdi:book-open-variant" class="w-4 h-4" />
-          <span>Our Insights</span>
-        </div>
         <h1
           class="text-4xl md:text-5xl lg:text-7xl font-extrabold text-theme-primary font-display leading-tight mb-6"
           data-reveal="fade-up"

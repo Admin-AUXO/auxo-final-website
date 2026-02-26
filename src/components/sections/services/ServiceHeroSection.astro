@@ -21,9 +21,33 @@ const { service } = Astro.props;
   scrollAriaLabel="Scroll to learn more"
 >
   <Fragment slot="background">
-    <BackgroundDecorations gradients={["hero", "dual"]} patterns={["grid"]} />
-
-    <div class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+    <div
+      class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix"
+    >
+      <!-- Light Mode Image -->
+      <img
+        src={`/images/services/${service.slug.replace(/-/g, "_")}_light.jpeg`}
+        alt={`${service.name} background`}
+        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-40 sm:opacity-60 dark:opacity-0"
+        fetchpriority="high"
+      />
+      <!-- Dark Mode Image -->
+      <img
+        src={`/images/services/${service.slug.replace(/-/g, "_")}_dark.jpeg`}
+        alt={`${service.name} background`}
+        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-0 dark:opacity-40 sm:dark:opacity-70"
+        fetchpriority="high"
+      />
+      <!-- Gradients -->
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-theme-surface/90 via-theme-surface/60 to-theme-surface"
+      >
+      </div>
+      <div
+        class="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-theme-primary to-transparent opacity-50"
+      >
+      </div>
+    </div>
   </Fragment>
 
   <div class="service-hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">
