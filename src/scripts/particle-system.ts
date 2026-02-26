@@ -1,4 +1,5 @@
 import { BREAKPOINTS } from './constants';
+import { logger } from '@/lib/logger';
 
 interface Star {
   x: number;
@@ -94,7 +95,6 @@ export class GalaxyParticleSystem {
   private centerX = 0;
   private centerY = 0;
 
-  // Performance monitoring
   private deviceCapabilities: DeviceCapabilities;
   private performanceMetrics: PerformanceMetrics = {
     fps: 60,
@@ -133,7 +133,7 @@ export class GalaxyParticleSystem {
 
     if (this.deviceCapabilities.isLowEnd) {
       this.isDisabled = true;
-      console.log('[ParticleSystem] Disabled on low-end device:', this.deviceCapabilities);
+      logger.debug('[ParticleSystem] Disabled on low-end device:', this.deviceCapabilities);
       return;
     }
 
@@ -174,7 +174,7 @@ export class GalaxyParticleSystem {
         this.deviceCapabilities.isCharging = battery.charging;
 
         if (battery.level < 0.2 && !battery.charging) {
-          console.log('[ParticleSystem] Low battery detected, reducing quality');
+          logger.debug('[ParticleSystem] Low battery detected, reducing quality');
           this.reduceQuality('battery');
         }
 
@@ -190,7 +190,7 @@ export class GalaxyParticleSystem {
         });
       }
     } catch (error) {
-      console.log('[ParticleSystem] Battery API not supported');
+      logger.debug('[ParticleSystem] Battery API not supported');
     }
   }
 
@@ -228,7 +228,7 @@ export class GalaxyParticleSystem {
       this.qualityLevel = 'high';
     }
 
-    console.log(`[ParticleSystem] Initialized with ${this.config.starCount} particles (quality: ${this.qualityLevel})`);
+    logger.debug(`[ParticleSystem] Initialized with ${this.config.starCount} particles (quality: ${this.qualityLevel})`);
     this.updateThemeColors();
   }
 
@@ -244,7 +244,7 @@ export class GalaxyParticleSystem {
     this.config.twinkleSpeed *= 0.7;
     this.stars = this.stars.slice(0, this.config.starCount);
 
-    console.log(
+    logger.debug(
       `[ParticleSystem] Quality reduced due to ${reason}:`,
       `${oldCount} → ${this.config.starCount} particles`,
       this.deviceCapabilities
@@ -271,7 +271,7 @@ export class GalaxyParticleSystem {
       }
 
       if (this.performanceMetrics.frameCount % 300 === 0) {
-        console.log(`[ParticleSystem] FPS: ${Math.round(this.performanceMetrics.fps)}, Quality: ${this.qualityLevel}`);
+        logger.debug(`[ParticleSystem] FPS: ${Math.round(this.performanceMetrics.fps)}, Quality: ${this.qualityLevel}`);
       }
     }
   }
@@ -704,12 +704,10 @@ export class GalaxyParticleSystem {
   }
 
   private animate() {
-    // Skip animation if disabled
     if (this.isDisabled) {
       return;
     }
 
-    // Monitor performance and trigger quality reduction if needed
     this.monitorPerformance();
 
     this.updateStars();

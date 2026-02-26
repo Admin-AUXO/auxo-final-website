@@ -35,7 +35,8 @@ export class EmblaCarouselWrapper {
       loop = true,
       autoplay = true,
       autoplayInterval = DEFAULT_AUTOPLAY_INTERVAL,
-      pauseOnHover = false,
+      pauseOnHover = true,
+      pauseOnTouch = true,
       align = 'center',
       slidesToScroll = 1,
       dragFree = false,
@@ -56,7 +57,7 @@ export class EmblaCarouselWrapper {
         stopOnMouseEnter: pauseOnHover,
         stopOnFocusIn: false,
         playOnInit: true,
-        stopOnLastSnap: false,
+        stopOnLastSnap: !loop,
       });
       plugins.push(this.autoplayPlugin);
     }
@@ -79,7 +80,13 @@ export class EmblaCarouselWrapper {
       watchFocus: false,
     };
 
-    this._embla = EmblaCarousel(container, emblaOptions, plugins);
+    try {
+      this._embla = EmblaCarousel(container, emblaOptions, plugins);
+    } catch (error) {
+      logger.warn('Failed to initialize Embla Carousel:', error);
+      this.isDestroyed = true;
+      return;
+    }
 
     if (!this._embla) {
       this.isDestroyed = true;
@@ -88,37 +95,7 @@ export class EmblaCarouselWrapper {
 
     this._embla.on('select', this.handleSelect);
     this._embla.on('reInit', this.handleSelect);
-
     this.handleSelect();
-
-    if (loop && this._embla) {
-      const slideCount = this._embla.slideNodes().length;
-      if (slideCount > 2) {
-        requestAnimationFrame(() => {
-          if (!this.isDestroyed && this._embla) {
-            this._embla.reInit();
-            const middleIndex = Math.floor(slideCount / 2);
-            setTimeout(() => {
-              if (!this.isDestroyed && this._embla) {
-                this._embla.scrollTo(middleIndex, false);
-              }
-            }, 50);
-          }
-        });
-      }
-    }
-
-    if (autoplay && this.autoplayPlugin && this._embla) {
-      requestAnimationFrame(() => {
-        if (!this.isDestroyed && this.autoplayPlugin && this._embla && this._embla.scrollSnapList && this._embla.scrollSnapList().length > 0) {
-          try {
-            this.autoplayPlugin.play();
-          } catch (error) {
-            logger.warn('Failed to start carousel autoplay:', error);
-          }
-        }
-      });
-    }
   }
 
   private handleSelect = (): void => {
@@ -143,9 +120,9 @@ export class EmblaCarouselWrapper {
     }
   }
 
-  scrollTo(index: number): void {
+  scrollTo(index: number, jump = false): void {
     if (!this.isDestroyed) {
-      this._embla?.scrollTo(index);
+      this._embla?.scrollTo(index, jump);
     }
   }
 
@@ -160,7 +137,11 @@ export class EmblaCarouselWrapper {
     this.isDestroyed = true;
 
     if (this.autoplayPlugin) {
-      this.autoplayPlugin.stop();
+      try {
+        this.autoplayPlugin.stop();
+      } catch {
+        // Plugin may already be destroyed
+      }
       this.autoplayPlugin = null;
     }
 

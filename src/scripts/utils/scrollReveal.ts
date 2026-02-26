@@ -11,7 +11,6 @@ export interface ScrollRevealOptions {
 }
 
 export interface RevealElement extends HTMLElement {
-  _revealObserver?: IntersectionObserver;
   _revealAnimated?: boolean;
 }
 
@@ -25,75 +24,83 @@ const DEFAULT_OPTIONS: Required<ScrollRevealOptions> = {
   threshold: 0.05,
 };
 
-let globalOptions: Required<ScrollRevealOptions> = { ...DEFAULT_OPTIONS };
-let observer: IntersectionObserver | null = null;
-let isInitialized = false;
+const TRANSFORM_MAP: Record<string, string> = {
+  'fade-up': 'translateY(20px)',
+  'fade-down': 'translateY(-20px)',
+  'fade-left': 'translateX(20px)',
+  'fade-right': 'translateX(-20px)',
+  'fade': 'none',
+  'fade-in': 'none',
+  'zoom-in': 'scale(0.95)',
+  'zoom-out': 'scale(1.05)',
+  'flip-up': 'rotateX(20deg)',
+  'flip-down': 'rotateX(-20deg)',
+  'flip-left': 'rotateY(20deg)',
+  'flip-right': 'rotateY(-20deg)',
+};
 
-function parseAnimationAttributes(element: RevealElement): {
+const EASING_MAP: Record<string, string> = {
+  'ease-out-cubic': '0.33, 1, 0.68, 1',
+  'ease-in-out': '0.4, 0, 0.2, 1',
+  'ease-out': '0, 0, 0.2, 1',
+  'ease-in': '0.4, 0, 1, 1',
+  'linear': '0, 0, 1, 1',
+};
+
+const elementState = new WeakMap<HTMLElement, {
   animation: string;
   duration: number;
   delay: number;
   offset: number;
   easing: string;
-} {
-  return {
-    animation: element.getAttribute('data-reveal') || 'fade-up',
-    duration: parseInt(element.getAttribute('data-reveal-duration') || String(globalOptions.duration), 10),
-    delay: parseInt(element.getAttribute('data-reveal-delay') || String(globalOptions.delay), 10),
-    offset: parseInt(element.getAttribute('data-reveal-offset') || String(globalOptions.offset), 10),
-    easing: element.getAttribute('data-reveal-easing') || globalOptions.easing
-  };
+  initialTransform: string;
+  isFadeOrZoom: boolean;
+}>();
+
+let globalOptions: Required<ScrollRevealOptions> = { ...DEFAULT_OPTIONS };
+let observer: IntersectionObserver | null = null;
+let isInitialized = false;
+
+function getElementConfig(element: HTMLElement) {
+  let config = elementState.get(element);
+  if (!config) {
+    const animation = element.getAttribute('data-reveal') || 'fade-up';
+    const duration = parseInt(element.getAttribute('data-reveal-duration') || String(globalOptions.duration), 10);
+    const delay = parseInt(element.getAttribute('data-reveal-delay') || String(globalOptions.delay), 10);
+    const offset = parseInt(element.getAttribute('data-reveal-offset') || String(globalOptions.offset), 10);
+    const easing = element.getAttribute('data-reveal-easing') || globalOptions.easing;
+    
+    config = {
+      animation,
+      duration,
+      delay,
+      offset,
+      easing,
+      initialTransform: TRANSFORM_MAP[animation] || TRANSFORM_MAP['fade-up'],
+      isFadeOrZoom: animation.includes('fade') || animation.includes('zoom')
+    };
+    elementState.set(element, config);
+  }
+  return config;
 }
 
-function getInitialTransform(animation: string): string {
-  const transforms: Record<string, string> = {
-    'fade-up': 'translateY(20px)',
-    'fade-down': 'translateY(-20px)',
-    'fade-left': 'translateX(20px)',
-    'fade-right': 'translateX(-20px)',
-    'fade': 'none',
-    'fade-in': 'none',
-    'zoom-in': 'scale(0.95)',
-    'zoom-out': 'scale(1.05)',
-    'flip-up': 'rotateX(20deg)',
-    'flip-down': 'rotateX(-20deg)',
-    'flip-left': 'rotateY(20deg)',
-    'flip-right': 'rotateY(-20deg)',
-  };
-  return transforms[animation] || transforms['fade-up'];
-}
+function animateElement(element: RevealElement, isIntersecting: boolean): void {
+  if (element._revealAnimated && globalOptions.once && isIntersecting) return;
 
-function getCubicBezier(easing: string): string {
-  const bezierMap: Record<string, string> = {
-    'ease-out-cubic': '0.33, 1, 0.68, 1',
-    'ease-in-out': '0.4, 0, 0.2, 1',
-    'ease-out': '0, 0, 0.2, 1',
-    'ease-in': '0.4, 0, 1, 1',
-    'linear': '0, 0, 1, 1',
-  };
-  return bezierMap[easing] || bezierMap['ease-out'];
-}
-
-function animateElement(element: RevealElement, entry: IntersectionObserverEntry): void {
-  if (element._revealAnimated && globalOptions.once) return;
-
-  const { animation, duration, delay, easing } = parseAnimationAttributes(element);
-  const initialTransform = getInitialTransform(animation);
-  const isFade = animation.includes('fade');
-  const isZoom = animation.includes('zoom');
+  const config = getElementConfig(element);
   const isMobile = isMobileDevice();
 
-  const mobileDuration = isMobile ? Math.min(duration, 150) : duration;
-  const mobileDelay = isMobile ? Math.min(delay, 20) : delay;
+  const finalDuration = isMobile ? Math.min(config.duration, 150) : config.duration;
+  const finalDelay = isMobile ? Math.min(config.delay, 20) : config.delay;
 
-  const transitionProperty = isFade || isZoom ? 'opacity, transform' : 'transform';
-  const cubicBezier = getCubicBezier(easing);
+  const transitionProperty = config.isFadeOrZoom ? 'opacity, transform' : 'transform';
+  const cubicBezier = EASING_MAP[config.easing] || EASING_MAP['ease-out'];
 
   requestAnimationFrame(() => {
-    element.style.transition = `${transitionProperty} ${mobileDuration}ms cubic-bezier(${cubicBezier})`;
-    if (mobileDelay > 0) element.style.transitionDelay = `${mobileDelay}ms`;
+    element.style.transition = `${transitionProperty} ${finalDuration}ms cubic-bezier(${cubicBezier})`;
+    if (finalDelay > 0) element.style.transitionDelay = `${finalDelay}ms`;
 
-    if (entry.isIntersecting) {
+    if (isIntersecting) {
       element.style.opacity = '1';
       element.style.transform = 'none';
       element.classList.add('reveal-animated');
@@ -103,10 +110,10 @@ function animateElement(element: RevealElement, entry: IntersectionObserverEntry
       setTimeout(() => {
         element.style.willChange = 'auto';
         element.style.transition = '';
-      }, mobileDuration + mobileDelay + 50);
+      }, finalDuration + finalDelay + 50);
     } else if (!globalOptions.once) {
-      element.style.opacity = isFade ? '0' : '1';
-      element.style.transform = initialTransform;
+      element.style.opacity = config.animation.includes('fade') ? '0' : '1';
+      element.style.transform = config.initialTransform;
       element.classList.remove('reveal-animated');
       element.classList.add('reveal-init');
       element._revealAnimated = false;
@@ -122,9 +129,8 @@ function createObserver(): IntersectionObserver {
   return new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        const element = entry.target as RevealElement;
         if (entry.isIntersecting || !globalOptions.once) {
-          animateElement(element, entry);
+          animateElement(entry.target as RevealElement, entry.isIntersecting);
         }
       });
     },
@@ -149,54 +155,6 @@ function checkIfInViewport(element: Element): boolean {
   );
 }
 
-function applyInitialStyles(element: RevealElement, isFade: boolean, isZoom: boolean, initialTransform: string): void {
-  element.style.opacity = isFade || isZoom ? '0' : '1';
-  element.style.transform = initialTransform;
-  element.style.willChange = 'opacity, transform';
-}
-
-function applyRevealedStyles(element: RevealElement, mobileDuration: number, mobileDelay: number): void {
-  element.style.opacity = '1';
-  element.style.transform = 'none';
-  element.style.willChange = 'opacity, transform';
-  element.classList.add('reveal-animated');
-  element.classList.remove('reveal-init');
-  element._revealAnimated = true;
-
-  setTimeout(() => {
-    requestAnimationFrame(() => {
-      element.style.willChange = 'auto';
-      element.style.transition = '';
-    });
-  }, mobileDuration + mobileDelay);
-}
-
-function initializeElements(): void {
-  if (globalOptions.disable) return;
-
-  const elements = document.querySelectorAll<RevealElement>('[data-reveal]');
-  if (elements.length === 0) return;
-
-  elements.forEach((element) => {
-    const { animation, duration, delay } = parseAnimationAttributes(element);
-    const initialTransform = getInitialTransform(animation);
-    const isFade = animation.includes('fade');
-    const isZoom = animation.includes('zoom');
-    const isMobile = isMobileDevice();
-    const mobileDuration = isMobile ? Math.min(duration, 150) : duration;
-    const mobileDelay = isMobile ? Math.min(delay, 20) : delay;
-
-    element.classList.add('reveal-init');
-
-    if (checkIfInViewport(element)) {
-      requestAnimationFrame(() => applyRevealedStyles(element, mobileDuration, mobileDelay));
-    } else {
-      requestAnimationFrame(() => applyInitialStyles(element, isFade, isZoom, initialTransform));
-      observer?.observe(element);
-    }
-  });
-}
-
 export function init(options: ScrollRevealOptions = {}): void {
   globalOptions = { ...DEFAULT_OPTIONS, ...options };
 
@@ -209,8 +167,7 @@ export function init(options: ScrollRevealOptions = {}): void {
     }
     isInitialized = false;
     
-    const elements = document.querySelectorAll<RevealElement>('[data-reveal]');
-    elements.forEach((element) => {
+    document.querySelectorAll<RevealElement>('[data-reveal]').forEach((element) => {
       element.style.opacity = '1';
       element.style.transform = 'none';
       element.classList.add('reveal-animated');
@@ -227,45 +184,32 @@ export function init(options: ScrollRevealOptions = {}): void {
   observer = createObserver();
   isInitialized = true;
 
-  const createIntersectionEntry = (element: RevealElement): IntersectionObserverEntry => {
-    const rect = element.getBoundingClientRect();
-    return {
-      target: element,
-      isIntersecting: true,
-      intersectionRatio: 1,
-      boundingClientRect: rect,
-      rootBounds: null,
-      intersectionRect: rect,
-      time: Date.now(),
-    } as IntersectionObserverEntry;
-  };
+  const elements = document.querySelectorAll<RevealElement>('[data-reveal]');
+  if (elements.length === 0) return;
 
-  const checkAndAnimateElements = (selector: string) => {
-    document.querySelectorAll<RevealElement>(selector).forEach((element) => {
-      if (!element._revealAnimated && checkIfInViewport(element)) {
-        animateElement(element, createIntersectionEntry(element));
-      }
-    });
-  };
+  elements.forEach((element) => {
+    const config = getElementConfig(element);
+    element.classList.add('reveal-init');
 
-  const initializeAndCheck = () => {
-    initializeElements();
-    setTimeout(() => checkAndAnimateElements('[data-reveal]'), 50);
-    setTimeout(() => checkAndAnimateElements('[data-reveal].reveal-init'), 500);
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeAndCheck, { once: true });
-  } else {
-    initializeAndCheck();
-  }
+    if (checkIfInViewport(element)) {
+      element.style.opacity = '1';
+      element.style.transform = 'none';
+      element.classList.add('reveal-animated');
+      element.classList.remove('reveal-init');
+      element._revealAnimated = true;
+    } else {
+      element.style.opacity = config.isFadeOrZoom ? '0' : '1';
+      element.style.transform = config.initialTransform;
+      element.style.willChange = 'opacity, transform';
+      observer?.observe(element);
+    }
+  });
 }
 
 export function refresh(): void {
   if (!observer || !isInitialized) return;
 
-  const elements = document.querySelectorAll<RevealElement>('[data-reveal]');
-  elements.forEach((element) => {
+  document.querySelectorAll<RevealElement>('[data-reveal]').forEach((element) => {
     if (!element._revealAnimated || !globalOptions.once) {
       observer?.observe(element);
     }

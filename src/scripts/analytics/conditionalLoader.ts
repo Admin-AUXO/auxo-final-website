@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 interface AnalyticsModule {
   name: string;
   condition: () => boolean;
@@ -115,13 +116,13 @@ export class ConditionalAnalyticsLoader {
   private async loadModules(modules: AnalyticsModule[]): Promise<void> {
     const modulesToLoad = modules.filter(m => {
       if (this.loadedModules.size >= this.maxScripts) {
-        console.log(`[Analytics] Budget limit reached (${this.maxScripts} scripts)`);
+        logger.debug(`[Analytics] Budget limit reached (${this.maxScripts} scripts)`);
         return false;
       }
 
       const elapsedTime = Date.now() - this.initStartTime;
       if (elapsedTime > this.maxInitTime) {
-        console.log(`[Analytics] Time budget exceeded (${elapsedTime}ms > ${this.maxInitTime}ms)`);
+        logger.debug(`[Analytics] Time budget exceeded (${elapsedTime}ms > ${this.maxInitTime}ms)`);
         return false;
       }
 
@@ -134,7 +135,7 @@ export class ConditionalAnalyticsLoader {
 
     results.forEach((result, index) => {
       if (result.status === 'rejected') {
-        console.error(`[Analytics] Failed to load ${modulesToLoad[index].name}:`, result.reason);
+        logger.error(`[Analytics] Failed to load ${modulesToLoad[index].name}:`, result.reason);
       }
     });
   }
@@ -143,7 +144,7 @@ export class ConditionalAnalyticsLoader {
     if (this.loadedModules.has(module.name)) return;
 
     try {
-      console.log(`[Analytics] Loading ${module.name} (${module.priority})`);
+      logger.debug(`[Analytics] Loading ${module.name} (${module.priority})`);
       const cleanup = await module.load();
 
       if (cleanup) {
@@ -151,9 +152,9 @@ export class ConditionalAnalyticsLoader {
       }
 
       this.loadedModules.add(module.name);
-      console.log(`[Analytics] Loaded ${module.name}`);
+      logger.debug(`[Analytics] Loaded ${module.name}`);
     } catch (error) {
-      console.error(`[Analytics] Error loading ${module.name}:`, error);
+      logger.error(`[Analytics] Error loading ${module.name}:`, error);
       throw error;
     }
   }
@@ -162,9 +163,9 @@ export class ConditionalAnalyticsLoader {
     this.cleanupFunctions.forEach((cleanup, name) => {
       try {
         cleanup();
-        console.log(`[Analytics] Cleaned up ${name}`);
+        logger.debug(`[Analytics] Cleaned up ${name}`);
       } catch (error) {
-        console.error(`[Analytics] Error cleaning up ${name}:`, error);
+        logger.error(`[Analytics] Error cleaning up ${name}:`, error);
       }
     });
 

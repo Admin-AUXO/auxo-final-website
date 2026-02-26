@@ -10,7 +10,9 @@ interface Props {
 }
 
 const { content } = Astro.props;
-const items = Array.isArray(content?.items) ? content.items : [];
+const rawItems = Array.isArray(content?.items) ? content.items : [];
+
+const items = [...rawItems].sort(() => Math.random() - 0.5);
 const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
 ---
 
@@ -19,42 +21,44 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
   padding="lg"
   background="card"
   class="relative tech-stack-section section-divider"
+  style="content-visibility: auto; contain-intrinsic-size: 400px;"
 >
   <BackgroundDecorations gradients={["center"]} />
-  
+
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-7xl mx-auto w-full">
-      <div data-reveal="fade-down" data-reveal-duration="250" data-reveal-easing="ease-out">
-        <SectionHeader
-          title={content?.title || ''}
-          subtitle={content?.subtitle || ''}
-          highlight="Technologies"
-        />
-      </div>
+      <SectionHeader
+        title={content?.title || ""}
+        subtitle={content?.subtitle || ""}
+        highlight="Technologies"
+      />
 
-      {items.length > 0 ? (
-        <div class="tech-stack-marquee-wrapper relative py-4 sm:py-6">
-          <div class="tech-stack-marquee-track flex gap-8 sm:gap-12 lg:gap-16" id="tech-stack-track">
-            {duplicatedItems.map((item, index) => (
-              <div
-                class="tech-stack-item flex-shrink-0 flex items-center justify-center gap-3 px-4 sm:px-6 py-2 rounded-lg transition-all duration-300"
-              >
-                <Icon 
-                  name={item.icon} 
-                  class="tech-stack-icon w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12" 
-                />
-                <span class="tech-stack-name text-body-lg sm:text-[1.1875rem] lg:text-xl font-semibold whitespace-nowrap">
-                  {item.name}
-                </span>
-              </div>
-            ))}
+      {
+        items.length > 0 ? (
+          <div class="tech-stack-marquee-wrapper relative py-4 sm:py-6">
+            <div
+              class="tech-stack-marquee-track flex gap-8 sm:gap-12 lg:gap-16"
+              id="tech-stack-track"
+            >
+              {duplicatedItems.map((item, index) => (
+                <div class="tech-stack-item flex-shrink-0 flex items-center justify-center gap-3 px-4 sm:px-6 py-2 rounded-lg transition-all duration-300">
+                  <Icon
+                    name={item.icon}
+                    class="tech-stack-icon w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"
+                  />
+                  <span class="tech-stack-name text-body-lg sm:text-[1.1875rem] lg:text-xl font-semibold whitespace-nowrap">
+                    {item.name}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ) : (
-        <div class="py-4 sm:py-6 text-center text-theme-secondary">
-          <p>Tech stack items coming soon...</p>
-        </div>
-      )}
+        ) : (
+          <div class="py-4 sm:py-6 text-center text-theme-secondary">
+            <p>Tech stack items coming soon...</p>
+          </div>
+        )
+      }
     </div>
   </div>
 </SectionContainer>
@@ -66,20 +70,34 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
 
   .tech-stack-marquee-wrapper {
     overflow: hidden;
-    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 5%,
+      black 95%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 5%,
+      black 95%,
+      transparent 100%
+    );
   }
 
   .tech-stack-marquee-track {
     display: flex;
     width: max-content;
-    animation: tech-stack-scroll 30s linear infinite;
+    animation: tech-stack-scroll 20s linear infinite;
     animation-play-state: running;
     will-change: transform;
   }
 
   .tech-stack-item {
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      background-color 0.3s ease;
   }
 
   .tech-stack-item:hover {
@@ -121,7 +139,7 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
       scrollbar-width: none;
       -ms-overflow-style: none;
     }
-    
+
     .tech-stack-marquee-track::-webkit-scrollbar {
       display: none;
     }
@@ -131,10 +149,3 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
     animation-play-state: paused;
   }
 </style>
-
-<script>
-  import { initTechStackSection } from '@/scripts/sections/home/techStackSection';
-  import { setupSectionInit } from '@/scripts/sections/utils/initUtils';
-  setupSectionInit(initTechStackSection);
-</script>
-

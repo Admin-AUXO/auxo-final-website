@@ -1,22 +1,23 @@
-import { setupSectionInit } from "./utils";
 import { CAROUSEL_CONFIGS, initCarouselById } from "./utils/carouselConfigs";
 
-let isInitialized = false;
+const initializedContainers = new Set<string>();
 
 export function autoInitCarousels(): void {
-  if (isInitialized) return;
-  isInitialized = true;
-
   if (typeof document === 'undefined') return;
 
   CAROUSEL_CONFIGS.forEach(({ containerId }) => {
+    if (initializedContainers.has(containerId)) return;
+
     const container = document.getElementById(containerId);
     if (container) {
-      setupSectionInit(() => {
-        initCarouselById(containerId);
-      });
+      initializedContainers.add(containerId);
+      initCarouselById(containerId);
     }
   });
+}
+
+export function resetAutoInitState(): void {
+  initializedContainers.clear();
 }
 
 if (typeof window !== 'undefined') {

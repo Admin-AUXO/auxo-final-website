@@ -2,7 +2,7 @@
 import { Icon } from "astro-icon/components";
 import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
-import Card from "@/components/ui/Card.astro";
+import HighlightText from "@/components/ui/HighlightText.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 
 interface Props {
@@ -38,17 +38,54 @@ const { content } = Astro.props;
         subtitleHighlight={content.descriptionHighlight}
       />
 
-      <div class="name-origin-card" data-reveal="fade-up" data-reveal-delay="50" data-reveal-duration="200" data-reveal-easing="ease-out">
-        <Card
-          variant="highlight"
-          title={content.nameOrigin.title}
-          content={content.nameOrigin.description}
-          icon="mdi:lightbulb-on"
-          accentTitle={true}
-        />
+      <div
+        class="name-origin-card group relative"
+        data-reveal="fade-up"
+        data-reveal-delay="50"
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-accent-green/20 to-accent-green/5 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500"
+        >
+        </div>
+        <div
+          class="relative bg-theme-surface/80 backdrop-blur-sm border border-accent-green/30 rounded-3xl p-8 sm:p-10 lg:p-12 overflow-hidden shadow-2xl"
+        >
+          <div
+            class="absolute top-0 right-0 w-64 h-64 bg-accent-green/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"
+          >
+          </div>
+
+          <div class="relative z-10">
+            <div class="flex items-center gap-4 mb-6">
+              <Icon
+                name="mdi:lightbulb-on"
+                class="w-8 h-8 sm:w-9 sm:h-9 text-accent-green flex-shrink-0"
+              />
+              <h3
+                class="text-h3 font-extrabold text-theme-primary font-display tracking-tight"
+              >
+                {content.nameOrigin.title}
+              </h3>
+            </div>
+            <p
+              class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed font-body"
+            >
+              <HighlightText
+                text={content.nameOrigin.description}
+                highlight={["growth", "increase", "AUXO"]}
+                highlightClass="text-accent-green font-bold"
+              />
+            </p>
+          </div>
+
+          <div
+            class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-green/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          >
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </SectionContainer>
-
-

@@ -1,26 +1,25 @@
 :global([data-google-calendar-open]) {
-  position: relative;
   cursor: pointer;
   pointer-events: auto;
-  z-index: var(--z-interactive, 10);
+  position: relative;
   user-select: none;
+  z-index: var(--z-interactive, 10);
 }
 
 :global([data-google-calendar-open]:focus-visible) {
+  border-radius: var(--radius-md);
   outline: var(--focus-ring-width) solid var(--accent-green);
   outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-md);
 }
 
 :global(a[data-google-calendar-open]) {
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
 }
 
 :global(button[data-google-calendar-open]) {
-  -webkit-appearance: none;
   appearance: none;
-  border: none;
   background: inherit;
+  border: none;
   font: inherit;
 }

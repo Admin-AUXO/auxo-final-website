@@ -1,0 +1,45 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-tailwindcss"
+  ],
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "tailwind",
+          "apply",
+          "variants",
+          "responsive",
+          "screen"
+        ]
+      }
+    ],
+    "declaration-block-no-duplicate-properties": [
+      true,
+      {
+        "ignore": [
+          "consecutive-duplicates-with-different-values"
+        ]
+      }
+    ],
+    "no-descending-specificity": null,
+    "order/properties-alphabetical-order": true,
+    "selector-class-pattern": null,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": [
+          "global",
+          "flex",
+          "hidden"
+        ]
+      }
+    ],
+    "property-no-vendor-prefix": null
+  }
+}

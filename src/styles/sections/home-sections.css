@@ -1,15 +1,15 @@
 .symmetric-grid-container {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1.5rem;
   align-items: stretch;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(6, 1fr);
   max-width: 100%;
 }
 
 .capability-card-wrapper {
+  display: flex;
   height: 100%;
   min-height: 340px;
-  display: flex;
 }
 
 .capability-card-wrapper[data-index="0"] {
@@ -103,16 +103,16 @@
   }
 
   :global(.accordion-container) {
-    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
+    position: relative;
   }
 }
 
 .services-intro-section .grid-container {
-  overflow-x: visible !important;
   max-width: 100% !important;
+  overflow-x: visible !important;
 }
 
 .capabilities-section:has(.capabilities-carousel-section),
@@ -126,15 +126,15 @@
 }
 
 .services-intro-section::after {
-  content: '';
-  position: absolute;
-  inset: 0;
   background: radial-gradient(
     ellipse 100% 80% at center top,
     var(--accent-green-opacity-02) 0%,
     transparent 50%
   );
+  content: '';
+  inset: 0;
   pointer-events: none;
+  position: absolute;
   z-index: 0;
 }
 
@@ -153,11 +153,11 @@
     linear-gradient(90deg, var(--accent-green) 1px, transparent 1px),
     linear-gradient(180deg, var(--accent-green) 1px, transparent 1px),
     radial-gradient(circle, var(--accent-green) 1px, transparent 1px);
+  background-position: 0 0, 0 0, 0 0;
   background-size:
     var(--pattern-size-md) var(--pattern-size-md),
     var(--pattern-size-md) var(--pattern-size-md),
     var(--pattern-size-sm) var(--pattern-size-sm);
-  background-position: 0 0, 0 0, 0 0;
 }
 
 .cta-card {
@@ -183,7 +183,7 @@
 }
 
 .problem-solution-section {
-  position: relative;
   isolation: isolate;
+  position: relative;
 }
 

@@ -1,17 +1,6 @@
-/**
- * GTM Configuration and Setup Utilities
- *
- * This file provides utilities for configuring Google Tag Manager
- * with proper attribution and traffic source tracking
- */
-
-/**
- * Get GTM configuration for recommended tags and triggers
- */
 export function getGTMConfiguration() {
   return {
     tags: {
-      // Recommended tags to create in GTM
       ga4Config: {
         name: 'GA4 - Configuration Tag',
         type: 'Google Analytics: GA4 Configuration',
@@ -67,7 +56,6 @@ export function getGTMConfiguration() {
     },
 
     variables: {
-      // Recommended dataLayer variables to create
       dataLayerVariables: [
         { name: 'DLV - session_count', type: 'Data Layer Variable', dataLayerVariable: 'session_count' },
         { name: 'DLV - source', type: 'Data Layer Variable', dataLayerVariable: 'source' },
@@ -89,7 +77,6 @@ export function getGTMConfiguration() {
     },
 
     triggers: {
-      // Recommended triggers
       attributionReady: {
         name: 'Custom Event - attribution_data_ready',
         type: 'Custom Event',
@@ -103,9 +90,6 @@ export function getGTMConfiguration() {
   };
 }
 
-/**
- * Generate a setup guide for GTM
- */
 export function generateGTMSetupGuide(): string {
   const config = getGTMConfiguration();
 
@@ -189,9 +173,6 @@ Once set up, you can create custom reports in GA4 using:
   `;
 }
 
-/**
- * Export configuration as JSON for import
- */
 export function exportGTMConfigAsJSON() {
   return JSON.stringify(getGTMConfiguration(), null, 2);
 }

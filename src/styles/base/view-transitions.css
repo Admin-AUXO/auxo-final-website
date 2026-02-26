@@ -1,4 +1,3 @@
-/* View Transitions API */
 ::view-transition-group(*) {
   animation-duration: 0.3s;
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -23,6 +22,7 @@
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -32,6 +32,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -48,23 +49,25 @@
 
 @keyframes slide-out-left {
   from {
-    transform: translateX(0);
     opacity: 1;
+    transform: translateX(0);
   }
+
   to {
-    transform: translateX(-100px);
     opacity: 0;
+    transform: translateX(-100px);
   }
 }
 
 @keyframes slide-in-right {
   from {
-    transform: translateX(100px);
     opacity: 0;
+    transform: translateX(100px);
   }
+
   to {
-    transform: translateX(0);
     opacity: 1;
+    transform: translateX(0);
   }
 }
 
@@ -84,23 +87,25 @@
 
 @keyframes scale-down {
   from {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
+
   to {
-    transform: scale(0.95);
     opacity: 0;
+    transform: scale(0.95);
   }
 }
 
 @keyframes scale-up {
   from {
-    transform: scale(1.05);
     opacity: 0;
+    transform: scale(1.05);
   }
+
   to {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
 }
 

@@ -102,13 +102,15 @@ export interface ServicesContent {
     descriptionHighlight?: string | string[];
     models: {
       name: string;
-    subheadline: string;
-    description: string;
-    descriptionHighlight?: string | string[];
-    bestFor: string;
-    bestForHighlight?: string | string[];
-    deliverables: string[];
-  }[];
+      subheadline: string;
+      description: string;
+      descriptionHighlight?: string | string[];
+      bestFor: string;
+      bestForHighlight?: string | string[];
+      deliverables: string[];
+      pricingRange: string;
+      typicalTimeframe: string;
+    }[];
   };
   cta: {
     title: string;

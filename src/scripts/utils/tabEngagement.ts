@@ -1,5 +1,4 @@
-// Tab engagement: title animations, favicon changes, and user re-engagement
-
+import { logger } from '@/lib/logger';
 interface TabEngagementConfig {
   enabled: boolean;
   titleMessages: string[];
@@ -30,8 +29,8 @@ class TabEngagementManager {
   };
 
   private readonly faviconColors = [
-    '#7CB342', // accent-green
-    '#5a9030', // darker green
+    '#7CB342', 
+    '#5a9030', 
   ];
 
   constructor(config: Partial<TabEngagementConfig> = {}) {
@@ -44,7 +43,7 @@ class TabEngagementManager {
       ],
       titleInterval: 2000,
       faviconEnabled: true,
-      inactivityThreshold: 300000, // 5 minutes
+      inactivityThreshold: 300000, 
       showWelcomeBack: true,
       ...config,
     };
@@ -52,7 +51,7 @@ class TabEngagementManager {
     this.originalTitle = document.title;
     this.originalFavicon = this.getFaviconHref();
 
-    console.log('[TabEngagement] Initialized with title:', this.originalTitle);
+    logger.debug('[TabEngagement] Initialized with title:', this.originalTitle);
 
     if (this.config.enabled) {
       this.init();
@@ -66,7 +65,7 @@ class TabEngagementManager {
 
   private setupVisibilityListener(): void {
     if (typeof document.hidden === 'undefined' || typeof document.visibilityState === 'undefined') {
-      console.warn('Page Visibility API not supported');
+      logger.warn('Page Visibility API not supported');
       return;
     }
 
@@ -101,7 +100,7 @@ class TabEngagementManager {
 
   private onTabHidden(): void {
     this.isTabVisible = false;
-    console.log('[TabEngagement] Tab hidden - starting animations');
+    logger.debug('[TabEngagement] Tab hidden - starting animations');
 
     this.startTitleAnimation();
 
@@ -116,7 +115,7 @@ class TabEngagementManager {
 
   private onTabVisible(): void {
     this.isTabVisible = true;
-    console.log('[TabEngagement] Tab visible - stopping animations');
+    logger.debug('[TabEngagement] Tab visible - stopping animations');
 
     this.stopTitleAnimation();
     this.stopFaviconAnimation();
@@ -138,7 +137,6 @@ class TabEngagementManager {
   }
 
   private onInactivityThreshold(): void {
-    // Additional actions for prolonged inactivity can be added here
   }
 
   private startTitleAnimation(): void {

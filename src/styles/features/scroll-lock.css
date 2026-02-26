@@ -4,10 +4,10 @@ body.scroll-locked {
 }
 
 body.scroll-locked .mobile-menu-content {
-  touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   scroll-behavior: auto;
+  touch-action: pan-y;
 }
 
 body.scroll-locked #scroll-progress-bar,

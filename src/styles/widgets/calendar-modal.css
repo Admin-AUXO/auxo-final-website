@@ -1,19 +1,19 @@
 .calendar-modal {
-  position: fixed !important;
-  inset: 0 !important;
-  width: 100vw !important;
-  height: 100dvh !important;
-  max-width: 100vw !important;
-  max-height: 100dvh !important;
-  z-index: var(--z-calendar-modal) !important;
-  display: flex;
   align-items: center;
+  display: flex;
+  height: 100dvh !important;
+  inset: 0 !important;
   justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity var(--duration-normal) var(--easing-standard), visibility var(--duration-normal) var(--easing-standard);
   margin: 0 !important;
+  max-height: 100dvh !important;
+  max-width: 100vw !important;
+  opacity: 0;
   padding: 0 !important;
+  position: fixed !important;
+  transition: opacity var(--duration-normal) var(--easing-standard), visibility var(--duration-normal) var(--easing-standard);
+  visibility: hidden;
+  width: 100vw !important;
+  z-index: var(--z-calendar-modal) !important;
 }
 
 .calendar-modal[hidden] {
@@ -26,13 +26,13 @@
 }
 
 .calendar-modal-overlay {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100dvh;
-  z-index: var(--z-base);
-  background: var(--overlay-black-75);
   backdrop-filter: blur(var(--blur-sm));
+  background: var(--overlay-black-75);
+  height: 100dvh;
+  inset: 0;
+  position: fixed;
+  width: 100vw;
+  z-index: var(--z-base);
 }
 
 :root.light .calendar-modal-overlay {
@@ -40,90 +40,90 @@
 }
 
 .calendar-modal-container {
-  position: relative;
-  width: 100vw;
-  height: 100dvh;
-  max-width: 100vw;
-  max-height: 100dvh;
-  display: flex;
-  flex-direction: column;
   background-color: var(--bg-primary);
   border: none;
   box-shadow: none;
-  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
   margin: 0;
+  max-height: 100dvh;
+  max-width: 100vw;
+  opacity: 0;
   padding: 0;
+  position: relative;
   touch-action: pan-y;
   transform: scale(0.95);
-  opacity: 0;
   transition: transform 300ms ease-out, opacity 250ms ease-out;
+  width: 100vw;
+  z-index: var(--z-content);
 }
 
 .calendar-modal:not([hidden]) .calendar-modal-container {
-  transform: scale(1);
   opacity: 1;
+  transform: scale(1);
 }
 
 .calendar-modal-header {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-md) 1.25rem;
-  border-bottom: 1px solid var(--border-color);
   background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
   flex-shrink: 0;
+  justify-content: space-between;
+  min-height: 60px;
+  padding: var(--spacing-md) 1.25rem;
   position: relative;
   z-index: var(--z-elevated);
-  min-height: 60px;
 }
 
 .calendar-modal-title {
-  font-size: 1.125rem;
-  font-weight: 600;
   color: var(--text-primary);
-  margin: 0;
   flex: 1;
   font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
 }
 
 .calendar-modal-close {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  padding: 0;
-  margin: 0;
-  margin-left: var(--spacing-md);
-  border: 1px solid var(--border-color);
   background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
   color: var(--text-secondary);
   cursor: pointer;
-  border-radius: 50%;
-  transition: all var(--duration-fast) var(--easing-standard);
-  position: relative;
-  z-index: var(--z-elevated);
-  overflow: hidden;
+  display: flex;
   flex-shrink: 0;
-  min-width: 2.75rem;
+  height: 2.75rem;
+  justify-content: center;
+  margin: 0;
+  margin-left: var(--spacing-md);
   min-height: 2.75rem;
-  touch-action: manipulation;
+  min-width: 2.75rem;
+  overflow: hidden;
+  padding: 0;
   pointer-events: auto;
+  position: relative;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: all var(--duration-fast) var(--easing-standard);
+  width: 2.75rem;
+  z-index: var(--z-elevated);
 }
 
 .calendar-modal-close::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: var(--z-base);
   background: linear-gradient(
     135deg,
     var(--accent-green-opacity-15) 0%,
     var(--accent-green-opacity-08) 100%
   );
+  content: '';
+  inset: 0;
   opacity: 0;
+  position: absolute;
   transition: opacity var(--duration-normal) var(--easing-standard);
+  z-index: var(--z-base);
 }
 
 .calendar-modal-close:hover::before {
@@ -131,43 +131,43 @@
 }
 
 .calendar-modal-close svg {
+  flex-shrink: 0;
   position: relative;
   z-index: var(--z-content);
-  flex-shrink: 0;
 }
 
 .calendar-modal-close:hover {
   background-color: var(--bg-surface);
   border-color: var(--border-color);
+  box-shadow: var(--shadow-md);
   color: var(--text-primary);
   transform: scale(1.05);
-  box-shadow: var(--shadow-md);
 }
 
 .calendar-modal-close:active {
-  transform: scale(0.95);
   background-color: var(--bg-elevated);
+  transform: scale(0.95);
 }
 
 .calendar-modal-close:focus-visible {
-  outline: var(--focus-ring-width) solid var(--accent-green);
-  outline-offset: var(--focus-ring-offset);
   border-color: var(--accent-green);
   box-shadow: 0 0 0 4px var(--accent-green-opacity-2);
+  outline: var(--focus-ring-width) solid var(--accent-green);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .calendar-modal-content {
   flex: 1;
-  position: relative;
-  width: 100%;
   height: 100%;
   overflow: auto;
-  z-index: var(--z-content);
   -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
   overscroll-behavior: contain;
+  position: relative;
+  scroll-behavior: smooth;
   touch-action: pan-y;
   -webkit-touch-callout: none;
+  width: 100%;
+  z-index: var(--z-content);
 }
 
 .calendar-modal:not([hidden]) .calendar-modal-content {
@@ -175,16 +175,16 @@
 }
 
 .calendar-loading {
-  position: absolute;
-  inset: 0;
+  align-items: center;
+  background-color: var(--bg-primary);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  inset: 0;
   justify-content: center;
-  background-color: var(--bg-primary);
-  z-index: calc(var(--z-content) + 1);
   opacity: 1;
+  position: absolute;
   transition: opacity var(--duration-normal) var(--easing-standard);
+  z-index: calc(var(--z-content) + 1);
 }
 
 .calendar-loading[hidden] {
@@ -193,12 +193,12 @@
 }
 
 .calendar-loading-spinner {
-  width: 48px;
-  height: 48px;
-  border: 3px solid var(--border-color);
-  border-top-color: var(--accent-green);
-  border-radius: 50%;
   animation: calendar-spin 0.8s linear infinite;
+  border: 3px solid var(--border-color);
+  border-radius: 50%;
+  border-top-color: var(--accent-green);
+  height: 48px;
+  width: 48px;
 }
 
 @keyframes calendar-spin {
@@ -208,73 +208,73 @@
 }
 
 .calendar-loading-text {
-  margin-top: var(--spacing-md);
   color: var(--text-secondary);
-  font-size: 0.875rem;
   font-family: var(--font-body);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-md);
 }
 
 .calendar-iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
   background-color: var(--bg-primary);
-  z-index: var(--z-content);
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: auto;
-  overscroll-behavior: contain;
-  overflow: auto;
-  isolation: isolate;
+  border: none;
+  box-sizing: border-box;
   contain: layout style paint;
+  height: 100%;
+  isolation: isolate;
+  left: 0;
+  max-height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  position: absolute;
+  scroll-behavior: auto;
+  top: 0;
   touch-action: pan-y;
   -webkit-touch-callout: none;
   user-select: none;
-  max-height: 100%;
-  box-sizing: border-box;
+  width: 100%;
+  z-index: var(--z-content);
 }
 
 .calendar-iframe iframe {
-  touch-action: pan-y;
+  max-height: 100%;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  max-height: 100%;
+  touch-action: pan-y;
 }
 
 .calendar-scroll-indicator {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 60px;
-  pointer-events: none;
-  z-index: calc(var(--z-content) + 2);
-  opacity: 0;
-  transition: opacity var(--duration-normal) var(--easing-standard), transform var(--duration-normal) var(--easing-standard);
   background: linear-gradient(to bottom, var(--bg-primary) 0%, transparent 100%);
   box-shadow: inset 0 0 20px var(--shadow-sm);
+  height: 60px;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  transition: opacity var(--duration-normal) var(--easing-standard), transform var(--duration-normal) var(--easing-standard);
+  z-index: calc(var(--z-content) + 2);
 }
 
 .calendar-scroll-indicator-top {
-  top: 0;
   background: linear-gradient(
     to bottom,
     var(--bg-primary) 0%,
     var(--accent-green-opacity-02) 50%,
     transparent 100%
   );
+  top: 0;
   transform: translateY(-10px);
 }
 
 .calendar-scroll-indicator-bottom {
-  bottom: 0;
   background: linear-gradient(
     to top,
     var(--bg-primary) 0%,
     var(--accent-green-opacity-02) 50%,
     transparent 100%
   );
+  bottom: 0;
   transform: translateY(10px);
 }
 
@@ -284,17 +284,17 @@
 }
 
 .calendar-scroll-indicator.visible::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 2px;
+  animation: scroll-indicator-pulse 2s ease-in-out infinite;
   background: var(--accent-green);
   border-radius: 1px;
+  content: '';
+  height: 2px;
+  left: 50%;
   opacity: 0.6;
-  animation: scroll-indicator-pulse 2s ease-in-out infinite;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
 }
 
 .calendar-scroll-indicator-top.visible::after {
@@ -318,14 +318,14 @@
 }
 
 .calendar-modal-container::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: var(--z-content);
   background:
     linear-gradient(90deg, var(--accent-green-opacity-02) 0%, transparent 2%, transparent 98%, var(--accent-green-opacity-02) 100%),
     linear-gradient(0deg, var(--accent-green-opacity-02) 0%, transparent 2%, transparent 98%, var(--accent-green-opacity-02) 100%);
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: var(--z-content);
 }
 
 @media (width <= 768px) {
@@ -334,14 +334,14 @@
   }
 
   .calendar-modal-container {
-    border-radius: 0;
-    width: 100vw;
-    height: 100dvh;
-    max-width: 100vw;
-    max-height: 100dvh;
     background-color: var(--bg-primary);
-    padding-top: env(safe-area-inset-top);
+    border-radius: 0;
+    height: 100dvh;
+    max-height: 100dvh;
+    max-width: 100vw;
     padding-bottom: env(safe-area-inset-bottom);
+    padding-top: env(safe-area-inset-top);
+    width: 100vw;
   }
 
   .calendar-modal-content {
@@ -353,11 +353,11 @@
   }
 
   .calendar-modal-header {
-    padding: 0.875rem var(--spacing-md);
     flex-shrink: 0;
     min-height: 56px;
-    position: relative;
+    padding: 0.875rem var(--spacing-md);
     padding-top: max(0.875rem, env(safe-area-inset-top));
+    position: relative;
   }
 
   .calendar-modal-title {
@@ -365,19 +365,19 @@
   }
 
   .calendar-modal-close {
-    width: 2.5rem;
     height: 2.5rem;
-    min-width: 2.5rem;
-    min-height: 2.5rem;
     margin-left: 0.75rem;
-    touch-action: manipulation;
+    min-height: 2.5rem;
+    min-width: 2.5rem;
     pointer-events: auto;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    width: 2.5rem;
   }
 
   .calendar-modal-close svg {
-    width: 18px;
     height: 18px;
+    width: 18px;
   }
 
   .calendar-scroll-indicator {
@@ -385,8 +385,8 @@
   }
 
   .calendar-scroll-indicator.visible::after {
-    width: 16px;
     height: 1.5px;
+    width: 16px;
   }
 }
 
@@ -395,8 +395,8 @@
   .calendar-loading,
   .calendar-scroll-indicator,
   .calendar-loading-spinner {
-    transition: none;
     animation: none;
+    transition: none;
   }
 
   .calendar-modal-close:hover,

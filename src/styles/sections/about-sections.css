@@ -15,9 +15,9 @@
 }
 
 .code-letter {
+  display: inline-block;
   font-size: 1.5em;
   line-height: 1;
-  display: inline-block;
   margin-right: 0.02em;
 }
 
@@ -103,9 +103,9 @@
       var(--accent-green-opacity-03) 70%,
       transparent 100%
     );
-  background-size: 100% 2px, 2px 100%;
   background-position: center top, left center;
   background-repeat: no-repeat;
+  background-size: 100% 2px, 2px 100%;
 }
 
 .team-gradient {
@@ -149,8 +149,8 @@
 }
 
 .global-section .section-pattern-mesh {
-  background-size: 50px 50px, 100px 100px;
   background-position: 0 0, 25px 25px;
+  background-size: 50px 50px, 100px 100px;
 }
 
 .global-section .section-gradient-dual {
@@ -188,8 +188,8 @@
   .partnership-section,
   .global-section,
   .about-cta-section {
-    padding-top: 2.5rem;
     padding-bottom: 2.5rem;
+    padding-top: 2.5rem;
   }
 
   .mission-vision-section .grid-container,
@@ -221,8 +221,8 @@
   }
 
   .code-principle-card .w-16 {
-    width: 3rem;
     height: 3rem;
+    width: 3rem;
   }
 
   .code-principle-card p {

@@ -11,7 +11,7 @@ function updateProgress(scrollProgress: number = 0): void {
   if (!progressFill) return;
 
   const progress = Math.min(100, Math.max(0, scrollProgress));
-  progressFill.style.setProperty('--scroll-progress-width', `${progress}%`);
+  progressFill.style.setProperty('--scroll-progress', `${progress / 100}`);
 }
 
 function calculateProgress(scrollTop: number): number {

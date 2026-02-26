@@ -1,17 +1,18 @@
+import { logger } from '@/lib/logger';
 const SW_PATH = '/sw.js';
-const SW_UPDATE_INTERVAL = 60 * 60 * 1000; // Check for updates every hour
+const SW_UPDATE_INTERVAL = 60 * 60 * 1000; 
 
 let registration: ServiceWorkerRegistration | null = null;
 
 export async function registerServiceWorker(): Promise<void> {
   if (!('serviceWorker' in navigator)) {
-    console.log('[ServiceWorker] Not supported');
+    logger.debug('[ServiceWorker] Not supported');
     return;
   }
 
   try {
     registration = await navigator.serviceWorker.register(SW_PATH);
-    console.log('[ServiceWorker] Registered:', registration.scope);
+    logger.debug('[ServiceWorker] Registered:', registration.scope);
 
   
     registration.update();
@@ -26,7 +27,7 @@ export async function registerServiceWorker(): Promise<void> {
 
   
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      console.log('[ServiceWorker] Controller changed, reloading...');
+      logger.debug('[ServiceWorker] Controller changed, reloading...');
       window.location.reload();
     });
 
@@ -35,7 +36,7 @@ export async function registerServiceWorker(): Promise<void> {
       window.gtag('event', 'service_worker_registered');
     }
   } catch (error) {
-    console.error('[ServiceWorker] Registration failed:', error);
+    logger.error('[ServiceWorker] Registration failed:', error);
 
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'service_worker_error', {
@@ -51,7 +52,7 @@ function handleUpdate() {
   const newWorker = registration.installing;
   if (!newWorker) return;
 
-  console.log('[ServiceWorker] Update found');
+  logger.debug('[ServiceWorker] Update found');
 
   newWorker.addEventListener('statechange', () => {
     if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
@@ -214,7 +215,7 @@ export async function unregisterServiceWorker(): Promise<void> {
 
   try {
     const success = await registration.unregister();
-    console.log('[ServiceWorker] Unregistered:', success);
+    logger.debug('[ServiceWorker] Unregistered:', success);
 
   
     const cacheNames = await caches.keys();
@@ -222,9 +223,9 @@ export async function unregisterServiceWorker(): Promise<void> {
       cacheNames.map((cacheName) => caches.delete(cacheName))
     );
 
-    console.log('[ServiceWorker] Caches cleared');
+    logger.debug('[ServiceWorker] Caches cleared');
   } catch (error) {
-    console.error('[ServiceWorker] Unregister failed:', error);
+    logger.error('[ServiceWorker] Unregister failed:', error);
   }
 }
 

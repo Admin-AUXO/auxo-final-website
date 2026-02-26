@@ -17,6 +17,8 @@ interface Props {
       bestFor: string;
       bestForHighlight?: string | string[];
       deliverables: string[];
+      pricingRange: string;
+      typicalTimeframe: string;
     }[];
   };
 }
@@ -38,7 +40,7 @@ const modelIcons = [
   class="relative models-section section-divider"
 >
   <BackgroundDecorations gradients={["dual"]} patterns={["grid"]} />
-  
+
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-6xl mx-auto w-full">
       <div
@@ -48,17 +50,29 @@ const modelIcons = [
         data-reveal-easing="ease-out"
       >
         <div class="inline-flex items-center justify-center gap-3 mb-4 sm:mb-5">
-          <Icon name="mdi:clipboard-text-outline" class="w-9 h-9 sm:w-10 sm:h-10 text-accent-green" />
-          <h2 class="text-h2 font-extrabold leading-tight tracking-tight font-display">
+          <Icon
+            name="mdi:clipboard-text-outline"
+            class="w-9 h-9 sm:w-10 sm:h-10 text-accent-green"
+          />
+          <h2
+            class="text-h2 font-extrabold leading-tight tracking-tight font-display"
+          >
             <HighlightText text={content.title} highlight="Engagement Model" />
           </h2>
         </div>
-        <p class="text-body-lg sm:text-body-xl text-theme-secondary max-w-3xl mx-auto px-4">
-          {content.descriptionHighlight ? (
-            <HighlightText text={content.description} highlight={content.descriptionHighlight} />
-          ) : (
-            content.description
-          )}
+        <p
+          class="text-body-lg sm:text-body-xl text-theme-secondary max-w-3xl mx-auto px-4"
+        >
+          {
+            content.descriptionHighlight ? (
+              <HighlightText
+                text={content.description}
+                highlight={content.descriptionHighlight}
+              />
+            ) : (
+              content.description
+            )
+          }
         </p>
       </div>
 
@@ -69,68 +83,202 @@ const modelIcons = [
         data-reveal-duration="200"
         data-reveal-easing="ease-out"
       >
-        <div class="models-accordion-container">
-          {content.models.map((model, index) => (
-            <details class="models-accordion-item" data-model={String(index)} open={index === 0}>
-              <summary class="models-accordion-summary">
-                <div class="models-accordion-header pointer-events-none">
-                  <div class="models-accordion-icon">
-                    <Icon name={modelIcons[index]} class="w-5 h-5 sm:w-6 sm:h-6 text-accent-green" />
-                  </div>
-                  <div class="models-accordion-title-wrapper">
-                    <h3 class="models-accordion-title mb-1">{model.name}</h3>
-                    <span class="models-accordion-subheadline block">{model.subheadline}</span>
-                  </div>
-                </div>
-                <Icon
-                  name="mdi:chevron-down"
-                  class="models-accordion-chevron pointer-events-none"
-                  aria-hidden="true"
-                />
-              </summary>
-              <div class="models-accordion-content">
-                <div class="models-accordion-body">
-                  <p class="models-accordion-description mb-4">
-                    {model.descriptionHighlight ? (
-                      <HighlightText text={model.description} highlight={model.descriptionHighlight} />
-                    ) : (
-                      model.description
-                    )}
-                  </p>
-                  
-                  <div class="models-accordion-section">
-                    <div class="models-accordion-section-header">
-                      <Icon name="mdi:target" class="w-4 h-4 sm:w-5 sm:h-5 text-accent-green" />
-                      <p class="models-accordion-section-label">Best For</p>
+        <div class="models-accordion-container" role="presentation">
+          {
+            content.models.map((model, index) => (
+              <details
+                class="models-accordion-item group/model"
+                data-model={String(index)}
+                open={index === 0}
+              >
+                <summary
+                  class="models-accordion-summary"
+                  role="button"
+                  aria-expanded={index === 0 ? "true" : "false"}
+                  aria-controls={`model-content-${index}`}
+                >
+                  <div class="models-accordion-header pointer-events-none">
+                    <div class="models-accordion-step-number">
+                      <span>{String(index + 1).padStart(2, "0")}</span>
                     </div>
-                    <p class="models-accordion-section-content">
-                      {model.bestForHighlight ? (
-                        <HighlightText text={model.bestFor} highlight={model.bestForHighlight} />
-                      ) : (
-                        model.bestFor
-                      )}
-                    </p>
+                    <div class="models-accordion-icon transition-transform duration-300 group-hover/model:scale-110 group-open/model:scale-110 group-open/model:bg-accent-green/20">
+                      <Icon
+                        name={modelIcons[index]}
+                        class="w-5 h-5 sm:w-6 sm:h-6 text-accent-green"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <div class="models-accordion-title-wrapper">
+                      <h3 class="models-accordion-title mb-1 group-open/model:text-accent-green transition-colors duration-300">
+                        {model.name}
+                      </h3>
+                      <span class="models-accordion-subheadline block group-open/model:text-theme-primary transition-colors duration-300">
+                        {model.subheadline}
+                      </span>
+                    </div>
+                    <div class="models-accordion-header-tags pointer-events-none">
+                      <span class="models-accordion-tag models-accordion-tag--time">
+                        <Icon
+                          name="mdi:clock-outline"
+                          class="w-3.5 h-3.5"
+                          aria-hidden="true"
+                        />
+                        {model.typicalTimeframe}
+                      </span>
+                    </div>
                   </div>
-                
-                  <div class="models-accordion-section">
-                    <p class="models-accordion-section-label">Key Deliverables</p>
-                    <div class="models-accordion-deliverables">
-                      {model.deliverables.map((deliverable) => (
-                        <div class="models-accordion-deliverable-item">
-                          <Icon name="mdi:check-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-green flex-shrink-0" />
-                          <span class="models-accordion-deliverable-text">{deliverable}</span>
+                  <div class="models-accordion-chevron-wrapper">
+                    <Icon
+                      name="mdi:chevron-down"
+                      class="models-accordion-chevron pointer-events-none"
+                      aria-hidden="true"
+                    />
+                  </div>
+                </summary>
+                <div
+                  class="models-accordion-content"
+                  id={`model-content-${index}`}
+                  role="region"
+                  aria-label={`${model.name} details`}
+                >
+                  <div class="models-accordion-body">
+                    <div class="models-accordion-description-wrapper">
+                      <p class="models-accordion-description">
+                        {model.descriptionHighlight ? (
+                          <HighlightText
+                            text={model.description}
+                            highlight={model.descriptionHighlight}
+                          />
+                        ) : (
+                          model.description
+                        )}
+                      </p>
+                    </div>
+
+                    <div class="models-accordion-stats-strip">
+                      <div class="models-accordion-stat-card">
+                        <div class="models-accordion-stat-icon-wrapper">
+                          <Icon
+                            name="mdi:finance"
+                            class="w-5 h-5"
+                            aria-hidden="true"
+                          />
                         </div>
-                      ))}
+                        <div class="models-accordion-stat-info">
+                          <span class="models-accordion-stat-label">
+                            Investment Range
+                          </span>
+                          <span class="models-accordion-stat-value">
+                            {model.pricingRange}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="models-accordion-stat-card">
+                        <div class="models-accordion-stat-icon-wrapper">
+                          <Icon
+                            name="mdi:clock-outline"
+                            class="w-5 h-5"
+                            aria-hidden="true"
+                          />
+                        </div>
+                        <div class="models-accordion-stat-info">
+                          <span class="models-accordion-stat-label">
+                            Typical Timeframe
+                          </span>
+                          <span class="models-accordion-stat-value">
+                            {model.typicalTimeframe}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="models-accordion-details-grid">
+                      <div class="models-accordion-fit-section">
+                        <div class="models-accordion-section-header">
+                          <p class="models-accordion-section-label">
+                            Strategic Fit
+                          </p>
+                        </div>
+                        <p class="models-accordion-fit-text">
+                          {model.bestForHighlight ? (
+                            <HighlightText
+                              text={model.bestFor}
+                              highlight={model.bestForHighlight}
+                            />
+                          ) : (
+                            model.bestFor
+                          )}
+                        </p>
+                      </div>
+
+                      <div class="models-accordion-deliverables-section">
+                        <div class="models-accordion-section-header">
+                          <p class="models-accordion-section-label">
+                            Key Deliverables
+                          </p>
+                        </div>
+                        <div class="models-accordion-deliverables">
+                          {model.deliverables.map((deliverable) => (
+                            <div class="models-accordion-deliverable-item group/item">
+                              <Icon
+                                name="mdi:check-circle"
+                                class="w-4 h-4 text-accent-green flex-shrink-0 group-hover/item:scale-110 transition-transform"
+                                aria-hidden="true"
+                              />
+                              <span class="models-accordion-deliverable-text">
+                                {deliverable}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </details>
-          ))}
+              </details>
+            ))
+          }
+        </div>
+
+        <div
+          class="mt-8 text-center"
+          data-reveal="fade-up"
+          data-reveal-delay="200"
+        >
+          <p class="text-sm text-theme-secondary opacity-60 italic">
+            * All investment ranges are indicative. Exact pricing is determined
+            by project scope, complexity, and specific data requirements.
+          </p>
         </div>
       </div>
     </div>
   </div>
 </SectionContainer>
 
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const accordionItems = document.querySelectorAll(".models-accordion-item");
 
+    accordionItems.forEach((item) => {
+      const summary = item.querySelector(".models-accordion-summary");
+      if (!summary) return;
+
+      summary.addEventListener("click", (e) => {
+        const isOpening = !item.hasAttribute("open");
+
+        summary.setAttribute("aria-expanded", String(isOpening));
+
+        if (!isOpening) return;
+
+        accordionItems.forEach((otherItem) => {
+          if (otherItem !== item && otherItem.hasAttribute("open")) {
+            otherItem.removeAttribute("open");
+            otherItem
+              .querySelector(".models-accordion-summary")
+              ?.setAttribute("aria-expanded", "false");
+          }
+        });
+      });
+    });
+  });
+</script>

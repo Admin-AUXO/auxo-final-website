@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 interface ScriptConfig {
   src: string;
   id?: string;
@@ -16,7 +17,7 @@ export function loadScript(config: ScriptConfig): Promise<void> {
   
   const scriptId = id || src;
   if (loadedScripts.has(scriptId)) {
-    console.log(`[ThirdPartyLoader] Script already loaded: ${scriptId}`);
+    logger.debug(`[ThirdPartyLoader] Script already loaded: ${scriptId}`);
     return Promise.resolve();
   }
 
@@ -85,7 +86,7 @@ export function loadScriptOnIntersection(
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        loadScript(config).catch(console.error);
+        loadScript(config).catch(logger.error);
         observer.unobserve(entry.target);
       }
     });
@@ -109,7 +110,7 @@ export function loadScriptOnInteraction(
       document.removeEventListener(event, load);
     });
 
-    loadScript(config).catch(console.error);
+    loadScript(config).catch(logger.error);
   };
 
   events.forEach((event) => {
@@ -124,11 +125,11 @@ export function loadScriptOnInteraction(
 export function loadScriptOnIdle(config: ScriptConfig, timeout: number = 2000): void {
   if ('requestIdleCallback' in window) {
     requestIdleCallback(() => {
-      loadScript(config).catch(console.error);
+      loadScript(config).catch(logger.error);
     }, { timeout });
   } else {
     setTimeout(() => {
-      loadScript(config).catch(console.error);
+      loadScript(config).catch(logger.error);
     }, timeout);
   }
 }

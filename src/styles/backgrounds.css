@@ -4,8 +4,8 @@
 .bg-theme-elevated { background-color: var(--bg-elevated); }
 
 .glassmorphism-card {
-  background-color: var(--bg-card);
   backdrop-filter: blur(var(--blur-sm));
+  background-color: var(--bg-card);
   opacity: var(--opacity-backdrop);
 }
 
@@ -70,8 +70,8 @@
   background-image:
     radial-gradient(circle at 2px 2px, var(--accent-green-opacity-08) 1px, transparent 0),
     radial-gradient(circle at 2px 2px, var(--accent-green-opacity-04) 1px, transparent 0);
-  background-size: 40px 40px, 80px 80px;
   background-position: 0 0, 20px 20px;
+  background-size: 40px 40px, 80px 80px;
   opacity: 0.4;
 }
 
@@ -91,16 +91,15 @@
 .section-divider::before,
 .section-divider::after {
   content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
   height: 1px;
+  left: 0;
+  position: absolute;
+  right: 0;
   z-index: 1;
 }
 
 .section-divider-top::before,
 .section-divider::before {
-  top: 0;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -109,11 +108,11 @@
     var(--accent-green-opacity-12) 85%,
     transparent 100%
   );
+  top: 0;
 }
 
 .section-divider-bottom::after,
 .section-divider::after {
-  bottom: 0;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -122,6 +121,7 @@
     var(--accent-green-opacity-15) 85%,
     transparent 100%
   );
+  bottom: 0;
 }
 
 @media (width <= 640px) {
@@ -180,8 +180,8 @@
   }
 
   .section-pattern-mesh {
-    background-size: 30px 30px, 60px 60px;
     background-position: 0 0, 15px 15px;
+    background-size: 30px 30px, 60px 60px;
     opacity: 0.3;
   }
 

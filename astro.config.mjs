@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
-import react from '@astrojs/react';
 import icon from 'astro-icon';
 import sitemap from '@astrojs/sitemap';
 import path from 'node:path';
@@ -18,7 +17,7 @@ export default defineConfig({
   },
   compressHTML: true,
   prefetch: {
-    prefetchAll: true,
+    prefetchAll: false,
     defaultStrategy: 'viewport',
   },
   image: {
@@ -28,7 +27,6 @@ export default defineConfig({
   vite: {
     optimizeDeps: {
       include: ['embla-carousel', 'sharp', 'astro-icon'],
-      exclude: ['@astrojs/react'],
     },
     build: {
       sourcemap: false,
@@ -54,7 +52,6 @@ export default defineConfig({
             if (id.includes('node_modules')) {
               if (id.includes('embla-carousel')) return 'ui-vendor';
               if (id.includes('astro-icon') || id.includes('@iconify')) return 'icons';
-              if (id.includes('react') || id.includes('react-dom')) return 'react-vendor';
               if (id.includes('@emailjs')) return 'emailjs';
               if (id.includes('lenis')) return 'lenis';
             }
@@ -75,7 +72,6 @@ export default defineConfig({
     resolve: { alias: { '@': path.resolve(__dirname, './src') } },
   },
   integrations: [
-    react(),
     tailwind({
       applyBaseStyles: false,
     }),

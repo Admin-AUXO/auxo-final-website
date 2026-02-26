@@ -1,49 +1,49 @@
 @tailwind base;
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   max-width: 100vw;
-  width: 100%;
   min-height: 100%;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: auto;
   scroll-behavior: smooth;
   scroll-padding-top: var(--nav-scroll-padding, 4rem);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
 }
 
 html.loading {
-  overflow-y: hidden;
   max-height: 100dvh;
+  overflow-y: hidden;
 }
 
 html.loaded {
-  overflow-y: auto;
-  max-height: none;
   height: auto;
+  max-height: none;
+  overflow-y: auto;
 }
 
 body {
-  font-family: var(--font-body);
-  color: var(--text-primary);
   background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
   line-height: 1.6;
-  transition: background-color var(--theme-transition) var(--timing-smooth),
-    color var(--theme-transition) var(--timing-smooth);
   max-width: 100vw;
   -ms-overflow-scrolling: touch;
+  transition: background-color var(--theme-transition) var(--timing-smooth),
+    color var(--theme-transition) var(--timing-smooth);
   width: 100%;
 }
 
 html.loading body {
-  overflow: hidden;
   height: 100dvh;
+  overflow: hidden;
 }
 
 html.loaded body {
@@ -52,18 +52,18 @@ html.loaded body {
 }
 
 #main-content {
-  overflow-x: hidden;
   max-width: 100vw;
-  width: 100%;
-  scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  width: 100%;
 }
 
 section,
 [class*="-section"] {
-  overflow-anchor: none;
   max-width: 100vw;
+  overflow-anchor: none;
 }
 
 
@@ -96,28 +96,28 @@ section,
   *::after {
     animation-duration: 0.01ms;
     animation-iteration-count: 1;
-    transition-duration: 0.01ms;
     scroll-behavior: auto;
+    transition-duration: 0.01ms;
   }
 }
 
 @media (width <= 767px) {
   html {
     min-height: 100%;
-    touch-action: pan-y;
     overscroll-behavior: contain none;
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
+    touch-action: pan-y;
   }
 
   body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     min-height: 100dvh;
-    touch-action: pan-y;
     overscroll-behavior: contain none;
     scroll-behavior: smooth;
     text-size-adjust: 100%;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    touch-action: pan-y;
   }
 
   html.loaded,
@@ -132,12 +132,12 @@ section,
   @media (width <= 767px) {
     html,
     body {
+      backface-visibility: hidden !important;
       -webkit-overflow-scrolling: touch !important;
       overscroll-behavior: contain !important;
       touch-action: pan-y !important;
       transform: translate3d(0, 0, 0) !important;
       will-change: scroll-position !important;
-      backface-visibility: hidden !important;
     }
 
     [data-modal-content],
@@ -146,11 +146,11 @@ section,
     .overflow-y-auto,
     .overflow-scroll:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
     .overflow-y-scroll {
+      contain: layout style paint;
       -webkit-overflow-scrolling: touch !important;
       overscroll-behavior: contain !important;
       touch-action: pan-y !important;
       will-change: scroll-position;
-      contain: layout style paint;
     }
   }
 }
@@ -180,9 +180,9 @@ section,
   .overflow-scroll:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
   .overflow-y-scroll,
   .mobile-menu-content {
-    touch-action: pan-y !important;
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
   }
 
   button,
@@ -194,21 +194,21 @@ section,
   [tabindex]:not([tabindex="-1"]),
   summary,
   details summary {
-    touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   footer details summary {
-    touch-action: manipulation;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
     transition: all 0.3s ease;
   }
 
   [data-google-calendar-open] {
-    touch-action: manipulation;
     cursor: pointer;
     pointer-events: auto;
+    touch-action: manipulation;
   }
 
   [style*="z-index"],
@@ -222,8 +222,8 @@ section,
   .fab-container,
   .fab-button,
   #scroll-progress-bar {
-    touch-action: pan-y;
     pointer-events: auto;
+    touch-action: pan-y;
   }
 
   .carousel-container,
@@ -234,8 +234,8 @@ section,
   .impact-carousel-container,
   .impact-carousel-track,
   .impact-carousel-wrapper {
-    touch-action: pan-x pinch-zoom !important;
     overscroll-behavior: contain auto !important;
+    touch-action: pan-x pinch-zoom !important;
   }
 
   .carousel-slide,
@@ -253,14 +253,14 @@ section,
   }
 
   summary {
-    touch-action: manipulation;
     cursor: pointer;
+    touch-action: manipulation;
   }
 
 
   footer details {
-    touch-action: pan-y;
     contain: layout;
+    touch-action: pan-y;
     transition: height 0.3s ease;
   }
 
@@ -299,8 +299,8 @@ section,
 @media (width >= 769px) {
   html,
   body {
-    overscroll-behavior: auto !important;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior: auto !important;
   }
 
   html {

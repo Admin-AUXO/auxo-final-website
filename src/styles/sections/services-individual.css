@@ -18,12 +18,12 @@
 }
 
 .process-stepper-wrapper {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
   scrollbar-color: var(--scrollbar-thumb) transparent;
+  scrollbar-width: none;
 }
 
 .process-stepper-wrapper::-webkit-scrollbar {
@@ -44,8 +44,8 @@
 }
 
 .process-step-item {
-  position: relative;
   min-width: var(--process-step-min-width);
+  position: relative;
 }
 
 
@@ -70,17 +70,17 @@ details.group\/details summary::-webkit-details-marker {
 }
 
 .line-clamp-1 {
+  -webkit-box-orient: vertical;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 @media (width >= 1280px) {
   .process-stepper-wrapper {
-    padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
   }
 
   .process-step-item {
@@ -100,20 +100,20 @@ details.group\/details summary::-webkit-details-marker {
 }
 
 .process-step-item summary {
-  user-select: none;
-  touch-action: manipulation;
   cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
 }
 
 .service-accordion-item summary {
-  touch-action: manipulation;
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 @media (width <= 640px) {
   .service-hero-section {
-    padding-top: 1rem;
     padding-bottom: 2rem;
+    padding-top: 1rem;
   }
 
   .service-hero-section h1 {
@@ -122,8 +122,8 @@ details.group\/details summary::-webkit-details-marker {
   }
 
   .service-hero-section .grid {
-    grid-template-columns: 1fr;
     gap: 2rem;
+    grid-template-columns: 1fr;
   }
 
   .service-hero-section .service-hero-headline {
@@ -136,8 +136,8 @@ details.group\/details summary::-webkit-details-marker {
   }
 
   .service-overview-section .grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
+    grid-template-columns: 1fr;
   }
 
   .service-overview-section .service-accordion-item {
@@ -145,8 +145,8 @@ details.group\/details summary::-webkit-details-marker {
   }
 
   .service-process-section .grid {
-    grid-template-columns: 1fr;
     gap: 2rem;
+    grid-template-columns: 1fr;
   }
 
   .service-process-section .process-connector {
@@ -154,13 +154,13 @@ details.group\/details summary::-webkit-details-marker {
   }
 
   .service-benefits-section .grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
+    grid-template-columns: 1fr;
   }
 
   .service-outcomes-section .grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
+    grid-template-columns: 1fr;
   }
 
   .service-outcomes-section .outcome-metric {
@@ -176,8 +176,8 @@ details.group\/details summary::-webkit-details-marker {
 @media (width >= 641px) and (width <= 1023px) {
   .service-hero-section {
     min-height: auto;
-    padding-top: 2rem;
     padding-bottom: 3rem;
+    padding-top: 2rem;
   }
 
   .service-overview-section .grid {
@@ -189,13 +189,13 @@ details.group\/details summary::-webkit-details-marker {
   }
 
   .service-benefits-section .grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .service-outcomes-section .grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .service-hero-section .service-hero-cta {
@@ -233,9 +233,9 @@ details.group\/details summary::-webkit-details-marker {
   .service-cta-section .cta-content,
   .service-hero-section .service-hero-follow-content {
     animation: none;
+    filter: none;
     opacity: 1;
     transform: none;
-    filter: none;
   }
 
 }

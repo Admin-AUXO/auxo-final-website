@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
+import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout
@@ -11,45 +11,49 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       <div class="offline-content">
         <div class="offline-icon">
           <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-            <circle cx="60" cy="60" r="55" stroke="var(--accent-green)" stroke-width="3" opacity="0.2" />
+            <circle
+              cx="60"
+              cy="60"
+              r="55"
+              stroke="var(--accent-green)"
+              stroke-width="3"
+              opacity="0.2"></circle>
             <path
               d="M30 90L90 30M90 90L30 30"
               stroke="var(--accent-green)"
               stroke-width="4"
-              stroke-linecap="round"
-            />
+              stroke-linecap="round"></path>
             <path
               d="M25 50C35 35 85 35 95 50"
               stroke="var(--accent-green)"
               stroke-width="3"
               stroke-linecap="round"
-              opacity="0.4"
-            />
+              opacity="0.4"></path>
             <path
               d="M35 60C42 52 78 52 85 60"
               stroke="var(--accent-green)"
               stroke-width="3"
               stroke-linecap="round"
-              opacity="0.6"
-            />
+              opacity="0.6"></path>
           </svg>
         </div>
 
         <h1 class="offline-title">You're Offline</h1>
 
         <p class="offline-message">
-          It looks like you've lost your internet connection. Some pages may be available offline, but most content requires an active connection.
+          It looks like you've lost your internet connection. Some pages may be
+          available offline, but most content requires an active connection.
         </p>
 
         <div class="offline-actions">
           <button
             type="button"
-            class="btn-primary retry-button"
+            class="btn-base btn-primary offline-btn retry-button"
             onclick="window.location.reload()"
           >
             Try Again
           </button>
-          <a href="/" class="btn-secondary">
+          <a href="/" class="btn-base btn-secondary offline-btn">
             Go to Homepage
           </a>
         </div>
@@ -122,39 +126,10 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     margin-bottom: 3rem;
   }
 
-  .btn-primary,
-  .btn-secondary {
-    padding: 0.875rem 2rem;
+  .offline-btn {
+    border-radius: var(--radius-md);
     font-size: 1rem;
-    font-weight: 600;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-    border: 2px solid;
-  }
-
-  .btn-primary {
-    background: var(--accent-green);
-    color: var(--bg-primary);
-    border-color: var(--accent-green);
-  }
-
-  .btn-primary:hover {
-    background: transparent;
-    color: var(--accent-green);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--text-primary);
-    border-color: var(--border-theme);
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--accent-green);
-    color: var(--accent-green);
+    padding: 0.875rem 2rem;
   }
 
   .offline-tips {
@@ -185,7 +160,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   }
 
   .tips-list li::before {
-    content: '•';
+    content: "•";
     position: absolute;
     left: 0.75rem;
     color: var(--accent-green);
@@ -211,7 +186,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   }
 
   .status-indicator::before {
-    content: '';
+    content: "";
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -239,7 +214,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   }
 
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
     50% {
@@ -264,8 +240,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       flex-direction: column;
     }
 
-    .btn-primary,
-    .btn-secondary {
+    .offline-btn {
       width: 100%;
     }
 
@@ -278,28 +253,28 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 <script>
   // Monitor connection status
   function updateConnectionStatus() {
-    const statusElement = document.querySelector('.status-indicator');
+    const statusElement = document.querySelector(".status-indicator");
     if (!statusElement) return;
 
     if (navigator.onLine) {
-      statusElement.classList.remove('offline');
-      statusElement.classList.add('online');
-      statusElement.textContent = 'Back Online';
+      statusElement.classList.remove("offline");
+      statusElement.classList.add("online");
+      statusElement.textContent = "Back Online";
 
       // Automatically retry after 2 seconds
       setTimeout(() => {
         window.location.reload();
       }, 2000);
     } else {
-      statusElement.classList.remove('online');
-      statusElement.classList.add('offline');
-      statusElement.textContent = 'Offline';
+      statusElement.classList.remove("online");
+      statusElement.classList.add("offline");
+      statusElement.textContent = "Offline";
     }
   }
 
-  window.addEventListener('online', updateConnectionStatus);
-  window.addEventListener('offline', updateConnectionStatus);
+  window.addEventListener("online", updateConnectionStatus);
+  window.addEventListener("offline", updateConnectionStatus);
 
   // Check connection on load
-  document.addEventListener('astro:page-load', updateConnectionStatus);
+  document.addEventListener("astro:page-load", updateConnectionStatus);
 </script>

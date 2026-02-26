@@ -1,30 +1,28 @@
 #particle-background {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
   background-color: transparent;
-  opacity: 1;
-  visibility: visible;
   display: block;
+  inset: 0;
+  opacity: 1;
+  pointer-events: none;
+  position: absolute;
+  visibility: visible;
+  z-index: 0;
 }
 
 #particle-canvas {
+  height: 100%;
+  left: 0;
+  pointer-events: none;
   position: absolute;
   top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  pointer-events: none;
 }
 
-/* Hero section needs relative positioning for particle background */
 section.hero-section {
-  position: relative;
   overflow: hidden;
+  position: relative;
 }
 
-/* Ensure hero content is above particles */
 section.hero-section .hero-content {
   position: relative;
   z-index: 1;

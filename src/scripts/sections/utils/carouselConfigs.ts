@@ -2,9 +2,8 @@ import { initCarousel, type CarouselConfig } from "@/scripts/utils/carousels";
 import { BREAKPOINTS } from "@/scripts/constants";
 
 const BASE_OPTIONS = {
-  loop: true,
   autoplay: true,
-  pauseOnHover: false,
+  pauseOnHover: true,
   align: 'center' as const,
   dragFree: false,
   skipSnaps: false,
@@ -19,7 +18,12 @@ export const CAROUSEL_CONFIGS: CarouselConfig[] = [
   {
     containerId: "mission-vision-carousel-container",
     breakpoint: BREAKPOINTS.LG,
-    carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 5000 },
+    carouselOptions: {
+      ...BASE_OPTIONS,
+      autoplayInterval: 5000,
+      loop: false,
+      containScroll: 'keepSnaps',
+    },
   },
   {
     containerId: "global-metrics-carousel-container",

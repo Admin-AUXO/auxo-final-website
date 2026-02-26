@@ -47,29 +47,29 @@
 
 @keyframes slide-from-right {
   from {
-    transform: translateX(30px);
     opacity: 0;
+    transform: translateX(30px);
   }
 }
 
 @keyframes slide-to-left {
   to {
-    transform: translateX(-30px);
     opacity: 0;
+    transform: translateX(-30px);
   }
 }
 
 @keyframes slide-from-left {
   from {
-    transform: translateX(-30px);
     opacity: 0;
+    transform: translateX(-30px);
   }
 }
 
 @keyframes slide-to-right {
   to {
-    transform: translateX(30px);
     opacity: 0;
+    transform: translateX(30px);
   }
 }
 

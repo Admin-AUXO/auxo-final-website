@@ -1,22 +1,22 @@
 .logo-text-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: fit-content;
 }
 
 .logo-tagline {
-  display: block;
   box-sizing: border-box;
-  text-align: center;
-  line-height: 1;
-  white-space: nowrap;
-  transition: color var(--duration-fast) var(--easing-standard);
-  margin-bottom: 0.125rem;
+  color: var(--text-primary);
+  display: block;
   font-size: 1.125rem;
   font-weight: 800;
-  color: var(--text-primary);
   letter-spacing: -0.01em;
+  line-height: 1;
+  margin-bottom: 0.125rem;
+  text-align: center;
+  transition: color var(--duration-fast) var(--easing-standard);
+  white-space: nowrap;
 }
 
 @media (width >= 640px) {
@@ -32,18 +32,18 @@
 }
 
 .logo-subtitle {
-  display: block;
   box-sizing: border-box;
-  text-align: center;
-  line-height: 1;
-  white-space: nowrap;
-  transition: color var(--duration-fast) var(--easing-standard), letter-spacing 0.3s ease;
-  margin-top: 0.125rem;
+  color: var(--accent-green);
+  display: block;
   font-size: 0.6rem;
   font-weight: 400;
-  color: var(--accent-green);
   letter-spacing: 0.04em;
+  line-height: 1;
+  margin-top: 0.125rem;
   overflow: visible;
+  text-align: center;
+  transition: color var(--duration-fast) var(--easing-standard), letter-spacing 0.3s ease;
+  white-space: nowrap;
 }
 
 @media (width >= 640px) {

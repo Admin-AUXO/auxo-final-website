@@ -31,92 +31,154 @@ const { content } = Astro.props;
 >
   <div class="team-accent-bars absolute inset-0 pointer-events-none z-0"></div>
   <div class="team-gradient absolute inset-0 pointer-events-none z-0"></div>
-  
+
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-6xl mx-auto w-full">
-      <div class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20" data-reveal="fade-down" data-reveal-duration="200" data-reveal-easing="ease-out">
+      <div
+        class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
+        data-reveal="fade-down"
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
         <div class="inline-flex items-center justify-center gap-3 mb-4 sm:mb-6">
-          <Icon name="mdi:account-group" class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green" />
-          <h2 class="text-h2 font-extrabold text-theme-primary leading-tight tracking-tight font-display">
-            <HighlightText text={content.title} highlight="AUXO" highlightClass="text-accent-green font-black" />
+          <Icon
+            name="mdi:account-group"
+            class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green"
+          />
+          <h2
+            class="text-h2 font-extrabold text-theme-primary leading-tight tracking-tight font-display"
+          >
+            <HighlightText
+              text={content.title}
+              highlight="AUXO"
+              highlightClass="text-accent-green font-black"
+            />
           </h2>
         </div>
-        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body px-4 sm:px-6">
-          <HighlightText text={content.description} highlight={["consultants", "data engineers", "data scientists"]} highlightClass="text-accent-green font-bold" />
+        <p
+          class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body px-4 sm:px-6"
+        >
+          <HighlightText
+            text={content.description}
+            highlight={["consultants", "data engineers", "data scientists"]}
+            highlightClass="text-accent-green font-bold"
+          />
         </p>
       </div>
 
-      {content.leadership.length > 0 && (
-        <div class="mb-12 sm:mb-16">
-          <h3 class="text-h3 font-bold text-theme-primary mb-6 sm:mb-8 text-center font-display" data-reveal="fade-up" data-reveal-delay="0" data-reveal-duration="200" data-reveal-easing="ease-out">
-            Leadership
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {content.leadership.map((member, index) => (
-              <div
-                class="team-member-card"
-                data-reveal="fade-up"
-                data-reveal-delay={50 + (index * 40)}
-                data-reveal-duration="200"
-                data-reveal-easing="ease-out"
-              >
-                <div class="bg-theme-surface border border-theme-light rounded-xl p-6 sm:p-8 h-full lg:hover:border-accent-green/30 transition-colors duration-300">
-                  <h4 class="text-xl font-bold text-theme-primary mb-2 font-display">
-                    {member.name}
-                  </h4>
-                  <p class="text-accent-green font-semibold mb-4 text-body-base sm:text-body-lg font-body">
-                    {member.role}
-                  </p>
-                  <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
-                    {member.bio}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {
+        content.leadership.length > 0 && (
+          <div class="mb-12 sm:mb-16">
+            <h3
+              class="text-h3 font-bold text-theme-primary mb-6 sm:mb-8 text-center font-display"
+              data-reveal="fade-up"
+              data-reveal-delay="0"
+              data-reveal-duration="200"
+              data-reveal-easing="ease-out"
+            >
+              Leadership
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {content.leadership.map((member, index) => (
+                <div
+                  class="team-member-card group relative h-full flex flex-col"
+                  data-reveal="fade-up"
+                  data-reveal-delay={50 + index * 40}
+                  data-reveal-duration="200"
+                  data-reveal-easing="ease-out"
+                >
+                  <div class="bg-theme-surface/80 backdrop-blur-sm border border-theme-light rounded-3xl p-8 h-full lg:hover:border-accent-green/40 transition-all duration-300 shadow-lg lg:hover:shadow-xl relative overflow-hidden flex flex-col">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-accent-green/10 rounded-full blur-3xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -mr-10 -mt-10" />
 
-      {content.advisors.length > 0 && (
-        <div>
-          <h3 class="text-h3 font-bold text-theme-primary mb-6 sm:mb-8 text-center font-display" data-reveal="fade-up" data-reveal-delay="0" data-reveal-duration="200" data-reveal-easing="ease-out">
-            Advisors
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {content.advisors.map((advisor, index) => (
-              <div
-                class="team-member-card"
-                data-reveal="fade-up"
-                data-reveal-delay={50 + (index * 40)}
-                data-reveal-duration="200"
-                data-reveal-easing="ease-out"
-              >
-                <div class="bg-theme-surface border border-theme-light rounded-xl p-6 sm:p-8 h-full lg:hover:border-accent-green/30 transition-colors duration-300">
-                  <h4 class="text-xl font-bold text-theme-primary mb-2 font-display">
-                    {advisor.name}
-                  </h4>
-                  <p class="text-accent-green font-semibold mb-4 text-body-base sm:text-body-lg font-body">
-                    {advisor.role}
-                  </p>
-                  <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
-                    {advisor.bio}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+                    <div class="relative z-10 flex-grow">
+                      <h4 class="text-2xl font-extrabold text-theme-primary mb-1 font-display tracking-tight">
+                        {member.name}
+                      </h4>
+                      <p class="text-accent-green font-bold mb-5 text-body-base sm:text-body-lg font-body flex items-center gap-2">
+                        <Icon
+                          name="mdi:briefcase-outline"
+                          class="w-4 h-4 opacity-70"
+                        />
+                        {member.role}
+                      </p>
+                      <p class="text-body-lg text-theme-secondary leading-[1.65] font-body">
+                        {member.bio}
+                      </p>
+                    </div>
 
-      {content.leadership.length === 0 && content.advisors.length === 0 && (
-        <div class="text-center py-12 sm:py-16" data-reveal="fade-up" data-reveal-delay="50" data-reveal-duration="200" data-reveal-easing="ease-out">
-          <p class="text-body-lg text-theme-secondary font-body">
-            Leadership bios and advisor information coming soon.
-          </p>
-        </div>
-      )}
+                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-green/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        content.advisors.length > 0 && (
+          <div>
+            <h3
+              class="text-h3 font-bold text-theme-primary mb-6 sm:mb-8 text-center font-display"
+              data-reveal="fade-up"
+              data-reveal-delay="0"
+              data-reveal-duration="200"
+              data-reveal-easing="ease-out"
+            >
+              Advisors
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {content.advisors.map((advisor, index) => (
+                <div
+                  class="team-member-card group relative h-full flex flex-col"
+                  data-reveal="fade-up"
+                  data-reveal-delay={50 + index * 40}
+                  data-reveal-duration="200"
+                  data-reveal-easing="ease-out"
+                >
+                  <div class="bg-theme-surface/80 backdrop-blur-sm border border-theme-light rounded-3xl p-8 h-full lg:hover:border-accent-green/40 transition-all duration-300 shadow-lg lg:hover:shadow-xl relative overflow-hidden flex flex-col">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-accent-green/10 rounded-full blur-3xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -mr-10 -mt-10" />
+
+                    <div class="relative z-10 flex-grow">
+                      <h4 class="text-2xl font-extrabold text-theme-primary mb-1 font-display tracking-tight">
+                        {advisor.name}
+                      </h4>
+                      <p class="text-accent-green font-bold mb-5 text-body-base sm:text-body-lg font-body flex items-center gap-2">
+                        <Icon
+                          name="mdi:account-tie"
+                          class="w-4 h-4 opacity-70"
+                        />
+                        {advisor.role}
+                      </p>
+                      <p class="text-body-lg text-theme-secondary leading-[1.65] font-body">
+                        {advisor.bio}
+                      </p>
+                    </div>
+
+                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-green/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        content.leadership.length === 0 && content.advisors.length === 0 && (
+          <div
+            class="text-center py-12 sm:py-16"
+            data-reveal="fade-up"
+            data-reveal-delay="50"
+            data-reveal-duration="200"
+            data-reveal-easing="ease-out"
+          >
+            <p class="text-body-lg text-theme-secondary font-body">
+              Leadership bios and advisor information coming soon.
+            </p>
+          </div>
+        )
+      }
     </div>
   </div>
 </SectionContainer>
-
-

@@ -1,4 +1,5 @@
 import { BREAKPOINTS } from '../constants';
+import { logger } from '@/lib/logger';
 
 class ScrollLockService {
   private locks = new Map<string, number>();
@@ -64,7 +65,7 @@ class ScrollLockService {
     }
 
     if (typeof window !== 'undefined' && (window as any).__DEBUG_SCROLL_LOCK) {
-      console.log(`[ScrollLock] Lock acquired by "${id}" (count: ${currentCount + 1}, total: ${this.getTotalLocks()})`);
+      logger.debug(`[ScrollLock] Lock acquired by "${id}" (count: ${currentCount + 1}, total: ${this.getTotalLocks()})`);
     }
   }
 
@@ -85,7 +86,7 @@ class ScrollLockService {
     }
 
     if (typeof window !== 'undefined' && (window as any).__DEBUG_SCROLL_LOCK) {
-      console.log(`[ScrollLock] Lock released by "${id}" (was: ${currentCount}, now: ${currentCount > 0 ? currentCount - 1 : 0}, total: ${this.getTotalLocks()})`);
+      logger.debug(`[ScrollLock] Lock released by "${id}" (was: ${currentCount}, now: ${currentCount > 0 ? currentCount - 1 : 0}, total: ${this.getTotalLocks()})`);
     }
   }
 
@@ -143,7 +144,7 @@ if (typeof window !== 'undefined') {
   (window as any).__debugScrollLock = () => {
     const locks = scrollLock.getActiveLocks();
     const isLocked = scrollLock.isLocked();
-    console.log('[ScrollLock Debug]', {
+    logger.log('[ScrollLock Debug]', {
       isLocked,
       activeLocks: locks,
       totalLocks: locks.length,
@@ -155,7 +156,7 @@ if (typeof window !== 'undefined') {
   };
 
   (window as any).__forceUnlockScroll = () => {
-    console.log('[ScrollLock] Forcing unlock of all scroll locks');
+    logger.log('[ScrollLock] Forcing unlock of all scroll locks');
     scrollLock.forceUnlockAll();
   };
 }

@@ -17,8 +17,6 @@ export function createUrl(path: string): string {
 }
 
 export function createAssetUrl(path: string): string {
-  // Always return paths relative to root for asset URLs
-  // Don't use import.meta.env.BASE_URL for assets to avoid path issues
   const cleanPath = path.replace(/^\/+/, '');
   return `/${cleanPath}`;
 }

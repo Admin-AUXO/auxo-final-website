@@ -1,5 +1,5 @@
 ---
-import { createAssetUrl } from '@/utils/url';
+import { createAssetUrl } from "@/utils/url";
 
 export interface Props {
   title: string;
@@ -17,74 +17,121 @@ export interface Props {
   modifiedTime?: string;
 }
 
-const { 
-  title, 
-  description, 
-  ogImage = createAssetUrl('/og-image.svg'),
+const {
+  title,
+  description,
+  ogImage = createAssetUrl("/og-image.svg"),
   ogImageAlt = description,
   siteName,
   siteUrl,
   themeColor,
   canonicalUrl,
-  keywords = 'data analytics, business intelligence, data engineering, machine learning, AI, data consultancy, Dubai, UAE, GCC, analytics consulting, data strategy, cloud analytics, foundation readiness, reporting reset, performance diagnostics, forecasting lab, decision playbooks, smart automation, augmented intelligence, autonomy readiness, real estate analytics, hospitality analytics, retail analytics, financial services analytics, logistics analytics, government analytics, ecommerce analytics, predictive analytics, data governance, self-service analytics, data visualization, ETL pipelines, data warehousing, Snowflake, Databricks, Tableau, Power BI, AWS, Azure, GCP',
+  keywords = "data analytics, business intelligence, data engineering, machine learning, AI, data consultancy, Dubai, UAE, GCC, analytics consulting, data strategy, cloud analytics, foundation readiness, reporting reset, performance diagnostics, forecasting lab, decision playbooks, smart automation, augmented intelligence, autonomy readiness, real estate analytics, hospitality analytics, retail analytics, financial services analytics, logistics analytics, government analytics, ecommerce analytics, predictive analytics, data governance, self-service analytics, data visualization, ETL pipelines, data warehousing, Snowflake, Databricks, Tableau, Power BI, AWS, Azure, GCP",
   author = siteName,
-  type = 'website',
+  type = "website",
   publishedTime,
-  modifiedTime
+  modifiedTime,
 } = Astro.props;
 
 const finalCanonical = canonicalUrl || `${siteUrl}${Astro.url.pathname}`;
 ---
 
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, viewport-fit=cover, user-scalable=yes" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, viewport-fit=cover, user-scalable=yes"
+/>
 
 <script is:inline>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() {
+    dataLayer.push(arguments);
+  }
 
-  gtag('consent', 'default', {
-    'ad_storage': 'denied',
-    'ad_user_data': 'denied',
-    'ad_personalization': 'denied',
-    'analytics_storage': 'denied',
-    'functionality_storage': 'granted',
-    'personalization_storage': 'denied',
-    'security_storage': 'granted',
-    'wait_for_update': 500,
-    'region': ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','GB','IS','LI','NO','CH']
+  gtag("consent", "default", {
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    analytics_storage: "denied",
+    functionality_storage: "granted",
+    personalization_storage: "denied",
+    security_storage: "granted",
+    wait_for_update: 500,
+    region: [
+      "AT",
+      "BE",
+      "BG",
+      "HR",
+      "CY",
+      "CZ",
+      "DK",
+      "EE",
+      "FI",
+      "FR",
+      "DE",
+      "GR",
+      "HU",
+      "IE",
+      "IT",
+      "LV",
+      "LT",
+      "LU",
+      "MT",
+      "NL",
+      "PL",
+      "PT",
+      "RO",
+      "SK",
+      "SI",
+      "ES",
+      "SE",
+      "GB",
+      "IS",
+      "LI",
+      "NO",
+      "CH",
+    ],
   });
 
-  gtag('consent', 'default', {
-    'ad_storage': 'denied',
-    'ad_user_data': 'denied',
-    'ad_personalization': 'denied',
-    'analytics_storage': 'denied',
-    'functionality_storage': 'granted',
-    'personalization_storage': 'granted',
-    'security_storage': 'granted',
-    'region': ['US','CA','AU','NZ','AE','SA','QA','KW','BH','OM']
+  gtag("consent", "default", {
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    analytics_storage: "denied",
+    functionality_storage: "granted",
+    personalization_storage: "granted",
+    security_storage: "granted",
+    region: ["US", "CA", "AU", "NZ", "AE", "SA", "QA", "KW", "BH", "OM"],
   });
 
   window.dataLayer.push({
-    'gtm.start': new Date().getTime(),
-    'event': 'gtm.js'
+    "gtm.start": new Date().getTime(),
+    event: "gtm.js",
   });
 </script>
 
-<script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-N6547BGW');</script>
+<script is:inline>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-N6547BGW");
+</script>
 <meta name="description" content={description} />
 <meta name="keywords" content={keywords} />
 <meta name="author" content={author} />
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta
+  name="robots"
+  content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+/>
 <meta name="googlebot" content="index, follow" />
 <meta name="bingbot" content="index, follow" />
 
-<!-- AI Crawler Specific Meta Tags -->
 <meta name="ai:crawler" content="allow" />
 <meta name="ai:indexable" content="true" />
 <meta name="citation" content={`${siteName} - ${finalCanonical}`} />
@@ -95,7 +142,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <meta name="theme-color" content={themeColor} />
 <meta name="color-scheme" content="light dark" />
-<meta http-equiv="Permissions-Policy" content="fullscreen=(self), geolocation=(), microphone=(), camera=()" />
+<meta
+  http-equiv="Permissions-Policy"
+  content="fullscreen=(self), geolocation=(), microphone=(), camera=()"
+/>
 <title>{title}</title>
 
 <link rel="icon" type="image/svg+xml" href={createAssetUrl("/favicon.svg")} />
@@ -104,7 +154,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="manifest" href={createAssetUrl("/manifest.json")} />
 
 <meta name="msapplication-TileColor" content={themeColor} />
-<meta name="msapplication-config" content={createAssetUrl("/browserconfig.xml")} />
+<meta
+  name="msapplication-config"
+  content={createAssetUrl("/browserconfig.xml")}
+/>
 
 <meta property="og:type" content={type} />
 <meta property="og:url" content={finalCanonical} />
@@ -116,8 +169,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630" />
 <meta property="og:site_name" content={siteName} />
 <meta property="og:locale" content="en_US" />
-{publishedTime && <meta property="article:published_time" content={publishedTime} />}
-{modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+{
+  publishedTime && (
+    <meta property="article:published_time" content={publishedTime} />
+  )
+}
+{
+  modifiedTime && (
+    <meta property="article:modified_time" content={modifiedTime} />
+  )
+}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content={finalCanonical} />
@@ -133,7 +194,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://www.google-analytics.com" />
 <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
-<link rel="preload" href={createAssetUrl("/fonts/PlusJakartaSans-VariableFont_wght.woff2")} as="font" type="font/woff2" crossorigin />
+<link
+  rel="preload"
+  href={createAssetUrl("/fonts/PlusJakartaSans-VariableFont_wght.woff2")}
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
 
 <link rel="canonical" href={finalCanonical} />
-

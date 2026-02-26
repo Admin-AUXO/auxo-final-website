@@ -3,26 +3,26 @@
 }
 
 .fab-button {
-  position: fixed;
-  inset: auto max(1.5rem, calc(1.5rem + env(safe-area-inset-right))) max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom))) auto;
-  z-index: var(--z-floating-button);
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 50%;
-  background: var(--accent-green);
-  color: var(--text-on-accent);
-  border: 2px solid var(--accent-green-opacity-30);
-  box-shadow: 0 4px 20px var(--accent-green-opacity-20);
-  display: flex;
   align-items: center;
-  justify-content: center;
+  background: var(--accent-green);
+  border: 2px solid var(--accent-green-opacity-30);
+  border-radius: 50%;
+  box-shadow: 0 4px 20px var(--accent-green-opacity-20);
+  color: var(--text-on-accent);
   cursor: pointer;
-  touch-action: manipulation;
-  user-select: none;
-  transition: all var(--duration-fast) var(--easing-standard);
+  display: flex;
+  height: 3.5rem;
+  inset: auto max(1.5rem, calc(1.5rem + env(safe-area-inset-right))) max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom))) auto;
+  justify-content: center;
   opacity: 1;
   pointer-events: auto;
+  position: fixed;
+  touch-action: manipulation;
+  transition: all var(--duration-fast) var(--easing-standard);
+  user-select: none;
   view-transition-name: floating-button;
+  width: 3.5rem;
+  z-index: var(--z-floating-button);
 }
 
 .fab-button:hover,
@@ -31,9 +31,9 @@
 }
 
 .fab-icon {
-  width: 1.5rem;
   height: 1.5rem;
   transition: transform var(--duration-fast) var(--easing-standard);
+  width: 1.5rem;
 }
 
 .fab-button:hover {
@@ -48,8 +48,8 @@
 }
 
 .fab-button:active {
-  transform: translateY(-1px) scale(1.02) !important;
   box-shadow: 0 4px 16px var(--accent-green-opacity-25);
+  transform: translateY(-1px) scale(1.02) !important;
   will-change: transform;
 }
 
@@ -61,14 +61,14 @@
 @media (width >= 640px) {
   .fab-button {
     bottom: 2rem;
+    height: 4rem;
     right: 2rem;
     width: 4rem;
-    height: 4rem;
   }
 
   .fab-icon {
-    width: 1.75rem;
     height: 1.75rem;
+    width: 1.75rem;
   }
 }
 
@@ -82,14 +82,14 @@
 @media (height <= 600px) {
   .fab-button {
     bottom: 1rem;
+    height: 3rem;
     right: 1rem;
     width: 3rem;
-    height: 3rem;
   }
 
   .fab-icon {
-    width: 1.25rem;
     height: 1.25rem;
+    width: 1.25rem;
   }
 }
 
@@ -132,14 +132,14 @@
 @media (height <= 600px) and (orientation: landscape) {
   .fab-button {
     bottom: 1rem;
+    height: 3rem;
     right: 1rem;
     width: 3rem;
-    height: 3rem;
   }
 
   .fab-icon {
-    width: 1.25rem;
     height: 1.25rem;
+    width: 1.25rem;
   }
 }
 
@@ -151,54 +151,54 @@
 }
 
 .fab-tooltip {
-  position: absolute;
-  bottom: 100%;
-  right: 0;
-  margin-bottom: var(--spacing-3);
-  padding: var(--spacing-2) var(--spacing-3);
   background: var(--bg-elevated);
-  color: var(--text-primary);
   border: 1px solid var(--accent-green-opacity-30);
   border-radius: var(--radius-md);
+  bottom: 100%;
+  box-shadow: 0 4px 12px var(--shadow-accent);
+  color: var(--text-primary);
   font-size: var(--font-size-sm);
   font-weight: 500;
-  white-space: nowrap;
+  margin-bottom: var(--spacing-3);
   opacity: 0;
-  visibility: hidden;
+  padding: var(--spacing-2) var(--spacing-3);
   pointer-events: none;
+  position: absolute;
+  right: 0;
   transform: translateY(10px);
   transition: all var(--duration-fast) var(--easing-standard);
-  box-shadow: 0 4px 12px var(--shadow-accent);
+  visibility: hidden;
+  white-space: nowrap;
   z-index: calc(var(--z-floating-button) + 1);
 }
 
 .fab-tooltip-arrow {
-  position: absolute;
-  top: 100%;
-  right: 1rem;
-  width: 0;
-  height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-top: 6px solid var(--bg-elevated);
+  height: 0;
+  position: absolute;
+  right: 1rem;
+  top: 100%;
+  width: 0;
 }
 
 .fab-tooltip-arrow::before {
-  content: '';
-  position: absolute;
-  top: -7px;
-  left: -6px;
-  width: 12px;
-  height: 7px;
   background: inherit;
   clip-path: polygon(50% 100%, 0 0, 100% 0);
+  content: '';
+  height: 7px;
+  left: -6px;
+  position: absolute;
+  top: -7px;
+  width: 12px;
 }
 
 .fab-button:hover + .fab-tooltip,
 .fab-button:focus-visible + .fab-tooltip {
   opacity: 1;
-  visibility: visible;
   transform: translateY(0);
+  visibility: visible;
 }
 
 .fab-button.fab-hidden {
@@ -229,10 +229,10 @@ body:has(#calendar-modal:not([hidden])) .fab-tooltip {
 
 body.scroll-locked .fab-button,
 .scroll-locked .fab-button {
-  position: fixed !important;
   bottom: 1.5rem !important;
+  position: fixed !important;
   right: 1.5rem !important;
-  z-index: var(--z-floating-button) !important;
   transform: translateZ(0) !important;
+  z-index: var(--z-floating-button) !important;
 }
 

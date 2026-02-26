@@ -6,7 +6,7 @@ import { initFloatingButton, cleanupFloatingButton } from './floatingButton';
 import { initHeroBackground, cleanupHeroBackground } from '../utils/heroBackground';
 import { initAccordions, cleanupAccordions } from '../utils/accordions';
 import { cleanupAllCarousels } from '../utils/carousels';
-import { autoInitCarousels } from '../sections/autoInit';
+import { autoInitCarousels, resetAutoInitState } from '../sections/autoInit';
 import { forceUnlockScroll } from '../navigation/utils';
 import { initWebVitals } from '../utils/webVitals';
 import { initConditionalAnalytics, cleanupConditionalAnalytics } from '../analytics/conditionalLoader';
@@ -15,79 +15,26 @@ import { registerServiceWorker } from './serviceWorker';
 import { logger } from '@/lib/logger';
 
 let isInitialized = false;
-let lazyLoadingObserver: IntersectionObserver | null = null;
 
 function initLazyLoading(): void {
-  if (lazyLoadingObserver) {
-    lazyLoadingObserver.disconnect();
-    lazyLoadingObserver = null;
-  }
-
   const lazyElements = document.querySelectorAll('[data-lazy-load]');
   if (!lazyElements.length) return;
 
-  const checkIfInViewport = (el: Element): boolean => {
-    const rect = el.getBoundingClientRect();
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    const windowWidth = window.innerWidth || document.documentElement.clientWidth;
-    return (
-      rect.top < windowHeight + 200 &&
-      rect.bottom > -200 &&
-      rect.left < windowWidth + 200 &&
-      rect.right > -200
-    );
-  };
-
-  const immediateLoadCount = Math.min(2, lazyElements.length);
-  const elementsToLoad: HTMLElement[] = [];
-
-  for (let i = 0; i < lazyElements.length; i++) {
-    const el = lazyElements[i] as HTMLElement;
-    if (i < immediateLoadCount || checkIfInViewport(el)) {
-      elementsToLoad.push(el);
-    }
-  }
-
-  elementsToLoad.forEach((el) => {
-    requestAnimationFrame(() => {
-      el.classList.add('lazy-loaded');
-      el.removeAttribute('data-lazy-load');
-    });
-  });
-
-  const remainingElements = Array.from(lazyElements).filter(
-    (el) => !elementsToLoad.includes(el as HTMLElement)
-  );
-
-  if (remainingElements.length === 0) return;
-
-  const isMobile = window.innerWidth < 768;
-  const rootMargin = isMobile ? '100px' : '200px';
-
-  lazyLoadingObserver = new IntersectionObserver((entries) => {
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         const el = entry.target as HTMLElement;
-        requestAnimationFrame(() => {
-          el.classList.add('lazy-loaded');
-          el.removeAttribute('data-lazy-load');
-        });
-        lazyLoadingObserver?.unobserve(el);
+        el.classList.add('lazy-loaded');
+        el.removeAttribute('data-lazy-load');
+        observer.unobserve(el);
       }
     });
   }, {
-    rootMargin,
+    rootMargin: '100px',
     threshold: 0.01
   });
 
-  remainingElements.forEach((element) => lazyLoadingObserver?.observe(element));
-}
-
-function cleanupLazyLoading(): void {
-  if (lazyLoadingObserver) {
-    lazyLoadingObserver.disconnect();
-    lazyLoadingObserver = null;
-  }
+  lazyElements.forEach((el) => observer.observe(el));
 }
 
 export function initCoreFeatures(): void {
@@ -148,44 +95,10 @@ export function initPageFeatures(): void {
   }
 
   const initCarouselsWithCSSCheck = () => {
-    const checkCarouselCSS = () => {
-      if (!document.body) return false;
-
-      try {
-        const testElement = document.createElement('div');
-        testElement.style.cssText = 'position: absolute; visibility: hidden;';
-        testElement.className = 'carousel-container';
-        document.body.appendChild(testElement);
-
-        const computedStyle = window.getComputedStyle(testElement);
-        const hasCarouselCSS = computedStyle.touchAction === 'pan-x' &&
-                              computedStyle.cursor === 'grab';
-
-        testElement.remove();
-        return hasCarouselCSS;
-      } catch {
-        return false;
-      }
-    };
-
-    const initializeCarousels = () => {
-      try {
-        autoInitCarousels();
-      } catch (error) {
-        logger.error('Carousel initialization failed:', error);
-      }
-    };
-
-    if (checkCarouselCSS()) {
-      initializeCarousels();
-    } else {
-      setTimeout(() => {
-        if (checkCarouselCSS()) {
-          initializeCarousels();
-        } else {
-          setTimeout(initializeCarousels, 200);
-        }
-      }, 100);
+    try {
+      autoInitCarousels();
+    } catch (error) {
+      logger.error('Carousel initialization failed:', error);
     }
   };
 
@@ -227,7 +140,7 @@ export function cleanupCoreFeatures(): void {
   cleanupHeroBackground();
   cleanupAccordions();
   cleanupAllCarousels();
-  cleanupLazyLoading();
+  resetAutoInitState();
   destroySmoothScroll();
   cleanupConditionalAnalytics();
   cleanupKeyboardNavigation();
@@ -241,3 +154,4 @@ export function reinitOnPageLoad(): void {
     initCoreFeatures();
   }, 50);
 }
+

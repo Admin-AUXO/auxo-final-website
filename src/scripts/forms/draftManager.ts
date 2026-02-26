@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 interface FormDraft {
   formId: string;
   data: Record<string, string>;
@@ -24,13 +25,13 @@ export class DraftManager {
     this.cleanExpiredDrafts();
     this.attemptDraftRestore();
     this.startAutoSave();
-    console.log('[DraftManager] Initialized for form:', this.formId);
+    logger.debug('[DraftManager] Initialized for form:', this.formId);
   }
 
   private startAutoSave(): void {
     if (this.autoSaveTimer) clearInterval(this.autoSaveTimer);
     this.autoSaveTimer = setInterval(() => this.saveDraft(), AUTO_SAVE_INTERVAL);
-    console.log('[DraftManager] Auto-save started (every 5 seconds)');
+    logger.debug('[DraftManager] Auto-save started (every 5 seconds)');
   }
 
   private saveDraft(): void {
@@ -46,9 +47,9 @@ export class DraftManager {
 
     try {
       localStorage.setItem(this.getDraftKey(), JSON.stringify(draft));
-      console.log('[DraftManager] Draft saved:', Object.keys(formData).length, 'fields');
+      logger.debug('[DraftManager] Draft saved:', Object.keys(formData).length, 'fields');
     } catch (error) {
-      console.error('[DraftManager] Failed to save draft:', error);
+      logger.error('[DraftManager] Failed to save draft:', error);
     }
   }
 
@@ -57,7 +58,7 @@ export class DraftManager {
     if (!draft) return;
 
     if (Date.now() > draft.expiresAt) {
-      console.log('[DraftManager] Draft expired, removing...');
+      logger.debug('[DraftManager] Draft expired, removing...');
       this.clearDraft();
       return;
     }
@@ -89,7 +90,7 @@ export class DraftManager {
     });
 
     this.isDraftRestored = true;
-    console.log('[DraftManager] Draft restored');
+    logger.debug('[DraftManager] Draft restored');
     this.showNotification('Draft restored successfully!', 'success');
   }
 
@@ -99,7 +100,7 @@ export class DraftManager {
       if (!draftJson) return null;
       return JSON.parse(draftJson) as FormDraft;
     } catch (error) {
-      console.error('[DraftManager] Failed to load draft:', error);
+      logger.error('[DraftManager] Failed to load draft:', error);
       return null;
     }
   }
@@ -107,9 +108,9 @@ export class DraftManager {
   public clearDraft(): void {
     try {
       localStorage.removeItem(this.getDraftKey());
-      console.log('[DraftManager] Draft cleared');
+      logger.debug('[DraftManager] Draft cleared');
     } catch (error) {
-      console.error('[DraftManager] Failed to clear draft:', error);
+      logger.error('[DraftManager] Failed to clear draft:', error);
     }
   }
 
@@ -135,10 +136,10 @@ export class DraftManager {
 
       keysToRemove.forEach(key => localStorage.removeItem(key));
       if (keysToRemove.length > 0) {
-        console.log(`[DraftManager] Cleaned ${keysToRemove.length} expired draft(s)`);
+        logger.debug(`[DraftManager] Cleaned ${keysToRemove.length} expired draft(s)`);
       }
     } catch (error) {
-      console.error('[DraftManager] Failed to clean expired drafts:', error);
+      logger.error('[DraftManager] Failed to clean expired drafts:', error);
     }
   }
 
@@ -181,7 +182,7 @@ export class DraftManager {
       clearInterval(this.autoSaveTimer);
       this.autoSaveTimer = null;
     }
-    console.log('[DraftManager] Destroyed');
+    logger.debug('[DraftManager] Destroyed');
   }
 }
 

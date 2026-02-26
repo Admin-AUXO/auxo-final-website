@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+
 export interface Props {
   class?: string;
 }
@@ -32,7 +34,7 @@ const certifications = [
     <div class="stats-grid">
       {stats.map((stat, index) => (
         <div class="stat-card" data-reveal="fade-up" data-reveal-delay={index * 100}>
-          <div class="stat-value" data-count-up data-target={stat.value.replace(/\D/g, '')}>
+          <div class="stat-value" data-count-up data-target={stat.value}>
             0{stat.suffix}
           </div>
           <div class="stat-label">{stat.label}</div>
@@ -53,13 +55,13 @@ const certifications = [
             data-reveal-delay={200 + index * 100}
             aria-label={cert.name}
           >
-            <img
+            <Image
               src={cert.logo}
               alt={cert.name}
               class="certification-logo"
+              width={120}
+              height={60}
               loading="lazy"
-              width="120"
-              height="60"
             />
             <span class="certification-name">{cert.name}</span>
           </a>

@@ -1,23 +1,22 @@
 .highlight-gradient {
-  position: relative;
   background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-green-secondary) 100%);
-  -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 800;
   display: inline-block;
+  font-weight: 800;
+  position: relative;
+  -webkit-text-fill-color: transparent;
 }
 
 .highlight-gradient::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 3px;
   background: linear-gradient(90deg, transparent, var(--accent-green), var(--accent-green-secondary), transparent);
   border-radius: 2px;
+  bottom: -2px;
+  content: '';
+  height: 3px;
+  left: 0;
   opacity: 0.5;
+  position: absolute;
+  right: 0;
 }
 
 .highlight-gradient.home-hero-highlight::after,
@@ -29,15 +28,15 @@
 
 @media (width >= 640px) {
   .highlight-gradient::after {
-    height: 4px;
     bottom: -3px;
+    height: 4px;
   }
 }
 
 @media (width >= 1024px) {
   .highlight-gradient::after {
-    height: 5px;
     bottom: -4px;
+    height: 5px;
   }
 }
 
@@ -48,6 +47,8 @@
 
 .highlight-text,
 .highlight-cta-text {
+  animation: gradientFill var(--animation-duration-gradient) ease-in-out infinite;
+  backface-visibility: hidden;
   background: linear-gradient(
     90deg,
     var(--text-primary) 0%,
@@ -56,31 +57,28 @@
     var(--text-primary) 75%,
     var(--text-primary) 100%
   );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
+  display: block;
   line-height: 1.2;
+  overflow: visible;
   padding-bottom: var(--spacing-em-sm);
   padding-top: var(--spacing-em-xs);
-  overflow: visible;
-  display: block;
-  animation: gradientFill var(--animation-duration-gradient) ease-in-out infinite;
-  will-change: background-position;
+  -webkit-text-fill-color: transparent;
   transform: translateZ(0);
-  backface-visibility: hidden;
+  will-change: background-position;
 }
 
 .highlight-line-container {
+  overflow: visible;
   padding-bottom: var(--spacing-em-md);
   padding-top: var(--spacing-em-sm);
-  overflow: visible;
 }
 
 .highlight-subtitle-container {
+  overflow: visible;
   padding-bottom: var(--spacing-em-md);
   padding-top: var(--spacing-em-sm);
-  overflow: visible;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -91,60 +89,60 @@
   .highlight-text,
   .highlight-cta-text {
     animation: none;
-    opacity: 1;
-    transform: none;
     background: var(--text-primary);
+    opacity: 1;
     -webkit-text-fill-color: var(--text-primary);
+    transform: none;
   }
 }
 
 .underline-line {
-  position: absolute;
+  animation: drawUnderline var(--animation-duration-underline) ease-out forwards;
+  animation-delay: var(--delay-underline);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-green),
+    transparent
+  );
+  contain: layout;
+  height: 100%;
   left: 50%;
+  position: absolute;
   transform: translateX(-50%) scaleX(0);
   transform-origin: center;
   width: var(--width-60);
-  height: 100%;
-  contain: layout;
   will-change: transform;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--accent-green),
-    transparent
-  );
-  animation: drawUnderline var(--animation-duration-underline) ease-out forwards;
-  animation-delay: var(--delay-underline);
 }
 
 .underline-animation {
-  margin-top: var(--spacing-xl);
   height: 0.125rem;
-  position: relative;
+  margin-top: var(--spacing-xl);
   overflow: hidden;
   padding-top: var(--spacing-sm);
+  position: relative;
 }
 
 .flow-line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  animation: flow var(--animation-duration-flow) ease-in-out infinite;
   background: linear-gradient(
     90deg,
     transparent,
     var(--accent-green),
     transparent
   );
-  animation: flow var(--animation-duration-flow) ease-in-out infinite;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
 .stroke-animate {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
   animation: drawStroke var(--animation-duration-stroke) ease-out forwards;
   animation-delay: var(--delay-normal);
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
 }
 
 .bento-card:hover .stroke-animate {

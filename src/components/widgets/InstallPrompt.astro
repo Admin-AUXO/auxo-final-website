@@ -3,13 +3,30 @@ export interface Props {
   class?: string;
 }
 
-const { class: className = '' } = Astro.props;
+const { class: className = "" } = Astro.props;
 ---
 
-<div class={`install-prompt ${className}`} style="display: none;" role="dialog" aria-labelledby="install-title" aria-describedby="install-description">
+<div
+  class={`install-prompt ${className}`}
+  style="display: none;"
+  role="dialog"
+  aria-labelledby="install-title"
+  aria-describedby="install-description"
+>
   <div class="install-content">
-    <button type="button" class="install-close" aria-label="Close install prompt">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <button
+      type="button"
+      class="install-close"
+      aria-label="Close install prompt"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
@@ -17,20 +34,43 @@ const { class: className = '' } = Astro.props;
 
     <div class="install-icon">
       <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-        <rect x="8" y="12" width="32" height="28" rx="2" stroke="var(--accent-green)" stroke-width="2" fill="var(--bg-surface)"/>
-        <path d="M16 8L16 12M24 8L24 12M32 8L32 12" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round"/>
-        <path d="M24 20L24 30M24 30L20 26M24 30L28 26" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect
+          x="8"
+          y="12"
+          width="32"
+          height="28"
+          rx="2"
+          stroke="var(--accent-green)"
+          stroke-width="2"
+          fill="var(--bg-surface)"></rect>
+        <path
+          d="M16 8L16 12M24 8L24 12M32 8L32 12"
+          stroke="var(--accent-green)"
+          stroke-width="2"
+          stroke-linecap="round"></path>
+        <path
+          d="M24 20L24 30M24 30L20 26M24 30L28 26"
+          stroke="var(--accent-green)"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
       </svg>
     </div>
 
     <h3 id="install-title" class="install-title">Install AUXO Data Labs</h3>
     <p id="install-description" class="install-description">
-      Get quick access to our services with our progressive web app. Works offline and installs in seconds.
+      Get quick access to our services with our progressive web app. Works
+      offline and installs in seconds.
     </p>
 
     <div class="install-actions">
-      <button type="button" class="btn-install">Install App</button>
-      <button type="button" class="btn-dismiss">Not Now</button>
+      <button type="button" class="btn-base btn-primary install-btn btn-install"
+        >Install App</button
+      >
+      <button
+        type="button"
+        class="btn-base btn-secondary install-btn btn-dismiss">Not Now</button
+      >
     </div>
   </div>
 </div>
@@ -100,38 +140,11 @@ const { class: className = '' } = Astro.props;
     gap: 0.75rem;
   }
 
-  .btn-install,
-  .btn-dismiss {
+  .install-btn {
+    border-radius: var(--radius-md);
     flex: 1;
-    padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
-    font-weight: 600;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid;
-  }
-
-  .btn-install {
-    background: var(--accent-green);
-    color: var(--bg-primary);
-    border-color: var(--accent-green);
-  }
-
-  .btn-install:hover {
-    background: transparent;
-    color: var(--accent-green);
-  }
-
-  .btn-dismiss {
-    background: transparent;
-    color: var(--text-secondary);
-    border-color: var(--border-theme);
-  }
-
-  .btn-dismiss:hover {
-    color: var(--text-primary);
-    border-color: var(--text-primary);
+    padding: 0.75rem 1.5rem;
   }
 
   @keyframes slideUp {
@@ -166,35 +179,36 @@ const { class: className = '' } = Astro.props;
 </style>
 
 <script>
+  import { logger } from "@/lib/logger";
   let deferredPrompt: any = null;
 
   function showInstallPrompt() {
-    const promptEl = document.querySelector('.install-prompt') as HTMLElement;
+    const promptEl = document.querySelector(".install-prompt") as HTMLElement;
     if (promptEl) {
-      promptEl.style.display = 'block';
+      promptEl.style.display = "block";
     }
   }
 
   function hideInstallPrompt() {
-    const promptEl = document.querySelector('.install-prompt') as HTMLElement;
+    const promptEl = document.querySelector(".install-prompt") as HTMLElement;
     if (promptEl) {
-      promptEl.style.display = 'none';
+      promptEl.style.display = "none";
     }
   }
 
   async function handleInstall() {
     if (!deferredPrompt) {
-      console.log('[InstallPrompt] No install prompt available');
+      logger.debug("[InstallPrompt] No install prompt available");
       return;
     }
 
     deferredPrompt.prompt();
 
     const { outcome } = await deferredPrompt.userChoice;
-    console.log('[InstallPrompt] User choice:', outcome);
+    logger.debug("[InstallPrompt] User choice:", outcome);
 
-    if (outcome === 'accepted') {
-      localStorage.setItem('pwa-installed', 'true');
+    if (outcome === "accepted") {
+      localStorage.setItem("pwa-installed", "true");
     }
 
     deferredPrompt = null;
@@ -203,31 +217,32 @@ const { class: className = '' } = Astro.props;
 
   function handleDismiss() {
     hideInstallPrompt();
-    localStorage.setItem('pwa-prompt-dismissed', Date.now().toString());
+    localStorage.setItem("pwa-prompt-dismissed", Date.now().toString());
 
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'pwa_prompt_dismissed');
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "pwa_prompt_dismissed");
     }
   }
 
   function shouldShowPrompt(): boolean {
     // Don't show if already installed
-    if (localStorage.getItem('pwa-installed') === 'true') {
+    if (localStorage.getItem("pwa-installed") === "true") {
       return false;
     }
 
     // Don't show if dismissed recently (within 7 days)
-    const dismissed = localStorage.getItem('pwa-prompt-dismissed');
+    const dismissed = localStorage.getItem("pwa-prompt-dismissed");
     if (dismissed) {
       const dismissedTime = parseInt(dismissed, 10);
-      const daysSinceDismissed = (Date.now() - dismissedTime) / (1000 * 60 * 60 * 24);
+      const daysSinceDismissed =
+        (Date.now() - dismissedTime) / (1000 * 60 * 60 * 24);
       if (daysSinceDismissed < 7) {
         return false;
       }
     }
 
     // Don't show if standalone mode (already installed)
-    if (window.matchMedia('(display-mode: standalone)').matches) {
+    if (window.matchMedia("(display-mode: standalone)").matches) {
       return false;
     }
 
@@ -235,51 +250,51 @@ const { class: className = '' } = Astro.props;
   }
 
   // Listen for beforeinstallprompt event
-  window.addEventListener('beforeinstallprompt', (e) => {
+  window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     deferredPrompt = e;
 
-    console.log('[InstallPrompt] Install prompt available');
+    logger.debug("[InstallPrompt] Install prompt available");
 
     // Show prompt after 30 seconds if conditions are met
     if (shouldShowPrompt()) {
       setTimeout(() => {
         showInstallPrompt();
 
-        if (typeof window !== 'undefined' && window.gtag) {
-          window.gtag('event', 'pwa_prompt_shown');
+        if (typeof window !== "undefined" && window.gtag) {
+          window.gtag("event", "pwa_prompt_shown");
         }
       }, 30000);
     }
   });
 
   // Listen for app installed event
-  window.addEventListener('appinstalled', () => {
-    console.log('[InstallPrompt] PWA installed');
-    localStorage.setItem('pwa-installed', 'true');
+  window.addEventListener("appinstalled", () => {
+    logger.debug("[InstallPrompt] PWA installed");
+    localStorage.setItem("pwa-installed", "true");
     hideInstallPrompt();
 
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'pwa_installed');
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "pwa_installed");
     }
   });
 
   // Setup event listeners
-  document.addEventListener('astro:page-load', () => {
-    const installBtn = document.querySelector('.btn-install');
-    const dismissBtn = document.querySelector('.btn-dismiss');
-    const closeBtn = document.querySelector('.install-close');
+  document.addEventListener("astro:page-load", () => {
+    const installBtn = document.querySelector(".btn-install");
+    const dismissBtn = document.querySelector(".btn-dismiss");
+    const closeBtn = document.querySelector(".install-close");
 
     if (installBtn) {
-      installBtn.addEventListener('click', handleInstall);
+      installBtn.addEventListener("click", handleInstall);
     }
 
     if (dismissBtn) {
-      dismissBtn.addEventListener('click', handleDismiss);
+      dismissBtn.addEventListener("click", handleDismiss);
     }
 
     if (closeBtn) {
-      closeBtn.addEventListener('click', handleDismiss);
+      closeBtn.addEventListener("click", handleDismiss);
     }
   });
 </script>

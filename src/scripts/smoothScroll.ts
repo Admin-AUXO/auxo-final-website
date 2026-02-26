@@ -7,14 +7,12 @@ import { forceUnlockScroll } from './navigation/utils';
 const IDLE_THRESHOLD = 60;
 
 let lenis: Lenis | null = null;
-let isMobile = false;
 let rafId: number | null = null;
-let anchorClickHandlers: Array<{ anchor: Element; handler: (e: Event) => void }> = [];
-let pageLoadHandler: (() => void) | null = null;
 let lastScrollY = 0;
 let idleFrameCount = 0;
 let isRafPaused = false;
-let resumeRafHandler: (() => void) | null = null;
+
+const anchorClickHandlers = new Map<Element, (e: Event) => void>();
 
 function handleAnchorClick(e: Event, target: HTMLElement, offset: number = SCROLL_OFFSETS.DEFAULT): void {
   e.preventDefault();
@@ -23,18 +21,16 @@ function handleAnchorClick(e: Event, target: HTMLElement, offset: number = SCROL
     forceUnlockScroll();
   }
 
-  requestAnimationFrame(() => {
-    const rect = target.getBoundingClientRect();
-    const scrollTop = getScrollTop();
-    const targetPosition = rect.top + scrollTop - offset;
-    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-  });
+  const rect = target.getBoundingClientRect();
+  const scrollTop = getScrollTop();
+  const targetPosition = rect.top + scrollTop - offset;
+  
+  window.scrollTo({ top: targetPosition, behavior: 'smooth' });
 }
 
 function setupAnchorLinks(): void {
   const anchors = document.querySelectorAll('a[href^="#"]');
-  anchorClickHandlers = [];
-
+  
   anchors.forEach((anchor) => {
     const handler = (e: Event) => {
       const href = anchor.getAttribute('href');
@@ -42,16 +38,16 @@ function setupAnchorLinks(): void {
 
       const target = document.querySelector(href) as HTMLElement;
       if (target) {
-        if (isMobile || !lenis) {
+        if (isMobileDevice() || !lenis) {
           handleAnchorClick(e, target);
         } else {
           e.preventDefault();
-          scrollToElement(target);
+          lenis.scrollTo(target);
         }
       }
     };
     anchor.addEventListener('click', handler);
-    anchorClickHandlers.push({ anchor, handler });
+    anchorClickHandlers.set(anchor, handler);
   });
 }
 
@@ -76,21 +72,46 @@ function handleHashNavigation(): void {
   });
 }
 
+function resumeRaf(): void {
+  if (isRafPaused && lenis) {
+    isRafPaused = false;
+    idleFrameCount = 0;
+    if (rafId === null) {
+      rafId = requestAnimationFrame(raf);
+    }
+  }
+}
+
+function raf(time: number): void {
+  if (!lenis) return;
+
+  lenis.raf(time);
+
+  const currentScrollY = lenis.scroll;
+  const delta = Math.abs(currentScrollY - lastScrollY);
+
+  if (delta < 0.1) {
+    idleFrameCount++;
+    if (idleFrameCount > IDLE_THRESHOLD) {
+      isRafPaused = true;
+      rafId = null;
+      return;
+    }
+  } else {
+    idleFrameCount = 0;
+    isRafPaused = false;
+  }
+
+  lastScrollY = currentScrollY;
+  rafId = requestAnimationFrame(raf);
+}
+
 export function initSmoothScroll() {
   if (lenis) return;
 
-  isMobile = isMobileDevice();
-
-  if (isMobile) {
-    console.log('[SmoothScroll] Mobile detected, using native smooth scroll');
+  if (isMobileDevice()) {
     setupAnchorLinks();
-
-    if (pageLoadHandler) {
-      document.removeEventListener('astro:page-load', pageLoadHandler);
-    }
-    pageLoadHandler = handleHashNavigation;
-    document.addEventListener('astro:page-load', pageLoadHandler);
-
+    document.addEventListener('astro:page-load', handleHashNavigation);
     document.documentElement.style.scrollBehavior = 'smooth';
     return;
   }
@@ -107,74 +128,34 @@ export function initSmoothScroll() {
     infinite: false,
   });
 
-  function raf(time: number) {
-    if (!lenis) return;
-
-    lenis.raf(time);
-
-    const currentScrollY = lenis.scroll;
-    const delta = Math.abs(currentScrollY - lastScrollY);
-
-    if (delta < 0.01) {
-      idleFrameCount++;
-      if (idleFrameCount > IDLE_THRESHOLD && !isRafPaused) {
-        isRafPaused = true;
-        return;
-      }
-    } else {
-      idleFrameCount = 0;
-      isRafPaused = false;
-    }
-
-    lastScrollY = currentScrollY;
-    rafId = requestAnimationFrame(raf);
-  }
-
-  resumeRafHandler = () => {
-    if (isRafPaused && lenis) {
-      isRafPaused = false;
-      idleFrameCount = 0;
-      rafId = requestAnimationFrame(raf);
-    }
-  };
-
+  lastScrollY = window.scrollY;
   rafId = requestAnimationFrame(raf);
 
-  window.addEventListener('wheel', resumeRafHandler, { passive: true });
-  window.addEventListener('touchstart', resumeRafHandler, { passive: true });
+  window.addEventListener('wheel', resumeRaf, { passive: true });
+  window.addEventListener('touchstart', resumeRaf, { passive: true });
 
   if (typeof window !== 'undefined') {
     (window as any).__lenis = lenis;
   }
 
   setupAnchorLinks();
-
-  if (pageLoadHandler) {
-    document.removeEventListener('astro:page-load', pageLoadHandler);
-  }
-  pageLoadHandler = handleHashNavigation;
-  document.addEventListener('astro:page-load', pageLoadHandler);
+  document.addEventListener('astro:page-load', handleHashNavigation);
 }
 
 export function stopSmoothScroll() {
-  if (lenis) {
-    lenis.stop();
-  }
+  lenis?.stop();
 }
 
 export function startSmoothScroll() {
-  if (lenis) {
-    lenis.start();
-  }
+  lenis?.start();
 }
 
 export function scrollToElement(target: string | HTMLElement, options?: { offset?: number; immediate?: boolean }) {
   if (!lenis) return;
-
   const element = typeof target === 'string' ? document.querySelector(target) as HTMLElement : target;
-  if (!element) return;
-
-  lenis.scrollTo(element, { offset: options?.offset || 0, immediate: options?.immediate });
+  if (element) {
+    lenis.scrollTo(element, { offset: options?.offset || 0, immediate: options?.immediate });
+  }
 }
 
 export function destroySmoothScroll() {
@@ -183,11 +164,8 @@ export function destroySmoothScroll() {
     rafId = null;
   }
 
-  if (resumeRafHandler) {
-    window.removeEventListener('wheel', resumeRafHandler);
-    window.removeEventListener('touchstart', resumeRafHandler);
-    resumeRafHandler = null;
-  }
+  window.removeEventListener('wheel', resumeRaf);
+  window.removeEventListener('touchstart', resumeRaf);
 
   if (lenis) {
     lenis.destroy();
@@ -197,27 +175,18 @@ export function destroySmoothScroll() {
     }
   }
 
-  if (isMobile) {
-    document.documentElement.style.scrollBehavior = '';
-  }
+  document.documentElement.style.scrollBehavior = '';
 
-  anchorClickHandlers.forEach(({ anchor, handler }) => {
+  anchorClickHandlers.forEach((handler, anchor) => {
     anchor.removeEventListener('click', handler);
   });
-  anchorClickHandlers = [];
+  anchorClickHandlers.clear();
 
-  if (pageLoadHandler) {
-    document.removeEventListener('astro:page-load', pageLoadHandler);
-    pageLoadHandler = null;
-  }
-
+  document.removeEventListener('astro:page-load', handleHashNavigation);
+  
   lastScrollY = 0;
   idleFrameCount = 0;
   isRafPaused = false;
-}
-
-export function isSmoothScrollEnabled(): boolean {
-  return lenis !== null;
 }
 
 export function getLenisInstance(): Lenis | null {

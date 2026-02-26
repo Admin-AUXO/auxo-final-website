@@ -2,7 +2,7 @@ import { createCalendarModal } from '@/scripts/utils/modalManager';
 import { trackCalendarBooking } from '@/scripts/analytics/ga4';
 import { logger } from '@/lib/logger';
 
-const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2C0u3FKkxjcB1xO6fM48pvPj4Gu32PZAMVDq889-Nuer8fP_zWvl95xV_r4O5fm2Ry_KP1vnNG?gv=true';
+const CALENDAR_URL = 'https://calendar.app.google/aJmnvMS2uBbYPCgC7';
 const MODAL_ID = 'calendar-modal';
 const IFRAME_ID = 'calendar-iframe';
 const SCROLL_THRESHOLD = 50;
@@ -13,7 +13,6 @@ const LOAD_TIMEOUT = 15000;
 const initializedButtons = new WeakSet<HTMLElement>();
 let swipeCleanup: (() => void) | null = null;
 
-// Cached DOM elements
 let cachedModal: HTMLElement | null = null;
 let cachedIframe: HTMLIFrameElement | null = null;
 let cachedContent: HTMLElement | null = null;
@@ -48,7 +47,6 @@ function setupScrollIndicators(container: HTMLElement, indicatorTop?: HTMLElemen
   updateIndicators();
 }
 
-// Initialize and cache DOM elements
 function initializeCachedElements(): void {
   if (!cachedModal) cachedModal = document.getElementById(MODAL_ID);
   if (cachedModal && !cachedIframe) cachedIframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement | null;

@@ -210,10 +210,6 @@ export const homepageContent: HomepageContent = {
         "name": "Python"
       },
       {
-        "icon": "simple-icons:r",
-        "name": "R"
-      },
-      {
         "icon": "simple-icons:amazonaws",
         "name": "AWS"
       },
@@ -242,18 +238,6 @@ export const homepageContent: HomepageContent = {
         "name": "Power BI"
       },
       {
-        "icon": "simple-icons:looker",
-        "name": "Looker"
-      },
-      {
-        "icon": "simple-icons:metabase",
-        "name": "Metabase"
-      },
-      {
-        "icon": "simple-icons:apachesuperset",
-        "name": "Apache Superset"
-      },
-      {
         "icon": "simple-icons:dbt",
         "name": "dbt"
       },
@@ -278,30 +262,6 @@ export const homepageContent: HomepageContent = {
         "name": "PyTorch"
       },
       {
-        "icon": "simple-icons:huggingface",
-        "name": "Hugging Face"
-      },
-      {
-        "icon": "simple-icons:scikitlearn",
-        "name": "Scikit-learn"
-      },
-      {
-        "icon": "simple-icons:mlflow",
-        "name": "MLflow"
-      },
-      {
-        "icon": "simple-icons:jupyter",
-        "name": "Jupyter"
-      },
-      {
-        "icon": "simple-icons:pandas",
-        "name": "Pandas"
-      },
-      {
-        "icon": "simple-icons:numpy",
-        "name": "NumPy"
-      },
-      {
         "icon": "simple-icons:postgresql",
         "name": "PostgreSQL"
       },
@@ -310,48 +270,12 @@ export const homepageContent: HomepageContent = {
         "name": "MongoDB"
       },
       {
-        "icon": "simple-icons:redis",
-        "name": "Redis"
-      },
-      {
-        "icon": "simple-icons:elasticsearch",
-        "name": "Elasticsearch"
-      },
-      {
-        "icon": "simple-icons:git",
-        "name": "Git"
-      },
-      {
         "icon": "simple-icons:docker",
         "name": "Docker"
       },
       {
         "icon": "simple-icons:kubernetes",
         "name": "Kubernetes"
-      },
-      {
-        "icon": "simple-icons:grafana",
-        "name": "Grafana"
-      },
-      {
-        "icon": "simple-icons:prometheus",
-        "name": "Prometheus"
-      },
-      {
-        "icon": "simple-icons:influxdb",
-        "name": "InfluxDB"
-      },
-      {
-        "icon": "simple-icons:cockroachlabs",
-        "name": "CockroachDB"
-      },
-      {
-        "icon": "simple-icons:apachecassandra",
-        "name": "Cassandra"
-      },
-      {
-        "icon": "simple-icons:flask",
-        "name": "Flask"
       }
     ],
     "subtitle": "Modern analytics tools and platforms powering our solutions",

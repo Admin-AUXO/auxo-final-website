@@ -1,30 +1,68 @@
-.btn-primary {
-  background-color: var(--btn-primary-bg);
-  color: var(--btn-primary-text);
-  border: 2px solid transparent;
-  box-shadow: var(--shadow-sm);
+/* =============================================================
+   Button Design System
+   Consolidated button styles for all variants.
+   Used by the <Button> component (Button.astro) and any raw
+   button/anchor that needs consistent styling.
+   ============================================================= */
+
+/* --- Shared base for all button variants --- */
+.btn-base {
+  align-items: center;
+  border-radius: var(--radius-lg);
   cursor: pointer;
+  display: inline-flex;
+  font-weight: 600;
+  gap: 0.5rem;
+  justify-content: center;
+  line-height: 1;
+  position: relative;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition: all var(--duration-fast) var(--timing-smooth);
   user-select: none;
+  white-space: nowrap;
+}
+
+.btn-base:focus-visible {
+  outline: var(--focus-ring-width) solid var(--accent-green);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.btn-base:disabled,
+.btn-base[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
+}
+
+/* --- Primary --- */
+.btn-primary {
+  background: var(--btn-primary-bg);
+  border: 2px solid transparent;
+  box-shadow:
+    var(--shadow-sm),
+    0 0 0 0 rgb(var(--accent-green-rgb), 0);
+  color: var(--btn-primary-text);
   transition: all var(--duration-fast) var(--timing-smooth);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: var(--btn-primary-bg-hover);
+  background: var(--btn-primary-bg-hover);
+  box-shadow:
+    var(--shadow-md),
+    0 4px 20px rgb(var(--accent-green-rgb), 0.25);
   color: var(--btn-primary-text-hover);
-  box-shadow: var(--shadow-md);
   transform: translateY(-1px);
 }
 
 .btn-primary:active:not(:disabled) {
-  background-color: var(--btn-primary-bg-active);
+  background: var(--btn-primary-bg-active);
   box-shadow: var(--shadow-xs);
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
 }
 
 .btn-primary:disabled {
-  background-color: var(--btn-primary-bg-disabled);
-  opacity: var(--opacity-disabled);
-  cursor: not-allowed;
+  background: var(--btn-primary-bg-disabled);
   box-shadow: none;
 }
 
@@ -33,33 +71,30 @@
   outline-offset: var(--focus-ring-offset);
 }
 
+/* --- Secondary --- */
 .btn-secondary {
-  background-color: var(--btn-secondary-bg);
-  color: var(--btn-secondary-text);
+  background: var(--btn-secondary-bg);
   border: 2px solid var(--btn-secondary-border);
-  cursor: pointer;
-  user-select: none;
+  color: var(--btn-secondary-text);
   transition: all var(--duration-fast) var(--timing-smooth);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background-color: var(--btn-secondary-bg-hover);
+  background: var(--btn-secondary-bg-hover);
   border-color: var(--btn-secondary-border-hover);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 16px rgb(var(--accent-green-rgb), 0.12);
   transform: translateY(-1px);
 }
 
 .btn-secondary:active:not(:disabled) {
-  background-color: var(--bg-elevated);
+  background: var(--bg-elevated);
   box-shadow: none;
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
 }
 
 .btn-secondary:disabled {
-  background-color: var(--btn-secondary-bg-disabled);
+  background: var(--btn-secondary-bg-disabled);
   color: var(--btn-secondary-text-disabled);
-  opacity: var(--opacity-disabled);
-  cursor: not-allowed;
 }
 
 .btn-secondary:focus-visible {
@@ -67,27 +102,25 @@
   outline-offset: var(--focus-ring-offset);
 }
 
+/* --- Ghost --- */
 .btn-ghost {
-  background-color: var(--btn-ghost-bg);
-  color: var(--btn-ghost-text);
+  background: var(--btn-ghost-bg);
   border: 1px solid var(--btn-ghost-border);
-  cursor: pointer;
-  user-select: none;
+  color: var(--btn-ghost-text);
   transition: var(--transition-fast);
 }
 
 .btn-ghost:hover:not(:disabled) {
-  background-color: var(--btn-ghost-bg-hover);
+  background: var(--btn-ghost-bg-hover);
   border-color: var(--btn-ghost-border-hover);
 }
 
 .btn-ghost:active:not(:disabled) {
-  background-color: var(--btn-ghost-bg-active);
+  background: var(--btn-ghost-bg-active);
 }
 
 .btn-ghost:disabled {
   opacity: var(--opacity-disabled);
-  cursor: not-allowed;
 }
 
 .btn-ghost:focus-visible {
@@ -95,30 +128,28 @@
   outline-offset: var(--focus-ring-offset);
 }
 
+/* --- Outline --- */
 .btn-outline {
-  background-color: var(--btn-outline-bg);
-  color: var(--btn-outline-text);
+  background: var(--btn-outline-bg);
   border: 2px solid var(--btn-outline-border);
-  cursor: pointer;
-  user-select: none;
+  color: var(--btn-outline-text);
   transition: all var(--duration-fast) var(--timing-smooth);
 }
 
 .btn-outline:hover:not(:disabled) {
-  background-color: var(--btn-outline-bg-hover);
+  background: var(--btn-outline-bg-hover);
+  box-shadow: 0 4px 20px rgb(var(--accent-green-rgb), 0.2);
   color: var(--text-on-accent);
 }
 
 .btn-outline:active:not(:disabled) {
-  background-color: var(--btn-outline-bg-hover);
+  background: var(--btn-outline-bg-hover);
   opacity: 0.9;
 }
 
 .btn-outline:disabled {
-  color: var(--btn-outline-text-disabled);
   border-color: var(--btn-outline-border-disabled);
-  opacity: var(--opacity-disabled);
-  cursor: not-allowed;
+  color: var(--btn-outline-text-disabled);
 }
 
 .btn-outline:focus-visible {
@@ -126,6 +157,83 @@
   outline-offset: var(--focus-ring-offset);
 }
 
+/* --- CTA (Nav + special call-to-action) --- */
+.btn-cta {
+  background: transparent;
+  border: 2px solid var(--accent-green);
+  color: var(--accent-green);
+  position: relative;
+  transition: all var(--duration-fast) var(--timing-smooth);
+}
+
+.btn-cta:hover:not(:disabled) {
+  background: rgb(var(--accent-green-rgb), 0.1);
+  box-shadow: 0 4px 20px rgb(var(--accent-green-rgb), 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-cta:active:not(:disabled) {
+  background: rgb(var(--accent-green-rgb), 0.2);
+  transform: translateY(0) scale(0.95);
+}
+
+.btn-cta:focus-visible {
+  outline: var(--focus-ring-width) solid var(--accent-green);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* CTA hover glow overlay */
+.btn-cta-glow {
+  background: rgb(var(--accent-green-rgb), 0.05);
+  border-radius: inherit;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity var(--duration-fast) var(--timing-smooth);
+}
+
+.btn-cta:hover .btn-cta-glow {
+  opacity: 1;
+}
+
+/* --- CTA button (hero/section large CTA) --- */
 .cta-button {
   transition: var(--transition-base);
+}
+
+/* --- Shared size helpers (for non-component / raw buttons) --- */
+.btn-size-sm {
+  font-size: 0.875rem;
+  min-height: var(--button-height-sm);
+  padding: 0.625rem 1rem;
+}
+
+.btn-size-md {
+  font-size: 1rem;
+  min-height: var(--button-height-md);
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-size-lg {
+  font-size: 1.125rem;
+  min-height: var(--button-height-lg);
+  padding: 0.875rem 2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline,
+  .btn-ghost,
+  .btn-cta {
+    transition: none;
+  }
+
+  .btn-primary:hover:not(:disabled),
+  .btn-secondary:hover:not(:disabled),
+  .btn-outline:hover:not(:disabled),
+  .btn-cta:hover:not(:disabled) {
+    transform: none;
+  }
 }

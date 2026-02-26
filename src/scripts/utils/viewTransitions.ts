@@ -1,10 +1,10 @@
+import { logger } from '@/lib/logger';
 export function isViewTransitionsSupported(): boolean {
   return typeof document !== 'undefined' && 'startViewTransition' in document;
 }
 
 export function performTransition(updateCallback: () => void | Promise<void>): void {
   if (!isViewTransitionsSupported()) {
-    // Fallback for browsers without View Transitions API
     document.documentElement.classList.add('transitioning');
 
     Promise.resolve(updateCallback()).then(() => {
@@ -15,7 +15,6 @@ export function performTransition(updateCallback: () => void | Promise<void>): v
     return;
   }
 
-  // Use View Transitions API
   (document as any).startViewTransition(async () => {
     await updateCallback();
   });
@@ -35,11 +34,10 @@ export function removeTransitionName(element: Element): void {
 
 export function setupPageTransitions(): void {
   if (!isViewTransitionsSupported()) {
-    console.log('[ViewTransitions] Not supported, using fallback');
+    logger.debug('[ViewTransitions] Not supported, using fallback');
     return;
   }
 
-  // Set view transition names for key elements
   const main = document.querySelector('main');
   const header = document.querySelector('header');
 
@@ -51,7 +49,6 @@ export function setupPageTransitions(): void {
     setTransitionName(header, 'navigation');
   }
 
-  // Track analytics
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'view_transitions_enabled');
   }
@@ -103,7 +100,6 @@ export function initAstroViewTransitions(): void {
     setupPageTransitions();
   });
 
-  // Initial setup
   setupPageTransitions();
 }
 

@@ -15,52 +15,68 @@ export const servicesContent: ServicesContent = {
     "description": "Select the approach that matches your organization's analytics maturity, timeline, and strategic goals. Each model is designed to deliver measurable value at the pace that works for you.",
     "models": [
       {
-        "bestFor": "Organizations ready to invest in analytics but need strategic direction first.",
+        "bestFor": "Organizations ready to invest in analytics but needing clear strategic direction and a prioritized roadmap first.",
+        "bestForHighlight": ["strategic direction", "prioritized roadmap"],
         "deliverables": [
-          "Current state assessment",
-          "Analytics maturity evaluation",
+          "Current state audit",
+          "Maturity evaluation",
           "Prioritized roadmap",
-          "Quick win recommendations"
+          "Quick-win action plan"
         ],
-        "description": "A focused, low‑risk starting point that transforms uncertainty into clarity. We assess your current state, identify quick wins, and create a prioritized roadmap aligned to your analytics maturity curve.",
+        "description": "A high-velocity, low-risk engagement that transforms strategic uncertainty into operational clarity. We audit your existing data landscape and define a phased implementation path.",
+        "descriptionHighlight": ["strategic uncertainty", "operational clarity"],
         "name": "Diagnostic & Roadmap Sprint",
-        "subheadline": "Quick Assessment & Strategic Planning"
+        "subheadline": "Clarity & Strategic Alignment",
+        "pricingRange": "AED 25,000 - 45,000",
+        "typicalTimeframe": "2 - 4 Weeks"
       },
       {
-        "bestFor": "Teams with clear objectives and defined outcomes in mind.",
+        "bestFor": "Teams with defined outcomes who need expert execution to build production-ready analytics capabilities.",
+        "bestForHighlight": ["defined outcomes", "expert execution"],
         "deliverables": [
-          "End-to-end service implementation",
-          "Production-ready analytics solutions",
-          "Documentation & knowledge transfer",
-          "Success metrics & reporting"
+          "End-to-end implementation",
+          "Production-ready systems",
+          "Governance frameworks",
+          "Full knowledge transfer"
         ],
-        "description": "Time‑boxed, outcome‑focused projects that deliver specific analytics capabilities end‑to‑end. Perfect for implementing defined services like Reporting Reset, Forecasting Lab, or Smart Automation.",
+        "description": "Intensive, outcome-driven delivery cycles designed to ship specific analytics products. We handle everything from engineering to the final visualization layer.",
+        "descriptionHighlight": ["outcome-driven", "ship specific analytics products"],
         "name": "Delivery Wave",
-        "subheadline": "Project‑Based Implementation"
+        "subheadline": "Targeted Capability Building",
+        "pricingRange": "AED 60,000 - 150,000",
+        "typicalTimeframe": "2 - 4 Months"
       },
       {
-        "bestFor": "Organizations seeking a long‑term analytics partner for continuous innovation.",
+        "bestFor": "Companies seeking a dedicated long-term partner to scale their analytics function and drive continuous innovation.",
+        "bestForHighlight": ["long-term partner", "continuous innovation"],
         "deliverables": [
-          "Continuous capability development",
-          "Rolling backlog delivery",
-          "Platform improvements & upkeep",
-          "Ongoing optimization & support"
+          "Continuous capability dev",
+          "Strategic backlog management",
+          "Ongoing platform upkeep",
+          "Monthly impact reports"
         ],
-        "description": "A dedicated analytics team that continuously designs, builds, and embeds new capabilities across your maturity curve. Think of us as your extended analytics function, owning delivery of your rolling backlog.",
+        "description": "An 'extended-team' model providing a multi-disciplinary squad that continuously builds and optimizes your analytics backlog. Scalable, flexible, and fully aligned with your business growth.",
+        "descriptionHighlight": ["multi-disciplinary squad", "fully aligned"],
         "name": "Managed Analytics Program",
-        "subheadline": "Ongoing Partnership & Continuous Delivery"
+        "subheadline": "Ongoing Partnership & Growth",
+        "pricingRange": "AED 15,000 - 35,000 / mo",
+        "typicalTimeframe": "6+ Months"
       },
       {
-        "bestFor": "Leadership teams and executives who need strategic guidance and fractional expertise.",
+        "bestFor": "Founders and executives who require high-level fractional data leadership and architectural guidance.",
+        "bestForHighlight": ["fractional data leadership", "architectural guidance"],
         "deliverables": [
-          "Strategic advisory & planning",
-          "Architecture & vendor guidance",
-          "Team building & hiring support",
-          "Selective hands-on implementation"
+          "Strategic advisory",
+          "Architecture & tech vetting",
+          "Hiring & team strategy",
+          "Executive data coaching"
         ],
-        "description": "Executive‑level strategic guidance combined with targeted hands‑on support. Ideal for leadership teams building or reshaping their internal data function, making critical decisions, and navigating complex analytics challenges.",
+        "description": "Direct access to senior data leadership for high-stakes decision support. We act as your fractional CTO/CDO, helping you navigate complex technical choices and build internal talent.",
+        "descriptionHighlight": ["senior data leadership", "fractional CTO/CDO"],
         "name": "Strategic Co‑Pilot",
-        "subheadline": "Advisory & Fractional Leadership"
+        "subheadline": "Fractional Data Leadership",
+        "pricingRange": "AED 10,000 - 25,000 / mo",
+        "typicalTimeframe": "Ongoing"
       }
     ],
     "title": "Choose Your Engagement Model"

@@ -1,259 +1,285 @@
 ---
-import { Icon } from 'astro-icon/components';
-import type { NavItem, DropdownItem } from '@/data/content/navigation';
-import { createUrl } from '@/utils/url';
-import NavLink from './NavLink.astro';
-import Button from '@/components/ui/Button.astro';
+import { Icon } from "astro-icon/components";
+import type { NavItem, DropdownItem } from "@/data/content/navigation";
+import { createUrl } from "@/utils/url";
+import NavLink from "./NavLink.astro";
+import Button from "@/components/ui/Button.astro";
 
 interface Props {
-  item: Omit<NavItem, '_key'>;
+  item: Omit<NavItem, "_key">;
   index: number;
   isMobile?: boolean;
 }
 
 const { item, index, isMobile = false } = Astro.props;
-const isModal = item.isModal ?? (item.name?.toLowerCase() === 'services' || item.name?.toLowerCase() === 'service');
+const isModal =
+  item.isModal ??
+  (item.name?.toLowerCase() === "services" ||
+    item.name?.toLowerCase() === "service");
 
-const NAV_BUTTON_BASE = "nav-link dropdown-toggle relative px-3 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-xl hover:bg-theme-surface/60 active:bg-theme-surface/80 flex items-center gap-1.5 min-h-[var(--touch-target-min)] group-hover:text-theme-primary";
-const MOBILE_BUTTON_BASE = "mobile-dropdown-btn mobile-nav-link block w-full px-5 py-4 min-h-[var(--button-height-lg)] text-base font-semibold text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-xl transition-all duration-normal touch-manipulation flex items-center justify-between relative group bg-theme-surface/50 hover:bg-theme-surface border border-accent-green/30 hover:border-accent-green/50";
+const NAV_BUTTON_BASE =
+  "nav-link dropdown-toggle relative px-3 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-xl hover:bg-theme-surface/60 active:bg-theme-surface/80 flex items-center gap-1.5 min-h-[var(--touch-target-min)] group-hover:text-theme-primary";
+const MOBILE_BUTTON_BASE =
+  "mobile-dropdown-btn mobile-nav-link block w-full px-5 py-4 min-h-[var(--button-height-lg)] text-base font-semibold text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-xl transition-all duration-normal touch-manipulation flex items-center justify-between relative group bg-theme-surface/50 hover:bg-theme-surface border border-accent-green/30 hover:border-accent-green/50";
 const MOBILE_LINK_BASE = "mobile-nav-link";
-const MOBILE_ACTIVE_BG = "mobile-nav-active-bg absolute inset-0 bg-accent-green/10 rounded-xl opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
-const MOBILE_ACTIVE_BG_SUBTLE = "mobile-nav-active-bg absolute inset-0 bg-accent-green/5 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover/item:opacity-100";
-const MOBILE_ACTIVE_BORDER = "mobile-nav-active-border absolute inset-0 rounded-xl border border-accent-green/30 opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
-const NAV_ACTIVE_BG = "nav-active-bg absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
+const MOBILE_ACTIVE_BG =
+  "mobile-nav-active-bg absolute inset-0 bg-accent-green/10 rounded-xl opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
+const MOBILE_ACTIVE_BG_SUBTLE =
+  "mobile-nav-active-bg absolute inset-0 bg-accent-green/5 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover/item:opacity-100";
+const MOBILE_ACTIVE_BORDER =
+  "mobile-nav-active-border absolute inset-0 rounded-xl border border-accent-green/30 opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
+const NAV_ACTIVE_BG =
+  "nav-active-bg absolute inset-0 bg-accent-green/5 rounded-xl opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
 const ICON_BASE = "w-5 h-5 text-accent-green flex-shrink-0 relative z-10";
-const CHEVRON_ICON = "w-4 h-4 transition-transform duration-fast dropdown-arrow dropdown-chevron relative z-10 text-accent-green";
-const SERVICE_CARD_BASE = "dropdown-service-card group/item relative flex flex-col h-full rounded-2xl bg-theme-card border-2 border-accent-green/20 hover:border-accent-green/50 transition-all duration-500 overflow-hidden shadow-md hover:shadow-2xl hover:shadow-accent-green/25 hover:-translate-y-2";
+const CHEVRON_ICON =
+  "w-4 h-4 transition-transform duration-fast dropdown-arrow dropdown-chevron relative z-10 text-accent-green";
+const SERVICE_CARD_BASE =
+  "dropdown-service-card group/item relative flex flex-col h-full rounded-2xl bg-theme-card border-2 border-accent-green/20 hover:border-accent-green/50 transition-all duration-500 overflow-hidden shadow-md hover:shadow-2xl hover:shadow-accent-green/25 hover:-translate-y-2";
 ---
 
-{isMobile ? (
-  <div class="mobile-dropdown-wrapper">
-    <button
-      type="button"
-      class={MOBILE_BUTTON_BASE}
-      aria-expanded="false"
-      aria-haspopup="true"
-      aria-label={`${item.name} menu`}
-    >
-      <span class="relative z-10">{item.name}</span>
-      <Icon 
-        name="mdi:chevron-down" 
-        class={`${ICON_BASE} dropdown-arrow-mobile transition-transform duration-fast`}
-        aria-hidden="true"
-      />
-      <span class={MOBILE_ACTIVE_BG}></span>
-      <span class={MOBILE_ACTIVE_BORDER}></span>
-    </button>
-    <div class="mobile-dropdown-content hidden">
-      <div class="mobile-dropdown-inner">
-        <div class="mobile-dropdown-services-grid">
-          {item.dropdown!.map((sub: DropdownItem, subIndex: number) => (
-            <a
-              href={sub.href}
-              class="mobile-service-card group/card"
-            >
-              <Icon name={sub.icon} class="w-4 h-4 text-accent-green flex-shrink-0" aria-hidden="true" />
-              <span class="mobile-service-card-title">{sub.name}</span>
-              <Icon
-                name="mdi:arrow-right"
-                class="mobile-service-card-arrow"
-                aria-hidden="true"
-              />
-            </a>
-          ))}
-        </div>
+{
+  isMobile ? (
+    <div class="mobile-dropdown-wrapper">
+      <button
+        type="button"
+        class={MOBILE_BUTTON_BASE}
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-label={`${item.name} menu`}
+      >
+        <span class="relative z-10">{item.name}</span>
+        <Icon
+          name="mdi:chevron-down"
+          class={`${ICON_BASE} dropdown-arrow-mobile transition-transform duration-fast`}
+          aria-hidden="true"
+        />
+        <span class={MOBILE_ACTIVE_BG} />
+        <span class={MOBILE_ACTIVE_BORDER} />
+      </button>
+      <div class="mobile-dropdown-content hidden">
+        <div class="mobile-dropdown-inner">
+          <div class="mobile-dropdown-services-grid">
+            {item.dropdown!.map((sub: DropdownItem, subIndex: number) => (
+              <a href={sub.href} class="mobile-service-card group/card">
+                <Icon
+                  name={sub.icon}
+                  class="w-4 h-4 text-accent-green flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <span class="mobile-service-card-title">{sub.name}</span>
+                <Icon
+                  name="mdi:arrow-right"
+                  class="mobile-service-card-arrow"
+                  aria-hidden="true"
+                />
+              </a>
+            ))}
+          </div>
 
-        <a
-          href={item.href}
-          class="mobile-dropdown-view-all group/view"
-        >
-          <span>View All {item.name}</span>
-          <Icon name="mdi:arrow-right" class="w-3.5 h-3.5 text-accent-green flex-shrink-0 group-hover/view:translate-x-0.5 transition-transform duration-fast" aria-hidden="true" />
-        </a>
+          <a href={item.href} class="mobile-dropdown-view-all group/view">
+            <span>View All {item.name}</span>
+            <Icon
+              name="mdi:arrow-right"
+              class="w-3.5 h-3.5 text-accent-green flex-shrink-0 group-hover/view:translate-x-0.5 transition-transform duration-fast"
+              aria-hidden="true"
+            />
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-) : isModal ? (
-  <div class="relative dropdown-container group" data-nav-item={index} data-modal-dropdown="true">
-    <button
-      class={`${NAV_BUTTON_BASE} dropdown-services-toggle services-toggle-button`}
-      aria-expanded="false"
-      aria-haspopup="true"
-      aria-label={`${item.name} menu`}
-      data-dropdown-toggle={index}
+  ) : isModal ? (
+    <div
+      class="relative dropdown-container group"
+      data-nav-item={index}
+      data-modal-dropdown="true"
     >
-      <span class="relative z-10 services-button-text">{item.name}</span>
-      <Icon
-        name="mdi:chevron-down"
-        class={`${CHEVRON_ICON} services-chevron-icon`}
+      <button
+        class={`${NAV_BUTTON_BASE} dropdown-services-toggle services-toggle-button`}
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-label={`${item.name} menu`}
+        data-dropdown-toggle={index}
+      >
+        <span class="relative z-10 services-button-text">{item.name}</span>
+        <Icon
+          name="mdi:chevron-down"
+          class={`${CHEVRON_ICON} services-chevron-icon`}
+          aria-hidden="true"
+        />
+        <span class={`${NAV_ACTIVE_BG} services-active-bg`} />
+      </button>
+
+      <div
+        class="dropdown-modal-overlay"
+        data-dropdown-overlay={index}
         aria-hidden="true"
       />
-      <span class={`${NAV_ACTIVE_BG} services-active-bg`}></span>
-    </button>
-
-    <div
-      class="dropdown-modal-overlay"
-      data-dropdown-overlay={index}
-      aria-hidden="true"
-    ></div>
-    <div
-      class="dropdown-modal-menu"
-      data-dropdown-menu={index}
-      data-dropdown-content
-    >
-      <div class="dropdown-modal-content-wrapper">
-        <div class="dropdown-modal-background">
-          <div class="dropdown-bg-gradient-1"></div>
-          <div class="dropdown-bg-gradient-2"></div>
-          <div class="dropdown-bg-pattern"></div>
-        </div>
-        <div class="dropdown-modal-content">
-          <header class="dropdown-modal-header flex-shrink-0 border-b border-accent-green/30 bg-theme-card">
-            <div class="grid-container">
-              <div class="col-span-full flex items-center justify-between h-14 sm:h-16 md:h-18 lg:h-18 relative min-w-0 w-full">
-                <p class="text-xs sm:text-sm text-theme-secondary opacity-70 text-left hidden lg:block flex-1">
-                  Need help choosing? <a href={createUrl('contact')} class="text-accent-green hover:underline font-medium transition-colors duration-fast">Contact our team</a>
-                </p>
-                <div class="hidden lg:flex items-center gap-2 pointer-events-auto flex-shrink-0 ml-auto">
-                  <Button
-                    variant="cta"
-                    href={createUrl('services')}
-                    showArrow={true}
-                    ariaLabel="View all services"
-                  >
-                    View All Services
-                  </Button>
-                </div>
-                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 md:gap-6 w-full lg:hidden py-3 sm:py-4">
-                  <p class="text-xs sm:text-sm md:text-base text-theme-secondary opacity-70 text-center sm:text-left flex-1 min-w-0">
-                    Need help choosing? <a href={createUrl('contact')} class="text-accent-green hover:underline font-medium transition-colors duration-fast">Contact our team</a>
+      <div
+        class="dropdown-modal-menu"
+        data-dropdown-menu={index}
+        data-dropdown-content
+      >
+        <div class="dropdown-modal-content-wrapper">
+          <div class="dropdown-modal-background">
+            <div class="dropdown-bg-gradient-1" />
+            <div class="dropdown-bg-gradient-2" />
+            <div class="dropdown-bg-pattern" />
+          </div>
+          <div class="dropdown-modal-content">
+            <header class="dropdown-modal-header flex-shrink-0 border-b border-accent-green/30 bg-theme-card">
+              <div class="grid-container">
+                <div class="col-span-full flex items-center justify-between h-14 sm:h-16 md:h-18 lg:h-18 relative min-w-0 w-full">
+                  <p class="text-xs sm:text-sm text-theme-secondary opacity-70 text-left hidden lg:block flex-1">
+                    Need help choosing?{" "}
+                    <a
+                      href={createUrl("contact")}
+                      class="text-accent-green hover:underline font-medium transition-colors duration-fast"
+                    >
+                      Contact our team
+                    </a>
                   </p>
-                  <div class="flex items-center gap-2 flex-shrink-0">
+                  <div class="hidden lg:flex items-center gap-2 pointer-events-auto flex-shrink-0 ml-auto">
                     <Button
                       variant="cta"
-                      size="md"
-                      href={createUrl('services')}
+                      href={createUrl("services")}
                       showArrow={true}
                       ariaLabel="View all services"
                     >
                       View All Services
                     </Button>
                   </div>
-                </div>
-              </div>
-            </div>
-          </header>
-          <main class="dropdown-modal-content-main overflow-y-auto">
-            <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-8 py-8">
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5 lg:gap-6">
-                {item.dropdown!.map((sub: DropdownItem, cardIndex: number) => (
-                  <a
-                    href={sub.href}
-                    class={`service-card group/card relative flex flex-col p-6 md:p-7 bg-gradient-to-br from-theme-card via-theme-card to-theme-surface border-2 border-accent-green/30 rounded-2xl transition-all duration-400 dropdown-service-card-animated backdrop-blur-sm`}
-                    data-card-index={cardIndex}
-                  >
-                    <div class="flex flex-col items-center text-center h-full justify-start gap-4 relative z-10">
-                      <div class="w-16 h-16 md:w-18 md:h-18 rounded-2xl bg-gradient-to-br from-accent-green/15 via-accent-green/10 to-accent-green/5 border border-accent-green/40 flex items-center justify-center group-hover/card:scale-110 group-hover/card:rotate-3 group-hover/card:border-accent-green/80 transition-all duration-500 shadow-lg shadow-accent-green/10 group-hover/card:shadow-accent-green/30">
-                        <Icon name={sub.icon} class="w-8 h-8 md:w-9 md:h-9 text-accent-green group-hover/card:scale-110 transition-transform duration-500" />
-                      </div>
-
-                      <div class="flex-1 flex flex-col gap-3">
-                        <h3 class="text-base md:text-lg font-bold text-theme-primary group-hover/card:text-accent-green transition-colors duration-400 leading-snug">
-                          {sub.name}
-                        </h3>
-
-                        <div class="flex items-center justify-center gap-2 text-accent-green font-semibold text-sm opacity-0 group-hover/card:opacity-100 transition-all duration-400 mt-auto">
-                          <span class="relative">
-                            Explore
-                            <span class="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-accent-green group-hover/card:w-full transition-all duration-400"></span>
-                          </span>
-                          <Icon name="mdi:arrow-right" class="w-4 h-4 group-hover/card:translate-x-1.5 transition-transform duration-400" />
-                        </div>
-                      </div>
+                  <div class="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 md:gap-6 w-full lg:hidden py-3 sm:py-4">
+                    <p class="text-xs sm:text-sm md:text-base text-theme-secondary opacity-70 text-center sm:text-left flex-1 min-w-0">
+                      Need help choosing?{" "}
+                      <a
+                        href={createUrl("contact")}
+                        class="text-accent-green hover:underline font-medium transition-colors duration-fast"
+                      >
+                        Contact our team
+                      </a>
+                    </p>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                      <Button
+                        variant="cta"
+                        size="md"
+                        href={createUrl("services")}
+                        showArrow={true}
+                        ariaLabel="View all services"
+                      >
+                        View All Services
+                      </Button>
                     </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </main>
-        </div>
-      </div>
-    </div>
-  </div>
-) : (
-  <div class="relative dropdown-container group" data-nav-item={index}>
-    <button 
-      class={`${NAV_BUTTON_BASE} dropdown-services-toggle`}
-      aria-expanded="false"
-      aria-haspopup="true"
-      aria-label={`${item.name} menu`}
-      data-dropdown-toggle={index}
-    >
-      <span class="relative z-10">{item.name}</span>
-      <Icon 
-        name="mdi:chevron-down" 
-        class={CHEVRON_ICON}
-        aria-hidden="true"
-      />
-      <span class={NAV_ACTIVE_BG}></span>
-    </button>
-
-    <div
-      class="dropdown-menu"
-      data-dropdown-menu={index}
-      data-dropdown-content
-    >
-      <div class="relative">
-        <div class="dropdown-menu-arrow"></div>
-        
-        <div class="dropdown-menu-container">
-          <div class="space-y-1">
-            {item.dropdown!.map((sub: DropdownItem) => (
-              <a
-                href={sub.href}
-                class="dropdown-menu-item group/item"
-              >
-                <div class="dropdown-menu-item-icon">
-                  <Icon name={sub.icon} class={ICON_BASE} />
-                </div>
-                
-                <div class="flex-1 min-w-0">
-                  <div class="dropdown-menu-item-text">
-                    {sub.name}
                   </div>
                 </div>
-                <span class="dropdown-menu-item-bg"></span>
-              </a>
-            ))}
+              </div>
+            </header>
+            <main class="dropdown-modal-content-main overflow-y-auto">
+              <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-8 py-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5 lg:gap-6">
+                  {item.dropdown!.map(
+                    (sub: DropdownItem, cardIndex: number) => (
+                      <a
+                        href={sub.href}
+                        class={`service-card group/card relative flex items-center gap-4 p-5 md:p-6 bg-gradient-to-br from-theme-card via-theme-card to-theme-surface border border-accent-green/20 hover:border-accent-green/50 rounded-2xl transition-all duration-400 dropdown-service-card-animated backdrop-blur-sm`}
+                        data-card-index={cardIndex}
+                      >
+                        <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-accent-green/15 via-accent-green/10 to-accent-green/5 border border-accent-green/30 flex items-center justify-center flex-shrink-0 group-hover/card:scale-105 group-hover/card:rotate-3 group-hover/card:border-accent-green/60 transition-all duration-500 shadow-sm relative z-10">
+                          <Icon
+                            name={sub.icon}
+                            class="w-6 h-6 md:w-7 md:h-7 text-accent-green group-hover/card:scale-110 transition-transform duration-500"
+                          />
+                        </div>
+
+                        <div class="flex-1 flex flex-col gap-1 min-w-0 relative z-10 text-left">
+                          <h3 class="text-sm md:text-base font-bold text-theme-primary group-hover/card:text-accent-green transition-colors duration-400 truncate">
+                            {sub.name}
+                          </h3>
+                          <div class="flex items-center gap-1.5 text-accent-green font-medium text-xs opacity-75 group-hover/card:opacity-100 transition-opacity duration-400">
+                            <span>Explore service</span>
+                            <Icon
+                              name="mdi:arrow-right"
+                              class="w-3.5 h-3.5 group-hover/card:translate-x-1 transition-transform duration-400"
+                            />
+                          </div>
+                        </div>
+                      </a>
+                    ),
+                  )}
+                </div>
+              </div>
+            </main>
           </div>
         </div>
       </div>
     </div>
-  </div>
-)}
+  ) : (
+    <div class="relative dropdown-container group" data-nav-item={index}>
+      <button
+        class={`${NAV_BUTTON_BASE} dropdown-services-toggle`}
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-label={`${item.name} menu`}
+        data-dropdown-toggle={index}
+      >
+        <span class="relative z-10">{item.name}</span>
+        <Icon name="mdi:chevron-down" class={CHEVRON_ICON} aria-hidden="true" />
+        <span class={NAV_ACTIVE_BG} />
+      </button>
+
+      <div
+        class="dropdown-menu"
+        data-dropdown-menu={index}
+        data-dropdown-content
+      >
+        <div class="relative">
+          <div class="dropdown-menu-arrow" />
+
+          <div class="dropdown-menu-container">
+            <div class="space-y-1">
+              {item.dropdown!.map((sub: DropdownItem) => (
+                <a href={sub.href} class="dropdown-menu-item group/item">
+                  <div class="dropdown-menu-item-icon">
+                    <Icon name={sub.icon} class={ICON_BASE} />
+                  </div>
+
+                  <div class="flex-1 min-w-0">
+                    <div class="dropdown-menu-item-text">{sub.name}</div>
+                  </div>
+                  <span class="dropdown-menu-item-bg" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 <script>
   function updateServicesButtonState() {
-    const servicesButtons = document.querySelectorAll('.services-toggle-button');
+    const servicesButtons = document.querySelectorAll(
+      ".services-toggle-button",
+    );
 
-    servicesButtons.forEach(button => {
-      const container = button.closest('.dropdown-container');
-      const menu = container?.querySelector('[data-dropdown-menu]');
-      const isOpen = menu?.classList.contains('open');
+    servicesButtons.forEach((button) => {
+      const container = button.closest(".dropdown-container");
+      const menu = container?.querySelector("[data-dropdown-menu]");
+      const isOpen = menu?.classList.contains("open");
 
       if (isOpen) {
-        button.classList.add('services-modal-open');
-        button.setAttribute('aria-expanded', 'true');
-        button.setAttribute('aria-label', 'Close services menu');
+        button.classList.add("services-modal-open");
+        button.setAttribute("aria-expanded", "true");
+        button.setAttribute("aria-label", "Close services menu");
       } else {
-        button.classList.remove('services-modal-open');
-        button.setAttribute('aria-expanded', 'false');
-        button.setAttribute('aria-label', 'Services menu');
+        button.classList.remove("services-modal-open");
+        button.setAttribute("aria-expanded", "false");
+        button.setAttribute("aria-label", "Services menu");
       }
     });
   }
 
-  document.addEventListener('dropdown-opened', updateServicesButtonState);
-  document.addEventListener('dropdown-closed', updateServicesButtonState);
+  document.addEventListener("dropdown-opened", updateServicesButtonState);
+  document.addEventListener("dropdown-closed", updateServicesButtonState);
   updateServicesButtonState();
 </script>

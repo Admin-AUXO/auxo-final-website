@@ -11,18 +11,22 @@ const { title, description, serviceName } = Astro.props;
 ---
 
 <BaseLayout title={`${serviceName} | AUXO Data Labs`} description={description}>
-  <div data-service-name={serviceName}>
+  <div data-service-name={serviceName} class="relative">
     <slot name="hero" />
+
     <slot name="overview" />
     <slot name="benefits" />
     <slot name="process" />
+    <slot name="outcomes" />
     <slot name="cta" />
   </div>
 
   <script>
-    import { setupServicePageAnimations, cleanupServicePageAnimations } from "@/scripts/sections/services/servicePage";
+    import {
+      setupServicePageAnimations,
+      cleanupServicePageAnimations,
+    } from "@/scripts/sections/services/servicePage";
     import { setupSectionInit } from "@/scripts/sections/utils/initUtils";
     setupSectionInit(setupServicePageAnimations, cleanupServicePageAnimations);
   </script>
 </BaseLayout>
-

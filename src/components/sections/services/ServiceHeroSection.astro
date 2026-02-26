@@ -1,9 +1,10 @@
 ---
-import HighlightText from '@/components/ui/HighlightText.astro';
-import BackgroundDecorations from '@/components/ui/BackgroundDecorations.astro';
-import HeroLayout from '@/components/ui/HeroLayout.astro';
-import HeroCTAButton from '@/components/ui/HeroCTAButton.astro';
-import type { ServiceDetail } from '@/data/content/services';
+import HighlightText from "@/components/ui/HighlightText.astro";
+import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
+import HeroLayout from "@/components/ui/HeroLayout.astro";
+import HeroCTAButton from "@/components/ui/HeroCTAButton.astro";
+import { Icon } from "astro-icon/components";
+import type { ServiceDetail } from "@/data/content/services";
 
 interface Props {
   service: ServiceDetail;
@@ -34,7 +35,7 @@ const { service } = Astro.props;
     >
       <HighlightText
         text={service.hero.title}
-        highlight={service.hero.title.split(' ').slice(-2)}
+        highlight={service.hero.title.split(" ").slice(-2)}
         highlightClass="text-accent-green"
       />
     </h1>
@@ -56,7 +57,9 @@ const { service } = Astro.props;
     data-reveal-duration="200"
     data-reveal-easing="ease-out"
   >
-    <p class="text-body-base sm:text-body-lg text-theme-secondary/90 leading-relaxed font-body">
+    <p
+      class="text-body-base sm:text-body-lg text-theme-secondary/90 leading-relaxed font-body"
+    >
       <HighlightText
         text={service.hero.description}
         highlight={service.hero.descriptionHighlight || []}
@@ -79,4 +82,3 @@ const { service } = Astro.props;
     />
   </div>
 </HeroLayout>
-

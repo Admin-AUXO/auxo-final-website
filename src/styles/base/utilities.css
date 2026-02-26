@@ -17,30 +17,30 @@
 }
 
 .grid-container {
-  width: 100%;
-  max-width: var(--grid-max-width, 1280px);
+  display: grid;
+  gap: var(--grid-gap-mobile, 1rem);
+  grid-template-columns: repeat(var(--grid-columns, 12), minmax(0, 1fr));
   margin-left: auto;
   margin-right: auto;
+  max-width: var(--grid-max-width, 1280px);
   padding-left: var(--grid-padding-mobile, 1rem);
   padding-right: var(--grid-padding-mobile, 1rem);
-  display: grid;
-  grid-template-columns: repeat(var(--grid-columns, 12), minmax(0, 1fr));
-  gap: var(--grid-gap-mobile, 1rem);
+  width: 100%;
 }
 
 @media (width >= 640px) {
   .grid-container {
+    gap: var(--grid-gap-sm, 1.5rem);
     padding-left: var(--grid-padding-sm, 1.5rem);
     padding-right: var(--grid-padding-sm, 1.5rem);
-    gap: var(--grid-gap-sm, 1.5rem);
   }
 }
 
 @media (width >= 1024px) {
   .grid-container {
+    gap: var(--grid-gap-lg, 2rem);
     padding-left: var(--grid-padding-lg, 2rem);
     padding-right: var(--grid-padding-lg, 2rem);
-    gap: var(--grid-gap-lg, 2rem);
   }
 }
 
@@ -201,9 +201,9 @@
 }
 
 .focus-ring:focus-visible {
+  border-radius: var(--radius-sm);
   outline: var(--focus-ring-width) solid var(--accent-green);
   outline-offset: var(--spacing-xs);
-  border-radius: var(--radius-sm);
 }
 
 .hover-lift,
@@ -251,8 +251,8 @@
 
 .interactive-element {
   cursor: pointer;
-  user-select: none;
   transition: var(--transition-base);
+  user-select: none;
 }
 
 .interactive-element:hover {
@@ -264,12 +264,12 @@
 }
 
 .always-visible {
-  z-index: var(--z-maximum);
-  position: fixed;
   isolation: isolate;
+  pointer-events: auto;
+  position: fixed;
   transform: translateZ(0);
   will-change: transform;
-  pointer-events: auto;
+  z-index: var(--z-maximum);
 }
 
 .scroll-smooth { scroll-behavior: smooth; }
@@ -295,9 +295,9 @@
 }
 
 .scroll-smooth-hidden {
+  -ms-overflow-style: none;
   scroll-behavior: smooth;
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .scroll-smooth-hidden::-webkit-scrollbar {
@@ -307,8 +307,8 @@
 .scroll-touch-smooth {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  touch-action: pan-y;
   scroll-behavior: smooth;
+  touch-action: pan-y;
 }
 
 .scroll-isolate {
@@ -316,10 +316,10 @@
 }
 
 .scroll-indicator {
-  position: absolute;
   opacity: 0;
-  transition: opacity 0.2s ease;
   pointer-events: none;
+  position: absolute;
+  transition: opacity 0.2s ease;
   z-index: var(--z-content);
 }
 
@@ -328,47 +328,50 @@
 }
 
 .scroll-indicator-top {
-  top: 0;
   background: linear-gradient(to bottom, var(--bg-primary) 0%, transparent 100%);
+  top: 0;
 }
 
 .scroll-indicator-bottom {
-  bottom: 0;
   background: linear-gradient(to top, var(--bg-primary) 0%, transparent 100%);
+  bottom: 0;
 }
 
 .scroll-indicator-left {
-  left: 0;
   background: linear-gradient(to right, var(--bg-primary) 0%, transparent 100%);
+  left: 0;
 }
 
 .scroll-indicator-right {
-  right: 0;
   background: linear-gradient(to left, var(--bg-primary) 0%, transparent 100%);
+  right: 0;
 }
 
 @keyframes scale-in {
   0% {
-    transform: scale(0);
     opacity: 0;
+    transform: scale(0);
   }
+
   50% {
     transform: scale(1.2);
   }
+
   100% {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
 }
 
 @keyframes slide-in-bottom {
   0% {
-    transform: translateY(100%);
     opacity: 0;
+    transform: translateY(100%);
   }
+
   100% {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -376,6 +379,7 @@
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -410,8 +414,8 @@
   .animate-scale-in,
   .animate-slide-in-bottom,
   .animate-fade-out {
-    transition: none;
     animation: none;
+    transition: none;
   }
 
   .hover-lift:hover,

@@ -4,6 +4,7 @@ export interface Props {
   id?: string;
   padding?: "sm" | "normal" | "md" | "lg" | "xl";
   background?: "default" | "card" | "surface" | "elevated" | "accent";
+  style?: string;
 }
 
 const {
@@ -11,6 +12,7 @@ const {
   id,
   padding = "md",
   background = "default",
+  style,
 } = Astro.props;
 
 const paddingClasses = {
@@ -33,8 +35,7 @@ const backgroundClasses = {
 <section
   id={id}
   class={`${paddingClasses[padding]} ${backgroundClasses[background]} transition-colors duration-theme ${className}`}
+  style={style}
 >
   <slot />
 </section>
-
-

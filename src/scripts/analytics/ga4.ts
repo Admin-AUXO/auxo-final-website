@@ -139,7 +139,6 @@ export function trackEvent(
   }
 
   try {
-    // Get attribution parameters and merge with event params
     const attributionParams = getAttributionParams();
     const clientId = getClientId();
     const sessionId = getSessionId();
