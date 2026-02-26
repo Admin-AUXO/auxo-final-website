@@ -26,23 +26,23 @@ const {
   <div class="hero-content">
     <div class="col-span-full text-center max-w-6xl mx-auto w-full">
       <slot />
-      
-      {!hideScrollIndicator && scrollHref && (
-        <div class="hero-scroll-indicator" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
-          <a
-            href={scrollHref}
-            class="hero-scroll-link group"
-            aria-label={scrollAriaLabel}
-          >
-            <span class="hero-scroll-text">{scrollText}</span>
-            <div class="hero-scroll-icon-wrapper">
-              <Icon name="mdi:chevron-down" class="hero-scroll-icon" />
-            </div>
-          </a>
-        </div>
-      )}
+
+      {
+        !hideScrollIndicator && scrollHref && (
+          <div class="hero-scroll-indicator">
+            <a
+              href={scrollHref}
+              class="hero-scroll-link group"
+              aria-label={scrollAriaLabel}
+            >
+              <span class="hero-scroll-text">{scrollText}</span>
+              <div class="hero-scroll-icon-wrapper">
+                <Icon name="mdi:chevron-down" class="hero-scroll-icon" />
+              </div>
+            </a>
+          </div>
+        )
+      }
     </div>
   </div>
 </section>
-
-
