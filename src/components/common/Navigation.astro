@@ -4,6 +4,7 @@ import Logo from "./Logo.astro";
 import NavLink from "@/components/navigation/NavLink.astro";
 import NavDropdown from "@/components/navigation/NavDropdown.astro";
 import Button from "@/components/ui/Button.astro";
+import { Icon } from "astro-icon/components";
 import { getNavigationContent } from "@/lib/data/navigation";
 import { getSiteConfigData } from "@/lib/data/siteConfig-compat";
 import { getBaseUrl, createUrl } from "@/utils/url";
@@ -47,14 +48,19 @@ const navItems = items.map(({ _key, ...item }) => ({
         <div class="ml-2">
           <ThemeToggle />
         </div>
-        <Button
-          variant="cta"
-          href={contactUrl}
-          class="ml-3"
-          ariaLabel="Let's Talk - Contact us"
-        >
-          <span class="font-bold">Let's Talk</span>
-        </Button>
+        <div class="ml-4 group/talk">
+          <a
+            href={contactUrl}
+            class="flex items-center gap-1.5 text-base font-bold text-theme-primary hover:text-accent-green transition-colors duration-fast"
+            aria-label="Let's Talk - Contact us"
+          >
+            Let's Talk
+            <Icon
+              name="mdi:arrow-right"
+              class="w-4 h-4 text-accent-green group-hover/talk:translate-x-1 transition-transform duration-fast"
+            />
+          </a>
+        </div>
       </div>
 
       <div
@@ -179,24 +185,14 @@ const navItems = items.map(({ _key, ...item }) => ({
             </p>
             <a
               href={contactUrl}
-              class="nav-cta-mobile group/cta"
+              class="flex items-center justify-center gap-1.5 text-lg font-bold text-theme-primary hover:text-accent-green transition-colors duration-fast group/talk-mobile"
               aria-label="Let's Talk - Contact us"
             >
-              <svg
-                class="w-5 h-5 flex-shrink-0 relative z-10"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                ></path>
-              </svg>
-              <span class="relative z-10">Let's Talk</span>
-              <span class="btn-cta-glow"></span>
+              Let's Talk
+              <Icon
+                name="mdi:arrow-right"
+                class="w-5 h-5 text-accent-green group-hover/talk-mobile:translate-x-1 transition-transform duration-fast"
+              />
             </a>
           </div>
 
