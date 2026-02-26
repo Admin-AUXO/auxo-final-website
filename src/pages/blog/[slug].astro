@@ -50,7 +50,7 @@ const articleSchema = {
     background="default"
     class="relative overflow-hidden pt-36 lg:pt-48 pb-12"
   >
-    <BackgroundDecorations gradients={["top-right"]} patterns={["grid"]} />
+    <BackgroundDecorations gradients={["top"]} patterns={["grid"]} />
     <div class="grid-container relative z-10">
       <div class="col-span-full max-w-4xl mx-auto text-center">
         <!-- Tags -->
@@ -120,39 +120,6 @@ const articleSchema = {
     <div
       class="grid-container relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6"
     >
-      <!-- Sharing Toolbar (Left side floating on large screens) -->
-      <div class="hidden lg:block absolute -left-20 top-0 h-full w-12">
-        <div class="sticky top-32 flex flex-col items-center gap-4">
-          <span
-            class="text-xs font-bold uppercase tracking-widest text-theme-secondary mb-2"
-            style="writing-mode: vertical-rl; text-orientation: mixed;"
-          >
-            Share
-          </span>
-          <button
-            id="share-twitter"
-            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors disabled:opacity-50"
-            aria-label="Share on Twitter"
-          >
-            <Icon name="mdi:twitter" class="w-5 h-5" />
-          </button>
-          <button
-            id="share-linkedin"
-            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors disabled:opacity-50"
-            aria-label="Share on LinkedIn"
-          >
-            <Icon name="mdi:linkedin" class="w-5 h-5" />
-          </button>
-          <button
-            id="share-copy"
-            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green hover:text-accent-green transition-colors"
-            aria-label="Copy Link"
-          >
-            <Icon name="mdi:clipboard-text-outline" class="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-
       <!-- Markdown Prose -->
       <article
         class="prose prose-lg dark:prose-invert prose-headings:font-display prose-headings:font-bold prose-h2:text-accent-green prose-a:text-accent-green hover:prose-a:text-accent-green/80 prose-blockquote:border-l-accent-green prose-blockquote:bg-theme-surface prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-xl max-w-none col-span-full w-full mx-auto"
@@ -161,9 +128,9 @@ const articleSchema = {
         <Content />
       </article>
 
-      <!-- Mobile Share -->
+      <!-- Share Article -->
       <div
-        class="lg:hidden col-span-full border-t border-theme-light mt-12 pt-8 flex items-center justify-center gap-6"
+        class="col-span-full border-t border-theme-light mt-12 pt-8 flex items-center justify-center gap-6"
       >
         <span
           class="text-sm font-bold text-theme-secondary uppercase tracking-widest"
