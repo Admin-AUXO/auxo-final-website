@@ -1,6 +1,7 @@
 ---
 import HeroLayout from "@/components/ui/HeroLayout.astro";
 import HeroCTAButton from "@/components/ui/HeroCTAButton.astro";
+import ParticleBackground from "@/components/effects/ParticleBackground.astro";
 import type { HomepageContent } from "@/data/content/homepage";
 interface Props {
   content: HomepageContent["hero"];
@@ -19,6 +20,7 @@ const { content } = Astro.props;
     <div
       class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix"
     >
+      <ParticleBackground mode="galaxy" />
       <div
         class="absolute inset-0 bg-gradient-to-b from-theme-surface/80 via-theme-surface/60 to-theme-primary"
       >

@@ -1,8 +1,28 @@
 ---
-import '../../styles/components/particle-background.css';
+import "../../styles/components/particle-background.css";
+
+interface Props {
+  mode?:
+    | "galaxy"
+    | "network"
+    | "flow"
+    | "data"
+    | "waves"
+    | "logic"
+    | "sys"
+    | "ai"
+    | "expand";
+}
+
+const { mode = "galaxy" } = Astro.props;
 ---
 
-<div id="particle-background" class="absolute inset-0 pointer-events-none" aria-hidden="true" data-particle-container>
-  <canvas id="particle-canvas"></canvas>
+<div
+  id="particle-background"
+  class="absolute inset-0 pointer-events-none"
+  aria-hidden="true"
+  data-particle-container
+  data-mode={mode}
+>
+  <canvas id="particle-canvas" class="block w-full h-full"></canvas>
 </div>
-

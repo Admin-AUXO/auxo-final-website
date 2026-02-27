@@ -1,7 +1,9 @@
 import { BREAKPOINTS } from './constants';
 import { logger } from '@/lib/logger';
 
-interface Star {
+export type ParticleMode = 'galaxy' | 'network' | 'flow' | 'data' | 'waves' | 'logic' | 'sys' | 'ai' | 'expand';
+
+interface Particle {
   x: number;
   y: number;
   vx: number;
@@ -13,24 +15,28 @@ interface Star {
   twinklePhase: number;
   twinkleSpeed: number;
   color: string;
-  type: 'star' | 'accent-star' | 'nebula';
+  type: 'star' | 'accent-star' | 'nebula' | 'node' | 'data-bit';
+  shape: 'circle' | 'square' | 'star';
   rotation: number;
   rotationSpeed: number;
   distanceFromCenter: number;
   angle: number;
+  pulsePhase?: number;
 }
 
 const CONSTANTS = {
   MOBILE_BREAKPOINT: BREAKPOINTS.SM,
   TABLET_BREAKPOINT: BREAKPOINTS.LG,
 
-  ACCENT_STAR_RATIO: 0.15,
-  NEBULA_RATIO: 0.05,
+  ACCENT_RATIO: 0.15,
+  SPECIAL_RATIO: 0.05,
 
+  // Galaxy specific
   SPIRAL_TIGHTNESS: 0.3,
   SPIRAL_DISTANCE_FACTOR: 0.8,
-  
   SPIRAL_CORRECTION_STRENGTH: 0.00005,
+  
+  // Physics/Interaction
   PULL_STRENGTH: 0.0001,
   DISTANCE_THRESHOLD: 10,
   DAMPING_FACTOR: 0.99,
@@ -38,6 +44,7 @@ const CONSTANTS = {
   MOUSE_INFLUENCE_RADIUS_FACTOR: 0.3,
   BRIGHTNESS_MULTIPLIER: 1.5,
   
+  // Rendering
   TWINKLE_AMPLITUDE: 0.3,
   TWINKLE_OFFSET: 0.7,
   RADIUS_VARIATION_MIN: 0.8,
@@ -48,23 +55,12 @@ const CONSTANTS = {
   DARK_MODE_OPACITY_MIN: 0.3,
   DARK_MODE_OPACITY_RANGE: 0.4,
   
-  NEBULA_GLOW_LIGHT: 3,
-  NEBULA_GLOW_DARK: 2,
-  ACCENT_STAR_GLOW_LIGHT: 4,
-  ACCENT_STAR_GLOW_DARK: 3,
-  REGULAR_STAR_GLOW_LIGHT: 2.5,
-  REGULAR_STAR_GLOW_DARK: 2,
-  
-  LIGHT_MODE_STAR_COLORS: [
-    '#1F2937',
-    '#374151',
-    '#4B5563',
-    '#6B7280',
-  ] as const,
+  // Connections (Particles.js style)
+  LINK_DISTANCE: 150,
+  LINK_OPACITY_MAX: 0.4,
   
   BOUNDARY_OFFSET: 50,
 } as const;
-
 
 interface DeviceCapabilities {
   memory: number;
@@ -86,14 +82,16 @@ interface PerformanceMetrics {
 export class GalaxyParticleSystem {
   private canvas: HTMLCanvasElement;
   private ctx!: CanvasRenderingContext2D;
-  private stars: Star[] = [];
+  private particles: Particle[] = [];
   private mouseX = 0;
   private mouseY = 0;
   private isMouseActive = false;
   private animationId: number | null = null;
   private resizeObserver: ResizeObserver | null = null;
+  private themeObserver: MutationObserver | null = null;
   private centerX = 0;
   private centerY = 0;
+  private mode: ParticleMode = 'galaxy';
 
   private deviceCapabilities: DeviceCapabilities;
   private performanceMetrics: PerformanceMetrics = {
@@ -103,23 +101,23 @@ export class GalaxyParticleSystem {
     lowFpsCount: 0,
     qualityReductionTriggered: false,
   };
+  
   private isDisabled = false;
   private qualityLevel: 'high' | 'medium' | 'low' = 'high';
 
   private config = {
-    starCount: 0,
-    accentStarRatio: CONSTANTS.ACCENT_STAR_RATIO,
-    nebulaRatio: CONSTANTS.NEBULA_RATIO,
+    particleCount: 0,
     speed: 0,
     rotationSpeed: 0,
     twinkleSpeed: 0,
     mouseInfluence: 0,
+    lineLinked: false,
   };
 
   private accentColor = '#A3E635';
   private accentColorRgb: string = '';
-  private starColors: string[] = [];
-  private nebulaColors: string[] = [];
+  private particleColors: string[] = [];
+  private specialColors: string[] = [];
   private isLightMode = false;
   private textPrimary = '#FFFFFF';
   private textSecondary = '#A0A0A0';
@@ -127,26 +125,25 @@ export class GalaxyParticleSystem {
   private cachedLogicalSize = { width: 0, height: 0 };
   private cachedMaxDistance = 0;
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement, mode: ParticleMode = 'galaxy') {
     this.canvas = canvas;
+    this.mode = mode;
     this.deviceCapabilities = this.detectDeviceCapabilities();
 
     if (this.deviceCapabilities.isLowEnd) {
       this.isDisabled = true;
-      logger.debug('[ParticleSystem] Disabled on low-end device:', this.deviceCapabilities);
+      logger.debug('[ParticleSystem] Disabled on low-end device');
       return;
     }
 
     const context = canvas.getContext('2d', { alpha: true });
-    if (!context) {
-      throw new Error('Could not get 2D context from canvas');
-    }
+    if (!context) throw new Error('Could not get 2D context');
     this.ctx = context;
 
     this.initializeConfig();
     this.setupCanvas();
     this.setupEventListeners();
-    this.createStars();
+    this.createParticles();
     this.animate();
     this.monitorBatteryStatus();
   }
@@ -169,14 +166,10 @@ export class GalaxyParticleSystem {
       if ('getBattery' in navigator) {
         // @ts-ignore
         const battery = await navigator.getBattery();
-
         this.deviceCapabilities.batteryLevel = battery.level;
         this.deviceCapabilities.isCharging = battery.charging;
 
-        if (battery.level < 0.2 && !battery.charging) {
-          logger.debug('[ParticleSystem] Low battery detected, reducing quality');
-          this.reduceQuality('battery');
-        }
+        if (battery.level < 0.2 && !battery.charging) this.reduceQuality('battery');
 
         battery.addEventListener('levelchange', () => {
           this.deviceCapabilities.batteryLevel = battery.level;
@@ -184,14 +177,8 @@ export class GalaxyParticleSystem {
             this.reduceQuality('battery');
           }
         });
-
-        battery.addEventListener('chargingchange', () => {
-          this.deviceCapabilities.isCharging = battery.charging;
-        });
       }
-    } catch (error) {
-      logger.debug('[ParticleSystem] Battery API not supported');
-    }
+    } catch (e) {}
   }
 
   private initializeConfig() {
@@ -199,81 +186,43 @@ export class GalaxyParticleSystem {
     const isMobile = width < CONSTANTS.MOBILE_BREAKPOINT;
     const isTablet = width < CONSTANTS.TABLET_BREAKPOINT && width >= CONSTANTS.MOBILE_BREAKPOINT;
 
-    if (isMobile) {
-      Object.assign(this.config, {
-        starCount: 40,
-        speed: 0.1,
-        rotationSpeed: 0.0001,
-        twinkleSpeed: 0.02,
-        mouseInfluence: 0.3,
-      });
-      this.qualityLevel = 'low';
-    } else if (isTablet) {
-      Object.assign(this.config, {
-        starCount: 100,
-        speed: 0.15,
-        rotationSpeed: 0.00015,
-        twinkleSpeed: 0.025,
-        mouseInfluence: 0.5,
-      });
-      this.qualityLevel = 'medium';
-    } else {
-      Object.assign(this.config, {
-        starCount: 250,
-        speed: 0.2,
-        rotationSpeed: 0.0002,
-        twinkleSpeed: 0.03,
-        mouseInfluence: 0.8,
-      });
-      this.qualityLevel = 'high';
+    // Default counts
+    let baseCount = 200;
+    if (isMobile) baseCount = 50;
+    else if (isTablet) baseCount = 100;
+
+    // Mode specific adjustments
+    switch (this.mode) {
+      case 'network':
+      case 'ai':
+        baseCount = Math.floor(baseCount * 0.7); // Lines are expensive
+        this.config.lineLinked = true;
+        break;
+      case 'flow':
+      case 'sys':
+        baseCount = Math.floor(baseCount * 1.2);
+        break;
+      case 'data':
+        baseCount = Math.floor(baseCount * 0.5); // Larger elements
+        break;
     }
 
-    logger.debug(`[ParticleSystem] Initialized with ${this.config.starCount} particles (quality: ${this.qualityLevel})`);
+    this.config.particleCount = baseCount;
+    this.config.speed = isMobile ? 0.1 : 0.2;
+    this.config.rotationSpeed = 0.0002;
+    this.config.twinkleSpeed = 0.03;
+    this.config.mouseInfluence = isMobile ? 0.3 : 0.8;
+
+    this.qualityLevel = isMobile ? 'low' : isTablet ? 'medium' : 'high';
     this.updateThemeColors();
   }
 
-  private reduceQuality(reason: 'fps' | 'battery') {
+  private reduceQuality(reason: string) {
     if (this.performanceMetrics.qualityReductionTriggered) return;
-
     this.performanceMetrics.qualityReductionTriggered = true;
-    const oldCount = this.config.starCount;
-
-    this.config.starCount = Math.floor(this.config.starCount / 2);
-    this.config.speed *= 0.7;
-    this.config.rotationSpeed *= 0.7;
-    this.config.twinkleSpeed *= 0.7;
-    this.stars = this.stars.slice(0, this.config.starCount);
-
-    logger.debug(
-      `[ParticleSystem] Quality reduced due to ${reason}:`,
-      `${oldCount} → ${this.config.starCount} particles`,
-      this.deviceCapabilities
-    );
-  }
-
-  private monitorPerformance() {
-    const now = performance.now();
-    const deltaTime = now - this.performanceMetrics.lastFrameTime;
-    this.performanceMetrics.lastFrameTime = now;
-
-    if (deltaTime > 0) {
-      this.performanceMetrics.fps = 1000 / deltaTime;
-      this.performanceMetrics.frameCount++;
-
-      if (this.performanceMetrics.fps < 30) {
-        this.performanceMetrics.lowFpsCount++;
-
-        if (this.performanceMetrics.lowFpsCount > 90 && !this.performanceMetrics.qualityReductionTriggered) {
-          this.reduceQuality('fps');
-        }
-      } else {
-        this.performanceMetrics.lowFpsCount = 0;
-      }
-
-      if (this.performanceMetrics.frameCount % 300 === 0) {
-        logger.debug(`[ParticleSystem] FPS: ${Math.round(this.performanceMetrics.fps)}, Quality: ${this.qualityLevel}`);
-      }
-    }
+    this.config.particleCount = Math.floor(this.config.particleCount * 0.5);
+    this.particles = this.particles.slice(0, this.config.particleCount);
+    logger.debug(`[ParticleSystem] Quality reduced due to ${reason}`);
   }
 
   private updateThemeColors() {
@@ -283,93 +232,23 @@ export class GalaxyParticleSystem {
     this.accentColor = computedStyle.getPropertyValue('--accent-green').trim() || '#A3E635';
     this.textPrimary = computedStyle.getPropertyValue('--text-primary').trim() || '#FFFFFF';
     this.textSecondary = computedStyle.getPropertyValue('--text-secondary').trim() || '#A0A0A0';
-    
-    this.accentColorRgb = this.hexToRgb(this.accentColor);
     this.isLightMode = root.classList.contains('light');
+    this.accentColorRgb = this.hexToRgb(this.accentColor);
+
+    this.particleColors = this.isLightMode 
+      ? ['#1F2937', '#374151', '#4B5563'] 
+      : [this.textPrimary, this.textSecondary, this.accentColor];
     
-    const starColor1 = computedStyle.getPropertyValue('--star-color-1')?.trim();
-    const starColor2 = computedStyle.getPropertyValue('--star-color-2')?.trim();
-    const starColor3 = computedStyle.getPropertyValue('--star-color-3')?.trim();
-    const starColor4 = computedStyle.getPropertyValue('--star-color-4')?.trim();
-    
-    this.starColors = this.isLightMode
-      ? [
-          starColor1 || CONSTANTS.LIGHT_MODE_STAR_COLORS[0],
-          starColor2 || CONSTANTS.LIGHT_MODE_STAR_COLORS[1],
-          starColor3 || CONSTANTS.LIGHT_MODE_STAR_COLORS[2],
-          starColor4 || CONSTANTS.LIGHT_MODE_STAR_COLORS[3],
-        ]
-      : [
-          this.textPrimary,
-          this.lightenColor(this.textPrimary, 0.1),
-          this.lightenColor(this.textPrimary, 0.2),
-          this.textSecondary,
-        ];
-    const blendColor = this.textSecondary;
-    this.nebulaColors = this.isLightMode
-      ? [
-          this.accentColor,
-          this.adjustBrightness(this.accentColor, 0.8),
-          this.adjustBrightness(this.accentColor, 0.6),
-          this.blendColors(this.accentColor, blendColor, 0.3),
-        ]
-      : [
-          this.accentColor,
-          this.adjustBrightness(this.accentColor, 0.7),
-          this.adjustBrightness(this.accentColor, 0.5),
-          this.adjustBrightness(this.accentColor, 0.3),
-        ];
-  }
-
-  private hexToRgbValues(hex: string): [number, number, number] {
-    const cleanHex = hex.replace('#', '');
-    return [
-      parseInt(cleanHex.slice(0, 2), 16),
-      parseInt(cleanHex.slice(2, 4), 16),
-      parseInt(cleanHex.slice(4, 6), 16),
-    ];
-  }
-
-  private rgbToHex(r: number, g: number, b: number): string {
-    const toHex = (n: number) => Math.floor(n).toString(16).padStart(2, '0');
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-  }
-
-  private adjustBrightness(color: string, factor: number): string {
-    const [r, g, b] = this.hexToRgbValues(color);
-    return this.rgbToHex(r * factor, g * factor, b * factor);
-  }
-  
-  private lightenColor(color: string, factor: number): string {
-    const [r, g, b] = this.hexToRgbValues(color);
-    return this.rgbToHex(
-      r + (255 - r) * factor,
-      g + (255 - g) * factor,
-      b + (255 - b) * factor
-    );
-  }
-
-  private blendColors(color1: string, color2: string, ratio: number): string {
-    const [r1, g1, b1] = this.hexToRgbValues(color1);
-    const [r2, g2, b2] = this.hexToRgbValues(color2);
-    
-    return this.rgbToHex(
-      r1 * (1 - ratio) + r2 * ratio,
-      g1 * (1 - ratio) + g2 * ratio,
-      b1 * (1 - ratio) + b2 * ratio
-    );
+    this.specialColors = [this.accentColor, '#84CC16', '#BEF264'];
   }
 
   private setupCanvas() {
     const resize = () => {
       const dpr = window.devicePixelRatio || 1;
       const rect = this.canvas.getBoundingClientRect();
-      
       this.canvas.width = rect.width * dpr;
       this.canvas.height = rect.height * dpr;
       this.ctx.scale(dpr, dpr);
-      this.canvas.style.width = `${rect.width}px`;
-      this.canvas.style.height = `${rect.height}px`;
       this.updateCanvasCache();
     };
 
@@ -390,201 +269,267 @@ export class GalaxyParticleSystem {
     };
     this.centerX = this.cachedLogicalSize.width / 2;
     this.centerY = this.cachedLogicalSize.height / 2;
-    this.cachedMaxDistance = Math.sqrt(
-      this.cachedLogicalSize.width ** 2 + this.cachedLogicalSize.height ** 2
-    ) / 2;
+    this.cachedMaxDistance = Math.sqrt(this.centerX ** 2 + this.centerY ** 2);
   }
 
-  private createStars() {
-    this.stars = [];
-    this.updateCanvasCache();
-    const maxDistance = this.cachedMaxDistance;
+  private createParticles() {
+    this.particles = [];
+    const { width, height } = this.cachedLogicalSize;
     
-    for (let i = 0; i < this.config.starCount; i++) {
+    for (let i = 0; i < this.config.particleCount; i++) {
       const rand = Math.random();
-      let type: 'star' | 'accent-star' | 'nebula';
+      let type: Particle['type'] = 'star';
+      let shape: Particle['shape'] = 'circle';
+      let color = this.particleColors[Math.floor(Math.random() * this.particleColors.length)];
       
-      if (rand < this.config.nebulaRatio) {
-        type = 'nebula';
-      } else if (rand < this.config.nebulaRatio + this.config.accentStarRatio) {
-        type = 'accent-star';
-      } else {
-        type = 'star';
+      // Mode specific shapes and types
+      if (this.mode === 'data') {
+        shape = Math.random() > 0.7 ? 'square' : 'circle';
+        type = 'data-bit';
+      } else if (this.mode === 'logic') {
+        shape = 'star';
+        type = 'node';
+      } else if (this.mode === 'ai') {
+        type = 'node';
+        if (rand < 0.2) color = this.accentColor;
+      } else if (this.mode === 'network') {
+        type = 'node';
       }
 
-      const angle = Math.random() * Math.PI * 2;
-      const distance = Math.random() * maxDistance * CONSTANTS.SPIRAL_DISTANCE_FACTOR;
-      const spiralAngle = angle + (distance / maxDistance) * Math.PI * 2 * CONSTANTS.SPIRAL_TIGHTNESS;
-      const cosSpiral = Math.cos(spiralAngle);
-      const sinSpiral = Math.sin(spiralAngle);
+      const x = Math.random() * width;
+      const y = Math.random() * height;
       
-      const x = this.centerX + cosSpiral * distance;
-      const y = this.centerY + sinSpiral * distance;
-      let baseRadius: number;
-      if (type === 'nebula') {
-        baseRadius = Math.random() * 3 + 2;
-      } else if (type === 'accent-star') {
-        baseRadius = Math.random() * 1.5 + 1;
-      } else {
-        baseRadius = Math.random() * 1 + 0.5;
-      }
+      let baseRadius = Math.random() * 1.5 + 0.5;
+      
+      // Contextual radius adjustments
+      if (this.mode === 'data') baseRadius = Math.random() * 3 + 1;
+      if (this.mode === 'ai' && type === 'node') baseRadius = Math.random() * 2 + 1;
+      if (this.mode === 'expand') baseRadius = Math.random() * 2 + 0.5;
 
-      const rotationSpeed = (Math.random() - 0.5) * this.config.rotationSpeed;
       const orbitalSpeed = this.config.speed * (0.5 + Math.random() * 0.5);
-      const perpAngle = spiralAngle + Math.PI / 2;
-      const vx = Math.cos(perpAngle) * orbitalSpeed;
-      const vy = Math.sin(perpAngle) * orbitalSpeed;
+      const angle = Math.random() * Math.PI * 2;
 
-      const baseOpacity = this.isLightMode 
-        ? Math.random() * CONSTANTS.LIGHT_MODE_OPACITY_RANGE + CONSTANTS.LIGHT_MODE_OPACITY_MIN
-        : Math.random() * CONSTANTS.DARK_MODE_OPACITY_RANGE + CONSTANTS.DARK_MODE_OPACITY_MIN;
+      // Special handling for galaxy spiral
+      let startX = x;
+      let startY = y;
+      let distFromCenter = Math.sqrt((x - this.centerX)**2 + (y - this.centerY)**2);
+      
+      if (this.mode === 'galaxy') {
+        const spiralAngle = angle + (distFromCenter / this.cachedMaxDistance) * Math.PI * 2 * CONSTANTS.SPIRAL_TIGHTNESS;
+        startX = this.centerX + Math.cos(spiralAngle) * distFromCenter;
+        startY = this.centerY + Math.sin(spiralAngle) * distFromCenter;
+      } else if (this.mode === 'expand') {
+        // Start near center
+        startX = this.centerX + (Math.random() - 0.5) * 100;
+        startY = this.centerY + (Math.random() - 0.5) * 100;
+      }
 
-      const color = type === 'accent-star'
-        ? this.accentColor
-        : type === 'nebula'
-        ? this.nebulaColors[Math.floor(Math.random() * this.nebulaColors.length)]
-        : this.starColors[Math.floor(Math.random() * this.starColors.length)];
-
-      this.stars.push({
-        x,
-        y,
-        vx,
-        vy,
+      this.particles.push({
+        x: startX,
+        y: startY,
+        vx: Math.cos(angle) * orbitalSpeed,
+        vy: Math.sin(angle) * orbitalSpeed,
         radius: baseRadius,
         baseRadius,
-        opacity: baseOpacity,
-        baseOpacity,
+        opacity: Math.random() * 0.5 + 0.2,
+        baseOpacity: Math.random() * 0.5 + 0.2,
         twinklePhase: Math.random() * Math.PI * 2,
         twinkleSpeed: this.config.twinkleSpeed * (0.5 + Math.random() * 0.5),
         color,
         type,
+        shape,
         rotation: Math.random() * Math.PI * 2,
-        rotationSpeed,
-        distanceFromCenter: distance,
-        angle: spiralAngle,
+        rotationSpeed: (Math.random() - 0.5) * this.config.rotationSpeed,
+        distanceFromCenter: distFromCenter,
+        angle,
+        pulsePhase: Math.random() * Math.PI * 2
       });
     }
   }
 
-  private themeObserver: MutationObserver | null = null;
-
   private setupEventListeners() {
-    let rafId: number | null = null;
     const handleMouseMove = (e: MouseEvent) => {
-      if (rafId === null) {
-        rafId = requestAnimationFrame(() => {
-          const rect = this.canvas.getBoundingClientRect();
-          const { width, height } = this.cachedLogicalSize;
-          this.mouseX = ((e.clientX - rect.left) / rect.width) * width;
-          this.mouseY = ((e.clientY - rect.top) / rect.height) * height;
-          this.isMouseActive = true;
-          rafId = null;
-        });
-      }
+      const rect = this.canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      this.mouseX = (e.clientX - rect.left);
+      this.mouseY = (e.clientY - rect.top);
+      this.isMouseActive = true;
     };
-
-    const handleMouseLeave = () => {
-      this.isMouseActive = false;
-    };
-
     document.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('mouseleave', () => this.isMouseActive = false);
 
-    let lastTheme: 'dark' | 'light' = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-    
-    this.themeObserver = new MutationObserver(() => {
-      const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-      if (lastTheme !== currentTheme) {
-        const wasLightMode = lastTheme === 'light';
-        
-        this.updateThemeColors();
-        
-        this.stars.forEach(star => {
-          if (star.type === 'accent-star') {
-            star.color = this.accentColor;
-          } else if (star.type === 'nebula') {
-            star.color = this.nebulaColors[Math.floor(Math.random() * this.nebulaColors.length)];
-          } else {
-            star.color = this.starColors[Math.floor(Math.random() * this.starColors.length)];
-          }
-          
-          if (wasLightMode !== this.isLightMode) {
-            star.baseOpacity = this.isLightMode 
-              ? Math.random() * CONSTANTS.LIGHT_MODE_OPACITY_RANGE + CONSTANTS.LIGHT_MODE_OPACITY_MIN
-              : Math.random() * CONSTANTS.DARK_MODE_OPACITY_RANGE + CONSTANTS.DARK_MODE_OPACITY_MIN;
-            star.opacity = star.baseOpacity;
-          }
-        });
-        
-        lastTheme = currentTheme;
-      }
-    });
-    
-    this.themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
+    this.themeObserver = new MutationObserver(() => this.updateThemeColors());
+    this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
   }
 
-  private updateStars() {
+  private updateParticles() {
     const { width, height } = this.cachedLogicalSize;
-    const maxDistance = this.cachedMaxDistance;
-
     const influenceRadius = Math.min(width, height) * CONSTANTS.MOUSE_INFLUENCE_RADIUS_FACTOR;
-    const boundaryOffset = CONSTANTS.BOUNDARY_OFFSET;
-    const widthWithOffset = width + boundaryOffset;
-    const heightWithOffset = height + boundaryOffset;
 
-    this.stars.forEach((star) => {
-      star.rotation += star.rotationSpeed;
-      star.twinklePhase += star.twinkleSpeed;
-      const twinkle = Math.sin(star.twinklePhase) * CONSTANTS.TWINKLE_AMPLITUDE + CONSTANTS.TWINKLE_OFFSET;
-      star.opacity = star.baseOpacity * twinkle;
-      star.radius = star.baseRadius * (CONSTANTS.RADIUS_VARIATION_MIN + twinkle * CONSTANTS.RADIUS_VARIATION_MAX);
-
-      if (this.isMouseActive) {
-        const dx = this.mouseX - star.x;
-        const dy = this.mouseY - star.y;
-        const distanceSq = dx * dx + dy * dy;
-        const influenceRadiusSq = influenceRadius * influenceRadius;
-
-        if (distanceSq < influenceRadiusSq) {
-          const distance = Math.sqrt(distanceSq);
-          const influence = (1 - distance / influenceRadius) * this.config.mouseInfluence;
-          const angle = Math.atan2(dy, dx);
+    this.particles.forEach(p => {
+      // 1. Base Movement Logic
+      switch (this.mode) {
+        case 'galaxy':
+          p.angle += this.config.rotationSpeed * 5;
+          const targetX = this.centerX + Math.cos(p.angle) * p.distanceFromCenter;
+          const targetY = this.centerY + Math.sin(p.angle) * p.distanceFromCenter;
+          p.vx += (targetX - p.x) * CONSTANTS.SPIRAL_CORRECTION_STRENGTH;
+          p.vy += (targetY - p.y) * CONSTANTS.SPIRAL_CORRECTION_STRENGTH;
+          break;
           
-          star.vx -= Math.cos(angle) * influence * CONSTANTS.MOUSE_INFLUENCE_MULTIPLIER;
-          star.vy -= Math.sin(angle) * influence * CONSTANTS.MOUSE_INFLUENCE_MULTIPLIER;
-          star.opacity = Math.min(star.baseOpacity * CONSTANTS.BRIGHTNESS_MULTIPLIER, 1);
+        case 'network':
+          p.vx += (Math.random() - 0.5) * 0.01;
+          p.vy += (Math.random() - 0.5) * 0.01;
+          break;
+          
+        case 'flow':
+          p.vx += 0.05;
+          p.vy += Math.sin(p.x * 0.01) * 0.02;
+          if (p.vx > 1.5) p.vx = 1.5;
+          break;
+          
+        case 'data':
+          p.vy += 0.1;
+          p.vx = (Math.random() - 0.5) * 0.05;
+          if (p.vy > 2) p.vy = 2;
+          break;
+          
+        case 'waves':
+          p.vx = 0.8;
+          p.y += Math.sin(p.x * 0.005 + p.twinklePhase * 0.5) * 0.5;
+          break;
+          
+        case 'logic':
+          if (Math.random() < 0.02) {
+            if (Math.random() > 0.5) {
+              p.vx = (Math.random() > 0.5 ? 1 : -1) * 0.5;
+              p.vy = 0;
+            } else {
+              p.vx = 0;
+              p.vy = (Math.random() > 0.5 ? 1 : -1) * 0.5;
+            }
+          }
+          break;
+          
+        case 'sys':
+          const baseAngle = Math.atan2(p.y - this.centerY, p.x - this.centerX);
+          p.vx = -Math.sin(baseAngle) * 0.5;
+          p.vy = Math.cos(baseAngle) * 0.5;
+          break;
+          
+        case 'ai':
+          p.vx += (Math.random() - 0.5) * 0.02;
+          p.vy += (Math.random() - 0.5) * 0.02;
+          break;
+          
+        case 'expand':
+          const originX = this.isMouseActive ? this.mouseX : this.centerX;
+          const originY = this.isMouseActive ? this.mouseY : this.centerY;
+          const dxExpand = p.x - originX;
+          const dyExpand = p.y - originY;
+          const distExpand = Math.sqrt(dxExpand * dxExpand + dyExpand * dyExpand);
+          
+          if (distExpand > 0) {
+            p.vx += (dxExpand / distExpand) * 0.03;
+            p.vy += (dyExpand / distExpand) * 0.03;
+          }
+          
+          p.opacity = p.baseOpacity * Math.max(0, 1 - (distExpand / this.cachedMaxDistance));
+          if (distExpand > this.cachedMaxDistance || distExpand === 0) {
+            p.x = originX + (Math.random() - 0.5) * 20;
+            p.y = originY + (Math.random() - 0.5) * 20;
+            p.vx = 0; p.vy = 0;
+          }
+          break;
+      }
+
+      // 2. Mouse Interaction
+      if (this.isMouseActive && this.mode !== 'expand') {
+        const dx = this.mouseX - p.x;
+        const dy = this.mouseY - p.y;
+        const distSq = dx * dx + dy * dy;
+        const influenceRadiusSq = influenceRadius * influenceRadius;
+        
+        if (distSq < influenceRadiusSq) {
+          const dist = Math.sqrt(distSq);
+          const force = (1 - dist / influenceRadius) * this.config.mouseInfluence;
+          const angle = Math.atan2(dy, dx);
+
+          switch (this.mode) {
+            case 'galaxy':
+              // Black hole: suck in and swirl tangentially
+              p.vx += Math.cos(angle) * force * 0.5;
+              p.vy += Math.sin(angle) * force * 0.5;
+              p.vx += Math.cos(angle + Math.PI/2) * force * 0.8;
+              p.vy += Math.sin(angle + Math.PI/2) * force * 0.8;
+              break;
+              
+            case 'network':
+            case 'ai':
+              // Strong attraction
+              p.vx += Math.cos(angle) * force * 0.8;
+              p.vy += Math.sin(angle) * force * 0.8;
+              break;
+              
+            case 'flow':
+              // Slipstream: boost X velocity
+              p.vx += force * 1.5;
+              p.opacity = Math.min(1, p.baseOpacity + force);
+              break;
+              
+            case 'data':
+              // Deflector shield umbrella
+              p.vx -= Math.cos(angle) * force * 2;
+              p.vy -= Math.max(0, Math.sin(angle) * force * 2);
+              break;
+              
+            case 'waves':
+              // Resonance disruption
+              p.y += Math.sin(p.x * 0.05 + p.twinklePhase) * force * 10;
+              p.opacity = Math.min(1, p.baseOpacity * (1 + force * 2));
+              break;
+              
+            case 'logic':
+              // Avoidance (force orthogonal scatter)
+              if (Math.abs(dx) > Math.abs(dy)) {
+                p.vx = (dx > 0 ? -1 : 1) * force * 3;
+                p.vy = 0;
+              } else {
+                p.vx = 0;
+                p.vy = (dy > 0 ? -1 : 1) * force * 3;
+              }
+              break;
+              
+            case 'sys':
+              // Orbit the mouse like a gear
+              p.vx = -Math.sin(angle) * force * 3;
+              p.vy = Math.cos(angle) * force * 3;
+              break;
+          }
         }
       }
 
-      star.x += star.vx;
-      star.y += star.vy;
+      // 3. Apply Velocity
+      p.x += p.vx;
+      p.y += p.vy;
 
-      const dx = star.x - this.centerX;
-      const dy = star.y - this.centerY;
-      const currentDistance = Math.sqrt(dx * dx + dy * dy);
-      const targetDistance = star.distanceFromCenter;
-      
-      if (Math.abs(currentDistance - targetDistance) > CONSTANTS.DISTANCE_THRESHOLD) {
-        const pullAngle = Math.atan2(dy, dx);
-        star.vx += (this.centerX + Math.cos(pullAngle) * targetDistance - star.x) * CONSTANTS.PULL_STRENGTH;
-        star.vy += (this.centerY + Math.sin(pullAngle) * targetDistance - star.y) * CONSTANTS.PULL_STRENGTH;
+      // 4. Wrap-Around (excluding expand mode)
+      if (this.mode !== 'expand') {
+        if (p.x < -CONSTANTS.BOUNDARY_OFFSET) p.x = width + CONSTANTS.BOUNDARY_OFFSET;
+        if (p.x > width + CONSTANTS.BOUNDARY_OFFSET) p.x = -CONSTANTS.BOUNDARY_OFFSET;
+        if (p.y < -CONSTANTS.BOUNDARY_OFFSET) p.y = height + CONSTANTS.BOUNDARY_OFFSET;
+        if (p.y > height + CONSTANTS.BOUNDARY_OFFSET) p.y = -CONSTANTS.BOUNDARY_OFFSET;
       }
 
-      star.angle += star.rotationSpeed * 10;
-      const spiralAngle = star.angle + (star.distanceFromCenter / maxDistance) * Math.PI * 2 * CONSTANTS.SPIRAL_TIGHTNESS;
-      star.vx += (this.centerX + Math.cos(spiralAngle) * star.distanceFromCenter - star.x) * CONSTANTS.SPIRAL_CORRECTION_STRENGTH;
-      star.vy += (this.centerY + Math.sin(spiralAngle) * star.distanceFromCenter - star.y) * CONSTANTS.SPIRAL_CORRECTION_STRENGTH;
-
-      if (star.x < -boundaryOffset) star.x = widthWithOffset;
-      if (star.x > widthWithOffset) star.x = -boundaryOffset;
-      if (star.y < -boundaryOffset) star.y = heightWithOffset;
-      if (star.y > heightWithOffset) star.y = -boundaryOffset;
-
-      star.vx *= CONSTANTS.DAMPING_FACTOR;
-      star.vy *= CONSTANTS.DAMPING_FACTOR;
+      // 5. Damping
+      p.vx *= CONSTANTS.DAMPING_FACTOR;
+      p.vy *= CONSTANTS.DAMPING_FACTOR;
+      
+      // 6. Natural Twinkle
+      p.twinklePhase += p.twinkleSpeed;
+      if (this.mode !== 'expand' && this.mode !== 'flow' && this.mode !== 'waves') {
+        p.opacity = p.baseOpacity * (Math.sin(p.twinklePhase) * 0.2 + 0.8);
+      }
     });
   }
 
@@ -592,135 +537,119 @@ export class GalaxyParticleSystem {
     const { width, height } = this.cachedLogicalSize;
     this.ctx.clearRect(0, 0, width, height);
 
-    const isLight = this.isLightMode;
-    const accentRgb = this.accentColorRgb;
+    if (this.config.lineLinked) {
+      this.drawLinks();
+    }
 
-    for (const star of this.stars) {
+    this.particles.forEach(p => {
       this.ctx.save();
-      this.ctx.globalAlpha = star.opacity;
+      this.ctx.globalAlpha = p.opacity;
+      this.ctx.fillStyle = p.color;
       
-      if (star.type === 'nebula') {
-        this.drawNebula(star, isLight, accentRgb);
-      } else if (star.type === 'accent-star') {
-        this.drawAccentStar(star, isLight, accentRgb);
+      if (p.shape === 'square') {
+        this.ctx.fillRect(p.x - p.radius, p.y - p.radius, p.radius * 2, p.radius * 2);
+      } else if (p.shape === 'star') {
+        this.drawStar(p.x, p.y, 5, p.radius * 2, p.radius);
       } else {
-        this.drawRegularStar(star, isLight);
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        this.ctx.fill();
       }
-      
       this.ctx.restore();
-    }
-
-    this.ctx.globalAlpha = 1;
+    });
   }
 
-  private drawNebula(star: Star, isLight: boolean, accentRgb: string) {
-    const glowRadius = star.radius * (isLight ? CONSTANTS.NEBULA_GLOW_LIGHT : CONSTANTS.NEBULA_GLOW_DARK);
-    const gradient = this.ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowRadius);
+  private drawLinks() {
+    this.ctx.save();
     
-    if (isLight) {
-      gradient.addColorStop(0, `rgba(${accentRgb}, ${star.opacity * 0.8})`);
-      gradient.addColorStop(0.3, `rgba(${accentRgb}, ${star.opacity * 0.5})`);
-      gradient.addColorStop(0.6, `rgba(${accentRgb}, ${star.opacity * 0.2})`);
-      gradient.addColorStop(1, 'transparent');
-    } else {
-      gradient.addColorStop(0, this.accentColor);
-      gradient.addColorStop(0.5, this.adjustBrightness(this.accentColor, 0.5));
-      gradient.addColorStop(1, 'transparent');
-    }
-    
-    this.ctx.fillStyle = gradient;
-    this.ctx.beginPath();
-    this.ctx.arc(star.x, star.y, glowRadius, 0, Math.PI * 2);
-    this.ctx.fill();
-  }
+    // 1. Draw connections between particles
+    for (let i = 0; i < this.particles.length; i++) {
+      for (let j = i + 1; j < this.particles.length; j++) {
+        const p1 = this.particles[i];
+        const p2 = this.particles[j];
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
 
-  private drawAccentStar(star: Star, isLight: boolean, accentRgb: string) {
-    const glowRadius = star.radius * (isLight ? CONSTANTS.ACCENT_STAR_GLOW_LIGHT : CONSTANTS.ACCENT_STAR_GLOW_DARK);
-    const gradient = this.ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowRadius);
-    
-    if (isLight) {
-      gradient.addColorStop(0, `rgba(${accentRgb}, ${star.opacity * 0.9})`);
-      gradient.addColorStop(0.2, `rgba(${accentRgb}, ${star.opacity * 0.7})`);
-      gradient.addColorStop(0.5, `rgba(${accentRgb}, ${star.opacity * 0.4})`);
-      gradient.addColorStop(0.8, `rgba(${accentRgb}, ${star.opacity * 0.15})`);
-      gradient.addColorStop(1, 'transparent');
-    } else {
-      gradient.addColorStop(0, this.accentColor);
-      gradient.addColorStop(0.3, this.adjustBrightness(this.accentColor, 0.6));
-      gradient.addColorStop(1, 'transparent');
-    }
-    
-    this.ctx.fillStyle = gradient;
-    this.ctx.beginPath();
-    this.ctx.arc(star.x, star.y, glowRadius, 0, Math.PI * 2);
-    this.ctx.fill();
-    
-    this.ctx.fillStyle = isLight 
-      ? `rgba(${accentRgb}, ${star.opacity})`
-      : this.accentColor;
-    this.ctx.beginPath();
-    this.ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-    this.ctx.fill();
-  }
-
-  private drawRegularStar(star: Star, isLight: boolean) {
-    const starRgb = this.hexToRgb(star.color);
-    this.ctx.fillStyle = isLight ? `rgba(${starRgb}, ${star.opacity})` : star.color;
-    this.ctx.beginPath();
-    this.ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-    this.ctx.fill();
-    
-    if (star.radius > 1) {
-      const glowRadius = star.radius * (isLight ? CONSTANTS.REGULAR_STAR_GLOW_LIGHT : CONSTANTS.REGULAR_STAR_GLOW_DARK);
-      
-      if (isLight) {
-        this.ctx.globalAlpha = star.opacity * 0.2;
-        const glowGradient = this.ctx.createRadialGradient(star.x, star.y, star.radius, star.x, star.y, glowRadius);
-        glowGradient.addColorStop(0, `rgba(${starRgb}, ${star.opacity * 0.3})`);
-        glowGradient.addColorStop(0.4, `rgba(${starRgb}, ${star.opacity * 0.1})`);
-        glowGradient.addColorStop(1, 'transparent');
-        this.ctx.fillStyle = glowGradient;
-      } else {
-        this.ctx.globalAlpha = star.opacity * 0.3;
-        this.ctx.fillStyle = star.color;
+        if (dist < CONSTANTS.LINK_DISTANCE) {
+          const opacity = (1 - dist / CONSTANTS.LINK_DISTANCE) * CONSTANTS.LINK_OPACITY_MAX;
+          this.ctx.strokeStyle = this.isLightMode ? `rgba(0,0,0,${opacity})` : `rgba(${this.accentColorRgb},${opacity})`;
+          this.ctx.lineWidth = 0.5;
+          this.ctx.beginPath();
+          this.ctx.moveTo(p1.x, p1.y);
+          this.ctx.lineTo(p2.x, p2.y);
+          this.ctx.stroke();
+        }
       }
-      this.ctx.beginPath();
-      this.ctx.arc(star.x, star.y, glowRadius, 0, Math.PI * 2);
-      this.ctx.fill();
     }
+    
+    // 2. Draw active connections to the mouse cursor for relevant modes
+    if (this.isMouseActive && (this.mode === 'network' || this.mode === 'ai')) {
+      const { width, height } = this.cachedLogicalSize;
+      const influenceRadius = Math.min(width, height) * CONSTANTS.MOUSE_INFLUENCE_RADIUS_FACTOR;
+      
+      for (let i = 0; i < this.particles.length; i++) {
+        const p = this.particles[i];
+        const dx = this.mouseX - p.x;
+        const dy = this.mouseY - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < influenceRadius) {
+          const opacity = (1 - dist / influenceRadius) * (this.mode === 'ai' ? 0.8 : 0.5);
+          this.ctx.strokeStyle = this.isLightMode 
+             ? `rgba(${this.mode === 'ai' ? this.accentColorRgb : '0,0,0'},${opacity})`
+             : `rgba(${this.accentColorRgb},${opacity})`;
+          this.ctx.lineWidth = this.mode === 'ai' ? 1.5 : 0.8;
+          this.ctx.beginPath();
+          this.ctx.moveTo(this.mouseX, this.mouseY);
+          this.ctx.lineTo(p.x, p.y);
+          this.ctx.stroke();
+        }
+      }
+    }
+    
+    this.ctx.restore();
   }
-  
-  private hexToRgb(hex: string): string {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    if (!result) return '255, 255, 255';
-    return `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`;
+
+  private drawStar(cx: number, cy: number, spikes: number, outerRadius: number, innerRadius: number) {
+    let rot = Math.PI / 2 * 3;
+    let x = cx;
+    let y = cy;
+    let step = Math.PI / spikes;
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(cx, cy - outerRadius);
+    for (let i = 0; i < spikes; i++) {
+        x = cx + Math.cos(rot) * outerRadius;
+        y = cy + Math.sin(rot) * outerRadius;
+        this.ctx.lineTo(x, y);
+        rot += step;
+
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        this.ctx.lineTo(x, y);
+        rot += step;
+    }
+    this.ctx.lineTo(cx, cy - outerRadius);
+    this.ctx.closePath();
+    this.ctx.fill();
   }
 
   private animate() {
-    if (this.isDisabled) {
-      return;
-    }
-
-    this.monitorPerformance();
-
-    this.updateStars();
+    if (this.isDisabled) return;
+    this.updateParticles();
     this.draw();
     this.animationId = requestAnimationFrame(() => this.animate());
   }
 
+  private hexToRgb(hex: string): string {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : '255, 255, 255';
+  }
+
   public destroy() {
-    if (this.animationId !== null) {
-      cancelAnimationFrame(this.animationId);
-      this.animationId = null;
-    }
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
-      this.resizeObserver = null;
-    }
-    if (this.themeObserver) {
-      this.themeObserver.disconnect();
-      this.themeObserver = null;
-    }
-    this.stars = [];
+    if (this.animationId) cancelAnimationFrame(this.animationId);
+    this.resizeObserver?.disconnect();
+    this.themeObserver?.disconnect();
   }
 }

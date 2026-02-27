@@ -20,8 +20,9 @@ async function initParticleSystem(): Promise<void> {
 
   try {
     const { GalaxyParticleSystem } = await import("@/scripts/particle-system");
+    const mode = (container.getAttribute('data-mode') || 'galaxy') as any;
     Object.assign(container.style, { display: "block", opacity: "1", visibility: "visible" });
-    particleSystem = new GalaxyParticleSystem(canvas);
+    particleSystem = new GalaxyParticleSystem(canvas, mode);
     isInitialized = true;
   } catch (error) {
     logger.error("Particle system failed:", error);
