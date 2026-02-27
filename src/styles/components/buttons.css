@@ -1,11 +1,3 @@
-/* =============================================================
-   Button Design System
-   Consolidated button styles for all variants.
-   Used by the <Button> component (Button.astro) and any raw
-   button/anchor that needs consistent styling.
-   ============================================================= */
-
-/* --- Shared base for all button variants --- */
 .btn-base {
   align-items: center;
   border-radius: var(--radius-lg);
@@ -35,7 +27,6 @@
   pointer-events: none;
 }
 
-/* --- Primary --- */
 .btn-primary {
   background: var(--btn-primary-bg);
   border: 2px solid transparent;
@@ -71,7 +62,6 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-/* --- Secondary --- */
 .btn-secondary {
   background: var(--btn-secondary-bg);
   border: 2px solid var(--btn-secondary-border);
@@ -102,7 +92,6 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-/* --- Ghost --- */
 .btn-ghost {
   background: var(--btn-ghost-bg);
   border: 1px solid var(--btn-ghost-border);
@@ -128,7 +117,6 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-/* --- Outline --- */
 .btn-outline {
   background: var(--btn-outline-bg);
   border: 2px solid var(--btn-outline-border);
@@ -157,7 +145,6 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-/* --- CTA (Nav + special call-to-action) --- */
 .btn-cta {
   background: transparent;
   border: 2px solid var(--accent-green);
@@ -182,7 +169,6 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-/* CTA hover glow overlay */
 .btn-cta-glow {
   background: rgb(var(--accent-green-rgb), 0.05);
   border-radius: inherit;
@@ -197,12 +183,10 @@
   opacity: 1;
 }
 
-/* --- CTA button (hero/section large CTA) --- */
 .cta-button {
   transition: var(--transition-base);
 }
 
-/* --- Shared size helpers (for non-component / raw buttons) --- */
 .btn-size-sm {
   font-size: 0.875rem;
   min-height: var(--button-height-sm);

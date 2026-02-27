@@ -12,7 +12,7 @@ const UTM_PARAMS = [
   'msclkid',
 ] as const;
 
-type UTMParam = typeof UTM_PARAMS[number];
+
 
 interface UTMData {
   [key: string]: string | number;

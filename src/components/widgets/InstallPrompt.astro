@@ -225,12 +225,10 @@ const { class: className = "" } = Astro.props;
   }
 
   function shouldShowPrompt(): boolean {
-    // Don't show if already installed
     if (localStorage.getItem("pwa-installed") === "true") {
       return false;
     }
 
-    // Don't show if dismissed recently (within 7 days)
     const dismissed = localStorage.getItem("pwa-prompt-dismissed");
     if (dismissed) {
       const dismissedTime = parseInt(dismissed, 10);
@@ -241,7 +239,6 @@ const { class: className = "" } = Astro.props;
       }
     }
 
-    // Don't show if standalone mode (already installed)
     if (window.matchMedia("(display-mode: standalone)").matches) {
       return false;
     }
@@ -249,14 +246,12 @@ const { class: className = "" } = Astro.props;
     return true;
   }
 
-  // Listen for beforeinstallprompt event
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     deferredPrompt = e;
 
     logger.debug("[InstallPrompt] Install prompt available");
 
-    // Show prompt after 30 seconds if conditions are met
     if (shouldShowPrompt()) {
       setTimeout(() => {
         showInstallPrompt();
@@ -268,7 +263,6 @@ const { class: className = "" } = Astro.props;
     }
   });
 
-  // Listen for app installed event
   window.addEventListener("appinstalled", () => {
     logger.debug("[InstallPrompt] PWA installed");
     localStorage.setItem("pwa-installed", "true");
@@ -279,7 +273,6 @@ const { class: className = "" } = Astro.props;
     }
   });
 
-  // Setup event listeners
   document.addEventListener("astro:page-load", () => {
     const installBtn = document.querySelector(".btn-install");
     const dismissBtn = document.querySelector(".btn-dismiss");

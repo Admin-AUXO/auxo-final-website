@@ -13,7 +13,7 @@ export function isMobileDevice(): boolean {
       userAgent,
     );
 
-  const isMobileHint = (navigator as any).userAgentData?.mobile;
+  const isMobileHint = navigator.userAgentData?.mobile;
 
   cachedIsMobile =
     isMobileHint ??
@@ -30,7 +30,7 @@ export function isTouchDevice(): boolean {
   cachedIsTouch =
     "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
-    (navigator as any).msMaxTouchPoints > 0;
+    (navigator.msMaxTouchPoints ?? 0) > 0;
 
   return cachedIsTouch;
 }

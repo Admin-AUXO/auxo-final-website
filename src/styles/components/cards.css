@@ -25,12 +25,10 @@
 
 .services-grid-desktop .service-card-redesigned {
   min-height: var(--card-min-height-sm);
-}
 
-@media (width >= 1280px) {
-  .services-grid-desktop .service-card-redesigned {
-    min-height: var(--card-min-height-lg);
-  }
+  @media (width >= 1280px) {
+    min-height: var(--card-min-height-lg)
+}
 }
 
 .capability-card-redesigned {

@@ -45,7 +45,7 @@ export function loadScript(config: ScriptConfig): Promise<void> {
       resolve();
     };
 
-    script.onerror = (error) => {
+    script.onerror = (_error) => {
       const err = new Error(`Failed to load script: ${src}`);
       onError?.(err);
       reject(err);

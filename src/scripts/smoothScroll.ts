@@ -106,7 +106,7 @@ function raf(time: number): void {
   rafId = requestAnimationFrame(raf);
 }
 
-export function initSmoothScroll() {
+export function initSmoothScroll(): void {
   if (lenis) return;
 
   if (isMobileDevice()) {
@@ -135,22 +135,22 @@ export function initSmoothScroll() {
   window.addEventListener('touchstart', resumeRaf, { passive: true });
 
   if (typeof window !== 'undefined') {
-    (window as any).__lenis = lenis;
+    window.__lenis = lenis;
   }
 
   setupAnchorLinks();
   document.addEventListener('astro:page-load', handleHashNavigation);
 }
 
-export function stopSmoothScroll() {
+export function stopSmoothScroll(): void {
   lenis?.stop();
 }
 
-export function startSmoothScroll() {
+export function startSmoothScroll(): void {
   lenis?.start();
 }
 
-export function scrollToElement(target: string | HTMLElement, options?: { offset?: number; immediate?: boolean }) {
+export function scrollToElement(target: string | HTMLElement, options?: { offset?: number; immediate?: boolean }): void {
   if (!lenis) return;
   const element = typeof target === 'string' ? document.querySelector(target) as HTMLElement : target;
   if (element) {
@@ -158,7 +158,7 @@ export function scrollToElement(target: string | HTMLElement, options?: { offset
   }
 }
 
-export function destroySmoothScroll() {
+export function destroySmoothScroll(): void {
   if (rafId !== null) {
     cancelAnimationFrame(rafId);
     rafId = null;
@@ -171,7 +171,7 @@ export function destroySmoothScroll() {
     lenis.destroy();
     lenis = null;
     if (typeof window !== 'undefined') {
-      delete (window as any).__lenis;
+      delete window.__lenis;
     }
   }
 

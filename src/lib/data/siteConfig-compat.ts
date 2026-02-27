@@ -1,5 +1,4 @@
 import { getSiteConfig } from './siteConfig.js';
-import type { SiteConfig } from '@/data/content/siteConfig';
 
 export type SiteData = {
   name: string;

@@ -60,7 +60,7 @@ function setupAccordion(accordion: HTMLElement): void {
   summary.addEventListener('keydown', keyHandler);
 
   summary.style.touchAction = 'manipulation';
-  (summary.style as any).webkitTapHighlightColor = 'transparent';
+  summary.style.webkitTapHighlightColor = 'transparent';
 
   accordionStates.set(accordion, {
     element: accordion,

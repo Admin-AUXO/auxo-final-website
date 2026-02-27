@@ -3,6 +3,10 @@
   display: flex;
   flex-direction: column;
   width: fit-content;
+
+  @media (width <= 1023px) {
+    display: none
+}
 }
 
 .logo-tagline {
@@ -17,18 +21,14 @@
   text-align: center;
   transition: color var(--duration-fast) var(--easing-standard);
   white-space: nowrap;
+
+  @media (width >= 640px) {
+    font-size: 1.25rem
 }
 
-@media (width >= 640px) {
-  .logo-tagline {
-    font-size: 1.25rem;
-  }
+  @media (width >= 1024px) {
+    font-size: 1.5rem
 }
-
-@media (width >= 1024px) {
-  .logo-tagline {
-    font-size: 1.5rem;
-  }
 }
 
 .logo-subtitle {
@@ -44,25 +44,15 @@
   text-align: center;
   transition: color var(--duration-fast) var(--easing-standard), letter-spacing 0.3s ease;
   white-space: nowrap;
-}
 
-@media (width >= 640px) {
-  .logo-subtitle {
+  @media (width >= 640px) {
     font-size: 0.65rem;
-    letter-spacing: 0.05em;
-  }
+    letter-spacing: 0.05em
 }
 
-@media (width >= 1024px) {
-  .logo-subtitle {
+  @media (width >= 1024px) {
     font-size: 0.7rem;
-    letter-spacing: 0.06em;
-  }
+    letter-spacing: 0.06em
 }
-
-@media (width <= 1023px) {
-  .logo-text-container {
-    display: none;
-  }
 }
 

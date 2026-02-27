@@ -1,6 +1,10 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
+    "strict": true,
+    "incremental": true,
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {

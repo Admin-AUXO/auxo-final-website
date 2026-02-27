@@ -86,7 +86,7 @@ export class FormAnalytics {
 
   private trackField(
     field: HTMLInputElement,
-    form: HTMLFormElement,
+    _form: HTMLFormElement,
     metrics: FormMetrics
   ): void {
     const fieldName = field.name || field.id || field.placeholder || 'unnamed';
@@ -175,8 +175,8 @@ export class FormAnalytics {
   }
 
   private handleFormSubmit(
-    e: Event,
-    form: HTMLFormElement,
+    _e: Event,
+    _form: HTMLFormElement,
     metrics: FormMetrics
   ): void {
     const completionTime = metrics.startTime > 0
@@ -198,10 +198,10 @@ export class FormAnalytics {
       completion_rate: totalFields > 0 ? Math.round((filledFields / totalFields) * 100) : 0,
     });
 
-    form.classList.add('submitted');
+    _form.classList.add('submitted');
   }
 
-  private handleFormAbandonment(form: HTMLFormElement, metrics: FormMetrics): void {
+  private handleFormAbandonment(_form: HTMLFormElement, metrics: FormMetrics): void {
     const filledFields = Array.from(metrics.fields.values()).filter(f => f.changed).length;
     const totalFields = metrics.fields.size;
 

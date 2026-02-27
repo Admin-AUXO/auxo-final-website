@@ -22,6 +22,21 @@
       var(--accent-green-opacity-03) 0%,
       transparent 50%
     );
+
+  @media (width >= 1024px) {
+    background:
+      radial-gradient(
+        ellipse 100% 90% at top center,
+        var(--accent-green-opacity-06) 0%,
+        var(--accent-green-opacity-03) 35%,
+        transparent 65%
+      ),
+      radial-gradient(
+        ellipse 70% 50% at bottom center,
+        var(--accent-green-opacity-04) 0%,
+        transparent 50%
+      )
+}
 }
 
 .section-gradient-center {
@@ -217,22 +232,5 @@
       var(--accent-green-opacity-12) 80%,
       transparent 100%
     );
-  }
-}
-
-@media (width >= 1024px) {
-  .section-gradient-hero {
-    background:
-      radial-gradient(
-        ellipse 100% 90% at top center,
-        var(--accent-green-opacity-06) 0%,
-        var(--accent-green-opacity-03) 35%,
-        transparent 65%
-      ),
-      radial-gradient(
-        ellipse 70% 50% at bottom center,
-        var(--accent-green-opacity-04) 0%,
-        transparent 50%
-      );
   }
 }

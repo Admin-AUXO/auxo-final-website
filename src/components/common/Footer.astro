@@ -11,10 +11,7 @@ const currentYear = new Date().getFullYear();
 const privacyUrl = createUrl("legal/privacy-policy");
 
 const { sections } = await getFooterContent();
-const footerSections = sections.map(({ _key, ...section }) => ({
-  ...section,
-  links: section.links.map(({ _key: linkKey, ...link }) => link),
-}));
+const footerSections = sections;
 ---
 
 <footer
@@ -23,42 +20,51 @@ const footerSections = sections.map(({ _key, ...section }) => ({
   <div class="grid-container py-4 sm:py-8 lg:py-10">
     <div class="col-span-full sm:hidden space-y-2">
       <nav class="space-y-2">
-        {footerSections.map((section) => (
-          <details class="group footer-accordion rounded-lg border border-transparent hover:border-accent-green/10 transition-colors">
-            <summary class="flex items-center justify-between py-3 px-3 cursor-pointer list-none touch-manipulation select-none">
-              <span class="flex items-center gap-2.5 pointer-events-none">
-                <span class="w-8 h-8 rounded-lg bg-accent-green/10 flex items-center justify-center flex-shrink-0">
-                  <Icon name={section.icon} class="w-4 h-4 text-accent-green" />
+        {
+          footerSections.map((section) => (
+            <details class="group footer-accordion rounded-lg border border-transparent hover:border-accent-green/10 transition-colors">
+              <summary class="flex items-center justify-between py-3 px-3 cursor-pointer list-none touch-manipulation select-none">
+                <span class="flex items-center gap-2.5 pointer-events-none">
+                  <span class="w-8 h-8 rounded-lg bg-accent-green/10 flex items-center justify-center flex-shrink-0">
+                    <Icon
+                      name={section.icon}
+                      class="w-4 h-4 text-accent-green"
+                    />
+                  </span>
+                  <span class="text-sm font-semibold text-theme-primary font-display">
+                    {section.title}
+                  </span>
                 </span>
-                <span class="text-sm font-semibold text-theme-primary font-display">{section.title}</span>
-              </span>
-              <span class="w-6 h-6 rounded-full bg-accent-green/10 flex items-center justify-center flex-shrink-0 pointer-events-none transition-colors group-open:bg-accent-green/20">
-                <Icon
-                  name="mdi:chevron-down"
-                  class="w-4 h-4 text-accent-green transition-transform duration-200 group-open:rotate-180"
-                />
-              </span>
-            </summary>
-            <ul class="pb-3 pl-[3.25rem] pr-3 space-y-1">
-              {section.links.map((link) => (
-                <li>
-                  <a
-                    href={link.href}
-                    class="text-sm text-theme-secondary hover:text-accent-green transition-colors py-2 flex items-center font-body"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </details>
-        ))}
+                <span class="w-6 h-6 rounded-full bg-accent-green/10 flex items-center justify-center flex-shrink-0 pointer-events-none transition-colors group-open:bg-accent-green/20">
+                  <Icon
+                    name="mdi:chevron-down"
+                    class="w-4 h-4 text-accent-green transition-transform duration-200 group-open:rotate-180"
+                  />
+                </span>
+              </summary>
+              <ul class="pb-3 pl-[3.25rem] pr-3 space-y-1">
+                {section.links.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      class="text-sm text-theme-secondary hover:text-accent-green transition-colors py-2 flex items-center font-body"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ))
+        }
       </nav>
 
       <FooterSocialLinks size="sm" class="pt-3" />
     </div>
 
-    <div class="hidden sm:grid sm:grid-cols-12 lg:grid-cols-12 gap-6 lg:gap-10 col-span-full">
+    <div
+      class="hidden sm:grid sm:grid-cols-12 lg:grid-cols-12 gap-6 lg:gap-10 col-span-full"
+    >
       <section class="sm:col-span-12 lg:col-span-5 space-y-4 sm:space-y-6">
         <Logo size="lg" showText={true} href={base} class="items-start" />
 
@@ -69,61 +75,92 @@ const footerSections = sections.map(({ _key, ...section }) => ({
         <FooterSocialLinks size="lg" class="pt-2" />
       </section>
 
-      <section class="sm:col-span-12 lg:col-span-7 mt-0 mb-0 sm:mt-0 sm:mb-auto">
+      <section
+        class="sm:col-span-12 lg:col-span-7 mt-0 mb-0 sm:mt-0 sm:mb-auto"
+      >
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {footerSections.map((section) => (
-            <div class="space-y-3 sm:space-y-4">
-              <h4
-                class="text-sm font-extrabold tracking-wide text-theme-primary uppercase transition-colors flex items-center gap-2 mb-4 font-display"
-              >
-                <Icon name={section.icon} class="w-5 h-5 text-accent-green" />
-                {section.title}
-              </h4>
-              <nav>
-                <ul class="space-y-2 sm:space-y-2.5">
-                  {section.links.map((link) => (
-                    <li>
-                      <a
-                        href={link.href}
-                        class="text-sm text-theme-secondary hover:text-accent-green transition-colors duration-fast inline-flex items-center gap-2 group min-h-[var(--touch-target-min)] active:text-accent-green font-medium font-body"
-                      >
-                        <span>{link.label}</span>
-                        <Icon
-                          name="mdi:arrow-right"
-                          class="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-fast"
-                        />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          ))}
+          {
+            footerSections.map((section) => (
+              <div class="space-y-3 sm:space-y-4">
+                <h4 class="text-sm font-extrabold tracking-wide text-theme-primary uppercase transition-colors flex items-center gap-2 mb-4 font-display">
+                  <Icon name={section.icon} class="w-5 h-5 text-accent-green" />
+                  {section.title}
+                </h4>
+                <nav>
+                  <ul class="space-y-2 sm:space-y-2.5">
+                    {section.links.map((link) => (
+                      <li>
+                        <a
+                          href={link.href}
+                          class="text-sm text-theme-secondary hover:text-accent-green transition-colors duration-fast inline-flex items-center gap-2 group min-h-[var(--touch-target-min)] active:text-accent-green font-medium font-body"
+                        >
+                          <span>{link.label}</span>
+                          <Icon
+                            name="mdi:arrow-right"
+                            class="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-fast"
+                          />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
+            ))
+          }
         </div>
       </section>
     </div>
   </div>
 
-  <div class="col-span-full pt-1 sm:border-t sm:border-theme sm:pt-5 mt-1 sm:mt-6 pb-10 sm:pb-8 text-theme-secondary text-xs font-medium transition-colors">
+  <div
+    class="col-span-full pt-1 sm:border-t sm:border-theme sm:pt-5 mt-1 sm:mt-6 pb-10 sm:pb-8 text-theme-secondary text-xs font-medium transition-colors"
+  >
     <div class="flex flex-col items-center gap-2 sm:hidden">
-      <a href={privacyUrl} class="text-xs text-accent-green font-medium flex items-center font-body" aria-label="Privacy Policy">Privacy</a>
+      <a
+        href={privacyUrl}
+        class="text-xs text-accent-green font-medium flex items-center font-body"
+        aria-label="Privacy Policy">Privacy</a
+      >
       <p class="text-xs flex items-center font-body">© {currentYear} AUXO</p>
-      <a href={privacyUrl} class="flex items-center gap-1 text-xs text-accent-green font-medium font-body" aria-label="PDPL Compliant">
-        <Icon name="mdi:shield-check" class="w-3.5 h-3.5 text-accent-green flex-shrink-0" />
+      <a
+        href={privacyUrl}
+        class="flex items-center gap-1 text-xs text-accent-green font-medium font-body"
+        aria-label="PDPL Compliant"
+      >
+        <Icon
+          name="mdi:shield-check"
+          class="w-3.5 h-3.5 text-accent-green flex-shrink-0"
+        />
         <span>PDPL</span>
       </a>
     </div>
-    <div class="hidden sm:flex sm:flex-row items-center justify-center gap-3 sm:gap-4 lg:gap-5 flex-wrap">
-      <p class="text-center font-body">© {currentYear} AUXO Data Labs. All rights reserved.</p>
+    <div
+      class="hidden sm:flex sm:flex-row items-center justify-center gap-3 sm:gap-4 lg:gap-5 flex-wrap"
+    >
+      <p class="text-center font-body">
+        © {currentYear} AUXO Data Labs. All rights reserved.
+      </p>
       <span class="text-theme-tertiary" aria-hidden="true">•</span>
       <span class="flex items-center gap-2 whitespace-nowrap font-body">
-        <Icon name="mdi:map-marker-outline" class="w-4 h-4 text-accent-green flex-shrink-0 transition-colors" />
+        <Icon
+          name="mdi:map-marker-outline"
+          class="w-4 h-4 text-accent-green flex-shrink-0 transition-colors"
+        />
         <span>Dubai, UAE</span>
       </span>
       <span class="text-theme-tertiary" aria-hidden="true">•</span>
-      <a href={privacyUrl} class="flex items-center gap-2 whitespace-nowrap px-3 py-1.5 bg-accent-green/10 border border-accent-green rounded-lg hover:bg-accent-green/20 transition-all duration-fast group min-h-[var(--touch-target-min)] font-body" aria-label="View Privacy Policy - PDPL Compliant">
-        <Icon name="mdi:shield-check" class="w-4 h-4 text-accent-green flex-shrink-0 transition-colors group-hover:scale-110" />
-        <span class="text-xs font-semibold text-accent-green">PDPL Compliant</span>
+      <a
+        href={privacyUrl}
+        class="flex items-center gap-2 whitespace-nowrap px-3 py-1.5 bg-accent-green/10 border border-accent-green rounded-lg hover:bg-accent-green/20 transition-all duration-fast group min-h-[var(--touch-target-min)] font-body"
+        aria-label="View Privacy Policy - PDPL Compliant"
+      >
+        <Icon
+          name="mdi:shield-check"
+          class="w-4 h-4 text-accent-green flex-shrink-0 transition-colors group-hover:scale-110"
+        />
+        <span class="text-xs font-semibold text-accent-green"
+          >PDPL Compliant</span
+        >
       </a>
     </div>
   </div>
@@ -132,6 +169,6 @@ const footerSections = sections.map(({ _key, ...section }) => ({
 <style>
   .footer-accordion summary::-webkit-details-marker,
   .footer-accordion summary::marker {
-    display: none !important;
+    display: none;
   }
 </style>

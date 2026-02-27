@@ -120,8 +120,8 @@ function repositionNotifications(): void {
   });
 }
 
-export function initNotifications() {
-  return null;
+export function initNotifications(): void {
+  return;
 }
 
 export function showSuccess(message: string): void {

@@ -180,7 +180,6 @@ const articleSchema = {
 </BaseLayout>
 
 <script>
-  // Simple sharing logic
   function setupSharing() {
     const url = encodeURIComponent(window.location.href);
     const title = encodeURIComponent(document.title);
@@ -229,7 +228,6 @@ const articleSchema = {
     );
   }
 
-  // Run on mount and Astro view transitions page load
   if (typeof window !== "undefined") {
     document.addEventListener("astro:page-load", () => {
       setupSharing();

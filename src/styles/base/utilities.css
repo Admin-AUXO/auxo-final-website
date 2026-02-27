@@ -26,22 +26,18 @@
   padding-left: var(--grid-padding-mobile, 1rem);
   padding-right: var(--grid-padding-mobile, 1rem);
   width: 100%;
-}
 
-@media (width >= 640px) {
-  .grid-container {
+  @media (width >= 640px) {
     gap: var(--grid-gap-sm, 1.5rem);
     padding-left: var(--grid-padding-sm, 1.5rem);
-    padding-right: var(--grid-padding-sm, 1.5rem);
-  }
+    padding-right: var(--grid-padding-sm, 1.5rem)
 }
 
-@media (width >= 1024px) {
-  .grid-container {
+  @media (width >= 1024px) {
     gap: var(--grid-gap-lg, 2rem);
     padding-left: var(--grid-padding-lg, 2rem);
-    padding-right: var(--grid-padding-lg, 2rem);
-  }
+    padding-right: var(--grid-padding-lg, 2rem)
+}
 }
 
 .col-span-1 { grid-column: span 1; }

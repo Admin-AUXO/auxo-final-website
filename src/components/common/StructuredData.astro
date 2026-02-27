@@ -1,14 +1,21 @@
 ---
 export interface Props {
-  type: 'Organization' | 'WebSite' | 'WebPage' | 'BreadcrumbList' | 'Service' | 'Article';
+  type:
+    | "Organization"
+    | "WebSite"
+    | "WebPage"
+    | "BreadcrumbList"
+    | "Service"
+    | "Article"
+    | "FAQPage";
   data: Record<string, any>;
 }
 
 const { type, data } = Astro.props;
 
 const schema = {
-  '@context': 'https://schema.org',
-  '@type': type,
+  "@context": "https://schema.org",
+  "@type": type,
   ...data,
 };
 

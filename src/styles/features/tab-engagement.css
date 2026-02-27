@@ -94,6 +94,14 @@
   transform: translate(-50%, -50%);
   width: 300px;
   z-index: 0;
+
+  @media (prefers-color-scheme: dark) {
+    background: radial-gradient(
+      circle,
+      rgb(var(--accent-green-rgb), 0.2) 0%,
+      transparent 70%
+    )
+}
 }
 
 .auxo-engagement-icon {
@@ -267,20 +275,20 @@
   .auxo-engagement-card,
   .auxo-engagement-button,
   .auxo-engagement-icon {
-    animation: none !important;
-    transition: opacity 0.2s ease, visibility 0.2s ease !important;
+    animation: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
   }
 
   .auxo-engagement-card {
-    transform: none !important;
+    transform: none;
   }
 
   .auxo-engagement-button:hover {
-    transform: none !important;
+    transform: none;
   }
 
   .auxo-engagement-button-icon {
-    transition: none !important;
+    transition: none;
   }
 }
 
@@ -298,16 +306,6 @@
     box-shadow:
       0 20px 60px rgb(0 0 0 / 12%),
       0 0 80px rgb(var(--accent-green-rgb), 0.2);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .auxo-engagement-card::after {
-    background: radial-gradient(
-      circle,
-      rgb(var(--accent-green-rgb), 0.2) 0%,
-      transparent 70%
-    );
   }
 }
 

@@ -5,6 +5,7 @@ import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 
 const allPosts = await getCollection("blog");
 allPosts.sort(
@@ -25,21 +26,22 @@ allPosts.sort(
     <div
       class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix"
     >
-      <!-- Light Mode Image -->
-      <img
+      <Image
         src="/images/Editorial_3d_illustration_of_a_glowing_emerald_green_light.webp"
         alt="Data Insights"
         class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-40 sm:opacity-60 dark:opacity-0"
         fetchpriority="high"
+        width={1920}
+        height={1080}
       />
-      <!-- Dark Mode Image -->
-      <img
+      <Image
         src="/images/Editorial_3d_illustration_of_a_glowing_emerald_green_dark.webp"
         alt="Data Insights"
         class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-0 dark:opacity-40 sm:dark:opacity-70"
         fetchpriority="high"
+        width={1920}
+        height={1080}
       />
-      <!-- Gradients -->
       <div
         class="absolute inset-0 bg-gradient-to-b from-theme-surface/90 via-theme-surface/60 to-theme-surface"
       >
@@ -55,17 +57,16 @@ allPosts.sort(
         class="col-span-full max-w-4xl mx-auto flex flex-col items-center text-center"
       >
         <h1
-          class="text-4xl md:text-5xl lg:text-7xl font-extrabold text-theme-primary font-display leading-tight mb-6"
+          class="text-4xl md:text-5xl lg:text-7xl font-extrabold text-theme-primary font-display leading-tight mb-6 [text-wrap:balance] relative z-20"
           data-reveal="fade-up"
           data-reveal-delay="100"
         >
-          Analytics <span
-            class="text-transparent bg-clip-text bg-gradient-to-r from-accent-green to-emerald-400"
-            >Insights</span
-          > & <br class="hidden sm:block" />Thought Leadership
+          Analytics <span class="text-accent-green font-bold">Insights</span> & <br
+            class="hidden sm:block"
+          />Thought Leadership
         </h1>
         <p
-          class="text-lg md:text-xl text-theme-secondary font-body max-w-2xl leading-relaxed"
+          class="text-lg md:text-xl text-theme-secondary font-body max-w-3xl mx-auto leading-relaxed [text-wrap:balance]"
           data-reveal="fade-up"
           data-reveal-delay="200"
         >

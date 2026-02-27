@@ -17,27 +17,22 @@
   opacity: 0.5;
   position: absolute;
   right: 0;
+
+  @media (width >= 640px) {
+    bottom: -3px;
+    height: 4px
+}
+
+  @media (width >= 1024px) {
+    bottom: -4px;
+    height: 5px
+}
 }
 
 .highlight-gradient.home-hero-highlight::after,
 .hero-typing-text .highlight-gradient::after,
 .problem-solution-section .highlight-gradient::after {
   display: none;
-}
-
-
-@media (width >= 640px) {
-  .highlight-gradient::after {
-    bottom: -3px;
-    height: 4px;
-  }
-}
-
-@media (width >= 1024px) {
-  .highlight-gradient::after {
-    bottom: -4px;
-    height: 5px;
-  }
 }
 
 .highlight-simple {

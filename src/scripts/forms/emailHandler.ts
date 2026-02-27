@@ -12,7 +12,7 @@ let emailjsInitialized = false;
 let lastSubmitTime = 0;
 const RATE_LIMIT_MS = 60000;
 
-export function initEmailJS() {
+export function initEmailJS(): void {
   if (emailjsInitialized) return;
   if (EMAILJS_CONFIG.publicKey) {
     emailjs.init(EMAILJS_CONFIG.publicKey);
@@ -20,7 +20,7 @@ export function initEmailJS() {
   }
 }
 
-function debounce<T extends (...args: any[]) => void>(func: T, wait: number): T {
+function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number): T {
   let timeout: ReturnType<typeof setTimeout> | null = null;
   return ((...args: Parameters<T>) => {
     if (timeout) clearTimeout(timeout);
@@ -88,8 +88,8 @@ export async function handleContactFormSubmit(event: Event) {
       lastSubmitTime = now;
       showSuccess('Message sent successfully! We\'ll get back to you soon.');
 
-      // Clear draft after successful submission
-      const draftManager = (form as any)._draftManager as DraftManager | undefined;
+
+      const draftManager = form._draftManager;
       if (draftManager) {
         draftManager.clearDraft();
       }
@@ -100,7 +100,7 @@ export async function handleContactFormSubmit(event: Event) {
         hideFieldSuccess(input as HTMLInputElement | HTMLTextAreaElement);
       });
 
-      // Reset character counter
+
       const messageCounter = document.getElementById('message-counter');
       if (messageCounter) {
         messageCounter.textContent = '0/500';
@@ -128,17 +128,17 @@ export async function handleContactFormSubmit(event: Event) {
   }
 }
 
-export function addRealTimeValidation(form: HTMLFormElement) {
+export function addRealTimeValidation(form: HTMLFormElement): void {
   let formStartTracked = false;
   let fieldsFilled = 0;
   let formAbandoned = false;
 
-  // Initialize draft manager
+
   const draftManager = new DraftManager(form, 'contact-form');
   draftManager.init();
 
-  // Store reference to draft manager on form for cleanup
-  (form as any)._draftManager = draftManager;
+
+  form._draftManager = draftManager;
 
   const trackFormInteraction = () => {
     if (!formStartTracked) {
@@ -158,7 +158,7 @@ export function addRealTimeValidation(form: HTMLFormElement) {
     window.addEventListener('beforeunload', trackAbandonment);
   }
 
-  // Setup character counter for message field
+
   const messageField = form.querySelector('#message') as HTMLTextAreaElement;
   const messageCounter = document.getElementById('message-counter');
 
@@ -168,7 +168,7 @@ export function addRealTimeValidation(form: HTMLFormElement) {
       const maxLength = 500;
       messageCounter.textContent = `${length}/${maxLength}`;
 
-      // Change color when approaching limit
+
       if (length > maxLength * 0.9) {
         messageCounter.classList.add('text-accent-green', 'font-bold');
         messageCounter.classList.remove('text-theme-tertiary');
@@ -188,14 +188,14 @@ export function addRealTimeValidation(form: HTMLFormElement) {
       const fieldName = element.name;
       const value = element.value;
 
-      // Company is optional, don't validate if empty
+
       if (fieldName === 'company' && !value) {
         hideFieldError(element);
         hideFieldSuccess(element);
         return;
       }
 
-      // Don't validate if field is empty (except on blur)
+
       if (!value && element !== document.activeElement) {
         hideFieldError(element);
         hideFieldSuccess(element);
@@ -211,14 +211,14 @@ export function addRealTimeValidation(form: HTMLFormElement) {
           showFieldError(element, fieldError.message);
           hideFieldSuccess(element);
         } else {
-          // Field is valid
+
           hideFieldError(element);
           if (value) {
             showFieldSuccess(element);
           }
         }
       } else {
-        // All form is valid, show success for this field if it has a value
+
         hideFieldError(element);
         if (value) {
           showFieldSuccess(element);
@@ -236,10 +236,10 @@ export function addRealTimeValidation(form: HTMLFormElement) {
     });
 
     element.addEventListener('input', () => {
-      // Remove error immediately on input
+
       hideFieldError(element);
 
-      // Validate field after debounce
+
       validateField();
     });
   });

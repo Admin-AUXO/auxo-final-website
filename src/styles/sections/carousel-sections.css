@@ -1,136 +1,136 @@
 [class*="-carousel-section"],
 [class*="carousel-section"] {
-  max-width: 100% !important;
-  overflow: visible !important;
-  -ms-overflow-style: none !important;
-  overflow-x: visible !important;
-  position: relative !important;
-  scrollbar-width: none !important;
-  width: 100% !important;
-  z-index: 0 !important;
+  max-width: 100%;
+  overflow: visible;
+  -ms-overflow-style: none;
+  overflow-x: visible;
+  position: relative;
+  scrollbar-width: none;
+  width: 100%;
+  z-index: 0;
 }
 
 [class*="-carousel-section"]::-webkit-scrollbar,
 [class*="carousel-section"]::-webkit-scrollbar {
-  display: none !important;
-  height: 0 !important;
-  width: 0 !important;
+  display: none;
+  height: 0;
+  width: 0;
 }
 
 [class*="-carousel-section"] .carousel-viewport,
 [class*="carousel-section"] .carousel-viewport,
 [class*="-carousel-section"] [class*="carousel-wrapper"],
 [class*="carousel-section"] [class*="carousel-wrapper"] {
-  max-width: 100% !important;
-  overflow: visible !important;
-  -ms-overflow-style: none !important;
-  overflow-x: visible !important;
-  position: relative !important;
-  scrollbar-width: none !important;
-  width: 100% !important;
-  z-index: 0 !important;
+  max-width: 100%;
+  overflow: visible;
+  -ms-overflow-style: none;
+  overflow-x: visible;
+  position: relative;
+  scrollbar-width: none;
+  width: 100%;
+  z-index: 0;
 }
 
 [class*="-carousel-section"] .carousel-viewport::-webkit-scrollbar,
 [class*="carousel-section"] .carousel-viewport::-webkit-scrollbar,
 [class*="-carousel-section"] [class*="carousel-wrapper"]::-webkit-scrollbar,
 [class*="carousel-section"] [class*="carousel-wrapper"]::-webkit-scrollbar {
-  display: none !important;
-  height: 0 !important;
-  width: 0 !important;
+  display: none;
+  height: 0;
+  width: 0;
 }
 
 [class*="-carousel-section"] .carousel-container,
 [class*="carousel-section"] .carousel-container {
-  max-width: 100% !important;
-  overflow: visible !important;
-  overflow-x: visible !important;
-  width: 100% !important;
+  max-width: 100%;
+  overflow: visible;
+  overflow-x: visible;
+  width: 100%;
 }
 
 [class*="-carousel-section"] .carousel-track,
 [class*="carousel-section"] .carousel-track {
-  overflow: visible !important;
-  overflow-x: visible !important;
-  width: max-content !important;
+  overflow: visible;
+  overflow-x: visible;
+  width: max-content;
 }
 
 [class*="-carousel-section"] .embla__slide,
 [class*="carousel-section"] .embla__slide,
 [class*="-carousel-section"] .carousel-slide,
 [class*="carousel-section"] .carousel-slide {
-  backface-visibility: visible !important;
-  display: block !important;
-  opacity: 1 !important;
-  position: relative !important;
-  visibility: visible !important;
-  z-index: 1 !important;
+  backface-visibility: visible;
+  display: block;
+  opacity: 1;
+  position: relative;
+  visibility: visible;
+  z-index: 1;
 }
 
 [class*="-carousel-section"] .embla__slide > *,
 [class*="carousel-section"] .embla__slide > *,
 [class*="-carousel-section"] .carousel-slide > *,
 [class*="carousel-section"] .carousel-slide > * {
-  opacity: 1 !important;
-  position: relative !important;
-  visibility: visible !important;
-  z-index: 1 !important;
+  opacity: 1;
+  position: relative;
+  visibility: visible;
+  z-index: 1;
 }
 
 @media (width <= 767px) {
   [class*="-carousel-section"],
   [class*="carousel-section"] {
-    overflow: visible !important;
-    -ms-overflow-style: none !important;
-    overflow-x: visible !important;
-    scrollbar-width: none !important;
+    overflow: visible;
+    -ms-overflow-style: none;
+    overflow-x: visible;
+    scrollbar-width: none;
   }
 
   [class*="-carousel-section"]::-webkit-scrollbar,
   [class*="carousel-section"]::-webkit-scrollbar {
-    display: none !important;
-    height: 0 !important;
-    width: 0 !important;
+    display: none;
+    height: 0;
+    width: 0;
   }
 
   [class*="-carousel-section"] .carousel-viewport,
   [class*="carousel-section"] .carousel-viewport,
   [class*="-carousel-section"] [class*="carousel-wrapper"],
   [class*="carousel-section"] [class*="carousel-wrapper"] {
-    overflow: visible !important;
-    -ms-overflow-style: none !important;
-    overflow-x: visible !important;
-    scrollbar-width: none !important;
+    overflow: visible;
+    -ms-overflow-style: none;
+    overflow-x: visible;
+    scrollbar-width: none;
   }
 
   [class*="-carousel-section"] .carousel-viewport::-webkit-scrollbar,
   [class*="carousel-section"] .carousel-viewport::-webkit-scrollbar,
   [class*="-carousel-section"] [class*="carousel-wrapper"]::-webkit-scrollbar,
   [class*="carousel-section"] [class*="carousel-wrapper"]::-webkit-scrollbar {
-    display: none !important;
-    height: 0 !important;
-    width: 0 !important;
+    display: none;
+    height: 0;
+    width: 0;
   }
 
   [class*="-carousel-section"] .carousel-container,
   [class*="carousel-section"] .carousel-container {
-    cursor: default !important;
-    overscroll-behavior: contain auto !important;
-    touch-action: pan-x pinch-zoom !important;
+    cursor: default;
+    overscroll-behavior: contain auto;
+    touch-action: pan-x pinch-zoom;
   }
 
   [class*="-carousel-section"] .carousel-track,
   [class*="carousel-section"] .carousel-track {
-    cursor: default !important;
-    overflow: visible !important;
-    overflow-x: visible !important;
-    touch-action: pan-x pinch-zoom !important;
-    width: max-content !important;
+    cursor: default;
+    overflow: visible;
+    overflow-x: visible;
+    touch-action: pan-x pinch-zoom;
+    width: max-content;
   }
 
   [class*="-carousel-section"] .embla__slide,
   [class*="carousel-section"] .embla__slide {
-    -webkit-tap-highlight-color: transparent !important;
-    touch-action: pan-x !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-x;
   }
 }

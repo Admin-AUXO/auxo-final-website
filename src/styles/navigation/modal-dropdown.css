@@ -261,43 +261,33 @@
 
 .dropdown-modal-header .col-span-full {
   min-height: 3.5rem;
+
+  @media (width >= 640px) {
+    min-height: 4rem
 }
 
-@media (width >= 640px) {
-  .dropdown-modal-header .col-span-full {
-    min-height: 4rem;
-  }
+  @media (width >= 768px) {
+    min-height: 4.5rem
 }
 
-@media (width >= 768px) {
-  .dropdown-modal-header .col-span-full {
-    min-height: 4.5rem;
-  }
+  @media (width >= 1024px) {
+    min-height: 4.5rem
 }
-
-@media (width >= 1024px) {
-  .dropdown-modal-header .col-span-full {
-    min-height: 4.5rem;
-  }
 }
 
 .dropdown-modal-header .grid-container {
   padding-left: var(--grid-padding-mobile);
   padding-right: var(--grid-padding-mobile);
+
+  @media (width >= 640px) {
+    padding-left: var(--grid-padding-sm);
+    padding-right: var(--grid-padding-sm)
 }
 
-@media (width >= 640px) {
-  .dropdown-modal-header .grid-container {
+  @media (width >= 768px) {
     padding-left: var(--grid-padding-sm);
-    padding-right: var(--grid-padding-sm);
-  }
+    padding-right: var(--grid-padding-sm)
 }
-
-@media (width >= 768px) {
-  .dropdown-modal-header .grid-container {
-    padding-left: var(--grid-padding-sm);
-    padding-right: var(--grid-padding-sm);
-  }
 }
 
 @media (width >= 1024px) {
@@ -360,11 +350,11 @@
   [style*="animation: fade-in-up"],
   [style*="animation: fadeInUp"],
   .dropdown-modal-menu.open .service-card {
-    animation: none !important;
+    animation: none;
   }
 
   .service-card {
-    transition: none !important;
+    transition: none;
   }
 }
 

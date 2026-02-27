@@ -2,13 +2,12 @@ import { logger } from '@/lib/logger';
 interface AnalyticsModule {
   name: string;
   condition: () => boolean;
-  load: () => Promise<any>;
+  load: () => Promise<unknown>;
   priority: 'critical' | 'standard' | 'low';
 }
 
 const isMobile = () => window.innerWidth < 768;
 const hasForm = () => document.querySelector('form') !== null;
-const hasCalendar = () => document.querySelector('[data-google-calendar]') !== null;
 const isHomepage = () => window.location.pathname === '/' || window.location.pathname === '/index.html';
 const isServicesPage = () => window.location.pathname.includes('/services');
 
@@ -114,7 +113,7 @@ export class ConditionalAnalyticsLoader {
   }
 
   private async loadModules(modules: AnalyticsModule[]): Promise<void> {
-    const modulesToLoad = modules.filter(m => {
+    const modulesToLoad = modules.filter(_m => {
       if (this.loadedModules.size >= this.maxScripts) {
         logger.debug(`[Analytics] Budget limit reached (${this.maxScripts} scripts)`);
         return false;
@@ -147,8 +146,8 @@ export class ConditionalAnalyticsLoader {
       logger.debug(`[Analytics] Loading ${module.name} (${module.priority})`);
       const cleanup = await module.load();
 
-      if (cleanup) {
-        this.cleanupFunctions.set(module.name, cleanup);
+      if (typeof cleanup === 'function') {
+        this.cleanupFunctions.set(module.name, cleanup as () => void);
       }
 
       this.loadedModules.add(module.name);

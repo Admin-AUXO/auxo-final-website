@@ -1,19 +1,19 @@
 .calendar-modal {
   align-items: center;
   display: flex;
-  height: 100dvh !important;
-  inset: 0 !important;
+  height: 100dvh;
+  inset: 0;
   justify-content: center;
-  margin: 0 !important;
-  max-height: 100dvh !important;
-  max-width: 100vw !important;
+  margin: 0;
+  max-height: 100dvh;
+  max-width: 100vw;
   opacity: 0;
-  padding: 0 !important;
-  position: fixed !important;
+  padding: 0;
+  position: fixed;
   transition: opacity var(--duration-normal) var(--easing-standard), visibility var(--duration-normal) var(--easing-standard);
   visibility: hidden;
-  width: 100vw !important;
-  z-index: var(--z-calendar-modal) !important;
+  width: 100vw;
+  z-index: var(--z-calendar-modal);
 }
 
 .calendar-modal[hidden] {

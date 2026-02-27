@@ -35,17 +35,15 @@
 .typing-cursor {
   animation: blink var(--animation-duration-blink) infinite;
   margin-left: var(--spacing-xs);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none
+}
 }
 
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .typing-cursor {
-    animation: none;
-  }
 }
 
 .e-part,

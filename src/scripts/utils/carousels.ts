@@ -72,8 +72,8 @@ function createCarouselManager(config: CarouselConfig) {
     state.instance = null;
     state.isActive = false;
 
-    if ((window as any).emblaInstances) {
-      (window as any).emblaInstances.delete(containerId);
+    if (window.emblaInstances) {
+      window.emblaInstances.delete(containerId);
     }
   }
 
@@ -103,16 +103,16 @@ function createCarouselManager(config: CarouselConfig) {
       state.instance = new EmblaCarouselWrapper(container, mergedOptions);
       state.isActive = true;
 
-      if (!(window as any).emblaInstances) {
-        (window as any).emblaInstances = new Map();
+      if (!window.emblaInstances) {
+        window.emblaInstances = new Map();
       }
-      (window as any).emblaInstances.set(containerId, state.instance);
+      window.emblaInstances.set(containerId, state.instance);
     } catch {
       state.isActive = false;
       return;
     }
 
-    // ResizeObserver for container dimension changes (e.g. dynamic content)
+
     if (typeof ResizeObserver !== 'undefined') {
       state.observer = new ResizeObserver(() => {
         if (state.reinitTimer) clearTimeout(state.reinitTimer);
@@ -129,7 +129,7 @@ function createCarouselManager(config: CarouselConfig) {
   function handleBreakpointChange(): void {
     if (shouldActivate()) {
       if (!state.isActive) {
-        // Use double-rAF to ensure layout is settled after breakpoint change
+
         requestAnimationFrame(() => requestAnimationFrame(createInstance));
       }
     } else {
@@ -138,7 +138,7 @@ function createCarouselManager(config: CarouselConfig) {
   }
 
   function init(): void {
-    // Set up breakpoint-based activation via matchMedia
+
     if (breakpoint > 0) {
       const query = `(min-width: ${breakpoint}px)`;
       state.mediaQuery = window.matchMedia(query);
@@ -147,7 +147,7 @@ function createCarouselManager(config: CarouselConfig) {
       state.mediaQuery.addEventListener('change', state.mediaHandler);
     }
 
-    // Initial activation check with double-rAF for layout stability
+
     requestAnimationFrame(() => requestAnimationFrame(handleBreakpointChange));
   }
 
@@ -183,8 +183,8 @@ export function cleanupAllCarousels(): void {
   carouselManagers.forEach((manager) => manager.cleanup());
   carouselManagers.clear();
 
-  if ((window as any).emblaInstances) {
-    (window as any).emblaInstances.clear();
+  if (window.emblaInstances) {
+    window.emblaInstances.clear();
   }
 }
 
@@ -196,5 +196,5 @@ export function reinitCarousels(): void {
 }
 
 export function getCarouselInstance(containerId: string): EmblaCarouselWrapper | null {
-  return (window as any).emblaInstances?.get(containerId) ?? null;
+  return window.emblaInstances?.get(containerId) ?? null;
 }

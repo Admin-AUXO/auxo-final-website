@@ -449,7 +449,7 @@ function setupDropdownKeyboardNavigation(): void {
     items.forEach((item, index) => {
       addTrackedListener(item, 'keydown', (e: Event) => {
         const keyboardEvent = e as KeyboardEvent;
-        const target = e.target as HTMLElement;
+
         
         if (keyboardEvent.key === 'ArrowDown' && index < items.length - 1) {
           e.preventDefault();

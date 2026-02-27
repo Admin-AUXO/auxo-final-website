@@ -1,6 +1,11 @@
 import { BREAKPOINTS } from '../constants';
 import { logger } from '@/lib/logger';
 
+interface LenisInstance {
+  stop: () => void;
+  start: () => void;
+}
+
 class ScrollLockService {
   private locks = new Map<string, number>();
   private cachedScrollbarWidth: number | null = null;
@@ -18,8 +23,8 @@ class ScrollLockService {
     return Array.from(this.locks.values()).reduce((sum, count) => sum + count, 0);
   }
 
-  private getLenisInstance(): any {
-    return typeof window !== 'undefined' ? (window as any).__lenis : null;
+  private getLenisInstance(): LenisInstance | null {
+    return typeof window !== 'undefined' ? (window.__lenis as unknown as LenisInstance) : null;
   }
 
   private applyLock(): void {
@@ -64,7 +69,7 @@ class ScrollLockService {
       this.applyLock();
     }
 
-    if (typeof window !== 'undefined' && (window as any).__DEBUG_SCROLL_LOCK) {
+    if (typeof window !== 'undefined' && window.__DEBUG_SCROLL_LOCK) {
       logger.debug(`[ScrollLock] Lock acquired by "${id}" (count: ${currentCount + 1}, total: ${this.getTotalLocks()})`);
     }
   }
@@ -85,7 +90,7 @@ class ScrollLockService {
       this.removeLock();
     }
 
-    if (typeof window !== 'undefined' && (window as any).__DEBUG_SCROLL_LOCK) {
+    if (typeof window !== 'undefined' && window.__DEBUG_SCROLL_LOCK) {
       logger.debug(`[ScrollLock] Lock released by "${id}" (was: ${currentCount}, now: ${currentCount > 0 ? currentCount - 1 : 0}, total: ${this.getTotalLocks()})`);
     }
   }
@@ -141,7 +146,7 @@ export function forceUnlockScroll(): void {
 }
 
 if (typeof window !== 'undefined') {
-  (window as any).__debugScrollLock = () => {
+  window.__debugScrollLock = () => {
     const locks = scrollLock.getActiveLocks();
     const isLocked = scrollLock.isLocked();
     logger.log('[ScrollLock Debug]', {
@@ -155,7 +160,7 @@ if (typeof window !== 'undefined') {
     return { isLocked, activeLocks: locks };
   };
 
-  (window as any).__forceUnlockScroll = () => {
+  window.__forceUnlockScroll = () => {
     logger.log('[ScrollLock] Forcing unlock of all scroll locks');
     scrollLock.forceUnlockAll();
   };

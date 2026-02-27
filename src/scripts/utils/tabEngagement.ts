@@ -21,13 +21,6 @@ class TabEngagementManager {
   private faviconIndex: number = 0;
   private cleanup: (() => void) | null = null;
 
-  private readonly emojis = {
-    wave: ['👋', '✨'],
-    notification: ['🔔', '💬'],
-    attention: ['👀', '⚡'],
-    data: ['📊', '📈'],
-  };
-
   private readonly faviconColors = [
     '#7CB342', 
     '#5a9030', 

@@ -3,11 +3,11 @@
 }
 
 .approach-section:has(.approach-carousel-section) {
-  overflow: visible !important;
+  overflow: visible;
 }
 
 .approach-section .grid-container {
-  overflow-x: visible !important;
+  overflow-x: visible;
 }
 
 .approach-section .section-pattern-grid {
@@ -19,6 +19,11 @@
   font-size: 1.5em;
   line-height: 1;
   margin-right: 0.02em;
+
+  @media (width >= 641px) {
+    font-size: 1.4em;
+    margin-right: 0.02em
+}
 }
 
 .code-title-rest {
@@ -33,13 +38,6 @@
   .code-letter {
     font-size: 1.6em;
     margin-right: 0.01em;
-  }
-}
-
-@media (width >= 641px) {
-  .code-letter {
-    font-size: 1.4em;
-    margin-right: 0.02em;
   }
 }
 
@@ -117,19 +115,17 @@
       transparent 60%,
       var(--accent-green-opacity-02) 100%
     );
-}
 
-@media (width <= 640px) {
-  .team-gradient {
+  @media (width <= 640px) {
     background:
       radial-gradient(
         ellipse 130% 100% at center top,
         var(--accent-green-opacity-03) 0%,
         var(--accent-green-opacity-015) 35%,
         transparent 65%
-      );
-  }
+      )
 
+}
 }
 
 .global-section {
@@ -137,20 +133,29 @@
 }
 
 .global-section:has(.global-metrics-carousel-section) {
-  overflow: visible !important;
+  overflow: visible;
 }
 
 .global-section .grid-container {
-  overflow-x: clip !important;
+  overflow-x: clip;
 }
 
 .global-section:has(.global-metrics-carousel-section) .grid-container {
-  overflow-x: visible !important;
+  overflow-x: visible;
 }
 
 .global-section .section-pattern-mesh {
   background-position: 0 0, 25px 25px;
   background-size: 50px 50px, 100px 100px;
+
+  @media (width <= 640px) {
+    background-size: 40px 40px
+}
+
+  @media (width >= 1024px) {
+    background-size: 70px 70px;
+    opacity: 0.5
+}
 }
 
 .global-section .section-gradient-dual {
@@ -168,19 +173,6 @@
 }
 
 @media (width <= 640px) {
-  .global-section .section-pattern-mesh {
-    background-size: 40px 40px;
-  }
-}
-
-@media (width >= 1024px) {
-  .global-section .section-pattern-mesh {
-    background-size: 70px 70px;
-    opacity: 0.5;
-  }
-}
-
-@media (width <= 640px) {
   .mission-vision-section,
   .purpose-section,
   .approach-section,
@@ -195,15 +187,15 @@
   .mission-vision-section .grid-container,
   .approach-section .grid-container,
   .global-section .grid-container {
-    overflow-x: visible !important;
+    overflow-x: visible;
   }
 
 .mission-vision-section:has(.mission-vision-carousel-section) {
-  overflow: visible !important;
+  overflow: visible;
 }
 
 .mission-vision-section:has(.mission-vision-carousel-section) .grid-container {
-  overflow-x: visible !important;
+  overflow-x: visible;
 }
 
   .mission-card .bg-theme-card,

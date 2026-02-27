@@ -14,7 +14,7 @@ export class DraftManager {
   private form: HTMLFormElement;
   private formId: string;
   private autoSaveTimer: ReturnType<typeof setInterval> | null = null;
-  private isDraftRestored = false;
+
 
   constructor(form: HTMLFormElement, formId: string = 'contact-form') {
     this.form = form;
@@ -88,8 +88,7 @@ export class DraftManager {
         }
       }
     });
-
-    this.isDraftRestored = true;
+ 
     logger.debug('[DraftManager] Draft restored');
     this.showNotification('Draft restored successfully!', 'success');
   }

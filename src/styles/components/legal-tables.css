@@ -7,14 +7,12 @@
   -webkit-overflow-scrolling: touch;
   overflow-x: auto;
   width: 100%;
-}
 
-@media (width >= 768px) {
-  .legal-table {
+  @media (width >= 768px) {
     display: table;
     font-size: 0.9375rem;
-    overflow-x: visible;
-  }
+    overflow-x: visible
+}
 }
 
 .legal-table thead {
@@ -42,14 +40,12 @@
   padding: 0.75rem 1rem;
   text-align: left;
   white-space: nowrap;
-}
 
-@media (width >= 768px) {
-  .legal-table th {
+  @media (width >= 768px) {
     font-size: 0.9375rem;
     padding: 1rem 1.25rem;
-    white-space: normal;
-  }
+    white-space: normal
+}
 }
 
 .legal-table td {
@@ -59,13 +55,11 @@
   line-height: 1.6;
   overflow-wrap: break-word;
   padding: 0.75rem 1rem;
-}
 
-@media (width >= 768px) {
-  .legal-table td {
+  @media (width >= 768px) {
     font-size: 0.9375rem;
-    padding: 1rem 1.25rem;
-  }
+    padding: 1rem 1.25rem
+}
 }
 
 .legal-table tbody tr:nth-child(even) {

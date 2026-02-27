@@ -2,13 +2,13 @@ section,
 [class*="-section"] {
   isolation: isolate;
   max-width: 100vw;
-  overflow: hidden clip !important;
+  overflow: hidden clip;
   -ms-overflow-style: none;
   position: relative;
   scrollbar-width: none;
 }
 
-/* Override for sections containing carousels */
+
 .services-intro-section,
 .capabilities-section,
 .mission-vision-section,
@@ -17,9 +17,9 @@ section,
 .impact-section,
 .service-benefits-section,
 .service-process-section {
-  overflow: visible !important;
-  -ms-overflow-style: none !important;
-  scrollbar-width: none !important;
+  overflow: visible;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .services-intro-section::-webkit-scrollbar,
@@ -30,9 +30,9 @@ section,
 .impact-section::-webkit-scrollbar,
 .service-benefits-section::-webkit-scrollbar,
 .service-process-section::-webkit-scrollbar {
-  display: none !important;
-  height: 0 !important;
-  width: 0 !important;
+  display: none;
+  height: 0;
+  width: 0;
 }
 
 section:not([class*="py-"], [class*="padding"]),
@@ -91,6 +91,12 @@ section.mobile-menu::-webkit-scrollbar,
   position: absolute;
   width: 100%;
   will-change: opacity, transform;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 0.6;
+    transform: none
+}
 }
 
 @media (width <= 640px) {
@@ -100,13 +106,5 @@ section.mobile-menu::-webkit-scrollbar,
 
   .section-hero-line {
     height: 0.5px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .section-hero-line {
-    animation: none;
-    opacity: 0.6;
-    transform: none;
   }
 }

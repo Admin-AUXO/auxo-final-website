@@ -5,20 +5,36 @@ export interface Props {
   class?: string;
 }
 
-const { class: className = '' } = Astro.props;
+const { class: className = "" } = Astro.props;
 
 const stats = [
-  { value: '500+', label: 'Data Pipelines Built', suffix: '' },
-  { value: '98', label: 'Client Satisfaction', suffix: '%' },
-  { value: '50M+', label: 'Records Processed Daily', suffix: '' },
-  { value: '15+', label: 'Years Combined Experience', suffix: '' },
+  { value: "500+", label: "Data Pipelines Built", suffix: "" },
+  { value: "98", label: "Client Satisfaction", suffix: "%" },
+  { value: "50M+", label: "Records Processed Daily", suffix: "" },
+  { value: "15+", label: "Years Combined Experience", suffix: "" },
 ];
 
 const certifications = [
-  { name: 'AWS Partner', logo: '/images/certifications/aws-partner.svg', url: 'https://aws.amazon.com/partners/' },
-  { name: 'Snowflake Partner', logo: '/images/certifications/snowflake-partner.svg', url: 'https://www.snowflake.com/en/data-cloud/partners/' },
-  { name: 'Databricks Partner', logo: '/images/certifications/databricks-partner.svg', url: 'https://www.databricks.com/partners' },
-  { name: 'ISO 27001 Certified', logo: '/images/certifications/iso-27001.svg', url: 'https://www.iso.org/isoiec-27001-information-security.html' },
+  {
+    name: "AWS Partner",
+    logo: "/images/certifications/aws-partner.svg",
+    url: "https://aws.amazon.com/partners/",
+  },
+  {
+    name: "Snowflake Partner",
+    logo: "/images/certifications/snowflake-partner.svg",
+    url: "https://www.snowflake.com/en/data-cloud/partners/",
+  },
+  {
+    name: "Databricks Partner",
+    logo: "/images/certifications/databricks-partner.svg",
+    url: "https://www.databricks.com/partners",
+  },
+  {
+    name: "ISO 27001 Certified",
+    logo: "/images/certifications/iso-27001.svg",
+    url: "https://www.iso.org/isoiec-27001-information-security.html",
+  },
 ];
 ---
 
@@ -32,40 +48,50 @@ const certifications = [
     </div>
 
     <div class="stats-grid">
-      {stats.map((stat, index) => (
-        <div class="stat-card" data-reveal="fade-up" data-reveal-delay={index * 100}>
-          <div class="stat-value" data-count-up data-target={stat.value}>
-            0{stat.suffix}
+      {
+        stats.map((stat, index) => (
+          <div
+            class="stat-card"
+            data-reveal="fade-up"
+            data-reveal-delay={index * 100}
+          >
+            <div class="stat-value" data-count-up data-target={stat.value}>
+              {stat.value}
+            </div>
+            <div class="stat-label">{stat.label}</div>
           </div>
-          <div class="stat-label">{stat.label}</div>
-        </div>
-      ))}
+        ))
+      }
     </div>
 
     <div class="certifications-section">
-      <h3 class="certifications-title" data-reveal="fade-up">Partnerships & Certifications</h3>
+      <h3 class="certifications-title" data-reveal="fade-up">
+        Partnerships & Certifications
+      </h3>
       <div class="certifications-grid">
-        {certifications.map((cert, index) => (
-          <a
-            href={cert.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="certification-card"
-            data-reveal="fade-up"
-            data-reveal-delay={200 + index * 100}
-            aria-label={cert.name}
-          >
-            <Image
-              src={cert.logo}
-              alt={cert.name}
-              class="certification-logo"
-              width={120}
-              height={60}
-              loading="lazy"
-            />
-            <span class="certification-name">{cert.name}</span>
-          </a>
-        ))}
+        {
+          certifications.map((cert, index) => (
+            <a
+              href={cert.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="certification-card"
+              data-reveal="fade-up"
+              data-reveal-delay={200 + index * 100}
+              aria-label={cert.name}
+            >
+              <Image
+                src={cert.logo}
+                alt={cert.name}
+                class="certification-logo"
+                width={120}
+                height={60}
+                loading="lazy"
+              />
+              <span class="certification-name">{cert.name}</span>
+            </a>
+          ))
+        }
       </div>
     </div>
   </div>
@@ -80,13 +106,18 @@ const certifications = [
   }
 
   .trust-section::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border-theme), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--border-theme),
+      transparent
+    );
   }
 
   .container {
@@ -273,15 +304,19 @@ const certifications = [
 </style>
 
 <script>
-  function animateCounter(element: Element, target: string, duration: number = 2000) {
-    const hasPlus = target.includes('+');
-    const hasM = target.includes('M');
-    const numericTarget = parseInt(target.replace(/\D/g, ''), 10);
+  function animateCounter(
+    element: Element,
+    target: string,
+    duration: number = 2000,
+  ) {
+    const hasPlus = target.includes("+");
+    const hasM = target.includes("M");
+    const numericTarget = parseInt(target.replace(/\D/g, ""), 10);
 
     if (isNaN(numericTarget)) return;
 
     const startTime = performance.now();
-    const suffix = element.textContent?.match(/[%+M]/g)?.join('') || '';
+    const suffix = element.textContent?.match(/[%+M]/g)?.join("") || "";
 
     function update(currentTime: number) {
       const elapsed = currentTime - startTime;
@@ -292,13 +327,13 @@ const certifications = [
 
       let displayValue = current.toString();
       if (hasM && current >= 1) {
-        displayValue = current + 'M';
+        displayValue = current + "M";
       }
       if (hasPlus) {
-        displayValue += '+';
+        displayValue += "+";
       }
 
-      element.textContent = displayValue + (suffix.includes('%') ? '%' : '');
+      element.textContent = displayValue + (suffix.includes("%") ? "%" : "");
 
       if (progress < 1) {
         requestAnimationFrame(update);
@@ -310,27 +345,31 @@ const certifications = [
     requestAnimationFrame(update);
   }
 
-  document.addEventListener('astro:page-load', () => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const counters = entry.target.querySelectorAll('[data-count-up]');
+  document.addEventListener("astro:page-load", () => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const counters = entry.target.querySelectorAll("[data-count-up]");
 
-          counters.forEach((counter, index) => {
-            const target = counter.getAttribute('data-target');
-            if (target) {
-              setTimeout(() => {
-                animateCounter(counter, target);
-              }, index * 100);
-            }
-          });
+            counters.forEach((counter, index) => {
+              const target = counter.getAttribute("data-target");
+              if (target) {
+                counter.textContent = "0" + (target.includes("%") ? "%" : "");
+                setTimeout(() => {
+                  animateCounter(counter, target);
+                }, index * 100);
+              }
+            });
 
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2 });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
 
-    const trustSection = document.querySelector('.trust-section');
+    const trustSection = document.querySelector(".trust-section");
     if (trustSection) {
       observer.observe(trustSection);
     }

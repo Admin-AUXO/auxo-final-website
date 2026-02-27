@@ -15,7 +15,7 @@ export function performTransition(updateCallback: () => void | Promise<void>): v
     return;
   }
 
-  (document as any).startViewTransition(async () => {
+  document.startViewTransition?.(async () => {
     await updateCallback();
   });
 }

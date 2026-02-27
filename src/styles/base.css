@@ -132,12 +132,12 @@ section,
   @media (width <= 767px) {
     html,
     body {
-      backface-visibility: hidden !important;
-      -webkit-overflow-scrolling: touch !important;
-      overscroll-behavior: contain !important;
-      touch-action: pan-y !important;
-      transform: translate3d(0, 0, 0) !important;
-      will-change: scroll-position !important;
+      backface-visibility: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
+      transform: translate3d(0, 0, 0);
+      will-change: scroll-position;
     }
 
     [data-modal-content],
@@ -147,9 +147,9 @@ section,
     .overflow-scroll:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
     .overflow-y-scroll {
       contain: layout style paint;
-      -webkit-overflow-scrolling: touch !important;
-      overscroll-behavior: contain !important;
-      touch-action: pan-y !important;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
       will-change: scroll-position;
     }
   }
@@ -170,7 +170,7 @@ section,
   [class*="horizontal-scroll"],
   [class*="scroll-x"],
   .overflow-x-auto:not(.overflow-y-auto, .overflow-y-scroll) {
-    touch-action: pan-x !important;
+    touch-action: pan-x;
   }
 
   [data-modal-content],
@@ -180,9 +180,9 @@ section,
   .overflow-scroll:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
   .overflow-y-scroll,
   .mobile-menu-content {
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain !important;
-    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
   }
 
   button,
@@ -234,14 +234,14 @@ section,
   .impact-carousel-container,
   .impact-carousel-track,
   .impact-carousel-wrapper {
-    overscroll-behavior: contain auto !important;
-    touch-action: pan-x pinch-zoom !important;
+    overscroll-behavior: contain auto;
+    touch-action: pan-x pinch-zoom;
   }
 
   .carousel-slide,
   .embla__slide,
   .impact-carousel-section .embla__slide {
-    touch-action: pan-x !important;
+    touch-action: pan-x;
   }
 
   .carousel-card a,
@@ -249,7 +249,7 @@ section,
   .carousel-card-benefit a,
   .carousel-card-process a,
   .impact-industry-card a {
-    touch-action: manipulation !important;
+    touch-action: manipulation;
   }
 
   summary {
@@ -300,11 +300,11 @@ section,
   html,
   body {
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: auto !important;
+    overscroll-behavior: auto;
   }
 
   html {
-    scroll-behavior: smooth !important;
+    scroll-behavior: smooth;
   }
 
 

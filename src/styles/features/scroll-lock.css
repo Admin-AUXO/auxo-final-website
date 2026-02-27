@@ -13,13 +13,13 @@ body.scroll-locked .mobile-menu-content {
 body.scroll-locked #scroll-progress-bar,
 body.scroll-locked #main-navigation,
 body.scroll-locked .fab-button {
-  position: fixed !important;
-  transform: translateZ(0) !important;
+  position: fixed;
+  transform: translateZ(0);
 }
 
 [data-lenis-root] #scroll-progress-bar,
 [data-lenis-root] #main-navigation,
 [data-lenis-root] .fab-button {
-  transform: translateZ(0) !important;
+  transform: translateZ(0);
 }
 

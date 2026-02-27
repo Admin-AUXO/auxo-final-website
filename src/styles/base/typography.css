@@ -76,6 +76,11 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.5;
+
+  @media (width <= 640px) {
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+    line-height: 1.4
+}
 }
 
 .text-display-lg {
@@ -84,13 +89,6 @@
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.15;
-}
-
-@media (width <= 640px) {
-  .text-display-md {
-    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
-    line-height: 1.4;
-  }
 }
 
 .text-h1-fluid {
@@ -109,7 +107,7 @@
   font-size: clamp(1rem, 2vw, 1.125rem);
 }
 
-/* Extra large screen font scaling */
+
 @media (width >= 1536px) {
   .text-h1 {
     font-size: clamp(4.5rem, 3.5rem + 1.5vw, 6rem);

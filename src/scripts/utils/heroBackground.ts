@@ -1,7 +1,11 @@
 import { observeThemeChange } from './observers';
 import { logger } from '@/lib/logger';
 
-let particleSystem: any = null;
+interface ParticleSystem {
+  destroy: () => void;
+}
+
+let particleSystem: ParticleSystem | null = null;
 let isInitialized = false;
 let themeObserver: MutationObserver | null = null;
 let lastPath = '';

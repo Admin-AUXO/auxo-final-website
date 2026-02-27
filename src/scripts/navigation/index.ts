@@ -8,9 +8,10 @@ import { forceUnlockScroll } from './utils';
 let navigationHistory: string[] = [];
 
 function setupPageTransitionTracking(): void {
-  document.addEventListener('astro:before-preparation', (e: any) => {
+  document.addEventListener('astro:before-preparation', (e: Event) => {
+    const customEvent = e as CustomEvent<{ to: { pathname: string } }>;
     const currentPath = window.location.pathname;
-    const newPath = e.detail.to.pathname;
+    const newPath = customEvent.detail.to.pathname;
 
     if (navigationHistory[navigationHistory.length - 1] === newPath) {
       document.documentElement.dataset.navigation = 'back';

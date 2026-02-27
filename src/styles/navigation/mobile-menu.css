@@ -199,6 +199,11 @@
   visibility: hidden;
   width: 44px;
   z-index: calc(var(--z-mobile-menu) + 1);
+
+  @media (width >= 640px) {
+    right: 0.75rem;
+    top: 0.75rem
+}
 }
 
 .mobile-menu-close-btn:hover {
@@ -225,16 +230,9 @@
   opacity: 1;
 }
 
-@media (width >= 640px) {
-  .mobile-menu-close-btn {
-    right: 0.75rem;
-    top: 0.75rem;
-  }
-}
-
 .mobile-menu-overlay {
   background: var(--overlay-black-75);
-  z-index: var(--z-mobile-overlay) !important;
+  z-index: var(--z-mobile-overlay);
 }
 
 .mobile-menu-overlay.is-open {
@@ -247,15 +245,15 @@
   background: transparent;
   display: flex;
   flex-direction: column;
-  height: 100dvh !important;
-  inset: 0 !important;
-  max-height: 100dvh !important;
+  height: 100dvh;
+  inset: 0;
+  max-height: 100dvh;
   opacity: 0;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   pointer-events: none;
-  position: fixed !important;
-  touch-action: pan-y !important;
+  position: fixed;
+  touch-action: pan-y;
   transform: translateY(100%);
   transition:
     transform var(--duration-normal) var(--easing-standard),
@@ -263,7 +261,7 @@
     visibility 0s var(--duration-normal);
   visibility: hidden;
   will-change: transform, opacity;
-  z-index: var(--z-mobile-menu) !important;
+  z-index: var(--z-mobile-menu);
 }
 
 .mobile-menu.is-open {
@@ -450,6 +448,10 @@ body:has(.mobile-menu.is-open) {
     transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
     margin-bottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
     overflow 0s 0.4s;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none
+}
 }
 
 .mobile-dropdown-content::-webkit-scrollbar {
@@ -468,7 +470,7 @@ body:has(.mobile-menu.is-open) {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   padding: 0;
-  touch-action: pan-y !important;
+  touch-action: pan-y;
   transform: translateY(0) scale(1);
 }
 
@@ -537,13 +539,11 @@ body:has(.mobile-menu.is-open) {
   gap: 0.25rem;
   grid-template-columns: 1fr;
   width: 100%;
-}
 
-@media (width >= 480px) {
-  .mobile-dropdown-services-grid {
+  @media (width >= 480px) {
     gap: 0.375rem;
-    grid-template-columns: repeat(2, 1fr);
-  }
+    grid-template-columns: repeat(2, 1fr)
+}
 }
 
 .mobile-service-card {
@@ -607,11 +607,5 @@ body:has(.mobile-menu.is-open) {
 
 .mobile-menu-content > div > div > .mobile-nav-link:last-child {
   margin-bottom: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mobile-dropdown-content {
-    transition: none;
-  }
 }
 

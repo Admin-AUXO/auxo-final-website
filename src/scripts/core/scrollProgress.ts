@@ -1,8 +1,14 @@
 import { getLenisInstance } from '../smoothScroll';
 import { getScrollPercentage } from '../utils/scrollHelpers';
 
+interface LenisInstance {
+  scroll: number;
+  on: (event: string, callback: (e: { scroll: number }) => void) => void;
+  off: (event: string, callback: (e: { scroll: number }) => void) => void;
+}
+
 let isInitialized = false;
-let lenisInstance: any = null;
+let lenisInstance: LenisInstance | null = null;
 let scrollHandler: (() => void) | null = null;
 let rafPending = false;
 
@@ -35,7 +41,9 @@ function handleNativeScroll(): void {
 
 function handleResize(): void {
   if (lenisInstance) {
-    setTimeout(() => updateProgress(calculateProgress(lenisInstance.scroll)), 100);
+    setTimeout(() => {
+      if (lenisInstance) updateProgress(calculateProgress(lenisInstance.scroll));
+    }, 100);
   } else {
     handleNativeScroll();
   }
@@ -52,7 +60,7 @@ export function initScrollProgress(): void {
 
   isInitialized = true;
 
-  lenisInstance = getLenisInstance();
+  lenisInstance = getLenisInstance() as unknown as LenisInstance;
 
   if (lenisInstance) {
     lenisInstance.on('scroll', handleLenisScroll);

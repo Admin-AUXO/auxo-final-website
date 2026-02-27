@@ -251,7 +251,6 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 </style>
 
 <script>
-  // Monitor connection status
   function updateConnectionStatus() {
     const statusElement = document.querySelector(".status-indicator");
     if (!statusElement) return;
@@ -261,7 +260,6 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       statusElement.classList.add("online");
       statusElement.textContent = "Back Online";
 
-      // Automatically retry after 2 seconds
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -275,6 +273,5 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
   window.addEventListener("online", updateConnectionStatus);
   window.addEventListener("offline", updateConnectionStatus);
 
-  // Check connection on load
   document.addEventListener("astro:page-load", updateConnectionStatus);
 </script>

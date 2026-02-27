@@ -32,11 +32,11 @@ export const contactFormSchema = z.object({
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;
 
-export function validateContactForm(data: Record<string, any>) {
+export function validateContactForm(data: Record<string, unknown>) {
   return contactFormSchema.safeParse(data);
 }
 
-export function validateField(fieldName: keyof ContactFormData, value: any) {
+export function validateField(fieldName: keyof ContactFormData, value: unknown) {
   try {
     const fieldSchema = contactFormSchema.shape[fieldName];
     fieldSchema.parse(value);
@@ -58,7 +58,7 @@ export function getFormData(form: HTMLFormElement): Record<string, string> {
   return data;
 }
 
-export function showFieldError(input: HTMLInputElement | HTMLTextAreaElement, message: string) {
+export function showFieldError(input: HTMLInputElement | HTMLTextAreaElement, message: string): void {
   hideFieldError(input);
 
   input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500/20');
@@ -71,13 +71,13 @@ export function showFieldError(input: HTMLInputElement | HTMLTextAreaElement, me
   input.parentElement?.appendChild(errorElement);
 }
 
-export function hideFieldError(input: HTMLInputElement | HTMLTextAreaElement) {
+export function hideFieldError(input: HTMLInputElement | HTMLTextAreaElement): void {
   input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500/20');
   input.classList.add('border-accent-green/20', 'focus:border-accent-green');
   input.parentElement?.querySelector('.validation-error')?.remove();
 }
 
-export function showFieldSuccess(input: HTMLInputElement | HTMLTextAreaElement) {
+export function showFieldSuccess(input: HTMLInputElement | HTMLTextAreaElement): void {
   hideFieldError(input);
   input.classList.remove('border-accent-green/20', 'border-red-500');
   input.classList.add('border-accent-green', 'focus:border-accent-green');
@@ -106,7 +106,7 @@ export function showFieldSuccess(input: HTMLInputElement | HTMLTextAreaElement) 
   }
 }
 
-export function hideFieldSuccess(input: HTMLInputElement | HTMLTextAreaElement) {
+export function hideFieldSuccess(input: HTMLInputElement | HTMLTextAreaElement): void {
   input.classList.remove('border-accent-green');
   input.classList.add('border-accent-green/20');
   input.parentElement?.querySelector('.validation-success')?.remove();

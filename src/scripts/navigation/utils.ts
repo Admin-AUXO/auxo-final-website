@@ -1,4 +1,3 @@
-import { BREAKPOINTS } from '../constants';
 import { logger } from '@/lib/logger';
 
 export function updateNavHeight(): void {

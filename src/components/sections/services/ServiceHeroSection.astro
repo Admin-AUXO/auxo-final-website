@@ -5,6 +5,7 @@ import HeroLayout from "@/components/ui/HeroLayout.astro";
 import HeroCTAButton from "@/components/ui/HeroCTAButton.astro";
 import { Icon } from "astro-icon/components";
 import type { ServiceDetail } from "@/data/content/services";
+import { Image } from "astro:assets";
 
 interface Props {
   service: ServiceDetail;
@@ -24,21 +25,22 @@ const { service } = Astro.props;
     <div
       class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix"
     >
-      <!-- Light Mode Image -->
-      <img
+      <Image
         src={`/images/services/${service.slug.replace(/-/g, "_")}_light.webp`}
         alt={`${service.name} background`}
         class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-40 sm:opacity-60 dark:opacity-0"
         fetchpriority="high"
+        width={1920} height={1080}
       />
-      <!-- Dark Mode Image -->
-      <img
+
+      <Image
         src={`/images/services/${service.slug.replace(/-/g, "_")}_dark.webp`}
         alt={`${service.name} background`}
         class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-0 dark:opacity-40 sm:dark:opacity-70"
         fetchpriority="high"
+        width={1920} height={1080}
       />
-      <!-- Gradients -->
+
       <div
         class="absolute inset-0 bg-gradient-to-b from-theme-surface/90 via-theme-surface/60 to-theme-surface"
       >

@@ -1,17 +1,13 @@
 :root {
   --nav-height: var(--nav-height-mobile);
+
+  @media (width >= 640px) {
+    --nav-height: var(--nav-height-sm)
 }
 
-@media (width >= 640px) {
-  :root {
-    --nav-height: var(--nav-height-sm);
-  }
+  @media (width >= 1024px) {
+    --nav-height: var(--nav-height-lg)
 }
-
-@media (width >= 1024px) {
-  :root {
-    --nav-height: var(--nav-height-lg);
-  }
 }
 
 .h-14 {

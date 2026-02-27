@@ -4,17 +4,17 @@
 .service-benefits-section .grid-container,
 .service-outcomes-section .grid-container,
 .service-cta-section .grid-container {
-  overflow-x: clip !important;
+  overflow-x: clip;
 }
 
 .service-process-section:has(.service-process-carousel-section),
 .service-benefits-section:has(.service-benefits-carousel-section) {
-  overflow: visible !important;
+  overflow: visible;
 }
 
 .service-process-section:has(.service-process-carousel-section) .grid-container,
 .service-benefits-section:has(.service-benefits-carousel-section) .grid-container {
-  overflow-x: visible !important;
+  overflow-x: visible;
 }
 
 .process-stepper-wrapper {
@@ -46,6 +46,10 @@
 .process-step-item {
   min-width: var(--process-step-min-width);
   position: relative;
+
+  @media (width >= 1536px) {
+    min-width: 200px
+}
 }
 
 
@@ -85,12 +89,6 @@ details.group\/details summary::-webkit-details-marker {
 
   .process-step-item {
     min-width: var(--process-step-min-width-lg);
-  }
-}
-
-@media (width >= 1536px) {
-  .process-step-item {
-    min-width: 200px;
   }
 }
 

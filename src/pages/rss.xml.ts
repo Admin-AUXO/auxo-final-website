@@ -2,7 +2,7 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import { getSiteConfigData } from '@/lib/data/siteConfig-compat';
 
-export async function GET(context: any) {
+export async function GET(context: import('astro').APIContext) {
   const blog = await getCollection('blog');
   const siteData = await getSiteConfigData();
   

@@ -29,14 +29,14 @@ export class EmblaCarouselWrapper {
 
   constructor(
     private container: HTMLElement,
-    private options: EmblaCarouselOptions = {}
+    _options: EmblaCarouselOptions = {}
   ) {
     const {
       loop = true,
       autoplay = true,
       autoplayInterval = DEFAULT_AUTOPLAY_INTERVAL,
       pauseOnHover = true,
-      pauseOnTouch = true,
+      pauseOnTouch: _pauseOnTouch = true,
       align = 'center',
       slidesToScroll = 1,
       dragFree = false,
@@ -44,7 +44,7 @@ export class EmblaCarouselWrapper {
       containScroll = 'trimSnaps',
       skipSnaps = false,
       onSlideChange,
-    } = options;
+    } = _options;
 
     this.onSlideChangeCallback = onSlideChange;
 
@@ -81,7 +81,7 @@ export class EmblaCarouselWrapper {
     };
 
     try {
-      this._embla = EmblaCarousel(container, emblaOptions, plugins);
+      this._embla = EmblaCarousel(this.container, emblaOptions, plugins);
     } catch (error) {
       logger.warn('Failed to initialize Embla Carousel:', error);
       this.isDestroyed = true;
@@ -140,7 +140,7 @@ export class EmblaCarouselWrapper {
       try {
         this.autoplayPlugin.stop();
       } catch {
-        // Plugin may already be destroyed
+
       }
       this.autoplayPlugin = null;
     }

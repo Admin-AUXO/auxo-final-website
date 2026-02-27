@@ -428,7 +428,6 @@ const faqSchema = {
       })();
     </script>
     <script>
-      // Bundled error blocking and utility scripts
       (function () {
         const root = document.documentElement;
         const body = document.body;
@@ -503,7 +502,6 @@ const faqSchema = {
           }
         }, 1000);
 
-        // Error suppression for common non-critical issues (3rd party extensions, etc)
         const blockedPatterns = [
           "fbevents",
           "facebook.net",
@@ -526,7 +524,7 @@ const faqSchema = {
         const originalConsoleError = console.error;
         const originalConsoleWarn = console.warn;
 
-        const shouldSuppress = (message) => {
+        const shouldSuppress = (message: string) => {
           return (
             extensionPatterns.some((p) => message.includes(p)) ||
             recaptchaPatterns.some((p) => message.includes(p)) ||
@@ -620,9 +618,7 @@ const faqSchema = {
       document.addEventListener("astro:before-preparation", saveScrollPosition);
       document.addEventListener("astro:page-load", handleScrollRestoration);
 
-      const initMobileScrollOptimizations = () => {
-        // Minimal mobile optimizations to avoid interfering with scroll
-      };
+      const initMobileScrollOptimizations = () => {};
 
       if (document.readyState === "loading") {
         document.addEventListener(

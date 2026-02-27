@@ -63,7 +63,7 @@
 }
 
 .methodology-section .grid-container {
-  overflow-x: clip !important;
+  overflow-x: clip;
 }
 
 .methodology-section .section-pattern-grid {
@@ -111,18 +111,18 @@
 }
 
 .services-intro-section .grid-container {
-  max-width: 100% !important;
-  overflow-x: visible !important;
+  max-width: 100%;
+  overflow-x: visible;
 }
 
 .capabilities-section:has(.capabilities-carousel-section),
 .services-intro-section:has(.services-intro-carousel-section) {
-  overflow: visible !important;
+  overflow: visible;
 }
 
 .capabilities-section:has(.capabilities-carousel-section) .grid-container,
 .services-intro-section:has(.services-intro-carousel-section) .grid-container {
-  overflow-x: visible !important;
+  overflow-x: visible;
 }
 
 .services-intro-section::after {
@@ -136,16 +136,14 @@
   pointer-events: none;
   position: absolute;
   z-index: 0;
-}
 
-@media (width <= 640px) {
-  .services-intro-section::after {
+  @media (width <= 640px) {
     background: radial-gradient(
       ellipse 120% 90% at center top,
       var(--accent-green-opacity-015) 0%,
       transparent 45%
-    );
-  }
+    )
+}
 }
 
 .cta-pattern {
@@ -158,6 +156,10 @@
     var(--pattern-size-md) var(--pattern-size-md),
     var(--pattern-size-md) var(--pattern-size-md),
     var(--pattern-size-sm) var(--pattern-size-sm);
+
+  @media (width <= 640px) {
+    opacity: 0.2
+}
 }
 
 .cta-card {
@@ -167,12 +169,6 @@
 
 .final-cta-section .section-gradient-hero {
   z-index: 1;
-}
-
-@media (width <= 640px) {
-  .cta-pattern {
-    opacity: 0.2;
-  }
 }
 
 .code-edge-pattern {

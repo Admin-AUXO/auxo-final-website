@@ -4,8 +4,7 @@ import { getAttributionParams } from './utmTracking';
 import { sanitizeForGA4, redactURL } from './privacy';
 import { getClientId, getSessionId, getSessionNumber } from './identifiers';
 
-const GA4_MEASUREMENT_ID = env.analytics.measurementId;
-const GA4_DEBUG_MODE = env.analytics.debug;
+const _GA4_DEBUG_MODE = env.analytics.debug;
 
 const MAX_PARAM_LENGTH = 100;
 const MAX_EVENT_NAME_LENGTH = 40;
@@ -156,7 +155,7 @@ export function trackEvent(
 
     const eventParams = {
       ...sanitized,
-      ...(GA4_DEBUG_MODE && { debug_mode: true }),
+      ...(_GA4_DEBUG_MODE && { debug_mode: true }),
     };
 
     if (typeof window.gtag === 'function') {

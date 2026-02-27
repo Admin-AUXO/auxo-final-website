@@ -2,7 +2,6 @@ import { BREAKPOINTS } from '../constants';
 
 const THEME_STORAGE_KEY = "theme";
 const THEME_CHANGE_EVENT = "themechange";
-const THEME_CHANGE_DURATION = 100; // Even faster response time
 const SWITCH_TRANSFORM_LIGHT = "translateX(calc(3rem - 1.25rem - 0.125rem))";
 const SWITCH_TRANSFORM_DARK = "translateX(0)";
 
@@ -96,7 +95,7 @@ function toggleTheme(e?: Event): void {
 
   const now = Date.now();
 
-  // Prevent rapid successive theme changes
+
   if (isThemeChanging || (now - lastThemeChange) < THEME_CHANGE_DEBOUNCE) {
     return;
   }
@@ -112,8 +111,8 @@ function toggleTheme(e?: Event): void {
   const currentTheme = getTheme();
   const newTheme = currentTheme === "dark" ? "light" : "dark";
 
-  if ((document as any).startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const transition = (document as any).startViewTransition(() => {
+  if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const transition = document.startViewTransition(() => {
       applyTheme(newTheme);
       updateIcon(newTheme);
     });
@@ -201,9 +200,9 @@ function handleAstroPageLoad(): void {
     applyTheme(getTheme());
 
     toggles.forEach((toggle) => {
-      if (!(toggle as any)._themeListenerAttached) {
+      if (!toggle._themeListenerAttached) {
         attachToggleListeners(toggle);
-        (toggle as any)._themeListenerAttached = true;
+        toggle._themeListenerAttached = true;
       }
     });
   });

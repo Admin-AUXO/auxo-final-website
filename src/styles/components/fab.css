@@ -23,6 +23,25 @@
   view-transition-name: floating-button;
   width: 3.5rem;
   z-index: var(--z-floating-button);
+
+  @media (width >= 1024px) {
+    bottom: 2.5rem;
+    right: 2.5rem
+}
+
+  @media (prefers-contrast: more) {
+    border-width: 3px;
+    box-shadow: 0 6px 24px var(--accent-green-opacity-30)
+}
+
+  @media print {
+    display: none
+}
+
+  @media (width <= 1023px) {
+    bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
+    right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right)))
+}
 }
 
 .fab-button:hover,
@@ -72,13 +91,6 @@
   }
 }
 
-@media (width >= 1024px) {
-  .fab-button {
-    bottom: 2.5rem;
-    right: 2.5rem;
-  }
-}
-
 @media (height <= 600px) {
   .fab-button {
     bottom: 1rem;
@@ -109,25 +121,6 @@
 }
 
 /* stylelint-disable-next-line media-feature-name-value-no-unknown */
-@media (prefers-contrast: high) {
-  .fab-button {
-    border-width: 3px;
-    box-shadow: 0 6px 24px var(--accent-green-opacity-30);
-  }
-}
-
-@media print {
-  .fab-button {
-    display: none;
-  }
-}
-
-@media (width <= 1023px) {
-  .fab-button {
-    bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
-    right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right)));
-  }
-}
 
 @media (height <= 600px) and (orientation: landscape) {
   .fab-button {

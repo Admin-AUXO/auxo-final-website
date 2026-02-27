@@ -395,14 +395,9 @@ export class GalaxyParticleSystem {
     ) / 2;
   }
 
-  private getCanvasLogicalSize() {
-    return this.cachedLogicalSize;
-  }
-
   private createStars() {
     this.stars = [];
     this.updateCanvasCache();
-    const { width, height } = this.cachedLogicalSize;
     const maxDistance = this.cachedMaxDistance;
     
     for (let i = 0; i < this.config.starCount; i++) {
@@ -500,9 +495,7 @@ export class GalaxyParticleSystem {
     this.themeObserver = new MutationObserver(() => {
       const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
       if (lastTheme !== currentTheme) {
-        const wasDark = lastTheme === 'dark';
-        const isDark = currentTheme === 'dark';
-        const wasLightMode = !wasDark;
+        const wasLightMode = lastTheme === 'light';
         
         this.updateThemeColors();
         

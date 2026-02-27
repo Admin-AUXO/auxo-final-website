@@ -7,6 +7,10 @@
   position: absolute;
   visibility: visible;
   z-index: 0;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none
+}
 }
 
 #particle-canvas {
@@ -43,12 +47,6 @@ section.hero-section .hero-content {
 
   #particle-canvas {
     image-rendering: auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #particle-background {
-    display: none;
   }
 }
 
