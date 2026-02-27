@@ -3,6 +3,7 @@ import HighlightText from "@/components/ui/HighlightText.astro";
 import HeroLayout from "@/components/ui/HeroLayout.astro";
 import HeroCTAButton from "@/components/ui/HeroCTAButton.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
+import ParticleBackground from "@/components/effects/ParticleBackground.astro";
 
 interface Props {
   content: {
@@ -25,6 +26,11 @@ const { content } = Astro.props;
   scrollAriaLabel="Scroll to explore services"
 >
   <Fragment slot="background">
+    <div
+      class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix"
+    >
+      <ParticleBackground mode="sys" />
+    </div>
     <BackgroundDecorations gradients={["hero"]} />
 
     <div
