@@ -44,11 +44,13 @@ const {
   googleCalendar = false,
 } = Astro.props;
 
-const shouldOpenGoogleCalendarBtn = googleCalendar || shouldOpenCalendly({
-  text: ctaText,
-  href: ctaHref,
-  context: 'cta-section'
-});
+const shouldOpenGoogleCalendarBtn =
+  googleCalendar ||
+  shouldOpenCalendly({
+    text: ctaText,
+    href: ctaHref,
+    context: "cta-section",
+  });
 
 const maxWidthClasses = {
   "2xl": "max-w-2xl",
@@ -67,48 +69,92 @@ const isMinimal = variant === "minimal";
   background={background}
   class={`relative cta-section ${className}`}
 >
-  {!isMinimal && (
-    <>
-      <div class="absolute inset-0 cta-bg-gradient pointer-events-none z-0" data-variant={variant}></div>
-      <div class="absolute inset-0 cta-bg-pattern pointer-events-none z-0 opacity-40" data-variant={variant}></div>
-      {isElevated && (
-        <>
-          <div class="absolute top-0 left-1/4 w-96 h-96 bg-accent-green/5 rounded-full blur-3xl pointer-events-none"></div>
-          <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl pointer-events-none"></div>
-        </>
-      )}
-    </>
-  )}
+  {
+    !isMinimal && (
+      <>
+        <div
+          class="absolute inset-0 cta-bg-gradient pointer-events-none z-0"
+          data-variant={variant}
+        />
+        <div
+          class="absolute inset-0 cta-bg-pattern pointer-events-none z-0 opacity-70"
+          data-variant={variant}
+        />
+        {isElevated && (
+          <>
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-accent-green/5 rounded-full blur-3xl pointer-events-none" />
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl pointer-events-none" />
+          </>
+        )}
+      </>
+    )
+  }
 
   <div class="grid-container relative z-10">
-    <div class={`col-span-full ${maxWidthClasses[maxWidth]} mx-auto w-full text-center`}>
+    <div
+      class={`col-span-full ${maxWidthClasses[maxWidth]} mx-auto w-full text-center`}
+    >
       <div class={`cta-content space-y-6 lg:space-y-8 ${contentClass}`}>
-        {badge && (
-          <div class="flex justify-center" data-reveal="zoom-in" data-reveal-duration="250" data-reveal-easing="ease-out">
-            <span class="inline-flex items-center gap-2 px-4 py-2 bg-accent-green/10 text-accent-green rounded-full text-sm font-semibold border border-accent-green/20 backdrop-blur-sm">
-              <Icon name="mdi:star-circle" class="w-4 h-4" />
-              {badge}
-            </span>
-          </div>
-        )}
+        {
+          badge && (
+            <div
+              class="flex justify-center"
+              data-reveal="zoom-in"
+              data-reveal-duration="250"
+              data-reveal-easing="ease-out"
+            >
+              <span class="inline-flex items-center gap-2 px-4 py-2 bg-accent-green/10 text-accent-green rounded-full text-sm font-semibold border border-accent-green/20 backdrop-blur-sm">
+                <Icon name="mdi:star-circle" class="w-4 h-4" />
+                {badge}
+              </span>
+            </div>
+          )
+        }
 
-        <h2 class="text-h2 font-extrabold leading-tight tracking-tight font-display text-theme-primary" data-reveal="fade-down" data-reveal-duration="250" data-reveal-easing="ease-out" data-reveal-delay={badge ? "100" : "0"}>
+        <h2
+          class="text-h2 font-extrabold leading-tight tracking-tight font-display text-theme-primary"
+          data-reveal="fade-down"
+          data-reveal-duration="250"
+          data-reveal-easing="ease-out"
+          data-reveal-delay={badge ? "100" : "0"}
+        >
           <HighlightText text={title} highlight={titleHighlight} />
         </h2>
 
-        <div class="space-y-4" data-reveal="fade-up" data-reveal-duration="250" data-reveal-easing="ease-out" data-reveal-delay={badge ? "200" : "100"}>
-          <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed font-body mx-auto" class:list={[maxWidthClasses[maxWidth === "4xl" ? "3xl" : "2xl"]]}>
-            <HighlightText text={description} highlight={descriptionHighlight} highlightClass="text-accent-green font-semibold" />
+        <div
+          class="space-y-4"
+          data-reveal="fade-up"
+          data-reveal-duration="250"
+          data-reveal-easing="ease-out"
+          data-reveal-delay={badge ? "200" : "100"}
+        >
+          <p
+            class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed font-body mx-auto"
+            class:list={[maxWidthClasses[maxWidth === "4xl" ? "3xl" : "2xl"]]}
+          >
+            <HighlightText
+              text={description}
+              highlight={descriptionHighlight}
+              highlightClass="text-accent-green font-semibold"
+            />
           </p>
 
-          {secondaryText && (
-          <p class="text-body-lg text-theme-secondary/80 leading-relaxed font-body mx-auto max-w-2xl">
-            {secondaryText}
-          </p>
-          )}
+          {
+            secondaryText && (
+              <p class="text-body-lg text-theme-secondary/80 leading-relaxed font-body mx-auto max-w-2xl">
+                {secondaryText}
+              </p>
+            )
+          }
         </div>
 
-        <div class="pt-2 flex justify-center" data-reveal="fade-up" data-reveal-duration="250" data-reveal-easing="ease-out" data-reveal-delay={badge ? "300" : "200"}>
+        <div
+          class="pt-2 flex justify-center"
+          data-reveal="fade-up"
+          data-reveal-duration="250"
+          data-reveal-easing="ease-out"
+          data-reveal-delay={badge ? "300" : "200"}
+        >
           <Button
             variant="primary"
             size="lg"
@@ -116,26 +162,43 @@ const isMinimal = variant === "minimal";
             googleCalendar={shouldOpenGoogleCalendarBtn}
             class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center lg:hover:shadow-xl lg:hover:shadow-accent-green/30 transition-shadow duration-300 min-h-[52px] text-base sm:text-lg group/btn"
           >
-            <span class="whitespace-nowrap">{shouldOpenGoogleCalendarBtn ? "Schedule a Meeting" : ctaText}</span>
-            <Icon name="mdi:arrow-right" class="w-5 h-5 flex-shrink-0 lg:group-hover/btn:translate-x-1 transition-transform duration-300" />
+            <span class="whitespace-nowrap"
+              >{
+                shouldOpenGoogleCalendarBtn ? "Schedule a Meeting" : ctaText
+              }</span
+            >
+            <Icon
+              name="mdi:arrow-right"
+              class="w-5 h-5 flex-shrink-0 lg:group-hover/btn:translate-x-1 transition-transform duration-300"
+            />
           </Button>
         </div>
 
-        {additionalInfo && (
-          <div class="pt-4 sm:pt-6 border-t border-accent-green/10" data-reveal="fade-up" data-reveal-duration="250" data-reveal-easing="ease-out" data-reveal-delay={badge ? "400" : "300"}>
-            <p class="text-body-base text-theme-secondary/90 font-body flex items-center justify-center gap-2">
-              <Icon name="mdi:information-outline" class="w-4 h-4 text-accent-green" />
-              <span>{additionalInfo}</span>
-            </p>
-          </div>
-        )}
+        {
+          additionalInfo && (
+            <div
+              class="pt-4 sm:pt-6 border-t border-accent-green/10"
+              data-reveal="fade-up"
+              data-reveal-duration="250"
+              data-reveal-easing="ease-out"
+              data-reveal-delay={badge ? "400" : "300"}
+            >
+              <p class="text-body-base text-theme-secondary/90 font-body flex items-center justify-center gap-2">
+                <Icon
+                  name="mdi:information-outline"
+                  class="w-4 h-4 text-accent-green"
+                />
+                <span>{additionalInfo}</span>
+              </p>
+            </div>
+          )
+        }
       </div>
     </div>
   </div>
 </SectionContainer>
 
 <style>
-
   .cta-bg-gradient[data-variant="standard"] {
     background: radial-gradient(
       ellipse 120% 80% at 50% 120%,
@@ -160,14 +223,24 @@ const isMinimal = variant === "minimal";
 
   .cta-bg-pattern[data-variant="standard"] {
     background-image:
-      linear-gradient(rgba(var(--color-accent-green-rgb), 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(var(--color-accent-green-rgb), 0.03) 1px, transparent 1px);
+      linear-gradient(
+        rgba(var(--color-accent-green-rgb), 0.03) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(var(--color-accent-green-rgb), 0.03) 1px,
+        transparent 1px
+      );
     background-size: 40px 40px;
   }
 
   .cta-bg-pattern[data-variant="elevated"] {
-    background-image:
-      radial-gradient(circle at 1px 1px, rgba(var(--color-accent-green-rgb), 0.08) 1px, transparent 0);
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      rgba(var(--color-accent-green-rgb), 0.08) 1px,
+      transparent 0
+    );
     background-size: 32px 32px;
   }
 
@@ -183,4 +256,3 @@ const isMinimal = variant === "minimal";
     transition: opacity 0.3s ease;
   }
 </style>
-

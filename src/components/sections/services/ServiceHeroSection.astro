@@ -28,17 +28,19 @@ const { service } = Astro.props;
       <Image
         src={`/images/services/${service.slug.replace(/-/g, "_")}_light.webp`}
         alt={`${service.name} background`}
-        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-40 sm:opacity-60 dark:opacity-0"
+        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-70 sm:opacity-90 dark:opacity-0"
         fetchpriority="high"
-        width={1920} height={1080}
+        width={1920}
+        height={1080}
       />
 
       <Image
         src={`/images/services/${service.slug.replace(/-/g, "_")}_dark.webp`}
         alt={`${service.name} background`}
-        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-0 dark:opacity-40 sm:dark:opacity-70"
+        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-0 dark:opacity-70 sm:dark:opacity-95"
         fetchpriority="high"
-        width={1920} height={1080}
+        width={1920}
+        height={1080}
       />
 
       <div
