@@ -6,6 +6,7 @@ import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import { Icon } from "astro-icon/components";
 import { getSiteConfigData } from "@/lib/data/siteConfig-compat";
+import ParticleBackground from "@/components/effects/ParticleBackground.astro";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection("blog");
@@ -50,6 +51,11 @@ const articleSchema = {
     background="default"
     class="relative overflow-hidden pt-36 lg:pt-48 pb-12"
   >
+    <div
+      class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix"
+    >
+      <ParticleBackground mode="articles" />
+    </div>
     <BackgroundDecorations gradients={["top"]} patterns={["grid"]} />
     <div class="grid-container relative z-10">
       <div class="col-span-full max-w-4xl mx-auto text-center">

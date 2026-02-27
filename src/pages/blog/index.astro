@@ -5,7 +5,7 @@ import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import { Icon } from "astro-icon/components";
-import { Image } from "astro:assets";
+import ParticleBackground from "@/components/effects/ParticleBackground.astro";
 
 const allPosts = await getCollection("blog");
 allPosts.sort(
@@ -26,22 +26,7 @@ allPosts.sort(
     <div
       class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix"
     >
-      <Image
-        src="/images/Editorial_3d_illustration_of_a_glowing_emerald_green_light.webp"
-        alt="Data Insights"
-        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-40 sm:opacity-60 dark:opacity-0"
-        fetchpriority="high"
-        width={1920}
-        height={1080}
-      />
-      <Image
-        src="/images/Editorial_3d_illustration_of_a_glowing_emerald_green_dark.webp"
-        alt="Data Insights"
-        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-0 dark:opacity-40 sm:dark:opacity-70"
-        fetchpriority="high"
-        width={1920}
-        height={1080}
-      />
+      <ParticleBackground mode="articles" />
       <div
         class="absolute inset-0 bg-gradient-to-b from-theme-surface/90 via-theme-surface/60 to-theme-surface"
       >

@@ -1,7 +1,7 @@
 import { BREAKPOINTS } from './constants';
 import { logger } from '@/lib/logger';
 
-export type ParticleMode = 'galaxy' | 'network' | 'flow' | 'data' | 'waves' | 'logic' | 'sys' | 'ai' | 'expand';
+export type ParticleMode = 'galaxy' | 'network' | 'flow' | 'data' | 'waves' | 'logic' | 'sys' | 'ai' | 'expand' | 'articles' | 'about';
 
 interface Particle {
   x: number;
@@ -203,7 +203,12 @@ export class GalaxyParticleSystem {
         baseCount = Math.floor(baseCount * 1.2);
         break;
       case 'data':
+      case 'articles':
         baseCount = Math.floor(baseCount * 0.5); // Larger elements
+        break;
+      case 'about':
+        baseCount = Math.floor(baseCount * 0.8);
+        this.config.lineLinked = true;
         break;
     }
 
@@ -286,10 +291,13 @@ export class GalaxyParticleSystem {
       if (this.mode === 'data') {
         shape = Math.random() > 0.7 ? 'square' : 'circle';
         type = 'data-bit';
+      } else if (this.mode === 'articles') {
+        shape = 'square'; // Document pages
+        type = 'data-bit';
       } else if (this.mode === 'logic') {
         shape = 'star';
         type = 'node';
-      } else if (this.mode === 'ai') {
+      } else if (this.mode === 'ai' || this.mode === 'about') {
         type = 'node';
         if (rand < 0.2) color = this.accentColor;
       } else if (this.mode === 'network') {
@@ -303,7 +311,8 @@ export class GalaxyParticleSystem {
       
       // Contextual radius adjustments
       if (this.mode === 'data') baseRadius = Math.random() * 3 + 1;
-      if (this.mode === 'ai' && type === 'node') baseRadius = Math.random() * 2 + 1;
+      if (this.mode === 'articles') baseRadius = Math.random() * 4 + 2;
+      if ((this.mode === 'ai' || this.mode === 'about') && type === 'node') baseRadius = Math.random() * 2 + 1;
       if (this.mode === 'expand') baseRadius = Math.random() * 2 + 0.5;
 
       const orbitalSpeed = this.config.speed * (0.5 + Math.random() * 0.5);
@@ -322,6 +331,10 @@ export class GalaxyParticleSystem {
         // Start near center
         startX = this.centerX + (Math.random() - 0.5) * 100;
         startY = this.centerY + (Math.random() - 0.5) * 100;
+      } else if (this.mode === 'articles') {
+        // Start from bottom
+        startX = x;
+        startY = height + Math.random() * 100;
       }
 
       this.particles.push({
@@ -441,6 +454,25 @@ export class GalaxyParticleSystem {
             p.vx = 0; p.vy = 0;
           }
           break;
+          
+        case 'articles':
+          // Pages drifting upwards like leaves the wind
+          p.vy -= 0.02;
+          p.vx += Math.sin(p.y * 0.01 + p.twinklePhase) * 0.01;
+          if (p.vy < -1.5) p.vy = -1.5;
+          p.rotationSpeed = (Math.random() - 0.5) * 0.02;
+          p.rotation += p.rotationSpeed;
+          break;
+          
+        case 'about':
+          // Constellation-like gentle drifting
+          p.vx += (Math.random() - 0.5) * 0.005;
+          p.vy += (Math.random() - 0.5) * 0.005;
+          const dxAbout = this.centerX - p.x;
+          const dyAbout = this.centerY - p.y;
+          p.vx += dxAbout * 0.00001;
+          p.vy += dyAbout * 0.00001;
+          break;
       }
 
       // 2. Mouse Interaction
@@ -466,6 +498,7 @@ export class GalaxyParticleSystem {
               
             case 'network':
             case 'ai':
+            case 'about':
               // Strong attraction
               p.vx += Math.cos(angle) * force * 0.8;
               p.vy += Math.sin(angle) * force * 0.8;
@@ -478,9 +511,13 @@ export class GalaxyParticleSystem {
               break;
               
             case 'data':
-              // Deflector shield umbrella
+            case 'articles':
+              // Deflector shield umbrella / scatter
               p.vx -= Math.cos(angle) * force * 2;
               p.vy -= Math.max(0, Math.sin(angle) * force * 2);
+              if (this.mode === 'articles') {
+                 p.rotationSpeed += (Math.random() - 0.5) * force;
+              }
               break;
               
             case 'waves':
@@ -547,7 +584,19 @@ export class GalaxyParticleSystem {
       this.ctx.fillStyle = p.color;
       
       if (p.shape === 'square') {
-        this.ctx.fillRect(p.x - p.radius, p.y - p.radius, p.radius * 2, p.radius * 2);
+        if (this.mode === 'articles') {
+          // Draw floating rotated "pages"
+          this.ctx.translate(p.x, p.y);
+          this.ctx.rotate(p.rotation);
+          this.ctx.fillRect(-p.radius, -p.radius * 1.5, p.radius * 2, p.radius * 3);
+          // Inner page content representation
+          this.ctx.fillStyle = this.isLightMode ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)';
+          this.ctx.fillRect(-p.radius * 0.6, -p.radius * 1.0, p.radius * 1.2, p.radius * 0.2);
+          this.ctx.fillRect(-p.radius * 0.6, -p.radius * 0.5, p.radius * 1.2, p.radius * 0.2);
+          this.ctx.fillRect(-p.radius * 0.6, 0, p.radius * 0.8, p.radius * 0.2);
+        } else {
+          this.ctx.fillRect(p.x - p.radius, p.y - p.radius, p.radius * 2, p.radius * 2);
+        }
       } else if (p.shape === 'star') {
         this.drawStar(p.x, p.y, 5, p.radius * 2, p.radius);
       } else {
@@ -584,7 +633,7 @@ export class GalaxyParticleSystem {
     }
     
     // 2. Draw active connections to the mouse cursor for relevant modes
-    if (this.isMouseActive && (this.mode === 'network' || this.mode === 'ai')) {
+    if (this.isMouseActive && (this.mode === 'network' || this.mode === 'ai' || this.mode === 'about')) {
       const { width, height } = this.cachedLogicalSize;
       const influenceRadius = Math.min(width, height) * CONSTANTS.MOUSE_INFLUENCE_RADIUS_FACTOR;
       
