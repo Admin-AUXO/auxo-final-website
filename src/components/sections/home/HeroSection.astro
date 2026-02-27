@@ -2,8 +2,6 @@
 import HeroLayout from "@/components/ui/HeroLayout.astro";
 import HeroCTAButton from "@/components/ui/HeroCTAButton.astro";
 import type { HomepageContent } from "@/data/content/homepage";
-import { Image } from "astro:assets";
-
 interface Props {
   content: HomepageContent["hero"];
 }
@@ -21,22 +19,6 @@ const { content } = Astro.props;
     <div
       class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix"
     >
-      <Image
-        src="/images/Cubes_organizing_into_grid_light.webp"
-        alt="Data organizing into a grid"
-        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-40 sm:opacity-60 dark:opacity-0"
-        fetchpriority="high"
-        width={1920} height={1080}
-      />
-
-      <Image
-        src="/images/Cubes_organizing_into_grid_dark.webp"
-        alt="Data organizing into a grid"
-        class="absolute inset-0 w-full h-full object-cover object-top sm:object-center transition-opacity duration-500 opacity-0 dark:opacity-40 sm:dark:opacity-70"
-        fetchpriority="high"
-        width={1920} height={1080}
-      />
-
       <div
         class="absolute inset-0 bg-gradient-to-b from-theme-surface/80 via-theme-surface/60 to-theme-primary"
       >
