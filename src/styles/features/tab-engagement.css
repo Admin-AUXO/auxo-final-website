@@ -15,7 +15,7 @@
   position: fixed;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   visibility: hidden;
-  z-index: 9999;
+  z-index: var(--z-modals);
 }
 
 .auxo-engagement-overlay-visible {
@@ -29,7 +29,8 @@
 }
 
 .auxo-engagement-card {
-  animation: auxo-engagement-card-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards;
+  animation: auxo-engagement-card-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)
+    0.1s forwards;
   background: var(--bg-card);
   border: 2px solid var(--accent-green-opacity-30);
   border-radius: 1.5rem;
@@ -61,7 +62,7 @@
     var(--accent-green),
     transparent
   );
-  content: '';
+  content: "";
   height: 3px;
   left: 0;
   position: absolute;
@@ -70,7 +71,8 @@
 }
 
 @keyframes auxo-engagement-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.5;
   }
 
@@ -85,7 +87,7 @@
     rgb(var(--accent-green-rgb), 0.15) 0%,
     transparent 70%
   );
-  content: '';
+  content: "";
   height: 300px;
   left: 50%;
   pointer-events: none;
@@ -100,8 +102,8 @@
       circle,
       rgb(var(--accent-green-rgb), 0.2) 0%,
       transparent 70%
-    )
-}
+    );
+  }
 }
 
 .auxo-engagement-icon {
@@ -124,7 +126,8 @@
 }
 
 @keyframes auxo-engagement-icon-pulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 0 rgb(var(--accent-green-rgb), 0.4);
     transform: scale(1);
   }
@@ -143,7 +146,8 @@
 }
 
 @keyframes auxo-engagement-icon-bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
 
@@ -276,7 +280,9 @@
   .auxo-engagement-button,
   .auxo-engagement-icon {
     animation: none;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease;
   }
 
   .auxo-engagement-card {

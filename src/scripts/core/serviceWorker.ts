@@ -94,7 +94,7 @@ function showUpdateNotification() {
       border-radius: 0.75rem;
       padding: 1.25rem;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      z-index: 10000;
+      z-index: var(--z-maximum);
       animation: slideUp 0.4s ease;
     }
 

@@ -161,7 +161,7 @@ export class DraftManager {
 
   private showNotification(message: string, type: 'success' | 'info' | 'error'): void {
     const notification = document.createElement('div');
-    notification.className = `fixed bottom-4 right-4 px-4 py-3 rounded-lg shadow-lg z-50 animate-slide-in-bottom ${
+    notification.className = `fixed bottom-4 right-4 px-4 py-3 rounded-lg shadow-lg z-[9999] animate-slide-in-bottom ${
       type === 'success' ? 'bg-accent-green text-on-accent' :
       type === 'error' ? 'bg-red-500 text-white' :
       'bg-theme-card text-theme-primary border border-accent-green/20'

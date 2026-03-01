@@ -40,7 +40,7 @@ select:focus-visible {
   text-decoration: none;
   top: -100px;
   transition: top 0.3s ease;
-  z-index: 10000;
+  z-index: var(--z-maximum);
 }
 
 .skip-to-main:focus {
@@ -183,7 +183,7 @@ th {
   background: rgb(0 0 0 / 80%);
   inset: 0;
   position: fixed;
-  z-index: 9998;
+  z-index: calc(var(--z-modals) - 1);
 }
 
 .modal-container {
@@ -193,7 +193,7 @@ th {
   justify-content: center;
   padding: 1rem;
   position: fixed;
-  z-index: 9999;
+  z-index: var(--z-modals);
 }
 
 .modal-content:focus {
@@ -296,7 +296,7 @@ th {
   font-size: 0.875rem;
   padding: 0.5rem 0.75rem;
   position: absolute;
-  z-index: 1000;
+  z-index: calc(var(--z-modals) + 1);
 }
 
 

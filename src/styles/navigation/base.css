@@ -207,7 +207,7 @@ body.scroll-locked #main-navigation,
   pointer-events: none;
   position: absolute;
   top: 100%;
-  z-index: 9999;
+  z-index: var(--z-maximum);
 }
 
 :root.debug-nav #main-content {
@@ -226,7 +226,7 @@ body.scroll-locked #main-navigation,
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 9999;
+  z-index: var(--z-maximum);
 }
 
 
