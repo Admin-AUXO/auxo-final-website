@@ -18,7 +18,7 @@ const [homepageContent, siteData] = await Promise.all([
 ]);
 
 const serviceSchema = {
-  serviceType: 'Data Analytics Consulting',
+  serviceType: 'Decision Intelligence Partner',
   provider: {
     '@type': 'Organization',
     name: siteData.name,
@@ -45,12 +45,12 @@ const serviceSchema = {
   description: siteData.description,
   offers: {
     '@type': 'Offer',
-    description: 'Enterprise-grade data analytics consulting services',
+    description: 'Enterprise-grade decision intelligence partnership',
   },
 };
 ---
 
-<BaseLayout title="Data Analytics Consultancy Dubai, UAE | AUXO Data Labs" description={siteData.description}>
+<BaseLayout title="Decision Intelligence Partner Dubai, UAE | AUXO Data Labs" description={siteData.description}>
   <StructuredData type="Service" data={serviceSchema} />
   <div class="hero-problem-wrapper relative">
     <ParticleBackground />
@@ -86,5 +86,4 @@ const serviceSchema = {
   z-index: 0;
 }
 </style>
-
 

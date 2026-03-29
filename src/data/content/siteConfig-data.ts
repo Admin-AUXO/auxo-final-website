@@ -8,7 +8,7 @@ export const siteConfig: SiteConfig = {
     "lng": 55.1694,
     "street": "Dubai Internet City"
   },
-  "description": "AUXO is a Dubai-based data analytics consultancy serving sophisticated clients across the GCC, Europe, and global markets. We deliver enterprise-grade expertise with the efficiency and direct access of a modern, agile firm.",
+  "description": "AUXO is a Dubai-based decision intelligence partner serving sophisticated clients across the GCC, Europe, and global markets. We deliver enterprise-grade expertise with the efficiency and direct access of a modern, agile firm.",
   "email": "hello@auxodata.com",
   "name": "AUXO Data Labs",
   "privacyEmail": "privacy@auxodata.com",

@@ -10,7 +10,7 @@ export async function GET(context: import('astro').APIContext) {
     title: `${siteData.name} | Insights`,
     description: siteData.description,
     site: context.site || siteData.url,
-    items: blog.map((post) => ({
+    items: blog.map((post: (typeof blog)[number]) => ({
       title: post.data.title,
       pubDate: post.data.publishDate,
       description: post.data.description,
