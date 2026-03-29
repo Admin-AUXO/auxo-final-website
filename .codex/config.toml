@@ -1,0 +1,98 @@
+ #:schema https://developers.openai.com/codex/config-schema.json
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+personality = "pragmatic"
+
+[agents]
+max_threads = 4
+max_depth = 1
+
+[mcp_servers.astro_docs]
+args = ["-y", "mcp-remote", "https://mcp.docs.astro.build/mcp"]
+command = "npx"
+required = false
+startup_timeout_ms = 20000
+
+[mcp_servers.chrome_devtools]
+args = [
+    "-y",
+    "chrome-devtools-mcp@latest",
+]
+command = "npx"
+required = false
+startup_timeout_ms = 20000
+tool_timeout_sec = 90
+
+[mcp_servers.desktop_commander]
+args = [
+    "-y",
+    "@wonderwhy-er/desktop-commander@latest",
+    "--no-onboarding",
+]
+command = "npx"
+required = false
+startup_timeout_ms = 30000
+tool_timeout_sec = 120
+
+[mcp_servers.css]
+args = ["-y", "css-mcp"]
+command = "npx"
+required = false
+startup_timeout_ms = 20000
+
+[mcp_servers.fetch]
+args = ["mcp-server-fetch"]
+command = "uvx"
+required = false
+startup_timeout_ms = 20000
+
+[mcp_servers.filesystem]
+args = [".codex/scripts/start-filesystem-mcp.cjs"]
+command = "node"
+required = false
+
+[mcp_servers.memory]
+args = [
+    "-y",
+    "@modelcontextprotocol/server-memory",
+]
+command = "npx"
+required = false
+startup_timeout_ms = 20000
+
+[mcp_servers.sequential_thinking]
+args = [
+    "-y",
+    "@modelcontextprotocol/server-sequential-thinking",
+]
+command = "npx"
+required = false
+startup_timeout_ms = 20000
+
+[mcp_servers.serena]
+command = "uvx"
+args = [
+    "--from",
+    "git+https://github.com/oraios/serena",
+    "serena",
+    "start-mcp-server",
+    "--context",
+    "codex",
+    "--project-from-cwd",
+    "--open-web-dashboard",
+    "False",
+]
+required = false
+startup_timeout_ms = 30000
+
+[mcp_servers.time]
+args = ["mcp-server-time"]
+command = "uvx"
+required = false
+startup_timeout_ms = 20000
+
+[mcp_servers.typescript_docs]
+args = ["-y", "mcp-remote", "https://gitmcp.io/microsoft/typescript"]
+command = "npx"
+required = false
+startup_timeout_ms = 20000

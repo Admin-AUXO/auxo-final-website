@@ -19,16 +19,10 @@
     "lint": "npm run type-check && npm run lint:css",
     "lint:fix": "npm run lint:css:fix",
     "validate": "npm run lint && npm run build:check",
-    "clean": "node scripts/clean.js",
-    "clean:temp": "node scripts/clean-temp.js",
-    "clean:all": "npm run clean",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
-    "test:ci": "playwright test",
-    "gtm:check": "npx tsx scripts/gtm-check.ts",
-    "gtm:optimize": "npx tsx scripts/gtm-optimize.ts",
-    "gtm:cleanup-vars": "npx tsx scripts/gtm-cleanup-variables.ts"
+    "test:ci": "playwright test"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
