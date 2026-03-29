@@ -93,39 +93,6 @@ export function updateSessionTimestamp(): void {
   }
 }
 
-export function getGA4ClientId(): Promise<string> {
-  return new Promise((resolve) => {
-    if (typeof window === 'undefined') {
-      resolve(getClientId());
-      return;
-    }
-
-    let attempts = 0;
-    const maxAttempts = 20;
-
-    const checkGA4 = () => {
-      if (window.gtag && typeof window.gtag === 'function') {
-        window.gtag('get', 'G-WBMKHRWS7Z', 'client_id', (clientId: string) => {
-          if (clientId) {
-            resolve(clientId);
-          } else {
-            resolve(getClientId());
-          }
-        });
-      } else {
-        attempts++;
-        if (attempts < maxAttempts) {
-          setTimeout(checkGA4, 100);
-        } else {
-          resolve(getClientId());
-        }
-      }
-    };
-
-    checkGA4();
-  });
-}
-
 export function initIdentifiers(): void {
   getClientId();
   getSessionId();

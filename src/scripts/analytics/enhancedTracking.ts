@@ -1,25 +1,5 @@
 import { trackEvent } from './ga4';
 
-export function trackViewItemList(params: {
-  items: Array<{
-    item_id: string;
-    item_name: string;
-    item_category: string;
-    item_category2?: string;
-    item_variant?: string;
-    price?: number;
-    index?: number;
-  }>;
-  item_list_id: string;
-  item_list_name: string;
-}): void {
-  trackEvent('view_item_list', {
-    item_list_id: params.item_list_id,
-    item_list_name: params.item_list_name,
-    items: params.items,
-  });
-}
-
 export class SessionQualityTracker {
   private startTime: number;
   private engagementTime: number = 0;
@@ -147,14 +127,6 @@ export class SessionQualityTracker {
   }
 }
 
-export function trackEngagementMilestone(milestone: string, value?: number): void {
-  trackEvent('engagement_milestone', {
-    event_category: 'Engagement',
-    event_label: milestone,
-    value: value || 1,
-  });
-}
-
 export function setEnhancedUserProperties(properties: {
   user_type?: 'new' | 'returning' | 'subscriber';
   client_status?: 'prospect' | 'lead' | 'client' | 'partner';
@@ -211,32 +183,6 @@ export function setEnhancedUserProperties(properties: {
       user_properties: userProps,
     });
   }
-}
-
-export function trackCustomEvent(params: {
-  event_name: string;
-  event_category?: string;
-  event_label?: string;
-  value?: number;
-  custom_parameters?: Record<string, string | number | boolean>;
-}): void {
-  const eventParams: Record<string, string | number | boolean | unknown[] | Record<string, unknown>> = {
-    event_category: params.event_category || 'Custom',
-  };
-
-  if (params.event_label !== undefined) {
-    eventParams.event_label = params.event_label;
-  }
-
-  if (params.value !== undefined) {
-    eventParams.value = params.value;
-  }
-
-  if (params.custom_parameters) {
-    Object.assign(eventParams, params.custom_parameters);
-  }
-
-  trackEvent(params.event_name, eventParams);
 }
 
 export function initEnhancedTracking(): { sessionTracker: SessionQualityTracker; cleanup: () => void } {

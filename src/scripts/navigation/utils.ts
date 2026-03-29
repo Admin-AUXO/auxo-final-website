@@ -25,9 +25,6 @@ export function getNavElements() {
       mobileMenuOverlay: null,
       mobileMenuCloseBtn: null,
       mobileMenuCloseBtnHeader: null,
-      menuOpen: null,
-      menuClose: null,
-      logoLink: null,
     };
   }
 
@@ -38,9 +35,6 @@ export function getNavElements() {
     mobileMenuOverlay: document.getElementById('mobile-menu-overlay'),
     mobileMenuCloseBtn: document.getElementById('mobile-menu-close'),
     mobileMenuCloseBtnHeader: document.getElementById('mobile-menu-close-header'),
-    menuOpen: document.querySelector('.menu-open'),
-    menuClose: document.querySelector('.menu-close'),
-    logoLink: document.querySelector('[data-nav-home]') as HTMLAnchorElement | null,
   };
 }
 

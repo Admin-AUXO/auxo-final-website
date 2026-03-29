@@ -184,6 +184,12 @@ function resetFloatingButtonTimers(): void {
   }
 }
 
+function clearSwipeHandlers(): void {
+  if (!swipeCleanup) return;
+  swipeCleanup();
+  swipeCleanup = null;
+}
+
 function updateFabVisibility(scrollTop: number): void {
   const fab = getFloatingCalendarButton();
   if (!fab || fab.hasAttribute('hidden')) {
@@ -505,10 +511,7 @@ function setupSwipeHandlers(): void {
   const modal = getModal();
   if (!modal) return;
 
-  if (swipeCleanup) {
-    swipeCleanup();
-    swipeCleanup = null;
-  }
+  clearSwipeHandlers();
 
   let startX = 0;
   let startY = 0;
@@ -565,10 +568,7 @@ function resetCalendarRuntimeState(): void {
   closeCalendarModal();
   destroyCalendarModalInstance();
 
-  if (swipeCleanup) {
-    swipeCleanup();
-    swipeCleanup = null;
-  }
+  clearSwipeHandlers();
 
   resetCachedElements();
 }
@@ -607,37 +607,27 @@ function openCalendarModal(): void {
 }
 
 function closeCalendarModal(): void {
-  if (swipeCleanup) {
-    swipeCleanup();
-    swipeCleanup = null;
-  }
+  clearSwipeHandlers();
 
   calendarModalInstance?.close();
 }
 
-function setupCalendarButton(button: HTMLElement): void {
-  if (initializedButtons.has(button)) return;
+async function openCalendarFromTrigger(button: HTMLElement): Promise<void> {
+  trackCalendarBooking({
+    location: window.location.pathname,
+    buttonText: button.textContent?.trim() || 'Schedule Meeting',
+    context:
+      button.getAttribute('data-context') ||
+      button.closest('[data-section]')?.getAttribute('data-section') ||
+      'unknown',
+  });
 
-  const handleClick = async (e: MouseEvent | KeyboardEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  ensureCalendarUi();
+  await ensureCalendarStylesLoaded();
+  openCalendarModal();
+}
 
-    trackCalendarBooking({
-      location: window.location.pathname,
-      buttonText: button.textContent?.trim() || 'Schedule Meeting',
-      context:
-        button.getAttribute('data-context') ||
-        button.closest('[data-section]')?.getAttribute('data-section') ||
-        'unknown',
-    });
-
-    ensureCalendarUi();
-    await ensureCalendarStylesLoaded();
-    openCalendarModal();
-  };
-
-  button.addEventListener('click', handleClick, { passive: false });
-
+function normalizeCalendarTrigger(button: HTMLElement): void {
   if (button instanceof HTMLAnchorElement) {
     button.removeAttribute('href');
     button.removeAttribute('target');
@@ -648,6 +638,19 @@ function setupCalendarButton(button: HTMLElement): void {
     button.setAttribute('role', 'button');
   }
   button.setAttribute('tabindex', '0');
+}
+
+function setupCalendarButton(button: HTMLElement): void {
+  if (initializedButtons.has(button)) return;
+
+  const handleClick = async (e: MouseEvent | KeyboardEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    await openCalendarFromTrigger(button);
+  };
+
+  button.addEventListener('click', handleClick, { passive: false });
+  normalizeCalendarTrigger(button);
 
   button.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -675,9 +678,6 @@ function setupCalendarButtons(): void {
       !initializedButtons.has(link)
     ) {
       link.setAttribute('data-google-calendar-open', '');
-      link.removeAttribute('href');
-      link.removeAttribute('target');
-      link.setAttribute('role', 'button');
       setupCalendarButton(link);
     }
   });
@@ -716,12 +716,4 @@ export function setupGoogleCalendar(): void {
   } catch (error) {
     logger.error('Google Calendar setup failed:', error);
   }
-}
-
-export async function openGoogleCalendar(): Promise<void> {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
-
-  ensureCalendarUi();
-  await ensureCalendarStylesLoaded();
-  openCalendarModal();
 }

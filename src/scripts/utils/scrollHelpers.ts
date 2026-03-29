@@ -16,11 +16,3 @@ export function getScrollPercentage(): number {
   const scrollableHeight = getScrollHeight() - getViewportHeight();
   return scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
 }
-
-export function isScrolledPast(threshold: number): boolean {
-  return getScrollTop() > threshold;
-}
-
-export function scrollToTop(smooth: boolean = true): void {
-  window.scrollTo(smooth ? { top: 0, behavior: 'smooth' } : { top: 0 });
-}

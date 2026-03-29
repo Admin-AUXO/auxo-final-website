@@ -93,10 +93,3 @@ const hasContent = Boolean((content?.title && content.title.trim()) || (content?
 </SectionContainer>
 )}
 
-{hasContent && (
-<script>
-  import { autoInitCarousels } from "@/scripts/utils/carousels";
-  autoInitCarousels();
-</script>
-)}
-

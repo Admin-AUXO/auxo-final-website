@@ -312,19 +312,3 @@ export function initUTMTracking(): void {
     logger.error('[UTM] Failed to initialize UTM tracking:', error);
   }
 }
-
-export function getCleanURL(): string {
-  if (typeof window === 'undefined') return '';
-
-  try {
-    const url = new URL(window.location.href);
-
-    UTM_PARAMS.forEach((param) => {
-      url.searchParams.delete(param);
-    });
-
-    return url.toString();
-  } catch {
-    return window.location.href;
-  }
-}

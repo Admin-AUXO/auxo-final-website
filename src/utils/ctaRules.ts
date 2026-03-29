@@ -43,13 +43,4 @@ export function shouldOpenGoogleCalendar(context: CtaContext): boolean {
   return !hasContactIntent;
 }
 
-export function getCtaAction(context: CtaContext): {
-  type: 'google-calendar' | 'link';
-  href?: string;
-} {
-  return shouldOpenGoogleCalendar(context)
-    ? { type: 'google-calendar' }
-    : { type: 'link', href: context.href };
-}
-
 export const shouldOpenCalendly = shouldOpenGoogleCalendar;

@@ -6,12 +6,11 @@ import "@/styles/components/carousels.css";
 import "@/styles/sections/carousel-sections.css";
 
 export interface Props {
-  title: string;
   description: string;
   serviceName: string;
 }
 
-const { title, description, serviceName } = Astro.props;
+const { description, serviceName } = Astro.props;
 ---
 
 <BaseLayout title={`${serviceName} | AUXO Data Labs`} description={description}>

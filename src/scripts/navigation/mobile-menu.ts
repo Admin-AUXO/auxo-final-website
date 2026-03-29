@@ -8,6 +8,68 @@ let focusTrapCleanup: (() => void) | null = null;
 let returnFocusElement: HTMLElement | null = null;
 let swipeCleanup: (() => void) | null = null;
 
+function addActivationListeners(
+  target: HTMLElement | Document,
+  handler: (e: Event) => void,
+): void {
+  addTrackedListener(target, 'click', handler, { capture: true });
+  addTrackedListener(target, 'touchend', handler, {
+    capture: true,
+    passive: false,
+  });
+}
+
+function clearSwipeHandlers(): void {
+  if (!swipeCleanup) return;
+  swipeCleanup();
+  swipeCleanup = null;
+}
+
+function setMenuVisibility(
+  isOpen: boolean,
+  elements: {
+    mobileMenu: HTMLElement;
+    mobileMenuButton?: HTMLElement | null;
+    mobileMenuOverlay?: HTMLElement | null;
+    nav?: HTMLElement | null;
+  },
+): void {
+  const { mobileMenu, mobileMenuButton, mobileMenuOverlay, nav } = elements;
+
+  void mobileMenu.offsetHeight;
+  mobileMenu.classList.toggle('is-open', isOpen);
+  mobileMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+
+  if (mobileMenuOverlay) {
+    mobileMenuOverlay.classList.toggle('is-open', isOpen);
+    mobileMenuOverlay.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+  }
+
+  if (isOpen) {
+    nav?.setAttribute('data-menu-open', 'true');
+  } else {
+    nav?.removeAttribute('data-menu-open');
+  }
+
+  mobileMenuButton?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+
+function setMenuScrollState(isOpen: boolean): void {
+  const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
+  if (!menuContent) return;
+
+  if (isOpen) {
+    menuContent.addEventListener('scroll', updateScrollIndicators, { passive: true });
+    menuContent.setAttribute('data-lenis-prevent', 'true');
+    updateScrollIndicators();
+    return;
+  }
+
+  menuContent.removeEventListener('scroll', updateScrollIndicators);
+  menuContent.classList.remove('scrollable-top', 'scrollable-bottom');
+  menuContent.removeAttribute('data-lenis-prevent');
+}
+
 function calculateDropdownHeight(content: HTMLElement): number {
   const styles = {
     display: content.style.display,
@@ -135,8 +197,7 @@ export function setupMobileDropdowns(): void {
       toggleMobileDropdown(btnEl);
     };
 
-    addTrackedListener(btnEl, 'click', handler, { capture: true });
-    addTrackedListener(btnEl, 'touchend', handler, { capture: true, passive: false });
+    addActivationListeners(btnEl, handler);
     btnEl.dataset.initialized = 'true';
   });
 }
@@ -209,30 +270,9 @@ export function closeMobileMenu(): void {
   
   state.isMobileMenuOpen = false;
   deactivateFocusTrap();
-
-  if (swipeCleanup) {
-    swipeCleanup();
-    swipeCleanup = null;
-  }
-
-  const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
-  if (menuContent) {
-    menuContent.removeEventListener('scroll', updateScrollIndicators);
-    menuContent.classList.remove('scrollable-top', 'scrollable-bottom');
-    menuContent.removeAttribute('data-lenis-prevent');
-  }
-  
-  void mobileMenu.offsetHeight;
-  mobileMenu.classList.remove('is-open');
-  mobileMenu.setAttribute('aria-hidden', 'true');
-  
-  if (mobileMenuOverlay) {
-    mobileMenuOverlay.classList.remove('is-open');
-    mobileMenuOverlay.setAttribute('aria-hidden', 'true');
-  }
-  
-  nav?.removeAttribute('data-menu-open');
-  mobileMenuButton?.setAttribute('aria-expanded', 'false');
+  clearSwipeHandlers();
+  setMenuScrollState(false);
+  setMenuVisibility(false, { mobileMenu, mobileMenuButton, mobileMenuOverlay, nav });
   mobileMenuButton?.focus();
   
   scrollLock.unlock('mobile-menu');
@@ -270,17 +310,7 @@ function openMobileMenu(): void {
   if (!mobileMenu || !mobileMenuButton || state.isMobileMenuOpen) return;
   
   state.isMobileMenuOpen = true;
-  void mobileMenu.offsetHeight;
-  mobileMenu.classList.add('is-open');
-  mobileMenu.setAttribute('aria-hidden', 'false');
-  
-  if (mobileMenuOverlay) {
-    mobileMenuOverlay.classList.add('is-open');
-    mobileMenuOverlay.setAttribute('aria-hidden', 'false');
-  }
-  
-  nav?.setAttribute('data-menu-open', 'true');
-  mobileMenuButton.setAttribute('aria-expanded', 'true');
+  setMenuVisibility(true, { mobileMenu, mobileMenuButton, mobileMenuOverlay, nav });
   scrollLock.lock('mobile-menu');
 
   createFocusTrap(mobileMenu, mobileMenuButton);
@@ -291,13 +321,7 @@ function openMobileMenu(): void {
     setupCloseButtonHandler();
     setupDropdownKeyboardNavigation();
     setupSwipeHandlers();
-
-    const menuContent = document.querySelector('.mobile-menu-content') as HTMLElement;
-    if (menuContent) {
-      menuContent.addEventListener('scroll', updateScrollIndicators, { passive: true });
-      menuContent.setAttribute('data-lenis-prevent', 'true');
-      updateScrollIndicators();
-    }
+    setMenuScrollState(true);
   });
 }
 
@@ -334,10 +358,7 @@ function setupSwipeHandlers(): void {
   const { mobileMenu } = getNavElements();
   if (!mobileMenu) return;
 
-  if (swipeCleanup) {
-    swipeCleanup();
-    swipeCleanup = null;
-  }
+  clearSwipeHandlers();
 
   let startX = 0;
   let startY = 0;
@@ -436,8 +457,7 @@ function setupCloseButtonHandler(): void {
   buttons.forEach(btn => {
     const element = btn as HTMLElement;
     if (element.dataset.initialized !== 'true') {
-      addTrackedListener(element, 'click', handler, { capture: true });
-      addTrackedListener(element, 'touchend', handler, { passive: false, capture: true });
+      addActivationListeners(element, handler);
       element.dataset.initialized = 'true';
     }
   });
@@ -481,8 +501,7 @@ export function initializeMobileMenu(): void {
   mobileMenuButton.setAttribute('aria-expanded', 'false');
   mobileMenuButton.setAttribute('aria-controls', 'mobile-menu');
 
-  addTrackedListener(mobileMenuButton, 'click', handleMenuButtonClick, { capture: true });
-  addTrackedListener(mobileMenuButton, 'touchend', handleMenuButtonClick, { passive: false, capture: true });
+  addActivationListeners(mobileMenuButton, handleMenuButtonClick);
   addTrackedListener(document, 'click', handleOutsideClick, { capture: true });
   addTrackedListener(document, 'keydown', handleKeyboard, { capture: true });
 

@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 import { env } from '@/config/env';
 import { getAttributionParams } from './utmTracking';
-import { sanitizeForGA4, redactURL } from './privacy';
+import { sanitizeForGA4 } from './privacy';
 import { getClientId, getSessionId, getSessionNumber } from './identifiers';
 
 const _GA4_DEBUG_MODE = env.analytics.debug;
@@ -173,21 +173,6 @@ export function trackEvent(
   }
 }
 
-export function trackPageView(
-  path: string,
-  title?: string,
-  params?: Record<string, string | number | boolean>
-): void {
-  const pageLocation = typeof window !== 'undefined' ? redactURL(window.location.href) : path;
-
-  trackEvent('page_view', {
-    page_path: path,
-    page_title: title || (typeof document !== 'undefined' ? document.title : ''),
-    page_location: pageLocation,
-    ...params,
-  });
-}
-
 export function trackFormSubmission(formData: {
   formName: string;
   formLocation: string;
@@ -259,50 +244,10 @@ export function trackOutboundLink(params: {
   });
 }
 
-export function trackFileDownload(params: {
-  fileName: string;
-  fileType: string;
-  fileUrl: string;
-  location?: string;
-}): void {
-  trackEvent('file_download', {
-    file_name: params.fileName,
-    file_extension: params.fileType,
-    file_url: params.fileUrl,
-    link_url: params.fileUrl,
-    link_location: params.location || 'unknown',
-  });
-}
-
 export function trackScrollDepth(depth: 25 | 50 | 75 | 90 | 100): void {
   trackEvent('scroll', {
     engagement_time_msec: 0,
     percent_scrolled: depth,
-  });
-}
-
-export function trackEngagement(params: {
-  engagementType: string;
-  engagementTime?: number;
-  value?: number;
-}): void {
-  const eventParams: Record<string, string | number | boolean | unknown[] | Record<string, unknown>> = {
-    engagement_type: params.engagementType,
-    value: params.value || 1,
-  };
-  
-  if (params.engagementTime !== undefined) {
-    eventParams.engagement_time_msec = params.engagementTime;
-  }
-  
-  trackEvent('user_engagement', eventParams);
-}
-
-export function trackSearch(searchTerm: string, location?: string): void {
-  trackEvent('search', {
-    search_term: searchTerm,
-    search_location: location || 'unknown',
-    engagement_time_msec: 0,
   });
 }
 
@@ -354,34 +299,6 @@ export function trackFormAbandonment(formName: string, fieldsFilled: number): vo
     form_name: formName,
     fields_completed: fieldsFilled,
     engagement_time_msec: 0,
-  });
-}
-
-export function trackError(params: {
-  errorMessage: string;
-  errorType: string;
-  fatal?: boolean;
-  location?: string;
-}): void {
-  trackEvent('exception', {
-    description: params.errorMessage.substring(0, MAX_PARAM_LENGTH),
-    fatal: params.fatal || false,
-    error_type: params.errorType,
-    page_location: params.location || (typeof window !== 'undefined' ? window.location.href : 'unknown'),
-  });
-}
-
-export function trackTiming(params: {
-  name: string;
-  value: number;
-  category?: string;
-  label?: string;
-}): void {
-  trackEvent('timing_complete', {
-    name: params.name,
-    value: params.value,
-    event_category: params.category || 'performance',
-    event_label: params.label || params.name,
   });
 }
 
@@ -448,28 +365,6 @@ export function initOutboundLinkTracking(): () => void {
   return () => {
     document.removeEventListener('click', handleClick, true);
   };
-}
-
-export function setUserProperties(properties: Record<string, string | number | boolean>): void {
-  if (!isGA4Available() || !checkConsent()) return;
-
-  const sanitized = sanitizeParams(properties as Record<string, string | number | boolean | unknown[] | Record<string, unknown>>);
-  if (!sanitized || Object.keys(sanitized).length === 0) return;
-
-  try {
-    if (typeof window.gtag === 'function') {
-      window.gtag('set', 'user_properties', sanitized);
-    } else if (Array.isArray(window.dataLayer)) {
-      window.dataLayer.push({
-        event: 'set_user_properties',
-        user_properties: sanitized,
-      });
-    }
-
-    logger.log('[GA4] User properties set:', sanitized);
-  } catch (error) {
-    logger.warn('[GA4] User properties error:', error);
-  }
 }
 
 export function initGA4Tracking(): () => void {

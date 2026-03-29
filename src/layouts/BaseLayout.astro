@@ -33,13 +33,14 @@ const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isLegalRoute = pathname.startsWith("/legal");
 const isBlogRoute = pathname === "/blog" || pathname.startsWith("/blog/");
 const isUtilityRoute = pathname === "/offline" || pathname === "/404";
+const areOptionalWidgetsEnabledByDefault = !(isLegalRoute || isBlogRoute || isUtilityRoute);
 
 const enableCalendarWidgets =
-  enableCalendarWidgetsProp ?? !(isLegalRoute || isBlogRoute || isUtilityRoute);
+  enableCalendarWidgetsProp ?? areOptionalWidgetsEnabledByDefault;
 const enableCookieConsent =
-  enableCookieConsentProp ?? !(isLegalRoute || isBlogRoute || isUtilityRoute);
+  enableCookieConsentProp ?? areOptionalWidgetsEnabledByDefault;
 const enableTabEngagement =
-  enableTabEngagementProp ?? !(isLegalRoute || isBlogRoute || isUtilityRoute);
+  enableTabEngagementProp ?? areOptionalWidgetsEnabledByDefault;
 
 const organizationSchema = {
   name: siteData.name,

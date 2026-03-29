@@ -30,7 +30,7 @@ if (!service) {
 }
 ---
 
-<ServiceLayout title={`${service.name} | AUXO Data Labs`} description={service.hero.description} serviceName={service.name}>
+<ServiceLayout description={service.hero.description} serviceName={service.name}>
   <ServiceHeroSection service={service} slot="hero" />
   <ServiceOverviewSection service={service} slot="overview" />
   <ServiceBenefitsSection service={service} slot="benefits" />

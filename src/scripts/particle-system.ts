@@ -28,32 +28,13 @@ const CONSTANTS = {
   MOBILE_BREAKPOINT: BREAKPOINTS.SM,
   TABLET_BREAKPOINT: BREAKPOINTS.LG,
 
-  ACCENT_RATIO: 0.15,
-  SPECIAL_RATIO: 0.05,
-
   // Galaxy specific
   SPIRAL_TIGHTNESS: 0.3,
-  SPIRAL_DISTANCE_FACTOR: 0.8,
   SPIRAL_CORRECTION_STRENGTH: 0.00005,
   
   // Physics/Interaction
-  PULL_STRENGTH: 0.0001,
-  DISTANCE_THRESHOLD: 10,
   DAMPING_FACTOR: 0.99,
-  MOUSE_INFLUENCE_MULTIPLIER: 0.01,
   MOUSE_INFLUENCE_RADIUS_FACTOR: 0.3,
-  BRIGHTNESS_MULTIPLIER: 1.5,
-  
-  // Rendering
-  TWINKLE_AMPLITUDE: 0.3,
-  TWINKLE_OFFSET: 0.7,
-  RADIUS_VARIATION_MIN: 0.8,
-  RADIUS_VARIATION_MAX: 0.2,
-  
-  LIGHT_MODE_OPACITY_MIN: 0.4,
-  LIGHT_MODE_OPACITY_RANGE: 0.3,
-  DARK_MODE_OPACITY_MIN: 0.3,
-  DARK_MODE_OPACITY_RANGE: 0.4,
   
   // Connections (Particles.js style)
   LINK_DISTANCE: 150,
@@ -63,20 +44,26 @@ const CONSTANTS = {
 } as const;
 
 interface DeviceCapabilities {
-  memory: number;
-  cores: number;
-  connectionType: string;
   batteryLevel?: number;
-  isCharging?: boolean;
   isLowEnd: boolean;
 }
 
-interface PerformanceMetrics {
-  fps: number;
-  frameCount: number;
-  lastFrameTime: number;
-  lowFpsCount: number;
-  qualityReductionTriggered: boolean;
+interface ConnectionInfoLike {
+  effectiveType?: string;
+}
+
+interface BatteryLike {
+  level: number;
+  charging: boolean;
+  addEventListener: (type: 'levelchange', listener: () => void) => void;
+}
+
+interface NavigatorCapabilities extends Navigator {
+  deviceMemory?: number;
+  connection?: ConnectionInfoLike;
+  mozConnection?: ConnectionInfoLike;
+  webkitConnection?: ConnectionInfoLike;
+  getBattery?: () => Promise<BatteryLike>;
 }
 
 export class GalaxyParticleSystem {
@@ -97,16 +84,9 @@ export class GalaxyParticleSystem {
   private mode: ParticleMode = 'galaxy';
 
   private deviceCapabilities: DeviceCapabilities;
-  private performanceMetrics: PerformanceMetrics = {
-    fps: 60,
-    frameCount: 0,
-    lastFrameTime: performance.now(),
-    lowFpsCount: 0,
-    qualityReductionTriggered: false,
-  };
+  private qualityReductionTriggered = false;
   
   private isDisabled = false;
-  private qualityLevel: 'high' | 'medium' | 'low' = 'high';
 
   private config = {
     particleCount: 0,
@@ -120,7 +100,6 @@ export class GalaxyParticleSystem {
   private accentColor = '#A3E635';
   private accentColorRgb: string = '';
   private particleColors: string[] = [];
-  private specialColors: string[] = [];
   private isLightMode = false;
   private textPrimary = '#FFFFFF';
   private textSecondary = '#A0A0A0';
@@ -152,31 +131,31 @@ export class GalaxyParticleSystem {
   }
 
   private detectDeviceCapabilities(): DeviceCapabilities {
-    // @ts-ignore
-    const memory = navigator.deviceMemory || 4;
+    const browserNavigator = navigator as NavigatorCapabilities;
+    const memory = browserNavigator.deviceMemory ?? 4;
     const cores = navigator.hardwareConcurrency || 4;
-    // @ts-ignore
-    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const connection =
+      browserNavigator.connection ||
+      browserNavigator.mozConnection ||
+      browserNavigator.webkitConnection;
     const connectionType = connection?.effectiveType || 'unknown';
     const isLowEnd = memory < 4 || cores < 4 || connectionType === 'slow-2g' || connectionType === '2g';
 
-    return { memory, cores, connectionType, isLowEnd };
+    return { isLowEnd };
   }
 
   private async monitorBatteryStatus() {
     try {
-      // @ts-ignore
-      if ('getBattery' in navigator) {
-        // @ts-ignore
-        const battery = await navigator.getBattery();
+      const browserNavigator = navigator as NavigatorCapabilities;
+      if (typeof browserNavigator.getBattery === 'function') {
+        const battery = await browserNavigator.getBattery();
         this.deviceCapabilities.batteryLevel = battery.level;
-        this.deviceCapabilities.isCharging = battery.charging;
 
         if (battery.level < 0.2 && !battery.charging) this.reduceQuality('battery');
 
         battery.addEventListener('levelchange', () => {
           this.deviceCapabilities.batteryLevel = battery.level;
-          if (battery.level < 0.2 && !battery.charging && !this.performanceMetrics.qualityReductionTriggered) {
+          if (battery.level < 0.2 && !battery.charging && !this.qualityReductionTriggered) {
             this.reduceQuality('battery');
           }
         });
@@ -221,13 +200,12 @@ export class GalaxyParticleSystem {
     this.config.twinkleSpeed = 0.03;
     this.config.mouseInfluence = isMobile ? 0.3 : 0.8;
 
-    this.qualityLevel = isMobile ? 'low' : isTablet ? 'medium' : 'high';
     this.updateThemeColors();
   }
 
   private reduceQuality(reason: string) {
-    if (this.performanceMetrics.qualityReductionTriggered) return;
-    this.performanceMetrics.qualityReductionTriggered = true;
+    if (this.qualityReductionTriggered) return;
+    this.qualityReductionTriggered = true;
     this.config.particleCount = Math.floor(this.config.particleCount * 0.5);
     this.particles = this.particles.slice(0, this.config.particleCount);
     logger.debug(`[ParticleSystem] Quality reduced due to ${reason}`);
@@ -246,8 +224,6 @@ export class GalaxyParticleSystem {
     this.particleColors = this.isLightMode 
       ? ['#1F2937', '#374151', '#4B5563'] 
       : [this.textPrimary, this.textSecondary, this.accentColor];
-    
-    this.specialColors = [this.accentColor, '#84CC16', '#BEF264'];
   }
 
   private setupCanvas() {
@@ -560,10 +536,7 @@ export class GalaxyParticleSystem {
 
       // 4. Wrap-Around (excluding expand mode)
       if (this.mode !== 'expand') {
-        if (p.x < -CONSTANTS.BOUNDARY_OFFSET) p.x = width + CONSTANTS.BOUNDARY_OFFSET;
-        if (p.x > width + CONSTANTS.BOUNDARY_OFFSET) p.x = -CONSTANTS.BOUNDARY_OFFSET;
-        if (p.y < -CONSTANTS.BOUNDARY_OFFSET) p.y = height + CONSTANTS.BOUNDARY_OFFSET;
-        if (p.y > height + CONSTANTS.BOUNDARY_OFFSET) p.y = -CONSTANTS.BOUNDARY_OFFSET;
+        this.applyBoundaryWrap(p, width, height);
       }
 
       // 5. Damping
@@ -571,10 +544,7 @@ export class GalaxyParticleSystem {
       p.vy *= CONSTANTS.DAMPING_FACTOR;
       
       // 6. Natural Twinkle
-      p.twinklePhase += p.twinkleSpeed;
-      if (this.mode !== 'expand' && this.mode !== 'flow' && this.mode !== 'waves') {
-        p.opacity = p.baseOpacity * (Math.sin(p.twinklePhase) * 0.2 + 0.8);
-      }
+      this.applyNaturalTwinkle(p);
     });
   }
 
@@ -630,7 +600,7 @@ export class GalaxyParticleSystem {
 
         if (dist < CONSTANTS.LINK_DISTANCE) {
           const opacity = (1 - dist / CONSTANTS.LINK_DISTANCE) * CONSTANTS.LINK_OPACITY_MAX;
-          this.ctx.strokeStyle = this.isLightMode ? `rgba(0,0,0,${opacity})` : `rgba(${this.accentColorRgb},${opacity})`;
+          this.ctx.strokeStyle = this.getLinkStrokeStyle(opacity);
           this.ctx.lineWidth = 0.5;
           this.ctx.beginPath();
           this.ctx.moveTo(p1.x, p1.y);
@@ -653,9 +623,7 @@ export class GalaxyParticleSystem {
         
         if (dist < influenceRadius) {
           const opacity = (1 - dist / influenceRadius) * (this.mode === 'ai' ? 0.8 : 0.5);
-          this.ctx.strokeStyle = this.isLightMode 
-             ? `rgba(${this.mode === 'ai' ? this.accentColorRgb : '0,0,0'},${opacity})`
-             : `rgba(${this.accentColorRgb},${opacity})`;
+          this.ctx.strokeStyle = this.getLinkStrokeStyle(opacity, this.mode === 'ai');
           this.ctx.lineWidth = this.mode === 'ai' ? 1.5 : 0.8;
           this.ctx.beginPath();
           this.ctx.moveTo(this.mouseX, this.mouseY);
@@ -702,6 +670,38 @@ export class GalaxyParticleSystem {
   private hexToRgb(hex: string): string {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : '255, 255, 255';
+  }
+
+  private applyBoundaryWrap(particle: Particle, width: number, height: number): void {
+    if (particle.x < -CONSTANTS.BOUNDARY_OFFSET) {
+      particle.x = width + CONSTANTS.BOUNDARY_OFFSET;
+    }
+    if (particle.x > width + CONSTANTS.BOUNDARY_OFFSET) {
+      particle.x = -CONSTANTS.BOUNDARY_OFFSET;
+    }
+    if (particle.y < -CONSTANTS.BOUNDARY_OFFSET) {
+      particle.y = height + CONSTANTS.BOUNDARY_OFFSET;
+    }
+    if (particle.y > height + CONSTANTS.BOUNDARY_OFFSET) {
+      particle.y = -CONSTANTS.BOUNDARY_OFFSET;
+    }
+  }
+
+  private applyNaturalTwinkle(particle: Particle): void {
+    particle.twinklePhase += particle.twinkleSpeed;
+    if (this.mode !== 'expand' && this.mode !== 'flow' && this.mode !== 'waves') {
+      particle.opacity = particle.baseOpacity * (Math.sin(particle.twinklePhase) * 0.2 + 0.8);
+    }
+  }
+
+  private getLinkStrokeStyle(opacity: number, preferAccentInLightMode: boolean = false): string {
+    if (!this.isLightMode) {
+      return `rgba(${this.accentColorRgb},${opacity})`;
+    }
+
+    return preferAccentInLightMode
+      ? `rgba(${this.accentColorRgb},${opacity})`
+      : `rgba(0,0,0,${opacity})`;
   }
 
   public destroy() {

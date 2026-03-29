@@ -84,32 +84,3 @@ export function sanitizeForGA4(params: Record<string, unknown>): Record<string, 
 
   return sanitized;
 }
-
-export function hashValue(value: string): string {
-  if (typeof window === 'undefined' || !value) return '';
-
-  let hash = 0;
-  for (let i = 0; i < value.length; i++) {
-    const char = value.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash;
-  }
-  return Math.abs(hash).toString(36);
-}
-
-export function anonymizeIP(ip: string): string {
-  if (!ip) return '';
-
-  const parts = ip.split('.');
-  if (parts.length === 4) {
-    parts[3] = '0';
-    return parts.join('.');
-  }
-
-  const ipv6Parts = ip.split(':');
-  if (ipv6Parts.length > 4) {
-    return ipv6Parts.slice(0, 4).join(':') + '::';
-  }
-
-  return ip;
-}

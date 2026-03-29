@@ -148,28 +148,6 @@ export function rejectAllConsent(): void {
   });
 }
 
-export function clearConsent(): void {
-  if (typeof window === 'undefined') return;
-
-  try {
-    localStorage.removeItem(CONSENT_STORAGE_KEY);
-  } catch (error) {
-    logger.error('Error clearing consent:', error);
-  }
-}
-
 export function hasConsentChoice(): boolean {
   return getStoredConsent() !== null;
-}
-
-export function getConsentUrlParameters(): string {
-  const consent = getStoredConsent();
-  if (!consent) return '';
-
-  return new URLSearchParams({
-    gcs: [
-      consent.analytics ? 'G100' : 'G000',
-      consent.marketing ? 'G100' : 'G000',
-    ].join(','),
-  }).toString();
 }
