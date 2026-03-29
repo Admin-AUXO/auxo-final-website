@@ -1,4 +1,4 @@
-import { BREAKPOINTS } from '../constants';
+import { BREAKPOINTS } from '../core/constants';
 
 const THEME_STORAGE_KEY = "theme";
 const THEME_CHANGE_EVENT = "themechange";

@@ -3,7 +3,7 @@ import { Icon } from "astro-icon/components";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import Carousel from "@/components/ui/Carousel.astro";
 import SectionShell from "@/components/layouts/SectionShell.astro";
-import type { ServiceDetail } from "@/data/content/services/data";
+import type { ServiceDetail } from "@/data/content";
 
 interface Props {
   service: ServiceDetail;
@@ -147,4 +147,5 @@ const { service } = Astro.props;
     </Carousel>
   </div>
 </SectionShell>
+
 

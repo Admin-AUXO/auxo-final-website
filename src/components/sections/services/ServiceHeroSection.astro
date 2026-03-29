@@ -3,7 +3,7 @@ import HeroLayout from "@/components/ui/HeroLayout.astro";
 import HeroCTAButton from "@/components/ui/HeroCTAButton.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
 import HeroBackdrop from "@/components/effects/HeroBackdrop.astro";
-import type { ServiceDetail } from "@/data/content/services/data";
+import type { ServiceDetail } from "@/data/content";
 
 interface Props {
   service: ServiceDetail;
@@ -97,3 +97,4 @@ const mode = modeMap[service.slug] || "galaxy";
     />
   </div>
 </HeroLayout>
+

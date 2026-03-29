@@ -1,7 +1,7 @@
 import { state, addTrackedListener } from './state';
 import { getNavElements, updateNavHeight } from './utils';
 import { getScrollTop } from '@/scripts/utils/scrollHelpers';
-import { SCROLL_THRESHOLDS } from '@/scripts/constants';
+import { SCROLL_THRESHOLDS } from '@/scripts/core/constants';
 
 type LenisLike = {
   on: (event: string, callback: (data: { scroll: number }) => void) => void;
@@ -80,3 +80,4 @@ export function cleanupScrollEffects(): void {
   activeLenisInstance = null;
   isInitialized = false;
 }
+

@@ -1,4 +1,4 @@
-import { BREAKPOINTS } from './constants';
+import { BREAKPOINTS } from '../core/constants';
 import { logger } from '@/lib/logger';
 
 export type ParticleMode = 'galaxy' | 'network' | 'flow' | 'data' | 'waves' | 'logic' | 'sys' | 'ai' | 'expand' | 'articles' | 'about';

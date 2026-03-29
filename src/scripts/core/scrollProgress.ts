@@ -1,4 +1,4 @@
-import { getLenisInstance } from '../smoothScroll';
+import { getLenisInstance } from './smoothScroll';
 import { getScrollPercentage } from '../utils/scrollHelpers';
 
 interface LenisInstance {
@@ -87,3 +87,4 @@ export function cleanupScrollProgress(): void {
   rafPending = false;
   isInitialized = false;
 }
+

@@ -1,5 +1,5 @@
 import { logger } from "@/lib/logger";
-import type { ParticleMode } from "@/scripts/particle-system";
+import type { ParticleMode } from "@/scripts/effects/particleSystem";
 
 interface ParticleSystem {
   destroy: () => void;
@@ -46,7 +46,7 @@ async function initParticleSystem(
   if (isInitialized) return;
 
   try {
-    const { GalaxyParticleSystem } = await import("@/scripts/particle-system");
+    const { GalaxyParticleSystem } = await import("@/scripts/effects/particleSystem");
     const mode = (container.getAttribute("data-mode") ?? "galaxy") as ParticleMode;
 
     particleSystem = new GalaxyParticleSystem(canvas, mode);
@@ -100,3 +100,4 @@ export function initHeroBackground(): void {
 export function cleanupHeroBackground(): void {
   cleanup();
 }
+

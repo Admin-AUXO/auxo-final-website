@@ -1,6 +1,6 @@
 import { createCalendarModal, modalManager } from '@/scripts/utils/modalManager';
 import { trackCalendarBooking } from '@/scripts/analytics/ga4';
-import { BREAKPOINTS, SCROLL_THRESHOLDS } from '@/scripts/constants';
+import { BREAKPOINTS, SCROLL_THRESHOLDS } from '@/scripts/core/constants';
 import { getScrollTop } from '@/scripts/utils/scrollHelpers';
 import { loadStylesheet } from '@/scripts/utils/thirdPartyLoader';
 import { logger } from '@/lib/logger';
@@ -717,3 +717,4 @@ export function setupGoogleCalendar(): void {
     logger.error('Google Calendar setup failed:', error);
   }
 }
+

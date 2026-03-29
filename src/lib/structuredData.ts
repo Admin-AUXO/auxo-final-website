@@ -1,4 +1,4 @@
-import { siteData } from "@/data/content/siteConfig-data";
+import { siteData } from "@/data/content";
 
 export function createBreadcrumbSchema(path: string, name: string) {
   return {

@@ -1,8 +1,8 @@
 import Lenis from 'lenis';
-import { isMobileDevice } from './utils/deviceDetection';
-import { getScrollTop } from './utils/scrollHelpers';
+import { isMobileDevice } from '../utils/deviceDetection';
+import { getScrollTop } from '../utils/scrollHelpers';
 import { SCROLL_OFFSETS } from './constants';
-import { forceUnlockScroll } from './navigation/utils';
+import { forceUnlockScroll } from '../navigation/utils';
 
 const IDLE_THRESHOLD = 60;
 

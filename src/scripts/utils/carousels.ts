@@ -2,7 +2,7 @@ import {
   EmblaCarouselWrapper,
   type EmblaCarouselOptions,
 } from "@/scripts/animations/EmblaCarousel";
-import { BREAKPOINTS } from "@/scripts/constants";
+import { BREAKPOINTS } from "@/scripts/core/constants";
 
 const REINIT_DEBOUNCE = 150;
 const BASE_OPTIONS = {
@@ -271,3 +271,4 @@ export function cleanupAllCarousels(): void {
 export function resetAutoInitState(): void {
   initializedContainers.clear();
 }
+

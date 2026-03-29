@@ -9,12 +9,12 @@ import TeamSection from "@/components/sections/about/TeamSection.astro";
 import PartnershipSection from "@/components/sections/about/PartnershipSection.astro";
 import GlobalSection from "@/components/sections/about/GlobalSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
-import { aboutContent } from "@/data/content/about-data";
+import { aboutContent } from "@/data/content";
 import "@/styles/sections/hero.css";
 import "@/styles/sections/about-sections.css";
 import "@/styles/components/carousels.css";
 import "@/styles/sections/carousel-sections.css";
-import { createBreadcrumbSchema } from "./_shared/structuredData";
+import { createBreadcrumbSchema } from "@/lib/structuredData";
 
 const breadcrumbSchema = createBreadcrumbSchema("/about", "About");
 ---
@@ -45,4 +45,5 @@ const breadcrumbSchema = createBreadcrumbSchema("/about", "About");
     class="about-cta-section"
   />
 </BaseLayout>
+
 

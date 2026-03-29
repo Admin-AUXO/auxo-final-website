@@ -1,4 +1,4 @@
-import { initSmoothScroll, destroySmoothScroll } from '../smoothScroll';
+import { initSmoothScroll, destroySmoothScroll } from './smoothScroll';
 import { init as initScrollAnimations, cleanup as cleanupScrollAnimations, refresh as refreshScrollAnimations } from '../utils/scrollReveal';
 import { initScrollProgress, cleanupScrollProgress } from './scrollProgress';
 import { initNavigation, cleanupNavigation } from '../navigation/index';
@@ -174,4 +174,5 @@ export function reinitOnPageLoad(): void {
     initCoreFeatures();
   }, 50);
 }
+
 

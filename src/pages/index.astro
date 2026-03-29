@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { siteData } from "@/data/content/siteConfig-data";
+import { homepageContent, siteData } from "@/data/content";
 import StructuredData from "@/components/common/StructuredData.astro";
 import HeroSection from "@/components/sections/home/HeroSection.astro";
 import ProblemSolutionSection from "@/components/sections/home/ProblemSolutionSection.astro";
@@ -10,13 +10,12 @@ import MethodologySection from "@/components/sections/home/MethodologySection.as
 import TechStackSection from "@/components/sections/home/TechStackSection.astro";
 import FinalCta from "@/components/sections/home/FinalCta.astro";
 import ParticleBackground from "@/components/effects/ParticleBackground.astro";
-import { homepageContent } from "@/data/content/homepage-data";
 import "@/styles/sections/hero.css";
 import "@/styles/sections/home-sections.css";
 import "@/styles/components/carousels.css";
 import "@/styles/sections/carousel-sections.css";
 import "@/styles/components/highlights.css";
-import { createServiceSchema } from "./_shared/structuredData";
+import { createServiceSchema } from "@/lib/structuredData";
 
 const serviceSchema = createServiceSchema();
 ---
@@ -57,4 +56,5 @@ const serviceSchema = createServiceSchema();
   z-index: 0;
 }
 </style>
+
 

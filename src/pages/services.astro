@@ -6,12 +6,12 @@ import ServicesStageSection from "@/components/sections/services/ServicesStageSe
 import ImpactSection from "@/components/sections/services/ImpactSection.astro";
 import ModelsSection from "@/components/sections/services/ModelsSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
-import { servicesContent } from "@/data/content/services/data";
+import { servicesContent } from "@/data/content";
 import "@/styles/sections/hero.css";
 import "@/styles/sections/services-sections.css";
 import "@/styles/components/carousels.css";
 import "@/styles/sections/carousel-sections.css";
-import { createBreadcrumbSchema } from "./_shared/structuredData";
+import { createBreadcrumbSchema } from "@/lib/structuredData";
 
 const breadcrumbSchema = createBreadcrumbSchema("/services", "Services");
 ---
@@ -43,5 +43,6 @@ const breadcrumbSchema = createBreadcrumbSchema("/services", "Services");
     import "@/scripts/pages/servicesCategoryTracking";
   </script>
 </BaseLayout>
+
 
 

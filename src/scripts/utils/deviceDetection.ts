@@ -1,4 +1,4 @@
-import { BREAKPOINTS } from "../constants";
+import { BREAKPOINTS } from "../core/constants";
 
 let cachedIsMobile: boolean | null = null;
 let cachedIsTouch: boolean | null = null;

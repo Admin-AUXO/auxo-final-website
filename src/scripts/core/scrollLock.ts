@@ -1,4 +1,4 @@
-import { BREAKPOINTS } from '../constants';
+import { BREAKPOINTS } from './constants';
 import { logger } from '@/lib/logger';
 
 interface LenisInstance {
