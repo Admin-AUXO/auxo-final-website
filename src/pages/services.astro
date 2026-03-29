@@ -1,18 +1,17 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import StructuredData from "@/components/common/StructuredData.astro";
-import { getSiteConfigData } from "@/lib/data/siteConfig-compat";
+import { siteData } from "@/data/content/siteConfig-data";
 import HeroSection from "@/components/sections/services/HeroSection.astro";
 import ServicesStageSection from "@/components/sections/services/ServicesStageSection.astro";
 import ImpactSection from "@/components/sections/services/ImpactSection.astro";
 import ModelsSection from "@/components/sections/services/ModelsSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
-import { getServicesContent } from "@/lib/data/services";
-
-const [servicesContent, siteData] = await Promise.all([
-  getServicesContent(),
-  getSiteConfigData(),
-]);
+import { servicesContent } from "@/data/content/services/data";
+import "@/styles/sections/hero.css";
+import "@/styles/sections/services-sections.css";
+import "@/styles/components/carousels.css";
+import "@/styles/sections/carousel-sections.css";
 
 const breadcrumbSchema = {
   itemListElement: [
@@ -59,9 +58,10 @@ const breadcrumbSchema = {
     import { trackServiceCategoryView } from '@/scripts/analytics/ga4';
 
     if (typeof window !== 'undefined') {
-      document.addEventListener('astro:page-load', () => {
+      const isServicesRoute = window.location.pathname === '/services' || window.location.pathname === '/services/';
+      if (isServicesRoute) {
         trackServiceCategoryView('data-analytics-services');
-      });
+      }
     }
   </script>
 </BaseLayout>

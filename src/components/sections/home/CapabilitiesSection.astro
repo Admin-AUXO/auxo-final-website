@@ -4,7 +4,7 @@ import Card from '@/components/ui/Card.astro';
 import BackgroundDecorations from '@/components/ui/BackgroundDecorations.astro';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
 import Carousel from '@/components/ui/Carousel.astro';
-import type { HomepageContent } from '@/data/content/homepage';
+import type { HomepageContent } from '@/data/content/homepage-data';
 
 interface Props {
   content: HomepageContent["capabilities"];
@@ -95,7 +95,7 @@ const { content } = Astro.props;
 </SectionContainer>
 
 <script>
-  import { autoInitCarousels } from '@/scripts/sections/autoInit';
+  import { autoInitCarousels } from '@/scripts/utils/carousels';
   autoInitCarousels();
 </script>
 

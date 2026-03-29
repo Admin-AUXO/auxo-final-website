@@ -89,6 +89,9 @@ export class GalaxyParticleSystem {
   private animationId: number | null = null;
   private resizeObserver: ResizeObserver | null = null;
   private themeObserver: MutationObserver | null = null;
+  private resizeHandler: (() => void) | null = null;
+  private mouseMoveHandler: ((e: MouseEvent) => void) | null = null;
+  private mouseLeaveHandler: (() => void) | null = null;
   private centerX = 0;
   private centerY = 0;
   private mode: ParticleMode = 'galaxy';
@@ -253,11 +256,13 @@ export class GalaxyParticleSystem {
       const rect = this.canvas.getBoundingClientRect();
       this.canvas.width = rect.width * dpr;
       this.canvas.height = rect.height * dpr;
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
       this.ctx.scale(dpr, dpr);
       this.updateCanvasCache();
     };
 
     resize();
+    this.resizeHandler = resize;
     window.addEventListener('resize', resize, { passive: true });
     
     if (this.canvas.parentElement) {
@@ -361,15 +366,18 @@ export class GalaxyParticleSystem {
   }
 
   private setupEventListeners() {
-    const handleMouseMove = (e: MouseEvent) => {
+    this.mouseMoveHandler = (e: MouseEvent) => {
       const rect = this.canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
       this.mouseX = (e.clientX - rect.left);
       this.mouseY = (e.clientY - rect.top);
       this.isMouseActive = true;
     };
-    document.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.addEventListener('mouseleave', () => this.isMouseActive = false);
+    this.mouseLeaveHandler = () => {
+      this.isMouseActive = false;
+    };
+
+    document.addEventListener('mousemove', this.mouseMoveHandler, { passive: true });
+    document.addEventListener('mouseleave', this.mouseLeaveHandler);
 
     this.themeObserver = new MutationObserver(() => this.updateThemeColors());
     this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
@@ -700,5 +708,20 @@ export class GalaxyParticleSystem {
     if (this.animationId) cancelAnimationFrame(this.animationId);
     this.resizeObserver?.disconnect();
     this.themeObserver?.disconnect();
+
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+      this.resizeHandler = null;
+    }
+
+    if (this.mouseMoveHandler) {
+      document.removeEventListener('mousemove', this.mouseMoveHandler);
+      this.mouseMoveHandler = null;
+    }
+
+    if (this.mouseLeaveHandler) {
+      document.removeEventListener('mouseleave', this.mouseLeaveHandler);
+      this.mouseLeaveHandler = null;
+    }
   }
 }

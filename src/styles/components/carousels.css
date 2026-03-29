@@ -244,78 +244,12 @@
   opacity: 1;
 }
 
-.carousel-card-header {
-  align-items: flex-start;
-  display: flex;
-  gap: var(--gap-sm);
-  justify-content: space-between;
-  margin-bottom: var(--spacing-3);
-}
-
-.carousel-card-title {
-  color: var(--text-primary);
-  font-family: var(--font-display);
-  font-size: var(--font-size-base);
-  font-weight: 700;
-  line-height: var(--line-height-snug);
-  margin: 0;
-}
-
-.carousel-card-icon {
-  align-items: center;
-  background: rgb(var(--accent-green-rgb), 0.1);
-  border: 1px solid rgb(var(--accent-green-rgb), 0.2);
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-shrink: 0;
-  height: 2.25rem;
-  justify-content: center;
-  width: 2.25rem;
-}
-
-.carousel-card-description {
-  color: var(--text-secondary);
-  font-family: var(--font-body);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-relaxed);
-  margin-bottom: var(--spacing-3);
-}
-
-.carousel-card-footer {
-  align-items: flex-start;
-  border-top: 1px solid rgb(var(--accent-green-rgb), 0.1);
-  display: flex;
-  gap: var(--gap-xs);
-  margin-top: auto;
-  padding-top: var(--spacing-3);
-}
-
-.carousel-card-footer-text {
-  color: var(--text-secondary);
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  line-height: var(--line-height-normal);
-}
-
 @media (width >= 640px) {
   .carousel-card,
   .carousel-card-benefit,
   .carousel-card-process,
   .carousel-card-about {
     padding: var(--carousel-card-padding-desktop);
-  }
-
-  .carousel-card-title {
-    font-size: var(--font-size-md);
-  }
-
-  .carousel-card-icon {
-    height: 2.5rem;
-    width: 2.5rem;
-  }
-
-  .carousel-card-description {
-    font-size: var(--font-size-sm);
   }
 }
 
@@ -325,14 +259,6 @@
   .carousel-card-process,
   .carousel-card-about {
     padding: var(--carousel-card-padding-desktop);
-  }
-
-  .carousel-card-title {
-    font-size: var(--font-size-lg);
-  }
-
-  .carousel-card-description {
-    font-size: var(--font-size-sm);
   }
 }
 
@@ -355,8 +281,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .carousel-card,
-  .carousel-card::before,
-  .carousel-card-icon {
+  .carousel-card::before {
     transition: none;
   }
 }

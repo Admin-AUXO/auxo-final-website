@@ -6,7 +6,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
   title="You're Offline | AUXO Data Labs"
   description="No internet connection detected. Please check your connection and try again."
 >
-  <main id="main-content" class="offline-page">
+  <section class="offline-page">
     <div class="container">
       <div class="offline-content">
         <div class="offline-icon">
@@ -48,8 +48,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
         <div class="offline-actions">
           <button
             type="button"
+            id="offline-retry-button"
             class="btn-base btn-primary offline-btn retry-button"
-            onclick="window.location.reload()"
           >
             Try Again
           </button>
@@ -72,7 +72,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
         </div>
       </div>
     </div>
-  </main>
+  </section>
 </BaseLayout>
 
 <style>
@@ -251,6 +251,16 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 </style>
 
 <script>
+  function bindRetryButton() {
+    const retryButton = document.getElementById("offline-retry-button");
+    if (!retryButton || retryButton.getAttribute("data-bound") === "true") return;
+
+    retryButton.addEventListener("click", () => {
+      window.location.reload();
+    });
+    retryButton.setAttribute("data-bound", "true");
+  }
+
   function updateConnectionStatus() {
     const statusElement = document.querySelector(".status-indicator");
     if (!statusElement) return;
@@ -270,8 +280,17 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
     }
   }
 
-  window.addEventListener("online", updateConnectionStatus);
-  window.addEventListener("offline", updateConnectionStatus);
+  function initOfflinePage() {
+    bindRetryButton();
+    updateConnectionStatus();
+  }
 
-  document.addEventListener("astro:page-load", updateConnectionStatus);
+  if (typeof window !== "undefined" && !(window as any).__auxoOfflinePageBound) {
+    (window as any).__auxoOfflinePageBound = true;
+    window.addEventListener("online", updateConnectionStatus);
+    window.addEventListener("offline", updateConnectionStatus);
+    document.addEventListener("astro:page-load", initOfflinePage);
+  }
+
+  initOfflinePage();
 </script>

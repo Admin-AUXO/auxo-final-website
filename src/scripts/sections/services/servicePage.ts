@@ -1,11 +1,11 @@
-import { setupPageAnimations } from "../utils/initUtils";
+import { refreshWithDelay } from "@/scripts/utils/scrollReveal";
 import { setupCounterAnimations } from "./counterAnimations";
 import { initAccordions } from "@/scripts/utils/accordions";
 import { setupParallax, cleanupParallax } from "./parallax";
 import { trackServiceView } from "@/scripts/analytics/ga4";
 
 export function setupServicePageAnimations(): void {
-  setupPageAnimations();
+  refreshWithDelay();
   setupCounterAnimations();
   initAccordions();
   setupParallax();

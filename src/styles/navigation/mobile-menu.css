@@ -82,19 +82,6 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-.mobile-menu-button-bg {
-  background: var(--accent-green-opacity-05);
-  border-radius: var(--radius-xl);
-  inset: 0;
-  opacity: 0;
-  position: absolute;
-  transition: opacity var(--duration-fast) var(--easing-standard);
-}
-
-.mobile-menu-button:hover .mobile-menu-button-bg {
-  opacity: 1;
-}
-
 .mobile-menu-close-btn-header {
   align-items: center;
   border-radius: var(--radius-xl);
@@ -121,64 +108,6 @@
   box-shadow: 0 0 0 4px var(--accent-green-opacity-20);
   outline: 2px solid var(--accent-green);
   outline-offset: var(--focus-ring-offset);
-}
-
-.mobile-menu-close-btn-header-bg {
-  background: var(--accent-green-opacity-05);
-  border-radius: var(--radius-xl);
-  inset: 0;
-  opacity: 0;
-  position: absolute;
-  transition: opacity var(--duration-fast) var(--easing-standard);
-}
-
-.mobile-menu-close-btn-header:hover .mobile-menu-close-btn-header-bg {
-  opacity: 1;
-}
-
-.nav-cta-mobile {
-  align-items: center;
-  background: var(--bg-primary);
-  border: 2px solid var(--accent-green);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
-  color: var(--text-secondary);
-  display: flex;
-  font-size: 1.125rem;
-  font-weight: 700;
-  gap: 0.75rem;
-  justify-content: center;
-  min-height: var(--touch-target-md);
-  padding: 1.5rem;
-  position: relative;
-  text-align: center;
-  touch-action: manipulation;
-  transition: all var(--duration-normal) var(--easing-standard);
-  width: 100%;
-}
-
-.nav-cta-mobile:hover {
-  background: var(--bg-surface);
-  box-shadow: 0 0 0 4px var(--accent-green-opacity-10);
-  color: var(--text-primary);
-  transform: translateY(-2px);
-}
-
-.nav-cta-mobile:active {
-  transform: translateY(0);
-}
-
-.nav-cta-mobile-bg {
-  background: var(--accent-green-opacity-05);
-  border-radius: var(--radius-xl);
-  inset: 0;
-  opacity: 0;
-  position: absolute;
-  transition: opacity var(--duration-fast) var(--easing-standard);
-}
-
-.nav-cta-mobile:hover .nav-cta-mobile-bg {
-  opacity: 1;
 }
 
 .mobile-menu-close-btn {
@@ -215,19 +144,6 @@
   box-shadow: 0 0 0 4px var(--accent-green-opacity-20);
   outline: 2px solid var(--accent-green);
   outline-offset: var(--focus-ring-offset);
-}
-
-.mobile-menu-close-btn-bg {
-  background: var(--accent-green-opacity-05);
-  border-radius: var(--radius-xl);
-  inset: 0;
-  opacity: 0;
-  position: absolute;
-  transition: opacity var(--duration-fast) var(--easing-standard);
-}
-
-.mobile-menu-close-btn:hover .mobile-menu-close-btn-bg {
-  opacity: 1;
 }
 
 .mobile-menu-overlay {

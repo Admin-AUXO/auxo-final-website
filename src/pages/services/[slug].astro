@@ -6,10 +6,12 @@ import ServiceBenefitsSection from "@/components/sections/services/ServiceBenefi
 import ServiceProcessSection from "@/components/sections/services/ServiceProcessSection.astro";
 import ServiceOutcomesSection from "@/components/sections/services/ServiceOutcomesSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
-import { getServicesContent, getServiceDetailBySlug } from "@/lib/data/services";
+import {
+  getServiceDetailBySlug,
+  servicesContent,
+} from "@/data/content/services/data";
 
 export async function getStaticPaths() {
-  const servicesContent = await getServicesContent();
   return servicesContent.details.map((service) => ({
     params: { slug: service.slug },
   }));
@@ -21,7 +23,7 @@ if (!slug) {
   return new Response(null, { status: 404, statusText: "Service not found" });
 }
 
-const service = await getServiceDetailBySlug(slug);
+const service = getServiceDetailBySlug(slug);
 
 if (!service) {
   return new Response(null, { status: 404, statusText: "Service not found" });

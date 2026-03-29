@@ -1,4 +1,5 @@
 import { logger } from '@/lib/logger';
+import { loadStylesheet } from '@/scripts/utils/thirdPartyLoader';
 interface TabEngagementConfig {
   enabled: boolean;
   titleMessages: string[];
@@ -20,6 +21,7 @@ class TabEngagementManager {
   private originalFavicon: string = '';
   private faviconIndex: number = 0;
   private cleanup: (() => void) | null = null;
+  private stylesLoaded = false;
 
   private readonly faviconColors = [
     '#7CB342', 
@@ -123,7 +125,7 @@ class TabEngagementManager {
 
     const inactiveDuration = Date.now() - this.lastActiveTime;
     if (inactiveDuration > this.config.inactivityThreshold && this.config.showWelcomeBack) {
-      this.showWelcomeBackOverlay(inactiveDuration);
+      void this.showWelcomeBackOverlay(inactiveDuration);
     }
 
     this.lastActiveTime = Date.now();
@@ -209,7 +211,21 @@ class TabEngagementManager {
     }
   }
 
-  private showWelcomeBackOverlay(inactiveDuration: number): void {
+  private async ensureStylesLoaded(): Promise<void> {
+    if (this.stylesLoaded) return;
+
+    await loadStylesheet('/styles/tab-engagement.css', 'tab-engagement-style');
+    this.stylesLoaded = true;
+  }
+
+  private async showWelcomeBackOverlay(inactiveDuration: number): Promise<void> {
+    try {
+      await this.ensureStylesLoaded();
+    } catch (error) {
+      logger.warn('[TabEngagement] Styles failed to load', error);
+      return;
+    }
+
     if (document.getElementById('auxo-welcome-back-overlay')) return;
 
     const minutes = Math.floor(inactiveDuration / 60000);
@@ -329,10 +345,6 @@ export function initTabEngagement(config?: Partial<TabEngagementConfig>): TabEng
   if (!tabEngagement) {
     tabEngagement = new TabEngagementManager(config);
   }
-  return tabEngagement;
-}
-
-export function getTabEngagement(): TabEngagementManager | null {
   return tabEngagement;
 }
 

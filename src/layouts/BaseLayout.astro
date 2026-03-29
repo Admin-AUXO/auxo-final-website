@@ -1,30 +1,45 @@
 ---
-import { getSiteConfigData } from "@/lib/data/siteConfig-compat";
+import { siteData } from "@/data/content/siteConfig-data";
 
 import Navigation from "@/components/common/Navigation.astro";
 import Footer from "@/components/common/Footer.astro";
 import MetaTags from "@/components/common/MetaTags.astro";
 import StructuredData from "@/components/common/StructuredData.astro";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar.astro";
-import FloatingCalendarButton from "@/components/widgets/FloatingCalendarButton.astro";
-import CalendarModal from "@/components/widgets/CalendarModal.astro";
 import CookieConsent from "@/components/common/CookieConsent.astro";
 
-import "@/styles/base/reset.css";
 import "@/styles/base.css";
 import "@/styles/global.css";
-import "@/styles/features/tab-engagement.css";
 
 export interface Props {
   title?: string;
   description?: string;
+  enableCalendarWidgets?: boolean;
+  enableCookieConsent?: boolean;
+  enableTabEngagement?: boolean;
 }
 
-const { title, description } = Astro.props;
+const {
+  title,
+  description,
+  enableCalendarWidgets: enableCalendarWidgetsProp,
+  enableCookieConsent: enableCookieConsentProp,
+  enableTabEngagement: enableTabEngagementProp,
+} = Astro.props;
 
-const siteData = await getSiteConfigData();
 const pageTitle = title || siteData.name;
 const pageDescription = description || siteData.description;
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isLegalRoute = pathname.startsWith("/legal");
+const isBlogRoute = pathname === "/blog" || pathname.startsWith("/blog/");
+const isUtilityRoute = pathname === "/offline" || pathname === "/404";
+
+const enableCalendarWidgets =
+  enableCalendarWidgetsProp ?? !(isLegalRoute || isBlogRoute || isUtilityRoute);
+const enableCookieConsent =
+  enableCookieConsentProp ?? !(isLegalRoute || isBlogRoute || isUtilityRoute);
+const enableTabEngagement =
+  enableTabEngagementProp ?? !(isLegalRoute || isBlogRoute || isUtilityRoute);
 
 const organizationSchema = {
   name: siteData.name,
@@ -33,234 +48,21 @@ const organizationSchema = {
   logo: `${siteData.url}/logo.svg`,
   description: siteData.description,
   email: siteData.email,
+  foundingDate: String(siteData.founded),
   address: {
     "@type": "PostalAddress",
     streetAddress: siteData.address.street,
     addressLocality: siteData.address.city,
     addressCountry: siteData.address.country,
   },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: siteData.address.coordinates.lat,
-    longitude: siteData.address.coordinates.lng,
-  },
   sameAs: [siteData.social.linkedin, siteData.social.twitter],
-  foundingDate: siteData.founded.toString(),
-  numberOfEmployees: {
-    "@type": "QuantitativeValue",
-    value: "10-50",
-  },
-  areaServed: [
-    {
-      "@type": "Place",
-      name: "GCC Region",
-      description:
-        "Gulf Cooperation Council countries including UAE, Saudi Arabia, Qatar, Kuwait, Bahrain, and Oman",
-    },
-    {
-      "@type": "Place",
-      name: "Europe",
-      description: "European markets",
-    },
-    {
-      "@type": "Place",
-      name: "Global",
-      description: "Worldwide decision intelligence partnership",
-    },
-  ],
-  serviceType: "Decision Intelligence Partner",
-  knowsAbout: [
-    "Data Analytics",
-    "Business Intelligence",
-    "Data Engineering",
-    "Machine Learning",
-    "Artificial Intelligence",
-    "Cloud Analytics",
-    "Data Strategy",
-    "ETL/ELT",
-    "Data Warehousing",
-    "Big Data",
-    "Predictive Analytics",
-    "Data Visualization",
-    "AWS",
-    "Azure",
-    "Google Cloud Platform",
-    "Snowflake",
-    "Databricks",
-    "Tableau",
-    "Power BI",
-  ],
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Data Analytics as a Service",
-    itemListElement: [
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Foundation Readiness",
-          description:
-            "Assess and prepare your data infrastructure for analytics success",
-          category: "Data Strategy & Assessment",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Reporting Reset",
-          description:
-            "Modernize reporting capabilities with dynamic, interactive analytics",
-          category: "Business Intelligence",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Performance Diagnostics",
-          description:
-            "Identify and optimize performance bottlenecks across your analytics stack",
-          category: "Data Engineering",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Forecasting Lab",
-          description:
-            "Build predictive models for better planning using statistical and ML techniques",
-          category: "Machine Learning & Predictive Analytics",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Decision Playbooks",
-          description:
-            "Create structured frameworks for key business decisions with data integration",
-          category: "Analytics Strategy",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Smart Automation",
-          description:
-            "Automate repetitive analytics workflows and data pipelines",
-          category: "Data Engineering & Automation",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Augmented Intelligence Studio",
-          description:
-            "Leverage AI to enhance analytical capabilities with pattern recognition and automated insights",
-          category: "Artificial Intelligence",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Autonomy Readiness Review",
-          description:
-            "Prepare your team for self-service analytics with governance and training",
-          category: "Analytics Enablement",
-        },
-      },
-    ],
-  },
-  expertise:
-    "Data Analytics, Business Intelligence, Machine Learning, Data Engineering, Cloud Computing",
-  slogan: "Transforming Data into Strategic Advantage",
-  audience: {
-    "@type": "Audience",
-    audienceType: [
-      "Business Executives",
-      "C-Suite Leaders",
-      "Chief Data Officers",
-      "Chief Technology Officers",
-      "Data Analytics Teams",
-      "Business Intelligence Professionals",
-    ],
-    geographicArea: [
-      {
-        "@type": "Place",
-        name: "Dubai",
-        containedInPlace: {
-          "@type": "Place",
-          name: "United Arab Emirates",
-        },
-      },
-      {
-        "@type": "Place",
-        name: "GCC Region",
-      },
-      {
-        "@type": "Place",
-        name: "Europe",
-      },
-    ],
-  },
-  makesOffer: [
-    {
-      "@type": "Offer",
-      name: "Diagnostic & Roadmap Sprint",
-      description:
-        "Quick assessment and strategic planning with current state analysis, maturity evaluation, and prioritized roadmap",
-      category: "Strategic Consulting",
-    },
-    {
-      "@type": "Offer",
-      name: "Delivery Wave",
-      description:
-        "Project-based implementation with time-boxed, outcome-focused execution",
-      category: "Project Delivery",
-    },
-    {
-      "@type": "Offer",
-      name: "Managed Analytics Program",
-      description:
-        "Ongoing partnership with dedicated analytics team for continuous capability development",
-      category: "Managed Services",
-    },
-    {
-      "@type": "Offer",
-      name: "Strategic Co-Pilot",
-      description:
-        "Executive-level advisory with fractional leadership and strategic guidance",
-      category: "Executive Advisory",
-    },
-  ],
-  industry: [
-    "Real Estate & Property",
-    "Hospitality & Tourism",
-    "Retail & Luxury Brands",
-    "Financial Services",
-    "Logistics & Trade",
-    "Government & Public Sector",
-    "Ecommerce",
-  ],
 };
 
 const websiteSchema = {
   name: siteData.name,
   url: siteData.url,
   description: siteData.description,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: `${siteData.url}/?q={search_term_string}`,
-    },
-    "query-input": "required name=search_term_string",
-  },
+  inLanguage: "en-US",
 };
 
 const webPageSchema = {
@@ -276,14 +78,6 @@ const webPageSchema = {
   about: {
     "@type": "Organization",
     name: siteData.name,
-  },
-  publisher: {
-    "@type": "Organization",
-    name: siteData.name,
-    logo: {
-      "@type": "ImageObject",
-      url: `${siteData.url}/logo.svg`,
-    },
   },
   breadcrumb: {
     "@type": "BreadcrumbList",
@@ -306,62 +100,6 @@ const webPageSchema = {
         : []),
     ],
   },
-  mainEntity: {
-    "@type": "Organization",
-    name: siteData.name,
-    description: siteData.description,
-    url: siteData.url,
-  },
-  speakable: {
-    "@type": "SpeakableSpecification",
-    cssSelector: ["main", "h1", "h2", "p"],
-  },
-};
-
-const faqSchema = {
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What services does AUXO Data Labs provide?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "AUXO Data Labs provides eight core analytics services: Foundation Readiness (data infrastructure assessment), Reporting Reset (modernizing reporting), Performance Diagnostics (optimization), Forecasting Lab (predictive modeling), Decision Playbooks (decision frameworks), Smart Automation (workflow automation), Augmented Intelligence Studio (AI-enhanced analytics), and Autonomy Readiness Review (self-service analytics enablement).",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Which industries does AUXO serve?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "AUXO specializes in Real Estate & Property, Hospitality & Tourism, Retail & Luxury Brands, Financial Services, Logistics & Trade, Government & Public Sector, and Ecommerce sectors across the GCC, Europe, and global markets.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Where is AUXO Data Labs located?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "AUXO Data Labs is based in Dubai Internet City, Dubai, United Arab Emirates, serving clients across the GCC region, Europe, and globally.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What engagement models does AUXO offer?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "AUXO offers four engagement models: Diagnostic & Roadmap Sprint (quick assessment and planning), Delivery Wave (project-based implementation), Managed Analytics Program (ongoing partnership), and Strategic Co-Pilot (executive advisory and fractional leadership).",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What technologies does AUXO work with?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "AUXO works with leading data platforms including AWS, Azure, Google Cloud Platform, Snowflake, Databricks, Tableau, Power BI, and implements solutions using modern data engineering, machine learning, and AI technologies.",
-      },
-    },
-  ],
 };
 ---
 
@@ -378,7 +116,6 @@ const faqSchema = {
     <StructuredData type="Organization" data={organizationSchema} />
     <StructuredData type="WebSite" data={websiteSchema} />
     <StructuredData type="WebPage" data={webPageSchema} />
-    <StructuredData type="FAQPage" data={faqSchema} />
     <script is:inline>
       (function () {
         const root = document.documentElement;
@@ -406,146 +143,11 @@ const faqSchema = {
         root.classList.add("loading");
       })();
     </script>
-    <script>
-      (function initViewTransitions() {
-        if (
-          typeof document === "undefined" ||
-          !("startViewTransition" in document)
-        )
-          return;
-        const setViewTransitionName = () => {
-          const main = document.querySelector("main");
-          if (main) {
-            main.style.viewTransitionName = "main-content";
-          }
-        };
-        setViewTransitionName();
-        document.addEventListener(
-          "astro:before-preparation",
-          setViewTransitionName,
-        );
-        document.addEventListener("astro:after-swap", setViewTransitionName);
-      })();
-    </script>
-    <script>
-      (function () {
-        const root = document.documentElement;
-        const body = document.body;
-
-        const enableScroll = () => {
-          const removeLoadingState = () => {
-            if (document.body && document.documentElement) {
-              root.classList.remove("loading");
-              root.classList.add("loaded");
-              body.classList.remove("loading");
-              body.classList.add("loaded");
-            }
-          };
-
-          setTimeout(removeLoadingState, 200);
-
-          const checkCSSLoaded = () => {
-            if (!document.body) return;
-
-            try {
-              const testElement = document.createElement("div");
-              testElement.style.cssText =
-                "position: absolute; visibility: hidden;";
-              document.body.appendChild(testElement);
-
-              const hasCriticalCSS =
-                window
-                  .getComputedStyle(testElement)
-                  .getPropertyValue("--bg-primary") !== "";
-              try {
-                if (
-                  testElement &&
-                  testElement.parentNode &&
-                  testElement.parentNode === document.body
-                ) {
-                  document.body.removeChild(testElement);
-                }
-              } catch (removeError) {
-                try {
-                  if (testElement && testElement.parentNode) {
-                    testElement.parentNode.removeChild(testElement);
-                  }
-                } catch (e2) {}
-              }
-
-              if (!hasCriticalCSS) {
-                setTimeout(checkCSSLoaded, 50);
-              }
-            } catch (e) {
-              setTimeout(checkCSSLoaded, 50);
-            }
-          };
-
-          setTimeout(checkCSSLoaded, 10);
-        };
-
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", enableScroll);
-        } else {
-          setTimeout(enableScroll, 0);
-        }
-
-        window.addEventListener("load", enableScroll);
-        setTimeout(enableScroll, 100);
-
-        setTimeout(() => {
-          if (document.body && document.documentElement) {
-            root.classList.remove("loading");
-            root.classList.add("loaded");
-            body.classList.remove("loading");
-            body.classList.add("loaded");
-          }
-        }, 1000);
-
-        const blockedPatterns = [
-          "fbevents",
-          "facebook.net",
-          "connect.facebook.net",
-          "ERR_BLOCKED_BY_CLIENT",
-          "segment.io",
-          "analytics.js",
-        ];
-        const recaptchaPatterns = [
-          "recaptcha",
-          "google.com/recaptcha",
-          "message channel closed",
-        ];
-        const extensionPatterns = [
-          "chrome-extension://",
-          "moz-extension://",
-          "safari-extension://",
-        ];
-
-        const originalConsoleError = console.error;
-        const originalConsoleWarn = console.warn;
-
-        const shouldSuppress = (message: string) => {
-          return (
-            extensionPatterns.some((p) => message.includes(p)) ||
-            recaptchaPatterns.some((p) => message.includes(p)) ||
-            blockedPatterns.some((p) => message.includes(p))
-          );
-        };
-
-        console.error = function (...args) {
-          if (shouldSuppress(args.join(" "))) return;
-          originalConsoleError.apply(console, args);
-        };
-
-        console.warn = function (...args) {
-          if (shouldSuppress(args.join(" "))) return;
-          originalConsoleWarn.apply(console, args);
-        };
-      })();
-    </script>
   </head>
   <body
     class="min-h-screen bg-primary transition-colors duration-normal scrollbar-hide"
+    data-enable-calendar-widgets={enableCalendarWidgets ? "true" : "false"}
+    data-enable-tab-engagement={enableTabEngagement ? "true" : "false"}
   >
     <noscript
       ><iframe
@@ -572,192 +174,10 @@ const faqSchema = {
       <slot />
     </main>
     <Footer />
-    <FloatingCalendarButton />
-    <CalendarModal />
-    <CookieConsent />
+    {enableCookieConsent && <CookieConsent />}
 
     <script>
-      import {
-        initCoreFeatures,
-        reinitOnPageLoad,
-        initPageFeatures,
-      } from "@/scripts/core/init";
-      import { logger } from "@/lib/logger";
-
-      if ("scrollRestoration" in history) {
-        history.scrollRestoration = "manual";
-      }
-
-      const handleScrollRestoration = () => {
-        try {
-          const scrollY = sessionStorage.getItem("scroll-position");
-          if (scrollY && parseInt(scrollY) > 0 && !window.location.hash) {
-            requestAnimationFrame(() => {
-              try {
-                window.scrollTo({
-                  top: parseInt(scrollY, 10),
-                  behavior: "instant",
-                });
-              } catch (e) {}
-            });
-          }
-        } catch (e) {}
-        try {
-          sessionStorage.removeItem("scroll-position");
-        } catch (e) {}
-      };
-
-      const saveScrollPosition = () => {
-        try {
-          sessionStorage.setItem("scroll-position", window.scrollY.toString());
-        } catch (e) {}
-      };
-
-      let scrollCleanup: (() => void) | null = null;
-
-      document.addEventListener("astro:before-preparation", saveScrollPosition);
-      document.addEventListener("astro:page-load", handleScrollRestoration);
-
-      const initMobileScrollOptimizations = () => {};
-
-      if (document.readyState === "loading") {
-        document.addEventListener(
-          "DOMContentLoaded",
-          initMobileScrollOptimizations,
-        );
-      } else {
-        initMobileScrollOptimizations();
-      }
-
-      const waitForCSS = () => {
-        return new Promise((resolve) => {
-          let timeoutId: number;
-          let attempts = 0;
-          const maxAttempts = 100;
-
-          const checkCSS = () => {
-            attempts++;
-            if (attempts > maxAttempts) {
-              resolve(true);
-              return;
-            }
-
-            if (!document.body) {
-              timeoutId = window.setTimeout(checkCSS, 50);
-              return;
-            }
-
-            try {
-              const testElement = document.createElement("div");
-              testElement.style.cssText =
-                "position: absolute; visibility: hidden; pointer-events: none;";
-              document.body.appendChild(testElement);
-
-              const styles = window.getComputedStyle(testElement);
-              const hasCriticalCSS =
-                styles.getPropertyValue("--bg-primary") !== "" &&
-                styles.getPropertyValue("--text-primary") !== "";
-
-              try {
-                if (
-                  testElement &&
-                  testElement.parentNode &&
-                  testElement.parentNode === document.body
-                ) {
-                  document.body.removeChild(testElement);
-                }
-              } catch (removeError) {
-                try {
-                  if (testElement && testElement.parentNode) {
-                    testElement.parentNode.removeChild(testElement);
-                  }
-                } catch (e2) {}
-              }
-
-              if (hasCriticalCSS) {
-                resolve(true);
-              } else {
-                timeoutId = window.setTimeout(checkCSS, 50);
-              }
-            } catch (e) {
-              timeoutId = window.setTimeout(checkCSS, 50);
-            }
-          };
-
-          if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", () => {
-              clearTimeout(timeoutId);
-              checkCSS();
-            });
-          } else {
-            checkCSS();
-          }
-        });
-      };
-
-      const initAll = async () => {
-        await waitForCSS();
-        initCoreFeatures();
-        initPageFeatures();
-
-        setTimeout(async () => {
-          try {
-            const { initTabEngagement } =
-              await import("@/scripts/utils/tabEngagement");
-            initTabEngagement({
-              titleMessages: ["AUXO Data Labs | Decision-Grade Analytics"],
-              titleInterval: 2000,
-              faviconEnabled: true,
-              inactivityThreshold: 300000,
-              showWelcomeBack: true,
-            });
-          } catch (e) {
-            logger.error("Tab engagement init error:", e);
-          }
-        }, 500);
-      };
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initAll);
-      } else {
-        initAll();
-      }
-
-      document.addEventListener("astro:before-swap", () => {
-        if (scrollCleanup) {
-          scrollCleanup();
-          scrollCleanup = null;
-        }
-      });
-
-      document.addEventListener("astro:before-preparation", async () => {
-        const { destroyTabEngagement } =
-          await import("@/scripts/utils/tabEngagement");
-        destroyTabEngagement();
-      });
-
-      document.addEventListener("astro:page-load", async () => {
-        await waitForCSS();
-        reinitOnPageLoad();
-        setTimeout(async () => {
-          initPageFeatures();
-          initMobileScrollOptimizations();
-
-          try {
-            const { initTabEngagement } =
-              await import("@/scripts/utils/tabEngagement");
-            initTabEngagement({
-              titleMessages: ["AUXO Data Labs | Decision-Grade Analytics"],
-              titleInterval: 2000,
-              faviconEnabled: true,
-              inactivityThreshold: 300000,
-              showWelcomeBack: true,
-            });
-          } catch (e) {
-            logger.error("Tab engagement reinit error:", e);
-          }
-        }, 100);
-      });
+      import "@/scripts/core/layoutRuntime";
     </script>
   </body>
 </html>

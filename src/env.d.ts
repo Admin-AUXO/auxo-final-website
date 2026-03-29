@@ -18,7 +18,8 @@ interface Window {
   __debugScrollLock?: () => { isLocked: boolean; activeLocks: string[] };
   __forceUnlockScroll?: () => void;
   emblaInstances?: Map<string, any>;
-  autoInitCarousels?: () => void;
+  gtag?: (...args: unknown[]) => void;
+  dataLayer?: unknown[];
 }
 
 interface Document {

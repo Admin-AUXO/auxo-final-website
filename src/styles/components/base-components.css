@@ -32,20 +32,6 @@
   font-family: var(--font-brand);
 }
 
-.typing-cursor {
-  animation: blink var(--animation-duration-blink) infinite;
-  margin-left: var(--spacing-xs);
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none
-}
-}
-
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
-
 .e-part,
 .hero-headline-text {
   color: var(--text-primary);
@@ -61,17 +47,4 @@
 
 .hero-cta {
   color: var(--text-primary);
-}
-
-.metric-highlight {
-  font-family: "Courier New", Monaco, monospace;
-}
-
-@media (width >= 1024px) {
-  .metric-highlight .text-theme-primary.whitespace-pre-line {
-    align-items: center;
-    display: flex;
-    line-height: var(--metric-line-height);
-    min-height: var(--metric-min-height);
-  }
 }

@@ -1,177 +1,73 @@
-import { logger } from '@/lib/logger';
-interface ScriptConfig {
-  src: string;
-  id?: string;
-  async?: boolean;
-  defer?: boolean;
-  type?: string;
-  onLoad?: () => void;
-  onError?: (error: Error) => void;
-}
-
-const loadedScripts = new Set<string>();
-
-export function loadScript(config: ScriptConfig): Promise<void> {
-  const { src, id, async = true, defer = false, type = 'text/javascript', onLoad, onError } = config;
-
-  
-  const scriptId = id || src;
-  if (loadedScripts.has(scriptId)) {
-    logger.debug(`[ThirdPartyLoader] Script already loaded: ${scriptId}`);
-    return Promise.resolve();
-  }
-
-  return new Promise((resolve, reject) => {
-    
-    if (document.querySelector(`script[src="${src}"]`)) {
-      loadedScripts.add(scriptId);
-      resolve();
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = src;
-    script.async = async;
-    script.defer = defer;
-    script.type = type;
-
-    if (id) {
-      script.id = id;
-    }
-
-    script.onload = () => {
-      loadedScripts.add(scriptId);
-      onLoad?.();
-      resolve();
-    };
-
-    script.onerror = (_error) => {
-      const err = new Error(`Failed to load script: ${src}`);
-      onError?.(err);
-      reject(err);
-    };
-
-    document.head.appendChild(script);
-  });
-}
+const stylesheetPromises = new Map<string, Promise<void>>();
 
 export function loadStylesheet(href: string, id?: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (document.querySelector(`link[href="${href}"]`)) {
-      resolve();
-      return;
+  const cacheKey = id || href;
+  const cachedPromise = stylesheetPromises.get(cacheKey);
+  if (cachedPromise) return cachedPromise;
+
+  const existingLinkById = id
+    ? (document.getElementById(id) as HTMLLinkElement | null)
+    : null;
+  const existingLinkByHref = document.querySelector(
+    `link[rel="stylesheet"][href="${href}"]`,
+  ) as HTMLLinkElement | null;
+  const existingLink = existingLinkById || existingLinkByHref;
+
+  if (existingLink) {
+    if (existingLink.dataset.loaded === 'true' || !!existingLink.sheet) {
+      existingLink.dataset.loaded = 'true';
+      const resolved = Promise.resolve();
+      stylesheetPromises.set(cacheKey, resolved);
+      return resolved;
     }
 
+    const pending = new Promise<void>((resolve, reject) => {
+      existingLink.addEventListener(
+        'load',
+        () => {
+          existingLink.dataset.loaded = 'true';
+          resolve();
+        },
+        { once: true },
+      );
+      existingLink.addEventListener(
+        'error',
+        () => reject(new Error(`Failed to load stylesheet: ${href}`)),
+        { once: true },
+      );
+    });
+
+    stylesheetPromises.set(cacheKey, pending);
+    return pending;
+  }
+
+  const promise = new Promise<void>((resolve, reject) => {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = href;
+    link.dataset.loaded = 'false';
 
     if (id) {
       link.id = id;
     }
 
-    link.onload = () => resolve();
-    link.onerror = () => reject(new Error(`Failed to load stylesheet: ${href}`));
+    link.addEventListener(
+      'load',
+      () => {
+        link.dataset.loaded = 'true';
+        resolve();
+      },
+      { once: true },
+    );
+    link.addEventListener(
+      'error',
+      () => reject(new Error(`Failed to load stylesheet: ${href}`)),
+      { once: true },
+    );
 
     document.head.appendChild(link);
   });
-}
 
-
-export function loadScriptOnIntersection(
-  element: Element,
-  config: ScriptConfig,
-  options?: IntersectionObserverInit
-): void {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        loadScript(config).catch(logger.error);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, options || { rootMargin: '200px' });
-
-  observer.observe(element);
-}
-
-
-export function loadScriptOnInteraction(
-  config: ScriptConfig,
-  events: string[] = ['mousemove', 'scroll', 'keydown', 'click', 'touchstart']
-): void {
-  let loaded = false;
-
-  const load = () => {
-    if (loaded) return;
-    loaded = true;
-
-    events.forEach((event) => {
-      document.removeEventListener(event, load);
-    });
-
-    loadScript(config).catch(logger.error);
-  };
-
-  events.forEach((event) => {
-    document.addEventListener(event, load, { once: true, passive: true });
-  });
-
-  
-  setTimeout(load, 5000);
-}
-
-
-export function loadScriptOnIdle(config: ScriptConfig, timeout: number = 2000): void {
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(() => {
-      loadScript(config).catch(logger.error);
-    }, { timeout });
-  } else {
-    setTimeout(() => {
-      loadScript(config).catch(logger.error);
-    }, timeout);
-  }
-}
-
-
-export function isScriptLoaded(src: string): boolean {
-  return loadedScripts.has(src) || !!document.querySelector(`script[src="${src}"]`);
-}
-
-
-export function removeScript(src: string): void {
-  const script = document.querySelector(`script[src="${src}"]`);
-  if (script) {
-    script.remove();
-    loadedScripts.delete(src);
-  }
-}
-
-
-export function preconnect(domain: string, crossorigin: boolean = false): void {
-  const existing = document.querySelector(`link[rel="preconnect"][href="${domain}"]`);
-  if (existing) return;
-
-  const link = document.createElement('link');
-  link.rel = 'preconnect';
-  link.href = domain;
-
-  if (crossorigin) {
-    link.crossOrigin = 'anonymous';
-  }
-
-  document.head.appendChild(link);
-}
-
-
-export function dnsPrefetch(domain: string): void {
-  const existing = document.querySelector(`link[rel="dns-prefetch"][href="${domain}"]`);
-  if (existing) return;
-
-  const link = document.createElement('link');
-  link.rel = 'dns-prefetch';
-  link.href = domain;
-
-  document.head.appendChild(link);
+  stylesheetPromises.set(cacheKey, promise);
+  return promise;
 }

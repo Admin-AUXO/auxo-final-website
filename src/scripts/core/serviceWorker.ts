@@ -210,29 +210,3 @@ function showUpdateNotification() {
   }, 30000);
 }
 
-export async function unregisterServiceWorker(): Promise<void> {
-  if (!registration) return;
-
-  try {
-    const success = await registration.unregister();
-    logger.debug('[ServiceWorker] Unregistered:', success);
-
-  
-    const cacheNames = await caches.keys();
-    await Promise.all(
-      cacheNames.map((cacheName) => caches.delete(cacheName))
-    );
-
-    logger.debug('[ServiceWorker] Caches cleared');
-  } catch (error) {
-    logger.error('[ServiceWorker] Unregister failed:', error);
-  }
-}
-
-export function getServiceWorkerRegistration(): ServiceWorkerRegistration | null {
-  return registration;
-}
-
-export function isServiceWorkerSupported(): boolean {
-  return 'serviceWorker' in navigator;
-}

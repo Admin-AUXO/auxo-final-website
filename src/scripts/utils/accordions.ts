@@ -99,8 +99,3 @@ export function cleanupAccordions(): void {
   accordionStates.clear();
 }
 
-export function reinitAccordions(): void {
-  cleanupAccordions();
-  initAccordions();
-}
-

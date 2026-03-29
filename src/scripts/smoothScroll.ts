@@ -142,22 +142,6 @@ export function initSmoothScroll(): void {
   document.addEventListener('astro:page-load', handleHashNavigation);
 }
 
-export function stopSmoothScroll(): void {
-  lenis?.stop();
-}
-
-export function startSmoothScroll(): void {
-  lenis?.start();
-}
-
-export function scrollToElement(target: string | HTMLElement, options?: { offset?: number; immediate?: boolean }): void {
-  if (!lenis) return;
-  const element = typeof target === 'string' ? document.querySelector(target) as HTMLElement : target;
-  if (element) {
-    lenis.scrollTo(element, { offset: options?.offset || 0, immediate: options?.immediate });
-  }
-}
-
 export function destroySmoothScroll(): void {
   if (rafId !== null) {
     cancelAnimationFrame(rafId);

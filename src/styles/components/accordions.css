@@ -1,7 +1,5 @@
 .accordion-header::-webkit-details-marker,
 .accordion-header::marker,
-.service-accordion-header::-webkit-details-marker,
-.service-accordion-header::marker,
 .accordion-summary::-webkit-details-marker,
 .accordion-summary::marker,
 .service-accordion-summary::-webkit-details-marker,
@@ -37,15 +35,14 @@ details[open] .service-accordion-content {
   opacity: 1;
 }
 
-.accordion-chevron,
-.service-accordion-chevron {
+.accordion-chevron {
   color: var(--text-secondary);
   flex-shrink: 0;
   transition: transform 250ms ease-out, color 200ms ease-out;
 }
 
 .accordion-item[open] .accordion-chevron,
-.service-accordion-item[open] .service-accordion-chevron {
+.service-accordion-item[open] .accordion-chevron {
   color: var(--accent-green);
   transform: rotate(180deg);
 }

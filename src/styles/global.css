@@ -5,14 +5,8 @@
 @import url('./components/base-components.css');
 @import url('./components/buttons.css');
 @import url('./components/cards.css');
-@import url('./components/carousels.css');
-@import url('./sections/carousel-sections.css');
 @import url('./components/accordions.css');
-@import url('./components/highlights.css');
-@import url('./components/legal.css');
-@import url('./components/legal-tables.css');
 @import url('./components/scroll-progress.css');
-@import url('./components/fab.css');
 @import url('./components/dropdown-animations.css');
 @import url('./navigation/utilities.css');
 @import url('./navigation/base.css');
@@ -22,11 +16,5 @@
 @import url('./navigation/modal-dropdown.css');
 @import url('./features/scroll-lock.css');
 @import url('./sections/shared-sections.css');
-@import url('./sections/hero.css');
-@import url('./sections/home-sections.css');
-@import url('./sections/about-sections.css');
-@import url('./sections/services-sections.css');
-@import url('./sections/services-individual.css');
-@import url('./sections/contact-sections.css');
 @import url('./widgets/google-calendar.css');
 @import url('./critical-overflows.css');

@@ -1,4 +1,5 @@
 import { lockScroll, unlockScroll } from '@/scripts/navigation/utils';
+import { createFocusTrap, type FocusTrap } from 'focus-trap';
 import { logger } from '@/lib/logger';
 
 export interface ModalConfig {
@@ -76,6 +77,7 @@ class ModalInstanceImpl implements ModalInstance {
   private triggers: NodeListOf<HTMLElement> | null = null;
   private eventListeners: Array<{ element: Element | Window | Document; event: string; handler: EventListener; options?: boolean | AddEventListenerOptions }> = [];
   private isDestroyed = false;
+  private focusTrap: FocusTrap | null = null;
 
   constructor(private config: ModalConfig, private manager: ModalManager) {
     this.initialize();
@@ -99,6 +101,13 @@ class ModalInstanceImpl implements ModalInstance {
     if (this.config.triggerSelector) {
       this.triggers = document.querySelectorAll(this.config.triggerSelector);
     }
+
+    this.focusTrap = createFocusTrap(this.modal, {
+      allowOutsideClick: true,
+      escapeDeactivates: false,
+      fallbackFocus: this.modal,
+      returnFocusOnDeactivate: false,
+    });
 
     this.setupEventListeners();
   }
@@ -210,6 +219,8 @@ class ModalInstanceImpl implements ModalInstance {
     this.modal.removeAttribute('hidden');
     this.modal.setAttribute('aria-hidden', 'false');
 
+    this.focusTrap?.activate();
+
     const focusableElement = this.modal.querySelector<HTMLElement>(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
@@ -227,6 +238,8 @@ class ModalInstanceImpl implements ModalInstance {
 
     if (this.config.scrollLock !== false) unlockScroll();
 
+    this.focusTrap?.deactivate();
+
     this.modal.setAttribute('hidden', '');
     this.modal.setAttribute('aria-hidden', 'true');
 
@@ -239,6 +252,8 @@ class ModalInstanceImpl implements ModalInstance {
 
   destroy(): void {
     this.close();
+    this.focusTrap?.deactivate();
+    this.focusTrap = null;
     this.removeAllEventListeners();
     this.isDestroyed = true;
   }
@@ -249,18 +264,8 @@ export const modalManager = new ModalManager();
 export function createCalendarModal(): ModalInstance {
   return modalManager.create({
     modalId: 'calendar-modal',
-    triggerSelector: '[data-google-calendar-open]',
     closeSelector: '[data-calendar-close]',
     overlaySelector: '[data-calendar-overlay]',
-    enableKeyboardNavigation: true,
-    enableClickOutsideClose: true,
-    scrollLock: true,
-  });
-}
-
-export function createServicesDropdown(dropdownId: string): ModalInstance {
-  return modalManager.create({
-    modalId: dropdownId,
     enableKeyboardNavigation: true,
     enableClickOutsideClose: true,
     scrollLock: true,

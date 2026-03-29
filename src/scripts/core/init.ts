@@ -2,11 +2,9 @@ import { initSmoothScroll, destroySmoothScroll } from '../smoothScroll';
 import { init as initScrollAnimations, cleanup as cleanupScrollAnimations, refresh as refreshScrollAnimations } from '../utils/scrollReveal';
 import { initScrollProgress, cleanupScrollProgress } from './scrollProgress';
 import { initNavigation, cleanupNavigation } from '../navigation/index';
-import { initFloatingButton, cleanupFloatingButton } from './floatingButton';
 import { initHeroBackground, cleanupHeroBackground } from '../utils/heroBackground';
 import { initAccordions, cleanupAccordions } from '../utils/accordions';
-import { cleanupAllCarousels } from '../utils/carousels';
-import { autoInitCarousels, resetAutoInitState } from '../sections/autoInit';
+import { autoInitCarousels, cleanupAllCarousels, resetAutoInitState } from '../utils/carousels';
 import { forceUnlockScroll } from '../navigation/utils';
 import { initWebVitals } from '../utils/webVitals';
 import { initConditionalAnalytics, cleanupConditionalAnalytics } from '../analytics/conditionalLoader';
@@ -15,6 +13,15 @@ import { registerServiceWorker } from './serviceWorker';
 import { logger } from '@/lib/logger';
 
 let isInitialized = false;
+
+function runWhenIdle(callback: () => void, timeout: number = 1000): void {
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => callback(), { timeout });
+    return;
+  }
+
+  setTimeout(callback, 100);
+}
 
 function initLazyLoading(): void {
   const lazyElements = document.querySelectorAll('[data-lazy-load]');
@@ -58,10 +65,20 @@ export function initCoreFeatures(): void {
 
   const runDeferredInit = () => {
     try {
-      initFloatingButton();
       initAccordions();
       initConditionalAnalytics();
       registerServiceWorker();
+      if (
+        document.querySelector('[data-consent-banner], [data-consent-modal]')
+      ) {
+        void import('../common/cookieConsent')
+          .then((cookieConsent) => {
+            cookieConsent.initCookieConsent();
+          })
+          .catch((error) => {
+            logger.warn('Cookie consent deferred init error:', error);
+          });
+      }
 
       setTimeout(() => {
         try {
@@ -81,11 +98,7 @@ export function initCoreFeatures(): void {
     requestAnimationFrame(runCriticalInit);
   }
 
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(runDeferredInit, { timeout: 1000 });
-  } else {
-    setTimeout(runDeferredInit, 100);
-  }
+  runWhenIdle(runDeferredInit);
 }
 
 export function initPageFeatures(): void {
@@ -104,31 +117,39 @@ export function initPageFeatures(): void {
 
   initCarouselsWithCSSCheck();
 
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(() => {
-      Promise.all([
-        import('../widgets/googleCalendar'),
-        import('../ui/themeToggle')
-      ]).then(([calendar, theme]) => {
-        calendar.setupGoogleCalendar();
-        theme.initThemeToggle();
-      }).catch((error) => {
-        logger.error('Failed to load modules:', error);
-      });
-    }, { timeout: 1000 });
-  } else {
-    setTimeout(() => {
-      Promise.all([
-        import('../widgets/googleCalendar'),
-        import('../ui/themeToggle')
-      ]).then(([calendar, theme]) => {
-        calendar.setupGoogleCalendar();
-        theme.initThemeToggle();
-      }).catch((error) => {
-        logger.error('Failed to load modules:', error);
-      });
-    }, 100);
-  }
+  runWhenIdle(() => {
+    const loaders: Promise<void>[] = [];
+    const calendarWidgetsEnabled =
+      document.body?.dataset.enableCalendarWidgets === 'true';
+
+    if (
+      calendarWidgetsEnabled &&
+      document.querySelector('[data-google-calendar-open]')
+    ) {
+      loaders.push(
+        import('../widgets/googleCalendar').then((calendar) => {
+          calendar.setupGoogleCalendar();
+        }),
+      );
+    }
+
+    if (
+      document.getElementById('theme-toggle-desktop') ||
+      document.getElementById('theme-toggle-mobile')
+    ) {
+      loaders.push(
+        import('../ui/themeToggle').then((theme) => {
+          theme.initThemeToggle();
+        }),
+      );
+    }
+
+    if (!loaders.length) return;
+
+    Promise.all(loaders).catch((error) => {
+      logger.error('Failed to load deferred modules:', error);
+    });
+  });
 }
 
 export function cleanupCoreFeatures(): void {
@@ -136,7 +157,6 @@ export function cleanupCoreFeatures(): void {
   cleanupScrollAnimations();
   cleanupScrollProgress();
   cleanupNavigation();
-  cleanupFloatingButton();
   cleanupHeroBackground();
   cleanupAccordions();
   cleanupAllCarousels();

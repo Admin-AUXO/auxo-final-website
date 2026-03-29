@@ -1,10 +1,9 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
-import { getSiteConfigData } from '@/lib/data/siteConfig-compat';
+import { siteData } from '@/data/content/siteConfig-data';
 
 export async function GET(context: import('astro').APIContext) {
   const blog = await getCollection('blog');
-  const siteData = await getSiteConfigData();
   
   return rss({
     title: `${siteData.name} | Insights`,

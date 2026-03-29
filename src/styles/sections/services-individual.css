@@ -17,92 +17,6 @@
   overflow-x: visible;
 }
 
-.process-stepper-wrapper {
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 1rem;
-  padding-top: 1rem;
-  scrollbar-color: var(--scrollbar-thumb) transparent;
-  scrollbar-width: none;
-}
-
-.process-stepper-wrapper::-webkit-scrollbar {
-  height: var(--scrollbar-height);
-}
-
-.process-stepper-wrapper::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.process-stepper-wrapper::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: var(--scrollbar-thumb-radius);
-}
-
-.process-stepper-wrapper::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
-}
-
-.process-step-item {
-  min-width: var(--process-step-min-width);
-  position: relative;
-
-  @media (width >= 1536px) {
-    min-width: 200px
-}
-}
-
-
-.process-step-item .group:hover {
-  z-index: var(--z-elevated);
-}
-
-.process-step-item .group\/card:hover {
-  z-index: var(--z-content);
-}
-
-details.group\/details summary {
-  -webkit-tap-highlight-color: transparent;
-}
-
-details.group\/details[open] summary {
-  margin-bottom: 0.5rem;
-}
-
-details.group\/details summary::-webkit-details-marker {
-  display: none;
-}
-
-.line-clamp-1 {
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-@media (width >= 1280px) {
-  .process-stepper-wrapper {
-    padding-bottom: 1.5rem;
-    padding-top: 1.5rem;
-  }
-
-  .process-step-item {
-    min-width: var(--process-step-min-width-lg);
-  }
-}
-
-.process-step-item button,
-.process-step-item details {
-  transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.process-step-item summary {
-  cursor: pointer;
-  touch-action: manipulation;
-  user-select: none;
-}
-
 .service-accordion-item summary {
   cursor: pointer;
   touch-action: manipulation;
@@ -161,10 +75,6 @@ details.group\/details summary::-webkit-details-marker {
     grid-template-columns: 1fr;
   }
 
-  .service-outcomes-section .outcome-metric {
-    text-align: center;
-  }
-
   .service-cta-section .cta-content {
     text-align: center;
   }
@@ -196,11 +106,6 @@ details.group\/details summary::-webkit-details-marker {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .service-hero-section .service-hero-cta {
-    display: flex;
-    justify-content: flex-start;
-  }
-
 }
 
 @media (width >= 1024px) {
@@ -218,18 +123,9 @@ details.group\/details summary::-webkit-details-marker {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .service-hero-headline,
-  .service-overview-section .overview-header,
-  .service-overview-section .overview-challenges,
-  .service-overview-section .overview-solutions,
-  .service-benefits-section .benefits-header,
-  .service-benefits-section .benefit-card,
-  .service-process-section .process-header,
-  .service-process-section .process-step,
-  .service-outcomes-section .outcomes-header,
-  .service-outcomes-section .outcome-metric,
+  .service-hero-section .service-hero-follow-content,
   .service-cta-section .cta-content,
-  .service-hero-section .service-hero-follow-content {
+  .service-hero-follow-content {
     animation: none;
     filter: none;
     opacity: 1;

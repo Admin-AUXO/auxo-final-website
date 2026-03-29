@@ -20,27 +20,20 @@
 
   @media (width >= 640px) {
     bottom: -3px;
-    height: 4px
-}
+    height: 4px;
+  }
 
   @media (width >= 1024px) {
     bottom: -4px;
-    height: 5px
-}
+    height: 5px;
+  }
 }
 
 .highlight-gradient.home-hero-highlight::after,
-.hero-typing-text .highlight-gradient::after,
 .problem-solution-section .highlight-gradient::after {
   display: none;
 }
 
-.highlight-simple {
-  color: var(--accent-green);
-  font-weight: 600;
-}
-
-.highlight-text,
 .highlight-cta-text {
   animation: gradientFill var(--animation-duration-gradient) ease-in-out infinite;
   backface-visibility: hidden;
@@ -64,12 +57,6 @@
   will-change: background-position;
 }
 
-.highlight-line-container {
-  overflow: visible;
-  padding-bottom: var(--spacing-em-md);
-  padding-top: var(--spacing-em-sm);
-}
-
 .highlight-subtitle-container {
   overflow: visible;
   padding-bottom: var(--spacing-em-md);
@@ -81,7 +68,6 @@
     animation: none;
   }
 
-  .highlight-text,
   .highlight-cta-text {
     animation: none;
     background: var(--text-primary);
@@ -89,57 +75,4 @@
     -webkit-text-fill-color: var(--text-primary);
     transform: none;
   }
-}
-
-.underline-line {
-  animation: drawUnderline var(--animation-duration-underline) ease-out forwards;
-  animation-delay: var(--delay-underline);
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--accent-green),
-    transparent
-  );
-  contain: layout;
-  height: 100%;
-  left: 50%;
-  position: absolute;
-  transform: translateX(-50%) scaleX(0);
-  transform-origin: center;
-  width: var(--width-60);
-  will-change: transform;
-}
-
-.underline-animation {
-  height: 0.125rem;
-  margin-top: var(--spacing-xl);
-  overflow: hidden;
-  padding-top: var(--spacing-sm);
-  position: relative;
-}
-
-.flow-line {
-  animation: flow var(--animation-duration-flow) ease-in-out infinite;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--accent-green),
-    transparent
-  );
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-.stroke-animate {
-  animation: drawStroke var(--animation-duration-stroke) ease-out forwards;
-  animation-delay: var(--delay-normal);
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-}
-
-.bento-card:hover .stroke-animate {
-  animation: drawStroke var(--animation-duration-stroke) ease-out forwards;
 }

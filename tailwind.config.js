@@ -1,5 +1,11 @@
 export default {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  content: [
+    './src/**/*.{astro,html,md,mdx}',
+    './src/scripts/forms/draftManager.ts',
+    './src/scripts/forms/emailHandler.ts',
+    './src/scripts/forms/validation.ts',
+    './src/scripts/legal/toc.ts',
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -34,11 +40,5 @@ export default {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography')({
-      className: 'prose',
-    }),
-    require('tailwind-scrollbar-hide')
-  ],
   darkMode: 'class',
 };

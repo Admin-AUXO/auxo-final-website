@@ -5,18 +5,14 @@ import NavLink from "@/components/navigation/NavLink.astro";
 import NavDropdown from "@/components/navigation/NavDropdown.astro";
 import Button from "@/components/ui/Button.astro";
 import { Icon } from "astro-icon/components";
-import { getNavigationContent } from "@/lib/data/navigation";
-import { getSiteConfigData } from "@/lib/data/siteConfig-compat";
+import { navigationContent } from "@/data/content/navigation-data";
+import { siteData } from "@/data/content/siteConfig-data";
 import { getBaseUrl, createUrl } from "@/utils/url";
 
 const base = getBaseUrl();
 const contactUrl = createUrl("contact");
 
-const [{ items }, siteData] = await Promise.all([
-  getNavigationContent(),
-  getSiteConfigData(),
-]);
-const navItems = items.map(({ _key, ...item }) => ({
+const navItems = navigationContent.items.map(({ _key, ...item }) => ({
   ...item,
   dropdown: item.dropdown?.map(({ _key: dropKey, ...drop }) => drop),
 }));
@@ -234,17 +230,3 @@ const navItems = items.map(({ _key, ...item }) => ({
   </button>
 </nav>
 
-<script>
-  import { initializeNavigationComponents } from "@/scripts/navigation/index";
-  import { logger } from "@/lib/logger";
-
-  if (typeof window !== "undefined") {
-    requestAnimationFrame(() => {
-      try {
-        initializeNavigationComponents();
-      } catch (error) {
-        logger.warn("Navigation init warning:", error);
-      }
-    });
-  }
-</script>

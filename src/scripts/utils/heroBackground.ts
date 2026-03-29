@@ -1,5 +1,4 @@
-import { observeThemeChange } from './observers';
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 
 interface ParticleSystem {
   destroy: () => void;
@@ -7,21 +6,48 @@ interface ParticleSystem {
 
 let particleSystem: ParticleSystem | null = null;
 let isInitialized = false;
-let themeObserver: MutationObserver | null = null;
-let lastPath = '';
+let activeContainer: HTMLElement | null = null;
+let stopVisibilityObserver: (() => void) | null = null;
 
-async function initParticleSystem(): Promise<void> {
-  if (typeof window === "undefined" || isInitialized) return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+function observeOnce(
+  element: Element,
+  callback: () => void,
+  options: IntersectionObserverInit = {},
+): () => void {
+  if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+    callback();
+    return () => {};
+  }
 
-  const canvas = document.getElementById("particle-canvas") as HTMLCanvasElement;
-  const container = document.getElementById("particle-background");
-  if (!canvas || !container) return;
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+
+      callback();
+      observer.unobserve(element);
+      observer.disconnect();
+      break;
+    }
+  }, options);
+
+  observer.observe(element);
+
+  return () => {
+    observer.unobserve(element);
+    observer.disconnect();
+  };
+}
+
+async function initParticleSystem(
+  canvas: HTMLCanvasElement,
+  container: HTMLElement,
+): Promise<void> {
+  if (isInitialized) return;
 
   try {
     const { GalaxyParticleSystem } = await import("@/scripts/particle-system");
-    const mode = (container.getAttribute('data-mode') || 'galaxy') as any;
-    Object.assign(container.style, { display: "block", opacity: "1", visibility: "visible" });
+    const mode = (container.getAttribute("data-mode") || "galaxy") as any;
+
     particleSystem = new GalaxyParticleSystem(canvas, mode);
     isInitialized = true;
   } catch (error) {
@@ -30,61 +56,46 @@ async function initParticleSystem(): Promise<void> {
 }
 
 function cleanup(): void {
+  if (stopVisibilityObserver) {
+    stopVisibilityObserver();
+    stopVisibilityObserver = null;
+  }
+
   if (particleSystem) {
     particleSystem.destroy();
     particleSystem = null;
   }
+
+  activeContainer = null;
   isInitialized = false;
 }
 
-function waitForInit(): void {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", waitForInit, { once: true });
-    return;
-  }
-  const canvas = document.getElementById("particle-canvas");
-  if (!canvas) {
-    setTimeout(waitForInit, 100);
-    return;
-  }
-  initParticleSystem();
-}
-
-function setupThemeObservation(): void {
-  if (typeof window === 'undefined') return;
-
-  const unobserve = observeThemeChange(() => {
-    cleanup();
-    setTimeout(waitForInit, 100);
-  });
-
-  themeObserver = { disconnect: unobserve } as MutationObserver;
-}
-
 export function initHeroBackground(): void {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  const currentPath = window.location.pathname;
-  if (currentPath === lastPath && isInitialized) return;
+  const container = document.getElementById("particle-background") as
+    | HTMLElement
+    | null;
+  const canvas = document.getElementById("particle-canvas") as
+    | HTMLCanvasElement
+    | null;
 
-  lastPath = currentPath;
+  if (!container || !canvas) return;
+  if (isInitialized && activeContainer === container) return;
 
-  if (document.readyState !== "loading") {
-    waitForInit();
-  } else {
-    document.addEventListener("DOMContentLoaded", waitForInit, { once: true });
-  }
+  cleanup();
+  activeContainer = container;
 
-  if (!themeObserver) {
-    setupThemeObservation();
-  }
+  stopVisibilityObserver = observeOnce(
+    container,
+    () => {
+      void initParticleSystem(canvas, container);
+    },
+    { rootMargin: "200px" },
+  );
 }
 
 export function cleanupHeroBackground(): void {
   cleanup();
-  if (themeObserver && typeof themeObserver.disconnect === 'function') {
-    themeObserver.disconnect();
-    themeObserver = null;
-  }
 }
-

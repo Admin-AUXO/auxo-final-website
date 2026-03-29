@@ -29,26 +29,6 @@ select:focus-visible {
   outline-offset: 0;
 }
 
-.skip-to-main {
-  background: var(--accent-green);
-  border-radius: 0 0 0.5rem;
-  color: var(--bg-primary);
-  font-weight: 600;
-  left: 0;
-  padding: 1rem 2rem;
-  position: absolute;
-  text-decoration: none;
-  top: -100px;
-  transition: top 0.3s ease;
-  z-index: var(--z-maximum);
-}
-
-.skip-to-main:focus {
-  outline: 3px solid var(--bg-primary);
-  outline-offset: -3px;
-  top: 0;
-}
-
 .sr-only {
   border-width: 0;
   clip-path: inset(50%);
@@ -59,17 +39,6 @@ select:focus-visible {
   position: absolute;
   white-space: nowrap;
   width: 1px;
-}
-
-.sr-only-focusable:focus {
-  clip-path: none;
-  height: auto;
-  margin: inherit;
-  overflow: visible;
-  padding: inherit;
-  position: static;
-  white-space: normal;
-  width: auto;
 }
 
 @media (prefers-contrast: more) {
@@ -100,9 +69,6 @@ select:focus-visible {
     transition-duration: 0.01ms;
   }
 
-  .skip-to-main {
-    transition: none;
-  }
 }
 
 .keyboard-nav *:focus-visible {
@@ -132,18 +98,6 @@ a:not([class]):focus-visible {
   margin: -0.125rem -0.25rem;
   padding: 0.125rem 0.25rem;
   text-decoration-thickness: 2px;
-}
-
-
-.text-low-contrast {
-  background-color: var(--bg-surface);
-  color: var(--text-primary);
-}
-
-
-.text-high-contrast {
-  color: var(--text-primary);
-  font-weight: 600;
 }
 
 
@@ -177,13 +131,6 @@ th {
 
 .modal-open {
   overflow: hidden;
-}
-
-.modal-backdrop {
-  background: rgb(0 0 0 / 80%);
-  inset: 0;
-  position: fixed;
-  z-index: calc(var(--z-modals) - 1);
 }
 
 .modal-container {
@@ -226,10 +173,8 @@ th {
 
 
 @media print {
-  .skip-to-main,
   .sr-only,
-  nav,
-  .no-print {
+  nav {
     display: none;
   }
 
@@ -244,35 +189,6 @@ th {
     content: "";
   }
 }
-
-
-.error-message {
-  align-items: center;
-  color: #dc2626;
-  display: flex;
-  font-weight: 600;
-  gap: 0.5rem;
-}
-
-.error-message::before {
-  content: "⚠";
-  font-size: 1.25em;
-}
-
-
-.success-message {
-  align-items: center;
-  color: var(--accent-green);
-  display: flex;
-  font-weight: 600;
-  gap: 0.5rem;
-}
-
-.success-message::before {
-  content: "✓";
-  font-size: 1.25em;
-}
-
 
 [aria-busy="true"] {
   cursor: wait;

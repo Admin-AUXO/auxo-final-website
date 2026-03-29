@@ -1,7 +1,6 @@
 import emailjs from '@emailjs/browser';
 import { env } from '@/config/env';
 import { validateContactForm, getFormData, showFieldError, hideFieldError, showFieldSuccess, hideFieldSuccess } from './validation';
-import { showSuccess, showError } from '@/scripts/utils/notifications';
 import { trackFormSubmission, trackFormStart, trackFormAbandonment } from '@/scripts/analytics/ga4';
 import { logger } from '@/lib/logger';
 import { DraftManager } from './draftManager';
@@ -11,6 +10,76 @@ const EMAILJS_CONFIG = env.emailjs;
 let emailjsInitialized = false;
 let lastSubmitTime = 0;
 const RATE_LIMIT_MS = 60000;
+const DEFAULT_NOTIFICATION_DURATION = 4000;
+
+function getNotificationColor(type: 'success' | 'error'): string {
+  const root = document.documentElement;
+  const computedStyle = getComputedStyle(root);
+
+  if (type === 'success') {
+    return computedStyle.getPropertyValue('--accent-green').trim() || '#A3E635';
+  }
+
+  return computedStyle.getPropertyValue('--error-color').trim() || '#EF4444';
+}
+
+function showNotification(
+  message: string,
+  type: 'success' | 'error',
+  duration: number = DEFAULT_NOTIFICATION_DURATION,
+): void {
+  const toast = document.createElement('div');
+  toast.className = [
+    'fixed bottom-6 right-6 z-[200]',
+    'min-w-[280px] max-w-[400px]',
+    'px-6 py-4 rounded-lg shadow-xl',
+    'text-white font-medium text-base',
+    'transition-all duration-300 ease-out',
+    'cursor-pointer',
+  ].join(' ');
+  toast.style.backgroundColor = getNotificationColor(type);
+  toast.style.transform = 'translateX(500px)';
+  toast.textContent = message;
+  toast.setAttribute('role', 'alert');
+  toast.setAttribute('aria-live', 'polite');
+
+  const closeButton = document.createElement('button');
+  closeButton.className = 'ml-3 opacity-70 hover:opacity-100 transition-opacity';
+  closeButton.textContent = '×';
+  closeButton.style.cssText =
+    'float: right; font-size: 24px; line-height: 1; background: none; border: none; color: white; cursor: pointer; padding: 0; margin: -4px 0 0 12px;';
+  closeButton.setAttribute('aria-label', 'Close notification');
+  toast.appendChild(closeButton);
+
+  const removeToast = () => {
+    toast.style.transform = 'translateX(500px)';
+    toast.style.opacity = '0';
+    window.setTimeout(() => {
+      toast.remove();
+    }, 300);
+  };
+
+  toast.addEventListener('click', removeToast);
+  closeButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    removeToast();
+  });
+
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => {
+    toast.style.transform = 'translateX(0)';
+  });
+
+  window.setTimeout(removeToast, duration);
+}
+
+function showSuccess(message: string): void {
+  showNotification(message, 'success');
+}
+
+function showError(message: string): void {
+  showNotification(message, 'error');
+}
 
 export function initEmailJS(): void {
   if (emailjsInitialized) return;
@@ -46,11 +115,11 @@ export async function handleContactFormSubmit(event: Event) {
   const validation = validateContactForm(formData);
 
   if (!validation.success) {
-    validation.error.errors.forEach((error) => {
-      const fieldName = error.path[0] as string;
+    validation.error.issues.forEach((issue) => {
+      const fieldName = issue.path[0] as string;
       const input = form.querySelector(`[name="${fieldName}"]`) as HTMLInputElement | HTMLTextAreaElement;
       if (input) {
-        showFieldError(input, error.message);
+        showFieldError(input, issue.message);
       }
     });
     showError('Please correct the errors in the form');
@@ -206,7 +275,7 @@ export function addRealTimeValidation(form: HTMLFormElement): void {
       const validation = validateContactForm(formData);
 
       if (!validation.success) {
-        const fieldError = validation.error.errors.find((error) => error.path[0] === fieldName);
+        const fieldError = validation.error.issues.find((issue) => issue.path[0] === fieldName);
         if (fieldError) {
           showFieldError(element, fieldError.message);
           hideFieldSuccess(element);

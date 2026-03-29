@@ -86,16 +86,36 @@ const labelBaseClass = "block text-sm font-bold text-theme-primary mb-2 font-bod
 <script>
   import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from '@/scripts/forms/emailHandler';
 
+  const FORM_ID = 'contact-form-element';
+
   function initContactForm() {
-    const form = document.getElementById('contact-form-element') as HTMLFormElement;
-    if (!form) return;
+    const form = document.getElementById(FORM_ID) as HTMLFormElement | null;
+    if (!form || form.dataset.initialized === 'true') return;
 
     initEmailJS();
     form.addEventListener('submit', handleContactFormSubmit);
     addRealTimeValidation(form);
+    form.dataset.initialized = 'true';
+  }
+
+  function resetContactForm() {
+    const form = document.getElementById(FORM_ID) as HTMLFormElement | null;
+    if (form) {
+      form.removeAttribute('data-initialized');
+    }
   }
 
   if (typeof window !== 'undefined') {
-    document.addEventListener('astro:page-load', initContactForm);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initContactForm, { once: true });
+    } else {
+      initContactForm();
+    }
+
+    if (!(window as any).__auxoContactFormLifecycleBound) {
+      (window as any).__auxoContactFormLifecycleBound = true;
+      document.addEventListener('astro:page-load', initContactForm);
+      document.addEventListener('astro:before-preparation', resetContactForm);
+    }
   }
 </script>

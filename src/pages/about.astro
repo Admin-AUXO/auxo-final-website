@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import StructuredData from "@/components/common/StructuredData.astro";
-import { getSiteConfigData } from "@/lib/data/siteConfig-compat";
+import { siteData } from "@/data/content/siteConfig-data";
 import HeroSection from "@/components/sections/about/HeroSection.astro";
 import MissionVisionSection from "@/components/sections/about/MissionVisionSection.astro";
 import PurposeSection from "@/components/sections/about/PurposeSection.astro";
@@ -10,12 +10,11 @@ import TeamSection from "@/components/sections/about/TeamSection.astro";
 import PartnershipSection from "@/components/sections/about/PartnershipSection.astro";
 import GlobalSection from "@/components/sections/about/GlobalSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
-import { getAboutContent } from "@/lib/data/about";
-
-const [aboutContent, siteData] = await Promise.all([
-  getAboutContent(),
-  getSiteConfigData(),
-]);
+import { aboutContent } from "@/data/content/about-data";
+import "@/styles/sections/hero.css";
+import "@/styles/sections/about-sections.css";
+import "@/styles/components/carousels.css";
+import "@/styles/sections/carousel-sections.css";
 
 const breadcrumbSchema = {
   itemListElement: [
@@ -62,8 +61,11 @@ const breadcrumbSchema = {
   />
 
   <script>
-    import { setupPageAnimations, setupSectionInit } from "@/scripts/sections/utils/initUtils";
-    setupSectionInit(setupPageAnimations);
+    import { refreshWithDelay } from "@/scripts/utils/scrollReveal";
+
+    if (typeof window !== "undefined") {
+      refreshWithDelay();
+    }
   </script>
 </BaseLayout>
 

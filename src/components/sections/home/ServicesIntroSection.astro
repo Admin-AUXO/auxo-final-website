@@ -6,7 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader.astro";
 import Carousel from "@/components/ui/Carousel.astro";
 import Button from "@/components/ui/Button.astro";
 import { Icon } from "astro-icon/components";
-import type { HomepageContent } from "@/data/content/homepage";
+import type { HomepageContent } from "@/data/content/homepage-data";
 import { createUrl } from "@/utils/url";
 
 interface Props {
@@ -95,7 +95,7 @@ const hasContent = Boolean((content?.title && content.title.trim()) || (content?
 
 {hasContent && (
 <script>
-  import { autoInitCarousels } from "@/scripts/sections/autoInit";
+  import { autoInitCarousels } from "@/scripts/utils/carousels";
   autoInitCarousels();
 </script>
 )}

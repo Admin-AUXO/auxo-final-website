@@ -142,10 +142,7 @@ section,
 
     [data-modal-content],
     [data-scrollable-iframe],
-    .overflow-auto:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
-    .overflow-y-auto,
-    .overflow-scroll:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
-    .overflow-y-scroll {
+    .overflow-y-auto {
       contain: layout style paint;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
@@ -166,19 +163,14 @@ section,
   .carousel-track,
   .embla,
   .embla__container,
-  .process-stepper-wrapper,
   [class*="horizontal-scroll"],
-  [class*="scroll-x"],
-  .overflow-x-auto:not(.overflow-y-auto, .overflow-y-scroll) {
+  [class*="scroll-x"] {
     touch-action: pan-x;
   }
 
   [data-modal-content],
   [data-scrollable-iframe],
-  .overflow-auto:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
   .overflow-y-auto,
-  .overflow-scroll:not(.process-stepper-wrapper, [class*="horizontal-scroll"], [class*="scroll-x"], .overflow-x-auto),
-  .overflow-y-scroll,
   .mobile-menu-content {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
@@ -212,7 +204,6 @@ section,
   }
 
   [style*="z-index"],
-  .always-visible,
   #main-navigation,
   #main-navigation *,
   .dropdown-modal-overlay,

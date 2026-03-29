@@ -63,16 +63,6 @@
     );
 }
 
-.section-cta-gradient {
-  background: radial-gradient(
-    ellipse 100% 80% at center,
-    var(--accent-green-opacity-08) 0%,
-    var(--accent-green-opacity-04) 30%,
-    var(--accent-green-opacity-02) 60%,
-    transparent 100%
-  );
-}
-
 .section-pattern-grid {
   background-image:
     linear-gradient(var(--accent-green-opacity-015) 1px, transparent 1px),
@@ -90,19 +80,7 @@
   opacity: 0.4;
 }
 
-.section-cta-pattern {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 10px,
-    var(--accent-green-opacity-02) 10px,
-    var(--accent-green-opacity-02) 20px
-  );
-  opacity: 0.5;
-}
-
 .section-divider-top::before,
-.section-divider-bottom::after,
 .section-divider::before,
 .section-divider::after {
   content: '';
@@ -126,7 +104,6 @@
   top: 0;
 }
 
-.section-divider-bottom::after,
 .section-divider::after {
   background: linear-gradient(
     90deg,
@@ -179,16 +156,6 @@
       );
   }
 
-  .section-cta-gradient {
-    background: radial-gradient(
-      ellipse 120% 100% at center,
-      var(--accent-green-opacity-06) 0%,
-      var(--accent-green-opacity-03) 25%,
-      var(--accent-green-opacity-015) 50%,
-      transparent 80%
-    );
-  }
-
   .section-pattern-grid {
     background-size: 35px 35px;
     opacity: 0.4;
@@ -200,13 +167,7 @@
     opacity: 0.3;
   }
 
-  .section-cta-pattern {
-    background-size: 8px 8px;
-    opacity: 0.3;
-  }
-
   .section-divider-top::before,
-  .section-divider-bottom::after,
   .section-divider::before,
   .section-divider::after {
     height: 0.5px;

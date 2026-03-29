@@ -1,5 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import "@/styles/sections/hero.css";
+import "@/styles/sections/services-individual.css";
+import "@/styles/components/carousels.css";
+import "@/styles/sections/carousel-sections.css";
 
 export interface Props {
   title: string;
@@ -26,7 +30,17 @@ const { title, description, serviceName } = Astro.props;
       setupServicePageAnimations,
       cleanupServicePageAnimations,
     } from "@/scripts/sections/services/servicePage";
-    import { setupSectionInit } from "@/scripts/sections/utils/initUtils";
-    setupSectionInit(setupServicePageAnimations, cleanupServicePageAnimations);
+
+    const servicePath = window.location.pathname;
+
+    const runSetup = () => {
+      if (window.location.pathname === servicePath) {
+        setupServicePageAnimations();
+      }
+    };
+
+    runSetup();
+    document.addEventListener("astro:page-load", runSetup, { once: true });
+    document.addEventListener("astro:before-preparation", cleanupServicePageAnimations, { once: true });
   </script>
 </BaseLayout>

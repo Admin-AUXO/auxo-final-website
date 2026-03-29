@@ -43,7 +43,7 @@ export function validateField(fieldName: keyof ContactFormData, value: unknown) 
     return { success: true, error: null };
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return { success: false, error: error.errors[0].message };
+      return { success: false, error: error.issues[0].message };
     }
     return { success: false, error: 'Validation error' };
   }

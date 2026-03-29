@@ -185,8 +185,3 @@ export class DraftManager {
   }
 }
 
-export function initDraftManager(form: HTMLFormElement, formId?: string): DraftManager {
-  const manager = new DraftManager(form, formId);
-  manager.init();
-  return manager;
-}

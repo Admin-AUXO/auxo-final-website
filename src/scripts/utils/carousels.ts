@@ -1,6 +1,18 @@
-import { EmblaCarouselWrapper, type EmblaCarouselOptions } from "@/scripts/animations";
+import {
+  EmblaCarouselWrapper,
+  type EmblaCarouselOptions,
+} from "@/scripts/animations/EmblaCarousel";
+import { BREAKPOINTS } from "@/scripts/constants";
 
 const REINIT_DEBOUNCE = 150;
+const BASE_OPTIONS = {
+  autoplay: true,
+  pauseOnHover: true,
+  align: "center" as const,
+  dragFree: false,
+  skipSnaps: false,
+};
+const initializedContainers = new Set<string>();
 
 export interface CarouselConfig {
   containerId: string;
@@ -8,6 +20,60 @@ export interface CarouselConfig {
   activateOnDesktop?: boolean;
   carouselOptions?: Partial<EmblaCarouselOptions>;
 }
+
+const CAROUSEL_CONFIGS: CarouselConfig[] = [
+  {
+    containerId: "code-carousel-container",
+    breakpoint: BREAKPOINTS.MD,
+    carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 4000 },
+  },
+  {
+    containerId: "mission-vision-carousel-container",
+    breakpoint: BREAKPOINTS.LG,
+    carouselOptions: {
+      ...BASE_OPTIONS,
+      autoplayInterval: 5000,
+      loop: false,
+      containScroll: "keepSnaps",
+    },
+  },
+  {
+    containerId: "global-metrics-carousel-container",
+    breakpoint: BREAKPOINTS.MD,
+    carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 3500 },
+  },
+  {
+    containerId: "capabilities-carousel-container",
+    breakpoint: BREAKPOINTS.MD,
+    carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 4500 },
+  },
+  {
+    containerId: "services-carousel-container",
+    breakpoint: BREAKPOINTS.LG,
+    carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 5000 },
+  },
+  {
+    containerId: "impact-carousel-container",
+    breakpoint: 0,
+    activateOnDesktop: true,
+    carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 4000 },
+  },
+  {
+    containerId: "models-carousel-container",
+    breakpoint: BREAKPOINTS.LG,
+    carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 5500 },
+  },
+  {
+    containerId: "service-process-carousel-container",
+    breakpoint: BREAKPOINTS.LG,
+    carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 5000 },
+  },
+  {
+    containerId: "service-benefits-carousel-container",
+    breakpoint: BREAKPOINTS.LG,
+    carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 4500 },
+  },
+];
 
 interface CarouselState {
   instance: EmblaCarouselWrapper | null;
@@ -179,6 +245,20 @@ export function initCarousel(config: CarouselConfig): () => void {
   return manager.cleanup;
 }
 
+export function autoInitCarousels(): void {
+  if (typeof document === "undefined") return;
+
+  CAROUSEL_CONFIGS.forEach((config) => {
+    if (initializedContainers.has(config.containerId)) return;
+
+    const container = document.getElementById(config.containerId);
+    if (!container) return;
+
+    initializedContainers.add(config.containerId);
+    initCarousel(config);
+  });
+}
+
 export function cleanupAllCarousels(): void {
   carouselManagers.forEach((manager) => manager.cleanup());
   carouselManagers.clear();
@@ -188,13 +268,6 @@ export function cleanupAllCarousels(): void {
   }
 }
 
-export function reinitCarousels(): void {
-  carouselManagers.forEach((manager) => {
-    manager.cleanup();
-    manager.init();
-  });
-}
-
-export function getCarouselInstance(containerId: string): EmblaCarouselWrapper | null {
-  return window.emblaInstances?.get(containerId) ?? null;
+export function resetAutoInitState(): void {
+  initializedContainers.clear();
 }

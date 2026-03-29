@@ -52,7 +52,6 @@ body.scroll-locked #main-navigation,
 
 #main-navigation .nav-link,
 #main-navigation .dropdown-toggle,
-#main-navigation .nav-cta,
 #main-navigation #theme-toggle {
   align-items: center;
   display: inline-flex;
@@ -103,8 +102,7 @@ body.scroll-locked #main-navigation,
 }
 
 #main-navigation .nav-link,
-#main-navigation .dropdown-toggle,
-#main-navigation .nav-cta {
+#main-navigation .dropdown-toggle {
   color: var(--text-secondary);
 }
 
@@ -190,44 +188,5 @@ body.scroll-locked #main-navigation,
 .nav-link[data-nav-item="about"]:hover .nav-active-border {
   display: none;
 }
-
-:root.debug-nav #main-navigation {
-  outline: 2px solid red;
-  outline-offset: -2px;
-}
-
-:root.debug-nav #main-navigation::before {
-  background: rgb(255 0 0 / 90%);
-  color: white;
-  content: "NAV (z:" attr(style) ")";
-  font-family: monospace;
-  font-size: 10px;
-  left: 0;
-  padding: 2px 4px;
-  pointer-events: none;
-  position: absolute;
-  top: 100%;
-  z-index: var(--z-maximum);
-}
-
-:root.debug-nav #main-content {
-  outline: 2px solid blue;
-  outline-offset: -2px;
-}
-
-:root.debug-nav #main-content::before {
-  background: rgb(0 0 255 / 90%);
-  color: white;
-  content: "CONTENT (padding-top: " attr(style) ")";
-  font-family: monospace;
-  font-size: 10px;
-  padding: 2px 4px;
-  pointer-events: none;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: var(--z-maximum);
-}
-
 
 

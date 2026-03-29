@@ -1,14 +1,14 @@
-import { cleanupNavigationListeners, resetState } from './state';
+import { addTrackedListener, cleanupNavigationListeners, resetState } from './state';
 import { getNavElements, updateNavHeight } from './utils';
 import { initializeMobileMenu, closeMobileMenu } from './mobile-menu';
 import { initializeDropdowns, setupDropdownCloseHandlers, closeAllDropdowns } from './dropdowns';
-import { setupScrollEffects } from './scroll-effects';
+import { cleanupScrollEffects, setupScrollEffects } from './scroll-effects';
 import { forceUnlockScroll } from './utils';
 
 let navigationHistory: string[] = [];
 
 function setupPageTransitionTracking(): void {
-  document.addEventListener('astro:before-preparation', (e: Event) => {
+  addTrackedListener(document, 'astro:before-preparation', (e: Event) => {
     const customEvent = e as CustomEvent<{ to: { pathname: string } }>;
     const currentPath = window.location.pathname;
     const newPath = customEvent.detail.to.pathname;
@@ -22,7 +22,7 @@ function setupPageTransitionTracking(): void {
     }
   });
 
-  document.addEventListener('astro:after-swap', () => {
+  addTrackedListener(document, 'astro:after-swap', () => {
     delete document.documentElement.dataset.navigation;
   });
 }
@@ -30,6 +30,7 @@ function setupPageTransitionTracking(): void {
 export function cleanupNavigation(): void {
   closeAllDropdowns();
   closeMobileMenu();
+  cleanupScrollEffects();
   resetState();
   forceUnlockScroll();
   cleanupNavigationListeners();
@@ -51,8 +52,6 @@ export function initNavigation(): void {
   requestAnimationFrame(() => {
     updateNavHeight();
 
-    window.addEventListener('resize', updateNavHeight, { passive: true });
+    addTrackedListener(window, 'resize', updateNavHeight, { passive: true });
   });
 }
-
-export const initializeNavigationComponents = initNavigation;

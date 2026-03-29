@@ -148,13 +148,3 @@ html.transitioning {
   cursor: progress;
 }
 
-
-.preserve-scroll {
-  view-transition-name: preserve-scroll;
-}
-
-::view-transition-old(preserve-scroll),
-::view-transition-new(preserve-scroll) {
-  animation: none;
-  height: 100%;
-}
