@@ -1,7 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "@/components/layouts/SectionContainer.astro";
-
+import SectionShell from "@/components/layouts/SectionShell.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
 
 interface Props {
@@ -15,37 +14,35 @@ interface Props {
 const { content } = Astro.props;
 ---
 
-<SectionContainer
+<SectionShell
   id="partnership"
   padding="normal"
   background="card"
+  contentWidth="5xl"
   class="relative partnership-section"
 >
   <div class="partnership-pattern absolute inset-0 pointer-events-none z-0">
   </div>
   <div class="partnership-gradient absolute inset-0 pointer-events-none z-0">
   </div>
-
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-5xl mx-auto w-full">
-      <div
-        class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16"
-        data-reveal="fade-down"
-        data-reveal-duration="200"
-        data-reveal-easing="ease-out"
+  <div
+    class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16"
+    data-reveal="fade-down"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    <div class="inline-flex items-center justify-center gap-3 mb-4 sm:mb-6">
+      <Icon
+        name="mdi:handshake"
+        class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green"
+      />
+      <h2
+        class="text-h2 font-extrabold text-theme-primary leading-tight tracking-tight font-display"
       >
-        <div class="inline-flex items-center justify-center gap-3 mb-4 sm:mb-6">
-          <Icon
-            name="mdi:handshake"
-            class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green"
-          />
-          <h2
-            class="text-h2 font-extrabold text-theme-primary leading-tight tracking-tight font-display"
-          >
-            <HighlightText text={content.title} highlight="Partner" />
-          </h2>
-        </div>
-      </div>
+        <HighlightText text={content.title} highlight="Partner" />
+      </h2>
+    </div>
+  </div>
 
       <div
         class="partnership-content group relative"
@@ -88,6 +85,4 @@ const { content } = Astro.props;
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</SectionContainer>
+</SectionShell>

@@ -1,11 +1,9 @@
 ---
-import { Icon } from "astro-icon/components";
-import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import Card from "@/components/ui/Card.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
-import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import Carousel from "@/components/ui/Carousel.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
 import { createUrl } from "@/utils/url";
 
 interface Props {
@@ -39,90 +37,80 @@ const serviceIcons = [
 ];
 ---
 
-<SectionContainer
+<SectionShell
   id="services-stages"
   padding="normal"
   background="default"
+  gradients={["hero"]}
+  contentWidth="screen"
   class="relative services-stages-section"
 >
   <div
-    class="absolute inset-0 pointer-events-none z-0"
-    data-reveal="fade"
+    data-reveal="fade-down"
     data-reveal-duration="200"
     data-reveal-easing="ease-out"
   >
-    <BackgroundDecorations gradients={["hero"]} />
+    <SectionHeader
+      title={content?.title || ""}
+      subtitle={content?.description || ""}
+      highlight="Every Stage"
+      subtitleHighlight="Eight"
+    />
   </div>
-
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-[1400px] mx-auto w-full">
+  <div class="hidden lg:grid lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 mb-10 sm:mb-12 lg:mb-16">
+    {services.map((service, index) => (
       <div
-        class="text-center mb-10 sm:mb-12 lg:mb-16 xl:mb-20"
-        data-reveal="fade-down"
+        class="overflow-hidden"
+        data-reveal="fade-up"
         data-reveal-duration="200"
+        data-reveal-delay={50 + index * 40}
         data-reveal-easing="ease-out"
       >
-        <h2 class="text-h2 font-extrabold mb-4 sm:mb-5 lg:mb-6 leading-tight tracking-tight font-display">
-          Services for <span class="text-accent-green font-black text-[1.05em]">Every Stage</span>
-        </h2>
-        <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-3xl mx-auto font-body">
-          <HighlightText text={content?.description || ''} highlight="Eight" highlightClass="text-accent-green font-bold" />
-        </p>
+        <Card
+          variant="service"
+          icon={serviceIcons[index]}
+          title={service?.name || ""}
+          description={service?.shortDescription || service?.description || ""}
+          link={createUrl(service?.link || "#")}
+          index={index}
+          isCarousel={false}
+        />
       </div>
+    ))}
+  </div>
 
-      <div class="hidden lg:grid lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 mb-10 sm:mb-12 lg:mb-16">
-        {services.map((service, index) => (
-          <div
-            class="overflow-hidden"
-            data-reveal="fade-up"
-            data-reveal-duration="200"
-            data-reveal-delay={50 + (index * 40)}
-            data-reveal-easing="ease-out"
-          >
-            <Card
-              variant="service"
-              icon={serviceIcons[index]}
-              title={service?.name || ''}
-              description={service?.shortDescription || service?.description || ''}
-              link={createUrl(service?.link || '#')}
-              index={index}
-              isCarousel={false}
-            />
-          </div>
-        ))}
-      </div>
-
-      <Carousel
-        containerId="services-carousel-container"
-        trackId="services-carousel-track"
-        items={services}
-        wrapperClass="services-carousel services-carousel-wrapper"
-        breakpoint={1024}
-        activateOnDesktop={false}
+  <Carousel
+    containerId="services-carousel-container"
+    trackId="services-carousel-track"
+    items={services}
+    wrapperClass="services-carousel services-carousel-wrapper"
+    breakpoint={1024}
+    activateOnDesktop={false}
+  >
+    {services.map((service, index) => (
+      <div
+        class="carousel-slide embla__slide"
+        data-index={index}
+        data-reveal="fade-up"
+        data-reveal-duration="200"
+        data-reveal-delay={50 + index * 40}
+        data-reveal-easing="ease-out"
       >
-        {services.map((service, index) => (
-          <div
-            class="carousel-slide embla__slide"
-            data-index={index}
-            data-reveal="fade-up"
-            data-reveal-duration="200"
-            data-reveal-delay={50 + (index * 40)}
-            data-reveal-easing="ease-out"
-          >
-            <Card
-              variant="service"
-              icon={serviceIcons[index]}
-              title={service?.name || ''}
-              description={service?.shortDescription || service?.description || ''}
-              link={createUrl(service?.link || '#')}
-              index={index}
-              isCarousel={true}
-            />
-          </div>
-        ))}
-      </Carousel>
+        <Card
+          variant="service"
+          icon={serviceIcons[index]}
+          title={service?.name || ""}
+          description={service?.shortDescription || service?.description || ""}
+          link={createUrl(service?.link || "#")}
+          index={index}
+          isCarousel={true}
+        />
+      </div>
+    ))}
+  </Carousel>
 
-      {content?.codeEdge && (
+  {
+    content?.codeEdge && (
       <div
         class="mt-10 sm:mt-12 lg:mt-16"
         data-reveal="fade-up"
@@ -135,15 +123,18 @@ const serviceIcons = [
 
           <div class="relative z-10">
             <p class="text-body-xl sm:text-[1.1875rem] lg:text-[1.375rem] xl:text-[1.5rem] text-theme-primary leading-relaxed font-body text-center">
-              <HighlightText text={content?.codeEdge || ''} highlight={["consistent quality", "common language"]} highlightClass="text-accent-green font-bold" />
+              <HighlightText
+                text={content.codeEdge}
+                highlight={["consistent quality", "common language"]}
+                highlightClass="text-accent-green font-bold"
+              />
             </p>
           </div>
         </div>
       </div>
-      )}
-    </div>
-  </div>
-</SectionContainer>
+    )
+  }
+</SectionShell>
 
 <style>
   .services-stages-section [data-reveal] {

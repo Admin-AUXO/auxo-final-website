@@ -28,11 +28,7 @@
   border-color: var(--border-color-light);
 }
 
-.font-brand {
-  font-family: var(--font-brand);
-}
 
-.e-part,
 .hero-headline-text {
   color: var(--text-primary);
 }
@@ -43,8 +39,4 @@
 
 .hero-subtitle p {
   font-size: clamp(1.15rem, 1.0781rem + 0.3594vw, 1.2937rem);
-}
-
-.hero-cta {
-  color: var(--text-primary);
 }

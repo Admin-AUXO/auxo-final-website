@@ -135,16 +135,20 @@ main {
   }
 }
 
-
-@supports not (view-transition-name: none) {
-  html.transitioning {
-    opacity: 0.95;
-    transition: opacity 0.2s ease;
-  }
+::view-transition-old(main-navigation),
+::view-transition-new(main-navigation),
+::view-transition-old(scroll-progress-bar),
+::view-transition-new(scroll-progress-bar),
+::view-transition-old(floating-button),
+::view-transition-new(floating-button) {
+  animation-delay: 0ms;
+  animation-duration: 0ms;
 }
 
-
-html.transitioning {
-  cursor: progress;
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
+  }
 }
 

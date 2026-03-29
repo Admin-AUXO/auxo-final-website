@@ -1,7 +1,6 @@
 ---
 import Card from "@/components/ui/Card.astro";
-import SectionContainer from "@/components/layouts/SectionContainer.astro";
-import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import Carousel from "@/components/ui/Carousel.astro";
 import Button from "@/components/ui/Button.astro";
@@ -19,22 +18,20 @@ const hasContent = Boolean((content?.title && content.title.trim()) || (content?
 ---
 
 {hasContent && (
-<SectionContainer
+<SectionShell
   id="services-intro"
   padding="normal"
   background="card"
+  patterns={["grid"]}
+  contentWidth="screen"
   class="relative transition-colors services-intro-section section-divider-top"
 >
-  <BackgroundDecorations patterns={["grid"]} />
-  
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <SectionHeader
-        title={content.title}
-        subtitle={content.subheading}
-        highlight="Common Starting Points"
-        subtitleHighlight="begin"
-      />
+  <SectionHeader
+    title={content.title}
+    subtitle={content.subheading}
+    highlight="Common Starting Points"
+    subtitleHighlight="begin"
+  />
 
       <div class="hidden lg:grid lg:grid-cols-3 lg:gap-6 xl:gap-8 services-grid-desktop">
         {content.items.map((item, index) => (
@@ -77,19 +74,17 @@ const hasContent = Boolean((content?.title && content.title.trim()) || (content?
         </Carousel>
       </div>
 
-      <div class="text-center mt-8 sm:mt-10 lg:mt-12 px-4" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
-        <Button
-          variant="primary"
-          size="lg"
-          href={createUrl(content.navigationButton.href)}
-          class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center lg:hover:shadow-xl lg:hover:shadow-accent-green/30 transition-all min-h-[48px] sm:min-h-[44px] flex-nowrap px-6 sm:px-8"
-        >
-          <span class="whitespace-nowrap">{content.navigationButton.text}</span>
-          <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0" />
-        </Button>
-      </div>
-    </div>
+  <div class="text-center mt-8 sm:mt-10 lg:mt-12 px-4" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
+    <Button
+      variant="primary"
+      size="lg"
+      href={createUrl(content.navigationButton.href)}
+      class="w-full sm:w-auto font-bold shadow-lg shadow-accent-green/20 justify-center lg:hover:shadow-xl lg:hover:shadow-accent-green/30 transition-all min-h-[48px] sm:min-h-[44px] flex-nowrap px-6 sm:px-8"
+    >
+      <span class="whitespace-nowrap">{content.navigationButton.text}</span>
+      <Icon name="mdi:arrow-right" class="w-4 h-4 flex-shrink-0" />
+    </Button>
   </div>
-</SectionContainer>
+</SectionShell>
 )}
 

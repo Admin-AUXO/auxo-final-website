@@ -28,8 +28,8 @@ export function setupParallax(): void {
   initParallax();
   if (!parallaxElements || parallaxElements.length === 0) return;
 
-  const lenisInstance = (window as any).__lenis;
-  if (lenisInstance) {
+  const lenisInstance = window.__lenis;
+  if (lenisInstance?.on && lenisInstance?.off) {
     lenisInstance.on('scroll', handleParallax);
     parallaxCleanup = () => lenisInstance.off('scroll', handleParallax);
   } else {

@@ -1,0 +1,38 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface SocialLink {
+  href: string;
+  icon: string;
+  label: string;
+}
+
+interface Props {
+  links: SocialLink[];
+  titleClass: string;
+  containerClass: string;
+  buttonClass: string;
+  iconClass: string;
+}
+
+const { links, titleClass, containerClass, buttonClass, iconClass } = Astro.props;
+---
+
+<p class={`text-xs font-semibold text-theme-secondary uppercase tracking-wider font-body ${titleClass}`}>
+  Follow Us
+</p>
+<div class={containerClass}>
+  {
+    links.map((social) => (
+      <a
+        href={social.href}
+        class={buttonClass}
+        aria-label={social.label}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon name={social.icon} class={iconClass} />
+      </a>
+    ))
+  }
+</div>

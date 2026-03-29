@@ -284,6 +284,9 @@ function setupLinkHandlers(): void {
   if (!mobileMenu) return;
   
   mobileMenu.querySelectorAll('a').forEach(link => {
+    const linkElement = link as HTMLElement;
+    if (linkElement.dataset.mobileMenuLinkInitialized === 'true') return;
+    linkElement.dataset.mobileMenuLinkInitialized = 'true';
     addTrackedListener(link, 'click', closeMobileMenu);
   });
 }
@@ -317,9 +320,6 @@ function openMobileMenu(): void {
 
   requestAnimationFrame(() => {
     setupMobileDropdowns();
-    setupLinkHandlers();
-    setupCloseButtonHandler();
-    setupDropdownKeyboardNavigation();
     setupSwipeHandlers();
     setMenuScrollState(true);
   });
@@ -467,6 +467,10 @@ function setupDropdownKeyboardNavigation(): void {
   document.querySelectorAll('#mobile-menu .mobile-dropdown-content').forEach(content => {
     const items = content.querySelectorAll('.mobile-nav-link');
     items.forEach((item, index) => {
+      const itemElement = item as HTMLElement;
+      if (itemElement.dataset.mobileKeyNavInitialized === 'true') return;
+      itemElement.dataset.mobileKeyNavInitialized = 'true';
+
       addTrackedListener(item, 'keydown', (e: Event) => {
         const keyboardEvent = e as KeyboardEvent;
 
@@ -501,6 +505,8 @@ export function initializeMobileMenu(): void {
   mobileMenuButton.setAttribute('aria-expanded', 'false');
   mobileMenuButton.setAttribute('aria-controls', 'mobile-menu');
 
+  setupMobileDropdowns();
+  setupDropdownKeyboardNavigation();
   addActivationListeners(mobileMenuButton, handleMenuButtonClick);
   addTrackedListener(document, 'click', handleOutsideClick, { capture: true });
   addTrackedListener(document, 'keydown', handleKeyboard, { capture: true });

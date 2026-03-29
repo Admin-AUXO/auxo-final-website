@@ -11,7 +11,6 @@ interface NavigationState {
 export const DROPDOWN_ANIMATION_DURATION = 300;
 export const DROPDOWN_CLOSE_DELAY = 350;
 export const DROPDOWN_LEAVE_DELAY = 400;
-export const SCROLL_THRESHOLD = 10;
 
 export const state: NavigationState = {
   openDropdown: null,
@@ -52,13 +51,6 @@ export function cleanupNavigationListeners(): void {
     navigationAbortController = null;
   }
 }
-
-export const eventListeners: Array<{
-  element: EventTarget;
-  event: string;
-  handler: EventListener;
-  options?: boolean | AddEventListenerOptions;
-}> = [];
 
 export function clearDropdownTimer(): void {
   if (state.dropdownLeaveTimer) {

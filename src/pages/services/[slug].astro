@@ -1,5 +1,5 @@
 ---
-import ServiceLayout from "@/layouts/ServiceLayout.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import ServiceHeroSection from "@/components/sections/services/ServiceHeroSection.astro";
 import ServiceOverviewSection from "@/components/sections/services/ServiceOverviewSection.astro";
 import ServiceBenefitsSection from "@/components/sections/services/ServiceBenefitsSection.astro";
@@ -10,6 +10,10 @@ import {
   getServiceDetailBySlug,
   servicesContent,
 } from "@/data/content/services/data";
+import "@/styles/sections/hero.css";
+import "@/styles/sections/services-individual.css";
+import "@/styles/components/carousels.css";
+import "@/styles/sections/carousel-sections.css";
 
 export async function getStaticPaths() {
   return servicesContent.details.map((service) => ({
@@ -30,26 +34,34 @@ if (!service) {
 }
 ---
 
-<ServiceLayout description={service.hero.description} serviceName={service.name}>
-  <ServiceHeroSection service={service} slot="hero" />
-  <ServiceOverviewSection service={service} slot="overview" />
-  <ServiceBenefitsSection service={service} slot="benefits" />
-  <ServiceProcessSection service={service} slot="process" />
-  <ServiceOutcomesSection service={service} slot="outcomes" />
-  <CtaSection
-    id="service-cta"
-    title={service.cta.title}
-    titleHighlight={service.cta.title.split(' ').slice(-3)}
-    description={service.cta.description}
-    descriptionHighlight={service.cta.descriptionHighlight}
-    ctaText={service.cta.ctaText}
-    ctaHref={service.cta.ctaHref}
-    variant="elevated"
-    background="elevated"
-    maxWidth="4xl"
-    additionalInfo="Ready to discuss your specific needs? Our team typically responds within 24 hours."
-    class="service-cta-section"
-    slot="cta"
-  />
-</ServiceLayout>
+<BaseLayout
+  title={`${service.name} | AUXO Data Labs`}
+  description={service.hero.description}
+>
+  <div data-service-name={service.name} class="relative">
+    <ServiceHeroSection service={service} />
+    <ServiceOverviewSection service={service} />
+    <ServiceBenefitsSection service={service} />
+    <ServiceProcessSection service={service} />
+    <ServiceOutcomesSection service={service} />
+    <CtaSection
+      id="service-cta"
+      title={service.cta.title}
+      titleHighlight={service.cta.title.split(' ').slice(-3)}
+      description={service.cta.description}
+      descriptionHighlight={service.cta.descriptionHighlight}
+      ctaText={service.cta.ctaText}
+      ctaHref={service.cta.ctaHref}
+      variant="elevated"
+      background="elevated"
+      maxWidth="4xl"
+      additionalInfo="Ready to discuss your specific needs? Our team typically responds within 24 hours."
+      class="service-cta-section"
+    />
+  </div>
+
+  <script>
+    import "@/scripts/pages/serviceDetailPage";
+  </script>
+</BaseLayout>
 

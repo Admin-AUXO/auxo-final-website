@@ -251,46 +251,5 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 </style>
 
 <script>
-  function bindRetryButton() {
-    const retryButton = document.getElementById("offline-retry-button");
-    if (!retryButton || retryButton.getAttribute("data-bound") === "true") return;
-
-    retryButton.addEventListener("click", () => {
-      window.location.reload();
-    });
-    retryButton.setAttribute("data-bound", "true");
-  }
-
-  function updateConnectionStatus() {
-    const statusElement = document.querySelector(".status-indicator");
-    if (!statusElement) return;
-
-    if (navigator.onLine) {
-      statusElement.classList.remove("offline");
-      statusElement.classList.add("online");
-      statusElement.textContent = "Back Online";
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    } else {
-      statusElement.classList.remove("online");
-      statusElement.classList.add("offline");
-      statusElement.textContent = "Offline";
-    }
-  }
-
-  function initOfflinePage() {
-    bindRetryButton();
-    updateConnectionStatus();
-  }
-
-  if (typeof window !== "undefined" && !(window as any).__auxoOfflinePageBound) {
-    (window as any).__auxoOfflinePageBound = true;
-    window.addEventListener("online", updateConnectionStatus);
-    window.addEventListener("offline", updateConnectionStatus);
-    document.addEventListener("astro:page-load", initOfflinePage);
-  }
-
-  initOfflinePage();
+  import "@/scripts/pages/offlineStatus";
 </script>

@@ -134,31 +134,21 @@
 }
 }
 
-.legal-content ul,
-.legal-content ol {
+.legal-content ul {
   color: var(--text-secondary);
   font-size: var(--legal-font-size-sm);
   line-height: var(--legal-line-height-relaxed);
+  list-style: none;
   margin: var(--legal-spacing-sm) 0 var(--legal-spacing-md) 0;
-  padding-left: var(--legal-spacing-xl);
+  padding-left: var(--legal-spacing-lg);
 }
 
 @media (width >= 768px) {
-  .legal-content ul,
-  .legal-content ol {
+  .legal-content ul {
     font-size: var(--legal-font-size-base);
     margin: var(--legal-spacing-md) 0 var(--legal-spacing-lg) 0;
-    padding-left: var(--legal-spacing-2xl);
+    padding-left: var(--legal-spacing-xl);
   }
-}
-
-.legal-content ul {
-  list-style: none;
-  padding-left: var(--legal-spacing-lg);
-
-  @media (width >= 768px) {
-    padding-left: var(--legal-spacing-xl)
-}
 }
 
 .legal-content ul li {
@@ -185,29 +175,12 @@
   width: 6px;
 }
 
-.legal-content ol {
-  counter-reset: list-counter;
-}
-
-.legal-content ol li {
-  counter-increment: list-counter;
-  line-height: var(--legal-line-height-relaxed);
-  margin-bottom: var(--legal-spacing-md);
-  padding-left: var(--legal-spacing-xs);
-}
-
-.legal-content ol li::marker {
-  color: var(--accent-green);
-  font-weight: 600;
-}
-
 .legal-content strong {
   color: var(--text-primary);
   font-weight: 600;
 }
 
-.legal-content .highlight,
-.legal-content mark {
+.legal-content .highlight {
   background-color: transparent;
   color: var(--accent-green);
   font-weight: 600;
@@ -241,26 +214,22 @@
   padding: 0.2rem 0.4rem;
 }
 
-.legal-content p + ul,
-.legal-content p + ol {
+.legal-content p + ul {
   margin-top: var(--legal-spacing-xs);
 }
 
 @media (width >= 768px) {
-  .legal-content p + ul,
-  .legal-content p + ol {
+  .legal-content p + ul {
     margin-top: var(--legal-spacing-sm);
   }
 }
 
-.legal-content ul + p,
-.legal-content ol + p {
+.legal-content ul + p {
   margin-top: var(--legal-spacing-md);
 }
 
 @media (width >= 768px) {
-  .legal-content ul + p,
-  .legal-content ol + p {
+  .legal-content ul + p {
     margin-top: var(--legal-spacing-lg);
   }
 }

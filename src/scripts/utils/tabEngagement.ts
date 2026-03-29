@@ -16,11 +16,10 @@ class TabEngagementManager {
   private titleInterval: number | null = null;
   private messageIndex: number = 0;
   private lastActiveTime: number = Date.now();
-  private inactivityTimer: number | null = null;
   private faviconInterval: number | null = null;
   private originalFavicon: string = '';
   private faviconIndex: number = 0;
-  private cleanup: (() => void) | null = null;
+  private cleanupCallbacks: Array<() => void> = [];
   private stylesLoaded = false;
 
   private readonly faviconColors = [
@@ -74,22 +73,25 @@ class TabEngagementManager {
 
     document.addEventListener('visibilitychange', visibilityHandler, false);
 
-    this.cleanup = () => {
+    this.cleanupCallbacks.push(() => {
       document.removeEventListener('visibilitychange', visibilityHandler, false);
-    };
+    });
   }
 
   private setupInactivityDetection(): void {
-    const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+    const activityEvents: Array<keyof DocumentEventMap> = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+    const handleActivity = () => {
+      this.lastActiveTime = Date.now();
+    };
 
-    activityEvents.forEach(event => {
-      document.addEventListener(event, () => {
-        this.lastActiveTime = Date.now();
-        if (this.inactivityTimer) {
-          clearTimeout(this.inactivityTimer);
-          this.inactivityTimer = null;
-        }
-      }, { passive: true });
+    activityEvents.forEach((event) => {
+      document.addEventListener(event, handleActivity, { passive: true });
+    });
+
+    this.cleanupCallbacks.push(() => {
+      activityEvents.forEach((event) => {
+        document.removeEventListener(event, handleActivity);
+      });
     });
   }
 
@@ -102,10 +104,6 @@ class TabEngagementManager {
     if (this.config.faviconEnabled) {
       this.startFaviconAnimation();
     }
-
-    this.inactivityTimer = window.setTimeout(() => {
-      this.onInactivityThreshold();
-    }, this.config.inactivityThreshold);
   }
 
   private onTabVisible(): void {
@@ -118,20 +116,12 @@ class TabEngagementManager {
     document.title = this.originalTitle;
     this.setFavicon(this.originalFavicon);
 
-    if (this.inactivityTimer) {
-      clearTimeout(this.inactivityTimer);
-      this.inactivityTimer = null;
-    }
-
     const inactiveDuration = Date.now() - this.lastActiveTime;
     if (inactiveDuration > this.config.inactivityThreshold && this.config.showWelcomeBack) {
       void this.showWelcomeBackOverlay(inactiveDuration);
     }
 
     this.lastActiveTime = Date.now();
-  }
-
-  private onInactivityThreshold(): void {
   }
 
   private startTitleAnimation(): void {
@@ -261,25 +251,38 @@ class TabEngagementManager {
       overlay.classList.add('auxo-engagement-overlay-visible');
     });
 
-    const autoDismissTimer = setTimeout(() => {
+    let isDismissed = false;
+    let autoDismissTimer: ReturnType<typeof setTimeout> | null = null;
+    const cleanupEscapeHandler = () => {
+      document.removeEventListener('keydown', escapeHandler);
+    };
+    const dismissOverlay = () => {
+      if (isDismissed) return;
+      isDismissed = true;
+      if (autoDismissTimer) {
+        clearTimeout(autoDismissTimer);
+        autoDismissTimer = null;
+      }
+      cleanupEscapeHandler();
       this.dismissOverlay(overlay);
-    }, 5000);
+    };
 
     const dismissBtn = overlay.querySelector('[data-dismiss-overlay]');
     const handleDismiss = () => {
-      clearTimeout(autoDismissTimer);
-      this.dismissOverlay(overlay);
+      dismissOverlay();
     };
     dismissBtn?.addEventListener('click', handleDismiss, { once: true });
 
     const escapeHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        clearTimeout(autoDismissTimer);
-        this.dismissOverlay(overlay);
-        document.removeEventListener('keydown', escapeHandler);
+        dismissOverlay();
       }
     };
     document.addEventListener('keydown', escapeHandler);
+
+    autoDismissTimer = setTimeout(() => {
+      dismissOverlay();
+    }, 5000);
   }
 
   private dismissOverlay(overlay: HTMLElement): void {
@@ -305,8 +308,8 @@ class TabEngagementManager {
     document.body.style.paddingRight = '';
     document.body.style.removeProperty('--scrollbar-width');
 
-    const lenisInstance = typeof window !== 'undefined' ? (window as any).__lenis : null;
-    if (lenisInstance && lenisInstance.start) {
+    const lenisInstance = typeof window !== 'undefined' ? window.__lenis : null;
+    if (lenisInstance?.start) {
       lenisInstance.start();
     }
   }
@@ -319,15 +322,8 @@ class TabEngagementManager {
     this.stopTitleAnimation();
     this.stopFaviconAnimation();
 
-    if (this.inactivityTimer) {
-      clearTimeout(this.inactivityTimer);
-      this.inactivityTimer = null;
-    }
-
-    if (this.cleanup) {
-      this.cleanup();
-      this.cleanup = null;
-    }
+    this.cleanupCallbacks.forEach((cleanup) => cleanup());
+    this.cleanupCallbacks.length = 0;
 
     document.title = this.originalTitle;
     this.setFavicon(this.originalFavicon);

@@ -22,7 +22,7 @@ function handleLenisScroll(data: { scroll: number }): void {
   if (state.isScrolling) return;
   state.isScrolling = true;
 
-  const scrollTop = data.scroll * window.innerHeight;
+  const scrollTop = data.scroll <= 1 ? data.scroll * window.innerHeight : data.scroll;
   state.lastScrollTop = scrollTop;
 
   requestAnimationFrame(() => {
@@ -42,7 +42,7 @@ export function setupScrollEffects(): void {
   if (!nav) return;
   isInitialized = true;
 
-  const lenisInstance = (window as any).__lenis as LenisLike | undefined;
+  const lenisInstance = window.__lenis as unknown as LenisLike | undefined;
   if (lenisInstance) {
     lenisInstance.on('scroll', handleLenisScroll);
     activeLenisInstance = lenisInstance;

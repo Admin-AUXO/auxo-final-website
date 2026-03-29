@@ -1,8 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "@/components/layouts/SectionContainer.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
-import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import type { HomepageContent } from "@/data/content/homepage-data";
 
 interface Props {
@@ -16,22 +15,20 @@ const items = [...rawItems].sort(() => Math.random() - 0.5);
 const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
 ---
 
-<SectionContainer
+<SectionShell
   id="tech-stack"
   padding="lg"
   background="card"
+  gradients={["center"]}
+  contentWidth="7xl"
   class="relative tech-stack-section section-divider"
   style="content-visibility: auto; contain-intrinsic-size: 400px;"
 >
-  <BackgroundDecorations gradients={["center"]} />
-
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-7xl mx-auto w-full">
-      <SectionHeader
-        title={content?.title || ""}
-        subtitle={content?.subtitle || ""}
-        highlight="Technologies"
-      />
+  <SectionHeader
+    title={content?.title || ""}
+    subtitle={content?.subtitle || ""}
+    highlight="Technologies"
+  />
 
       {
         items.length > 0 ? (
@@ -59,9 +56,7 @@ const duplicatedItems = items.length > 0 ? [...items, ...items] : [];
           </div>
         )
       }
-    </div>
-  </div>
-</SectionContainer>
+</SectionShell>
 
 <style>
   .tech-stack-section {

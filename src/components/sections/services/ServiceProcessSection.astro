@@ -1,10 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
-import HighlightText from "@/components/ui/HighlightText.astro";
-import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import Carousel from "@/components/ui/Carousel.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
 import type { ServiceDetail } from "@/data/content/services/data";
 
 interface Props {
@@ -21,25 +19,24 @@ type ProcessStep = {
 const { service } = Astro.props;
 ---
 
-<SectionContainer
+<SectionShell
   id="service-process"
   padding="lg"
   background="elevated"
+  gradients={["dual"]}
+  patterns={["grid"]}
+  contentWidth="screen"
   class="relative service-process-section section-divider"
 >
-  <BackgroundDecorations gradients={["dual"]} patterns={["grid"]} />
+  <div data-reveal="fade-down" data-reveal-duration="200" data-reveal-easing="ease-out">
+    <SectionHeader
+      title={service.process.title}
+      subtitle={service.process.description}
+      subtitleHighlight={service.process.descriptionHighlight}
+    />
+  </div>
 
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <div data-reveal="fade-down" data-reveal-duration="200" data-reveal-easing="ease-out">
-        <SectionHeader
-          title={service.process.title}
-          subtitle={service.process.description}
-          subtitleHighlight={service.process.descriptionHighlight}
-        />
-      </div>
-
-      <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10 relative items-stretch">
+  <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10 relative items-stretch">
         {service.process.steps.map((step: ProcessStep, index: number) => {
           return (
             <div
@@ -100,21 +97,21 @@ const { service } = Astro.props;
             </div>
           );
         })}
-      </div>
+  </div>
 
-      <div class="lg:hidden service-process-carousel-section" data-service={service.slug}>
-        <Carousel
-          containerId="service-process-carousel-container"
-          trackId="service-process-carousel-track"
-          items={service.process.steps}
-          wrapperClass="service-process-carousel-wrapper"
-          breakpoint={1024}
-          activateOnDesktop={false}
-        >
-          {service.process.steps.map((step: ProcessStep, index: number) => (
-            <div class="carousel-slide embla__slide" data-index={index}>
-              <div class="carousel-card-process lg:hover:border-accent-green/40">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 lg:hover:via-accent-green/60 transition-all duration-500" />
+  <div class="lg:hidden service-process-carousel-section" data-service={service.slug}>
+    <Carousel
+      containerId="service-process-carousel-container"
+      trackId="service-process-carousel-track"
+      items={service.process.steps}
+      wrapperClass="service-process-carousel-wrapper"
+      breakpoint={1024}
+      activateOnDesktop={false}
+    >
+      {service.process.steps.map((step: ProcessStep, index: number) => (
+        <div class="carousel-slide embla__slide" data-index={index}>
+          <div class="carousel-card-process lg:hover:border-accent-green/40">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0 lg:hover:via-accent-green/60 transition-all duration-500" />
 
                 <div class="relative z-10 flex flex-col h-full">
                   <div class="flex items-center justify-between mb-4 sm:mb-5">
@@ -143,13 +140,11 @@ const { service } = Astro.props;
                   </div>
                 </div>
 
-                <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-green/30" />
-              </div>
-            </div>
-          ))}
-        </Carousel>
-      </div>
-    </div>
+            <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-green/30" />
+          </div>
+        </div>
+      ))}
+    </Carousel>
   </div>
-</SectionContainer>
+</SectionShell>
 

@@ -2,12 +2,13 @@
 import LegalLayout from "@/components/layouts/LegalLayout.astro";
 import LegalContact from "@/components/legal/LegalContact.astro";
 import { createUrl } from "@/utils/url";
+import { LEGAL_LAST_UPDATED } from "./_constants";
 ---
 
 <LegalLayout
   title="Terms & Conditions"
   description="Read the terms and conditions governing your use of AUXO Data Labs' website and services."
-  lastUpdated="January 10, 2026"
+  lastUpdated={LEGAL_LAST_UPDATED}
 >
   <h2>1. Introduction</h2>
   <p>

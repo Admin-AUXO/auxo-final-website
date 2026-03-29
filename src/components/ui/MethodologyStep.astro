@@ -10,7 +10,7 @@ export interface Props {
   descriptionHighlight?: string | string[];
   output?: string;
   index?: number;
-  variant?: "flow" | "timeline" | "accordion";
+  variant?: "flow" | "accordion";
   isLast?: boolean;
 }
 
@@ -83,7 +83,7 @@ const {
       </div>
     )}
   </div>
-) : variant === "accordion" ? (
+) : (
   <details class="methodology-accordion-item" data-step={String(index)} open={index === 0} data-reveal="fade-up" data-reveal-duration="200" data-reveal-delay={50 + (index * 40)} data-reveal-easing="ease-out">
     <summary class="methodology-accordion-summary">
       <div class="methodology-accordion-header pointer-events-none">
@@ -124,53 +124,6 @@ const {
       )}
     </div>
   </details>
-) : (
-  <div class="process-step-wrapper" data-step={String(index)}>
-    <Card variant="bordered" padding="md" class="relative transition-all duration-300 hover:border-accent-green/50">
-      <div class="flex items-start gap-4 mb-4">
-        <div class="flex flex-col items-center flex-shrink-0">
-          <div class="w-12 h-12 bg-gradient-to-br from-accent-green to-accent-green/80 rounded-lg flex items-center justify-center shadow-lg relative z-10">
-            <span class="text-on-accent font-extrabold text-h5 font-display">
-              {number}
-            </span>
-          </div>
-          {!isLast && (
-            <div class="process-connector mt-1.5 mb-1.5">
-              <Icon name="mdi:chevron-down" class="w-5 h-5 text-accent-green/40" />
-            </div>
-          )}
-        </div>
-        <div class="flex-1 pt-1.5">
-          <h3 class="text-h4 font-bold text-theme-primary leading-tight mb-3 font-display">
-            <span class="text-accent-green">{title.charAt(0)}</span>
-            <span>{title.slice(1)}</span>
-          </h3>
-          <p class="text-body-lg text-theme-secondary leading-relaxed mb-4 font-body">
-            {descriptionHighlight ? (
-              <HighlightText text={description} highlight={descriptionHighlight} />
-            ) : (
-              description
-            )}
-          </p>
-          {output && (
-            <div class="pt-4 border-t border-theme-light">
-              <div class="flex items-start gap-2.5">
-                <div class="flex-shrink-0 w-2 h-2 bg-accent-green rounded-full mt-2" />
-                <div class="flex-1">
-                  <p class="text-xs text-theme-secondary uppercase tracking-wider font-semibold mb-1 font-body">
-                    Output
-                  </p>
-                  <p class="text-body-lg font-bold text-theme-primary whitespace-normal leading-tight font-body">
-                    {output}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </Card>
-  </div>
 )}
 
 <style>

@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import Logo from "./Logo.astro";
+import SocialLinks from "./SocialLinks.astro";
 import { footerContent } from "@/data/content/footer-data";
 import { siteData } from "@/data/content/siteConfig-data";
 import { getBaseUrl, createUrl } from "@/utils/url";
@@ -9,8 +10,7 @@ const base = getBaseUrl();
 const currentYear = new Date().getFullYear();
 const privacyUrl = createUrl("legal/privacy-policy");
 
-const { sections } = footerContent;
-const footerSections = sections;
+const { sections: footerSections } = footerContent;
 const iconContainerClass =
   "w-12 h-12 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0";
 const socialLinks = [
@@ -90,29 +90,13 @@ const socialSizeConfig = {
       </nav>
 
       <div class="pt-3">
-        <p
-          class={`text-xs font-semibold text-theme-secondary uppercase tracking-wider ${socialSizeConfig.sm.title} font-body`}
-        >
-          Follow Us
-        </p>
-        <div class={socialSizeConfig.sm.container}>
-          {
-            socialLinks.map((social) => (
-              <a
-                href={social.href}
-                class={`${socialSizeConfig.sm.button} bg-accent-green/10 hover:bg-accent-green hover:text-on-accent border border-accent-green/30 hover:border-accent-green hover:shadow-lg hover:shadow-accent-green/30 active:scale-95 flex items-center justify-center text-accent-green transition-all duration-fast focus:outline-none focus:ring-[3px] focus:ring-accent-green/50`}
-                aria-label={social.label}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon
-                  name={social.icon}
-                  class={socialSizeConfig.sm.icon}
-                />
-              </a>
-            ))
-          }
-        </div>
+        <SocialLinks
+          links={socialLinks}
+          titleClass={socialSizeConfig.sm.title}
+          containerClass={socialSizeConfig.sm.container}
+          buttonClass={`${socialSizeConfig.sm.button} bg-accent-green/10 hover:bg-accent-green hover:text-on-accent border border-accent-green/30 hover:border-accent-green hover:shadow-lg hover:shadow-accent-green/30 active:scale-95 flex items-center justify-center text-accent-green transition-all duration-fast focus:outline-none focus:ring-[3px] focus:ring-accent-green/50`}
+          iconClass={socialSizeConfig.sm.icon}
+        />
       </div>
     </div>
 
@@ -163,29 +147,13 @@ const socialSizeConfig = {
         </div>
 
         <div class="pt-2">
-          <p
-            class={`text-xs font-semibold text-theme-secondary uppercase tracking-wider ${socialSizeConfig.lg.title} font-body`}
-          >
-            Follow Us
-          </p>
-          <div class={socialSizeConfig.lg.container}>
-            {
-              socialLinks.map((social) => (
-                <a
-                  href={social.href}
-                  class={`${socialSizeConfig.lg.button} bg-accent-green/10 hover:bg-accent-green hover:text-on-accent border border-accent-green/30 hover:border-accent-green hover:shadow-lg hover:shadow-accent-green/30 active:scale-95 flex items-center justify-center text-accent-green transition-all duration-fast focus:outline-none focus:ring-[3px] focus:ring-accent-green/50`}
-                  aria-label={social.label}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Icon
-                    name={social.icon}
-                    class={socialSizeConfig.lg.icon}
-                  />
-                </a>
-              ))
-            }
-          </div>
+          <SocialLinks
+            links={socialLinks}
+            titleClass={socialSizeConfig.lg.title}
+            containerClass={socialSizeConfig.lg.container}
+            buttonClass={`${socialSizeConfig.lg.button} bg-accent-green/10 hover:bg-accent-green hover:text-on-accent border border-accent-green/30 hover:border-accent-green hover:shadow-lg hover:shadow-accent-green/30 active:scale-95 flex items-center justify-center text-accent-green transition-all duration-fast focus:outline-none focus:ring-[3px] focus:ring-accent-green/50`}
+            iconClass={socialSizeConfig.lg.icon}
+          />
         </div>
       </section>
 

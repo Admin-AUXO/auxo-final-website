@@ -1,5 +1,5 @@
 export function getScrollTop(): number {
-  const lenis = (window as any).__lenis;
+  const lenis = window.__lenis;
   return lenis?.scroll ?? window.scrollY ?? document.documentElement.scrollTop;
 }
 

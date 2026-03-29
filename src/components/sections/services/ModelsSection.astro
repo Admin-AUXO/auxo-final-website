@@ -1,8 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
-import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
 
 interface Props {
   content: {
@@ -33,48 +33,29 @@ const modelIcons = [
 ];
 ---
 
-<SectionContainer
+<SectionShell
   id="models"
   padding="normal"
   background="elevated"
+  gradients={["dual"]}
+  patterns={["grid"]}
+  contentWidth="6xl"
   class="relative models-section section-divider"
 >
-  <BackgroundDecorations gradients={["dual"]} patterns={["grid"]} />
-
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-6xl mx-auto w-full">
-      <div
-        class="text-center mb-8 sm:mb-10 lg:mb-12"
-        data-reveal="fade-down"
-        data-reveal-duration="200"
-        data-reveal-easing="ease-out"
-      >
-        <div class="inline-flex items-center justify-center gap-3 mb-4 sm:mb-5">
-          <Icon
-            name="mdi:clipboard-text-outline"
-            class="w-9 h-9 sm:w-10 sm:h-10 text-accent-green"
-          />
-          <h2
-            class="text-h2 font-extrabold leading-tight tracking-tight font-display"
-          >
-            <HighlightText text={content.title} highlight="Engagement Model" />
-          </h2>
-        </div>
-        <p
-          class="text-body-lg sm:text-body-xl text-theme-secondary max-w-3xl mx-auto px-4"
-        >
-          {
-            content.descriptionHighlight ? (
-              <HighlightText
-                text={content.description}
-                highlight={content.descriptionHighlight}
-              />
-            ) : (
-              content.description
-            )
-          }
-        </p>
-      </div>
+  <div
+    class="mb-8 sm:mb-10 lg:mb-12"
+    data-reveal="fade-down"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    <SectionHeader
+      title={content.title}
+      subtitle={content.description}
+      subtitleHighlight={content.descriptionHighlight}
+      highlight="Engagement Model"
+      icon="mdi:clipboard-text-outline"
+    />
+  </div>
 
       <div
         class="mb-8 sm:mb-10 lg:mb-12"
@@ -251,9 +232,7 @@ const modelIcons = [
           </p>
         </div>
       </div>
-    </div>
-  </div>
-</SectionContainer>
+</SectionShell>
 
 <script>
   document.addEventListener("astro:page-load", () => {

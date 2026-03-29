@@ -97,17 +97,6 @@
   .methodology-flow::before {
     display: none;
   }
-
-  :global(.methodology-accordion) {
-    padding: 0 var(--spacing-md);
-  }
-
-  :global(.accordion-container) {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-    position: relative;
-  }
 }
 
 .services-intro-section .grid-container {

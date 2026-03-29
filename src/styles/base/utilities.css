@@ -35,10 +35,6 @@
   width: 100%;
 }
 
-.scroll-locked[data-scroll-y] {
-  top: calc(var(--scroll-y, 0) * -1px);
-}
-
 .theme-switch-knob {
   transform: var(--theme-switch-transform, translateX(0));
 }
@@ -50,12 +46,6 @@
   transition: color var(--duration-normal) var(--easing-standard),
               background-color var(--duration-normal) var(--easing-standard),
               border-color var(--duration-normal) var(--easing-standard);
-}
-
-.scroll-touch {
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  touch-action: pan-y;
 }
 
 .scroll-touch-smooth {

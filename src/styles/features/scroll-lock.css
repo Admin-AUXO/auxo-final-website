@@ -17,9 +17,3 @@ body.scroll-locked .fab-button {
   transform: translateZ(0);
 }
 
-[data-lenis-root] #scroll-progress-bar,
-[data-lenis-root] #main-navigation,
-[data-lenis-root] .fab-button {
-  transform: translateZ(0);
-}
-

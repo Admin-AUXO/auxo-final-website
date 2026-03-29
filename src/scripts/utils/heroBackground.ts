@@ -1,4 +1,5 @@
 import { logger } from "@/lib/logger";
+import type { ParticleMode } from "@/scripts/particle-system";
 
 interface ParticleSystem {
   destroy: () => void;
@@ -46,7 +47,7 @@ async function initParticleSystem(
 
   try {
     const { GalaxyParticleSystem } = await import("@/scripts/particle-system");
-    const mode = (container.getAttribute("data-mode") || "galaxy") as any;
+    const mode = (container.getAttribute("data-mode") ?? "galaxy") as ParticleMode;
 
     particleSystem = new GalaxyParticleSystem(canvas, mode);
     isInitialized = true;

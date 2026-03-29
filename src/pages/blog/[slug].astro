@@ -185,56 +185,5 @@ const articleSchema = {
 </BaseLayout>
 
 <script>
-  const X_SELECTOR = "#share-twitter, #share-twitter-mobile";
-  const LINKEDIN_SELECTOR = "#share-linkedin, #share-linkedin-mobile";
-  const COPY_SELECTOR = "#share-copy, #share-copy-mobile";
-
-  function handleShareClick(event: Event) {
-    const target = event.target as Element | null;
-    if (!target) return;
-
-    const xButton = target.closest(X_SELECTOR) as HTMLElement | null;
-    if (xButton) {
-      event.preventDefault();
-      const url = encodeURIComponent(window.location.href);
-      const title = encodeURIComponent(document.title);
-      window.open(
-        `https://twitter.com/intent/tweet?url=${url}&text=${title}`,
-        "_blank",
-      );
-      return;
-    }
-
-    const linkedinButton = target.closest(LINKEDIN_SELECTOR) as HTMLElement | null;
-    if (linkedinButton) {
-      event.preventDefault();
-      const url = encodeURIComponent(window.location.href);
-      const title = encodeURIComponent(document.title);
-      window.open(
-        `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`,
-        "_blank",
-      );
-      return;
-    }
-
-    const copyButton = target.closest(COPY_SELECTOR) as HTMLElement | null;
-    if (!copyButton) return;
-
-    event.preventDefault();
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      const icon = copyButton.querySelector("svg");
-      if (!icon) return;
-      icon.style.color = "var(--accent-green)";
-      setTimeout(() => {
-        icon.style.color = "";
-      }, 2000);
-    }).catch((err) => {
-      console.error("Failed to copy", err);
-    });
-  }
-
-  if (typeof window !== "undefined" && !(window as any).__auxoBlogShareBound) {
-    (window as any).__auxoBlogShareBound = true;
-    document.addEventListener("click", handleShareClick);
-  }
+  import "@/scripts/pages/blogShare";
 </script>

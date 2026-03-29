@@ -1,8 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "@/components/layouts/SectionContainer.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
-import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import Carousel from "@/components/ui/Carousel.astro";
 
@@ -29,22 +28,21 @@ const principleIcons = {
 };
 ---
 
-<SectionContainer
+<SectionShell
   id="approach"
   padding="normal"
   background="elevated"
+  gradients={["dual"]}
+  patterns={["grid"]}
+  contentWidth="screen"
   class="relative approach-section section-divider"
 >
-  <BackgroundDecorations gradients={["dual"]} patterns={["grid"]} />
-
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <SectionHeader
-        title={content.title}
-        subtitle={content.description}
-        highlight="CODE"
-        highlightClass="text-accent-green font-black text-[1.15em]"
-      />
+  <SectionHeader
+    title={content.title}
+    subtitle={content.description}
+    highlight="CODE"
+    highlightClass="text-accent-green font-black text-[1.15em]"
+  />
 
       <div
         class="hidden md:grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 code-principles-desktop"
@@ -141,6 +139,4 @@ const principleIcons = {
           }
         </Carousel>
       </div>
-    </div>
-  </div>
-</SectionContainer>
+</SectionShell>

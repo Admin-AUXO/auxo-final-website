@@ -1,9 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
 import MethodologyStep from '@/components/ui/MethodologyStep.astro';
-import SectionContainer from '@/components/layouts/SectionContainer.astro';
+import SectionShell from '@/components/layouts/SectionShell.astro';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
-import BackgroundDecorations from '@/components/ui/BackgroundDecorations.astro';
 import type { HomepageContent } from '@/data/content/homepage-data';
 import { createUrl } from '@/utils/url';
 
@@ -14,23 +13,22 @@ interface Props {
 const { content } = Astro.props;
 ---
 
-<SectionContainer
+<SectionShell
   id="methodology"
   padding="lg"
   background="card"
+  gradients={["center"]}
+  patterns={["grid"]}
+  contentWidth="7xl"
   class="relative methodology-section section-divider"
 >
-  <BackgroundDecorations gradients={["center"]} patterns={["grid"]} />
-  
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-7xl mx-auto w-full">
-      <div data-reveal="fade-down" data-reveal-duration="200" data-reveal-delay="0" data-reveal-easing="ease-out">
-        <SectionHeader
-          title={`${content.title} ${content.titleHighlight}`}
-          subtitle={content.subtitle.replace(/\n\n/g, " ").replace(":", "")}
-          highlight={content.titleHighlight}
-        />
-      </div>
+  <div data-reveal="fade-down" data-reveal-duration="200" data-reveal-delay="0" data-reveal-easing="ease-out">
+    <SectionHeader
+      title={`${content.title} ${content.titleHighlight}`}
+      subtitle={content.subtitle.replace(/\n\n/g, " ").replace(":", "")}
+      highlight={content.titleHighlight}
+    />
+  </div>
 
       <div class="hidden lg:block methodology-flow relative overflow-hidden">
         <div
@@ -67,24 +65,22 @@ const { content } = Astro.props;
           ))}
         </div>
       </div>
-      {content.navigationButton && (
-        <div class="text-center mt-8 sm:mt-10" data-reveal="fade-up" data-reveal-duration="200" data-reveal-delay="100" data-reveal-easing="ease-out">
-          <a
-            href={createUrl(content.navigationButton.href)}
-            class="inline-flex items-center gap-2 text-accent-green lg:hover:text-accent-green/80 font-semibold text-base sm:text-body-lg transition-colors duration-300 group flex-nowrap whitespace-nowrap font-body"
-          >
-            <span class="whitespace-nowrap">
-              {content.navigationButton.text}
-            </span>
-            <Icon
-              name="mdi:arrow-right"
-              class="w-5 h-5 flex-shrink-0 lg:group-hover:translate-x-2 transition-transform duration-300"
-            />
-          </a>
-        </div>
-      )}
+  {content.navigationButton && (
+    <div class="text-center mt-8 sm:mt-10" data-reveal="fade-up" data-reveal-duration="200" data-reveal-delay="100" data-reveal-easing="ease-out">
+      <a
+        href={createUrl(content.navigationButton.href)}
+        class="inline-flex items-center gap-2 text-accent-green lg:hover:text-accent-green/80 font-semibold text-base sm:text-body-lg transition-colors duration-300 group flex-nowrap whitespace-nowrap font-body"
+      >
+        <span class="whitespace-nowrap">
+          {content.navigationButton.text}
+        </span>
+        <Icon
+          name="mdi:arrow-right"
+          class="w-5 h-5 flex-shrink-0 lg:group-hover:translate-x-2 transition-transform duration-300"
+        />
+      </a>
     </div>
-  </div>
-</SectionContainer>
+  )}
+</SectionShell>
 
 

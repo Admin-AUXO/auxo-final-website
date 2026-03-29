@@ -17,6 +17,9 @@ interface Window {
   __DEBUG_SCROLL_LOCK?: boolean;
   __debugScrollLock?: () => { isLocked: boolean; activeLocks: string[] };
   __forceUnlockScroll?: () => void;
+  __auxoBlogShareBound?: boolean;
+  __auxoOfflinePageBound?: boolean;
+  __auxoServiceDetailPageBound?: boolean;
   emblaInstances?: Map<string, any>;
   gtag?: (...args: unknown[]) => void;
   dataLayer?: unknown[];

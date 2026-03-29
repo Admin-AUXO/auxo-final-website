@@ -1,227 +1,177 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
-import HighlightText from "@/components/ui/HighlightText.astro";
-import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
 import type { ServiceDetail } from "@/data/content/services/data";
 
 interface Props {
   service: ServiceDetail;
 }
 
+type OverviewGroup = {
+  key: string;
+  title: string;
+  icon: string;
+  items: string[];
+  cardClass: string;
+  headerBorderClass: string;
+  iconWrapperClass: string;
+  iconClass: string;
+  itemClass: string;
+  itemIndexClass: string;
+  itemTextClass: string;
+  summaryIndicatorClass: string;
+  reveal: string;
+};
+
 const { service } = Astro.props;
+
+const overviewGroups: OverviewGroup[] = [
+  {
+    key: "challenges",
+    title: "Challenges We Solve",
+    icon: "mdi:close",
+    items: service.overview.challenges,
+    cardClass: "bg-theme-card border-2 border-red-500/20 rounded-2xl p-6 lg:p-8 h-full flex flex-col",
+    headerBorderClass: "border-b-2 border-red-500/10",
+    iconWrapperClass: "bg-red-500/15",
+    iconClass: "text-red-500",
+    itemClass:
+      "flex items-start gap-3 p-4 bg-red-500/5 border border-red-500/15 rounded-xl lg:hover:border-red-500/30 transition-all duration-300 min-h-[4.5rem] flex-1",
+    itemIndexClass: "bg-red-500/20 text-red-500",
+    itemTextClass: "text-theme-secondary/90",
+    summaryIndicatorClass: "bg-red-500/10 text-red-500",
+    reveal: "fade-right",
+  },
+  {
+    key: "solutions",
+    title: "Our Solutions",
+    icon: "mdi:check-circle",
+    items: service.overview.solutions,
+    cardClass:
+      "bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6 lg:p-8 h-full flex flex-col",
+    headerBorderClass: "border-b-2 border-accent-green/10",
+    iconWrapperClass: "bg-accent-green/15",
+    iconClass: "text-accent-green",
+    itemClass:
+      "flex items-start gap-3 p-4 bg-accent-green/5 border border-accent-green/15 rounded-xl lg:hover:border-accent-green/30 transition-all duration-300 min-h-[4.5rem] flex-1",
+    itemIndexClass: "bg-accent-green/20 text-accent-green",
+    itemTextClass: "text-theme-secondary/90",
+    summaryIndicatorClass: "bg-accent-green/10 text-accent-green",
+    reveal: "fade-left",
+  },
+];
 ---
 
-<SectionContainer
+<SectionShell
   id="service-overview"
   padding="normal"
   background="elevated"
+  gradients={["dual"]}
+  patterns={["grid"]}
+  contentWidth="6xl"
   class="relative service-overview-section section-divider"
 >
-  <BackgroundDecorations gradients={["dual"]} patterns={["grid"]} />
+  <div
+    data-reveal="fade-down"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    <SectionHeader
+      title={service.overview.title}
+      subtitle={service.overview.description}
+      subtitleHighlight={service.overview.descriptionHighlight}
+    />
+  </div>
 
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-6xl mx-auto">
+  <div class="hidden lg:grid lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10">
+    {overviewGroups.map((group) => (
       <div
-        data-reveal="fade-down"
+        class={group.cardClass}
+        data-reveal={group.reveal}
+        data-reveal-delay="50"
         data-reveal-duration="200"
         data-reveal-easing="ease-out"
       >
-        <SectionHeader
-          title={service.overview.title}
-          subtitle={service.overview.description}
-          subtitleHighlight={service.overview.descriptionHighlight}
-        />
-      </div>
-
-      <div class="hidden lg:grid lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10">
-        <div
-          class="bg-theme-card border-2 border-red-500/20 rounded-2xl p-6 lg:p-8 h-full flex flex-col"
-          data-reveal="fade-right"
-          data-reveal-delay="50"
-          data-reveal-duration="200"
-          data-reveal-easing="ease-out"
-        >
+        <div class={`flex items-center gap-3 pb-6 mb-6 min-h-[4.5rem] ${group.headerBorderClass}`}>
           <div
-            class="flex items-center gap-3 pb-6 mb-6 border-b-2 border-red-500/10 min-h-[4.5rem]"
+            class={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${group.iconWrapperClass}`}
           >
-            <div
-              class="w-12 h-12 bg-red-500/15 rounded-xl flex items-center justify-center flex-shrink-0"
-            >
-              <Icon name="mdi:close" class="w-6 h-6 text-red-500" />
-            </div>
-            <h3
-              class="text-xl sm:text-2xl font-bold text-theme-primary font-display line-clamp-2"
-            >
-              Challenges We Solve
-            </h3>
+            <Icon name={group.icon} class={`w-6 h-6 ${group.iconClass}`} />
           </div>
-
-          <div class="space-y-4 flex-1">
-            {
-              service.overview.challenges.map((challenge, index) => (
-                <div class="flex items-start gap-3 p-4 bg-red-500/5 border border-red-500/15 rounded-xl lg:hover:border-red-500/30 transition-all duration-300 min-h-[4.5rem] flex-1">
-                  <div class="w-7 h-7 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span class="text-sm font-bold text-red-500 font-display">
-                      {index + 1}
-                    </span>
-                  </div>
-                  <p class="text-sm sm:text-base text-theme-secondary/90 leading-relaxed font-body">
-                    {challenge}
-                  </p>
-                </div>
-              ))
-            }
-          </div>
+          <h3
+            class="text-xl sm:text-2xl font-bold text-theme-primary font-display line-clamp-2"
+          >
+            {group.title}
+          </h3>
         </div>
 
-        <div
-          class="bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6 lg:p-8 h-full flex flex-col"
-          data-reveal="fade-left"
-          data-reveal-delay="50"
-          data-reveal-duration="200"
-          data-reveal-easing="ease-out"
-        >
-          <div
-            class="flex items-center gap-3 pb-6 mb-6 border-b-2 border-accent-green/10 min-h-[4.5rem]"
-          >
-            <div
-              class="w-12 h-12 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0"
-            >
-              <Icon name="mdi:check-circle" class="w-6 h-6 text-accent-green" />
+        <div class="space-y-4 flex-1">
+          {group.items.map((item, index) => (
+            <div class={group.itemClass}>
+              <div
+                class={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${group.itemIndexClass}`}
+              >
+                <span class="text-sm font-bold font-display">{index + 1}</span>
+              </div>
+              <p class={`text-sm sm:text-base leading-relaxed font-body ${group.itemTextClass}`}>
+                {item}
+              </p>
             </div>
-            <h3
-              class="text-xl sm:text-2xl font-bold text-theme-primary font-display line-clamp-2"
-            >
-              Our Solutions
-            </h3>
-          </div>
-
-          <div class="space-y-4 flex-1">
-            {
-              service.overview.solutions.map((solution, index) => (
-                <div class="flex items-start gap-3 p-4 bg-accent-green/5 border border-accent-green/15 rounded-xl lg:hover:border-accent-green/30 transition-all duration-300 min-h-[4.5rem] flex-1">
-                  <div class="w-7 h-7 bg-accent-green/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span class="text-sm font-bold text-accent-green font-display">
-                      {index + 1}
-                    </span>
-                  </div>
-                  <p class="text-sm sm:text-base text-theme-secondary/90 leading-relaxed font-body">
-                    {solution}
-                  </p>
-                </div>
-              ))
-            }
-          </div>
+          ))}
         </div>
       </div>
-
-      <div class="lg:hidden space-y-3">
-        <details
-          class="service-accordion-item bg-theme-card border border-red-500/20 rounded-xl overflow-hidden group"
-          open
-        >
-          <summary
-            class="service-accordion-summary flex items-center justify-between gap-3 p-4"
-          >
-            <div
-              class="flex items-center gap-3 flex-1 min-w-0 pointer-events-none"
-            >
-              <div
-                class="w-10 h-10 bg-red-500/15 rounded-xl flex items-center justify-center flex-shrink-0"
-              >
-                <Icon name="mdi:close" class="w-5 h-5 text-red-500" />
-              </div>
-              <h3
-                class="text-base font-bold text-theme-primary font-display truncate"
-              >
-                Challenges We Solve
-              </h3>
-            </div>
-            <div
-              class="service-accordion-indicator flex-shrink-0 w-6 h-6 rounded-full bg-red-500/10 flex items-center justify-center pointer-events-none"
-            >
-              <Icon
-                name="mdi:chevron-down"
-                class="w-4 h-4 text-red-500 transition-transform duration-300 group-open:rotate-180"
-              />
-            </div>
-          </summary>
-
-          <div class="service-accordion-content">
-            <div class="px-4 pb-4 space-y-3">
-              {
-                service.overview.challenges.map((challenge, index) => (
-                  <div class="flex items-start gap-3 p-3 bg-red-500/5 border border-red-500/15 rounded-xl">
-                    <div class="w-6 h-6 bg-red-500/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span class="text-xs font-bold text-red-500 font-display">
-                        {index + 1}
-                      </span>
-                    </div>
-                    <p class="text-sm text-theme-secondary leading-relaxed font-body flex-1">
-                      {challenge}
-                    </p>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-        </details>
-
-        <details
-          class="service-accordion-item bg-theme-card border border-accent-green/20 rounded-xl overflow-hidden group"
-        >
-          <summary
-            class="service-accordion-summary flex items-center justify-between gap-3 p-4"
-          >
-            <div
-              class="flex items-center gap-3 flex-1 min-w-0 pointer-events-none"
-            >
-              <div
-                class="w-10 h-10 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0"
-              >
-                <Icon
-                  name="mdi:check-circle"
-                  class="w-5 h-5 text-accent-green"
-                />
-              </div>
-              <h3
-                class="text-base font-bold text-theme-primary font-display truncate"
-              >
-                Our Solutions
-              </h3>
-            </div>
-            <div
-              class="service-accordion-indicator flex-shrink-0 w-6 h-6 rounded-full bg-accent-green/10 flex items-center justify-center pointer-events-none"
-            >
-              <Icon
-                name="mdi:chevron-down"
-                class="w-4 h-4 text-accent-green transition-transform duration-300 group-open:rotate-180"
-              />
-            </div>
-          </summary>
-
-          <div class="service-accordion-content">
-            <div class="px-4 pb-4 space-y-3">
-              {
-                service.overview.solutions.map((solution, index) => (
-                  <div class="flex items-start gap-3 p-3 bg-accent-green/5 border border-accent-green/15 rounded-xl">
-                    <div class="w-6 h-6 bg-accent-green/15 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span class="text-xs font-bold text-accent-green font-display">
-                        {index + 1}
-                      </span>
-                    </div>
-                    <p class="text-sm text-theme-secondary leading-relaxed font-body flex-1">
-                      {solution}
-                    </p>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-        </details>
-      </div>
-    </div>
+    ))}
   </div>
-</SectionContainer>
+
+  <div class="lg:hidden space-y-3">
+    {overviewGroups.map((group, index) => (
+      <details
+        class={`service-accordion-item bg-theme-card rounded-xl overflow-hidden group ${group.cardClass.includes("red-500") ? "border border-red-500/20" : "border border-accent-green/20"}`}
+        open={index === 0}
+      >
+        <summary
+          class="service-accordion-summary flex items-center justify-between gap-3 p-4"
+        >
+          <div class="flex items-center gap-3 flex-1 min-w-0 pointer-events-none">
+            <div
+              class={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${group.iconWrapperClass}`}
+            >
+              <Icon name={group.icon} class={`w-5 h-5 ${group.iconClass}`} />
+            </div>
+            <h3 class="text-base font-bold text-theme-primary font-display truncate">
+              {group.title}
+            </h3>
+          </div>
+          <div
+            class={`service-accordion-indicator flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center pointer-events-none ${group.summaryIndicatorClass}`}
+          >
+            <Icon
+              name="mdi:chevron-down"
+              class="w-4 h-4 transition-transform duration-300 group-open:rotate-180"
+            />
+          </div>
+        </summary>
+
+        <div class="service-accordion-content">
+          <div class="px-4 pb-4 space-y-3">
+            {group.items.map((item, itemIndex) => (
+              <div
+                class={`flex items-start gap-3 p-3 rounded-xl ${group.itemClass.includes("red-500") ? "bg-red-500/5 border border-red-500/15" : "bg-accent-green/5 border border-accent-green/15"}`}
+              >
+                <div
+                  class={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${group.itemIndexClass.replace("w-7 h-7 ", "")}`}
+                >
+                  <span class="text-xs font-bold font-display">{itemIndex + 1}</span>
+                </div>
+                <p class="text-sm text-theme-secondary leading-relaxed font-body flex-1">
+                  {item}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </details>
+    ))}
+  </div>
+</SectionShell>

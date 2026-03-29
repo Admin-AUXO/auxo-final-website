@@ -1,10 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
-import HighlightText from "@/components/ui/HighlightText.astro";
-import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import Carousel from "@/components/ui/Carousel.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
 import type { ServiceDetail } from "@/data/content/services/data";
 
 interface Props {
@@ -20,108 +18,94 @@ type BenefitFeature = {
 const { service } = Astro.props;
 ---
 
-<SectionContainer
+<SectionShell
   id="service-benefits"
   padding="lg"
   background="default"
+  gradients={["hero"]}
+  contentWidth="screen"
   class="relative service-benefits-section section-divider"
 >
-  <BackgroundDecorations gradients={["hero"]} />
+  <div
+    data-reveal="fade-down"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    <SectionHeader
+      title={service.benefits.title}
+      subtitle={service.benefits.description}
+      subtitleHighlight={service.benefits.descriptionHighlight}
+    />
+  </div>
 
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <div
-        data-reveal="fade-down"
-        data-reveal-duration="200"
-        data-reveal-easing="ease-out"
-      >
-        <SectionHeader
-          title={service.benefits.title}
-          subtitle={service.benefits.description}
-          subtitleHighlight={service.benefits.descriptionHighlight}
-        />
-      </div>
+  <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10">
+    {
+      service.benefits.features.map((feature: BenefitFeature, index: number) => (
+        <div
+          class="group"
+          data-reveal="zoom-in"
+          data-reveal-delay={index * 40}
+          data-reveal-duration="200"
+          data-reveal-easing="ease-out"
+        >
+          <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl p-6 lg:p-8 relative overflow-hidden transition-colors duration-300 lg:hover:border-accent-green/30">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0" />
 
-      <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10">
-        {
-          service.benefits.features.map(
-            (feature: BenefitFeature, index: number) => (
-              <div
-                class="group"
-                data-reveal="zoom-in"
-                data-reveal-delay={index * 40}
-                data-reveal-duration="200"
-                data-reveal-easing="ease-out"
-              >
-                <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl p-6 lg:p-8 relative overflow-hidden transition-colors duration-300 lg:hover:border-accent-green/30">
-                  <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0" />
-
-                  <div class="relative">
-                    <div class="inline-flex mb-5">
-                      <div class="w-12 h-12 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20">
-                        <Icon
-                          name={feature.icon}
-                          class="w-6 h-6 text-accent-green"
-                        />
-                      </div>
-                    </div>
-
-                    <h3 class="text-h4 font-bold text-theme-primary leading-tight mb-3 font-display">
-                      {feature.title}
-                    </h3>
-                    <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
-                      {feature.description}
-                    </p>
-                  </div>
+            <div class="relative">
+              <div class="inline-flex mb-5">
+                <div class="w-12 h-12 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20">
+                  <Icon name={feature.icon} class="w-6 h-6 text-accent-green" />
                 </div>
               </div>
-            ),
-          )
-        }
-      </div>
 
-      <div class="lg:hidden service-benefits-carousel-section">
-        <Carousel
-          containerId="service-benefits-carousel-container"
-          trackId="service-benefits-carousel-track"
-          items={service.benefits.features}
-          wrapperClass="service-benefits-carousel-wrapper"
-          breakpoint={1024}
-          activateOnDesktop={false}
-        >
-          {
-            service.benefits.features.map(
-              (feature: BenefitFeature, index: number) => (
-                <div class="carousel-slide embla__slide" data-index={index}>
-                  <div class="carousel-card-benefit lg:hover:border-accent-green/30">
-                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0" />
+              <h3 class="text-h4 font-bold text-theme-primary leading-tight mb-3 font-display">
+                {feature.title}
+              </h3>
+              <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
+                {feature.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
 
-                    <div class="relative z-10 flex flex-col h-full">
-                      <div class="flex items-start justify-between mb-4 sm:mb-5">
-                        <h3 class="text-base sm:text-lg font-bold text-theme-primary leading-tight font-display flex-1 pr-3">
-                          {feature.title}
-                        </h3>
-                        <div class="w-10 h-10 sm:w-11 sm:h-11 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20 flex-shrink-0">
-                          <Icon
-                            name={feature.icon}
-                            class="w-5 h-5 text-accent-green"
-                          />
-                        </div>
-                      </div>
+  <div class="lg:hidden service-benefits-carousel-section">
+    <Carousel
+      containerId="service-benefits-carousel-container"
+      trackId="service-benefits-carousel-track"
+      items={service.benefits.features}
+      wrapperClass="service-benefits-carousel-wrapper"
+      breakpoint={1024}
+      activateOnDesktop={false}
+    >
+      {
+        service.benefits.features.map((feature: BenefitFeature, index: number) => (
+          <div class="carousel-slide embla__slide" data-index={index}>
+            <div class="carousel-card-benefit lg:hover:border-accent-green/30">
+              <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0" />
 
-                      <p class="text-sm sm:text-base text-theme-secondary leading-relaxed font-body flex-grow">
-                        {feature.description}
-                      </p>
-                    </div>
-
-                    <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-green/30" />
+              <div class="relative z-10 flex flex-col h-full">
+                <div class="flex items-start justify-between mb-4 sm:mb-5">
+                  <h3 class="text-base sm:text-lg font-bold text-theme-primary leading-tight font-display flex-1 pr-3">
+                    {feature.title}
+                  </h3>
+                  <div class="w-10 h-10 sm:w-11 sm:h-11 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20 flex-shrink-0">
+                    <Icon name={feature.icon} class="w-5 h-5 text-accent-green" />
                   </div>
                 </div>
-              ),
-            )
-          }
-        </Carousel>
-      </div>
-    </div>
+
+                <p class="text-sm sm:text-base text-theme-secondary leading-relaxed font-body flex-grow">
+                  {feature.description}
+                </p>
+              </div>
+
+              <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-green/30" />
+            </div>
+          </div>
+        ))
+      }
+    </Carousel>
   </div>
-</SectionContainer>
+</SectionShell>

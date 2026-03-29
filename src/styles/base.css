@@ -158,13 +158,11 @@ section,
     touch-action: pan-y;
   }
 
-  .carousel-wrapper,
+  
   .carousel-container,
   .carousel-track,
   .embla,
-  .embla__container,
-  [class*="horizontal-scroll"],
-  [class*="scroll-x"] {
+  .embla__container {
     touch-action: pan-x;
   }
 
@@ -235,7 +233,7 @@ section,
     touch-action: pan-x;
   }
 
-  .carousel-card a,
+  
   .carousel-card-about a,
   .carousel-card-benefit a,
   .carousel-card-process a,

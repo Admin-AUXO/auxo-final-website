@@ -1,7 +1,4 @@
-.accordion-header::-webkit-details-marker,
-.accordion-header::marker,
-.accordion-summary::-webkit-details-marker,
-.accordion-summary::marker,
+
 .service-accordion-summary::-webkit-details-marker,
 .service-accordion-summary::marker,
 details summary::-webkit-details-marker,
@@ -9,7 +6,7 @@ details summary::marker {
   display: none;
 }
 
-.accordion-content,
+
 .service-accordion-content {
   contain: layout;
   display: grid;
@@ -21,13 +18,13 @@ details summary::marker {
   transition: grid-template-rows 250ms ease-out, opacity 200ms ease-out;
 }
 
-.accordion-content > *,
+
 .service-accordion-content > * {
   min-height: 0;
   overflow: hidden;
 }
 
-.accordion-item[open] .accordion-content,
+
 .service-accordion-item[open] .service-accordion-content,
 details[open] .service-accordion-content {
   grid-template-rows: 1fr;
@@ -35,23 +32,12 @@ details[open] .service-accordion-content {
   opacity: 1;
 }
 
-.accordion-chevron {
-  color: var(--text-secondary);
-  flex-shrink: 0;
-  transition: transform 250ms ease-out, color 200ms ease-out;
-}
-
-.accordion-item[open] .accordion-chevron,
-.service-accordion-item[open] .accordion-chevron {
-  color: var(--accent-green);
-  transform: rotate(180deg);
-}
-
 .service-accordion-item {
   background: var(--bg-card);
   border-radius: 0.75rem;
   overflow: hidden;
   position: relative;
+  touch-action: manipulation;
   transition: all 0.2s ease;
 }
 
@@ -71,9 +57,7 @@ details[open] .service-accordion-content {
   opacity: 1;
 }
 
-.service-accordion-summary,
-.accordion-summary,
-.accordion-header {
+.service-accordion-summary {
   cursor: pointer;
   list-style: none;
   -webkit-tap-highlight-color: transparent;
@@ -104,10 +88,6 @@ details[open] .service-accordion-indicator {
   background-color: rgb(var(--accent-green-rgb), 0.15);
 }
 
-.accordion-item,
-.service-accordion-item {
-  touch-action: manipulation;
-}
 
 @media (width <= 1023px) {
   .accordion-container,
@@ -116,21 +96,20 @@ details[open] .service-accordion-indicator {
     touch-action: pan-y;
   }
 
-  .accordion-item,
+  
   .service-accordion-item {
     margin-bottom: 0;
     touch-action: manipulation;
   }
 
-  .accordion-summary,
-  .accordion-header,
+  
   .service-accordion-summary {
     min-height: 48px;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
 
-  .accordion-content,
+  
   .service-accordion-content {
     transition: grid-template-rows 200ms ease-out, opacity 150ms ease-out;
   }

@@ -16,38 +16,9 @@ import "@/styles/sections/home-sections.css";
 import "@/styles/components/carousels.css";
 import "@/styles/sections/carousel-sections.css";
 import "@/styles/components/highlights.css";
+import { createServiceSchema } from "./_shared/structuredData";
 
-const serviceSchema = {
-  serviceType: 'Decision Intelligence Partner',
-  provider: {
-    '@type': 'Organization',
-    name: siteData.name,
-    url: siteData.url,
-  },
-  areaServed: [
-    {
-      '@type': 'Country',
-      name: 'United Arab Emirates',
-    },
-    {
-      '@type': 'GeoCircle',
-      geoMidpoint: {
-        '@type': 'GeoCoordinates',
-        latitude: siteData.address.coordinates.lat,
-        longitude: siteData.address.coordinates.lng,
-      },
-      geoRadius: {
-        '@type': 'Distance',
-        name: 'Global',
-      },
-    },
-  ],
-  description: siteData.description,
-  offers: {
-    '@type': 'Offer',
-    description: 'Enterprise-grade decision intelligence partnership',
-  },
-};
+const serviceSchema = createServiceSchema();
 ---
 
 <BaseLayout title="Decision Intelligence Partner Dubai, UAE | AUXO Data Labs" description={siteData.description}>

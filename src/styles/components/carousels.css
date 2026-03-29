@@ -204,7 +204,7 @@
   }
 }
 
-.carousel-card,
+
 .carousel-card-benefit,
 .carousel-card-process,
 .carousel-card-about {
@@ -224,28 +224,7 @@
   width: 100%;
 }
 
-.carousel-card::before {
-  background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
-  content: '';
-  height: 2px;
-  left: 0;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition: opacity 0.2s ease;
-}
-
-.carousel-card:hover {
-  border-color: rgb(var(--accent-green-rgb), 0.25);
-}
-
-.carousel-card:hover::before {
-  opacity: 1;
-}
-
 @media (width >= 640px) {
-  .carousel-card,
   .carousel-card-benefit,
   .carousel-card-process,
   .carousel-card-about {
@@ -254,7 +233,6 @@
 }
 
 @media (width >= 1024px) {
-  .carousel-card,
   .carousel-card-benefit,
   .carousel-card-process,
   .carousel-card-about {
@@ -263,7 +241,6 @@
 }
 
 @media (width <= 767px) {
-  .carousel-card,
   .carousel-card-about,
   .carousel-card-benefit,
   .carousel-card-process {
@@ -271,17 +248,10 @@
     touch-action: pan-x;
   }
 
-  .carousel-card a,
+  
   .carousel-card-about a,
   .carousel-card-benefit a,
   .carousel-card-process a {
     touch-action: manipulation;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .carousel-card,
-  .carousel-card::before {
-    transition: none;
   }
 }

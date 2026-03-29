@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import StructuredData from "@/components/common/StructuredData.astro";
-import { siteData } from "@/data/content/siteConfig-data";
 import HeroSection from "@/components/sections/services/HeroSection.astro";
 import ServicesStageSection from "@/components/sections/services/ServicesStageSection.astro";
 import ImpactSection from "@/components/sections/services/ImpactSection.astro";
@@ -12,23 +11,9 @@ import "@/styles/sections/hero.css";
 import "@/styles/sections/services-sections.css";
 import "@/styles/components/carousels.css";
 import "@/styles/sections/carousel-sections.css";
+import { createBreadcrumbSchema } from "./_shared/structuredData";
 
-const breadcrumbSchema = {
-  itemListElement: [
-    {
-      '@type': 'ListItem',
-      position: 1,
-      name: 'Home',
-      item: siteData.url,
-    },
-    {
-      '@type': 'ListItem',
-      position: 2,
-      name: 'Services',
-      item: `${siteData.url}/services`,
-    },
-  ],
-};
+const breadcrumbSchema = createBreadcrumbSchema("/services", "Services");
 ---
 
 <BaseLayout
@@ -55,14 +40,7 @@ const breadcrumbSchema = {
   />
 
   <script>
-    import { trackServiceCategoryView } from '@/scripts/analytics/ga4';
-
-    if (typeof window !== 'undefined') {
-      const isServicesRoute = window.location.pathname === '/services' || window.location.pathname === '/services/';
-      if (isServicesRoute) {
-        trackServiceCategoryView('data-analytics-services');
-      }
-    }
+    import "@/scripts/pages/servicesCategoryTracking";
   </script>
 </BaseLayout>
 

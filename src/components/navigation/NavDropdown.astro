@@ -2,8 +2,6 @@
 import { Icon } from "astro-icon/components";
 import type { NavItem, DropdownItem } from "@/data/content/navigation-data";
 import { createUrl } from "@/utils/url";
-import NavLink from "./NavLink.astro";
-import Button from "@/components/ui/Button.astro";
 
 interface Props {
   item: Omit<NavItem, "_key">;
@@ -21,11 +19,8 @@ const NAV_BUTTON_BASE =
   "nav-link dropdown-toggle relative px-3 py-2.5 text-sm font-medium text-theme-secondary hover:text-theme-primary transition-all duration-fast rounded-xl hover:bg-theme-surface/60 active:bg-theme-surface/80 flex items-center gap-1.5 min-h-[var(--touch-target-min)] group-hover:text-theme-primary";
 const MOBILE_BUTTON_BASE =
   "mobile-dropdown-btn mobile-nav-link block w-full px-5 py-4 min-h-[var(--button-height-lg)] text-base font-semibold text-theme-secondary hover:text-theme-primary active:text-theme-primary rounded-xl transition-all duration-normal touch-manipulation flex items-center justify-between relative group bg-theme-surface/50 hover:bg-theme-surface border border-accent-green/30 hover:border-accent-green/50";
-const MOBILE_LINK_BASE = "mobile-nav-link";
 const MOBILE_ACTIVE_BG =
   "mobile-nav-active-bg absolute inset-0 bg-accent-green/10 rounded-xl opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
-const MOBILE_ACTIVE_BG_SUBTLE =
-  "mobile-nav-active-bg absolute inset-0 bg-accent-green/5 rounded-lg opacity-0 transition-opacity duration-fast pointer-events-none group-hover/item:opacity-100";
 const MOBILE_ACTIVE_BORDER =
   "mobile-nav-active-border absolute inset-0 rounded-xl border border-accent-green/30 opacity-0 transition-opacity duration-fast pointer-events-none group-hover:opacity-100";
 const NAV_ACTIVE_BG =
@@ -33,8 +28,9 @@ const NAV_ACTIVE_BG =
 const ICON_BASE = "w-5 h-5 text-accent-green flex-shrink-0 relative z-10";
 const CHEVRON_ICON =
   "w-4 h-4 transition-transform duration-fast dropdown-arrow dropdown-chevron relative z-10 text-accent-green";
-const SERVICE_CARD_BASE =
-  "dropdown-service-card group/item relative flex flex-col h-full rounded-2xl bg-theme-card border-2 border-accent-green/20 hover:border-accent-green/50 transition-all duration-500 overflow-hidden shadow-md hover:shadow-2xl hover:shadow-accent-green/25 hover:-translate-y-2";
+const dropdownItems = item.dropdown ?? [];
+const contactUrl = createUrl("contact");
+const servicesUrl = createUrl("services");
 ---
 
 {
@@ -59,7 +55,7 @@ const SERVICE_CARD_BASE =
       <div class="mobile-dropdown-content hidden">
         <div class="mobile-dropdown-inner">
           <div class="mobile-dropdown-services-grid">
-            {item.dropdown!.map((sub: DropdownItem, subIndex: number) => (
+            {dropdownItems.map((sub: DropdownItem) => (
               <a href={sub.href} class="mobile-service-card group/card">
                 <Icon
                   name={sub.icon}
@@ -132,7 +128,7 @@ const SERVICE_CARD_BASE =
                   <p class="text-xs sm:text-sm text-theme-secondary opacity-70 text-left hidden lg:block flex-1">
                     Need help choosing?{" "}
                     <a
-                      href={createUrl("contact")}
+                      href={contactUrl}
                       class="text-accent-green hover:underline font-medium transition-colors duration-fast"
                     >
                       Contact our team
@@ -140,7 +136,7 @@ const SERVICE_CARD_BASE =
                   </p>
                   <div class="hidden lg:flex items-center gap-2 pointer-events-auto flex-shrink-0 ml-auto group/viewall">
                     <a
-                      href={createUrl("services")}
+                      href={servicesUrl}
                       class="flex items-center gap-1.5 text-base font-bold text-theme-primary hover:text-accent-green transition-colors duration-fast"
                       aria-label="View all services"
                     >
@@ -155,7 +151,7 @@ const SERVICE_CARD_BASE =
                     <p class="text-xs sm:text-sm md:text-base text-theme-secondary opacity-70 text-center sm:text-left flex-1 min-w-0">
                       Need help choosing?{" "}
                       <a
-                        href={createUrl("contact")}
+                        href={contactUrl}
                         class="text-accent-green hover:underline font-medium transition-colors duration-fast"
                       >
                         Contact our team
@@ -163,7 +159,7 @@ const SERVICE_CARD_BASE =
                     </p>
                     <div class="flex items-center gap-2 flex-shrink-0 group/viewall-mobile">
                       <a
-                        href={createUrl("services")}
+                        href={servicesUrl}
                         class="flex items-center gap-1.5 text-sm sm:text-base font-bold text-theme-primary hover:text-accent-green transition-colors duration-fast"
                         aria-label="View all services"
                       >
@@ -181,7 +177,7 @@ const SERVICE_CARD_BASE =
             <main class="dropdown-modal-content-main overflow-y-auto">
               <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-8 py-8">
                 <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-                  {item.dropdown!.map(
+                  {dropdownItems.map(
                     (sub: DropdownItem, cardIndex: number) => (
                       <a
                         href={sub.href}
@@ -241,7 +237,7 @@ const SERVICE_CARD_BASE =
 
           <div class="dropdown-menu-container">
             <div class="space-y-1">
-              {item.dropdown!.map((sub: DropdownItem) => (
+              {dropdownItems.map((sub: DropdownItem) => (
                 <a href={sub.href} class="dropdown-menu-item group/item">
                   <div class="dropdown-menu-item-icon">
                     <Icon name={sub.icon} class={ICON_BASE} />

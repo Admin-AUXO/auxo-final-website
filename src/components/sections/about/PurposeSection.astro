@@ -1,9 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "@/components/layouts/SectionContainer.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
-import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 
 interface Props {
   content: {
@@ -21,22 +20,21 @@ interface Props {
 const { content } = Astro.props;
 ---
 
-<SectionContainer
+<SectionShell
   id="purpose"
   padding="normal"
   background="card"
+  gradients={["center"]}
+  patterns={["mesh"]}
+  contentWidth="5xl"
   class="relative purpose-section section-divider"
 >
-  <BackgroundDecorations gradients={["center"]} patterns={["mesh"]} />
-
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-5xl mx-auto w-full">
-      <SectionHeader
-        title={content.title}
-        subtitle={content.description}
-        highlight="AUXO"
-        subtitleHighlight={content.descriptionHighlight}
-      />
+  <SectionHeader
+    title={content.title}
+    subtitle={content.description}
+    highlight="AUXO"
+    subtitleHighlight={content.descriptionHighlight}
+  />
 
       <div
         class="name-origin-card group relative"
@@ -86,6 +84,4 @@ const { content } = Astro.props;
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</SectionContainer>
+</SectionShell>

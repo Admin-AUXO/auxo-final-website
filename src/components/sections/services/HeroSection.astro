@@ -1,9 +1,8 @@
 ---
-import HighlightText from "@/components/ui/HighlightText.astro";
 import HeroLayout from "@/components/ui/HeroLayout.astro";
 import HeroCTAButton from "@/components/ui/HeroCTAButton.astro";
-import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
-import ParticleBackground from "@/components/effects/ParticleBackground.astro";
+import HighlightText from "@/components/ui/HighlightText.astro";
+import HeroBackdrop from "@/components/effects/HeroBackdrop.astro";
 
 interface Props {
   content: {
@@ -26,33 +25,7 @@ const { content } = Astro.props;
   scrollAriaLabel="Scroll to explore services"
 >
   <Fragment slot="background">
-    <div
-      class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix"
-    >
-      <ParticleBackground mode="sys" />
-    </div>
-    <BackgroundDecorations gradients={["hero"]} />
-
-    <div
-      class="section-hero-accent-lines absolute inset-0 pointer-events-none z-0 overflow-hidden"
-    >
-      <div
-        class="section-hero-line section-hero-line-1 absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-green/20 to-transparent"
-        data-reveal="fade-right"
-        data-reveal-delay="0"
-        data-reveal-duration="200"
-        data-reveal-easing="ease-out"
-      >
-      </div>
-      <div
-        class="section-hero-line section-hero-line-2 absolute top-3/4 right-0 w-full h-px bg-gradient-to-l from-transparent via-accent-green/15 to-transparent"
-        data-reveal="fade-left"
-        data-reveal-delay="50"
-        data-reveal-duration="200"
-        data-reveal-easing="ease-out"
-      >
-      </div>
-    </div>
+    <HeroBackdrop mode="sys" showDecorations={true} showAccentLines={true} />
   </Fragment>
 
   <div class="services-hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">

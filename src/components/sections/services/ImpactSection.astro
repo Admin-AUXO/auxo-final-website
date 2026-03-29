@@ -1,10 +1,9 @@
 ---
 import { Icon } from "astro-icon/components";
-import SectionContainer from "@/components/layouts/SectionContainer.astro";
-import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
 import Carousel from "@/components/ui/Carousel.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
 
 interface Props {
   content: {
@@ -27,83 +26,87 @@ interface Props {
 const { content } = Astro.props;
 ---
 
-<SectionContainer
+<SectionShell
   id="impact"
   padding="normal"
   background="card"
+  gradients={["center"]}
+  patterns={["mesh"]}
+  contentWidth="screen"
   class="relative impact-section section-divider"
 >
-  <BackgroundDecorations gradients={["center"]} patterns={["mesh"]} />
-  
-  <div class="grid-container relative z-10">
-    <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <SectionHeader
-        title={content.title}
-        subtitle={content.description}
-        highlight="Serve"
-        icon="mdi:bullseye"
-      />
+  <SectionHeader
+    title={content.title}
+    subtitle={content.description}
+    highlight="Serve"
+    icon="mdi:bullseye"
+  />
 
-      <div
-        class="mb-8 sm:mb-10 lg:mb-12 impact-carousel-section"
-        data-reveal="fade-up"
-        data-reveal-delay="50"
-        data-reveal-duration="200"
-        data-reveal-easing="ease-out"
-      >
-        <Carousel
-          containerId="impact-carousel-container"
-          trackId="impact-carousel-track"
-          items={content.industries}
-          wrapperClass="impact-carousel-wrapper"
-          containerClass="impact-carousel-container"
-          trackClass="impact-carousel-track"
-          alwaysVisible={true}
-        >
-          {content.industries.map((industry, index) => (
-            <div class="carousel-slide embla__slide" data-index={index}>
-              <div class="impact-industry-card">
-                <div class="impact-industry-card-header flex items-center justify-between">
-                  <h3 class="impact-industry-title">{industry.name}</h3>
-                  <div class="impact-industry-icon ml-3">
-                    <Icon name={industry.icon} class="w-6 h-6 sm:w-7 sm:h-7 text-accent-green" />
-                  </div>
-                </div>
-
-                <p class="impact-industry-description">
-                  {industry.descriptionHighlight ? (
-                    <HighlightText text={industry.description} highlight={industry.descriptionHighlight} />
-                  ) : (
-                    industry.description
-                  )}
-                </p>
-
-                <div class="impact-industry-benefit">
-                  <Icon name="mdi:trending-up" class="w-4 h-4 sm:w-5 sm:h-5 text-accent-green flex-shrink-0" />
-                  <span class="impact-industry-benefit-text">{industry.keyBenefit}</span>
-                </div>
+  <div
+    class="mb-8 sm:mb-10 lg:mb-12 impact-carousel-section"
+    data-reveal="fade-up"
+    data-reveal-delay="50"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    <Carousel
+      containerId="impact-carousel-container"
+      trackId="impact-carousel-track"
+      items={content.industries}
+      wrapperClass="impact-carousel-wrapper"
+      containerClass="impact-carousel-container"
+      trackClass="impact-carousel-track"
+      alwaysVisible={true}
+    >
+      {content.industries.map((industry, index) => (
+        <div class="carousel-slide embla__slide" data-index={index}>
+          <div class="impact-industry-card">
+            <div class="impact-industry-card-header flex items-center justify-between">
+              <h3 class="impact-industry-title">{industry.name}</h3>
+              <div class="impact-industry-icon ml-3">
+                <Icon
+                  name={industry.icon}
+                  class="w-6 h-6 sm:w-7 sm:h-7 text-accent-green"
+                />
               </div>
             </div>
-          ))}
-        </Carousel>
-      </div>
 
-      <div
-        data-reveal="fade-up"
-        data-reveal-delay="50"
-        data-reveal-duration="200"
-        data-reveal-easing="ease-out"
-      >
-        <div class="impact-goal-card">
-          <Icon name="mdi:lightbulb" class="impact-goal-icon" />
-          <p class="impact-goal-text">
-            {content.goal}
+            <p class="impact-industry-description">
+              {industry.descriptionHighlight ? (
+                <HighlightText
+                  text={industry.description}
+                  highlight={industry.descriptionHighlight}
+                />
+              ) : (
+                industry.description
+              )}
             </p>
+
+            <div class="impact-industry-benefit">
+              <Icon
+                name="mdi:trending-up"
+                class="w-4 h-4 sm:w-5 sm:h-5 text-accent-green flex-shrink-0"
+              />
+              <span class="impact-industry-benefit-text">{industry.keyBenefit}</span>
+            </div>
+          </div>
         </div>
-      </div>
+      ))}
+    </Carousel>
+  </div>
+
+  <div
+    data-reveal="fade-up"
+    data-reveal-delay="50"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    <div class="impact-goal-card">
+      <Icon name="mdi:lightbulb" class="impact-goal-icon" />
+      <p class="impact-goal-text">{content.goal}</p>
     </div>
   </div>
-</SectionContainer>
+</SectionShell>
 
 <script>
   function randomizeIndustries() {
