@@ -3,6 +3,7 @@ dist/
 .output/
 .astro/
 docs/
+doc/
 
 # dependencies
 node_modules/
