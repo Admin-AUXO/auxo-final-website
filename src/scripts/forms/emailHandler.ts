@@ -1,16 +1,57 @@
-import emailjs from '@emailjs/browser';
 import { env } from '@/config/env';
-import { validateContactForm, getFormData, showFieldError, hideFieldError, showFieldSuccess, hideFieldSuccess } from './validation';
-import { trackFormSubmission, trackFormStart, trackFormAbandonment } from '@/scripts/analytics/ga4';
 import { logger } from '@/lib/logger';
 import { DraftManager } from './draftManager';
+import {
+  getFormData,
+  hideFieldError,
+  hideFieldSuccess,
+  showFieldError,
+  showFieldSuccess,
+  validateContactForm,
+  validateField,
+  type ContactFormData,
+} from './validation';
 
 const EMAILJS_CONFIG = env.emailjs;
+const FORM_NAME = 'Contact Form';
+const FORM_TYPE = 'contact';
+const MESSAGE_FIELD_MAX_LENGTH = 500;
+const DEFAULT_NOTIFICATION_DURATION = 4000;
+const RATE_LIMIT_MS = 60000;
+const VALIDATION_DEBOUNCE_MS = 250;
 
 let emailjsInitialized = false;
+let emailjsModulePromise: Promise<typeof import('@emailjs/browser')> | null = null;
+let ga4ModulePromise: Promise<typeof import('@/scripts/analytics/ga4')> | null = null;
 let lastSubmitTime = 0;
-const RATE_LIMIT_MS = 60000;
-const DEFAULT_NOTIFICATION_DURATION = 4000;
+
+function loadEmailjsModule(): Promise<typeof import('@emailjs/browser')> {
+  if (!emailjsModulePromise) {
+    emailjsModulePromise = import('@emailjs/browser');
+  }
+
+  return emailjsModulePromise;
+}
+
+function loadGa4Module(): Promise<typeof import('@/scripts/analytics/ga4')> {
+  if (!ga4ModulePromise) {
+    ga4ModulePromise = import('@/scripts/analytics/ga4');
+  }
+
+  return ga4ModulePromise;
+}
+
+async function ensureEmailJsInitialized() {
+  const emailjsModule = await loadEmailjsModule();
+  const emailjs = emailjsModule.default;
+
+  if (!emailjsInitialized && EMAILJS_CONFIG.publicKey) {
+    emailjs.init(EMAILJS_CONFIG.publicKey);
+    emailjsInitialized = true;
+  }
+
+  return emailjs;
+}
 
 function getNotificationColor(type: 'success' | 'error'): string {
   const root = document.documentElement;
@@ -81,20 +122,103 @@ function showError(message: string): void {
   showNotification(message, 'error');
 }
 
-export function initEmailJS(): void {
-  if (emailjsInitialized) return;
-  if (EMAILJS_CONFIG.publicKey) {
-    emailjs.init(EMAILJS_CONFIG.publicKey);
-    emailjsInitialized = true;
-  }
-}
-
 function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number): T {
   let timeout: ReturnType<typeof setTimeout> | null = null;
+
   return ((...args: Parameters<T>) => {
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), wait);
   }) as T;
+}
+
+function updateMessageCounter(
+  messageField: HTMLTextAreaElement,
+  messageCounter: HTMLElement,
+): void {
+  const length = messageField.value.length;
+  messageCounter.textContent = `${length}/${MESSAGE_FIELD_MAX_LENGTH}`;
+
+  if (length > MESSAGE_FIELD_MAX_LENGTH * 0.9) {
+    messageCounter.classList.add('text-accent-green', 'font-bold');
+    messageCounter.classList.remove('text-theme-tertiary');
+    return;
+  }
+
+  messageCounter.classList.remove('text-accent-green', 'font-bold');
+  messageCounter.classList.add('text-theme-tertiary');
+}
+
+function trackFormStartAsync(): void {
+  void loadGa4Module()
+    .then((ga4) => {
+      ga4.trackFormStart(FORM_NAME, window.location.pathname);
+    })
+    .catch((error) => {
+      logger.warn('Form start tracking failed:', error);
+    });
+}
+
+function trackFormSubmissionAsync(): void {
+  void loadGa4Module()
+    .then((ga4) => {
+      ga4.trackFormSubmission({
+        formName: FORM_NAME,
+        formLocation: window.location.pathname,
+        formType: FORM_TYPE,
+      });
+    })
+    .catch((error) => {
+      logger.warn('Form submission tracking failed:', error);
+    });
+}
+
+function trackFormAbandonmentAsync(fieldsFilled: number): void {
+  void loadGa4Module()
+    .then((ga4) => {
+      ga4.trackFormAbandonment(FORM_NAME, fieldsFilled);
+    })
+    .catch((error) => {
+      logger.warn('Form abandonment tracking failed:', error);
+    });
+}
+
+function validateFormField(
+  fieldName: keyof ContactFormData,
+  element: HTMLInputElement | HTMLTextAreaElement,
+): void {
+  const value = element.value.trim();
+
+  if (fieldName === 'company' && !value) {
+    hideFieldError(element);
+    hideFieldSuccess(element);
+    return;
+  }
+
+  if (!value && element !== document.activeElement) {
+    hideFieldError(element);
+    hideFieldSuccess(element);
+    return;
+  }
+
+  const validation = validateField(fieldName, value);
+  if (!validation.success) {
+    showFieldError(element, validation.error);
+    hideFieldSuccess(element);
+    return;
+  }
+
+  hideFieldError(element);
+  if (value) {
+    showFieldSuccess(element);
+  }
+}
+
+export function initEmailJS(): void {
+  if (!EMAILJS_CONFIG.publicKey || emailjsInitialized) return;
+
+  void ensureEmailJsInitialized().catch((error) => {
+    logger.warn('EmailJS preload failed:', error);
+  });
 }
 
 export async function handleContactFormSubmit(event: Event) {
@@ -108,7 +232,7 @@ export async function handleContactFormSubmit(event: Event) {
   }
 
   const form = event.target as HTMLFormElement;
-  const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+  const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
   if (!submitButton) return;
 
   const formData = getFormData(form);
@@ -116,8 +240,12 @@ export async function handleContactFormSubmit(event: Event) {
 
   if (!validation.success) {
     validation.error.issues.forEach((issue) => {
-      const fieldName = issue.path[0] as string;
-      const input = form.querySelector(`[name="${fieldName}"]`) as HTMLInputElement | HTMLTextAreaElement;
+      const fieldName = issue.path[0];
+      const input = form.querySelector(`[name="${fieldName}"]`) as
+        | HTMLInputElement
+        | HTMLTextAreaElement
+        | null;
+
       if (input) {
         showFieldError(input, issue.message);
       }
@@ -140,49 +268,45 @@ export async function handleContactFormSubmit(event: Event) {
       throw new Error('EmailJS is not configured. Please check your environment variables.');
     }
 
+    const emailjs = await ensureEmailJsInitialized();
     const response = await emailjs.send(
       EMAILJS_CONFIG.serviceId,
       EMAILJS_CONFIG.templateId,
       {
-        from_name: formData.name,
-        from_email: formData.email,
-        company: formData.company || 'Not provided',
-        subject: formData.subject,
-        message: formData.message,
+        from_name: validation.data.name,
+        from_email: validation.data.email,
+        company: validation.data.company || 'Not provided',
+        subject: validation.data.subject,
+        message: validation.data.message,
       },
-      EMAILJS_CONFIG.publicKey
+      EMAILJS_CONFIG.publicKey,
     );
 
-    if (response.status === 200) {
-      lastSubmitTime = now;
-      showSuccess('Message sent successfully! We\'ll get back to you soon.');
-
-
-      const draftManager = form._draftManager;
-      if (draftManager) {
-        draftManager.clearDraft();
-      }
-
-      form.reset();
-      form.querySelectorAll('input, textarea').forEach((input) => {
-        hideFieldError(input as HTMLInputElement | HTMLTextAreaElement);
-        hideFieldSuccess(input as HTMLInputElement | HTMLTextAreaElement);
-      });
-
-
-      const messageCounter = document.getElementById('message-counter');
-      if (messageCounter) {
-        messageCounter.textContent = '0/500';
-      }
-
-      trackFormSubmission({
-        formName: 'Contact Form',
-        formLocation: window.location.pathname,
-        formType: 'contact',
-      });
-    } else {
+    if (response.status !== 200) {
       throw new Error('Failed to send message');
     }
+
+    lastSubmitTime = now;
+    showSuccess("Message sent successfully! We'll get back to you soon.");
+
+    const draftManager = form._draftManager;
+    if (draftManager) {
+      draftManager.clearDraft();
+    }
+
+    form.reset();
+    form.querySelectorAll('input, textarea').forEach((input) => {
+      hideFieldError(input as HTMLInputElement | HTMLTextAreaElement);
+      hideFieldSuccess(input as HTMLInputElement | HTMLTextAreaElement);
+    });
+
+    const messageCounter = document.getElementById('message-counter');
+    const messageField = form.querySelector('#message') as HTMLTextAreaElement | null;
+    if (messageCounter && messageField) {
+      updateMessageCounter(messageField, messageCounter);
+    }
+
+    trackFormSubmissionAsync();
   } catch (error) {
     logger.error('Email send failed:', error);
     if (error instanceof Error && error.message.includes('not configured')) {
@@ -197,119 +321,88 @@ export async function handleContactFormSubmit(event: Event) {
   }
 }
 
-export function addRealTimeValidation(form: HTMLFormElement): void {
+export function addRealTimeValidation(form: HTMLFormElement): () => void {
   let formStartTracked = false;
-  let fieldsFilled = 0;
   let formAbandoned = false;
-
+  const completedFields = new Set<string>();
+  const controller = new AbortController();
 
   const draftManager = new DraftManager(form, 'contact-form');
   draftManager.init();
-
-
   form._draftManager = draftManager;
 
   const trackFormInteraction = () => {
-    if (!formStartTracked) {
-      trackFormStart('Contact Form', window.location.pathname);
-      formStartTracked = true;
-    }
+    if (formStartTracked) return;
+    formStartTracked = true;
+    trackFormStartAsync();
   };
 
   const trackAbandonment = () => {
-    if (formStartTracked && !formAbandoned && fieldsFilled > 0) {
-      trackFormAbandonment('Contact Form', fieldsFilled);
-      formAbandoned = true;
-    }
+    if (!formStartTracked || formAbandoned || completedFields.size === 0) return;
+    formAbandoned = true;
+    trackFormAbandonmentAsync(completedFields.size);
   };
 
   if (typeof window !== 'undefined') {
-    window.addEventListener('beforeunload', trackAbandonment);
+    window.addEventListener('beforeunload', trackAbandonment, {
+      signal: controller.signal,
+    });
   }
 
-
-  const messageField = form.querySelector('#message') as HTMLTextAreaElement;
+  const messageField = form.querySelector('#message') as HTMLTextAreaElement | null;
   const messageCounter = document.getElementById('message-counter');
 
   if (messageField && messageCounter) {
-    const updateCounter = () => {
-      const length = messageField.value.length;
-      const maxLength = 500;
-      messageCounter.textContent = `${length}/${maxLength}`;
-
-
-      if (length > maxLength * 0.9) {
-        messageCounter.classList.add('text-accent-green', 'font-bold');
-        messageCounter.classList.remove('text-theme-tertiary');
-      } else {
-        messageCounter.classList.remove('text-accent-green', 'font-bold');
-        messageCounter.classList.add('text-theme-tertiary');
-      }
+    const handleCounterUpdate = () => {
+      updateMessageCounter(messageField, messageCounter);
     };
 
-    messageField.addEventListener('input', updateCounter);
+    handleCounterUpdate();
+    messageField.addEventListener('input', handleCounterUpdate, {
+      signal: controller.signal,
+    });
   }
 
   form.querySelectorAll('input, textarea').forEach((input) => {
     const element = input as HTMLInputElement | HTMLTextAreaElement;
+    const fieldName = element.name as keyof ContactFormData;
+    const validateFieldState = debounce(() => {
+      validateFormField(fieldName, element);
+    }, VALIDATION_DEBOUNCE_MS);
 
-    const validateField = debounce(() => {
-      const fieldName = element.name;
-      const value = element.value;
+    element.addEventListener('focus', trackFormInteraction, {
+      once: true,
+      signal: controller.signal,
+    });
 
+    element.addEventListener(
+      'blur',
+      () => {
+        validateFieldState();
 
-      if (fieldName === 'company' && !value) {
-        hideFieldError(element);
-        hideFieldSuccess(element);
-        return;
-      }
-
-
-      if (!value && element !== document.activeElement) {
-        hideFieldError(element);
-        hideFieldSuccess(element);
-        return;
-      }
-
-      const formData = getFormData(form);
-      const validation = validateContactForm(formData);
-
-      if (!validation.success) {
-        const fieldError = validation.error.issues.find((issue) => issue.path[0] === fieldName);
-        if (fieldError) {
-          showFieldError(element, fieldError.message);
-          hideFieldSuccess(element);
+        if (element.value.trim()) {
+          completedFields.add(fieldName);
         } else {
-
-          hideFieldError(element);
-          if (value) {
-            showFieldSuccess(element);
-          }
+          completedFields.delete(fieldName);
         }
-      } else {
+      },
+      { signal: controller.signal },
+    );
 
+    element.addEventListener(
+      'input',
+      () => {
         hideFieldError(element);
-        if (value) {
-          showFieldSuccess(element);
-        }
-      }
-    }, 500);
-
-    element.addEventListener('focus', trackFormInteraction, { once: true });
-
-    element.addEventListener('blur', () => {
-      validateField();
-      if (element.value.trim()) {
-        fieldsFilled++;
-      }
-    });
-
-    element.addEventListener('input', () => {
-
-      hideFieldError(element);
-
-
-      validateField();
-    });
+        validateFieldState();
+      },
+      { signal: controller.signal },
+    );
   });
+
+  return () => {
+    trackAbandonment();
+    controller.abort();
+    draftManager.destroy();
+    delete form._draftManager;
+  };
 }

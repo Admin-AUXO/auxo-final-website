@@ -87,20 +87,24 @@ const labelBaseClass = "block text-sm font-bold text-theme-primary mb-2 font-bod
   import { initEmailJS, handleContactFormSubmit, addRealTimeValidation } from '@/scripts/forms/emailHandler';
 
   const FORM_ID = 'contact-form-element';
+  type ContactFormElement = HTMLFormElement & { __auxoCleanup?: () => void };
 
   function initContactForm() {
-    const form = document.getElementById(FORM_ID) as HTMLFormElement | null;
+    const form = document.getElementById(FORM_ID) as ContactFormElement | null;
     if (!form || form.dataset.initialized === 'true') return;
 
     initEmailJS();
     form.addEventListener('submit', handleContactFormSubmit);
-    addRealTimeValidation(form);
+    form.__auxoCleanup = addRealTimeValidation(form);
     form.dataset.initialized = 'true';
   }
 
   function resetContactForm() {
-    const form = document.getElementById(FORM_ID) as HTMLFormElement | null;
+    const form = document.getElementById(FORM_ID) as ContactFormElement | null;
     if (form) {
+      form.__auxoCleanup?.();
+      delete form.__auxoCleanup;
+      form.removeEventListener('submit', handleContactFormSubmit);
       form.removeAttribute('data-initialized');
     }
   }

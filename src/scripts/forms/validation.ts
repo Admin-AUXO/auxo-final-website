@@ -1,64 +1,120 @@
-import { z } from 'zod';
-
-export const contactFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, 'Name must be at least 2 characters')
-    .max(100, 'Name must be less than 100 characters')
-    .regex(/^[a-zA-Z\s'-]+$/, 'Name can only contain letters, spaces, hyphens, and apostrophes'),
-
-  email: z
-    .string()
-    .min(1, 'Email is required')
-    .email('Please enter a valid email address')
-    .max(255, 'Email must be less than 255 characters'),
-
-  company: z
-    .string()
-    .max(100, 'Company name must be less than 100 characters')
-    .optional()
-    .or(z.literal('')),
-
-  subject: z
-    .string()
-    .min(5, 'Subject must be at least 5 characters')
-    .max(200, 'Subject must be less than 200 characters'),
-
-  message: z
-    .string()
-    .min(20, 'Message must be at least 20 characters')
-    .max(500, 'Message must be less than 500 characters'),
-});
-
-export type ContactFormData = z.infer<typeof contactFormSchema>;
-
-export function validateContactForm(data: Record<string, unknown>) {
-  return contactFormSchema.safeParse(data);
+export interface ContactFormData {
+  name: string;
+  email: string;
+  company: string;
+  subject: string;
+  message: string;
 }
 
-export function validateField(fieldName: keyof ContactFormData, value: unknown) {
-  try {
-    const fieldSchema = contactFormSchema.shape[fieldName];
-    fieldSchema.parse(value);
-    return { success: true, error: null };
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return { success: false, error: error.issues[0].message };
+export interface ValidationIssue {
+  path: [keyof ContactFormData];
+  message: string;
+}
+
+type FieldValidator = (value: string) => string | null;
+type ContactFormValidationResult =
+  | { success: true; data: ContactFormData }
+  | { success: false; error: { issues: ValidationIssue[] } };
+
+const NAME_PATTERN = /^[a-zA-Z\s'-]+$/;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const FIELD_VALIDATORS: Record<keyof ContactFormData, FieldValidator> = {
+  name(value) {
+    if (value.length < 2) return 'Name must be at least 2 characters';
+    if (value.length > 100) return 'Name must be less than 100 characters';
+    if (!NAME_PATTERN.test(value)) {
+      return 'Name can only contain letters, spaces, hyphens, and apostrophes';
     }
-    return { success: false, error: 'Validation error' };
+    return null;
+  },
+  email(value) {
+    if (!value) return 'Email is required';
+    if (!EMAIL_PATTERN.test(value)) return 'Please enter a valid email address';
+    if (value.length > 255) return 'Email must be less than 255 characters';
+    return null;
+  },
+  company(value) {
+    if (value.length > 100) return 'Company name must be less than 100 characters';
+    return null;
+  },
+  subject(value) {
+    if (value.length < 5) return 'Subject must be at least 5 characters';
+    if (value.length > 200) return 'Subject must be less than 200 characters';
+    return null;
+  },
+  message(value) {
+    if (value.length < 20) return 'Message must be at least 20 characters';
+    if (value.length > 500) return 'Message must be less than 500 characters';
+    return null;
+  },
+};
+
+function normalizeFieldValue(value: unknown): string {
+  return typeof value === 'string' ? value.trim() : String(value ?? '').trim();
+}
+
+function buildIssue(
+  fieldName: keyof ContactFormData,
+  message: string,
+): ValidationIssue {
+  return { path: [fieldName], message };
+}
+
+export function validateContactForm(
+  data: Record<string, unknown>,
+): ContactFormValidationResult {
+  const normalizedData: ContactFormData = {
+    name: normalizeFieldValue(data.name),
+    email: normalizeFieldValue(data.email),
+    company: normalizeFieldValue(data.company),
+    subject: normalizeFieldValue(data.subject),
+    message: normalizeFieldValue(data.message),
+  };
+
+  const issues = (Object.keys(FIELD_VALIDATORS) as Array<keyof ContactFormData>)
+    .map((fieldName) => {
+      const message = FIELD_VALIDATORS[fieldName](normalizedData[fieldName]);
+      return message ? buildIssue(fieldName, message) : null;
+    })
+    .filter((issue): issue is ValidationIssue => issue !== null);
+
+  if (issues.length > 0) {
+    return { success: false, error: { issues } };
   }
+
+  return { success: true, data: normalizedData };
+}
+
+export function validateField(
+  fieldName: keyof ContactFormData,
+  value: unknown,
+): { success: true; error: null } | { success: false; error: string } {
+  const validator = FIELD_VALIDATORS[fieldName];
+  const message = validator(normalizeFieldValue(value));
+
+  if (message) {
+    return { success: false, error: message };
+  }
+
+  return { success: true, error: null };
 }
 
 export function getFormData(form: HTMLFormElement): Record<string, string> {
   const formData = new FormData(form);
   const data: Record<string, string> = {};
+
   formData.forEach((value, key) => {
     data[key] = typeof value === 'string' ? value : String(value);
   });
+
   return data;
 }
 
-export function showFieldError(input: HTMLInputElement | HTMLTextAreaElement, message: string): void {
+export function showFieldError(
+  input: HTMLInputElement | HTMLTextAreaElement,
+  message: string,
+): void {
   hideFieldError(input);
 
   input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500/20');
@@ -92,18 +148,18 @@ export function showFieldSuccess(input: HTMLInputElement | HTMLTextAreaElement):
   `;
 
   const parent = input.parentElement;
-  if (parent) {
-    if (!parent.style.position) {
-      parent.style.position = 'relative';
-    }
+  if (!parent) return;
 
-    if (input.tagName === 'TEXTAREA') {
-      successElement.style.top = '50px';
-      successElement.style.transform = 'none';
-    }
-
-    parent.appendChild(successElement);
+  if (!parent.style.position) {
+    parent.style.position = 'relative';
   }
+
+  if (input.tagName === 'TEXTAREA') {
+    successElement.style.top = '50px';
+    successElement.style.transform = 'none';
+  }
+
+  parent.appendChild(successElement);
 }
 
 export function hideFieldSuccess(input: HTMLInputElement | HTMLTextAreaElement): void {

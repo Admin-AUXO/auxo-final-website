@@ -1,18 +1,99 @@
-import { initSmoothScroll, destroySmoothScroll } from './smoothScroll';
-import { init as initScrollAnimations, cleanup as cleanupScrollAnimations, refresh as refreshScrollAnimations } from '../utils/scrollReveal';
-import { initScrollProgress, cleanupScrollProgress } from './scrollProgress';
-import { initNavigation, cleanupNavigation } from '../navigation/index';
-import { initHeroBackground, cleanupHeroBackground } from '../utils/heroBackground';
-import { initAccordions, cleanupAccordions } from '../utils/accordions';
-import { autoInitCarousels, cleanupAllCarousels, resetAutoInitState } from '../utils/carousels';
 import { forceUnlockScroll } from '../navigation/utils';
-import { initWebVitals } from '../utils/webVitals';
-import { initConditionalAnalytics, cleanupConditionalAnalytics } from '../analytics/conditionalLoader';
-import { initKeyboardNavigation, cleanupKeyboardNavigation } from '../utils/keyboardNavigation';
-import { registerServiceWorker } from './serviceWorker';
 import { logger } from '@/lib/logger';
 
 let isInitialized = false;
+let initRunId = 0;
+
+type CriticalModules = {
+  keyboardNavigation: typeof import('../utils/keyboardNavigation');
+  navigation: typeof import('../navigation/index');
+  scrollAnimations: typeof import('../utils/scrollReveal');
+  scrollProgress: typeof import('./scrollProgress');
+  smoothScroll: typeof import('./smoothScroll');
+  webVitals: typeof import('../utils/webVitals');
+};
+
+type DeferredModules = {
+  accordions: typeof import('../utils/accordions');
+  analytics: typeof import('../analytics/conditionalLoader');
+  serviceWorker: typeof import('./serviceWorker');
+};
+
+type PageFeatureModules = {
+  carousels: typeof import('../utils/carousels');
+  heroBackground: typeof import('../utils/heroBackground');
+};
+
+let criticalModulesCache: CriticalModules | null = null;
+let criticalModulesPromise: Promise<CriticalModules> | null = null;
+let deferredModulesCache: DeferredModules | null = null;
+let deferredModulesPromise: Promise<DeferredModules> | null = null;
+let pageFeatureModulesCache: PageFeatureModules | null = null;
+let pageFeatureModulesPromise: Promise<PageFeatureModules> | null = null;
+
+function loadCriticalModules(): Promise<CriticalModules> {
+  if (criticalModulesPromise) return criticalModulesPromise;
+
+  criticalModulesPromise = Promise.all([
+    import('../utils/keyboardNavigation'),
+    import('../navigation/index'),
+    import('../utils/scrollReveal'),
+    import('./scrollProgress'),
+    import('./smoothScroll'),
+    import('../utils/webVitals'),
+  ]).then(
+    ([
+      keyboardNavigation,
+      navigation,
+      scrollAnimations,
+      scrollProgress,
+      smoothScroll,
+      webVitals,
+    ]) => {
+      criticalModulesCache = {
+        keyboardNavigation,
+        navigation,
+        scrollAnimations,
+        scrollProgress,
+        smoothScroll,
+        webVitals,
+      };
+
+      return criticalModulesCache;
+    },
+  );
+
+  return criticalModulesPromise;
+}
+
+function loadDeferredModules(): Promise<DeferredModules> {
+  if (deferredModulesPromise) return deferredModulesPromise;
+
+  deferredModulesPromise = Promise.all([
+    import('../utils/accordions'),
+    import('../analytics/conditionalLoader'),
+    import('./serviceWorker'),
+  ]).then(([accordions, analytics, serviceWorker]) => {
+    deferredModulesCache = { accordions, analytics, serviceWorker };
+    return deferredModulesCache;
+  });
+
+  return deferredModulesPromise;
+}
+
+function loadPageFeatureModules(): Promise<PageFeatureModules> {
+  if (pageFeatureModulesPromise) return pageFeatureModulesPromise;
+
+  pageFeatureModulesPromise = Promise.all([
+    import('../utils/carousels'),
+    import('../utils/heroBackground'),
+  ]).then(([carousels, heroBackground]) => {
+    pageFeatureModulesCache = { carousels, heroBackground };
+    return pageFeatureModulesCache;
+  });
+
+  return pageFeatureModulesPromise;
+}
 
 function runWhenIdle(callback: () => void, timeout: number = 1000): void {
   if ('requestIdleCallback' in window) {
@@ -47,27 +128,33 @@ function initLazyLoading(): void {
 export function initCoreFeatures(): void {
   if (isInitialized) return;
   isInitialized = true;
+  const currentRunId = ++initRunId;
 
-  initWebVitals();
-
-  const runCriticalInit = () => {
+  const runCriticalInit = async () => {
     try {
-      initKeyboardNavigation();
-      initSmoothScroll();
-      initScrollProgress();
-      initNavigation();
-      initScrollAnimations();
+      const modules = await loadCriticalModules();
+      if (!isInitialized || currentRunId !== initRunId) return;
+
+      modules.webVitals.initWebVitals();
+      modules.keyboardNavigation.initKeyboardNavigation();
+      modules.smoothScroll.initSmoothScroll();
+      modules.scrollProgress.initScrollProgress();
+      modules.navigation.initNavigation();
+      modules.scrollAnimations.init();
       initLazyLoading();
     } catch (error) {
       logger.warn('Critical init error:', error);
     }
   };
 
-  const runDeferredInit = () => {
+  const runDeferredInit = async () => {
     try {
-      initAccordions();
-      initConditionalAnalytics();
-      registerServiceWorker();
+      const modules = await loadDeferredModules();
+      if (!isInitialized || currentRunId !== initRunId) return;
+
+      modules.accordions.initAccordions();
+      modules.analytics.initConditionalAnalytics();
+      modules.serviceWorker.registerServiceWorker();
       if (
         document.querySelector('[data-consent-banner], [data-consent-modal]')
       ) {
@@ -81,8 +168,12 @@ export function initCoreFeatures(): void {
       }
 
       setTimeout(() => {
+        if (!criticalModulesCache || !isInitialized || currentRunId !== initRunId) {
+          return;
+        }
+
         try {
-          refreshScrollAnimations();
+          criticalModulesCache.scrollAnimations.refresh();
         } catch (error) {
           logger.warn('Scroll animation refresh error:', error);
         }
@@ -93,29 +184,45 @@ export function initCoreFeatures(): void {
   };
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', runCriticalInit, { once: true });
+    document.addEventListener(
+      'DOMContentLoaded',
+      () => {
+        void runCriticalInit();
+      },
+      { once: true },
+    );
   } else {
-    requestAnimationFrame(runCriticalInit);
+    requestAnimationFrame(() => {
+      void runCriticalInit();
+    });
   }
 
-  runWhenIdle(runDeferredInit);
+  runWhenIdle(() => {
+    void runDeferredInit();
+  });
 }
 
 export function initPageFeatures(): void {
   const particleCanvas = document.getElementById('particle-canvas');
-  if (particleCanvas) {
-    initHeroBackground();
-  }
+  const currentRunId = initRunId;
 
-  const initCarouselsWithCSSCheck = () => {
-    try {
-      autoInitCarousels();
-    } catch (error) {
-      logger.error('Carousel initialization failed:', error);
-    }
-  };
+  void loadPageFeatureModules()
+    .then((modules) => {
+      if (!isInitialized || currentRunId !== initRunId) return;
 
-  initCarouselsWithCSSCheck();
+      if (particleCanvas) {
+        modules.heroBackground.initHeroBackground();
+      }
+
+      try {
+        modules.carousels.autoInitCarousels();
+      } catch (error) {
+        logger.error('Carousel initialization failed:', error);
+      }
+    })
+    .catch((error) => {
+      logger.error('Page feature initialization failed:', error);
+    });
 
   runWhenIdle(() => {
     const loaders: Promise<void>[] = [];
@@ -154,18 +261,19 @@ export function initPageFeatures(): void {
 
 export function cleanupCoreFeatures(): void {
   forceUnlockScroll();
-  cleanupScrollAnimations();
-  cleanupScrollProgress();
-  cleanupNavigation();
-  cleanupHeroBackground();
-  cleanupAccordions();
-  cleanupAllCarousels();
-  resetAutoInitState();
-  destroySmoothScroll();
-  cleanupConditionalAnalytics();
-  cleanupKeyboardNavigation();
+  criticalModulesCache?.scrollAnimations.cleanup();
+  criticalModulesCache?.scrollProgress.cleanupScrollProgress();
+  criticalModulesCache?.navigation.cleanupNavigation();
+  pageFeatureModulesCache?.heroBackground.cleanupHeroBackground();
+  deferredModulesCache?.accordions.cleanupAccordions();
+  pageFeatureModulesCache?.carousels.cleanupAllCarousels();
+  pageFeatureModulesCache?.carousels.resetAutoInitState();
+  criticalModulesCache?.smoothScroll.destroySmoothScroll();
+  deferredModulesCache?.analytics.cleanupConditionalAnalytics();
+  criticalModulesCache?.keyboardNavigation.cleanupKeyboardNavigation();
 
   isInitialized = false;
+  initRunId += 1;
 }
 
 export function reinitOnPageLoad(): void {
