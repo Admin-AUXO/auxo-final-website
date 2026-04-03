@@ -43,67 +43,32 @@ const finalCanonical = canonicalUrl || `${siteUrl}${Astro.url.pathname}`;
 />
 
 <script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
+  (function () {
+    const choiceCookie = "auxo_consent_choice=";
 
-  gtag("consent", "default", {
-    ad_storage: "denied",
-    ad_user_data: "denied",
-    ad_personalization: "denied",
-    analytics_storage: "denied",
-    functionality_storage: "granted",
-    personalization_storage: "denied",
-    security_storage: "granted",
-    wait_for_update: 500,
-    region: [
-      "AT",
-      "BE",
-      "BG",
-      "HR",
-      "CY",
-      "CZ",
-      "DK",
-      "EE",
-      "FI",
-      "FR",
-      "DE",
-      "GR",
-      "HU",
-      "IE",
-      "IT",
-      "LV",
-      "LT",
-      "LU",
-      "MT",
-      "NL",
-      "PL",
-      "PT",
-      "RO",
-      "SK",
-      "SI",
-      "ES",
-      "SE",
-      "GB",
-      "IS",
-      "LI",
-      "NO",
-      "CH",
-    ],
-  });
+    if (document.cookie.includes(choiceCookie)) {
+      return;
+    }
 
-  gtag("consent", "default", {
-    ad_storage: "denied",
-    ad_user_data: "denied",
-    ad_personalization: "denied",
-    analytics_storage: "denied",
-    functionality_storage: "granted",
-    personalization_storage: "granted",
-    security_storage: "granted",
-    region: ["US", "CA", "AU", "NZ", "AE", "SA", "QA", "KW", "BH", "OM"],
-  });
+    try {
+      const legacy = localStorage.getItem("auxo_consent_preferences");
+      if (!legacy) return;
 
+      const parsed = JSON.parse(legacy);
+      const preferences = parsed?.preferences;
+      if (parsed?.version !== 1 || !preferences) return;
+
+      const maxAge = 31536000;
+      const cookieSuffix = `; Max-Age=${maxAge}; Path=/; SameSite=Lax`;
+
+      document.cookie = `auxo_consent_choice=1${cookieSuffix}`;
+      document.cookie = `auxo_consent_analytics=${preferences.analytics ? "granted" : "denied"}${cookieSuffix}`;
+      document.cookie = `auxo_consent_marketing=${preferences.marketing ? "granted" : "denied"}${cookieSuffix}`;
+      document.cookie = `auxo_consent_preferences=${preferences.preferences ? "granted" : "denied"}${cookieSuffix}`;
+
+      localStorage.removeItem("auxo_consent_preferences");
+    } catch {}
+  })();
 </script>
 
 <script is:inline>

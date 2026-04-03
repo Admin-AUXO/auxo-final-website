@@ -33,11 +33,12 @@ const isLegalRoute = pathname.startsWith("/legal");
 const isBlogRoute = pathname === "/blog" || pathname.startsWith("/blog/");
 const isUtilityRoute = pathname === "/offline" || pathname === "/404";
 const areOptionalWidgetsEnabledByDefault = !(isLegalRoute || isBlogRoute || isUtilityRoute);
+const enableCookieConsentByDefault = !isUtilityRoute;
 
 const enableCalendarWidgets =
   enableCalendarWidgetsProp ?? areOptionalWidgetsEnabledByDefault;
 const enableCookieConsent =
-  enableCookieConsentProp ?? areOptionalWidgetsEnabledByDefault;
+  enableCookieConsentProp ?? enableCookieConsentByDefault;
 const enableTabEngagement =
   enableTabEngagementProp ?? areOptionalWidgetsEnabledByDefault;
 

@@ -1,9 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import SectionContainer from "./SectionContainer.astro";
-import SectionHeader from "@/components/ui/SectionHeader.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import { Icon } from "astro-icon/components";
+import { LEGAL_PAGE_META, siteData } from "@/data/content";
 import { createUrl } from "@/utils/url";
 import "@/styles/components/legal.css";
 import "@/styles/components/legal-tables.css";
@@ -22,17 +22,19 @@ const {
 
 const LEGAL_PAGES = [
   { href: createUrl("legal/privacy-policy"), label: "Privacy Policy", icon: "mdi:shield-lock", path: "legal/privacy-policy" },
-  { href: createUrl("legal/terms"), label: "Terms of Service", icon: "mdi:file-document", path: "legal/terms" },
+  { href: createUrl("legal/terms"), label: "Terms of Use", icon: "mdi:file-document", path: "legal/terms" },
   { href: createUrl("legal/cookie-policy"), label: "Cookie Policy", icon: "mdi:cookie", path: "legal/cookie-policy" },
 ] as const;
 
 const currentPath = Astro.url.pathname.replace(/^\//, '').replace(/\/$/, '');
 const relatedPages = LEGAL_PAGES.filter(page => !currentPath.includes(page.path));
+const pageMeta = LEGAL_PAGE_META[currentPath];
 ---
 
 <BaseLayout
   title={`${title} | AUXO Data Labs`}
   description={description || `${title} for AUXO Data Labs`}
+  enableCookieConsent={true}
 >
   <SectionContainer
     id="legal-section"
@@ -41,29 +43,69 @@ const relatedPages = LEGAL_PAGES.filter(page => !currentPath.includes(page.path)
     class="relative min-h-[85vh]"
   >
     <BackgroundDecorations gradients={["hero"]} />
-    
+
     <div class="grid-container relative z-10">
       <div class="col-span-full max-w-5xl mx-auto">
-        <div class="mb-8 sm:mb-12">
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-theme-primary mb-4 font-display">
-            {title}
-          </h1>
-          {description && (
-            <p class="text-base sm:text-lg text-theme-secondary font-body max-w-3xl">
-              {description}
-            </p>
-          )}
-        </div>
+        <header class="legal-hero mb-8 sm:mb-12">
+          <div class="legal-hero__intro">
+            <div class="legal-hero__eyebrow">
+              <Icon name={pageMeta?.icon || "mdi:file-document-outline"} class="w-4 h-4" />
+              <span>{pageMeta?.eyebrow || "Legal Document"}</span>
+            </div>
+            <h1 class="legal-hero__title">
+              {title}
+            </h1>
+            {description && (
+              <p class="legal-hero__description">
+                {description}
+              </p>
+            )}
+            {pageMeta?.summary && (
+              <p class="legal-hero__summary">
+                {pageMeta.summary}
+              </p>
+            )}
+            <div class="legal-hero__highlights" aria-label="Document highlights">
+              {pageMeta?.highlights.map((highlight) => (
+                <span class="legal-chip">
+                  <Icon name="mdi:check-decagram" class="w-4 h-4" />
+                  {highlight}
+                </span>
+              ))}
+            </div>
+          </div>
 
-        <div class="flex items-center gap-2 mb-8 sm:mb-10 text-sm text-theme-secondary font-body bg-theme-card/60 backdrop-blur-sm border border-accent-green/20 rounded-xl px-4 py-3 w-fit">
-          <Icon name="mdi:calendar-outline" class="w-4 h-4 text-accent-green flex-shrink-0" />
-          <span>Last updated: <strong class="text-theme-primary font-semibold">{lastUpdated}</strong></span>
-        </div>
+          <aside class="legal-hero__panel" aria-label="Document details">
+            <div class="legal-meta-card">
+              <span class="legal-meta-card__label">Last updated</span>
+              <div class="legal-meta-card__value">
+                <Icon name="mdi:calendar-outline" class="w-4 h-4 text-accent-green flex-shrink-0" />
+                <strong>{lastUpdated}</strong>
+              </div>
+            </div>
+            <div class="legal-meta-card">
+              <span class="legal-meta-card__label">Legal entity</span>
+              <p class="legal-meta-card__text">
+                Rapple International FZE<br />
+                Trading as AUXO Data Labs
+              </p>
+            </div>
+            <div class="legal-meta-card">
+              <span class="legal-meta-card__label">Privacy contact</span>
+              <a href={`mailto:${siteData.privacyEmail}`} class="legal-meta-card__link">
+                {siteData.privacyEmail}
+              </a>
+              <p class="legal-meta-card__text">
+                {siteData.address.city}, {siteData.address.country}
+              </p>
+            </div>
+          </aside>
+        </header>
 
         <div class="lg:hidden mb-8">
           <button
             id="mobile-toc-toggle"
-            class="w-full flex items-center justify-between gap-3 p-4 bg-theme-card/80 backdrop-blur-sm border-2 border-accent-green/20 rounded-xl hover:border-accent-green/40 transition-all duration-200 group"
+            class="legal-mobile-toggle group"
             aria-expanded="false"
             aria-controls="mobile-table-of-contents"
           >
@@ -75,44 +117,62 @@ const relatedPages = LEGAL_PAGES.filter(page => !currentPath.includes(page.path)
           </button>
           <div
             id="mobile-table-of-contents"
-            class="hidden mt-3 bg-theme-card/80 backdrop-blur-sm border-2 border-accent-green/20 rounded-xl p-4"
+            class="legal-mobile-panel hidden mt-3"
           >
             <nav id="table-of-contents-mobile" class="space-y-2 text-sm">
             </nav>
           </div>
         </div>
 
-        <div class="grid lg:grid-cols-[240px_1fr] gap-8 lg:gap-12">
-          <aside class="hidden lg:block">
+        <div class="grid lg:grid-cols-[260px_1fr] gap-8 lg:gap-12">
+          <aside class="hidden lg:block legal-sidebar">
             <div class="sticky top-28">
-              <div class="bg-theme-card/80 backdrop-blur-sm border-2 border-accent-green/20 rounded-2xl p-5 shadow-lg hover:border-accent-green/30 transition-colors duration-300">
-                <h3 class="text-base font-bold text-theme-primary mb-4 font-display flex items-center gap-2">
+              <div class="legal-sidebar-card">
+                <h2 class="text-base font-bold text-theme-primary mb-2 font-display flex items-center gap-2">
                   <Icon name="mdi:format-list-bulleted" class="w-5 h-5 text-accent-green" />
-                  Contents
-                </h3>
+                  On This Page
+                </h2>
+                <p class="legal-sidebar-copy">
+                  Section-by-section navigation for faster scanning.
+                </p>
                 <nav id="table-of-contents" class="space-y-1.5 text-sm">
                 </nav>
+              </div>
+
+              <div class="legal-sidebar-card legal-sidebar-card--secondary">
+                <h2 class="text-base font-bold text-theme-primary mb-2 font-display">
+                  Need Clarification?
+                </h2>
+                <p class="legal-sidebar-copy mb-4">
+                  Use the privacy mailbox for data requests, policy questions, or corrections.
+                </p>
+                <a href={`mailto:${siteData.privacyEmail}`} class="legal-sidebar-link">
+                  Email {siteData.privacyEmail}
+                </a>
               </div>
             </div>
           </aside>
 
           <div class="min-w-0">
-            <article class="legal-page bg-theme-card/60 backdrop-blur-sm border-2 border-accent-green/20 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-xl hover:border-accent-green/30 transition-colors duration-300">
+            <article class="legal-page">
               <div class="legal-content">
                 <slot />
               </div>
             </article>
 
-            <div class="mt-10 sm:mt-12 pt-8 border-t border-accent-green/20">
-              <h3 class="text-lg font-bold text-theme-primary mb-6 font-display flex items-center gap-2">
+            <div class="legal-related mt-10 sm:mt-12">
+              <h2 class="text-lg font-bold text-theme-primary mb-2 font-display flex items-center gap-2">
                 <Icon name="mdi:file-document-multiple" class="w-5 h-5 text-accent-green" />
                 Related Legal Documents
-              </h3>
+              </h2>
+              <p class="legal-related__copy">
+                Read the adjacent policies. Legal pages work as a set, not as isolated scraps.
+              </p>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {relatedPages.map((page) => (
                   <a
                     href={page.href}
-                    class="flex items-center gap-3 p-4 rounded-xl bg-accent-green/5 border border-accent-green/20 hover:bg-accent-green/10 hover:border-accent-green/40 hover:shadow-lg hover:shadow-accent-green/10 transition-all duration-200 group"
+                    class="legal-related__card group"
                   >
                     <Icon
                       name={page.icon}
@@ -134,10 +194,24 @@ const relatedPages = LEGAL_PAGES.filter(page => !currentPath.includes(page.path)
 
 <script>
   import { initTableOfContents } from "@/scripts/legal/toc";
-  
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTableOfContents, { once: true });
-  } else {
+
+  type AuxoWindow = Window & { __auxoLegalTocBound?: boolean };
+
+  function runLegalToc() {
     initTableOfContents();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", runLegalToc, { once: true });
+  } else {
+    runLegalToc();
+  }
+
+  if (typeof window !== "undefined") {
+    const auxoWindow = window as AuxoWindow;
+    if (!auxoWindow.__auxoLegalTocBound) {
+      auxoWindow.__auxoLegalTocBound = true;
+      document.addEventListener("astro:page-load", runLegalToc);
+    }
   }
 </script>

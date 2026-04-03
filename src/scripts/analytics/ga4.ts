@@ -3,6 +3,7 @@ import { env } from '@/config/env';
 import { getAttributionParams } from './utmTracking';
 import { sanitizeForGA4 } from './privacy';
 import { getClientId, getSessionId, getSessionNumber } from './identifiers';
+import { isAnalyticsConsentGranted } from './consent';
 
 const _GA4_DEBUG_MODE = env.analytics.debug;
 
@@ -76,16 +77,8 @@ function sanitizeParams(
 
 function checkConsent(): boolean {
   if (typeof window === 'undefined') return false;
-  
-  try {
-    const consentPrefs = localStorage.getItem('auxo_consent_preferences');
-    if (!consentPrefs) return false;
-    
-    const prefs = JSON.parse(consentPrefs);
-    return prefs.preferences?.analytics === true;
-  } catch {
-    return false;
-  }
+
+  return isAnalyticsConsentGranted();
 }
 
 function isDuplicateEvent(eventName: string, params?: Record<string, unknown>): boolean {

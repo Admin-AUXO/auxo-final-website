@@ -48,7 +48,7 @@ export const footerContent: FooterContent = {
         },
         {
           "href": "/legal/terms",
-          "label": "Terms of Service"
+          "label": "Terms of Use"
         },
         {
           "href": "/legal/cookie-policy",

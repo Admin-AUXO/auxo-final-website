@@ -30,12 +30,14 @@ const contactItems = [
 ];
 ---
 
-<div class="mt-10 pt-8 border-t border-accent-green/20">
-  <h2>{title}</h2>
-  <p class="mb-4">{intro}</p>
+<div class="legal-contact">
+  <div class="legal-contact__header">
+    <h2>{title}</h2>
+    <p class="mb-0">{intro}</p>
+  </div>
   <div class="space-y-3">
     {contactItems.map(({ icon, label, iconClass = "", href, value }) => (
-      <div class="flex items-start gap-3">
+      <div class="legal-contact__row">
         <Icon
           name={icon}
           class={`w-5 h-5 text-accent-green flex-shrink-0 ${iconClass}`}

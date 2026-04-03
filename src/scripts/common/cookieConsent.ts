@@ -1,5 +1,5 @@
 import {
-  initConsentMode,
+  initializeConsentStorage,
   acceptAllConsent,
   rejectAllConsent,
   updateConsent,
@@ -144,7 +144,7 @@ async function setupCookieConsent(): Promise<void> {
 
 export function initCookieConsent(): void {
   if (!consentModeInitialized) {
-    initConsentMode();
+    initializeConsentStorage();
     consentModeInitialized = true;
   }
 

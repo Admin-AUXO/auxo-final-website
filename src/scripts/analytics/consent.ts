@@ -17,56 +17,84 @@ export interface ConsentPreferences {
   preferences: boolean;
 }
 
-const CONSENT_STORAGE_KEY = 'auxo_consent_preferences';
+const LEGACY_CONSENT_STORAGE_KEY = 'auxo_consent_preferences';
 const CONSENT_VERSION = 1;
+const CONSENT_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+const CONSENT_COOKIE_PATH = 'Path=/; SameSite=Lax';
+const CONSENT_COOKIE_KEYS = {
+  choice: 'auxo_consent_choice',
+  analytics: 'auxo_consent_analytics',
+  marketing: 'auxo_consent_marketing',
+  preferences: 'auxo_consent_preferences',
+} as const;
 
-export function initConsentMode(defaultConsent: Partial<ConsentState> = {}): void {
+function readCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+
+  const prefix = `${name}=`;
+  const cookie = document.cookie
+    .split('; ')
+    .find((entry) => entry.startsWith(prefix));
+
+  if (!cookie) return null;
+  return decodeURIComponent(cookie.slice(prefix.length));
+}
+
+function writeCookie(name: string, value: string): void {
+  if (typeof document === 'undefined') return;
+
+  document.cookie = `${name}=${encodeURIComponent(value)}; Max-Age=${CONSENT_COOKIE_MAX_AGE}; ${CONSENT_COOKIE_PATH}`;
+}
+
+function persistConsentCookies(preferences: ConsentPreferences): void {
+  writeCookie(CONSENT_COOKIE_KEYS.choice, '1');
+  writeCookie(
+    CONSENT_COOKIE_KEYS.analytics,
+    preferences.analytics ? 'granted' : 'denied',
+  );
+  writeCookie(
+    CONSENT_COOKIE_KEYS.marketing,
+    preferences.marketing ? 'granted' : 'denied',
+  );
+  writeCookie(
+    CONSENT_COOKIE_KEYS.preferences,
+    preferences.preferences ? 'granted' : 'denied',
+  );
+}
+
+function removeLegacyConsentStorage(): void {
   if (typeof window === 'undefined') return;
 
-  window.dataLayer = window.dataLayer || [];
-
-  function gtag(...args: unknown[]) {
-    window.dataLayer?.push(args);
-  }
-
-  const defaults: ConsentState = {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'denied',
-    functionality_storage: 'granted',
-    personalization_storage: 'denied',
-    security_storage: 'granted',
-    ...defaultConsent,
-  };
-
-  gtag('consent', 'default', {
-    ...defaults,
-    wait_for_update: 500,
-    region: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB', 'IS', 'LI', 'NO', 'CH'],
-  });
-
-  gtag('consent', 'default', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'denied',
-    functionality_storage: 'granted',
-    personalization_storage: 'granted',
-    security_storage: 'granted',
-    region: ['US', 'CA', 'AU', 'NZ', 'AE', 'SA', 'QA', 'KW', 'BH', 'OM'],
-  });
-
-  const savedConsent = getStoredConsent();
-  if (savedConsent) {
-    updateConsent(savedConsent, false);
+  try {
+    localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
+  } catch (error) {
+    logger.error('Error removing legacy consent storage:', error);
   }
 }
 
-export function updateConsent(preferences: ConsentPreferences, fireEvents: boolean = true): void {
-  if (typeof window === 'undefined') return;
+function migrateLegacyConsent(): ConsentPreferences | null {
+  if (typeof window === 'undefined') return null;
+  if (readCookie(CONSENT_COOKIE_KEYS.choice)) return null;
 
-  const consentState: ConsentState = {
+  try {
+    const stored = localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY);
+    if (!stored) return null;
+
+    const parsed = JSON.parse(stored);
+    if (parsed.version !== CONSENT_VERSION || !parsed.preferences) return null;
+
+    const preferences = parsed.preferences as ConsentPreferences;
+    persistConsentCookies(preferences);
+    removeLegacyConsentStorage();
+    return preferences;
+  } catch (error) {
+    logger.error('Error migrating legacy consent preferences:', error);
+    return null;
+  }
+}
+
+function buildConsentState(preferences: ConsentPreferences): ConsentState {
+  return {
     functionality_storage: 'granted',
     security_storage: 'granted',
     analytics_storage: preferences.analytics ? 'granted' : 'denied',
@@ -75,15 +103,29 @@ export function updateConsent(preferences: ConsentPreferences, fireEvents: boole
     ad_personalization: preferences.marketing ? 'granted' : 'denied',
     personalization_storage: preferences.preferences ? 'granted' : 'denied',
   };
+}
 
-  if (typeof window.gtag === 'function') {
-    window.gtag('consent', 'update', consentState);
-  }
+export function initializeConsentStorage(): void {
+  if (typeof window === 'undefined') return;
 
-  storeConsent(preferences);
+  void getStoredConsent();
+}
+
+export function updateConsent(preferences: ConsentPreferences, fireEvents: boolean = true): void {
+  if (typeof window === 'undefined') return;
+
+  const consentState = buildConsentState(preferences);
+  persistConsentCookies(preferences);
+  removeLegacyConsentStorage();
 
   if (fireEvents) {
     window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'auxo_consent_state_changed',
+      ...consentState,
+      consent_choice: 'stored',
+    });
+
     window.dataLayer.push({
       event: 'consent_update',
       ...consentState,
@@ -100,34 +142,26 @@ export function getStoredConsent(): ConsentPreferences | null {
   if (typeof window === 'undefined') return null;
 
   try {
-    const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
-    if (!stored) return null;
+    if (!readCookie(CONSENT_COOKIE_KEYS.choice)) {
+      const migrated = migrateLegacyConsent();
+      if (migrated) return migrated;
+      return null;
+    }
 
-    const parsed = JSON.parse(stored);
-
-    if (parsed.version !== CONSENT_VERSION) return null;
-
-    return parsed.preferences as ConsentPreferences;
+    return {
+      necessary: true,
+      analytics: readCookie(CONSENT_COOKIE_KEYS.analytics) === 'granted',
+      marketing: readCookie(CONSENT_COOKIE_KEYS.marketing) === 'granted',
+      preferences: readCookie(CONSENT_COOKIE_KEYS.preferences) === 'granted',
+    };
   } catch (error) {
     logger.error('Error reading consent preferences:', error);
     return null;
   }
 }
 
-function storeConsent(preferences: ConsentPreferences): void {
-  if (typeof window === 'undefined') return;
-
-  try {
-    const data = {
-      version: CONSENT_VERSION,
-      preferences,
-      timestamp: new Date().toISOString(),
-    };
-
-    localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(data));
-  } catch (error) {
-    logger.error('Error storing consent preferences:', error);
-  }
+export function isAnalyticsConsentGranted(): boolean {
+  return getStoredConsent()?.analytics === true;
 }
 
 export function acceptAllConsent(): void {

@@ -6,9 +6,16 @@ import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import { Icon } from "astro-icon/components";
 import { siteData } from "@/data/content";
-import ParticleBackground from "@/components/effects/ParticleBackground.astro";
 import "@/styles/sections/blog-content.css";
-import { formatBlogDate } from "@/lib/blog";
+import "@/styles/sections/blog-pages.css";
+import {
+  extractBlogHeadings,
+  formatBlogDate,
+  formatReadingTime,
+  getBlogPostUrl,
+  getReadingTimeMinutes,
+  sortByPublishDate,
+} from "@/lib/blog";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection("blog");
@@ -19,8 +26,17 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
+const allPosts = sortByPublishDate(await getCollection("blog"));
 const { Content } = await entry.render();
 const formattedPublishDate = formatBlogDate(entry.data.publishDate);
+const readingTime = formatReadingTime(getReadingTimeMinutes(entry.body));
+const articleSections = extractBlogHeadings(entry.body);
+const currentIndex = allPosts.findIndex((post) => post.slug === entry.slug);
+const newerPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+const olderPost =
+  currentIndex >= 0 && currentIndex < allPosts.length - 1
+    ? allPosts[currentIndex + 1]
+    : null;
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -48,58 +64,75 @@ const articleSchema = {
     id="blog-header"
     padding="lg"
     background="default"
-    class="relative overflow-hidden pt-36 lg:pt-48 pb-12"
+    class="blog-page blog-article-page relative overflow-hidden pt-28 lg:pt-32 pb-12 lg:pb-14"
   >
-    <div
-      class="absolute inset-0 -z-10 overflow-hidden pointer-events-none layout-shift-fix"
-    >
-      <ParticleBackground mode="articles" />
+    <div class="absolute inset-0 -z-10 pointer-events-none">
+      <div class="absolute inset-0 bg-gradient-to-b from-theme-surface/94 via-theme-surface/76 to-theme-surface"></div>
+      <div class="absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-accent-green/10 to-transparent"></div>
     </div>
     <BackgroundDecorations gradients={["top"]} patterns={["grid"]} />
+
     <div class="grid-container relative z-10">
-      <div class="col-span-full max-w-4xl mx-auto text-center">
-        <div
-          class="flex flex-wrap items-center justify-center gap-2 mb-6"
-          data-reveal="fade-down"
-        >
-          {
-            entry.data.tags.map((tag) => (
-              <span class="text-xs font-semibold px-3 py-1.5 bg-accent-green/10 text-accent-green rounded-full uppercase tracking-wider border border-accent-green/20">
-                {tag}
-              </span>
-            ))
-          }
-        </div>
+      <div class="col-span-full blog-article-hero">
+        <a href="/blog" class="blog-back-link" data-reveal="fade-up">
+          <Icon name="mdi:arrow-left" class="w-4 h-4 transition-transform duration-300" />
+          Back to all insights
+        </a>
 
-        <h1
-          class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-theme-primary font-display leading-tight mb-6"
-          data-reveal="fade-up"
-          data-reveal-delay="100"
-        >
-          {entry.data.title}
-        </h1>
+        <div class="blog-article-hero__grid">
+          <div class="blog-article-hero__rail" data-reveal="fade-up" data-reveal-delay="60">
+            <p class="blog-kicker">AUXO Journal</p>
 
-        <p
-          class="text-lg md:text-xl text-theme-secondary font-body max-w-2xl mx-auto leading-relaxed mb-8"
-          data-reveal="fade-up"
-          data-reveal-delay="200"
-        >
-          {entry.data.description}
-        </p>
+            <div class="blog-article-hero__meta">
+              <div class="blog-article-hero__meta-row">
+                <span class="blog-article-hero__meta-term">Published</span>
+                <time
+                  class="blog-article-hero__meta-value"
+                  datetime={entry.data.publishDate.toISOString()}
+                >
+                  {formattedPublishDate}
+                </time>
+              </div>
+              <div class="blog-article-hero__meta-row">
+                <span class="blog-article-hero__meta-term">Read time</span>
+                <span class="blog-article-hero__meta-value">{readingTime}</span>
+              </div>
+              <div class="blog-article-hero__meta-row">
+                <span class="blog-article-hero__meta-term">Sections</span>
+                <span class="blog-article-hero__meta-value">{articleSections.length || 1}</span>
+              </div>
+            </div>
 
-        <!-- Meta info -->
-        <div
-          class="flex items-center justify-center gap-6 text-sm text-theme-secondary font-medium border-t border-b border-theme-light py-4 mx-auto max-w-xl"
-          data-reveal="fade-up"
-          data-reveal-delay="300"
-        >
-          <div class="flex items-center gap-2">
-            <Icon name="mdi:calendar-clock" class="w-5 h-5 text-accent-green" />
-            <time datetime={entry.data.publishDate.toISOString()}>{formattedPublishDate}</time>
+            {articleSections.length > 0 && (
+              <div class="blog-article-preview">
+                <p class="blog-rail__label">In this article</p>
+                {articleSections.slice(0, 4).map((section) => (
+                  <a href={`#${section.id}`}>{section.text}</a>
+                ))}
+              </div>
+            )}
           </div>
-          <div class="flex items-center gap-2">
-            <Icon name="mdi:clock-outline" class="w-5 h-5 text-accent-green" />
-            <span>5 min read</span>
+
+          <div class="blog-article-hero__main">
+            <p class="blog-article-hero__tags" data-reveal="fade-up" data-reveal-delay="90">
+              {entry.data.tags.join(" / ")}
+            </p>
+
+            <h1
+              class="blog-article-hero__title"
+              data-reveal="fade-up"
+              data-reveal-delay="120"
+            >
+              {entry.data.title}
+            </h1>
+
+            <p
+              class="blog-article-hero__dek"
+              data-reveal="fade-up"
+              data-reveal-delay="180"
+            >
+              {entry.data.description}
+            </p>
           </div>
         </div>
       </div>
@@ -110,63 +143,98 @@ const articleSchema = {
     id="blog-content"
     padding="normal"
     background="elevated"
-    class="relative"
+    class="blog-page relative"
   >
-    <div
-      class="grid-container relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6"
-    >
-      <article
-        class="blog-content max-w-none col-span-full w-full mx-auto"
-        data-reveal="fade-up"
-      >
-        <Content />
-      </article>
+    <div class="grid-container relative z-10">
+      {articleSections.length > 0 && (
+        <aside class="col-span-full lg:col-span-3 blog-article-sidebar">
+          <div class="blog-article-sidebar__inner" data-reveal="fade-right">
+            <div class="grid gap-3">
+              <p class="blog-rail__label">Article map</p>
+              <nav class="blog-article-toc" aria-label="Table of contents">
+                {articleSections.map((section) => (
+                  <a
+                    href={`#${section.id}`}
+                    class:list={{
+                      "blog-article-toc__link": true,
+                      "blog-article-toc__link--sub": section.level === 3,
+                    }}
+                  >
+                    {section.text}
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+            <div class="blog-article-share">
+              <p class="blog-rail__label">Share</p>
+              <div class="blog-share-controls">
+                <button id="share-twitter" class="blog-share-button" type="button">
+                  <Icon name="mdi:twitter" class="w-4 h-4" />
+                  Post
+                </button>
+                <button id="share-linkedin" class="blog-share-button" type="button">
+                  <Icon name="mdi:linkedin" class="w-4 h-4" />
+                  LinkedIn
+                </button>
+                <button id="share-copy" class="blog-share-button" type="button">
+                  <Icon name="mdi:clipboard-text-outline" class="w-4 h-4" />
+                  Copy link
+                </button>
+              </div>
+            </div>
+          </div>
+        </aside>
+      )}
 
       <div
-        class="col-span-full border-t border-theme-light mt-12 pt-8 flex items-center justify-center gap-6"
+        class:list={[
+          "col-span-full",
+          articleSections.length > 0
+            ? "lg:col-span-8 lg:col-start-5"
+            : "lg:col-span-8 lg:col-start-3",
+        ]}
       >
-        <span
-          class="text-sm font-bold text-theme-secondary uppercase tracking-widest"
-          >Share Article</span
-        >
-        <div class="flex gap-4">
-          <button
-            id="share-twitter-mobile"
-            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green transition-colors"
-            ><Icon name="mdi:twitter" class="w-5 h-5" /></button
-          >
-          <button
-            id="share-linkedin-mobile"
-            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green transition-colors"
-            ><Icon name="mdi:linkedin" class="w-5 h-5" /></button
-          >
-          <button
-            id="share-copy-mobile"
-            class="w-10 h-10 rounded-full flex items-center justify-center bg-theme-surface border border-theme-light hover:border-accent-green transition-colors"
-            ><Icon name="mdi:clipboard-text-outline" class="w-5 h-5" /></button
-          >
+        <article class="blog-content blog-article-shell" data-reveal="fade-up">
+          <Content />
+        </article>
+
+        <div class="blog-article-afterword">
+          Need help turning the argument into an actual operating plan? <a href="/contact">Talk to AUXO</a>.
+        </div>
+
+        <div class="blog-article-nav">
+          {newerPost && (
+            <a href={getBlogPostUrl(newerPost.slug)} class="blog-article-nav__link">
+              <div class="blog-article-nav__copy">
+                <span class="blog-article-nav__eyebrow">Newer insight</span>
+                <span class="blog-article-nav__title">{newerPost.data.title}</span>
+              </div>
+              <Icon name="mdi:arrow-right" class="w-4 h-4" />
+            </a>
+          )}
+
+          {olderPost && (
+            <a href={getBlogPostUrl(olderPost.slug)} class="blog-article-nav__link">
+              <div class="blog-article-nav__copy">
+                <span class="blog-article-nav__eyebrow">Older insight</span>
+                <span class="blog-article-nav__title">{olderPost.data.title}</span>
+              </div>
+              <Icon name="mdi:arrow-right" class="w-4 h-4" />
+            </a>
+          )}
+
+          {!newerPost && !olderPost && (
+            <a href="/blog" class="blog-article-nav__link">
+              <div class="blog-article-nav__copy">
+                <span class="blog-article-nav__eyebrow">Archive</span>
+                <span class="blog-article-nav__title">Back to all insights</span>
+              </div>
+              <Icon name="mdi:arrow-right" class="w-4 h-4" />
+            </a>
+          )}
         </div>
       </div>
-    </div>
-  </SectionContainer>
-
-  <SectionContainer
-    id="blog-footer"
-    padding="normal"
-    background="card"
-    class="text-center"
-  >
-    <div class="col-span-full">
-      <a
-        href="/blog"
-        class="inline-flex items-center gap-2 text-theme-primary font-bold hover:text-accent-green transition-colors pb-1 border-b-2 border-accent-green group"
-      >
-        <Icon
-          name="mdi:arrow-left"
-          class="w-5 h-5 group-hover:-translate-x-1 transition-transform"
-        />
-        Back to all Insights
-      </a>
     </div>
   </SectionContainer>
 </BaseLayout>

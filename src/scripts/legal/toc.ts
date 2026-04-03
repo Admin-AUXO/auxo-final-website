@@ -6,8 +6,12 @@ export function initTableOfContents(): void {
   const mobileTocContainer = document.getElementById('mobile-table-of-contents');
   
   if (!content) return;
+
+  if (toc) toc.innerHTML = '';
+  if (tocMobile) tocMobile.innerHTML = '';
   
   const headings = content.querySelectorAll<HTMLHeadingElement>('h2, h3');
+  if (!headings.length) return;
   
   const updateActiveLink = (container: HTMLElement | null, targetId: string): void => {
     if (!container) return;
@@ -20,6 +24,19 @@ export function initTableOfContents(): void {
     if (activeLink) {
       activeLink.classList.remove('text-theme-secondary');
       activeLink.classList.add('text-accent-green', 'bg-accent-green/10', 'font-semibold');
+    }
+  };
+
+  const handleTocClick = (id: string) => (e: Event) => {
+    e.preventDefault();
+    const target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.pushState(null, '', `#${id}`);
+      if (mobileTocContainer && !mobileTocContainer.classList.contains('hidden')) {
+        mobileTocContainer.classList.add('hidden');
+        mobileToggle?.setAttribute('aria-expanded', 'false');
+      }
     }
   };
 
@@ -44,26 +61,15 @@ export function initTableOfContents(): void {
     
     link.appendChild(indicator);
     link.appendChild(span);
-    
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = document.getElementById(id);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        history.pushState(null, '', `#${id}`);
-        if (mobileTocContainer && !mobileTocContainer.classList.contains('hidden')) {
-          mobileTocContainer.classList.add('hidden');
-          mobileToggle?.setAttribute('aria-expanded', 'false');
-        }
-      }
-    });
+
+    link.addEventListener('click', handleTocClick(id));
     
     return link;
   };
   
   if (toc) {
     headings.forEach((heading, index) => {
-      toc.appendChild(createTocLink(heading, index).cloneNode(true) as HTMLElement);
+      toc.appendChild(createTocLink(heading, index));
     });
   }
   
@@ -73,11 +79,20 @@ export function initTableOfContents(): void {
     });
   }
   
-  mobileToggle?.addEventListener('click', () => {
-    const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
-    mobileToggle.setAttribute('aria-expanded', (!isExpanded).toString());
-    mobileTocContainer?.classList.toggle('hidden');
-  });
+  if (mobileToggle && mobileToggle.getAttribute('data-toc-bound') !== 'true') {
+    mobileToggle.addEventListener('click', () => {
+      const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+      mobileToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+      mobileTocContainer?.classList.toggle('hidden');
+    });
+    mobileToggle.setAttribute('data-toc-bound', 'true');
+  }
+
+  const firstHeading = headings[0];
+  if (firstHeading) {
+    updateActiveLink(toc, firstHeading.id);
+    updateActiveLink(tocMobile, firstHeading.id);
+  }
   
   if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
