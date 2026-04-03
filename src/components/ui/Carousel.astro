@@ -7,7 +7,6 @@ export interface Props {
   containerClass?: string;
   trackClass?: string;
   breakpoint?: number;
-  activateOnDesktop?: boolean;
   alwaysVisible?: boolean;
 }
 
@@ -19,17 +18,12 @@ const {
   containerClass = "",
   trackClass = "",
   breakpoint = 1024,
-  activateOnDesktop = false,
   alwaysVisible = false,
 } = Astro.props;
 
 const breakpointClass = breakpoint === 1024 ? "lg" : breakpoint === 768 ? "md" : "";
-
-const displayClass = alwaysVisible
-  ? ""
-  : activateOnDesktop
-    ? `hidden ${breakpointClass}:block`
-    : breakpointClass ? `${breakpointClass}:hidden` : "";
+const displayClass =
+  alwaysVisible || !breakpointClass ? "" : `${breakpointClass}:hidden`;
 ---
 
 <div

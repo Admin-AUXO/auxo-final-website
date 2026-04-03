@@ -6,6 +6,25 @@ import { Icon } from "astro-icon/components";
 import { createUrl } from "@/utils/url";
 
 const requestedPath = Astro.url.pathname;
+const actions = [
+  {
+    variant: "primary" as const,
+    href: createUrl(""),
+    icon: "mdi:home",
+    label: "Go Home",
+  },
+  {
+    variant: "outline" as const,
+    href: createUrl("services"),
+    icon: "mdi:briefcase",
+    label: "View Services",
+  },
+] as const;
+const quickLinks = [
+  { href: createUrl("about"), label: "About Us" },
+  { href: createUrl("contact"), label: "Contact" },
+  { href: createUrl("services"), label: "Services" },
+] as const;
 ---
 
 <BaseLayout title="404 - Page Not Found | AUXO Data Labs" description="The page you're looking for doesn't exist.">
@@ -32,30 +51,29 @@ const requestedPath = Astro.url.pathname;
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-12" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
-        <Button variant="primary" href={createUrl("")} size="lg" class="w-full sm:w-auto">
-          <Icon name="mdi:home" class="w-5 h-5" />
-          <span>Go Home</span>
-        </Button>
-        <Button variant="outline" href={createUrl("services")} size="lg" class="w-full sm:w-auto">
-          <Icon name="mdi:briefcase" class="w-5 h-5" />
-          <span>View Services</span>
-        </Button>
+        {
+          actions.map((action) => (
+            <Button variant={action.variant} href={action.href} size="lg" class="w-full sm:w-auto">
+              <Icon name={action.icon} class="w-5 h-5" />
+              <span>{action.label}</span>
+            </Button>
+          ))
+        }
       </div>
 
       <div data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">
         <p class="text-sm text-theme-tertiary mb-4 font-body">Quick Links:</p>
         <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-          <a href={createUrl("about")} class="text-accent-green hover:text-accent-green/80 hover:underline transition-colors font-medium font-body">
-            About Us
-          </a>
-          <span class="text-theme-tertiary">•</span>
-          <a href={createUrl("contact")} class="text-accent-green hover:text-accent-green/80 hover:underline transition-colors font-medium font-body">
-            Contact
-          </a>
-          <span class="text-theme-tertiary">•</span>
-          <a href={createUrl("services")} class="text-accent-green hover:text-accent-green/80 hover:underline transition-colors font-medium font-body">
-            Services
-          </a>
+          {
+            quickLinks.map((link, index) => (
+              <>
+                {index > 0 && <span class="text-theme-tertiary">•</span>}
+                <a href={link.href} class="text-accent-green hover:text-accent-green/80 hover:underline transition-colors font-medium font-body">
+                  {link.label}
+                </a>
+              </>
+            ))
+          }
         </div>
       </div>
     </div>

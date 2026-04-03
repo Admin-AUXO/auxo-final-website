@@ -1,13 +1,13 @@
 ---
 name: landing-page-composition
-description: Use when planning, creating, or restructuring homepage, service page, campaign page, or section order for this marketing website.
+description: Use when planning or restructuring homepage, service page, about page, campaign page, or section order for this marketing website. Trigger for narrative flow changes, section sequencing, proof placement, CTA pacing, and page-level composition decisions.
 ---
 
 # Landing Page Composition
 
-Marketing pages fail when they dump every idea at equal volume. Build a sequence. Then build the sections.
+Build a sequence before building sections.
 
-## Section Logic
+## Narrative Order
 
 Move the reader through this chain:
 
@@ -19,7 +19,7 @@ Move the reader through this chain:
 
 If a section does not help answer one of those questions, it is probably clutter.
 
-## Recommended Flow
+## Default Flow
 
 For most pages in this repo:
 
@@ -31,30 +31,10 @@ For most pages in this repo:
 6. Objection-handling content
 7. Final CTA
 
-Reorder only when the page has a specific campaign need.
-
-## Composition Rules
+## Rules
 
 - Put proof earlier than most marketing teams are comfortable with.
 - Keep each section responsible for one job.
 - Alternate dense and light sections so the page has pacing.
 - Repeat CTA intent without repeating the same copy mechanically.
 - Avoid stacking three abstract sections in a row.
-
-## Hero Rules
-
-- Lead with outcome, not company autobiography.
-- Support the claim with one proof cue or tangible differentiator.
-- Give one primary action.
-
-## Proof Rules
-
-- Use logos, numbers, certifications, or process credibility.
-- Make proof specific. Vague trust language is just deodorized panic.
-
-## Common Failures
-
-- Hero, then another hero, then a paragraph funeral
-- Service grids before explaining why the buyer should care
-- Case study sections with no narrative or result
-- Final CTA arriving after the user already got bored and left

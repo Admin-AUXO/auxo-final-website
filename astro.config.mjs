@@ -2,52 +2,23 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import icon from 'astro-icon';
 import sitemap from '@astrojs/sitemap';
-import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const srcDir = fileURLToPath(new URL('./src', import.meta.url));
 
 export default defineConfig({
   site: 'https://auxodata.com',
-  base: '/',
-  output: 'static',
-  build: {
-    assets: '_astro',
-    inlineStylesheets: 'auto',
-  },
-  compressHTML: true,
   prefetch: {
-    prefetchAll: false,
     defaultStrategy: 'viewport',
   },
   image: {
     service: { entrypoint: 'astro/assets/services/sharp' },
-    remotePatterns: [{ protocol: 'https' }],
   },
   vite: {
-    optimizeDeps: {
-      include: ['embla-carousel', 'sharp', 'astro-icon'],
-    },
     build: {
-      sourcemap: false,
       target: 'esnext',
-      cssCodeSplit: true,
-      minify: 'terser',
-      chunkSizeWarningLimit: 500,
-      terserOptions: {
-        compress: {
-          drop_debugger: true,
-          drop_console: true,
-          pure_funcs: ['console.log', 'console.info', 'console.debug'],
-        },
-        mangle: { safari10: true },
-      },
       rollupOptions: {
-        maxParallelFileOps: 3,
         output: {
-          chunkFileNames: '_astro/[name]-[hash].js',
-          assetFileNames: '_astro/[name]-[hash].[ext]',
-          experimentalMinChunkSize: 1500,
           manualChunks(id) {
             if (id.includes('node_modules')) {
               if (id.includes('embla-carousel')) return 'ui-vendor';
@@ -60,16 +31,11 @@ export default defineConfig({
         },
       },
     },
-    css: { devSourcemap: false },
     esbuild: {
       legalComments: 'none',
-      treeShaking: true,
-      minifyIdentifiers: true,
-      minifySyntax: true,
-      minifyWhitespace: true,
     },
     logLevel: 'warn',
-    resolve: { alias: { '@': path.resolve(__dirname, './src') } },
+    resolve: { alias: { '@': srcDir } },
   },
   integrations: [
     tailwind({

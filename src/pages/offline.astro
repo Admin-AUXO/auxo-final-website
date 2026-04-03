@@ -1,5 +1,11 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const offlineTips = [
+  "Check your WiFi or mobile data connection",
+  "Try disabling airplane mode",
+  "Previously visited pages may still be accessible",
+] as const;
 ---
 
 <BaseLayout
@@ -61,9 +67,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
         <div class="offline-tips">
           <h2 class="tips-title">While you're offline</h2>
           <ul class="tips-list">
-            <li>Check your WiFi or mobile data connection</li>
-            <li>Try disabling airplane mode</li>
-            <li>Previously visited pages may still be accessible</li>
+            {offlineTips.map((tip) => <li>{tip}</li>)}
           </ul>
         </div>
 

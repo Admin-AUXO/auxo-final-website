@@ -2,6 +2,7 @@
   cursor: pointer;
   pointer-events: auto;
   position: relative;
+  touch-action: manipulation;
   user-select: none;
   z-index: var(--z-interactive, 10);
 }

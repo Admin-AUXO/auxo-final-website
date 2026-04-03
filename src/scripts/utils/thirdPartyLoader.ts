@@ -1,5 +1,28 @@
 const stylesheetPromises = new Map<string, Promise<void>>();
 
+function waitForStylesheet(link: HTMLLinkElement, href: string): Promise<void> {
+  if (link.dataset.loaded === 'true' || !!link.sheet) {
+    link.dataset.loaded = 'true';
+    return Promise.resolve();
+  }
+
+  return new Promise<void>((resolve, reject) => {
+    link.addEventListener(
+      'load',
+      () => {
+        link.dataset.loaded = 'true';
+        resolve();
+      },
+      { once: true },
+    );
+    link.addEventListener(
+      'error',
+      () => reject(new Error(`Failed to load stylesheet: ${href}`)),
+      { once: true },
+    );
+  });
+}
+
 export function loadStylesheet(href: string, id?: string): Promise<void> {
   const cacheKey = id || href;
   const cachedPromise = stylesheetPromises.get(cacheKey);
@@ -14,29 +37,7 @@ export function loadStylesheet(href: string, id?: string): Promise<void> {
   const existingLink = existingLinkById || existingLinkByHref;
 
   if (existingLink) {
-    if (existingLink.dataset.loaded === 'true' || !!existingLink.sheet) {
-      existingLink.dataset.loaded = 'true';
-      const resolved = Promise.resolve();
-      stylesheetPromises.set(cacheKey, resolved);
-      return resolved;
-    }
-
-    const pending = new Promise<void>((resolve, reject) => {
-      existingLink.addEventListener(
-        'load',
-        () => {
-          existingLink.dataset.loaded = 'true';
-          resolve();
-        },
-        { once: true },
-      );
-      existingLink.addEventListener(
-        'error',
-        () => reject(new Error(`Failed to load stylesheet: ${href}`)),
-        { once: true },
-      );
-    });
-
+    const pending = waitForStylesheet(existingLink, href);
     stylesheetPromises.set(cacheKey, pending);
     return pending;
   }
@@ -51,20 +52,7 @@ export function loadStylesheet(href: string, id?: string): Promise<void> {
       link.id = id;
     }
 
-    link.addEventListener(
-      'load',
-      () => {
-        link.dataset.loaded = 'true';
-        resolve();
-      },
-      { once: true },
-    );
-    link.addEventListener(
-      'error',
-      () => reject(new Error(`Failed to load stylesheet: ${href}`)),
-      { once: true },
-    );
-
+    void waitForStylesheet(link, href).then(resolve).catch(reject);
     document.head.appendChild(link);
   });
 

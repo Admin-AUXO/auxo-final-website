@@ -15,6 +15,11 @@ import "@/styles/sections/services-individual.css";
 import "@/styles/components/carousels.css";
 import "@/styles/sections/carousel-sections.css";
 
+const notFoundResponse = new Response(null, {
+  status: 404,
+  statusText: "Service not found",
+});
+
 export async function getStaticPaths() {
   return servicesContent.details.map((service) => ({
     params: { slug: service.slug },
@@ -24,14 +29,37 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 
 if (!slug) {
-  return new Response(null, { status: 404, statusText: "Service not found" });
+  return notFoundResponse;
 }
 
 const service = getServiceDetailBySlug(slug);
 
 if (!service) {
-  return new Response(null, { status: 404, statusText: "Service not found" });
+  return notFoundResponse;
 }
+
+const sections = [
+  { Component: ServiceHeroSection, props: { service } },
+  { Component: ServiceOverviewSection, props: { service } },
+  { Component: ServiceBenefitsSection, props: { service } },
+  { Component: ServiceProcessSection, props: { service } },
+  { Component: ServiceOutcomesSection, props: { service } },
+] as const;
+const ctaProps = {
+  id: "service-cta",
+  title: service.cta.title,
+  titleHighlight: service.cta.title.split(" ").slice(-3),
+  description: service.cta.description,
+  descriptionHighlight: service.cta.descriptionHighlight,
+  ctaText: service.cta.ctaText,
+  ctaHref: service.cta.ctaHref,
+  variant: "elevated" as const,
+  background: "elevated" as const,
+  maxWidth: "4xl" as const,
+  additionalInfo:
+    "Ready to discuss your specific needs? Our team typically responds within 24 hours.",
+  class: "service-cta-section",
+};
 ---
 
 <BaseLayout
@@ -39,30 +67,11 @@ if (!service) {
   description={service.hero.description}
 >
   <div data-service-name={service.name} class="relative">
-    <ServiceHeroSection service={service} />
-    <ServiceOverviewSection service={service} />
-    <ServiceBenefitsSection service={service} />
-    <ServiceProcessSection service={service} />
-    <ServiceOutcomesSection service={service} />
-    <CtaSection
-      id="service-cta"
-      title={service.cta.title}
-      titleHighlight={service.cta.title.split(' ').slice(-3)}
-      description={service.cta.description}
-      descriptionHighlight={service.cta.descriptionHighlight}
-      ctaText={service.cta.ctaText}
-      ctaHref={service.cta.ctaHref}
-      variant="elevated"
-      background="elevated"
-      maxWidth="4xl"
-      additionalInfo="Ready to discuss your specific needs? Our team typically responds within 24 hours."
-      class="service-cta-section"
-    />
+    {sections.map(({ Component, props }) => <Component {...props} />)}
+    <CtaSection {...ctaProps} />
   </div>
 
   <script>
     import "@/scripts/pages/serviceDetailPage";
   </script>
 </BaseLayout>
-
-

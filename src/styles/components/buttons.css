@@ -145,44 +145,6 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-.btn-cta {
-  background: transparent;
-  border: 2px solid var(--accent-green);
-  color: var(--accent-green);
-  position: relative;
-  transition: all var(--duration-fast) var(--timing-smooth);
-}
-
-.btn-cta:hover:not(:disabled) {
-  background: rgb(var(--accent-green-rgb), 0.1);
-  box-shadow: 0 4px 20px rgb(var(--accent-green-rgb), 0.3);
-  transform: translateY(-2px);
-}
-
-.btn-cta:active:not(:disabled) {
-  background: rgb(var(--accent-green-rgb), 0.2);
-  transform: translateY(0) scale(0.95);
-}
-
-.btn-cta:focus-visible {
-  outline: var(--focus-ring-width) solid var(--accent-green);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.btn-cta-glow {
-  background: rgb(var(--accent-green-rgb), 0.05);
-  border-radius: inherit;
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  transition: opacity var(--duration-fast) var(--timing-smooth);
-}
-
-.btn-cta:hover .btn-cta-glow {
-  opacity: 1;
-}
-
 .cta-button {
   transition: var(--transition-base);
 }
@@ -191,15 +153,13 @@
   .btn-primary,
   .btn-secondary,
   .btn-outline,
-  .btn-ghost,
-  .btn-cta {
+  .btn-ghost {
     transition: none;
   }
 
   .btn-primary:hover:not(:disabled),
   .btn-secondary:hover:not(:disabled),
-  .btn-outline:hover:not(:disabled),
-  .btn-cta:hover:not(:disabled) {
+  .btn-outline:hover:not(:disabled) {
     transform: none;
   }
 }

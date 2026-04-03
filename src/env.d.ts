@@ -20,7 +20,6 @@ interface Window {
   __auxoBlogShareBound?: boolean;
   __auxoOfflinePageBound?: boolean;
   __auxoServiceDetailPageBound?: boolean;
-  emblaInstances?: Map<string, any>;
   gtag?: (...args: unknown[]) => void;
   dataLayer?: unknown[];
 }

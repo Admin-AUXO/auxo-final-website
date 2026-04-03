@@ -18,6 +18,28 @@ import "@/styles/components/highlights.css";
 import { createServiceSchema } from "@/lib/structuredData";
 
 const serviceSchema = createServiceSchema();
+const lazySections = [
+  {
+    Component: ServicesIntroSection,
+    props: { content: homepageContent.featuredServices },
+  },
+  {
+    Component: TechStackSection,
+    props: { content: homepageContent.techStack },
+  },
+  {
+    Component: CapabilitiesSection,
+    props: { content: homepageContent.capabilities },
+  },
+  {
+    Component: MethodologySection,
+    props: { content: homepageContent.methodology },
+  },
+  {
+    Component: FinalCta,
+    props: { content: homepageContent.finalCta },
+  },
+] as const;
 ---
 
 <BaseLayout title="Decision Intelligence Partner Dubai, UAE | AUXO Data Labs" description={siteData.description}>
@@ -27,21 +49,13 @@ const serviceSchema = createServiceSchema();
     <HeroSection content={homepageContent.hero} />
     <ProblemSolutionSection content={homepageContent.valueProposition} />
   </div>
-  <div data-lazy-load>
-    <ServicesIntroSection content={homepageContent.featuredServices} />
-  </div>
-  <div data-lazy-load>
-    <TechStackSection content={homepageContent.techStack} />
-  </div>
-  <div data-lazy-load>
-    <CapabilitiesSection content={homepageContent.capabilities} />
-  </div>
-  <div data-lazy-load>
-    <MethodologySection content={homepageContent.methodology} />
-  </div>
-  <div data-lazy-load>
-    <FinalCta content={homepageContent.finalCta} />
-  </div>
+  {
+    lazySections.map(({ Component, props }) => (
+      <div data-lazy-load>
+        <Component {...props} />
+      </div>
+    ))
+  }
 </BaseLayout>
 
 <style>
@@ -53,7 +67,7 @@ const serviceSchema = createServiceSchema();
 .hero-problem-wrapper :global(#particle-background) {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
 }
 </style>
 

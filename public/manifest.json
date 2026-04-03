@@ -1,6 +1,7 @@
 {
   "name": "AUXO Data Labs",
   "short_name": "AUXO",
+  "id": "/",
   "description": "AUXO is a Dubai-based data analytics consultancy serving sophisticated clients across the GCC, Europe, and global markets.",
   "start_url": "/",
   "display": "standalone",
@@ -57,18 +58,6 @@
   "lang": "en",
   "dir": "ltr",
   "scope": "/",
-  "prefer_related_applications": false,
-  "related_applications": [],
-  "screenshots": [],
-  "share_target": {
-    "action": "/share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  }
+  "display_override": ["standalone", "browser"]
 }
 

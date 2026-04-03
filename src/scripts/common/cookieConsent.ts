@@ -11,6 +11,8 @@ import { loadStylesheet } from "@/scripts/utils/thirdPartyLoader";
 
 const BANNER_HIDE_DELAY_MS = 320;
 const MODAL_HIDE_DELAY_MS = 220;
+const CONSENT_CATEGORIES = ["analytics", "marketing", "preferences"] as const;
+type ConsentCategory = (typeof CONSENT_CATEGORIES)[number];
 
 const boundElements = new WeakSet<Element>();
 let consentModeInitialized = false;
@@ -28,80 +30,54 @@ function ensureStylesLoaded(): Promise<void> {
   return stylesPromise;
 }
 
-function showBanner(banner: HTMLElement): void {
-  banner.removeAttribute("hidden");
+function showElement(element: HTMLElement): void {
+  element.removeAttribute("hidden");
   requestAnimationFrame(() => {
-    banner.classList.add("show");
+    element.classList.add("show");
   });
 }
 
-function hideBanner(banner: HTMLElement): void {
-  banner.classList.remove("show");
+function hideElement(element: HTMLElement, delay: number): void {
+  element.classList.remove("show");
   window.setTimeout(() => {
-    banner.setAttribute("hidden", "");
-  }, BANNER_HIDE_DELAY_MS);
-}
-
-function showModal(modal: HTMLElement): void {
-  modal.removeAttribute("hidden");
-  requestAnimationFrame(() => {
-    modal.classList.add("show");
-  });
-}
-
-function hideModal(modal: HTMLElement): void {
-  modal.classList.remove("show");
-  window.setTimeout(() => {
-    modal.setAttribute("hidden", "");
-  }, MODAL_HIDE_DELAY_MS);
+    element.setAttribute("hidden", "");
+  }, delay);
 }
 
 function hideConsentUI(banner: HTMLElement, modal: HTMLElement): void {
-  hideBanner(banner);
-  hideModal(modal);
+  hideElement(banner, BANNER_HIDE_DELAY_MS);
+  hideElement(modal, MODAL_HIDE_DELAY_MS);
+}
+
+function getConsentInput(
+  category: ConsentCategory,
+): HTMLInputElement | null {
+  return document.querySelector(
+    `[data-category="${category}"]`,
+  ) as HTMLInputElement | null;
 }
 
 function buildPreferencesFromInputs(): ConsentPreferences {
-  return {
-    necessary: true,
-    analytics:
-      (
-        document.querySelector(
-          '[data-category="analytics"]',
-        ) as HTMLInputElement | null
-      )?.checked ?? false,
-    marketing:
-      (
-        document.querySelector(
-          '[data-category="marketing"]',
-        ) as HTMLInputElement | null
-      )?.checked ?? false,
-    preferences:
-      (
-        document.querySelector(
-          '[data-category="preferences"]',
-        ) as HTMLInputElement | null
-      )?.checked ?? false,
-  };
+  const optionalPreferences = Object.fromEntries(
+    CONSENT_CATEGORIES.map((category) => [
+      category,
+      getConsentInput(category)?.checked ?? false,
+    ]),
+  ) as Omit<ConsentPreferences, "necessary">;
+
+  return { necessary: true, ...optionalPreferences };
 }
 
 function syncInputsWithStoredPreferences(): void {
   const consent = getStoredConsent();
   if (!consent) return;
 
-  const analyticsInput = document.querySelector(
-    '[data-category="analytics"]',
-  ) as HTMLInputElement | null;
-  const marketingInput = document.querySelector(
-    '[data-category="marketing"]',
-  ) as HTMLInputElement | null;
-  const preferencesInput = document.querySelector(
-    '[data-category="preferences"]',
-  ) as HTMLInputElement | null;
-
-  if (analyticsInput) analyticsInput.checked = consent.analytics;
-  if (marketingInput) marketingInput.checked = consent.marketing;
-  if (preferencesInput) preferencesInput.checked = consent.preferences;
+  CONSENT_CATEGORIES.forEach((category) => {
+    const input = getConsentInput(category);
+    if (input) {
+      input.checked = consent[category];
+    }
+  });
 }
 
 function bindClick(
@@ -132,7 +108,7 @@ async function setupCookieConsent(): Promise<void> {
 
   if (!hasConsentChoice() && !banner.classList.contains("show")) {
     window.setTimeout(() => {
-      showBanner(banner);
+      showElement(banner);
     }, 1000);
   }
 
@@ -152,17 +128,17 @@ async function setupCookieConsent(): Promise<void> {
   );
 
   bindClick(document.querySelectorAll('[data-action="manage"]'), () => {
-    hideBanner(banner);
-    showModal(modal);
+    hideElement(banner, BANNER_HIDE_DELAY_MS);
+    showElement(modal);
   });
 
   bindClick(document.querySelectorAll("[data-close-modal]"), () => {
-    hideModal(modal);
+    hideElement(modal, MODAL_HIDE_DELAY_MS);
   });
 
   bindClick(document.querySelectorAll('[data-action="save-preferences"]'), () => {
     updateConsent(buildPreferencesFromInputs());
-    hideModal(modal);
+    hideElement(modal, MODAL_HIDE_DELAY_MS);
   });
 }
 

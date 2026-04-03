@@ -1,21 +1,18 @@
-import { BREAKPOINTS } from '../core/constants';
+import { isMobileDevice } from '../utils/deviceDetection';
 
 const THEME_STORAGE_KEY = "theme";
 const THEME_CHANGE_EVENT = "themechange";
 const SWITCH_TRANSFORM_LIGHT = "translateX(calc(3rem - 1.25rem - 0.125rem))";
 const SWITCH_TRANSFORM_DARK = "translateX(0)";
+const TOGGLE_SELECTOR = "#theme-toggle-desktop, #theme-toggle-mobile";
 
 type Theme = "light" | "dark";
 
 let isThemeChanging = false;
 let lastThemeChange = 0;
 const THEME_CHANGE_DEBOUNCE = 100;
-
-function isMobileDevice(): boolean {
-  if (typeof window === "undefined") return false;
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-         window.innerWidth < BREAKPOINTS.MD;
-}
+let themePreferenceListenerBound = false;
+let themeLifecycleListenerBound = false;
 
 function getTheme(): Theme {
   if (typeof window === "undefined") return "dark";
@@ -31,6 +28,7 @@ function getTheme(): Theme {
 function applyTheme(theme: Theme): void {
   document.documentElement.classList.remove("dark", "light");
   document.documentElement.classList.add(theme);
+  document.documentElement.style.colorScheme = theme;
   localStorage.setItem(THEME_STORAGE_KEY, theme);
   updateIcon(theme);
 }
@@ -81,11 +79,23 @@ function updateDesktopIcon(toggle: Element, theme: Theme): void {
 }
 
 function updateIcon(theme: Theme): void {
-  const toggles = document.querySelectorAll("#theme-toggle-desktop, #theme-toggle-mobile");
-  toggles.forEach((toggle) => {
+  getThemeToggles().forEach((toggle) => {
     const isMobileSwitch = toggle.getAttribute("data-mobile-switch") === "true";
     isMobileSwitch ? updateMobileSwitch(toggle, theme) : updateDesktopIcon(toggle, theme);
   });
+}
+
+function getThemeToggles(root: ParentNode = document): NodeListOf<Element> {
+  return root.querySelectorAll(TOGGLE_SELECTOR);
+}
+
+function hasThemeToggles(root: ParentNode = document): boolean {
+  return getThemeToggles(root).length > 0;
+}
+
+function hasOpenCalendarModal(): boolean {
+  const calendarModal = document.getElementById('calendar-modal');
+  return Boolean(calendarModal && !calendarModal.hasAttribute('hidden'));
 }
 
 function toggleTheme(e?: Event): void {
@@ -100,8 +110,7 @@ function toggleTheme(e?: Event): void {
     return;
   }
 
-  const calendarModal = document.getElementById('calendar-modal');
-  if (calendarModal && !calendarModal.hasAttribute('hidden')) {
+  if (hasOpenCalendarModal()) {
     return;
   }
 
@@ -114,7 +123,6 @@ function toggleTheme(e?: Event): void {
   if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const transition = document.startViewTransition(() => {
       applyTheme(newTheme);
-      updateIcon(newTheme);
     });
 
     transition.finished.finally(() => {
@@ -127,7 +135,6 @@ function toggleTheme(e?: Event): void {
     });
   } else {
     applyTheme(newTheme);
-    updateIcon(newTheme);
 
     setTimeout(() => {
       document.dispatchEvent(
@@ -141,6 +148,8 @@ function toggleTheme(e?: Event): void {
 }
 
 function attachToggleListeners(toggle: Element): void {
+  if (toggle._themeListenerAttached) return;
+
   let touchHandled = false;
 
   const clickHandler = (e: Event) => {
@@ -158,14 +167,17 @@ function attachToggleListeners(toggle: Element): void {
 
   toggle.addEventListener("touchend", touchEndHandler, { passive: false, capture: true });
   toggle.addEventListener("click", clickHandler, { passive: false, capture: true });
+  toggle._themeListenerAttached = true;
 }
 
-function setupThemeToggles(): void {
-  document.querySelectorAll("#theme-toggle-desktop, #theme-toggle-mobile").forEach(attachToggleListeners);
+function setupThemeToggles(root: ParentNode = document): void {
+  getThemeToggles(root).forEach(attachToggleListeners);
 }
 
 function setupThemePreferenceListener(): void {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || themePreferenceListenerBound) return;
+
+  themePreferenceListenerBound = true;
 
   if (!isMobileDevice()) {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
@@ -176,8 +188,7 @@ function setupThemePreferenceListener(): void {
         return;
       }
 
-      const calendarModal = document.getElementById('calendar-modal');
-      if (calendarModal && !calendarModal.hasAttribute('hidden')) {
+      if (hasOpenCalendarModal()) {
         return;
       }
 
@@ -193,28 +204,23 @@ function setupThemePreferenceListener(): void {
 }
 
 function handleAstroPageLoad(): void {
+  if (themeLifecycleListenerBound) return;
+
+  themeLifecycleListenerBound = true;
+
   document.addEventListener("astro:page-load", () => {
-    const toggles = document.querySelectorAll("#theme-toggle-desktop, #theme-toggle-mobile");
-    if (toggles.length === 0) return;
-
+    if (!hasThemeToggles()) return;
     applyTheme(getTheme());
-
-    toggles.forEach((toggle) => {
-      if (!toggle._themeListenerAttached) {
-        attachToggleListeners(toggle);
-        toggle._themeListenerAttached = true;
-      }
-    });
+    setupThemeToggles();
   });
 }
 
 export function initThemeToggle(): void {
-  if (!document.getElementById("theme-toggle-desktop") && !document.getElementById("theme-toggle-mobile")) return;
+  if (!hasThemeToggles()) return;
 
   applyTheme(getTheme());
   setupThemeToggles();
   setupThemePreferenceListener();
   handleAstroPageLoad();
-  updateIcon(getTheme());
 }
 

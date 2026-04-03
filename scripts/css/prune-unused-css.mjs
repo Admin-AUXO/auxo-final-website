@@ -7,6 +7,7 @@ const args = process.argv.slice(2);
 const shouldWrite = args.includes("--write");
 const aggressive = args.includes("--aggressive");
 const ultra = args.includes("--ultra");
+const compact = args.includes("--compact");
 const reportFlagIndex = args.indexOf("--report");
 const reportPathArg =
   reportFlagIndex >= 0 && args[reportFlagIndex + 1]
@@ -216,13 +217,29 @@ async function main() {
     selectorsRemoved: removedSelectors,
   };
 
-  console.log(JSON.stringify(summary, null, 2));
-  console.log("Top 10 files by removed bytes:");
-  for (const item of report.slice(0, 10)) {
-    if (item.removedBytes <= 0) continue;
+  if (compact) {
     console.log(
-      `- ${item.file}: -${item.removedBytes} bytes (${item.removedSelectors.length} selectors)`,
+      `css prune (${summary.mode}): ${summary.selectorsRemoved} selector${summary.selectorsRemoved === 1 ? "" : "s"} removed, ${summary.bytesRemoved} bytes saved across ${summary.filesChanged}/${summary.filesAnalyzed} files`,
     );
+
+    const topChanges = report.filter((item) => item.removedBytes > 0).slice(0, 10);
+    if (topChanges.length > 0) {
+      console.log("top files:");
+      for (const item of topChanges) {
+        console.log(
+          `- ${item.file}: -${item.removedBytes} bytes (${item.removedSelectors.length} selectors)`,
+        );
+      }
+    }
+  } else {
+    console.log(JSON.stringify(summary, null, 2));
+    console.log("Top 10 files by removed bytes:");
+    for (const item of report.slice(0, 10)) {
+      if (item.removedBytes <= 0) continue;
+      console.log(
+        `- ${item.file}: -${item.removedBytes} bytes (${item.removedSelectors.length} selectors)`,
+      );
+    }
   }
 
   if (reportPathArg) {

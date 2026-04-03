@@ -88,6 +88,7 @@ const labelBaseClass = "block text-sm font-bold text-theme-primary mb-2 font-bod
 
   const FORM_ID = 'contact-form-element';
   type ContactFormElement = HTMLFormElement & { __auxoCleanup?: () => void };
+  type AuxoWindow = Window & { __auxoContactFormLifecycleBound?: boolean };
 
   function initContactForm() {
     const form = document.getElementById(FORM_ID) as ContactFormElement | null;
@@ -116,8 +117,9 @@ const labelBaseClass = "block text-sm font-bold text-theme-primary mb-2 font-bod
       initContactForm();
     }
 
-    if (!(window as any).__auxoContactFormLifecycleBound) {
-      (window as any).__auxoContactFormLifecycleBound = true;
+    const auxoWindow = window as AuxoWindow;
+    if (!auxoWindow.__auxoContactFormLifecycleBound) {
+      auxoWindow.__auxoContactFormLifecycleBound = true;
       document.addEventListener('astro:page-load', initContactForm);
       document.addEventListener('astro:before-preparation', resetContactForm);
     }

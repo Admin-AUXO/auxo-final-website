@@ -3,45 +3,29 @@
 }
 
 .fab-button {
+  --fab-size: 3.5rem;
+
   align-items: center;
   background: var(--accent-green);
   border: 2px solid var(--accent-green-opacity-30);
   border-radius: 50%;
+  bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
   box-shadow: 0 4px 20px var(--accent-green-opacity-20);
   color: var(--text-on-accent);
   cursor: pointer;
   display: flex;
-  height: 3.5rem;
-  inset: auto max(1.5rem, calc(1.5rem + env(safe-area-inset-right))) max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom))) auto;
+  height: var(--fab-size);
   justify-content: center;
   opacity: 1;
   pointer-events: auto;
   position: fixed;
+  right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right)));
   touch-action: manipulation;
   transition: all var(--duration-fast) var(--easing-standard);
   user-select: none;
   view-transition-name: floating-button;
-  width: 3.5rem;
+  width: var(--fab-size);
   z-index: var(--z-floating-button);
-
-  @media (width >= 1024px) {
-    bottom: 2.5rem;
-    right: 2.5rem
-}
-
-  @media (prefers-contrast: more) {
-    border-width: 3px;
-    box-shadow: 0 6px 24px var(--accent-green-opacity-30)
-}
-
-  @media print {
-    display: none
-}
-
-  @media (width <= 1023px) {
-    bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
-    right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right)))
-}
 }
 
 .fab-button:hover,
@@ -79,10 +63,10 @@
 
 @media (width >= 640px) {
   .fab-button {
+    --fab-size: 4rem;
+
     bottom: 2rem;
-    height: 4rem;
     right: 2rem;
-    width: 4rem;
   }
 
   .fab-icon {
@@ -91,12 +75,19 @@
   }
 }
 
+@media (width >= 1024px) {
+  .fab-button {
+    bottom: 2.5rem;
+    right: 2.5rem;
+  }
+}
+
 @media (height <= 600px) {
   .fab-button {
+    --fab-size: 3rem;
+
     bottom: 1rem;
-    height: 3rem;
     right: 1rem;
-    width: 3rem;
   }
 
   .fab-icon {
@@ -120,26 +111,16 @@
   }
 }
 
-/* stylelint-disable-next-line media-feature-name-value-no-unknown */
-
-@media (height <= 600px) and (orientation: landscape) {
+@media (prefers-contrast: more) {
   .fab-button {
-    bottom: 1rem;
-    height: 3rem;
-    right: 1rem;
-    width: 3rem;
-  }
-
-  .fab-icon {
-    height: 1.25rem;
-    width: 1.25rem;
+    border-width: 3px;
+    box-shadow: 0 6px 24px var(--accent-green-opacity-30);
   }
 }
 
-@supports (padding: max(0px)) {
+@media print {
   .fab-button {
-    bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
-    right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right)));
+    display: none;
   }
 }
 

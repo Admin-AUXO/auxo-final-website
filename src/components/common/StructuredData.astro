@@ -8,7 +8,7 @@ export interface Props {
     | "Service"
     | "Article"
     | "FAQPage";
-  data: Record<string, any>;
+  data: Record<string, unknown>;
 }
 
 const { type, data } = Astro.props;
@@ -19,7 +19,7 @@ const schema = {
   ...data,
 };
 
-const schemaJson = JSON.stringify(schema, null, 2);
+const schemaJson = JSON.stringify(schema);
 ---
 
 <script type="application/ld+json" set:html={schemaJson} />

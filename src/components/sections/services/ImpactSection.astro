@@ -109,6 +109,8 @@ const { content } = Astro.props;
 </SectionShell>
 
 <script>
+  import { getCarouselInstance } from "@/scripts/utils/carousels";
+
   function randomizeIndustries() {
     const carouselTrack = document.getElementById('impact-carousel-track');
     const carouselContainer = document.getElementById('impact-carousel-container');
@@ -118,8 +120,8 @@ const { content } = Astro.props;
     const slides = Array.from(carouselTrack.children) as HTMLElement[];
     if (slides.length === 0) return;
 
-    const emblaInstance = (window as any).emblaInstances?.get('impact-carousel-container');
-    const currentIndex = emblaInstance?.embla ? emblaInstance.embla.selectedScrollSnap() : 0;
+    const carousel = getCarouselInstance('impact-carousel-container');
+    const currentIndex = carousel?.selectedIndex ?? 0;
     for (let i = slides.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [slides[i], slides[j]] = [slides[j], slides[i]];
@@ -131,10 +133,10 @@ const { content } = Astro.props;
     });
 
     setTimeout(() => {
-      if (emblaInstance?.embla) {
-        emblaInstance.embla.reInit();
+      if (carousel?.embla) {
+        carousel.reInit();
         const newIndex = Math.min(currentIndex, slides.length - 1);
-        emblaInstance.embla.scrollTo(newIndex);
+        carousel.scrollTo(newIndex);
       } else {
         window.dispatchEvent(new Event('resize', { bubbles: true }));
       }

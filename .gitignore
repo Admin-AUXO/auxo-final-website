@@ -1,124 +1,71 @@
-# build output
+# Build output
 dist/
-.output/
 .astro/
-docs/
-doc/
 
-# dependencies
+# Dependencies
 node_modules/
 
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-.pnpm-debug.log*
-.npm-cache/
-
-# environment variables
+# Environment files
 .env
+.env.development
 .env.production
+.env.test
 .env.local
 .env.*.local
-.env.development
-.env.test
 
-# build tools cache
+# Tooling caches
 .vite/
 .turbo/
+.npm-cache/
 *.tsbuildinfo
 .eslintcache
 .stylelintcache
 
-# macOS-specific files
-.DS_Store
-.AppleDouble
-.LSOverride
-Icon
-._*
+# Test artifacts
+coverage/
+test-results/
+playwright-report/
+junit.xml
+.playwright-mcp/
+reports/
 
-# Windows-specific files
-Thumbs.db
-Thumbs.db:encryptable
-ehthumbs.db
-ehthumbs_vista.db
-*.stackdump
-[Dd]esktop.ini
-$RECYCLE.BIN/
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-*.lnk
-nul
+# Logs and temp files
+*.log
+*.pid
+*.pid.lock
+*.seed
+.cache/
+.temp/
+.tmp/
+tmp-*
+temp-*
+tmpclaude-*
 
-# Linux-specific files
-*~
-.fuse_hidden*
-.directory
-.Trash-*
-.nfs*
+# Local tooling
+.mcp.json
+.serena/
 
-# IDE
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
-.project
-.classpath
-.settings/
-*.sublime-project
-*.sublime-workspace
 
-# Deployment platforms
-.vercel/
-.netlify/
-.firebase/
-.serverless/
+# OS files
+.DS_Store
+._*
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
 
-# Testing
-coverage/
-.nyc_output/
-*.lcov
-test-results/
-playwright-report/
-junit.xml
-.playwright-mcp/
-
-# Misc
-*.log
-.cache/
-.temp/
-.tmp/
-*.pid
-*.seed
-*.pid.lock
-
-# Sanity data backups (local only)
-exported-sanity-data/
-backup-data.ndjson
-
-# Secrets and tokens
+# Secrets
 .github-token
-.gitlab-token
-*auxodata*.json
-@auxodata*.json
-*auxodata*.txt
 gtm-service-account.json
-
-# Local configuration (use .example files as templates)
-.mcp.json
-.serena/
-# Temporary files
-tmp-*
-temp-*
-tmpclaude-*
-
-# Logs (already covered by *.log but being explicit)
-logs/
-reports/
-

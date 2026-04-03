@@ -77,8 +77,6 @@ const { service } = Astro.props;
       trackId="service-benefits-carousel-track"
       items={service.benefits.features}
       wrapperClass="service-benefits-carousel-wrapper"
-      breakpoint={1024}
-      activateOnDesktop={false}
     >
       {
         service.benefits.features.map((feature: BenefitFeature, index: number) => (

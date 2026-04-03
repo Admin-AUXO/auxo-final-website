@@ -9,7 +9,7 @@ Astro: https://astro.build
 Tailwind CSS: https://tailwindcss.com
 
 /* SITE */
-Last update: 2025/11/25
+Last update: 2026/04/03
 Standards: HTML5, CSS3, JavaScript ES6+
 Components: Astro, Tailwind CSS
 Software: Visual Studio Code, Git

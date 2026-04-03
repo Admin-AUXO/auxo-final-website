@@ -10,6 +10,9 @@ const TAB_ENGAGEMENT_CONFIG = {
 };
 
 let hasInitialized = false;
+let tabEngagementModulePromise:
+  | Promise<typeof import("@/scripts/utils/tabEngagement")>
+  | null = null;
 
 function isTabEngagementEnabledForPage(): boolean {
   return document.body?.dataset.enableTabEngagement === "true";
@@ -61,7 +64,7 @@ function setViewTransitionName(): void {
 
 async function startTabEngagement(): Promise<void> {
   try {
-    const { initTabEngagement } = await import("@/scripts/utils/tabEngagement");
+    const { initTabEngagement } = await loadTabEngagementModule();
     initTabEngagement(TAB_ENGAGEMENT_CONFIG);
   } catch (error) {
     logger.error("Tab engagement init error:", error);
@@ -70,11 +73,21 @@ async function startTabEngagement(): Promise<void> {
 
 async function destroyTabEngagement(): Promise<void> {
   try {
-    const { destroyTabEngagement } = await import("@/scripts/utils/tabEngagement");
+    const { destroyTabEngagement } = await loadTabEngagementModule();
     destroyTabEngagement();
   } catch {
     // No-op when module was not loaded.
   }
+}
+
+function loadTabEngagementModule(): Promise<
+  typeof import("@/scripts/utils/tabEngagement")
+> {
+  if (!tabEngagementModulePromise) {
+    tabEngagementModulePromise = import("@/scripts/utils/tabEngagement");
+  }
+
+  return tabEngagementModulePromise;
 }
 
 async function syncTabEngagementForCurrentPage(): Promise<void> {

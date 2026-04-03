@@ -73,11 +73,11 @@ const isMinimal = variant === "minimal";
     !isMinimal && (
       <>
         <div
-          class="absolute inset-0 cta-bg-gradient pointer-events-none z-0"
+          class="absolute inset-0 cta-bg-gradient pointer-events-none -z-10"
           data-variant={variant}
         />
         <div
-          class="absolute inset-0 cta-bg-pattern pointer-events-none z-0 opacity-70"
+          class="absolute inset-0 cta-bg-pattern pointer-events-none -z-10 opacity-70"
           data-variant={variant}
         />
         {isElevated && (

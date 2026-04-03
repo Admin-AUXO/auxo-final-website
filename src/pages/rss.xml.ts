@@ -1,9 +1,10 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import { siteData } from "@/data/content";
+import { getBlogPostUrl, sortByPublishDate } from "@/lib/blog";
 
 export async function GET(context: import('astro').APIContext) {
-  const blog = await getCollection('blog');
+  const blog = sortByPublishDate(await getCollection('blog'));
   
   return rss({
     title: `${siteData.name} | Insights`,
@@ -13,7 +14,7 @@ export async function GET(context: import('astro').APIContext) {
       title: post.data.title,
       pubDate: post.data.publishDate,
       description: post.data.description,
-      link: `/blog/${post.slug}/`,
+      link: getBlogPostUrl(post.slug, true),
     })),
     customData: `<language>en-us</language>`,
   });

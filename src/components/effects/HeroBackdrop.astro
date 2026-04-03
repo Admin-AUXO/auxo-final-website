@@ -32,7 +32,7 @@ const {
 } = Astro.props;
 ---
 
-<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none layout-shift-fix">
+<div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none layout-shift-fix">
   <ParticleBackground mode={mode} />
 
   {overlayClass && <div class={`absolute inset-0 ${overlayClass}`}></div>}
@@ -46,7 +46,7 @@ const {
 {
   showAccentLines && (
     <div
-      class="section-hero-accent-lines absolute inset-0 pointer-events-none z-0 overflow-hidden"
+      class="section-hero-accent-lines absolute inset-0 pointer-events-none -z-10 overflow-hidden"
     >
       <div
         class="section-hero-line section-hero-line-1 absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-green/20 to-transparent"

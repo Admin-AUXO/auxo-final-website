@@ -22,13 +22,17 @@ const patternClasses = {
   grid: "section-pattern-grid",
   mesh: "section-pattern-mesh",
 };
+
+const decorationClasses = [
+  ...gradients.map((gradient) => gradientClasses[gradient]),
+  ...patterns.map((pattern) => patternClasses[pattern]),
+];
 ---
 
-{gradients.map((gradient) => (
-  <div class={`${gradientClasses[gradient]} absolute inset-0 pointer-events-none z-0 ${className}`}></div>
-))}
-{patterns.map((pattern) => (
-  <div class={`${patternClasses[pattern]} absolute inset-0 pointer-events-none z-0 ${className}`}></div>
+{decorationClasses.map((decorationClass) => (
+  <div
+    class={`${decorationClass} absolute inset-0 pointer-events-none -z-10 ${className}`}
+  ></div>
 ))}
 
 

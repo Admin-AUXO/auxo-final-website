@@ -24,76 +24,76 @@ type PageFeatureModules = {
   heroBackground: typeof import('../utils/heroBackground');
 };
 
-let criticalModulesCache: CriticalModules | null = null;
-let criticalModulesPromise: Promise<CriticalModules> | null = null;
-let deferredModulesCache: DeferredModules | null = null;
-let deferredModulesPromise: Promise<DeferredModules> | null = null;
-let pageFeatureModulesCache: PageFeatureModules | null = null;
-let pageFeatureModulesPromise: Promise<PageFeatureModules> | null = null;
+type ModuleLoader<T> = {
+  getCached: () => T | null;
+  load: () => Promise<T>;
+};
 
-function loadCriticalModules(): Promise<CriticalModules> {
-  if (criticalModulesPromise) return criticalModulesPromise;
+function createModuleLoader<T>(loader: () => Promise<T>): ModuleLoader<T> {
+  let cache: T | null = null;
+  let promise: Promise<T> | null = null;
 
-  criticalModulesPromise = Promise.all([
+  return {
+    getCached: () => cache,
+    load: () => {
+      if (cache) return Promise.resolve(cache);
+      if (!promise) {
+        promise = loader().then((modules) => {
+          cache = modules;
+          return modules;
+        });
+      }
+
+      return promise;
+    },
+  };
+}
+
+const criticalModules = createModuleLoader<CriticalModules>(async () => {
+  const [
+    keyboardNavigation,
+    navigation,
+    scrollAnimations,
+    scrollProgress,
+    smoothScroll,
+    webVitals,
+  ] = await Promise.all([
     import('../utils/keyboardNavigation'),
     import('../navigation/index'),
     import('../utils/scrollReveal'),
     import('./scrollProgress'),
     import('./smoothScroll'),
     import('../utils/webVitals'),
-  ]).then(
-    ([
-      keyboardNavigation,
-      navigation,
-      scrollAnimations,
-      scrollProgress,
-      smoothScroll,
-      webVitals,
-    ]) => {
-      criticalModulesCache = {
-        keyboardNavigation,
-        navigation,
-        scrollAnimations,
-        scrollProgress,
-        smoothScroll,
-        webVitals,
-      };
+  ]);
 
-      return criticalModulesCache;
-    },
-  );
+  return {
+    keyboardNavigation,
+    navigation,
+    scrollAnimations,
+    scrollProgress,
+    smoothScroll,
+    webVitals,
+  };
+});
 
-  return criticalModulesPromise;
-}
-
-function loadDeferredModules(): Promise<DeferredModules> {
-  if (deferredModulesPromise) return deferredModulesPromise;
-
-  deferredModulesPromise = Promise.all([
+const deferredModules = createModuleLoader<DeferredModules>(async () => {
+  const [accordions, analytics, serviceWorker] = await Promise.all([
     import('../utils/accordions'),
     import('../analytics/conditionalLoader'),
     import('./serviceWorker'),
-  ]).then(([accordions, analytics, serviceWorker]) => {
-    deferredModulesCache = { accordions, analytics, serviceWorker };
-    return deferredModulesCache;
-  });
+  ]);
 
-  return deferredModulesPromise;
-}
+  return { accordions, analytics, serviceWorker };
+});
 
-function loadPageFeatureModules(): Promise<PageFeatureModules> {
-  if (pageFeatureModulesPromise) return pageFeatureModulesPromise;
-
-  pageFeatureModulesPromise = Promise.all([
+const pageFeatureModules = createModuleLoader<PageFeatureModules>(async () => {
+  const [carousels, heroBackground] = await Promise.all([
     import('../utils/carousels'),
     import('../utils/heroBackground'),
-  ]).then(([carousels, heroBackground]) => {
-    pageFeatureModulesCache = { carousels, heroBackground };
-    return pageFeatureModulesCache;
-  });
+  ]);
 
-  return pageFeatureModulesPromise;
-}
+  return { carousels, heroBackground };
+});
 
 function runWhenIdle(callback: () => void, timeout: number = 1000): void {
   if ('requestIdleCallback' in window) {
@@ -132,7 +132,7 @@ export function initCoreFeatures(): void {
 
   const runCriticalInit = async () => {
     try {
-      const modules = await loadCriticalModules();
+      const modules = await criticalModules.load();
       if (!isInitialized || currentRunId !== initRunId) return;
 
       modules.webVitals.initWebVitals();
@@ -149,7 +149,7 @@ export function initCoreFeatures(): void {
 
   const runDeferredInit = async () => {
     try {
-      const modules = await loadDeferredModules();
+      const modules = await deferredModules.load();
       if (!isInitialized || currentRunId !== initRunId) return;
 
       modules.accordions.initAccordions();
@@ -168,12 +168,17 @@ export function initCoreFeatures(): void {
       }
 
       setTimeout(() => {
-        if (!criticalModulesCache || !isInitialized || currentRunId !== initRunId) {
+        const cachedCriticalModules = criticalModules.getCached();
+        if (
+          !cachedCriticalModules ||
+          !isInitialized ||
+          currentRunId !== initRunId
+        ) {
           return;
         }
 
         try {
-          criticalModulesCache.scrollAnimations.refresh();
+          cachedCriticalModules.scrollAnimations.refresh();
         } catch (error) {
           logger.warn('Scroll animation refresh error:', error);
         }
@@ -206,7 +211,8 @@ export function initPageFeatures(): void {
   const particleCanvas = document.getElementById('particle-canvas');
   const currentRunId = initRunId;
 
-  void loadPageFeatureModules()
+  void pageFeatureModules
+    .load()
     .then((modules) => {
       if (!isInitialized || currentRunId !== initRunId) return;
 
@@ -261,16 +267,15 @@ export function initPageFeatures(): void {
 
 export function cleanupCoreFeatures(): void {
   forceUnlockScroll();
-  criticalModulesCache?.scrollAnimations.cleanup();
-  criticalModulesCache?.scrollProgress.cleanupScrollProgress();
-  criticalModulesCache?.navigation.cleanupNavigation();
-  pageFeatureModulesCache?.heroBackground.cleanupHeroBackground();
-  deferredModulesCache?.accordions.cleanupAccordions();
-  pageFeatureModulesCache?.carousels.cleanupAllCarousels();
-  pageFeatureModulesCache?.carousels.resetAutoInitState();
-  criticalModulesCache?.smoothScroll.destroySmoothScroll();
-  deferredModulesCache?.analytics.cleanupConditionalAnalytics();
-  criticalModulesCache?.keyboardNavigation.cleanupKeyboardNavigation();
+  criticalModules.getCached()?.scrollAnimations.cleanup();
+  criticalModules.getCached()?.scrollProgress.cleanupScrollProgress();
+  criticalModules.getCached()?.navigation.cleanupNavigation();
+  pageFeatureModules.getCached()?.heroBackground.cleanupHeroBackground();
+  deferredModules.getCached()?.accordions.cleanupAccordions();
+  pageFeatureModules.getCached()?.carousels.cleanupAllCarousels();
+  criticalModules.getCached()?.smoothScroll.destroySmoothScroll();
+  deferredModules.getCached()?.analytics.cleanupConditionalAnalytics();
+  criticalModules.getCached()?.keyboardNavigation.cleanupKeyboardNavigation();
 
   isInitialized = false;
   initRunId += 1;

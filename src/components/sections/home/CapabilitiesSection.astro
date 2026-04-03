@@ -70,7 +70,6 @@ const { content } = Astro.props;
       items={content.cards}
       wrapperClass="capabilities-carousel capabilities-carousel-wrapper"
       breakpoint={768}
-      activateOnDesktop={false}
     >
       {content.cards.map((card, index) => (
         <div class="carousel-slide embla__slide" data-index={index}>

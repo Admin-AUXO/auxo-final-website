@@ -96,8 +96,10 @@
   transform: translate(-50%, -50%);
   width: 300px;
   z-index: 0;
+}
 
-  @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
+  .auxo-engagement-card::after {
     background: radial-gradient(
       circle,
       rgb(var(--accent-green-rgb), 0.2) 0%,

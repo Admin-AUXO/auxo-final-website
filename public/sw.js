@@ -1,251 +1,121 @@
-const CACHE_VERSION = 'v1.0.0';
-const CACHE_NAME = `auxo-${CACHE_VERSION}`;
-
-const CRITICAL_CACHE = `${CACHE_NAME}-critical`;
-const PAGE_CACHE = `${CACHE_NAME}-pages`;
-const IMAGE_CACHE = `${CACHE_NAME}-images`;
-const ASSET_CACHE = `${CACHE_NAME}-assets`;
-
-const CRITICAL_ASSETS = [
-  '/',
-  '/offline',
-  '/fonts/PlusJakartaSans-VariableFont_wght.woff2',
-  '/favicon.svg',
-  '/logo.svg',
-];
-
-const CACHE_EXPIRATION = {
-  pages: 86400, // 24 hours
-  images: 604800, // 7 days
-  assets: 2592000, // 30 days
+const CACHE_VERSION = "v1.1.0";
+const CACHE_PREFIX = "auxo";
+const CACHE_NAMES = {
+  core: `${CACHE_PREFIX}-core-${CACHE_VERSION}`,
+  pages: `${CACHE_PREFIX}-pages-${CACHE_VERSION}`,
+  assets: `${CACHE_PREFIX}-assets-${CACHE_VERSION}`,
 };
 
+const OFFLINE_URL = "/offline";
+const PRECACHE_URLS = [
+  "/",
+  OFFLINE_URL,
+  "/manifest.json",
+  "/fonts/PlusJakartaSans-VariableFont_wght.woff2",
+  "/favicon.svg",
+  "/logo.svg",
+];
 
-self.addEventListener('install', (event) => {
-  console.log('[ServiceWorker] Installing...');
+const STATIC_DESTINATIONS = new Set(["font", "image", "script", "style"]);
 
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CRITICAL_CACHE).then((cache) => {
-      console.log('[ServiceWorker] Caching critical assets');
-      return cache.addAll(CRITICAL_ASSETS);
-    }).then(() => {
-      return self.skipWaiting();
-    }).catch((error) => {
-      console.error('[ServiceWorker] Install failed:', error);
-    })
+    caches
+      .open(CACHE_NAMES.core)
+      .then((cache) => cache.addAll(PRECACHE_URLS))
+      .then(() => self.skipWaiting()),
   );
 });
 
-
-self.addEventListener('activate', (event) => {
-  console.log('[ServiceWorker] Activating...');
-
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName.startsWith('auxo-') && !cacheName.startsWith(CACHE_NAME)) {
-            console.log('[ServiceWorker] Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(() => {
-      return self.clients.claim();
-    })
+    caches
+      .keys()
+      .then((cacheNames) =>
+        Promise.all(
+          cacheNames
+            .filter(
+              (cacheName) =>
+                cacheName.startsWith(`${CACHE_PREFIX}-`) &&
+                !Object.values(CACHE_NAMES).includes(cacheName),
+            )
+            .map((cacheName) => caches.delete(cacheName)),
+        ),
+      )
+      .then(() => self.clients.claim()),
   );
 });
 
-
-self.addEventListener('fetch', (event) => {
+self.addEventListener("fetch", (event) => {
   const { request } = event;
+  if (request.method !== "GET") return;
+
   const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
 
-  
-  if (request.method !== 'GET') {
+  if (request.mode === "navigate") {
+    event.respondWith(networkFirst(request, CACHE_NAMES.pages, OFFLINE_URL));
     return;
   }
 
-  
-  if (url.origin !== location.origin ||
-      url.pathname.includes('/api/') ||
-      url.hostname.includes('google-analytics.com') ||
-      url.hostname.includes('googletagmanager.com')) {
+  if (isStaticAssetRequest(request, url)) {
+    event.respondWith(cacheFirst(request, CACHE_NAMES.assets));
     return;
   }
 
-  event.respondWith(handleFetch(request, url));
+  event.respondWith(staleWhileRevalidate(request, CACHE_NAMES.assets));
 });
 
-async function handleFetch(request, url) {
-  
-  if (request.headers.get('accept')?.includes('text/html')) {
-    return networkFirst(request, PAGE_CACHE);
-  }
-
-  
-  if (request.headers.get('accept')?.includes('image')) {
-    return cacheFirst(request, IMAGE_CACHE, CACHE_EXPIRATION.images);
-  }
-
-  
-  if (url.pathname.includes('/fonts/') ||
-      url.pathname.endsWith('.css') ||
-      url.pathname.endsWith('.woff2')) {
-    return cacheFirst(request, ASSET_CACHE, CACHE_EXPIRATION.assets);
-  }
-
-  
-  if (url.pathname.endsWith('.js')) {
-    return networkFirst(request, ASSET_CACHE);
-  }
-
-  
-  return networkFirst(request, ASSET_CACHE);
-}
-
-
-async function networkFirst(request, cacheName) {
-  try {
-    const networkResponse = await fetch(request);
-
-    if (networkResponse && networkResponse.status === 200) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, networkResponse.clone());
-    }
-
-    return networkResponse;
-  } catch (error) {
-    const cachedResponse = await caches.match(request);
-
-    if (cachedResponse) {
-      return cachedResponse;
-    }
-
-    
-    if (request.headers.get('accept')?.includes('text/html')) {
-      return caches.match('/offline');
-    }
-
-    throw error;
-  }
-}
-
-
-async function cacheFirst(request, cacheName, maxAge) {
-  const cachedResponse = await caches.match(request);
-
-  if (cachedResponse) {
-    
-    if (maxAge) {
-      const cachedDate = new Date(cachedResponse.headers.get('date'));
-      const now = new Date();
-      const age = (now - cachedDate) / 1000;
-
-      if (age > maxAge) {
-        
-        return fetchAndCache(request, cacheName);
-      }
-    }
-
-    return cachedResponse;
-  }
-
-  return fetchAndCache(request, cacheName);
-}
-
-async function fetchAndCache(request, cacheName) {
-  try {
-    const networkResponse = await fetch(request);
-
-    if (networkResponse && networkResponse.status === 200) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, networkResponse.clone());
-    }
-
-    return networkResponse;
-  } catch (error) {
-    console.error('[ServiceWorker] Fetch failed:', error);
-    throw error;
-  }
-}
-
-
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-form-submission') {
-    event.waitUntil(syncFormSubmissions());
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") {
+    void self.skipWaiting();
   }
 });
 
-async function syncFormSubmissions() {
-  const cache = await caches.open('form-submissions');
-  const requests = await cache.keys();
-
-  return Promise.all(
-    requests.map(async (request) => {
-      try {
-        await fetch(request.clone());
-        await cache.delete(request);
-        console.log('[ServiceWorker] Form synced:', request.url);
-      } catch (error) {
-        console.error('[ServiceWorker] Sync failed:', error);
-      }
-    })
+function isStaticAssetRequest(request, url) {
+  return (
+    STATIC_DESTINATIONS.has(request.destination) ||
+    url.pathname.startsWith("/_astro/")
   );
 }
 
-
-self.addEventListener('message', (event) => {
-  if (event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
+async function networkFirst(request, cacheName, fallbackUrl) {
+  try {
+    const response = await fetch(request);
+    await cacheResponse(cacheName, request, response);
+    return response;
+  } catch {
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse) return cachedResponse;
+    return caches.match(fallbackUrl);
   }
+}
 
-  if (event.data.type === 'CLEAR_CACHE') {
-    event.waitUntil(
-      caches.keys().then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            if (cacheName.startsWith('auxo-')) {
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      })
-    );
-  }
-});
+async function cacheFirst(request, cacheName) {
+  const cachedResponse = await caches.match(request);
+  if (cachedResponse) return cachedResponse;
 
+  const response = await fetch(request);
+  await cacheResponse(cacheName, request, response);
+  return response;
+}
 
-self.addEventListener('periodicsync', (event) => {
-  if (event.tag === 'cache-cleanup') {
-    event.waitUntil(cleanupExpiredCache());
-  }
-});
+async function staleWhileRevalidate(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cachedResponse = await cache.match(request);
 
-async function cleanupExpiredCache() {
-  const cacheNames = await caches.keys();
+  const networkResponsePromise = fetch(request)
+    .then(async (response) => {
+      await cacheResponse(cacheName, request, response);
+      return response;
+    })
+    .catch(() => null);
 
-  for (const cacheName of cacheNames) {
-    if (!cacheName.startsWith(CACHE_NAME)) {
-      continue;
-    }
+  return cachedResponse || networkResponsePromise || Response.error();
+}
 
-    const cache = await caches.open(cacheName);
-    const requests = await cache.keys();
-
-    for (const request of requests) {
-      const response = await cache.match(request);
-      if (response) {
-        const cachedDate = new Date(response.headers.get('date'));
-        const now = new Date();
-        const age = (now - cachedDate) / 1000;
-
-        
-        if (age > 2592000) {
-          await cache.delete(request);
-          console.log('[ServiceWorker] Removed expired cache:', request.url);
-        }
-      }
-    }
-  }
+async function cacheResponse(cacheName, request, response) {
+  if (!response || !response.ok) return;
+  const cache = await caches.open(cacheName);
+  await cache.put(request, response.clone());
 }

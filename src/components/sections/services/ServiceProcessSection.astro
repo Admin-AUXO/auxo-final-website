@@ -105,8 +105,6 @@ const { service } = Astro.props;
       trackId="service-process-carousel-track"
       items={service.process.steps}
       wrapperClass="service-process-carousel-wrapper"
-      breakpoint={1024}
-      activateOnDesktop={false}
     >
       {service.process.steps.map((step: ProcessStep, index: number) => (
         <div class="carousel-slide embla__slide" data-index={index}>

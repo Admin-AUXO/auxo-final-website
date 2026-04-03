@@ -14,6 +14,31 @@ import "@/styles/sections/carousel-sections.css";
 import { createBreadcrumbSchema } from "@/lib/structuredData";
 
 const breadcrumbSchema = createBreadcrumbSchema("/services", "Services");
+const sections = [
+  { Component: HeroSection, props: { content: servicesContent.hero } },
+  {
+    Component: ServicesStageSection,
+    props: { content: servicesContent.serviceOfferings },
+  },
+  { Component: ImpactSection, props: { content: servicesContent.impact } },
+  {
+    Component: ModelsSection,
+    props: { content: servicesContent.engagementModels },
+  },
+] as const;
+const ctaProps = {
+  id: "services-cta",
+  title: servicesContent.cta.title,
+  titleHighlight: ["Analytics Roadmap", "Reality"],
+  description: servicesContent.cta.description,
+  descriptionHighlight: servicesContent.cta.descriptionHighlight,
+  ctaText: servicesContent.cta.ctaText,
+  ctaHref: servicesContent.cta.ctaHref,
+  variant: "standard" as const,
+  background: "default" as const,
+  maxWidth: "4xl" as const,
+  class: "services-cta-section",
+};
 ---
 
 <BaseLayout
@@ -21,28 +46,10 @@ const breadcrumbSchema = createBreadcrumbSchema("/services", "Services");
   description="Analytics as a Service, built for impact. Discover our eight service offerings aligned to the analytics maturity curve, from Foundation Readiness to Autonomy Readiness Review."
 >
   <StructuredData type="BreadcrumbList" data={breadcrumbSchema} />
-  <HeroSection content={servicesContent.hero} />
-  <ServicesStageSection content={servicesContent.serviceOfferings} />
-  <ImpactSection content={servicesContent.impact} />
-  <ModelsSection content={servicesContent.engagementModels} />
-  <CtaSection
-    id="services-cta"
-    title={servicesContent.cta.title}
-    titleHighlight={["Analytics Roadmap", "Reality"]}
-    description={servicesContent.cta.description}
-    descriptionHighlight={servicesContent.cta.descriptionHighlight}
-    ctaText={servicesContent.cta.ctaText}
-    ctaHref={servicesContent.cta.ctaHref}
-    variant="standard"
-    background="default"
-    maxWidth="4xl"
-    class="services-cta-section"
-  />
+  {sections.map(({ Component, props }) => <Component {...props} />)}
+  <CtaSection {...ctaProps} />
 
   <script>
     import "@/scripts/pages/servicesCategoryTracking";
   </script>
 </BaseLayout>
-
-
-

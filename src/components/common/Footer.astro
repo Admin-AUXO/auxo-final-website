@@ -8,10 +8,13 @@ import { getBaseUrl, createUrl } from "@/utils/url";
 const base = getBaseUrl();
 const currentYear = new Date().getFullYear();
 const privacyUrl = createUrl("legal/privacy-policy");
+const locationLabel = `${siteData.address.city}, ${siteData.address.country}`;
 
 const { sections: footerSections } = footerContent;
 const iconContainerClass =
   "w-12 h-12 bg-accent-green/15 rounded-xl flex items-center justify-center flex-shrink-0";
+const socialButtonBaseClass =
+  "bg-accent-green/10 hover:bg-accent-green hover:text-on-accent border border-accent-green/30 hover:border-accent-green hover:shadow-lg hover:shadow-accent-green/30 active:scale-95 flex items-center justify-center text-accent-green transition-all duration-fast focus:outline-none focus:ring-[3px] focus:ring-accent-green/50";
 const socialLinks = [
   {
     href: siteData.social.linkedin,
@@ -28,14 +31,14 @@ const socialSizeConfig = {
   sm: {
     container: "flex gap-2.5 justify-center",
     button:
-      "w-10 h-10 min-w-[var(--button-height-sm)] min-h-[var(--button-height-sm)] rounded-lg hover:scale-110",
+      `w-10 h-10 min-w-[var(--button-height-sm)] min-h-[var(--button-height-sm)] rounded-lg hover:scale-110 ${socialButtonBaseClass}`,
     icon: "w-5 h-5",
     title: "text-center mb-3",
   },
   lg: {
     container: "flex gap-4",
     button:
-      "w-14 h-14 lg:w-16 lg:h-16 lg:min-w-[var(--decorative-size-md)] lg:min-h-[var(--decorative-size-md)] rounded-xl hover:-translate-y-1 active:translate-y-0 touch-target-large group",
+      `w-14 h-14 lg:w-16 lg:h-16 lg:min-w-[var(--decorative-size-md)] lg:min-h-[var(--decorative-size-md)] rounded-xl hover:-translate-y-1 active:translate-y-0 touch-target-large group ${socialButtonBaseClass}`,
     icon:
       "w-7 h-7 lg:w-8 lg:h-8 group-hover:scale-110 transition-transform",
     title: "mb-4",
@@ -93,7 +96,7 @@ const socialSizeConfig = {
           links={socialLinks}
           titleClass={socialSizeConfig.sm.title}
           containerClass={socialSizeConfig.sm.container}
-          buttonClass={`${socialSizeConfig.sm.button} bg-accent-green/10 hover:bg-accent-green hover:text-on-accent border border-accent-green/30 hover:border-accent-green hover:shadow-lg hover:shadow-accent-green/30 active:scale-95 flex items-center justify-center text-accent-green transition-all duration-fast focus:outline-none focus:ring-[3px] focus:ring-accent-green/50`}
+          buttonClass={socialSizeConfig.sm.button}
           iconClass={socialSizeConfig.sm.icon}
         />
       </div>
@@ -140,7 +143,7 @@ const socialSizeConfig = {
               />
             </div>
             <span class="text-base font-body">
-              {siteData.address.city}, {siteData.address.country}
+              {locationLabel}
             </span>
           </div>
         </div>
@@ -150,7 +153,7 @@ const socialSizeConfig = {
             links={socialLinks}
             titleClass={socialSizeConfig.lg.title}
             containerClass={socialSizeConfig.lg.container}
-            buttonClass={`${socialSizeConfig.lg.button} bg-accent-green/10 hover:bg-accent-green hover:text-on-accent border border-accent-green/30 hover:border-accent-green hover:shadow-lg hover:shadow-accent-green/30 active:scale-95 flex items-center justify-center text-accent-green transition-all duration-fast focus:outline-none focus:ring-[3px] focus:ring-accent-green/50`}
+            buttonClass={socialSizeConfig.lg.button}
             iconClass={socialSizeConfig.lg.icon}
           />
         </div>
@@ -227,7 +230,7 @@ const socialSizeConfig = {
           name="mdi:map-marker-outline"
           class="w-4 h-4 text-accent-green flex-shrink-0 transition-colors"
         />
-        <span>Dubai, UAE</span>
+        <span>{locationLabel}</span>
       </span>
       <span class="text-theme-tertiary" aria-hidden="true">•</span>
       <a
