@@ -250,8 +250,8 @@
 }
 
 :root.light {
-  --accent-green: #7CB342;
-  --accent-green-rgb: 124, 179, 66;
+  --accent-green: #6F9E2D;
+  --accent-green-rgb: 111, 158, 45;
   --bg-primary: #FFF;
   --text-primary: #111827;
   --text-secondary: #4B5563;
@@ -259,20 +259,20 @@
   --text-on-accent: #FFF;
   --bg-secondary: rgb(249 250 251);
   --bg-card: rgb(255 255 255);
-  --bg-surface: rgb(243 244 246);
-  --bg-elevated: rgb(229 231 235);
-  --border-color: rgb(229 231 235);
-  --border-color-light: rgb(243 244 246);
-  --accent-green-opacity-02: rgb(var(--accent-green-rgb), 0.02);
-  --accent-green-opacity-05: rgb(var(--accent-green-rgb), 0.05);
-  --accent-green-opacity-08: rgb(var(--accent-green-rgb), 0.08);
-  --accent-green-opacity-1: rgb(var(--accent-green-rgb), 0.1);
-  --accent-green-opacity-15: rgb(var(--accent-green-rgb), 0.15);
-  --accent-green-opacity-18: rgb(var(--accent-green-rgb), 0.18);
-  --accent-green-opacity-2: rgb(var(--accent-green-rgb), 0.2);
-  --accent-green-opacity-20: rgb(var(--accent-green-rgb), 0.20);
-  --accent-green-opacity-25: rgb(var(--accent-green-rgb), 0.25);
-  --accent-green-opacity-30: rgb(var(--accent-green-rgb), 0.3);
+  --bg-surface: rgb(241 245 239);
+  --bg-elevated: rgb(231 237 226);
+  --border-color: rgb(214 223 208);
+  --border-color-light: rgb(228 235 223);
+  --accent-green-opacity-02: rgb(var(--accent-green-rgb), 0.035);
+  --accent-green-opacity-05: rgb(var(--accent-green-rgb), 0.07);
+  --accent-green-opacity-08: rgb(var(--accent-green-rgb), 0.11);
+  --accent-green-opacity-1: rgb(var(--accent-green-rgb), 0.14);
+  --accent-green-opacity-15: rgb(var(--accent-green-rgb), 0.19);
+  --accent-green-opacity-18: rgb(var(--accent-green-rgb), 0.23);
+  --accent-green-opacity-2: rgb(var(--accent-green-rgb), 0.26);
+  --accent-green-opacity-20: rgb(var(--accent-green-rgb), 0.26);
+  --accent-green-opacity-25: rgb(var(--accent-green-rgb), 0.32);
+  --accent-green-opacity-30: rgb(var(--accent-green-rgb), 0.38);
   --btn-primary-bg-hover: rgb(var(--accent-green-rgb), 0.85);
   --btn-primary-bg-active: rgb(var(--accent-green-rgb), 0.75);
   --accent-green-secondary: rgb(var(--accent-green-rgb), 0.8);

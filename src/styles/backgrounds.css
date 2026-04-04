@@ -131,6 +131,172 @@
   background-color: var(--accent-green);
 }
 
+:root.light .site-body-flow {
+  background:
+    radial-gradient(
+      ellipse 130% 78% at 50% 0%,
+      rgb(var(--accent-green-rgb), 10%) 0%,
+      rgb(var(--accent-green-rgb), 4%) 32%,
+      transparent 66%
+    ),
+    linear-gradient(
+      180deg,
+      #fff 0%,
+      color-mix(in srgb, var(--bg-primary) 70%, var(--bg-surface) 30%) 48%,
+      #fff 100%
+    );
+}
+
+:root.light .site-main-flow::before {
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgb(var(--accent-green-rgb), 3.5%) 16%,
+      transparent 38%,
+      rgb(var(--accent-green-rgb), 4.5%) 72%,
+      transparent 100%
+    );
+}
+
+:root.light .section-surface--default::before {
+  background:
+    radial-gradient(
+      ellipse 110% 76% at 50% 0%,
+      rgb(var(--accent-green-rgb), 8%) 0%,
+      rgb(var(--accent-green-rgb), 3.2%) 34%,
+      transparent 68%
+    ),
+    linear-gradient(
+      180deg,
+      rgb(255 255 255 / 55%) 0%,
+      transparent 24%,
+      transparent 70%,
+      rgb(var(--accent-green-rgb), 4.2%) 100%
+    );
+}
+
+:root.light .section-surface--card::before {
+  background:
+    radial-gradient(
+      ellipse 100% 68% at 50% 0%,
+      rgb(var(--accent-green-rgb), 7%) 0%,
+      rgb(var(--accent-green-rgb), 2.8%) 34%,
+      transparent 66%
+    ),
+    linear-gradient(
+      180deg,
+      rgb(255 255 255 / 60%) 0%,
+      transparent 26%,
+      transparent 72%,
+      rgb(var(--accent-green-rgb), 3.8%) 100%
+    );
+}
+
+:root.light .section-surface--surface::before {
+  background:
+    radial-gradient(
+      ellipse 98% 66% at 50% 0%,
+      rgb(var(--accent-green-rgb), 6.5%) 0%,
+      rgb(var(--accent-green-rgb), 2.5%) 32%,
+      transparent 64%
+    ),
+    linear-gradient(
+      180deg,
+      rgb(255 255 255 / 35%) 0%,
+      transparent 22%,
+      transparent 70%,
+      rgb(var(--accent-green-rgb), 3.5%) 100%
+    );
+}
+
+:root.light .section-surface--elevated::before {
+  background:
+    radial-gradient(
+      ellipse 102% 68% at 50% 0%,
+      rgb(var(--accent-green-rgb), 6.8%) 0%,
+      rgb(var(--accent-green-rgb), 2.7%) 34%,
+      transparent 64%
+    ),
+    linear-gradient(
+      180deg,
+      rgb(255 255 255 / 28%) 0%,
+      transparent 24%,
+      transparent 70%,
+      rgb(var(--accent-green-rgb), 3.8%) 100%
+    );
+}
+
+:root.light .section-gradient-hero {
+  background:
+    radial-gradient(
+      ellipse 118% 94% at top center,
+      rgb(var(--accent-green-rgb), 11%) 0%,
+      rgb(var(--accent-green-rgb), 4.5%) 34%,
+      transparent 68%
+    ),
+    radial-gradient(
+      ellipse 84% 62% at bottom center,
+      rgb(var(--accent-green-rgb), 5%) 0%,
+      transparent 52%
+    );
+}
+
+:root.light .section-gradient-center {
+  background: radial-gradient(
+    ellipse 92% 68% at 50% 50%,
+    rgb(var(--accent-green-rgb), 9%) 0%,
+    rgb(var(--accent-green-rgb), 3.5%) 48%,
+    transparent 100%
+  );
+}
+
+:root.light .section-gradient-dual {
+  background:
+    radial-gradient(
+      circle at 28% 18%,
+      rgb(var(--accent-green-rgb), 12%) 0%,
+      rgb(var(--accent-green-rgb), 4%) 28%,
+      transparent 58%
+    ),
+    radial-gradient(
+      circle at 72% 78%,
+      rgb(var(--accent-green-rgb), 7%) 0%,
+      transparent 48%
+    );
+}
+
+:root.light .section-pattern-grid {
+  opacity: 0.85;
+}
+
+:root.light .section-pattern-mesh {
+  opacity: 0.72;
+}
+
+:root.light .section-divider-top::before,
+:root.light .section-divider::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(var(--accent-green-rgb), 10%) 15%,
+    rgb(var(--accent-green-rgb), 18%) 50%,
+    rgb(var(--accent-green-rgb), 10%) 85%,
+    transparent 100%
+  );
+}
+
+:root.light .section-divider::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(var(--accent-green-rgb), 12%) 15%,
+    rgb(var(--accent-green-rgb), 22%) 50%,
+    rgb(var(--accent-green-rgb), 12%) 85%,
+    transparent 100%
+  );
+}
+
 .glassmorphism-card {
   backdrop-filter: blur(var(--blur-sm));
   background-color: var(--bg-card);
