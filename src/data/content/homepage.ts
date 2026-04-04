@@ -280,8 +280,8 @@ export const homepageContent: HomepageContent = {
         descriptionHighlight: ["operating problem", "real friction"],
         icon: "mdi:database-search",
         number: 1,
-        output: "Decision\nFrame",
-        title: "Diagnose",
+        output: "Discovery\nFrame",
+        title: "Explore",
       },
       {
         description: "Structure the data, reporting logic, and workflow so the system supports the business rhythm properly.",
@@ -296,8 +296,8 @@ export const homepageContent: HomepageContent = {
         descriptionHighlight: ["reporting, forecasting, automation, or AI layer"],
         icon: "mdi:rocket-launch",
         number: 3,
-        output: "Working\nDelivery",
-        title: "Deliver",
+        output: "Working\nSystem",
+        title: "Generate",
       },
       {
         description: "Embed the controls, handoff, and operating habits needed so the work survives real use.",
