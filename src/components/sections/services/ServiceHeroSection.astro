@@ -3,10 +3,11 @@ import HeroLayout from "@/components/ui/HeroLayout.astro";
 import HeroCTAButton from "@/components/ui/HeroCTAButton.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
 import HeroBackdrop from "@/components/effects/HeroBackdrop.astro";
-import type { ServiceDetail } from "@/data/content";
+import { Icon } from "astro-icon/components";
+import type { ServicePageDetail } from "@/data/content/service-page-details";
 
 interface Props {
-  service: ServiceDetail;
+  service: ServicePageDetail;
 }
 
 const { service } = Astro.props;
@@ -29,9 +30,9 @@ const mode = modeMap[service.slug] || "galaxy";
 <HeroLayout
   id="service-hero"
   class="service-hero-section"
-  scrollHref="#service-overview"
-  scrollText="Learn More"
-  scrollAriaLabel="Scroll to learn more"
+  scrollHref="#service-snapshot"
+  scrollText="See Service Fit"
+  scrollAriaLabel="Scroll to service fit"
 >
   <Fragment slot="background">
     <HeroBackdrop
@@ -42,6 +43,15 @@ const mode = modeMap[service.slug] || "galaxy";
   </Fragment>
 
   <div class="service-hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">
+    <div
+      class="service-hero-badge"
+      data-reveal="zoom-in"
+      data-reveal-duration="200"
+      data-reveal-easing="ease-out"
+    >
+      <Icon name="mdi:compass-outline" class="w-4 h-4" />
+      <span>{service.category}</span>
+    </div>
     <h1
       class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display"
       data-reveal="fade-down"
@@ -82,19 +92,40 @@ const mode = modeMap[service.slug] || "galaxy";
       />
     </p>
   </div>
+
   <div
-    class="service-hero-follow-content hero-follow-content"
+    class="service-hero-benefits"
     data-reveal="fade-up"
-    data-reveal-delay="100"
+    data-reveal-delay="120"
     data-reveal-duration="200"
     data-reveal-easing="ease-out"
   >
-    <HeroCTAButton
-      text={service.cta.ctaText}
-      href={service.cta.ctaHref}
-      context="service"
-      calendlyText="Book a Consultation"
-    />
+    {service.hero.keyBenefits.map((benefit) => (
+      <div class="service-hero-benefit-pill">
+        <Icon name="mdi:check-circle-outline" class="w-4 h-4 text-accent-green" />
+        <span>{benefit}</span>
+      </div>
+    ))}
+  </div>
+
+  <div
+    class="service-hero-follow-content hero-follow-content"
+    data-reveal="fade-up"
+    data-reveal-delay="160"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    <div class="service-hero-actions">
+      <HeroCTAButton
+        text={service.cta.ctaText}
+        href={service.cta.ctaHref}
+        context="service"
+        calendlyText="Book a Consultation"
+      />
+      <a href="#service-faq" class="service-hero-secondary-link">
+        Review FAQs
+      </a>
+    </div>
   </div>
 </HeroLayout>
 

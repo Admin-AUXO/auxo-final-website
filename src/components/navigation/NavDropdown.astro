@@ -31,6 +31,23 @@ const CHEVRON_ICON =
 const dropdownItems = item.dropdown ?? [];
 const contactUrl = createUrl("contact");
 const servicesUrl = createUrl("services");
+const groupOrder = ["Stabilize", "Optimize", "Scale"];
+const groupedDropdownItems = groupOrder
+  .map((group) => ({
+    group,
+    items: dropdownItems.filter((sub: DropdownItem) => sub.group === group),
+  }))
+  .filter((entry) => entry.items.length > 0);
+
+function getGroupSummary(group: string): string {
+  if (group === "Stabilize") {
+    return "Fix trust, reporting, and governance issues first.";
+  }
+  if (group === "Optimize") {
+    return "Improve speed, planning, and decision quality.";
+  }
+  return "Scale throughput with automation and practical AI.";
+}
 ---
 
 {
@@ -54,21 +71,43 @@ const servicesUrl = createUrl("services");
       </button>
       <div class="mobile-dropdown-content hidden">
         <div class="mobile-dropdown-inner">
-          <div class="mobile-dropdown-services-grid">
-            {dropdownItems.map((sub: DropdownItem) => (
-              <a href={sub.href} class="mobile-service-card group/card">
-                <Icon
-                  name={sub.icon}
-                  class="w-4 h-4 text-accent-green flex-shrink-0"
-                  aria-hidden="true"
-                />
-                <span class="mobile-service-card-title">{sub.name}</span>
-                <Icon
-                  name="mdi:arrow-right"
-                  class="mobile-service-card-arrow"
-                  aria-hidden="true"
-                />
-              </a>
+          <div class="space-y-5">
+            {groupedDropdownItems.map(({ group, items }) => (
+              <details class="mobile-services-group accordion-item" open={group === "Stabilize"}>
+                <summary class="mobile-services-group-summary accordion-summary">
+                  <div class="mobile-services-group-copy">
+                    <p class="mobile-services-group-label">{group}</p>
+                    <p class="mobile-services-group-text">{getGroupSummary(group)}</p>
+                  </div>
+                  <Icon
+                    name="mdi:chevron-down"
+                    class="w-4 h-4 text-accent-green transition-transform duration-300"
+                    aria-hidden="true"
+                  />
+                </summary>
+                <div class="mobile-dropdown-services-grid">
+                  {items.map((sub: DropdownItem) => (
+                    <a href={sub.href} class="mobile-service-card group/card">
+                      <Icon
+                        name={sub.icon}
+                        class="w-4 h-4 text-accent-green flex-shrink-0"
+                        aria-hidden="true"
+                      />
+                      <span class="mobile-service-card-content">
+                        <span class="mobile-service-card-title">{sub.name}</span>
+                        {sub.fit && (
+                          <span class="mobile-service-card-fit">{sub.fit}</span>
+                        )}
+                      </span>
+                      <Icon
+                        name="mdi:arrow-right"
+                        class="mobile-service-card-arrow"
+                        aria-hidden="true"
+                      />
+                    </a>
+                  ))}
+                </div>
+              </details>
             ))}
           </div>
 
@@ -175,37 +214,61 @@ const servicesUrl = createUrl("services");
               </div>
             </header>
             <main class="dropdown-modal-content-main overflow-y-auto">
-              <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-8 py-8">
-                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-                  {dropdownItems.map(
-                    (sub: DropdownItem, cardIndex: number) => (
-                      <a
-                        href={sub.href}
-                        class={`service-card group/card relative flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4 p-4 sm:p-5 md:p-6 bg-gradient-to-br from-theme-card via-theme-card to-theme-surface border border-accent-green/20 hover:border-accent-green/50 rounded-2xl transition-all duration-400 dropdown-service-card-animated backdrop-blur-sm h-full`}
-                        data-card-index={cardIndex}
-                      >
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-accent-green/15 via-accent-green/10 to-accent-green/5 border border-accent-green/30 flex items-center justify-center flex-shrink-0 group-hover/card:scale-105 group-hover/card:rotate-3 group-hover/card:border-accent-green/60 transition-all duration-500 shadow-sm relative z-10">
-                          <Icon
-                            name={sub.icon}
-                            class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-accent-green group-hover/card:scale-110 transition-transform duration-500"
-                          />
-                        </div>
+              <div class="w-full max-w-[1520px] mx-auto px-6 sm:px-8 py-4 lg:py-4">
+                <div class="dropdown-services-toolbar">
+                  <div>
+                    <p class="dropdown-services-intro-kicker">Choose by need</p>
+                    <p class="dropdown-services-intro-text">
+                      Pick the lane that matches the problem. The full library is still available if you want every service at once.
+                    </p>
+                  </div>
+                  <a href={contactUrl} class="dropdown-services-intro-cta group/intro">
+                    <span>Need a recommendation?</span>
+                    <Icon
+                      name="mdi:arrow-right"
+                      class="w-4 h-4 text-accent-green group-hover/intro:translate-x-1 transition-transform duration-fast"
+                    />
+                  </a>
+                </div>
 
-                        <div class="flex-1 flex flex-col gap-1 min-w-0 relative z-10 text-center sm:text-left">
-                          <h3 class="text-xs sm:text-sm md:text-base font-bold text-theme-primary group-hover/card:text-accent-green transition-colors duration-400 leading-tight">
-                            {sub.name}
-                          </h3>
-                          <div class="flex items-center gap-1.5 text-accent-green font-medium text-xs opacity-75 group-hover/card:opacity-100 transition-opacity duration-400">
-                            <span>Explore service</span>
+                <div class="dropdown-services-group-grid">
+                  {groupedDropdownItems.map(({ group, items }) => (
+                    <section class="dropdown-services-group-column">
+                      <div class="dropdown-services-group-head">
+                        <p class="dropdown-services-group-label">{group}</p>
+                        <p class="dropdown-services-group-text">{getGroupSummary(group)}</p>
+                      </div>
+
+                      <div class="dropdown-services-compact-list">
+                        {items.map((sub: DropdownItem, cardIndex: number) => (
+                          <a
+                            href={sub.href}
+                            class={`dropdown-services-compact-card service-card group/card`}
+                            data-card-index={cardIndex}
+                          >
+                            <div class="dropdown-services-compact-icon">
+                              <Icon
+                                name={sub.icon}
+                                class="w-5 h-5 text-accent-green group-hover/card:scale-110 transition-transform duration-500"
+                              />
+                            </div>
+
+                            <div class="dropdown-services-compact-copy">
+                              <h4 class="dropdown-services-compact-title">{sub.name}</h4>
+                              {sub.fit && (
+                                <p class="dropdown-services-compact-fit">{sub.fit}</p>
+                              )}
+                            </div>
+
                             <Icon
                               name="mdi:arrow-right"
-                              class="w-3.5 h-3.5 group-hover/card:translate-x-1 transition-transform duration-400"
+                              class="w-4 h-4 text-accent-green/70 group-hover/card:text-accent-green group-hover/card:translate-x-1 transition-all duration-300"
                             />
-                          </div>
-                        </div>
-                      </a>
-                    ),
-                  )}
+                          </a>
+                        ))}
+                      </div>
+                    </section>
+                  ))}
                 </div>
               </div>
             </main>

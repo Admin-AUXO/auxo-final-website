@@ -2,16 +2,17 @@
 import { Icon } from "astro-icon/components";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import SectionShell from "@/components/layouts/SectionShell.astro";
-import type { ServiceDetail } from "@/data/content";
+import type { ServicePageDetail } from "@/data/content/service-page-details";
 
 interface Props {
-  service: ServiceDetail;
+  service: ServicePageDetail;
 }
 
 type OutcomeMetric = {
   label: string;
   value: string;
   description: string;
+  icon: string;
 };
 
 const { service } = Astro.props;
@@ -37,7 +38,7 @@ const { service } = Astro.props;
     />
   </div>
 
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
     {
       service.outcomes.metrics.map((metric: OutcomeMetric, index: number) => (
         <div
@@ -47,23 +48,20 @@ const { service } = Astro.props;
           data-reveal-duration="200"
           data-reveal-easing="ease-out"
         >
-          <div class="h-full bg-accent-green/5 border-2 border-accent-green/30 rounded-2xl p-4 sm:p-6 lg:p-8 text-center relative overflow-hidden transition-colors duration-300 lg:hover:border-accent-green/50 flex flex-col">
-            <div class="relative z-10 flex flex-col items-center h-full">
-              <div class="mb-4 lg:mb-6">
-                <span class="text-[10px] sm:text-xs font-bold text-accent-green/70 uppercase tracking-wider block mb-0.5">
-                  Up to
-                </span>
-                <div class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-accent-green font-display leading-none">
-                  {metric.value}
-                  <span class="text-accent-green/50 text-xl ml-0.5">*</span>
+          <div class="service-outcome-card h-full relative overflow-hidden transition-colors duration-300 flex flex-col">
+            <div class="relative z-10 flex flex-col h-full">
+              <div class="service-outcome-card-head">
+                <div class="service-outcome-icon">
+                  <Icon name={metric.icon} class="w-5 h-5 text-accent-green" />
                 </div>
+                <span class="service-outcome-eyebrow">{metric.value}</span>
               </div>
 
               <div class="flex flex-col flex-1 justify-start">
-                <h3 class="text-base sm:text-lg font-bold text-theme-primary mb-2 font-display min-h-[2.5rem] flex items-center justify-center">
+                <h3 class="text-lg sm:text-xl font-bold text-theme-primary mb-2 font-display">
                   {metric.label}
                 </h3>
-                <p class="text-xs sm:text-sm text-theme-secondary/80 leading-relaxed font-body">
+                <p class="text-sm sm:text-base text-theme-secondary/80 leading-relaxed font-body">
                   {metric.description}
                 </p>
               </div>
@@ -80,12 +78,11 @@ const { service } = Astro.props;
     >
       <Icon name="mdi:trending-up" class="w-5 h-5 text-accent-green" />
       <span class="text-sm font-semibold text-accent-green font-body">
-        Measurable results backed by data-driven methodologies
+        Outcomes tied to operating discipline, not vanity claims
       </span>
     </div>
     <p class="text-xs text-theme-secondary/60 font-body max-w-xl mx-auto leading-relaxed">
-      <span class="text-accent-green/50">*</span> Results may vary based on data
-      maturity, organizational readiness, and scope of engagement.
+      {service.outcomes.note}
     </p>
   </div>
 </SectionShell>

@@ -3,6 +3,7 @@ import { Icon } from "astro-icon/components";
 import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import Carousel from "@/components/ui/Carousel.astro";
+import HighlightText from "@/components/ui/HighlightText.astro";
 
 interface Props {
   content: {
@@ -51,11 +52,10 @@ const metrics = [
             <div class="absolute inset-0 bg-accent-green/20 rounded-full blur-2xl animate-pulse"></div>
             <Icon name="mdi:earth" class="w-10 h-10 sm:w-12 sm:h-12 text-accent-green relative z-10" />
           </div>
-          <h2 class="text-h2 font-extrabold text-theme-primary leading-tight tracking-tight font-display">
-            <span class="block sm:inline"><span class="text-accent-green font-black text-[1.05em]">Global</span> Mindset,</span>
-            <span class="block sm:inline sm:ml-0 ml-0">Local <span class="text-accent-green font-black text-[1.05em]">Context</span>.</span>
-          </h2>
         </div>
+        <h2 class="text-h2 font-extrabold text-theme-primary leading-tight tracking-tight font-display">
+          {content.title}
+        </h2>
       </div>
 
       <div class="global-content">
@@ -96,10 +96,13 @@ const metrics = [
               <div class="relative z-10 flex flex-col justify-center h-full">
                 <div class="flex items-center gap-3 mb-4">
                   <div class="w-1 h-8 bg-accent-green rounded-full"></div>
-                  <h3 class="text-h4 font-bold text-theme-primary font-display">Our Approach</h3>
+                  <h3 class="text-h4 font-bold text-theme-primary font-display">Delivery model</h3>
                 </div>
                 <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed font-body">
-                  {content.description}
+                  <HighlightText
+                    text={content.description}
+                    highlight={content.descriptionHighlight}
+                  />
                 </p>
               </div>
             </div>
@@ -135,10 +138,13 @@ const metrics = [
               <div class="relative z-10">
                 <div class="flex items-center gap-3 mb-4">
                   <div class="w-1 h-8 bg-accent-green rounded-full"></div>
-                  <h3 class="text-h4 font-bold text-theme-primary font-display">Our Approach</h3>
+                  <h3 class="text-h4 font-bold text-theme-primary font-display">Delivery model</h3>
                 </div>
                 <p class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed font-body">
-                  {content.description}
+                  <HighlightText
+                    text={content.description}
+                    highlight={content.descriptionHighlight}
+                  />
                 </p>
               </div>
             </div>
@@ -183,10 +189,13 @@ const metrics = [
               <div class="relative z-10">
               <div class="flex items-center gap-3 mb-4">
                 <div class="w-1 h-8 bg-accent-green rounded-full"></div>
-                <h3 class="text-h4 font-bold text-theme-primary font-display">Our Approach</h3>
+                <h3 class="text-h4 font-bold text-theme-primary font-display">Delivery model</h3>
               </div>
               <p class="text-body-lg text-theme-secondary leading-relaxed font-body">
-                {content.description}
+                <HighlightText
+                  text={content.description}
+                  highlight={content.descriptionHighlight}
+                />
               </p>
             </div>
           </div>

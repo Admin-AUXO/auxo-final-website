@@ -1,4 +1,5 @@
 export { aboutContent } from "./about";
+export { contactContent } from "./contact";
 export { footerContent } from "./footer";
 export { homepageContent } from "./homepage";
 export { LEGAL_LAST_UPDATED, LEGAL_PAGE_META } from "./legal";

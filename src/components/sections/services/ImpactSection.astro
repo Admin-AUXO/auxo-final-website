@@ -43,7 +43,51 @@ const { content } = Astro.props;
   />
 
   <div
-    class="mb-8 sm:mb-10 lg:mb-12 impact-carousel-section"
+    class="hidden lg:grid impact-grid impact-desktop mb-8 sm:mb-10 lg:mb-12"
+  >
+    {content.industries.map((industry, index) => (
+      <div
+        data-reveal="fade-up"
+        data-reveal-delay={index * 35}
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
+        <div class="impact-industry-card">
+          <div class="impact-industry-card-header flex items-center justify-between">
+            <h3 class="impact-industry-title">{industry.name}</h3>
+            <div class="impact-industry-icon ml-3">
+              <Icon
+                name={industry.icon}
+                class="w-6 h-6 sm:w-7 sm:h-7 text-accent-green"
+              />
+            </div>
+          </div>
+
+          <p class="impact-industry-description">
+            {industry.descriptionHighlight ? (
+              <HighlightText
+                text={industry.description}
+                highlight={industry.descriptionHighlight}
+              />
+            ) : (
+              industry.description
+            )}
+          </p>
+
+          <div class="impact-industry-benefit">
+            <Icon
+              name="mdi:trending-up"
+              class="w-4 h-4 sm:w-5 sm:h-5 text-accent-green flex-shrink-0"
+            />
+            <span class="impact-industry-benefit-text">{industry.keyBenefit}</span>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div
+    class="mb-8 sm:mb-10 lg:mb-12 impact-carousel-section impact-mobile lg:hidden"
     data-reveal="fade-up"
     data-reveal-delay="50"
     data-reveal-duration="200"
@@ -107,45 +151,3 @@ const { content } = Astro.props;
     </div>
   </div>
 </SectionShell>
-
-<script>
-  import { getCarouselInstance } from "@/scripts/utils/carousels";
-
-  function randomizeIndustries() {
-    const carouselTrack = document.getElementById('impact-carousel-track');
-    const carouselContainer = document.getElementById('impact-carousel-container');
-
-    if (!carouselTrack || !carouselContainer) return;
-
-    const slides = Array.from(carouselTrack.children) as HTMLElement[];
-    if (slides.length === 0) return;
-
-    const carousel = getCarouselInstance('impact-carousel-container');
-    const currentIndex = carousel?.selectedIndex ?? 0;
-    for (let i = slides.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [slides[i], slides[j]] = [slides[j], slides[i]];
-    }
-
-    slides.forEach((slide, index) => {
-      carouselTrack.appendChild(slide);
-      slide.setAttribute('data-index', index.toString());
-    });
-
-    setTimeout(() => {
-      if (carousel?.embla) {
-        carousel.reInit();
-        const newIndex = Math.min(currentIndex, slides.length - 1);
-        carousel.scrollTo(newIndex);
-      } else {
-        window.dispatchEvent(new Event('resize', { bubbles: true }));
-      }
-    }, 100);
-  }
-  
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => setTimeout(randomizeIndustries, 500));
-  } else {
-    setTimeout(randomizeIndustries, 500);
-  }
-</script>

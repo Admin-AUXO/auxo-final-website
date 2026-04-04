@@ -2,10 +2,10 @@
 import { Icon } from "astro-icon/components";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import SectionShell from "@/components/layouts/SectionShell.astro";
-import type { ServiceDetail } from "@/data/content";
+import type { ServicePageDetail } from "@/data/content/service-page-details";
 
 interface Props {
-  service: ServiceDetail;
+  service: ServicePageDetail;
 }
 
 type OverviewGroup = {
@@ -29,35 +29,34 @@ const { service } = Astro.props;
 const overviewGroups: OverviewGroup[] = [
   {
     key: "challenges",
-    title: "Challenges We Solve",
-    icon: "mdi:close",
+    title: "Where teams usually get stuck",
+    icon: "mdi:alert-circle-outline",
     items: service.overview.challenges,
-    cardClass: "bg-theme-card border-2 border-red-500/20 rounded-2xl p-6 lg:p-8 h-full flex flex-col",
-    headerBorderClass: "border-b-2 border-red-500/10",
-    iconWrapperClass: "bg-red-500/15",
-    iconClass: "text-red-500",
+    cardClass: "service-overview-card service-overview-card-challenges",
+    headerBorderClass: "service-overview-card-border",
+    iconWrapperClass: "service-overview-icon-wrap service-overview-icon-wrap-challenges",
+    iconClass: "text-theme-primary",
     itemClass:
-      "flex items-start gap-3 p-4 bg-red-500/5 border border-red-500/15 rounded-xl lg:hover:border-red-500/30 transition-all duration-300 min-h-[4.5rem] flex-1",
-    itemIndexClass: "bg-red-500/20 text-red-500",
+      "service-overview-item service-overview-item-challenges",
+    itemIndexClass: "service-overview-item-index service-overview-item-index-challenges",
     itemTextClass: "text-theme-secondary/90",
-    summaryIndicatorClass: "bg-red-500/10 text-red-500",
+    summaryIndicatorClass: "service-overview-summary-indicator service-overview-summary-indicator-challenges",
     reveal: "fade-right",
   },
   {
     key: "solutions",
-    title: "Our Solutions",
-    icon: "mdi:check-circle",
+    title: "How AUXO fixes the problem",
+    icon: "mdi:check-circle-outline",
     items: service.overview.solutions,
-    cardClass:
-      "bg-theme-card border-2 border-accent-green/20 rounded-2xl p-6 lg:p-8 h-full flex flex-col",
-    headerBorderClass: "border-b-2 border-accent-green/10",
-    iconWrapperClass: "bg-accent-green/15",
+    cardClass: "service-overview-card service-overview-card-solutions",
+    headerBorderClass: "service-overview-card-border",
+    iconWrapperClass: "service-overview-icon-wrap service-overview-icon-wrap-solutions",
     iconClass: "text-accent-green",
     itemClass:
-      "flex items-start gap-3 p-4 bg-accent-green/5 border border-accent-green/15 rounded-xl lg:hover:border-accent-green/30 transition-all duration-300 min-h-[4.5rem] flex-1",
-    itemIndexClass: "bg-accent-green/20 text-accent-green",
+      "service-overview-item service-overview-item-solutions",
+    itemIndexClass: "service-overview-item-index service-overview-item-index-solutions",
     itemTextClass: "text-theme-secondary/90",
-    summaryIndicatorClass: "bg-accent-green/10 text-accent-green",
+    summaryIndicatorClass: "service-overview-summary-indicator service-overview-summary-indicator-solutions",
     reveal: "fade-left",
   },
 ];
@@ -84,7 +83,7 @@ const overviewGroups: OverviewGroup[] = [
     />
   </div>
 
-  <div class="hidden lg:grid lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10">
+  <div class="hidden lg:grid lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10 service-overview-desktop">
     {overviewGroups.map((group) => (
       <div
         class={group.cardClass}
@@ -124,10 +123,10 @@ const overviewGroups: OverviewGroup[] = [
     ))}
   </div>
 
-  <div class="lg:hidden space-y-3">
+  <div class="lg:hidden space-y-3 service-overview-mobile">
     {overviewGroups.map((group, index) => (
       <details
-        class={`service-accordion-item bg-theme-card rounded-xl overflow-hidden group ${group.cardClass.includes("red-500") ? "border border-red-500/20" : "border border-accent-green/20"}`}
+        class={`service-accordion-item rounded-xl overflow-hidden group ${group.cardClass}`}
         open={index === 0}
       >
         <summary
@@ -157,7 +156,7 @@ const overviewGroups: OverviewGroup[] = [
           <div class="px-4 pb-4 space-y-3">
             {group.items.map((item, itemIndex) => (
               <div
-                class={`flex items-start gap-3 p-3 rounded-xl ${group.itemClass.includes("red-500") ? "bg-red-500/5 border border-red-500/15" : "bg-accent-green/5 border border-accent-green/15"}`}
+                class={group.itemClass}
               >
                 <div
                   class={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${group.itemIndexClass.replace("w-7 h-7 ", "")}`}

@@ -19,6 +19,8 @@ Treat `public/` as raw output. No Tailwind pass. No PostCSS rescue. No server-si
 - Remove host-specific artifacts when the current deployment will not honor them.
 - Do not declare manifest features, crawler endpoints, or service-worker flows unless the app actually implements them.
 - Prefer short authoritative metadata over verbose marketing copy.
+- Keep icon, manifest, and crawler assets synchronized with the actual site navigation and published routes.
+- If a public asset is not referenced by the site, browser, crawler, or build output, it is dead weight.
 
 ## Runtime CSS
 
@@ -27,6 +29,7 @@ Treat `public/` as raw output. No Tailwind pass. No PostCSS rescue. No server-si
 - Reuse existing design tokens where they already exist.
 - Keep selectors tightly scoped to the runtime widget they serve.
 - Add reduced-motion handling when the file introduces noticeable animation.
+- Do not assume app-bundled CSS variables or layers exist unless the runtime asset is explicitly loaded in that context.
 
 ## Service Worker
 
@@ -40,3 +43,4 @@ Treat `public/` as raw output. No Tailwind pass. No PostCSS rescue. No server-si
 - Check every edited public asset has a real caller or browser purpose.
 - Rebuild when changing metadata paths, service worker behavior, or manifest contents.
 - When editing crawler-facing files, confirm links and canonical paths are current.
+- Re-open the generated output path when asset naming, icon sets, or discovery files change.

@@ -1,0 +1,100 @@
+---
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
+
+interface Props {
+  content: {
+    title: string;
+    description: string;
+    tracks: {
+      name: string;
+      summary: string;
+      services: string[];
+      outcome: string;
+    }[];
+  };
+}
+
+const { content } = Astro.props;
+---
+
+<SectionShell
+  id="services-chooser"
+  padding="normal"
+  background="surface"
+  gradients={["top"]}
+  patterns={["mesh"]}
+  contentWidth="6xl"
+  class="relative services-chooser-section section-divider"
+>
+  <div
+    data-reveal="fade-down"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    <SectionHeader
+      title={content.title}
+      subtitle={content.description}
+      highlight="problem"
+    />
+  </div>
+
+  <div class="services-chooser-grid services-chooser-desktop hidden lg:grid">
+    {content.tracks.map((track, index) => (
+      <article
+        class="services-chooser-card"
+        data-reveal="fade-up"
+        data-reveal-delay={index * 40}
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
+        <div class="services-chooser-card-eyebrow">
+          Track {String(index + 1).padStart(2, "0")}
+        </div>
+        <h3 class="services-chooser-card-title">{track.name}</h3>
+        <p class="services-chooser-card-summary">{track.summary}</p>
+
+        <div class="services-chooser-service-list">
+          {track.services.map((service) => (
+            <span class="services-chooser-service-pill">{service}</span>
+          ))}
+        </div>
+
+        <p class="services-chooser-card-outcome">{track.outcome}</p>
+      </article>
+    ))}
+  </div>
+
+  <div class="services-chooser-accordion services-chooser-mobile lg:hidden">
+    {content.tracks.map((track, index) => (
+      <details
+        class="services-chooser-accordion-item accordion-item"
+        open={index === 0}
+        data-reveal="fade-up"
+        data-reveal-delay={index * 40}
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
+        <summary class="services-chooser-accordion-summary accordion-summary">
+          <div>
+            <p class="services-chooser-card-eyebrow">
+              Track {String(index + 1).padStart(2, "0")}
+            </p>
+            <h3 class="services-chooser-accordion-title">{track.name}</h3>
+          </div>
+          <span class="services-chooser-accordion-arrow">+</span>
+        </summary>
+
+        <div class="services-chooser-accordion-body">
+          <p class="services-chooser-card-summary">{track.summary}</p>
+          <div class="services-chooser-service-list">
+            {track.services.map((service) => (
+              <span class="services-chooser-service-pill">{service}</span>
+            ))}
+          </div>
+          <p class="services-chooser-card-outcome">{track.outcome}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+</SectionShell>

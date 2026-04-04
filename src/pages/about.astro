@@ -19,20 +19,20 @@ import { createBreadcrumbSchema } from "@/lib/structuredData";
 const breadcrumbSchema = createBreadcrumbSchema("/about", "About");
 const sections = [
   { Component: HeroSection, props: { content: aboutContent.hero } },
-  { Component: MissionVisionSection, props: { content: aboutContent.mission } },
   { Component: PurposeSection, props: { content: aboutContent.purpose } },
   { Component: ApproachSection, props: { content: aboutContent.approach } },
-  { Component: TeamSection, props: { content: aboutContent.team } },
   {
     Component: PartnershipSection,
     props: { content: aboutContent.partnership },
   },
+  { Component: TeamSection, props: { content: aboutContent.team } },
+  { Component: MissionVisionSection, props: { content: aboutContent.mission } },
   { Component: GlobalSection, props: { content: aboutContent.global } },
 ] as const;
 const ctaProps = {
   id: "about-cta",
   title: aboutContent.cta.title,
-  titleHighlight: "Partnership",
+  titleHighlight: "AUXO",
   description: aboutContent.cta.description,
   descriptionHighlight: aboutContent.cta.descriptionHighlight,
   ctaText: aboutContent.cta.ctaText,
@@ -46,7 +46,7 @@ const ctaProps = {
 
 <BaseLayout
   title="About Us | AUXO Data Labs"
-  description="Learn about AUXO Data Labs - a modern decision intelligence partner that bridges business strategy and data execution. Discover our mission, vision, and approach."
+  description="Learn how AUXO Data Labs works, what clients rely on us for, and how our senior-led analytics approach connects business context with technical delivery."
 >
   <StructuredData type="BreadcrumbList" data={breadcrumbSchema} />
   {sections.map(({ Component, props }) => <Component {...props} />)}

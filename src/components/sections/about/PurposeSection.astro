@@ -9,6 +9,11 @@ interface Props {
     title: string;
     description: string;
     descriptionHighlight?: string | string[];
+    capabilities: {
+      title: string;
+      description: string;
+      icon: string;
+    }[];
     nameOrigin: {
       title: string;
       description: string;
@@ -26,62 +31,51 @@ const { content } = Astro.props;
   background="card"
   gradients={["center"]}
   patterns={["mesh"]}
-  contentWidth="5xl"
+  contentWidth="6xl"
   class="relative purpose-section section-divider"
 >
   <SectionHeader
     title={content.title}
     subtitle={content.description}
-    highlight="AUXO"
     subtitleHighlight={content.descriptionHighlight}
   />
 
-      <div
-        class="name-origin-card group relative"
+  <div class="about-purpose-grid">
+    {content.capabilities.map((capability, index) => (
+      <article
+        class="about-purpose-card"
         data-reveal="fade-up"
-        data-reveal-delay="50"
+        data-reveal-delay={index * 40}
         data-reveal-duration="200"
         data-reveal-easing="ease-out"
       >
-        <div
-          class="absolute inset-0 bg-gradient-to-r from-accent-green/20 to-accent-green/5 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500"
-        >
+        <div class="about-purpose-card-head">
+          <div class="about-purpose-card-icon">
+            <Icon name={capability.icon} class="w-6 h-6 text-accent-green" />
+          </div>
+          <h3 class="about-purpose-card-title">{capability.title}</h3>
         </div>
-        <div
-          class="relative bg-theme-surface/80 backdrop-blur-sm border border-accent-green/30 rounded-3xl p-8 sm:p-10 lg:p-12 overflow-hidden shadow-2xl"
-        >
-          <div
-            class="absolute top-0 right-0 w-64 h-64 bg-accent-green/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"
-          >
-          </div>
+        <p class="about-purpose-card-copy">{capability.description}</p>
+      </article>
+    ))}
+  </div>
 
-          <div class="relative z-10">
-            <div class="flex items-center gap-4 mb-6">
-              <Icon
-                name="mdi:lightbulb-on"
-                class="w-8 h-8 sm:w-9 sm:h-9 text-accent-green flex-shrink-0"
-              />
-              <h3
-                class="text-h3 font-extrabold text-theme-primary font-display tracking-tight"
-              >
-                {content.nameOrigin.title}
-              </h3>
-            </div>
-            <p
-              class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed font-body"
-            >
-              <HighlightText
-                text={content.nameOrigin.description}
-                highlight={["growth", "increase", "AUXO"]}
-                highlightClass="text-accent-green font-bold"
-              />
-            </p>
-          </div>
-
-          <div
-            class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-green/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          >
-          </div>
-        </div>
-      </div>
+  <div
+    class="about-origin-note"
+    data-reveal="fade-up"
+    data-reveal-delay="120"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    <div class="about-origin-note-head">
+      <Icon name="mdi:lightbulb-on-outline" class="w-5 h-5 text-accent-green" />
+      <h3>{content.nameOrigin.title}</h3>
+    </div>
+    <p>
+      <HighlightText
+        text={content.nameOrigin.description}
+        highlight={content.nameOrigin.descriptionHighlight}
+      />
+    </p>
+  </div>
 </SectionShell>

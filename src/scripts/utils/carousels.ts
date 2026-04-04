@@ -57,8 +57,7 @@ const CAROUSEL_CONFIGS: CarouselConfig[] = [
   },
   {
     containerId: "impact-carousel-container",
-    breakpoint: 0,
-    activateOnDesktop: true,
+    breakpoint: BREAKPOINTS.LG,
     carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 4000 },
   },
   {
@@ -70,6 +69,16 @@ const CAROUSEL_CONFIGS: CarouselConfig[] = [
     containerId: "service-benefits-carousel-container",
     breakpoint: BREAKPOINTS.LG,
     carouselOptions: { ...BASE_OPTIONS, autoplayInterval: 4500 },
+  },
+  {
+    containerId: "service-snapshot-carousel-container",
+    breakpoint: BREAKPOINTS.LG,
+    carouselOptions: {
+      ...BASE_OPTIONS,
+      autoplayInterval: 5000,
+      loop: false,
+      containScroll: "keepSnaps",
+    },
   },
 ];
 

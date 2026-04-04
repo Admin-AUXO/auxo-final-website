@@ -6,12 +6,15 @@ import HeroBackdrop from "@/components/effects/HeroBackdrop.astro";
 
 interface Props {
   content: {
-    headlineLine1: string;
-    headlineLine2: string;
+    eyebrow: string;
+    title: string;
+    titleHighlight?: string | string[];
     description: string;
-    descriptionHighlight?: string | string[];
-    ctaText?: string;
-    ctaHref?: string;
+    pills: string[];
+    primaryCtaText?: string;
+    primaryCtaHref?: string;
+    secondaryCtaText?: string;
+    secondaryCtaHref?: string;
   };
 }
 
@@ -20,44 +23,30 @@ const { content } = Astro.props;
 
 <HeroLayout
   id="services-hero"
-  scrollHref="#services-stages"
-  scrollText="Explore Services"
-  scrollAriaLabel="Scroll to explore services"
+  scrollHref="#services-chooser"
+  scrollText="Find Your Fit"
+  scrollAriaLabel="Scroll to find the right service"
 >
   <Fragment slot="background">
     <HeroBackdrop mode="sys" showDecorations={true} showAccentLines={true} />
   </Fragment>
 
   <div class="services-hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">
+    <div
+      class="services-hero-badge"
+      data-reveal="zoom-in"
+      data-reveal-duration="200"
+      data-reveal-easing="ease-out"
+    >
+      {content.eyebrow}
+    </div>
     <h1
       class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display"
       data-reveal="fade-down"
       data-reveal-duration="200"
       data-reveal-easing="ease-out"
     >
-      <span
-        class="block services-hero-intro-text"
-        data-reveal="fade-right"
-        data-reveal-delay="0"
-        data-reveal-duration="200"
-        data-reveal-easing="ease-out"
-      >
-        <HighlightText text={content.headlineLine1} highlight="Analytics" />
-      </span>
-
-      <span
-        class="block mt-2 sm:mt-3 lg:mt-4 services-hero-impact-wrapper relative"
-      >
-        <span
-          class="inline-block services-hero-impact-text relative"
-          data-reveal="fade-left"
-          data-reveal-delay="40"
-          data-reveal-duration="200"
-          data-reveal-easing="ease-out"
-        >
-          <HighlightText text={content.headlineLine2} highlight="impact" />
-        </span>
-      </span>
+      <HighlightText text={content.title} highlight={content.titleHighlight} />
     </h1>
   </div>
 
@@ -76,20 +65,45 @@ const { content } = Astro.props;
   </div>
 
   {
-    content.ctaText && content.ctaHref && (
+    content.pills?.length > 0 && (
       <div
-        class="services-hero-follow-content hero-follow-content"
+        class="services-hero-pills"
         data-reveal="fade-up"
-        data-reveal-delay="100"
+        data-reveal-delay="80"
         data-reveal-duration="200"
         data-reveal-easing="ease-out"
       >
-        <HeroCTAButton
-          text={content.ctaText}
-          href={content.ctaHref}
-          context="hero"
-          calendlyText="Schedule a Consultation"
-        />
+        {content.pills.map((pill) => (
+          <span class="services-hero-pill">{pill}</span>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    content.primaryCtaText && content.primaryCtaHref && (
+      <div
+        class="services-hero-follow-content hero-follow-content"
+        data-reveal="fade-up"
+        data-reveal-delay="120"
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
+        <div class="services-hero-actions">
+          <HeroCTAButton
+            text={content.primaryCtaText}
+            href={content.primaryCtaHref}
+            context="hero"
+            calendlyText="Schedule a Consultation"
+          />
+          {
+            content.secondaryCtaText && content.secondaryCtaHref && (
+              <a href={content.secondaryCtaHref} class="services-hero-secondary-link">
+                {content.secondaryCtaText}
+              </a>
+            )
+          }
+        </div>
       </div>
     )
   }

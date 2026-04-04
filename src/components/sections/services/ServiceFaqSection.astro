@@ -1,0 +1,63 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
+import type { ServicePageDetail } from "@/data/content/service-page-details";
+
+interface Props {
+  service: ServicePageDetail;
+}
+
+const { service } = Astro.props;
+---
+
+<SectionShell
+  id="service-faq"
+  padding="lg"
+  background="elevated"
+  gradients={["dual"]}
+  patterns={["grid"]}
+  contentWidth="5xl"
+  class="relative service-faq-section section-divider"
+>
+  <div
+    data-reveal="fade-down"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    <SectionHeader
+      title={service.faq.title}
+      subtitle={service.faq.description}
+    />
+  </div>
+
+  <div class="service-faq-list">
+    {service.faq.items.map((item, index) => (
+      <details
+        class="service-faq-item accordion-item"
+        open={index === 0}
+        data-reveal="fade-up"
+        data-reveal-delay={index * 30}
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
+        <summary class="service-faq-summary accordion-summary">
+          <span>{item.question}</span>
+          <span class="service-faq-icon-wrap">
+            <Icon
+              name="mdi:plus"
+              class="service-faq-plus"
+            />
+            <Icon
+              name="mdi:minus"
+              class="service-faq-minus"
+            />
+          </span>
+        </summary>
+        <div class="service-faq-answer">
+          <p>{item.answer}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+</SectionShell>

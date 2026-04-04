@@ -1,13 +1,18 @@
 ---
 import { Icon } from "astro-icon/components";
 import SectionShell from "@/components/layouts/SectionShell.astro";
-import HighlightText from "@/components/ui/HighlightText.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
 
 interface Props {
   content: {
     title: string;
     description: string;
     descriptionHighlight?: string | string[];
+    commitments: {
+      title: string;
+      description: string;
+      icon: string;
+    }[];
   };
 }
 
@@ -18,71 +23,35 @@ const { content } = Astro.props;
   id="partnership"
   padding="normal"
   background="card"
-  contentWidth="5xl"
-  class="relative partnership-section"
+  contentWidth="6xl"
+  class="relative partnership-section section-divider"
 >
-  <div class="partnership-pattern absolute inset-0 pointer-events-none -z-10">
-  </div>
-  <div class="partnership-gradient absolute inset-0 pointer-events-none -z-10">
-  </div>
-  <div
-    class="text-center mb-8 sm:mb-10 lg:mb-12 xl:mb-16"
-    data-reveal="fade-down"
-    data-reveal-duration="200"
-    data-reveal-easing="ease-out"
-  >
-    <div class="inline-flex items-center justify-center gap-3 mb-4 sm:mb-6">
-      <Icon
-        name="mdi:handshake"
-        class="w-8 h-8 sm:w-10 sm:h-10 text-accent-green"
-      />
-      <h2
-        class="text-h2 font-extrabold text-theme-primary leading-tight tracking-tight font-display"
-      >
-        <HighlightText text={content.title} highlight="Partner" />
-      </h2>
-    </div>
-  </div>
+  <div class="partnership-pattern absolute inset-0 pointer-events-none -z-10"></div>
+  <div class="partnership-gradient absolute inset-0 pointer-events-none -z-10"></div>
 
-      <div
-        class="partnership-content group relative"
+  <SectionHeader
+    title={content.title}
+    subtitle={content.description}
+    subtitleHighlight={content.descriptionHighlight}
+  />
+
+  <div class="about-commitment-grid">
+    {content.commitments.map((commitment, index) => (
+      <article
+        class="about-commitment-card"
         data-reveal="fade-up"
-        data-reveal-delay="50"
+        data-reveal-delay={index * 40}
         data-reveal-duration="200"
         data-reveal-easing="ease-out"
       >
-        <div
-          class="absolute inset-0 bg-gradient-to-r from-accent-green/20 to-accent-green/5 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500"
-        >
+        <div class="about-commitment-card-head">
+          <div class="about-commitment-card-icon">
+            <Icon name={commitment.icon} class="w-5 h-5 text-accent-green" />
+          </div>
+          <h3 class="about-commitment-card-title">{commitment.title}</h3>
         </div>
-        <div
-          class="relative bg-theme-surface/80 backdrop-blur-sm border border-accent-green/30 rounded-3xl p-8 sm:p-10 lg:p-12 overflow-hidden shadow-2xl flex flex-col items-center text-center"
-        >
-          <div
-            class="absolute top-0 right-0 w-64 h-64 bg-accent-green/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"
-          >
-          </div>
-          <div
-            class="absolute bottom-0 left-0 w-64 h-64 bg-accent-green/10 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none"
-          >
-          </div>
-
-          <div class="relative z-10 max-w-4xl mx-auto">
-            <p
-              class="text-body-lg sm:text-body-xl lg:text-h4 text-theme-secondary leading-relaxed font-body"
-            >
-              <HighlightText
-                text={content.description}
-                highlight={content.descriptionHighlight || []}
-                highlightClass="text-accent-green font-bold"
-              />
-            </p>
-          </div>
-
-          <div
-            class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-green/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          >
-          </div>
-        </div>
-      </div>
+        <p class="about-commitment-card-copy">{commitment.description}</p>
+      </article>
+    ))}
+  </div>
 </SectionShell>

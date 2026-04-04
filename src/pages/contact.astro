@@ -1,12 +1,19 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { siteData } from "@/data/content";
-import { Icon } from "astro-icon/components";
+import StructuredData from "@/components/common/StructuredData.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import ContactForm from "@/components/forms/ContactForm.astro";
-import ParticleBackground from "@/components/effects/ParticleBackground.astro";
+import HighlightText from "@/components/ui/HighlightText.astro";
+import { contactContent, siteData } from "@/data/content";
+import { Icon } from "astro-icon/components";
+import { createBreadcrumbSchema } from "@/lib/structuredData";
+import { createUrl } from "@/utils/url";
 import "@/styles/sections/hero.css";
 import "@/styles/sections/contact-sections.css";
+
+const breadcrumbSchema = createBreadcrumbSchema("/contact", "Contact");
 
 const contactCards = [
   {
@@ -15,166 +22,269 @@ const contactCards = [
     value: siteData.email,
     href: `mailto:${siteData.email}`,
     icon: "mdi:email-outline",
-    containerClass:
-      "flex items-center gap-4 p-4 sm:p-5 rounded-xl bg-theme-card border border-accent-green/20 hover:border-accent-green/40 hover:shadow-lg hover:shadow-accent-green/10 hover:-translate-y-0.5 transition-all duration-300 group",
-    iconWrapperClass:
-      "w-12 h-12 bg-accent-green/15 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-accent-green/25 group-hover:scale-110 transition-all",
-    valueClass:
-      "text-sm sm:text-base font-bold text-theme-primary font-body truncate group-hover:text-accent-green transition-colors",
-    trailingIcon: "mdi:arrow-right",
   },
   {
     type: "static",
     label: "Location",
     value: `${siteData.address.city}, ${siteData.address.country}`,
-    icon: "mdi:map-marker",
-    containerClass:
-      "flex items-center gap-4 p-4 sm:p-5 rounded-xl bg-theme-card border border-accent-green/20",
-    iconWrapperClass:
-      "w-12 h-12 bg-accent-green/15 rounded-lg flex items-center justify-center flex-shrink-0",
-    valueClass: "text-sm sm:text-base font-bold text-theme-primary font-body",
+    icon: "mdi:map-marker-outline",
   },
   {
     type: "static",
-    label: "Response Time",
-    value: siteData.stats.responseTime,
+    label: "Response time",
+    value: "Within 1 business day",
     icon: "mdi:clock-check-outline",
-    containerClass:
-      "flex items-center gap-4 p-4 sm:p-5 rounded-xl bg-accent-green/10 border border-accent-green/30",
-    iconWrapperClass:
-      "w-12 h-12 bg-accent-green/20 rounded-lg flex items-center justify-center flex-shrink-0",
-    valueClass: "text-base sm:text-lg font-extrabold text-accent-green font-display",
+  },
+  {
+    type: "link",
+    label: "LinkedIn",
+    value: "AUXO Data Labs",
+    href: siteData.social.linkedin,
+    icon: "mdi:linkedin",
   },
 ] as const;
 ---
 
 <BaseLayout
   title="Contact Us | AUXO Data Labs"
-  description="Get in touch with AUXO Data Labs. We're here to help transform your data analytics capabilities. Contact us for inquiries, consultations, or partnerships."
+  description="Contact AUXO Data Labs to discuss reporting issues, analytics strategy, forecasting, automation, or embedded decision-intelligence support."
 >
-  <section
-    id="contact-main"
-    class="relative w-full min-h-screen flex items-center justify-center overflow-hidden py-12 sm:py-20 lg:py-24 px-4 sm:px-6"
-  >
-    <div
-      class="absolute inset-0 -z-10 overflow-hidden pointer-events-none layout-shift-fix"
-    >
-      <ParticleBackground mode="flow" />
-    </div>
+  <StructuredData type="BreadcrumbList" data={breadcrumbSchema} />
+
+  <section id="contact-hero" class="contact-hero-section hero-section">
     <BackgroundDecorations gradients={["hero"]} patterns={["grid"]} />
 
-    <div class="grid-container relative z-10 w-full">
-      <div class="col-span-full max-w-7xl mx-auto w-full">
-        <div class="text-center mb-10 sm:mb-12 lg:mb-16">
-          <h1
-            class="text-h1 font-extrabold mb-4 sm:mb-5 lg:mb-6 leading-tight tracking-tight text-theme-primary font-display"
-            data-reveal="fade-down"
-            data-reveal-duration="200"
-            data-reveal-delay="0"
-            data-reveal-easing="ease-out"
-          >
-            Let's <span class="text-accent-green font-black text-[1.05em]"
-              >Connect</span
-            >
-          </h1>
-          <p
-            class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed max-w-2xl mx-auto font-body mb-8 sm:mb-10"
-            data-reveal="fade-up"
-            data-reveal-delay="50"
-            data-reveal-duration="200"
-            data-reveal-easing="ease-out"
-          >
-            Ready to transform your data analytics? Start with a conversation.
-          </p>
-          <div
-            class="flex justify-center"
-            data-reveal="zoom-in"
-            data-reveal-delay="100"
-            data-reveal-duration="200"
-            data-reveal-easing="ease-out"
-          >
-            <button
-              type="button"
-              data-google-calendar-open
-              class="px-8 py-4 bg-accent-green text-on-accent font-bold rounded-xl hover:bg-accent-green/90 hover:shadow-lg hover:shadow-accent-green/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 min-h-[56px] flex items-center justify-center gap-3 text-lg group/btn"
-              aria-label="Schedule a meeting"
-            >
-              <Icon
-                name="mdi:calendar-clock"
-                class="w-6 h-6 group-hover/btn:scale-110 transition-transform"
-              />
-              <span>Schedule a Meeting</span>
-            </button>
-          </div>
+    <div class="grid-container relative z-10">
+      <div class="col-span-full max-w-6xl mx-auto text-center">
+        <div
+          class="contact-hero-badge"
+          data-reveal="zoom-in"
+          data-reveal-duration="200"
+          data-reveal-easing="ease-out"
+        >
+          {contactContent.hero.eyebrow}
+        </div>
+
+        <h1
+          class="contact-hero-title"
+          data-reveal="fade-down"
+          data-reveal-duration="200"
+          data-reveal-easing="ease-out"
+        >
+          <HighlightText
+            text={contactContent.hero.title}
+            highlight={contactContent.hero.titleHighlight}
+          />
+        </h1>
+
+        <p
+          class="contact-hero-description"
+          data-reveal="fade-up"
+          data-reveal-delay="50"
+          data-reveal-duration="200"
+          data-reveal-easing="ease-out"
+        >
+          {contactContent.hero.description}
+        </p>
+
+        <div
+          class="contact-hero-pills"
+          data-reveal="fade-up"
+          data-reveal-delay="80"
+          data-reveal-duration="200"
+          data-reveal-easing="ease-out"
+        >
+          {contactContent.hero.pills.map((pill) => (
+            <span class="contact-hero-pill">{pill}</span>
+          ))}
         </div>
 
         <div
-          class="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16"
-          id="contact-form"
+          class="contact-hero-actions"
+          data-reveal="fade-up"
+          data-reveal-delay="100"
+          data-reveal-duration="200"
+          data-reveal-easing="ease-out"
         >
-          <div
-            class="space-y-6 lg:space-y-8"
-            data-reveal="fade-right"
-            data-reveal-duration="200"
-            data-reveal-delay="50"
-            data-reveal-easing="ease-out"
+          <button
+            type="button"
+            data-google-calendar-open
+            class="contact-primary-cta"
+            aria-label="Schedule a meeting"
           >
-            <div class="text-center lg:text-left">
-              <h2
-                class="text-h3 font-extrabold mb-3 text-theme-primary font-display"
-              >
-                Reach Out
-              </h2>
-              <p
-                class="text-theme-secondary font-body leading-relaxed max-w-md mx-auto lg:mx-0"
-              >
-                We typically respond within 24 hours. Share your challenge, and
-                we'll provide insights on how we can help.
-              </p>
-            </div>
+            <Icon name="mdi:calendar-clock-outline" class="w-5 h-5" />
+            <span>{contactContent.hero.primaryCtaText}</span>
+          </button>
 
-            <div class="space-y-4 max-w-md mx-auto lg:mx-0 lg:max-w-none">
-              {
-                contactCards.map((card) => {
-                  const Tag = card.type === "link" ? "a" : "div";
-
-                  return (
-                    <Tag href={card.type === "link" ? card.href : undefined} class={card.containerClass}>
-                      <div class={card.iconWrapperClass}>
-                        <Icon name={card.icon} class="w-6 h-6 text-accent-green" />
-                      </div>
-                      <div class="flex-1 min-w-0">
-                        <div class="text-xs font-semibold text-theme-secondary mb-1 font-body uppercase tracking-wide">
-                          {card.label}
-                        </div>
-                        <div class={card.valueClass}>{card.value}</div>
-                      </div>
-                      {
-                        card.trailingIcon && (
-                          <Icon
-                            name={card.trailingIcon}
-                            class="w-5 h-5 text-accent-green opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all flex-shrink-0"
-                          />
-                        )
-                      }
-                    </Tag>
-                  );
-                })
-              }
-            </div>
-          </div>
-
-          <div
-            class="max-w-md mx-auto lg:mx-0 lg:max-w-none w-full"
-            data-reveal="fade-left"
-            data-reveal-delay="50"
-            data-reveal-duration="200"
-            data-reveal-easing="ease-out"
-          >
-            <ContactForm />
-          </div>
+          <a href={contactContent.hero.secondaryCtaHref} class="contact-secondary-cta">
+            {contactContent.hero.secondaryCtaText}
+          </a>
         </div>
       </div>
     </div>
   </section>
+
+  <SectionShell
+    id="contact-use-cases"
+    padding="normal"
+    background="surface"
+    gradients={["top"]}
+    patterns={["mesh"]}
+    contentWidth="6xl"
+    class="relative contact-use-cases-section section-divider"
+  >
+    <SectionHeader
+      title={contactContent.useCases.title}
+      subtitle={contactContent.useCases.description}
+    />
+
+    <div class="contact-use-cases-grid">
+      {contactContent.useCases.items.map((item, index) => (
+        <article
+          class="contact-use-case-card"
+          data-reveal="fade-up"
+          data-reveal-delay={index * 40}
+          data-reveal-duration="200"
+          data-reveal-easing="ease-out"
+        >
+          <div class="contact-use-case-icon">
+            <Icon name={item.icon} class="w-6 h-6 text-accent-green" />
+          </div>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </article>
+      ))}
+    </div>
+  </SectionShell>
+
+  <SectionShell
+    id="contact-form-section"
+    padding="normal"
+    background="default"
+    gradients={["dual"]}
+    patterns={["grid"]}
+    contentWidth="6xl"
+    class="relative contact-main-section section-divider"
+  >
+    <div class="contact-main-grid">
+      <aside
+        class="contact-sidebar"
+        data-reveal="fade-right"
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
+        <div class="contact-sidebar-panel">
+          <p class="contact-sidebar-kicker">Before you hit send</p>
+          <h2 class="contact-sidebar-title">{contactContent.formSection.title}</h2>
+          <p class="contact-sidebar-copy">{contactContent.formSection.description}</p>
+
+          <div class="contact-checklist">
+            {contactContent.formSection.checklist.map((item) => (
+              <div class="contact-checklist-item">
+                <Icon name="mdi:check-bold" class="w-4 h-4 text-accent-green flex-shrink-0" />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+
+          <p class="contact-sidebar-note">{contactContent.formSection.note}</p>
+        </div>
+
+        <div class="contact-details-panel">
+          <div class="contact-details-head">
+            <h3>Other ways to reach AUXO</h3>
+            <button type="button" data-google-calendar-open class="contact-inline-schedule">
+              <Icon name="mdi:calendar-clock-outline" class="w-4 h-4" />
+              <span>Book time</span>
+            </button>
+          </div>
+
+          <div class="contact-details-list">
+            {contactCards.map((card) => {
+              const Tag = card.type === "link" ? "a" : "div";
+
+              return (
+                <Tag
+                  href={card.type === "link" ? card.href : undefined}
+                  class={`contact-detail-card ${card.type === "link" ? "contact-detail-card-link" : ""}`}
+                  target={card.type === "link" && card.href?.startsWith("http") ? "_blank" : undefined}
+                  rel={card.type === "link" && card.href?.startsWith("http") ? "noreferrer" : undefined}
+                >
+                  <div class="contact-detail-icon">
+                    <Icon name={card.icon} class="w-5 h-5 text-accent-green" />
+                  </div>
+                  <div class="contact-detail-copy">
+                    <span class="contact-detail-label">{card.label}</span>
+                    <span class="contact-detail-value">{card.value}</span>
+                  </div>
+                  {card.type === "link" && (
+                    <Icon
+                      name="mdi:arrow-right"
+                      class="w-4 h-4 text-accent-green/70 group-hover:translate-x-1 transition-transform duration-fast"
+                    />
+                  )}
+                </Tag>
+              );
+            })}
+          </div>
+        </div>
+      </aside>
+
+      <div
+        class="contact-form-wrap"
+        data-reveal="fade-left"
+        data-reveal-delay="50"
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
+        <ContactForm class="contact-form-card" />
+      </div>
+    </div>
+  </SectionShell>
+
+  <SectionShell
+    id="contact-faq"
+    padding="normal"
+    background="card"
+    gradients={["center"]}
+    patterns={["mesh"]}
+    contentWidth="5xl"
+    class="relative contact-faq-section section-divider"
+  >
+    <SectionHeader
+      title={contactContent.faq.title}
+      subtitle={contactContent.faq.description}
+    />
+
+    <div class="contact-faq-list">
+      {contactContent.faq.items.map((item, index) => (
+        <details
+          class="contact-faq-item"
+          open={index === 0}
+          data-reveal="fade-up"
+          data-reveal-delay={index * 35}
+          data-reveal-duration="200"
+          data-reveal-easing="ease-out"
+        >
+          <summary class="contact-faq-summary">
+            <span>{item.question}</span>
+            <span class="contact-faq-icon-wrap">
+              <Icon name="mdi:minus" class="contact-faq-minus w-4 h-4" />
+              <Icon name="mdi:plus" class="contact-faq-plus w-4 h-4" />
+            </span>
+          </summary>
+          <div class="contact-faq-answer">
+            <p>{item.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <div class="contact-faq-footer">
+      <p>If you already know the problem area, you can also browse the service library first.</p>
+      <a href={createUrl("services")} class="contact-secondary-cta">
+        View services
+      </a>
+    </div>
+  </SectionShell>
 </BaseLayout>

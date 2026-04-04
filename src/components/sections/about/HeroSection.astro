@@ -6,118 +6,92 @@ import HeroBackdrop from "@/components/effects/HeroBackdrop.astro";
 
 interface Props {
   content: {
-    headline: string;
+    eyebrow: string;
+    title: string;
+    titleHighlight?: string | string[];
     description: string;
-    ctaText: string;
-    ctaHref: string;
+    pills: string[];
+    primaryCtaText: string;
+    primaryCtaHref: string;
+    secondaryCtaText: string;
+    secondaryCtaHref: string;
   };
 }
 
 const { content } = Astro.props;
-const headlineParts = content.headline.split(" ");
-const bridgePart = headlineParts.slice(0, 2).join(" ");
-const leftPart = headlineParts.slice(2, 4).join(" ");
-const middlePart = headlineParts[4];
-const rightPart = headlineParts.slice(5).join(" ");
 ---
 
 <HeroLayout
   id="about-hero"
-  scrollHref="#mission-vision"
-  scrollText="Learn More"
-  scrollAriaLabel="Scroll to learn more"
+  scrollHref="#purpose"
+  scrollText="See What We Do"
+  scrollAriaLabel="Scroll to learn what AUXO does"
 >
   <Fragment slot="background">
     <HeroBackdrop mode="about" showDecorations={true} showAccentLines={true} />
   </Fragment>
 
-  <div
-    class="about-hero-headline mb-6 sm:mb-8 lg:mb-10 w-full"
-    data-reveal="fade-down"
-    data-reveal-duration="200"
-    data-reveal-easing="ease-out"
-  >
+  <div class="about-hero-headline mb-6 sm:mb-8 lg:mb-10 w-full">
+    <div
+      class="about-hero-badge"
+      data-reveal="zoom-in"
+      data-reveal-duration="200"
+      data-reveal-easing="ease-out"
+    >
+      {content.eyebrow}
+    </div>
     <h1
       class="text-h1 font-extrabold leading-tight tracking-tight text-theme-primary transition-colors mb-3 sm:mb-4 lg:mb-5 w-full font-display"
+      data-reveal="fade-down"
+      data-reveal-duration="200"
+      data-reveal-easing="ease-out"
     >
-      <span
-        class="block bridge-intro"
-        data-reveal="fade-up"
-        data-reveal-delay="0"
-        data-reveal-duration="200"
-        data-reveal-easing="ease-out">{bridgePart}</span
-      >
-
-      <div class="block mt-2 sm:mt-3 lg:mt-4 bridge-content-wrapper relative">
-        <span
-          class="inline-block bridge-left"
-          data-reveal="fade-right"
-          data-reveal-delay="40"
-          data-reveal-duration="200"
-          data-reveal-easing="ease-out"
-        >
-          {leftPart}
-        </span>
-
-        <span
-          class="inline-block mx-2 sm:mx-3 lg:mx-4 text-accent-green bridge-middle"
-          data-reveal="zoom-in"
-          data-reveal-delay="80"
-          data-reveal-duration="200"
-          data-reveal-easing="ease-out"
-        >
-          {middlePart}
-        </span>
-
-        <span
-          class="inline-block bridge-right relative"
-          data-reveal="fade-left"
-          data-reveal-delay="50"
-          data-reveal-duration="200"
-          data-reveal-easing="ease-out"
-        >
-          {rightPart}
-        </span>
-
-        <span
-          class="absolute -bottom-1 left-0 h-0.5 bg-accent-green/30 rounded-full about-hero-bridge-line"
-          data-reveal="fade-right"
-          data-reveal-delay="100"
-          data-reveal-duration="200"
-          data-reveal-easing="ease-out"></span>
-      </div>
+      <HighlightText text={content.title} highlight={content.titleHighlight} />
     </h1>
   </div>
 
   <div
     class="about-hero-description mb-8 sm:mb-10 lg:mb-12 max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto about-hero-follow-content hero-follow-content"
     data-reveal="fade-up"
-    data-reveal-delay="100"
+    data-reveal-delay="50"
     data-reveal-duration="200"
     data-reveal-easing="ease-out"
   >
     <p
       class="text-body-lg sm:text-body-xl text-theme-secondary leading-relaxed transition-colors font-normal opacity-80 font-body"
     >
-      <HighlightText
-        text={content.description}
-        highlight="AUXO"
-        highlightClass="text-accent-green font-semibold relative"
-      />
+      {content.description}
     </p>
+  </div>
+
+  <div
+    class="about-hero-pills"
+    data-reveal="fade-up"
+    data-reveal-delay="80"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    {content.pills.map((pill) => (
+      <span class="about-hero-pill">{pill}</span>
+    ))}
   </div>
 
   <div
     class="about-hero-follow-content hero-follow-content"
     data-reveal="fade-up"
-    data-reveal-delay="100"
+    data-reveal-delay="120"
     data-reveal-duration="200"
     data-reveal-easing="ease-out"
   >
-    <HeroCTAButton
-      text={content.ctaText}
-      href={content.ctaHref}
-      context="about"
-    />
+    <div class="about-hero-actions">
+      <HeroCTAButton
+        text={content.primaryCtaText}
+        href={content.primaryCtaHref}
+        context="about"
+      />
+      <a href={content.secondaryCtaHref} class="about-hero-secondary-link">
+        {content.secondaryCtaText}
+      </a>
+    </div>
   </div>
 </HeroLayout>

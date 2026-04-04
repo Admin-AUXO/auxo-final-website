@@ -2,11 +2,14 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import StructuredData from "@/components/common/StructuredData.astro";
 import HeroSection from "@/components/sections/services/HeroSection.astro";
+import ServicesChooserSection from "@/components/sections/services/ServicesChooserSection.astro";
 import ServicesStageSection from "@/components/sections/services/ServicesStageSection.astro";
 import ImpactSection from "@/components/sections/services/ImpactSection.astro";
 import ModelsSection from "@/components/sections/services/ModelsSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
-import { servicesContent } from "@/data/content";
+import { navigationContent } from "@/data/content";
+import { servicePageDetails } from "@/data/content/service-page-details";
+import { servicesOverviewContent } from "@/data/content/services-overview";
 import "@/styles/sections/hero.css";
 import "@/styles/sections/services-sections.css";
 import "@/styles/components/carousels.css";
@@ -14,26 +17,51 @@ import "@/styles/sections/carousel-sections.css";
 import { createBreadcrumbSchema } from "@/lib/structuredData";
 
 const breadcrumbSchema = createBreadcrumbSchema("/services", "Services");
+const serviceDropdown =
+  navigationContent.items.find((item) => item.name === "Services")?.dropdown ?? [];
+const servicesCatalog = serviceDropdown
+  .map((item) => {
+    const slug = item.href.split("/").filter(Boolean).pop();
+    const detail = slug
+      ? servicePageDetails.find((service) => service.slug === slug)
+      : null;
+
+    if (!detail) return null;
+
+    return {
+      ...item,
+      slug: detail.slug,
+      category: detail.category,
+      shortDescription: detail.shortDescription,
+      snapshotDescription: detail.snapshot.description,
+      outcome:
+        detail.snapshot.details.find(
+          (snapshotDetail) => snapshotDetail.label === "Primary output",
+        )?.value ?? "",
+    };
+  })
+  .filter(Boolean);
 const sections = [
-  { Component: HeroSection, props: { content: servicesContent.hero } },
+  { Component: HeroSection, props: { content: servicesOverviewContent.hero } },
+  { Component: ServicesChooserSection, props: { content: servicesOverviewContent.chooser } },
   {
     Component: ServicesStageSection,
-    props: { content: servicesContent.serviceOfferings },
+    props: { services: servicesCatalog },
   },
-  { Component: ImpactSection, props: { content: servicesContent.impact } },
+  { Component: ImpactSection, props: { content: servicesOverviewContent.industries } },
   {
     Component: ModelsSection,
-    props: { content: servicesContent.engagementModels },
+    props: { content: servicesOverviewContent.engagementModels },
   },
 ] as const;
 const ctaProps = {
   id: "services-cta",
-  title: servicesContent.cta.title,
-  titleHighlight: ["Analytics Roadmap", "Reality"],
-  description: servicesContent.cta.description,
-  descriptionHighlight: servicesContent.cta.descriptionHighlight,
-  ctaText: servicesContent.cta.ctaText,
-  ctaHref: servicesContent.cta.ctaHref,
+  title: servicesOverviewContent.cta.title,
+  titleHighlight: ["right starting point"],
+  description: servicesOverviewContent.cta.description,
+  descriptionHighlight: servicesOverviewContent.cta.descriptionHighlight,
+  ctaText: servicesOverviewContent.cta.ctaText,
+  ctaHref: servicesOverviewContent.cta.ctaHref,
   variant: "standard" as const,
   background: "default" as const,
   maxWidth: "4xl" as const,
@@ -43,7 +71,7 @@ const ctaProps = {
 
 <BaseLayout
   title="Services | AUXO Data Labs"
-  description="Analytics as a Service, built for impact. Discover our eight service offerings aligned to the analytics maturity curve, from Foundation Readiness to Autonomy Readiness Review."
+  description="Explore eight focused analytics services from AUXO Data Labs, grouped by the problems they solve across data foundations, reporting, performance, forecasting, automation, applied AI, and analytics enablement."
 >
   <StructuredData type="BreadcrumbList" data={breadcrumbSchema} />
   {sections.map(({ Component, props }) => <Component {...props} />)}

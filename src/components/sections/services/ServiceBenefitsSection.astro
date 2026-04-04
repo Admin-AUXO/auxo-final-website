@@ -3,10 +3,10 @@ import { Icon } from "astro-icon/components";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import Carousel from "@/components/ui/Carousel.astro";
 import SectionShell from "@/components/layouts/SectionShell.astro";
-import type { ServiceDetail } from "@/data/content";
+import type { ServicePageDetail } from "@/data/content/service-page-details";
 
 interface Props {
-  service: ServiceDetail;
+  service: ServicePageDetail;
 }
 
 type BenefitFeature = {
@@ -38,7 +38,7 @@ const { service } = Astro.props;
     />
   </div>
 
-  <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10">
+  <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10 service-benefits-desktop">
     {
       service.benefits.features.map((feature: BenefitFeature, index: number) => (
         <div
@@ -48,12 +48,12 @@ const { service } = Astro.props;
           data-reveal-duration="200"
           data-reveal-easing="ease-out"
         >
-          <div class="h-full bg-theme-card border border-accent-green/10 rounded-2xl p-6 lg:p-8 relative overflow-hidden transition-colors duration-300 lg:hover:border-accent-green/30">
-            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0" />
+          <div class="service-deliverable-card h-full relative overflow-hidden">
+            <div class="service-deliverable-card-topline" />
 
             <div class="relative">
               <div class="inline-flex mb-5">
-                <div class="w-12 h-12 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20">
+                <div class="service-deliverable-icon">
                   <Icon name={feature.icon} class="w-6 h-6 text-accent-green" />
                 </div>
               </div>
@@ -71,7 +71,7 @@ const { service } = Astro.props;
     }
   </div>
 
-  <div class="lg:hidden service-benefits-carousel-section">
+  <div class="lg:hidden service-benefits-carousel-section service-benefits-mobile">
     <Carousel
       containerId="service-benefits-carousel-container"
       trackId="service-benefits-carousel-track"
@@ -81,15 +81,15 @@ const { service } = Astro.props;
       {
         service.benefits.features.map((feature: BenefitFeature, index: number) => (
           <div class="carousel-slide embla__slide" data-index={index}>
-            <div class="carousel-card-benefit lg:hover:border-accent-green/30">
-              <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/30 to-accent-green/0" />
+            <div class="carousel-card-benefit service-deliverable-card lg:hover:border-accent-green/30">
+              <div class="service-deliverable-card-topline" />
 
               <div class="relative z-10 flex flex-col h-full">
                 <div class="flex items-start justify-between mb-4 sm:mb-5">
                   <h3 class="text-base sm:text-lg font-bold text-theme-primary leading-tight font-display flex-1 pr-3">
                     {feature.title}
                   </h3>
-                  <div class="w-10 h-10 sm:w-11 sm:h-11 bg-accent-green/10 rounded-xl flex items-center justify-center border border-accent-green/20 flex-shrink-0">
+                  <div class="service-deliverable-icon w-10 h-10 sm:w-11 sm:h-11 flex-shrink-0">
                     <Icon name={feature.icon} class="w-5 h-5 text-accent-green" />
                   </div>
                 </div>

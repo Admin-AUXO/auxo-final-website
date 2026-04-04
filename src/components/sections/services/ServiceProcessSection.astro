@@ -3,10 +3,10 @@ import { Icon } from "astro-icon/components";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import Carousel from "@/components/ui/Carousel.astro";
 import SectionShell from "@/components/layouts/SectionShell.astro";
-import type { ServiceDetail } from "@/data/content";
+import type { ServicePageDetail } from "@/data/content/service-page-details";
 
 interface Props {
-  service: ServiceDetail;
+  service: ServicePageDetail;
 }
 
 type ProcessStep = {
@@ -36,7 +36,7 @@ const { service } = Astro.props;
     />
   </div>
 
-  <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10 relative items-stretch">
+  <div class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-10 relative items-stretch service-process-desktop">
         {service.process.steps.map((step: ProcessStep, index: number) => {
           return (
             <div
@@ -99,7 +99,7 @@ const { service } = Astro.props;
         })}
   </div>
 
-  <div class="lg:hidden service-process-carousel-section" data-service={service.slug}>
+  <div class="lg:hidden service-process-carousel-section service-process-mobile" data-service={service.slug}>
     <Carousel
       containerId="service-process-carousel-container"
       trackId="service-process-carousel-track"

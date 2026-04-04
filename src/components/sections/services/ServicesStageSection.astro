@@ -1,40 +1,25 @@
 ---
-import Card from "@/components/ui/Card.astro";
-import HighlightText from "@/components/ui/HighlightText.astro";
+import { Icon } from "astro-icon/components";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import Carousel from "@/components/ui/Carousel.astro";
 import SectionShell from "@/components/layouts/SectionShell.astro";
 import { createUrl } from "@/utils/url";
 
-interface Props {
-  content: {
-    title: string;
-    description: string;
-    descriptionHighlight?: string | string[];
-    services: {
-      name: string;
-      description: string;
-      descriptionHighlight?: string | string[];
-      link: string;
-    }[];
-    codeEdge: string;
-    codeEdgeHighlight?: string | string[];
-  };
+interface ServiceCardData {
+  name: string;
+  href: string;
+  icon: string;
+  category?: string;
+  shortDescription: string;
+  fit?: string;
+  outcome?: string;
 }
 
-const { content } = Astro.props;
-const services = content?.services?.filter(Boolean) || [];
+interface Props {
+  services: ServiceCardData[];
+}
 
-const serviceIcons = [
-  "mdi:layers",
-  "mdi:chart-box",
-  "mdi:chart-line",
-  "mdi:crystal-ball",
-  "mdi:book-open-variant",
-  "mdi:robot",
-  "mdi:brain",
-  "mdi:shield-check",
-];
+const { services } = Astro.props;
 ---
 
 <SectionShell
@@ -43,7 +28,7 @@ const serviceIcons = [
   background="default"
   gradients={["hero"]}
   contentWidth="screen"
-  class="relative services-stages-section"
+  class="relative services-stages-section section-divider"
 >
   <div
     data-reveal="fade-down"
@@ -51,31 +36,47 @@ const serviceIcons = [
     data-reveal-easing="ease-out"
   >
     <SectionHeader
-      title={content?.title || ""}
-      subtitle={content?.description || ""}
-      highlight="Every Stage"
-      subtitleHighlight="Eight"
+      title="Browse the service library"
+      subtitle="Each service is focused on one kind of operating problem, one kind of buyer pain, and one clearer next step."
+      highlight="service library"
     />
   </div>
-  <div class="hidden lg:grid lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 mb-10 sm:mb-12 lg:mb-16">
+
+  <div class="hidden lg:grid services-library-grid services-library-desktop mb-12 lg:mb-16">
     {services.map((service, index) => (
-      <div
-        class="overflow-hidden"
+      <a
+        href={createUrl(service.href)}
+        class="services-library-card group"
         data-reveal="fade-up"
+        data-reveal-delay={50 + index * 30}
         data-reveal-duration="200"
-        data-reveal-delay={50 + index * 40}
         data-reveal-easing="ease-out"
       >
-        <Card
-          variant="service"
-          icon={serviceIcons[index]}
-          title={service?.name || ""}
-          description={service?.shortDescription || service?.description || ""}
-          link={createUrl(service?.link || "#")}
-          index={index}
-          isCarousel={false}
-        />
-      </div>
+        <div class="services-library-card-top">
+          <span class="services-library-category">{service.category}</span>
+          <div class="services-library-icon">
+            <Icon name={service.icon} class="w-6 h-6 text-accent-green" />
+          </div>
+        </div>
+
+        <div class="services-library-body">
+          <h3 class="services-library-title">{service.name}</h3>
+          <p class="services-library-description">{service.shortDescription}</p>
+        </div>
+
+        <div class="services-library-meta">
+          {service.fit && <p class="services-library-fit">{service.fit}</p>}
+          {service.outcome && <p class="services-library-outcome">{service.outcome}</p>}
+        </div>
+
+        <span class="services-library-link">
+          Explore service
+          <Icon
+            name="mdi:arrow-right"
+            class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
+          />
+        </span>
+      </a>
     ))}
   </div>
 
@@ -83,7 +84,7 @@ const serviceIcons = [
     containerId="services-carousel-container"
     trackId="services-carousel-track"
     items={services}
-    wrapperClass="services-carousel services-carousel-wrapper"
+    wrapperClass="services-carousel services-carousel-wrapper services-library-mobile"
   >
     {services.map((service, index) => (
       <div
@@ -91,52 +92,30 @@ const serviceIcons = [
         data-index={index}
         data-reveal="fade-up"
         data-reveal-duration="200"
-        data-reveal-delay={50 + index * 40}
+        data-reveal-delay={50 + index * 30}
         data-reveal-easing="ease-out"
       >
-        <Card
-          variant="service"
-          icon={serviceIcons[index]}
-          title={service?.name || ""}
-          description={service?.shortDescription || service?.description || ""}
-          link={createUrl(service?.link || "#")}
-          index={index}
-          isCarousel={true}
-        />
+        <a href={createUrl(service.href)} class="services-library-card services-library-card-mobile group">
+          <div class="services-library-card-top">
+            <span class="services-library-category">{service.category}</span>
+            <div class="services-library-icon">
+              <Icon name={service.icon} class="w-5 h-5 text-accent-green" />
+            </div>
+          </div>
+          <div class="services-library-body">
+            <h3 class="services-library-title">{service.name}</h3>
+            <p class="services-library-description">{service.shortDescription}</p>
+          </div>
+          {service.fit && <p class="services-library-fit">{service.fit}</p>}
+          <span class="services-library-link">
+            Explore service
+            <Icon
+              name="mdi:arrow-right"
+              class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
+            />
+          </span>
+        </a>
       </div>
     ))}
   </Carousel>
-
-  {
-    content?.codeEdge && (
-      <div
-        class="mt-10 sm:mt-12 lg:mt-16"
-        data-reveal="fade-up"
-        data-reveal-duration="200"
-        data-reveal-delay="100"
-        data-reveal-easing="ease-out"
-      >
-        <div class="bg-accent-green/8 border-2 border-accent-green/30 p-8 sm:p-10 lg:p-12 relative overflow-hidden lg:hover:border-accent-green/50 transition-colors duration-300">
-          <div class="absolute inset-0 opacity-[0.03] code-edge-pattern"></div>
-
-          <div class="relative z-10">
-            <p class="text-body-xl sm:text-[1.1875rem] lg:text-[1.375rem] xl:text-[1.5rem] text-theme-primary leading-relaxed font-body text-center">
-              <HighlightText
-                text={content.codeEdge}
-                highlight={["consistent quality", "common language"]}
-                highlightClass="text-accent-green font-bold"
-              />
-            </p>
-          </div>
-        </div>
-      </div>
-    )
-  }
 </SectionShell>
-
-<style>
-  .services-stages-section [data-reveal] {
-    will-change: transform, opacity;
-  }
-</style>
-

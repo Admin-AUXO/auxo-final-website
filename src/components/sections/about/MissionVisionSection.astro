@@ -4,6 +4,7 @@ import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import Carousel from "@/components/ui/Carousel.astro";
+import HighlightText from "@/components/ui/HighlightText.astro";
 
 interface Props {
   content: {
@@ -67,7 +68,10 @@ const { content } = Astro.props;
               <p
                 class="text-body-lg xl:text-body-xl text-theme-secondary leading-[1.7] font-body"
               >
-                {content.missionText}
+                <HighlightText
+                  text={content.missionText}
+                  highlight={content.missionHighlight}
+                />
               </p>
             </div>
 
@@ -112,7 +116,10 @@ const { content } = Astro.props;
               <p
                 class="text-body-lg xl:text-body-xl text-theme-secondary leading-[1.7] font-body"
               >
-                {content.visionText}
+                <HighlightText
+                  text={content.visionText}
+                  highlight={content.visionHighlight}
+                />
               </p>
             </div>
 
@@ -155,7 +162,10 @@ const { content } = Astro.props;
                 <p
                   class="text-body-lg text-theme-secondary leading-[1.7] font-body"
                 >
-                  {content.missionText}
+                  <HighlightText
+                    text={content.missionText}
+                    highlight={content.missionHighlight}
+                  />
                 </p>
               </div>
             </div>
@@ -185,7 +195,10 @@ const { content } = Astro.props;
                 <p
                   class="text-body-lg text-theme-secondary leading-[1.7] font-body"
                 >
-                  {content.visionText}
+                  <HighlightText
+                    text={content.visionText}
+                    highlight={content.visionHighlight}
+                  />
                 </p>
               </div>
             </div>

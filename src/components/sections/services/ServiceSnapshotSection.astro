@@ -1,0 +1,189 @@
+---
+import { Icon } from "astro-icon/components";
+import Carousel from "@/components/ui/Carousel.astro";
+import SectionShell from "@/components/layouts/SectionShell.astro";
+import type { ServicePageDetail } from "@/data/content/service-page-details";
+
+interface Props {
+  service: ServicePageDetail;
+}
+
+const { service } = Astro.props;
+
+const detailIconMap: Record<string, string> = {
+  "Typical scope": "mdi:calendar-clock-outline",
+  "Primary stakeholders": "mdi:account-group-outline",
+  "Primary output": "mdi:file-document-outline",
+};
+
+function splitPeople(value: string): string[] {
+  return value
+    .replace(/,\s+and\s+/gi, ", ")
+    .replace(/\s+and\s+/gi, ", ")
+    .split(/\s*,\s*/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+---
+
+<SectionShell
+  id="service-snapshot"
+  padding="normal"
+  background="surface"
+  gradients={["top"]}
+  patterns={["mesh"]}
+  contentWidth="6xl"
+  class="relative service-snapshot-section section-divider"
+>
+  <div class="service-snapshot-grid">
+    <div
+      class="service-snapshot-intro"
+      data-reveal="fade-right"
+      data-reveal-duration="200"
+      data-reveal-easing="ease-out"
+    >
+      <p class="service-snapshot-kicker">Best fit</p>
+      <h2 class="service-snapshot-title">{service.snapshot.description}</h2>
+      <p class="service-snapshot-copy">{service.shortDescription}</p>
+    </div>
+
+    <div
+      class="service-snapshot-details service-snapshot-desktop hidden lg:grid"
+      data-reveal="fade-left"
+      data-reveal-duration="200"
+      data-reveal-easing="ease-out"
+    >
+      {service.snapshot.details.map((detail, index) => {
+        const isStakeholders = detail.label === "Primary stakeholders";
+        const isPrimaryOutput = detail.label === "Primary output";
+        const people = isStakeholders ? splitPeople(detail.value) : [];
+
+        return (
+          <div
+            class={`service-snapshot-card ${isPrimaryOutput ? "service-snapshot-card-output" : ""}`}
+            data-reveal-delay={index * 40}
+          >
+            <div class="service-snapshot-card-head">
+              <div class="service-snapshot-card-icon">
+                <Icon
+                  name={detailIconMap[detail.label] || "mdi:check-circle-outline"}
+                  class="w-5 h-5 text-accent-green"
+                />
+              </div>
+              <span class="service-snapshot-card-label">{detail.label}</span>
+            </div>
+
+            {isStakeholders ? (
+              <div class="service-snapshot-people-list">
+                {people.map((person) => (
+                  <span class="service-snapshot-person-pill">{person}</span>
+                ))}
+              </div>
+            ) : isPrimaryOutput ? (
+              <div class="service-snapshot-output-wrap">
+                <p class="service-snapshot-card-value">{detail.value}</p>
+                <p class="service-snapshot-output-note">
+                  What leadership gets at the end of the engagement.
+                </p>
+              </div>
+            ) : (
+              <p class="service-snapshot-card-value">{detail.value}</p>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </div>
+
+  <Carousel
+    containerId="service-snapshot-carousel-container"
+    trackId="service-snapshot-carousel-track"
+    items={service.snapshot.details}
+    wrapperClass="service-snapshot-carousel service-snapshot-mobile lg:hidden"
+  >
+    {service.snapshot.details.map((detail, index) => {
+      const isStakeholders = detail.label === "Primary stakeholders";
+      const isPrimaryOutput = detail.label === "Primary output";
+      const people = isStakeholders ? splitPeople(detail.value) : [];
+
+      return (
+        <div class="carousel-slide embla__slide" data-index={index}>
+          <div
+            class={`service-snapshot-card service-snapshot-card-mobile ${isPrimaryOutput ? "service-snapshot-card-output" : ""}`}
+          >
+            <div class="service-snapshot-card-head">
+              <div class="service-snapshot-card-icon">
+                <Icon
+                  name={detailIconMap[detail.label] || "mdi:check-circle-outline"}
+                  class="w-5 h-5 text-accent-green"
+                />
+              </div>
+              <span class="service-snapshot-card-label">{detail.label}</span>
+            </div>
+
+            {isStakeholders ? (
+              <div class="service-snapshot-people-list">
+                {people.map((person) => (
+                  <span class="service-snapshot-person-pill">{person}</span>
+                ))}
+              </div>
+            ) : isPrimaryOutput ? (
+              <div class="service-snapshot-output-wrap">
+                <p class="service-snapshot-card-value">{detail.value}</p>
+                <p class="service-snapshot-output-note">
+                  What leadership gets at the end of the engagement.
+                </p>
+              </div>
+            ) : (
+              <p class="service-snapshot-card-value">{detail.value}</p>
+            )}
+          </div>
+        </div>
+      );
+    })}
+  </Carousel>
+
+  <div
+    class="service-snapshot-trigger-panel service-snapshot-trigger-desktop hidden lg:block"
+    data-reveal="fade-up"
+    data-reveal-delay="60"
+    data-reveal-duration="200"
+    data-reveal-easing="ease-out"
+  >
+    <div class="service-snapshot-trigger-heading">
+      <Icon name="mdi:alert-circle-outline" class="w-5 h-5 text-accent-green" />
+      <h3>You likely need this when</h3>
+    </div>
+    <div class="service-snapshot-trigger-list">
+      {service.snapshot.triggers.map((trigger) => (
+        <div class="service-snapshot-trigger-item">
+          <span class="service-snapshot-trigger-dot" />
+          <p>{trigger}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <details class="service-snapshot-trigger-accordion service-snapshot-trigger-mobile accordion-item lg:hidden" open>
+    <summary class="service-snapshot-trigger-summary accordion-summary">
+      <div class="service-snapshot-trigger-heading">
+        <Icon name="mdi:alert-circle-outline" class="w-5 h-5 text-accent-green" />
+        <h3>You likely need this when</h3>
+      </div>
+      <Icon
+        name="mdi:chevron-down"
+        class="service-snapshot-trigger-chevron w-4 h-4 text-accent-green transition-transform duration-300"
+      />
+    </summary>
+    <div class="service-snapshot-trigger-panel service-snapshot-trigger-panel-mobile">
+      <div class="service-snapshot-trigger-list">
+        {service.snapshot.triggers.map((trigger) => (
+          <div class="service-snapshot-trigger-item">
+            <span class="service-snapshot-trigger-dot" />
+            <p>{trigger}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </details>
+</SectionShell>

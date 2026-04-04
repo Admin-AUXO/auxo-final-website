@@ -69,3 +69,4 @@ $RECYCLE.BIN/
 # Secrets
 .github-token
 gtm-service-account.json
+auxodata-*.json

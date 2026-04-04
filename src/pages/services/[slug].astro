@@ -1,15 +1,17 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import ServiceSnapshotSection from "@/components/sections/services/ServiceSnapshotSection.astro";
 import ServiceHeroSection from "@/components/sections/services/ServiceHeroSection.astro";
 import ServiceOverviewSection from "@/components/sections/services/ServiceOverviewSection.astro";
 import ServiceBenefitsSection from "@/components/sections/services/ServiceBenefitsSection.astro";
 import ServiceProcessSection from "@/components/sections/services/ServiceProcessSection.astro";
 import ServiceOutcomesSection from "@/components/sections/services/ServiceOutcomesSection.astro";
+import ServiceFaqSection from "@/components/sections/services/ServiceFaqSection.astro";
 import CtaSection from "@/components/sections/common/CtaSection.astro";
 import {
-  getServiceDetailBySlug,
-  servicesContent,
-} from "@/data/content";
+  getServicePageDetailBySlug,
+  servicePageDetails,
+} from "@/data/content/service-page-details";
 import "@/styles/sections/hero.css";
 import "@/styles/sections/services-individual.css";
 import "@/styles/components/carousels.css";
@@ -21,7 +23,7 @@ const notFoundResponse = new Response(null, {
 });
 
 export async function getStaticPaths() {
-  return servicesContent.details.map((service) => ({
+  return servicePageDetails.map((service) => ({
     params: { slug: service.slug },
   }));
 }
@@ -32,7 +34,7 @@ if (!slug) {
   return notFoundResponse;
 }
 
-const service = getServiceDetailBySlug(slug);
+const service = getServicePageDetailBySlug(slug);
 
 if (!service) {
   return notFoundResponse;
@@ -40,10 +42,12 @@ if (!service) {
 
 const sections = [
   { Component: ServiceHeroSection, props: { service } },
+  { Component: ServiceSnapshotSection, props: { service } },
   { Component: ServiceOverviewSection, props: { service } },
   { Component: ServiceBenefitsSection, props: { service } },
   { Component: ServiceProcessSection, props: { service } },
   { Component: ServiceOutcomesSection, props: { service } },
+  { Component: ServiceFaqSection, props: { service } },
 ] as const;
 const ctaProps = {
   id: "service-cta",
