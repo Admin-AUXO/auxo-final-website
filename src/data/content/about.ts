@@ -84,9 +84,9 @@ export const aboutContent: AboutContent = {
     title: "Decision intelligence without the consulting theater",
     titleHighlight: ["without the consulting theater"],
     description:
-      "AUXO Data Labs is a Dubai-based analytics partner for teams that need clearer reporting, stronger data foundations, and faster operational decisions. We work between business context and technical delivery so analytics changes how the business actually runs.",
+      "AUXO Data Labs is a Dubai-based decision intelligence partner for teams that need clearer reporting, stronger data foundations, and faster operational decisions. We work between business context and technical delivery so analytics changes how the business actually runs.",
     pills: [
-      "Dubai-based, global delivery",
+      "Dubai-based decision intelligence partner",
       "Senior-led execution",
       "Build-first, not slide-first",
     ],

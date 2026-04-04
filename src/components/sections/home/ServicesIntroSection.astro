@@ -1,8 +1,6 @@
 ---
-import Card from "@/components/ui/Card.astro";
 import SectionShell from "@/components/layouts/SectionShell.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
-import Carousel from "@/components/ui/Carousel.astro";
 import Button from "@/components/ui/Button.astro";
 import { Icon } from "astro-icon/components";
 import type { HomepageContent } from "@/data/content";
@@ -33,43 +31,35 @@ const hasContent = Boolean((content?.title && content.title.trim()) || (content?
     subtitleHighlight="begin"
   />
 
-      <div class="hidden lg:grid lg:grid-cols-3 lg:gap-6 xl:gap-8 services-grid-desktop">
+      <div class="home-services-rail">
         {content.items.map((item, index) => (
-          <div data-reveal="fade-up" data-reveal-delay={50 + (index * 40)} data-reveal-duration="200" data-reveal-easing="ease-out">
-            <Card
-              variant="service"
-              icon={item.icon}
-              title={item.title}
-              description={item.shortDescription || item.description}
-              link={item.link ? createUrl(item.link) : undefined}
-              index={index}
-              isCarousel={false}
-            />
-          </div>
-        ))}
-      </div>
-
-      <div class="services-intro-carousel-section">
-        <Carousel
-          containerId="services-carousel-container"
-          trackId="services-carousel-track"
-          items={content.items}
-          wrapperClass="services-carousel-mobile services-carousel-wrapper"
-        >
-          {content.items.map((item, index) => (
-            <div class="carousel-slide embla__slide" data-index={index}>
-              <Card
-                variant="service"
-                icon={item.icon}
-                title={item.title}
-                description={item.shortDescription || item.description}
-                link={item.link ? createUrl(item.link) : undefined}
-                index={index}
-                isCarousel={true}
-              />
+          <article
+            class="home-service-lane"
+            data-reveal="fade-up"
+            data-reveal-delay={50 + (index * 40)}
+            data-reveal-duration="200"
+            data-reveal-easing="ease-out"
+          >
+            <div class="home-service-lane-top">
+              <span class="home-service-lane-number">{item.number || String(index + 1).padStart(2, "0")}</span>
+              {item.icon && (
+                <div class="home-service-lane-icon">
+                  <Icon name={item.icon} class="w-5 h-5 text-accent-green" />
+                </div>
+              )}
             </div>
-          ))}
-        </Carousel>
+            <div class="home-service-lane-body">
+              <h3 class="home-service-lane-title">{item.title}</h3>
+              <p class="home-service-lane-copy">{item.shortDescription || item.description}</p>
+            </div>
+            {item.link && (
+              <a class="home-service-lane-link" href={createUrl(item.link)}>
+                See service
+                <Icon name="mdi:arrow-right" class="w-4 h-4" />
+              </a>
+            )}
+          </article>
+        ))}
       </div>
 
   <div class="text-center mt-8 sm:mt-10 lg:mt-12 px-4" data-reveal="fade-up" data-reveal-delay="100" data-reveal-duration="200" data-reveal-easing="ease-out">

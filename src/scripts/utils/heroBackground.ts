@@ -75,10 +75,10 @@ export function initHeroBackground(): void {
   if (typeof window === "undefined") return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  const container = document.getElementById("particle-background") as
+  const container = document.querySelector("[data-particle-container]") as
     | HTMLElement
     | null;
-  const canvas = document.getElementById("particle-canvas") as
+  const canvas = container?.querySelector("[data-particle-canvas]") as
     | HTMLCanvasElement
     | null;
 

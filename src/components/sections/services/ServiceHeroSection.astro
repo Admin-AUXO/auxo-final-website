@@ -49,7 +49,7 @@ const mode = modeMap[service.slug] || "galaxy";
       data-reveal-duration="200"
       data-reveal-easing="ease-out"
     >
-      <Icon name="mdi:compass-outline" class="w-4 h-4" />
+      <Icon name={service.icon} class="w-4 h-4" />
       <span>{service.category}</span>
     </div>
     <h1

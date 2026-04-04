@@ -1,0 +1,46 @@
+---
+import SectionShell from "@/components/layouts/SectionShell.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import type { HomepageContent } from "@/data/content";
+
+interface Props {
+  content: HomepageContent["decisionFit"];
+}
+
+const { content } = Astro.props;
+---
+
+<SectionShell
+  id="decision-fit"
+  padding="normal"
+  background="default"
+  gradients={["center"]}
+  contentWidth="screen"
+  class="relative decision-fit-section section-divider"
+>
+  <SectionHeader
+    title={content.title}
+    subtitle={content.subheading}
+    highlight="bring AUXO in"
+  />
+
+  <div class="home-fit-lanes">
+    {content.items.map((item, index) => (
+      <article
+        class="home-fit-lane"
+        data-reveal="fade-up"
+        data-reveal-delay={index * 50}
+        data-reveal-duration="200"
+        data-reveal-easing="ease-out"
+      >
+        <div class="home-fit-lane-top">
+          <span class="home-fit-lane-number">{String(index + 1).padStart(2, "0")}</span>
+          <h3 class="home-fit-lane-title">{item.title}</h3>
+        </div>
+        <p class="home-fit-lane-pressure">{item.pressure}</p>
+        <p class="home-fit-lane-signal">{item.signal}</p>
+        <p class="home-fit-lane-outcome">{item.outcome}</p>
+      </article>
+    ))}
+  </div>
+</SectionShell>

@@ -1,3 +1,5 @@
+import { getServicePageDetailBySlug } from "./service-page-details";
+
 export interface ProcessStep {
   number: number;
   icon: string;
@@ -7,12 +9,17 @@ export interface ProcessStep {
   output?: string;
 }
 
-export interface CapabilityCard {
+export interface CapabilityItem {
   icon: string;
   title: string;
   description: string;
-  descriptionHighlight?: string | string[];
-  metric: string;
+}
+
+export interface CapabilityPillar {
+  name: string;
+  summary: string;
+  outcome: string;
+  capabilities: CapabilityItem[];
 }
 
 export interface ServiceIntroItem {
@@ -41,6 +48,17 @@ export interface HomepageContent {
       href: string;
     };
     scrollIndicator: string;
+    proofPoints: string[];
+  };
+  decisionFit: {
+    title: string;
+    subheading: string;
+    items: {
+      title: string;
+      pressure: string;
+      signal: string;
+      outcome: string;
+    }[];
   };
   finalCta: {
     title: string;
@@ -61,29 +79,10 @@ export interface HomepageContent {
       href: string;
     };
   };
-  servicesIntro: {
-    title?: string;
-    subheading?: string;
-    items: {
-      icon?: string;
-      link?: string;
-      number?: string;
-      title: string;
-      titleHighlight?: string;
-      description: string;
-      descriptionHighlight?: string | string[];
-      ctaText?: string;
-      ctaHref?: string;
-    }[];
-    navigationButton?: {
-      text: string;
-      href: string;
-    };
-  };
   capabilities: {
     title: string;
     subheading: string;
-    cards: CapabilityCard[];
+    pillars: CapabilityPillar[];
   };
   featuredServices: {
     title: string;
@@ -105,289 +104,240 @@ export interface HomepageContent {
   };
 }
 
-export const homepageContent: HomepageContent = {
-  "capabilities": {
-    "cards": [
-      {
-        "description": "Identifying where analytics creates value and building actionable roadmaps.",
-        "descriptionHighlight": [
-          "creates value"
-        ],
-        "icon": "mdi:compass-outline",
-        "metric": "upto 3x faster\ntime‑to‑insights",
-        "title": "Strategy Blueprint"
-      },
-      {
-        "description": "Designing and implementing cloud data platforms, models, and pipelines.",
-        "descriptionHighlight": [
-          "Designing and implementing"
-        ],
-        "icon": "mdi:server-network",
-        "metric": "upto 50% leaner\ndata processing costs",
-        "title": "Data Foundations"
-      },
-      {
-        "description": "Unifying metrics and dashboards into governed, self-serve BI layers.",
-        "descriptionHighlight": [
-          "Unifying"
-        ],
-        "icon": "mdi:view-dashboard-variant",
-        "metric": "upto 5x decision velocity\ncompany‑wide",
-        "title": "Insight Hub"
-      },
-      {
-        "description": "Building, deploying, and monitoring data science and ML solutions.",
-        "descriptionHighlight": [
-          "Building, deploying"
-        ],
-        "icon": "mdi:atom",
-        "metric": "upto 30% elevated\nmodel precision",
-        "title": "Pattern Lab"
-      },
-      {
-        "description": "Transforming customer, product, and revenue data into growth insights.",
-        "descriptionHighlight": [
-          "Transforming"
-        ],
-        "icon": "mdi:chart-timeline-variant",
-        "metric": "upto 25% faster\nrevenue growth",
-        "title": "Growth Signals"
-      },
-      {
-        "description": "Establishing policies and controls for reliable, secure, compliant data.",
-        "descriptionHighlight": [
-          "Establishing"
-        ],
-        "icon": "mdi:shield-check-outline",
-        "metric": "upto 80% faster\ncompliance cycles",
-        "title": "Trust Frameworks"
-      }
-    ],
-    "subheading": "Six disciplines powering every project.",
-    "title": "Six Core Capabilities"
-  },
-  "featuredServices": {
-    "items": [
-      {
-        "description": "Define your data vision, identify opportunities, and build a roadmap for analytics success.",
-        "icon": "mdi:layers",
-        "link": "/services/foundation-readiness",
-        "number": "01",
-        "shortDescription": "Assess and prepare your data infrastructure",
-        "title": "Foundation Readiness"
-      },
-      {
-        "description": "Build robust data pipelines, cloud platforms, and infrastructure that scales with your business.",
-        "icon": "mdi:chart-box",
-        "link": "/services/reporting-reset",
-        "number": "02",
-        "shortDescription": "Modernize your reporting capabilities",
-        "title": "Reporting Reset"
-      },
-      {
-        "description": "Create self-serve dashboards and reporting layers that empower teams to make data-driven decisions.",
-        "icon": "mdi:chart-line",
-        "link": "/services/performance-diagnostics",
-        "number": "03",
-        "shortDescription": "Identify and optimize performance bottlenecks",
-        "title": "Performance Diagnostics"
-      }
-    ],
-    "navigationButton": {
-      "href": "/services",
-      "text": "View all services"
-    },
-    "subheading": "Where most teams begin their analytics journey.",
-    "title": "Three Common Starting Points"
-  },
-  "finalCta": {
-    "body": "Share your goals, current challenges, and timelines. You'll leave with a concise view of where analytics can create the most impact and what to do first—before you commit to anything.",
-    "bodyHighlight": [
-      "most impact",
-      "what to do first"
-    ],
-    "ctaHref": "/contact/",
-    "ctaText": "Book a discovery call",
-    "reassuranceLine": "No sales pitch—just a structured discussion and clear next steps.",
-    "subtitle": "Book a 30-minute discovery call.",
-    "title": "Find your next step"
-  },
-  "hero": {
-    "primaryCta": {
-      "href": "/contact/",
-      "text": "Book a discovery call"
-    },
-    "scrollIndicator": "Scroll More",
-    "subtitle": "AUXO delivers end-to-end DAAS — Data Analytics as a Service tailored to your organisation.",
-    "subtitleHighlight": [
-      "DAAS",
-      "Data Analytics as a Service"
-    ],
-    "title": "Intelligence,",
-    "titleHighlight": "Engineered."
-  },
-  "methodology": {
-    "navigationButton": {
-      "href": "/about/",
-      "text": "Learn about our approach"
-    },
-    "steps": [
-      {
-        "description": "Explore the problem space, the decisions that matter most, and the realities of your data.",
-        "descriptionHighlight": [
-          "decisions that matter most"
-        ],
-        "icon": "mdi:database-search",
-        "number": 1,
-        "output": "Discovery\nDocument",
-        "title": "Explore"
-      },
-      {
-        "description": "Design the analytics strategy, architecture, and end‑user experience to support those decisions.",
-        "descriptionHighlight": [
-          "analytics strategy"
-        ],
-        "icon": "mdi:palette",
-        "number": 2,
-        "output": "Technical\nSpecification",
-        "title": "Design"
-      },
-      {
-        "description": "Generate the solutions—pipelines, models, dashboards, and automations—that run in your real environment.",
-        "descriptionHighlight": [
-          "pipelines, models, dashboards"
-        ],
-        "icon": "mdi:rocket-launch",
-        "number": 3,
-        "output": "Production\nCodebase",
-        "title": "Generate"
-      },
-      {
-        "description": "Embed these capabilities through training, governance, and change management so they become part of everyday work.",
-        "descriptionHighlight": [
-          "training, governance"
-        ],
-        "icon": "mdi:account-group-outline",
-        "number": 4,
-        "output": "Training &\nHandoff",
-        "title": "Embed"
-      }
-    ],
-    "subtitle": "A practical four-step model",
-    "title": "AUXO",
-    "titleHighlight": "Edge"
-  },
-  "servicesIntro": {
-    "items": [
-      {
-        "description": "Define your data vision, identify opportunities, and build a roadmap for analytics success.",
-        "icon": "mdi:chart-line",
-        "link": "/services/analytics-strategy",
-        "number": "01",
-        "title": "Analytics Strategy"
-      },
-      {
-        "description": "Build robust data pipelines, cloud platforms, and infrastructure that scales with your business.",
-        "icon": "mdi:database-cog",
-        "link": "/services/data-engineering",
-        "number": "02",
-        "title": "Data Engineering"
-      },
-      {
-        "description": "Create self-serve dashboards and reporting layers that empower teams to make data-driven decisions.",
-        "icon": "mdi:chart-box",
-        "link": "/services/business-intelligence",
-        "number": "03",
-        "title": "Business Intelligence"
-      }
-    ],
-    "navigationButton": {
-      "href": "/services",
-      "text": "View all services"
-    },
-    "subheading": "Three starting points for your analytics journey",
-    "title": "Our Core Services"
-  },
-  "techStack": {
-    "items": [
-      {
-        "icon": "simple-icons:python",
-        "name": "Python"
-      },
-      {
-        "icon": "simple-icons:amazonaws",
-        "name": "AWS"
-      },
-      {
-        "icon": "simple-icons:microsoftazure",
-        "name": "Azure"
-      },
-      {
-        "icon": "simple-icons:googlecloud",
-        "name": "GCP"
-      },
-      {
-        "icon": "simple-icons:snowflake",
-        "name": "Snowflake"
-      },
-      {
-        "icon": "simple-icons:databricks",
-        "name": "Databricks"
-      },
-      {
-        "icon": "simple-icons:tableau",
-        "name": "Tableau"
-      },
-      {
-        "icon": "simple-icons:powerbi",
-        "name": "Power BI"
-      },
-      {
-        "icon": "simple-icons:dbt",
-        "name": "dbt"
-      },
-      {
-        "icon": "simple-icons:apacheairflow",
-        "name": "Airflow"
-      },
-      {
-        "icon": "simple-icons:apachespark",
-        "name": "Spark"
-      },
-      {
-        "icon": "simple-icons:apachekafka",
-        "name": "Kafka"
-      },
-      {
-        "icon": "simple-icons:tensorflow",
-        "name": "TensorFlow"
-      },
-      {
-        "icon": "simple-icons:pytorch",
-        "name": "PyTorch"
-      },
-      {
-        "icon": "simple-icons:postgresql",
-        "name": "PostgreSQL"
-      },
-      {
-        "icon": "simple-icons:mongodb",
-        "name": "MongoDB"
-      },
-      {
-        "icon": "simple-icons:docker",
-        "name": "Docker"
-      },
-      {
-        "icon": "simple-icons:kubernetes",
-        "name": "Kubernetes"
-      }
-    ],
-    "subtitle": "Modern analytics tools and platforms powering our solutions",
-    "title": "Technologies We Work With"
-  },
-  "valueProposition": {
-    "line1": "Most companies collect data. Few convert it into decisions.",
-    "line2": "AUXO bridges the gap — connecting business understanding with data intelligence."
+const homepageServiceItem = (
+  slug: string,
+  number: string,
+  shortDescription: string,
+  description: string,
+): ServiceIntroItem => {
+  const service = getServicePageDetailBySlug(slug);
+
+  if (!service) {
+    throw new Error(`Missing service detail for homepage item: ${slug}`);
   }
+
+  return {
+    number,
+    icon: service.icon,
+    title: service.name,
+    description,
+    shortDescription,
+    link: `/services/${slug}/`,
+  };
+};
+
+export const homepageContent: HomepageContent = {
+  hero: {
+    title: "Intelligence,",
+    titleHighlight: "Engineered.",
+    subtitle:
+      "AUXO helps operators and leadership teams fix reporting drag, planning blind spots, and repetitive analytics work before those issues harden into operating debt.",
+    subtitleHighlight: ["reporting drag", "planning blind spots", "manual analytics work"],
+    primaryCta: {
+      href: "/contact/",
+      text: "Book a discovery call",
+    },
+    scrollIndicator: "See Where AUXO Fits",
+    proofPoints: [
+      "Dubai-based, senior-led delivery",
+      "Reporting, planning, automation, applied AI",
+      "Built for teams that need clarity before scale",
+    ],
+  },
+  decisionFit: {
+    title: "Why teams bring AUXO in",
+    subheading:
+      "The trigger is usually not a lack of dashboards. It is one of three operating failures that keeps surfacing in leadership reviews.",
+    items: [
+      {
+        title: "Reporting trust is weak",
+        pressure:
+          "Numbers are duplicated, manually rebuilt, or argued over every time performance gets reviewed.",
+        signal: "Common signal: meetings keep turning into debates about definitions instead of decisions.",
+        outcome: "AUXO response: rebuild the foundation, reporting layer, and KPI logic so the review cadence stops stalling.",
+      },
+      {
+        title: "Planning stays reactive",
+        pressure:
+          "Teams can explain last month clearly enough, but they still cannot model next month with confidence.",
+        signal: "Common signal: forecasting lives in side spreadsheets, static assumptions, or one analyst's head.",
+        outcome: "AUXO response: build forecasting systems and decision playbooks leaders can actually plan from.",
+      },
+      {
+        title: "Analytics work is trapped in manual loops",
+        pressure:
+          "Skilled analysts are spending too much time assembling, checking, and distributing work instead of interpreting it.",
+        signal: "Common signal: repetitive workflows soak up senior time while AI and automation ideas remain vague.",
+        outcome: "AUXO response: automate the drudge work first, then apply AI where it earns the right to stay.",
+      },
+    ],
+  },
+  capabilities: {
+    title: "Six Core Capabilities",
+    subheading: "Three operating lanes. Six specialist capabilities. One decision intelligence partner built to clarify, build, and scale.",
+    pillars: [
+      {
+        name: "Clarify",
+        summary:
+          "Diagnose where the drag starts and sharpen decision criteria before more build work starts eating budget.",
+        outcome: "Best when leadership needs direction before a bigger analytics spend.",
+        capabilities: [
+          {
+            icon: "mdi:compass-outline",
+            title: "Operating diagnostics",
+            description: "Pinpoint the reporting, ownership, and process failures causing the mess.",
+          },
+          {
+            icon: "mdi:scale-balance",
+            title: "Decision design",
+            description: "Turn recurring high-stakes calls into clearer thresholds, rules, and review logic.",
+          },
+        ],
+      },
+      {
+        name: "Build",
+        summary:
+          "Rework the data and reporting layers the business depends on every week, not just the presentation layer on top.",
+        outcome: "Best when trust, speed, or self-serve is already breaking under real usage.",
+        capabilities: [
+          {
+            icon: "mdi:file-tree",
+            title: "Data foundations",
+            description: "Stabilize architecture, ownership, and source-of-truth logic before scale multiplies the damage.",
+          },
+          {
+            icon: "mdi:view-dashboard-outline",
+            title: "Reporting systems",
+            description: "Replace fragmented dashboards and packs with cleaner, governed decision views.",
+          },
+        ],
+      },
+      {
+        name: "Scale",
+        summary:
+          "Increase analytical throughput without hiring more manual reporting habits or bolting hype onto a weak operating model.",
+        outcome: "Best when the team needs leverage, not more heroics.",
+        capabilities: [
+          {
+            icon: "mdi:robot-outline",
+            title: "Workflow automation",
+            description: "Eliminate repetitive analytics routines and add controls so automation does not create new fragility.",
+          },
+          {
+            icon: "mdi:lightbulb-on-outline",
+            title: "Applied AI",
+            description: "Use AI for bounded analytical workflows where quality, review, and business fit are explicit.",
+          },
+        ],
+      },
+    ],
+  },
+  featuredServices: {
+    title: "Start where the friction is",
+    subheading: "These are the three entry points buyers use most when the analytics problem is real but the next move is not obvious yet.",
+    items: [
+      homepageServiceItem(
+        "foundation-readiness",
+        "01",
+        "Get the architecture, ownership, and KPI layer straight before the next build starts.",
+        "Audit the data foundation before dashboards, automation, or AI scale the wrong system.",
+      ),
+      homepageServiceItem(
+        "reporting-reset",
+        "02",
+        "Replace fragmented reporting with a governed system people can actually use.",
+        "Rebuild the reporting layer around shared metrics, role-based views, and cleaner self-serve.",
+      ),
+      homepageServiceItem(
+        "performance-diagnostics",
+        "03",
+        "Find the warehouse, model, and dashboard bottlenecks slowing real decisions down.",
+        "Diagnose speed, reliability, and cost drag before the stack loses business trust completely.",
+      ),
+    ],
+    navigationButton: {
+      href: "/services/",
+      text: "View all services",
+    },
+  },
+  finalCta: {
+    body: "Bring the reporting mess, the planning bottleneck, or the automation backlog. You will leave with a clearer read on where the operating drag starts and what should happen first.",
+    bodyHighlight: ["where the operating drag starts", "what should happen first"],
+    ctaHref: "/contact/",
+    ctaText: "Book a discovery call",
+    reassuranceLine: "No performative discovery workshop. Just a direct conversation and a cleaner starting point.",
+    subtitle: "Book a 30-minute working call.",
+    title: "Find the right starting point",
+  },
+  methodology: {
+    navigationButton: {
+      href: "/about/",
+      text: "See how AUXO works",
+    },
+    steps: [
+      {
+        description: "Clarify the operating problem, the decisions that matter, and the real friction underneath the request.",
+        descriptionHighlight: ["operating problem", "real friction"],
+        icon: "mdi:database-search",
+        number: 1,
+        output: "Decision\nFrame",
+        title: "Diagnose",
+      },
+      {
+        description: "Structure the data, reporting logic, and workflow so the system supports the business rhythm properly.",
+        descriptionHighlight: ["data, reporting logic, and workflow"],
+        icon: "mdi:file-tree",
+        number: 2,
+        output: "System\nDesign",
+        title: "Design",
+      },
+      {
+        description: "Build the reporting, forecasting, automation, or AI layer that solves the defined operating problem.",
+        descriptionHighlight: ["reporting, forecasting, automation, or AI layer"],
+        icon: "mdi:rocket-launch",
+        number: 3,
+        output: "Working\nDelivery",
+        title: "Deliver",
+      },
+      {
+        description: "Embed the controls, handoff, and operating habits needed so the work survives real use.",
+        descriptionHighlight: ["controls, handoff, and operating habits"],
+        icon: "mdi:account-group-outline",
+        number: 4,
+        output: "Adoption &\nOwnership",
+        title: "Embed",
+      },
+    ],
+    subtitle: "AUXO runs a tight four-step operating model.",
+    title: "How",
+    titleHighlight: "AUXO works",
+  },
+  techStack: {
+    items: [
+      { icon: "simple-icons:python", name: "Python" },
+      { icon: "simple-icons:amazonaws", name: "AWS" },
+      { icon: "simple-icons:microsoftazure", name: "Azure" },
+      { icon: "simple-icons:googlecloud", name: "GCP" },
+      { icon: "simple-icons:snowflake", name: "Snowflake" },
+      { icon: "simple-icons:databricks", name: "Databricks" },
+      { icon: "simple-icons:tableau", name: "Tableau" },
+      { icon: "simple-icons:powerbi", name: "Power BI" },
+      { icon: "simple-icons:dbt", name: "dbt" },
+      { icon: "simple-icons:apacheairflow", name: "Airflow" },
+      { icon: "simple-icons:apachespark", name: "Spark" },
+      { icon: "simple-icons:apachekafka", name: "Kafka" },
+      { icon: "simple-icons:tensorflow", name: "TensorFlow" },
+      { icon: "simple-icons:pytorch", name: "PyTorch" },
+      { icon: "simple-icons:postgresql", name: "PostgreSQL" },
+      { icon: "simple-icons:mongodb", name: "MongoDB" },
+      { icon: "simple-icons:docker", name: "Docker" },
+      { icon: "simple-icons:kubernetes", name: "Kubernetes" },
+    ],
+    subtitle: "Modern tools matter. They just come after the operating problem is defined properly.",
+    title: "Platforms we work inside",
+  },
+  valueProposition: {
+    line1: "Most organizations already have dashboards. They still wait too long for numbers they trust.",
+    line2: "AUXO fixes the data, reporting, and decision workflows underneath so analytics changes operating behavior.",
+  },
 };

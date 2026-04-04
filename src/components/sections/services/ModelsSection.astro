@@ -14,6 +14,8 @@ interface Props {
       subheadline: string;
       description: string;
       descriptionHighlight?: string | string[];
+      commercialModel: string;
+      workingRhythm: string;
       bestFor: string;
       bestForHighlight?: string | string[];
       deliverables: string[];
@@ -40,22 +42,15 @@ const modelIcons = [
   gradients={["dual"]}
   patterns={["grid"]}
   contentWidth="6xl"
-  class="relative models-section section-divider"
+  class="relative engagement-choice-section section-divider"
 >
-  <div
-    class="mb-8 sm:mb-10 lg:mb-12"
-    data-reveal="fade-down"
-    data-reveal-duration="200"
-    data-reveal-easing="ease-out"
-  >
-    <SectionHeader
-      title={content.title}
-      subtitle={content.description}
-      subtitleHighlight={content.descriptionHighlight}
-      highlight="Engagement Model"
-      icon="mdi:clipboard-text-outline"
-    />
-  </div>
+  <SectionHeader
+    title={content.title}
+    subtitle={content.description}
+    subtitleHighlight={content.descriptionHighlight}
+    highlight="Engagement Model"
+    icon="mdi:clipboard-text-outline"
+  />
 
       <div
         class="mb-8 sm:mb-10 lg:mb-12"
@@ -64,67 +59,38 @@ const modelIcons = [
         data-reveal-duration="200"
         data-reveal-easing="ease-out"
       >
-        <div class="models-accordion-container" role="presentation">
+        <div class="engagement-choice-grid" role="presentation">
           {
             content.models.map((model, index) => (
-              <details
-                class="models-accordion-item group/model"
-                data-model={String(index)}
-                open={index === 0}
-              >
-                <summary
-                  class="models-accordion-summary"
-                  role="button"
-                  aria-expanded={index === 0 ? "true" : "false"}
-                  aria-controls={`model-content-${index}`}
-                >
-                  <div class="models-accordion-header pointer-events-none">
-                    <div class="models-accordion-step-number">
-                      <span>{String(index + 1).padStart(2, "0")}</span>
-                    </div>
-                    <div class="models-accordion-icon transition-transform duration-300 group-hover/model:scale-110 group-open/model:scale-110 group-open/model:bg-accent-green/20">
-                      <Icon
-                        name={modelIcons[index]}
-                        class="w-5 h-5 sm:w-6 sm:h-6 text-accent-green"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <div class="models-accordion-title-wrapper">
-                      <h3 class="models-accordion-title mb-1 group-open/model:text-accent-green transition-colors duration-300">
-                        {model.name}
-                      </h3>
-                      <span class="models-accordion-subheadline block group-open/model:text-theme-primary transition-colors duration-300">
-                        {model.subheadline}
-                      </span>
-                    </div>
-                    <div class="models-accordion-header-tags pointer-events-none">
-                      <span class="models-accordion-tag models-accordion-tag--time">
-                        <Icon
-                          name="mdi:clock-outline"
-                          class="w-3.5 h-3.5"
-                          aria-hidden="true"
-                        />
-                        {model.typicalTimeframe}
-                      </span>
-                    </div>
+              <article class="engagement-choice-card">
+                <div class="engagement-choice-card-header">
+                  <div class="engagement-choice-index">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
                   </div>
-                  <div class="models-accordion-chevron-wrapper">
+                  <div class="engagement-choice-icon">
                     <Icon
-                      name="mdi:chevron-down"
-                      class="models-accordion-chevron pointer-events-none"
+                      name={modelIcons[index]}
+                      class="w-5 h-5 sm:w-6 sm:h-6 text-accent-green"
                       aria-hidden="true"
                     />
                   </div>
-                </summary>
-                <div
-                  class="models-accordion-content"
-                  id={`model-content-${index}`}
-                  role="region"
-                  aria-label={`${model.name} details`}
-                >
-                  <div class="models-accordion-body">
-                    <div class="models-accordion-description-wrapper">
-                      <p class="models-accordion-description">
+                  <div class="engagement-choice-heading">
+                    <h3 class="engagement-choice-title">
+                      {model.name}
+                    </h3>
+                    <span class="engagement-choice-subtitle">
+                      {model.subheadline}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="engagement-choice-body">
+                  <div class="engagement-choice-overview">
+                    <div class="engagement-choice-copy">
+                      <p class="engagement-choice-eyebrow">
+                        What This Model Solves
+                      </p>
+                      <p class="engagement-choice-description">
                         {model.descriptionHighlight ? (
                           <HighlightText
                             text={model.description}
@@ -136,51 +102,185 @@ const modelIcons = [
                       </p>
                     </div>
 
-                    <div class="models-accordion-stats-strip">
-                      <div class="models-accordion-stat-card">
-                        <div class="models-accordion-stat-icon-wrapper">
-                          <Icon
-                            name="mdi:finance"
-                            class="w-5 h-5"
-                            aria-hidden="true"
-                          />
-                        </div>
-                        <div class="models-accordion-stat-info">
-                          <span class="models-accordion-stat-label">
-                            Investment Range
-                          </span>
-                          <span class="models-accordion-stat-value">
-                            {model.pricingRange}
-                          </span>
-                        </div>
+                    <aside class="engagement-choice-facts">
+                      <div class="engagement-choice-investment">
+                        <p class="engagement-choice-label">Investment Range</p>
+                        <p class="engagement-choice-investment-value">{model.pricingRange}</p>
+                        <p class="engagement-choice-note">
+                          Indicative for senior-led scope
+                        </p>
+                      </p>
                       </div>
-                      <div class="models-accordion-stat-card">
-                        <div class="models-accordion-stat-icon-wrapper">
-                          <Icon
-                            name="mdi:clock-outline"
-                            class="w-5 h-5"
-                            aria-hidden="true"
+
+                      <dl class="engagement-choice-meta">
+                        <div class="engagement-choice-meta-item">
+                          <dt class="engagement-choice-label">Commercial Model</dt>
+                          <dd class="engagement-choice-meta-value">{model.commercialModel}</dd>
+                        </div>
+
+                        <div class="engagement-choice-meta-item">
+                          <dt class="engagement-choice-label">Typical Timeframe</dt>
+                          <dd class="engagement-choice-meta-value">{model.typicalTimeframe}</dd>
+                        </div>
+                      </dl>
+                    </aside>
+                  </div>
+
+                  <div class="engagement-choice-criteria">
+                    <div class="engagement-choice-criterion">
+                      <p class="engagement-choice-label">
+                        Best When
+                      </p>
+                      <p class="engagement-choice-criterion-copy">
+                        {model.bestForHighlight ? (
+                          <HighlightText
+                            text={model.bestFor}
+                            highlight={model.bestForHighlight}
                           />
-                        </div>
-                        <div class="models-accordion-stat-info">
-                          <span class="models-accordion-stat-label">
-                            Typical Timeframe
-                          </span>
-                          <span class="models-accordion-stat-value">
-                            {model.typicalTimeframe}
-                          </span>
-                        </div>
-                      </div>
+                        ) : (
+                          model.bestFor
+                        )}
+                      </p>
                     </div>
 
-                    <div class="models-accordion-details-grid">
-                      <div class="models-accordion-fit-section">
-                        <div class="models-accordion-section-header">
-                          <p class="models-accordion-section-label">
-                            Strategic Fit
+                    <div class="engagement-choice-criterion engagement-choice-criterion-rhythm">
+                      <p class="engagement-choice-label">
+                        Working Rhythm
+                      </p>
+                      <p class="engagement-choice-criterion-copy">
+                        {model.workingRhythm}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="engagement-choice-outputs">
+                    <p class="engagement-choice-label">
+                      What You Leave With
+                    </p>
+                    <div class="engagement-choice-checklist">
+                      {model.deliverables.map((deliverable) => (
+                        <div class="engagement-choice-checkline">
+                          <Icon
+                            name="mdi:check-circle"
+                            class="engagement-choice-checkicon"
+                            aria-hidden="true"
+                          />
+                          <span class="engagement-choice-checktext">
+                            {deliverable}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+
+        <div class="engagement-choice-stack" role="presentation">
+          {
+            content.models.map((model, index) => (
+              <details
+                class="engagement-choice-drawer group/model"
+                data-model={String(index)}
+                open={index === 0}
+              >
+                <summary
+                  class="engagement-choice-toggle"
+                  role="button"
+                  aria-expanded={index === 0 ? "true" : "false"}
+                  aria-controls={`model-content-${index}`}
+                >
+                  <div class="engagement-choice-toggle-main pointer-events-none">
+                    <div class="engagement-choice-index">
+                      <span>{String(index + 1).padStart(2, "0")}</span>
+                    </div>
+                    <div class="engagement-choice-icon transition-transform duration-300 group-hover/model:scale-110 group-open/model:scale-110">
+                      <Icon
+                        name={modelIcons[index]}
+                        class="w-5 h-5 sm:w-6 sm:h-6 text-accent-green"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <div class="engagement-choice-heading">
+                      <h3 class="engagement-choice-title">
+                        {model.name}
+                      </h3>
+                      <span class="engagement-choice-subtitle">
+                        {model.subheadline}
+                      </span>
+                    </div>
+                    <div class="engagement-choice-toggle-tags pointer-events-none">
+                      <span class="engagement-choice-chip">
+                        {model.commercialModel}
+                      </span>
+                      <span class="engagement-choice-chip engagement-choice-chip-time">
+                        {model.typicalTimeframe}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="engagement-choice-toggle-arrow">
+                    <Icon
+                      name="mdi:chevron-down"
+                      class="engagement-choice-chevron pointer-events-none"
+                      aria-hidden="true"
+                    />
+                  </div>
+                </summary>
+                <div
+                  class="engagement-choice-panel"
+                  id={`model-content-${index}`}
+                  role="region"
+                  aria-label={`${model.name} details`}
+                >
+                  <div class="engagement-choice-body">
+                    <div class="engagement-choice-overview">
+                      <div class="engagement-choice-copy">
+                        <p class="engagement-choice-eyebrow">
+                          What This Model Solves
+                        </p>
+                        <p class="engagement-choice-description">
+                          {model.descriptionHighlight ? (
+                            <HighlightText
+                              text={model.description}
+                              highlight={model.descriptionHighlight}
+                            />
+                          ) : (
+                            model.description
+                          )}
+                        </p>
+                      </div>
+
+                      <aside class="engagement-choice-facts">
+                        <div class="engagement-choice-investment">
+                          <p class="engagement-choice-label">Investment Range</p>
+                          <p class="engagement-choice-investment-value">{model.pricingRange}</p>
+                          <p class="engagement-choice-note">
+                            Indicative for senior-led scope
                           </p>
                         </div>
-                        <p class="models-accordion-fit-text">
+
+                        <dl class="engagement-choice-meta">
+                          <div class="engagement-choice-meta-item">
+                            <dt class="engagement-choice-label">Commercial Model</dt>
+                            <dd class="engagement-choice-meta-value">{model.commercialModel}</dd>
+                          </div>
+
+                          <div class="engagement-choice-meta-item">
+                            <dt class="engagement-choice-label">Typical Timeframe</dt>
+                            <dd class="engagement-choice-meta-value">{model.typicalTimeframe}</dd>
+                          </div>
+                        </dl>
+                      </aside>
+                    </div>
+
+                    <div class="engagement-choice-criteria">
+                      <div class="engagement-choice-criterion">
+                        <p class="engagement-choice-label">
+                          Best When
+                        </p>
+                        <p class="engagement-choice-criterion-copy">
                           {model.bestForHighlight ? (
                             <HighlightText
                               text={model.bestFor}
@@ -192,26 +292,33 @@ const modelIcons = [
                         </p>
                       </div>
 
-                      <div class="models-accordion-deliverables-section">
-                        <div class="models-accordion-section-header">
-                          <p class="models-accordion-section-label">
-                            Key Deliverables
-                          </p>
-                        </div>
-                        <div class="models-accordion-deliverables">
-                          {model.deliverables.map((deliverable) => (
-                            <div class="models-accordion-deliverable-item group/item">
-                              <Icon
-                                name="mdi:check-circle"
-                                class="w-4 h-4 text-accent-green flex-shrink-0 group-hover/item:scale-110 transition-transform"
-                                aria-hidden="true"
-                              />
-                              <span class="models-accordion-deliverable-text">
-                                {deliverable}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
+                      <div class="engagement-choice-criterion engagement-choice-criterion-rhythm">
+                        <p class="engagement-choice-label">
+                          Working Rhythm
+                        </p>
+                        <p class="engagement-choice-criterion-copy">
+                          {model.workingRhythm}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="engagement-choice-outputs">
+                      <p class="engagement-choice-label">
+                        What You Leave With
+                      </p>
+                      <div class="engagement-choice-checklist">
+                        {model.deliverables.map((deliverable) => (
+                          <div class="engagement-choice-checkline">
+                            <Icon
+                              name="mdi:check-circle"
+                              class="engagement-choice-checkicon"
+                              aria-hidden="true"
+                            />
+                            <span class="engagement-choice-checktext">
+                              {deliverable}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -227,8 +334,7 @@ const modelIcons = [
           data-reveal-delay="200"
         >
           <p class="text-sm text-theme-secondary opacity-60 italic">
-            * All investment ranges are indicative. Exact pricing is determined
-            by project scope, complexity, and specific data requirements.
+            * Investments are indicative and reflect senior-led delivery for a premium Dubai-based analytics partner. Final pricing depends on scope, complexity, stakeholder load, and delivery model.
           </p>
         </div>
       </div>
@@ -236,10 +342,12 @@ const modelIcons = [
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const accordionItems = document.querySelectorAll(".models-accordion-item");
+    const accordionItems = document.querySelectorAll(
+      ".engagement-choice-stack .engagement-choice-drawer",
+    );
 
     accordionItems.forEach((item) => {
-      const summary = item.querySelector(".models-accordion-summary");
+      const summary = item.querySelector(".engagement-choice-toggle");
       if (!summary) return;
 
       summary.addEventListener("click", (e) => {
@@ -253,7 +361,7 @@ const modelIcons = [
           if (otherItem !== item && otherItem.hasAttribute("open")) {
             otherItem.removeAttribute("open");
             otherItem
-              .querySelector(".models-accordion-summary")
+              .querySelector(".engagement-choice-toggle")
               ?.setAttribute("aria-expanded", "false");
           }
         });

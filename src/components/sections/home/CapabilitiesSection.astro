@@ -1,8 +1,7 @@
 ---
 import SectionShell from '@/components/layouts/SectionShell.astro';
-import Card from '@/components/ui/Card.astro';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
-import Carousel from '@/components/ui/Carousel.astro';
+import { Icon } from "astro-icon/components";
 import type { HomepageContent } from "@/data/content";
 
 interface Props {
@@ -16,7 +15,8 @@ const { content } = Astro.props;
   id="capabilities"
   padding="lg"
   background="surface"
-  gradients={["hero"]}
+  gradients={["center"]}
+  patterns={["mesh"]}
   contentWidth="screen"
   class="relative capabilities-section section-divider"
 >
@@ -24,67 +24,42 @@ const { content } = Astro.props;
     <SectionHeader
       title={content.title}
       subtitle={content.subheading}
-      highlight="Capabilities"
-      subtitleHighlight="powering"
+      highlight="Core Capabilities"
     />
   </div>
 
-  <div class="hidden lg:block">
-    <div class="symmetric-grid-container gap-6 lg:gap-8">
-      {content.cards.map((card, index) => (
-        <div class="capability-card-wrapper h-full" data-index={index} data-reveal="zoom-in" data-reveal-delay={index * 50} data-reveal-duration="250" data-reveal-easing="ease-out">
-          <Card
-            variant="capability"
-            icon={card.icon}
-            title={card.title}
-            description={card.description}
-            metric={card.metric}
-            index={index}
-            isCarousel={false}
-          />
+  <div class="home-capability-routes">
+    {content.pillars.map((pillar, index) => (
+      <article
+        class="home-capability-route"
+        data-reveal="fade-up"
+        data-reveal-delay={index * 50}
+        data-reveal-duration="250"
+        data-reveal-easing="ease-out"
+      >
+        <div class="home-capability-route-intro">
+          <div class="home-capability-route-heading">
+            <span class="home-capability-route-number">{String(index + 1).padStart(2, "0")}</span>
+            <h3 class="home-capability-route-title">{pillar.name}</h3>
+          </div>
+          <p class="home-capability-route-summary">{pillar.summary}</p>
         </div>
-      ))}
-    </div>
-  </div>
-
-  <div class="hidden md:grid lg:hidden grid-cols-2 gap-6 col-span-full items-stretch">
-    {content.cards.map((card, index) => (
-      <div data-reveal="fade-up" data-reveal-delay={index * 50} data-reveal-duration="250" data-reveal-easing="ease-out">
-        <Card
-          variant="capability"
-          icon={card.icon}
-          title={card.title}
-          description={card.description}
-          metric={card.metric}
-          index={index}
-          isCarousel={false}
-        />
-      </div>
+        <p class="home-capability-route-outcome">{pillar.outcome}</p>
+        <div class="home-capability-route-skills">
+          {pillar.capabilities.map((capability) => (
+            <div class="home-capability-skill">
+              <div class="home-capability-skill-icon">
+                <Icon name={capability.icon} class="w-5 h-5 text-accent-green" />
+              </div>
+              <div class="home-capability-skill-body">
+                <p class="home-capability-skill-title">{capability.title}</p>
+                <p class="home-capability-skill-copy">{capability.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </article>
     ))}
-  </div>
-
-  <div class="capabilities-carousel-section">
-    <Carousel
-      containerId="capabilities-carousel-container"
-      trackId="capabilities-carousel-track"
-      items={content.cards}
-      wrapperClass="capabilities-carousel capabilities-carousel-wrapper"
-      breakpoint={768}
-    >
-      {content.cards.map((card, index) => (
-        <div class="carousel-slide embla__slide" data-index={index}>
-          <Card
-            variant="capability"
-            icon={card.icon}
-            title={card.title}
-            description={card.description}
-            metric={card.metric}
-            index={index}
-            isCarousel={true}
-          />
-        </div>
-      ))}
-    </Carousel>
   </div>
 </SectionShell>
 

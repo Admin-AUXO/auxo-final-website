@@ -46,6 +46,8 @@ export interface ServicesOverviewContent {
       subheadline: string;
       description: string;
       descriptionHighlight?: string | string[];
+      commercialModel: string;
+      workingRhythm: string;
       bestFor: string;
       bestForHighlight?: string | string[];
       deliverables: string[];
@@ -176,80 +178,88 @@ export const servicesOverviewContent: ServicesOverviewContent = {
   engagementModels: {
     title: "Choose how you want AUXO involved",
     description:
-      "Some teams need a scoped diagnostic. Others need build capacity or steady strategic support. The engagement model should match the pace and certainty of the problem.",
-    descriptionHighlight: ["match the pace and certainty of the problem"],
+      "The right model depends on how defined the problem is, how much senior attention the work needs, and whether you are buying clarity, delivery capacity, or ongoing judgment.",
+    descriptionHighlight: ["clarity, delivery capacity, or ongoing judgment"],
     models: [
       {
         name: "Diagnostic Sprint",
         subheadline: "Fast clarity before bigger spend",
         description:
-          "A compact diagnostic engagement for teams that need to isolate the core problem, align owners, and leave with a grounded execution path.",
-        descriptionHighlight: ["grounded execution path"],
+          "A senior-led diagnostic for teams that need to isolate the real bottleneck, align owners, and leave with a decision-ready plan before committing to a larger build.",
+        descriptionHighlight: ["decision-ready plan"],
+        commercialModel: "Fixed-fee diagnostic",
+        workingRhythm: "Intensive review with 2-3 working sessions per week",
         bestFor:
-          "Early-stage problem framing, architecture uncertainty, reporting cleanup decisions, and service selection before a larger build.",
-        bestForHighlight: ["service selection", "larger build"],
+          "Problem framing, architecture uncertainty, reporting cleanup decisions, and service selection when leadership wants sharp direction quickly.",
+        bestForHighlight: ["sharp direction quickly"],
         deliverables: [
-          "Current-state review",
-          "Priority findings",
+          "Current-state diagnostic",
+          "Priority findings and risks",
           "Decision-ready roadmap",
-          "Next-stage recommendation",
+          "Recommended next-stage model",
         ],
-        pricingRange: "AED 25,000 - 45,000",
+        pricingRange: "AED 35,000 - 75,000",
         typicalTimeframe: "2 - 4 Weeks",
       },
       {
         name: "Delivery Build",
         subheadline: "Targeted implementation with senior execution",
         description:
-          "A focused build engagement for teams with a clear target outcome who need the work implemented, not endlessly discussed.",
-        descriptionHighlight: ["implemented, not endlessly discussed"],
+          "A scoped build for teams that already know the outcome they need and want senior-led execution from design through rollout.",
+        descriptionHighlight: ["senior-led execution"],
+        commercialModel: "Fixed-fee or phased delivery",
+        workingRhythm: "Weekly build cadence with delivery reviews and steering",
         bestFor:
-          "Reporting rebuilds, forecasting systems, automation delivery, decision-playbook implementation, and other scoped capability launches.",
-        bestForHighlight: ["scoped capability launches"],
+          "Reporting rebuilds, forecasting systems, automation delivery, decision-playbook implementation, and other high-trust scoped launches.",
+        bestForHighlight: ["high-trust scoped launches"],
         deliverables: [
           "Working solution build",
           "Validation and testing",
-          "Documentation",
-          "Handoff support",
+          "Documentation and controls",
+          "Handoff and adoption support",
         ],
-        pricingRange: "AED 60,000 - 150,000",
+        pricingRange: "AED 120,000 - 320,000",
         typicalTimeframe: "2 - 4 Months",
       },
       {
         name: "Managed Analytics Program",
         subheadline: "Ongoing support across the analytics backlog",
         description:
-          "A retained model for organizations that need recurring analytics delivery, optimization, and strategic backlog handling without building the full team immediately.",
-        descriptionHighlight: ["recurring analytics delivery"],
+          "A retained delivery model for organizations with a live analytics backlog that need recurring execution, prioritization, and oversight without building the full internal team immediately.",
+        descriptionHighlight: ["retained delivery model"],
+        commercialModel: "Monthly retainer",
+        workingRhythm: "Shared backlog, recurring delivery, and monthly planning rhythm",
         bestFor:
-          "Organizations managing multiple reporting, automation, performance, or enablement priorities over a longer operating horizon.",
-        bestForHighlight: ["longer operating horizon"],
+          "Organizations managing multiple reporting, automation, performance, or enablement priorities over a sustained operating horizon.",
+        bestForHighlight: ["sustained operating horizon"],
         deliverables: [
           "Recurring delivery capacity",
           "Backlog prioritization",
-          "Platform upkeep",
-          "Impact reporting",
+          "Platform and reporting upkeep",
+          "Monthly impact review",
         ],
-        pricingRange: "AED 15,000 - 35,000 / mo",
+        pricingRange: "AED 35,000 - 80,000 / mo",
         typicalTimeframe: "6+ Months",
       },
       {
         name: "Strategic Co-Pilot",
         subheadline: "Senior data and analytics guidance",
         description:
-          "Direct access to senior analytics leadership for architecture calls, roadmap decisions, vendor questions, and executive-level decision support.",
-        descriptionHighlight: ["executive-level decision support"],
+          "Direct access to senior analytics leadership for architecture calls, roadmap decisions, vendor questions, and executive-level guidance when the business needs judgment more than delivery volume.",
+        descriptionHighlight: ["needs judgment more than delivery volume"],
+        commercialModel: "Leadership retainer",
+        workingRhythm: "Senior advisory cadence with reviews, decisions, and on-call support",
         bestFor:
-          "Founders and leaders who need sharper analytics judgment without hiring a full-time data executive yet.",
-        bestForHighlight: ["sharper analytics judgment"],
+          "Founders and leaders who need sharper analytics judgment, vendor challenge, and roadmap oversight without hiring a full-time data executive yet.",
+        bestForHighlight: ["roadmap oversight"],
         deliverables: [
           "Strategic advisory",
           "Architecture reviews",
           "Hiring and org guidance",
           "Leadership decision support",
         ],
-        pricingRange: "AED 10,000 - 25,000 / mo",
-        typicalTimeframe: "Ongoing",
+        pricingRange: "AED 25,000 - 55,000 / mo",
+        typicalTimeframe: "3+ Months",
       },
     ],
   },

@@ -1,3 +1,5 @@
+import { getServiceIconBySlug } from "./service-page-details";
+
 export interface DropdownItem {
   _key?: string;
   name: string;
@@ -20,6 +22,9 @@ export interface NavigationContent {
   items: NavItem[];
 }
 
+const iconForServicePath = (href: string) =>
+  getServiceIconBySlug(href.split("/").filter(Boolean).pop() ?? "");
+
 export const navigationContent: NavigationContent = {
   "items": [
     {
@@ -29,7 +34,7 @@ export const navigationContent: NavigationContent = {
           "fit": "Best when source-of-truth, ownership, and architecture are still unstable.",
           "group": "Stabilize",
           "href": "/services/foundation-readiness/",
-          "icon": "mdi:file-tree",
+          "icon": iconForServicePath("/services/foundation-readiness/"),
           "name": "Foundation Readiness"
         },
         {
@@ -37,7 +42,7 @@ export const navigationContent: NavigationContent = {
           "fit": "Best when reporting is duplicated, distrusted, or too manual.",
           "group": "Stabilize",
           "href": "/services/reporting-reset/",
-          "icon": "mdi:view-dashboard-outline",
+          "icon": iconForServicePath("/services/reporting-reset/"),
           "name": "Reporting Reset"
         },
         {
@@ -45,7 +50,7 @@ export const navigationContent: NavigationContent = {
           "fit": "Best when the analytics stack feels slow, costly, or fragile.",
           "group": "Optimize",
           "href": "/services/performance-diagnostics/",
-          "icon": "mdi:speedometer-medium",
+          "icon": iconForServicePath("/services/performance-diagnostics/"),
           "name": "Performance Diagnostics"
         },
         {
@@ -53,7 +58,7 @@ export const navigationContent: NavigationContent = {
           "fit": "Best when teams need forward visibility, not just historical reporting.",
           "group": "Optimize",
           "href": "/services/forecasting-lab/",
-          "icon": "mdi:timeline-clock-outline",
+          "icon": iconForServicePath("/services/forecasting-lab/"),
           "name": "Forecasting Lab"
         },
         {
@@ -61,7 +66,7 @@ export const navigationContent: NavigationContent = {
           "fit": "Best when important decisions are inconsistent across teams or leaders.",
           "group": "Optimize",
           "href": "/services/decision-playbooks/",
-          "icon": "mdi:scale-balance",
+          "icon": iconForServicePath("/services/decision-playbooks/"),
           "name": "Decision Playbooks"
         },
         {
@@ -69,7 +74,7 @@ export const navigationContent: NavigationContent = {
           "fit": "Best when analysts are buried in repetitive preparation, checks, and delivery work.",
           "group": "Scale",
           "href": "/services/smart-automation/",
-          "icon": "mdi:robot-outline",
+          "icon": iconForServicePath("/services/smart-automation/"),
           "name": "Smart Automation"
         },
         {
@@ -77,7 +82,7 @@ export const navigationContent: NavigationContent = {
           "fit": "Best when you need an AI use-case filter before building expensive nonsense.",
           "group": "Scale",
           "href": "/services/augmented-intelligence-studio/",
-          "icon": "mdi:lightbulb-on-outline",
+          "icon": iconForServicePath("/services/augmented-intelligence-studio/"),
           "name": "Augmented Intelligence Studio"
         },
         {
@@ -85,7 +90,7 @@ export const navigationContent: NavigationContent = {
           "fit": "Best when broader analytics access is the goal, but governance is not ready yet.",
           "group": "Stabilize",
           "href": "/services/autonomy-readiness-review/",
-          "icon": "mdi:account-network",
+          "icon": iconForServicePath("/services/autonomy-readiness-review/"),
           "name": "Autonomy Readiness Review"
         }
       ],

@@ -4,12 +4,13 @@ import { homepageContent, siteData } from "@/data/content";
 import StructuredData from "@/components/common/StructuredData.astro";
 import HeroSection from "@/components/sections/home/HeroSection.astro";
 import ProblemSolutionSection from "@/components/sections/home/ProblemSolutionSection.astro";
+import DecisionFitSection from "@/components/sections/home/DecisionFitSection.astro";
 import CapabilitiesSection from "@/components/sections/home/CapabilitiesSection.astro";
 import ServicesIntroSection from "@/components/sections/home/ServicesIntroSection.astro";
 import MethodologySection from "@/components/sections/home/MethodologySection.astro";
 import TechStackSection from "@/components/sections/home/TechStackSection.astro";
 import FinalCta from "@/components/sections/home/FinalCta.astro";
-import ParticleBackground from "@/components/effects/ParticleBackground.astro";
+import HeroBackdrop from "@/components/effects/HeroBackdrop.astro";
 import "@/styles/sections/hero.css";
 import "@/styles/sections/home-sections.css";
 import "@/styles/components/carousels.css";
@@ -20,20 +21,24 @@ import { createServiceSchema } from "@/lib/structuredData";
 const serviceSchema = createServiceSchema();
 const lazySections = [
   {
-    Component: ServicesIntroSection,
-    props: { content: homepageContent.featuredServices },
-  },
-  {
-    Component: TechStackSection,
-    props: { content: homepageContent.techStack },
+    Component: DecisionFitSection,
+    props: { content: homepageContent.decisionFit },
   },
   {
     Component: CapabilitiesSection,
     props: { content: homepageContent.capabilities },
   },
   {
+    Component: ServicesIntroSection,
+    props: { content: homepageContent.featuredServices },
+  },
+  {
     Component: MethodologySection,
     props: { content: homepageContent.methodology },
+  },
+  {
+    Component: TechStackSection,
+    props: { content: homepageContent.techStack },
   },
   {
     Component: FinalCta,
@@ -45,8 +50,12 @@ const lazySections = [
 <BaseLayout title="Decision Intelligence Partner Dubai, UAE | AUXO Data Labs" description={siteData.description}>
   <StructuredData type="Service" data={serviceSchema} />
   <div class="hero-problem-wrapper relative">
-    <ParticleBackground />
-    <HeroSection content={homepageContent.hero} />
+    <HeroBackdrop
+      mode="galaxy"
+      overlayClass="bg-gradient-to-b from-theme-surface/80 via-theme-surface/60 to-theme-primary"
+      topOverlayClass="h-full bg-theme-primary/40"
+    />
+    <HeroSection content={homepageContent.hero} showBackground={false} />
     <ProblemSolutionSection content={homepageContent.valueProposition} />
   </div>
   {
@@ -64,7 +73,7 @@ const lazySections = [
   isolation: isolate;
 }
 
-.hero-problem-wrapper :global(#particle-background) {
+.hero-problem-wrapper :global(.particle-background) {
   position: absolute;
   inset: 0;
   z-index: -1;

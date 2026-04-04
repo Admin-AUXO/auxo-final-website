@@ -21,7 +21,7 @@ const { content } = Astro.props;
 
 <SectionShell
   id="partnership"
-  padding="normal"
+  padding="sm"
   background="card"
   contentWidth="6xl"
   class="relative partnership-section section-divider"
@@ -33,24 +33,27 @@ const { content } = Astro.props;
     title={content.title}
     subtitle={content.description}
     subtitleHighlight={content.descriptionHighlight}
+    center={false}
+    wrapperClass="about-section-header"
+    subtitleClass="max-w-none mx-0"
   />
 
-  <div class="about-commitment-grid">
+  <div class="about-partnership-strip">
     {content.commitments.map((commitment, index) => (
       <article
-        class="about-commitment-card"
+        class="about-partnership-promise"
         data-reveal="fade-up"
         data-reveal-delay={index * 40}
         data-reveal-duration="200"
         data-reveal-easing="ease-out"
       >
-        <div class="about-commitment-card-head">
-          <div class="about-commitment-card-icon">
-            <Icon name={commitment.icon} class="w-5 h-5 text-accent-green" />
+        <div class="about-partnership-promise-top">
+          <div class="about-partnership-promise-icon">
+            <Icon name={commitment.icon} class="w-4.5 h-4.5 text-accent-green" />
           </div>
-          <h3 class="about-commitment-card-title">{commitment.title}</h3>
+          <h3 class="about-partnership-promise-title">{commitment.title}</h3>
         </div>
-        <p class="about-commitment-card-copy">{commitment.description}</p>
+        <p class="about-partnership-promise-copy">{commitment.description}</p>
       </article>
     ))}
   </div>

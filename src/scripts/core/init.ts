@@ -208,7 +208,7 @@ export function initCoreFeatures(): void {
 }
 
 export function initPageFeatures(): void {
-  const particleCanvas = document.getElementById('particle-canvas');
+  const particleCanvas = document.querySelector('[data-particle-canvas]');
   const currentRunId = initRunId;
 
   void pageFeatureModules

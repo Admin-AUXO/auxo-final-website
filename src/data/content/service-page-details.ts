@@ -3,6 +3,7 @@ export interface ServicePageDetail {
   name: string;
   shortDescription: string;
   category: string;
+  icon: string;
   hero: {
     title: string;
     subtitle: string;
@@ -82,6 +83,7 @@ export const servicePageDetails: ServicePageDetail[] = [
     name: "Foundation Readiness",
     shortDescription: "Audit the data foundation before dashboards, automation, or AI amplify the mess.",
     category: "Data Foundation",
+    icon: "mdi:file-tree",
     hero: {
       title: "Build the data foundation before you scale the noise",
       subtitle: "Foundation Readiness",
@@ -272,6 +274,7 @@ export const servicePageDetails: ServicePageDetail[] = [
     name: "Reporting Reset",
     shortDescription: "Replace fragmented reporting with a governed system people can actually use.",
     category: "Reporting and BI",
+    icon: "mdi:view-dashboard-outline",
     hero: {
       title: "Replace brittle reporting with a system people trust",
       subtitle: "Reporting Reset",
@@ -462,6 +465,7 @@ export const servicePageDetails: ServicePageDetail[] = [
     name: "Performance Diagnostics",
     shortDescription: "Find the warehouse, model, and dashboard bottlenecks making analytics feel slow and fragile.",
     category: "Performance and Reliability",
+    icon: "mdi:speedometer-medium",
     hero: {
       title: "Find the analytics bottlenecks before users abandon the stack",
       subtitle: "Performance Diagnostics",
@@ -652,6 +656,7 @@ export const servicePageDetails: ServicePageDetail[] = [
     name: "Forecasting Lab",
     shortDescription: "Build forecasting systems your teams can actually plan from, not just model in a notebook.",
     category: "Predictive Planning",
+    icon: "mdi:timeline-clock-outline",
     hero: {
       title: "Build forecasts people trust enough to plan from",
       subtitle: "Forecasting Lab",
@@ -842,6 +847,7 @@ export const servicePageDetails: ServicePageDetail[] = [
     name: "Decision Playbooks",
     shortDescription: "Turn recurring high-stakes choices into repeatable decision systems with explicit criteria.",
     category: "Decision Intelligence",
+    icon: "mdi:scale-balance",
     hero: {
       title: "Turn recurring judgment calls into repeatable decision systems",
       subtitle: "Decision Playbooks",
@@ -1032,6 +1038,7 @@ export const servicePageDetails: ServicePageDetail[] = [
     name: "Smart Automation",
     shortDescription: "Automate repetitive analytics work so the team stops paying skilled people to move data by hand.",
     category: "Workflow Automation",
+    icon: "mdi:robot-outline",
     hero: {
       title: "Automate the analytics work that should never be manual twice",
       subtitle: "Smart Automation",
@@ -1222,6 +1229,7 @@ export const servicePageDetails: ServicePageDetail[] = [
     name: "Augmented Intelligence Studio",
     shortDescription: "Apply AI where it improves analytical throughput and decision quality, not where it adds theater.",
     category: "Applied AI",
+    icon: "mdi:lightbulb-on-outline",
     hero: {
       title: "Use AI where it sharpens analysis, not where it adds theater",
       subtitle: "Augmented Intelligence Studio",
@@ -1412,6 +1420,7 @@ export const servicePageDetails: ServicePageDetail[] = [
     name: "Autonomy Readiness Review",
     shortDescription: "Prepare the business for self-serve analytics without creating uncontrolled metric sprawl.",
     category: "Enablement and Governance",
+    icon: "mdi:account-network",
     hero: {
       title: "Prepare the business for self-serve analytics without losing control",
       subtitle: "Autonomy Readiness Review",
@@ -1602,4 +1611,8 @@ export const servicePageDetails: ServicePageDetail[] = [
 export function getServicePageDetailBySlug(slug: string) {
   if (!slug) return null;
   return servicePageDetails.find((service) => service.slug === slug) || null;
+}
+
+export function getServiceIconBySlug(slug: string) {
+  return getServicePageDetailBySlug(slug)?.icon ?? "mdi:compass-outline";
 }

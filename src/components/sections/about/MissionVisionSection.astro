@@ -1,9 +1,7 @@
 ---
-import { Icon } from "astro-icon/components";
 import SectionContainer from "@/components/layouts/SectionContainer.astro";
 import BackgroundDecorations from "@/components/ui/BackgroundDecorations.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
-import Carousel from "@/components/ui/Carousel.astro";
 import HighlightText from "@/components/ui/HighlightText.astro";
 
 interface Props {
@@ -21,7 +19,7 @@ const { content } = Astro.props;
 
 <SectionContainer
   id="mission-vision"
-  padding="normal"
+  padding="sm"
   background="default"
   class="relative mission-vision-section section-divider"
 >
@@ -29,181 +27,45 @@ const { content } = Astro.props;
 
   <div class="grid-container relative z-10">
     <div class="col-span-full max-w-[1400px] mx-auto w-full">
-      <SectionHeader title={content.title} highlight={["Mission", "Vision"]} />
+      <SectionHeader
+        title={content.title}
+        highlight={["Mission", "Vision"]}
+        center={false}
+        wrapperClass="about-section-header"
+      />
 
-      <div
-        class="hidden lg:grid lg:grid-cols-2 gap-8 xl:gap-12 max-w-6xl mx-auto"
-      >
-        <div
-          class="mission-card group relative"
+      <div class="about-direction-grid">
+        <article
+          class="about-direction-panel"
           data-reveal="fade-right"
           data-reveal-delay="0"
           data-reveal-duration="200"
           data-reveal-easing="ease-out"
         >
-          <div
-            class="h-full bg-theme-surface/80 backdrop-blur-sm border border-accent-green/20 rounded-3xl p-8 lg:p-10 relative overflow-hidden lg:hover:border-accent-green/40 transition-colors duration-300 shadow-xl lg:hover:shadow-2xl flex flex-col"
-          >
-            <div
-              class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/40 to-accent-green/0 rounded-t-3xl"
-            >
-            </div>
-            <div
-              class="absolute top-0 right-0 w-48 h-48 bg-accent-green/10 rounded-full blur-3xl opacity-50 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -mr-10 -mt-10"
-            >
-            </div>
+          <p class="about-direction-label">Mission</p>
+          <p class="about-direction-copy">
+            <HighlightText
+              text={content.missionText}
+              highlight={content.missionHighlight}
+            />
+          </p>
+        </article>
 
-            <div class="relative z-10 flex-grow">
-              <div class="flex items-center gap-4 mb-6">
-                <Icon
-                  name="mdi:flag-checkered"
-                  class="w-8 h-8 sm:w-9 sm:h-9 text-accent-green flex-shrink-0"
-                />
-                <h3
-                  class="text-h3 font-extrabold text-theme-primary font-display tracking-tight"
-                >
-                  Mission
-                </h3>
-              </div>
-              <p
-                class="text-body-lg xl:text-body-xl text-theme-secondary leading-[1.7] font-body"
-              >
-                <HighlightText
-                  text={content.missionText}
-                  highlight={content.missionHighlight}
-                />
-              </p>
-            </div>
-
-            <div
-              class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-green/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            >
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="vision-card group relative"
+        <article
+          class="about-direction-panel"
           data-reveal="fade-left"
           data-reveal-delay="50"
           data-reveal-duration="200"
           data-reveal-easing="ease-out"
         >
-          <div
-            class="h-full bg-theme-surface/80 backdrop-blur-sm border border-accent-green/20 rounded-3xl p-8 lg:p-10 relative overflow-hidden lg:hover:border-accent-green/40 transition-colors duration-300 shadow-xl lg:hover:shadow-2xl flex flex-col"
-          >
-            <div
-              class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/40 to-accent-green/0 rounded-t-3xl"
-            >
-            </div>
-            <div
-              class="absolute top-0 left-0 w-48 h-48 bg-accent-green/10 rounded-full blur-3xl opacity-50 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -ml-10 -mt-10"
-            >
-            </div>
-
-            <div class="relative z-10 flex-grow">
-              <div class="flex items-center gap-4 mb-6">
-                <Icon
-                  name="mdi:telescope"
-                  class="w-8 h-8 sm:w-9 sm:h-9 text-accent-green flex-shrink-0"
-                />
-                <h3
-                  class="text-h3 font-extrabold text-theme-primary font-display tracking-tight"
-                >
-                  Vision
-                </h3>
-              </div>
-              <p
-                class="text-body-lg xl:text-body-xl text-theme-secondary leading-[1.7] font-body"
-              >
-                <HighlightText
-                  text={content.visionText}
-                  highlight={content.visionHighlight}
-                />
-              </p>
-            </div>
-
-            <div
-              class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-green/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            >
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="lg:hidden mission-vision-carousel-section mt-8">
-        <Carousel
-          containerId="mission-vision-carousel-container"
-          trackId="mission-vision-carousel-track"
-          items={[content.missionText, content.visionText]}
-          wrapperClass="mission-vision-carousel-wrapper"
-        >
-          <div class="carousel-slide embla__slide" data-index="0">
-            <div
-              class="h-full bg-theme-surface/80 backdrop-blur-sm border border-accent-green/20 rounded-3xl p-8 relative overflow-hidden transition-colors duration-300 shadow-xl flex flex-col"
-            >
-              <div
-                class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/40 to-accent-green/0 rounded-t-3xl"
-              >
-              </div>
-
-              <div class="relative z-10 flex-grow">
-                <div class="flex items-center gap-4 mb-6">
-                  <Icon
-                    name="mdi:flag-checkered"
-                    class="w-8 h-8 text-accent-green flex-shrink-0"
-                  />
-                  <h3
-                    class="text-h3 font-extrabold text-theme-primary font-display tracking-tight"
-                  >
-                    Mission
-                  </h3>
-                </div>
-                <p
-                  class="text-body-lg text-theme-secondary leading-[1.7] font-body"
-                >
-                  <HighlightText
-                    text={content.missionText}
-                    highlight={content.missionHighlight}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="carousel-slide embla__slide" data-index="1">
-            <div
-              class="h-full bg-theme-surface/80 backdrop-blur-sm border border-accent-green/20 rounded-3xl p-8 relative overflow-hidden transition-colors duration-300 shadow-xl flex flex-col"
-            >
-              <div
-                class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-green/0 via-accent-green/40 to-accent-green/0 rounded-t-3xl"
-              >
-              </div>
-
-              <div class="relative z-10 flex-grow">
-                <div class="flex items-center gap-4 mb-6">
-                  <Icon
-                    name="mdi:telescope"
-                    class="w-8 h-8 text-accent-green flex-shrink-0"
-                  />
-                  <h3
-                    class="text-h3 font-extrabold text-theme-primary font-display tracking-tight"
-                  >
-                    Vision
-                  </h3>
-                </div>
-                <p
-                  class="text-body-lg text-theme-secondary leading-[1.7] font-body"
-                >
-                  <HighlightText
-                    text={content.visionText}
-                    highlight={content.visionHighlight}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-        </Carousel>
+          <p class="about-direction-label">Vision</p>
+          <p class="about-direction-copy">
+            <HighlightText
+              text={content.visionText}
+              highlight={content.visionHighlight}
+            />
+          </p>
+        </article>
       </div>
     </div>
   </div>

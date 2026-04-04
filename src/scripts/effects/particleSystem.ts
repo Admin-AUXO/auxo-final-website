@@ -1,7 +1,29 @@
 import { BREAKPOINTS } from '../core/constants';
 import { logger } from '@/lib/logger';
 
-export type ParticleMode = 'galaxy' | 'network' | 'flow' | 'data' | 'waves' | 'logic' | 'sys' | 'ai' | 'expand' | 'articles' | 'about';
+export type ParticleMode =
+  | 'galaxy'
+  | 'network'
+  | 'flow'
+  | 'data'
+  | 'waves'
+  | 'logic'
+  | 'sys'
+  | 'ai'
+  | 'expand'
+  | 'articles'
+  | 'about';
+
+type ParticleShape = 'circle' | 'square' | 'diamond' | 'bar' | 'page';
+type SpawnPattern =
+  | 'rings'
+  | 'grid'
+  | 'left'
+  | 'columns'
+  | 'bands'
+  | 'cluster'
+  | 'center'
+  | 'bottom';
 
 interface Particle {
   x: number;
@@ -15,106 +37,263 @@ interface Particle {
   twinklePhase: number;
   twinkleSpeed: number;
   color: string;
-  type: 'star' | 'accent-star' | 'nebula' | 'node' | 'data-bit';
-  shape: 'circle' | 'square' | 'star';
+  shape: ParticleShape;
   rotation: number;
   rotationSpeed: number;
   distanceFromCenter: number;
   angle: number;
-  pulsePhase?: number;
+  anchorX: number;
+  anchorY: number;
+  speed: number;
+  isAccent: boolean;
+  pulsePhase: number;
+  stepAxis: 'x' | 'y';
+  stepDirection: 1 | -1;
+  clusterIndex: number;
+}
+
+interface ModeSettings {
+  accentProbability: number;
+  baseSpeed: number;
+  countScale: number;
+  lineLinked: boolean;
+  linkDistance: number;
+  maxLinks: number;
+  mouseInfluence: number;
+  opacity: [min: number, max: number];
+  radius: [min: number, max: number];
+  shapes: readonly ParticleShape[];
+  spawn: SpawnPattern;
 }
 
 const CONSTANTS = {
+  BOUNDARY_OFFSET: 56,
+  DAMPING_FACTOR: 0.94,
+  MAX_DPR: 1.75,
   MOBILE_BREAKPOINT: BREAKPOINTS.SM,
+  MOUSE_INFLUENCE_RADIUS_FACTOR: 0.24,
   TABLET_BREAKPOINT: BREAKPOINTS.LG,
+} as const;
 
-  // Galaxy specific
-  SPIRAL_TIGHTNESS: 0.3,
-  SPIRAL_CORRECTION_STRENGTH: 0.00005,
-  
-  // Physics/Interaction
-  DAMPING_FACTOR: 0.99,
-  MOUSE_INFLUENCE_RADIUS_FACTOR: 0.3,
-  
-  // Connections (Particles.js style)
-  LINK_DISTANCE: 150,
-  LINK_OPACITY_MAX: 0.4,
-  
-  BOUNDARY_OFFSET: 50,
+const MODE_SETTINGS: Record<ParticleMode, ModeSettings> = {
+  galaxy: {
+    accentProbability: 0.16,
+    baseSpeed: 0.22,
+    countScale: 1,
+    lineLinked: false,
+    linkDistance: 0,
+    maxLinks: 0,
+    mouseInfluence: 0.42,
+    opacity: [0.12, 0.34],
+    radius: [0.7, 2.2],
+    shapes: ['circle', 'diamond'],
+    spawn: 'rings',
+  },
+  network: {
+    accentProbability: 0.08,
+    baseSpeed: 0.11,
+    countScale: 0.7,
+    lineLinked: true,
+    linkDistance: 118,
+    maxLinks: 2,
+    mouseInfluence: 0.34,
+    opacity: [0.16, 0.32],
+    radius: [1, 2.4],
+    shapes: ['circle', 'diamond'],
+    spawn: 'grid',
+  },
+  flow: {
+    accentProbability: 0.12,
+    baseSpeed: 0.28,
+    countScale: 0.74,
+    lineLinked: false,
+    linkDistance: 0,
+    maxLinks: 0,
+    mouseInfluence: 0.28,
+    opacity: [0.12, 0.3],
+    radius: [0.9, 2],
+    shapes: ['circle', 'bar'],
+    spawn: 'left',
+  },
+  data: {
+    accentProbability: 0.18,
+    baseSpeed: 0.17,
+    countScale: 0.56,
+    lineLinked: false,
+    linkDistance: 0,
+    maxLinks: 0,
+    mouseInfluence: 0.2,
+    opacity: [0.18, 0.34],
+    radius: [1.4, 3.2],
+    shapes: ['square', 'bar'],
+    spawn: 'columns',
+  },
+  waves: {
+    accentProbability: 0.1,
+    baseSpeed: 0.14,
+    countScale: 0.52,
+    lineLinked: false,
+    linkDistance: 0,
+    maxLinks: 0,
+    mouseInfluence: 0.18,
+    opacity: [0.16, 0.28],
+    radius: [1, 2.1],
+    shapes: ['circle'],
+    spawn: 'bands',
+  },
+  logic: {
+    accentProbability: 0.12,
+    baseSpeed: 0.1,
+    countScale: 0.48,
+    lineLinked: true,
+    linkDistance: 92,
+    maxLinks: 1,
+    mouseInfluence: 0.28,
+    opacity: [0.16, 0.3],
+    radius: [1.1, 2.5],
+    shapes: ['square', 'diamond'],
+    spawn: 'grid',
+  },
+  sys: {
+    accentProbability: 0.14,
+    baseSpeed: 0.18,
+    countScale: 0.62,
+    lineLinked: false,
+    linkDistance: 0,
+    maxLinks: 0,
+    mouseInfluence: 0.24,
+    opacity: [0.14, 0.3],
+    radius: [1, 2.5],
+    shapes: ['circle', 'diamond', 'bar'],
+    spawn: 'rings',
+  },
+  ai: {
+    accentProbability: 0.24,
+    baseSpeed: 0.12,
+    countScale: 0.68,
+    lineLinked: true,
+    linkDistance: 104,
+    maxLinks: 2,
+    mouseInfluence: 0.42,
+    opacity: [0.16, 0.34],
+    radius: [1, 2.7],
+    shapes: ['circle', 'diamond'],
+    spawn: 'cluster',
+  },
+  expand: {
+    accentProbability: 0.16,
+    baseSpeed: 0.15,
+    countScale: 0.44,
+    lineLinked: false,
+    linkDistance: 0,
+    maxLinks: 0,
+    mouseInfluence: 0.16,
+    opacity: [0.18, 0.34],
+    radius: [1, 2.4],
+    shapes: ['circle', 'diamond'],
+    spawn: 'center',
+  },
+  articles: {
+    accentProbability: 0.1,
+    baseSpeed: 0.13,
+    countScale: 0.34,
+    lineLinked: false,
+    linkDistance: 0,
+    maxLinks: 0,
+    mouseInfluence: 0.18,
+    opacity: [0.16, 0.28],
+    radius: [2, 3.8],
+    shapes: ['page'],
+    spawn: 'bottom',
+  },
+  about: {
+    accentProbability: 0.1,
+    baseSpeed: 0.08,
+    countScale: 0.58,
+    lineLinked: true,
+    linkDistance: 124,
+    maxLinks: 1,
+    mouseInfluence: 0.2,
+    opacity: [0.16, 0.3],
+    radius: [1, 2.3],
+    shapes: ['circle', 'diamond'],
+    spawn: 'cluster',
+  },
 } as const;
 
 interface DeviceCapabilities {
-  batteryLevel?: number;
   isLowEnd: boolean;
 }
 
 interface ConnectionInfoLike {
   effectiveType?: string;
-}
-
-interface BatteryLike {
-  level: number;
-  charging: boolean;
-  addEventListener: (type: 'levelchange', listener: () => void) => void;
+  saveData?: boolean;
 }
 
 interface NavigatorCapabilities extends Navigator {
-  deviceMemory?: number;
   connection?: ConnectionInfoLike;
+  deviceMemory?: number;
   mozConnection?: ConnectionInfoLike;
   webkitConnection?: ConnectionInfoLike;
-  getBattery?: () => Promise<BatteryLike>;
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
+}
+
+function randomInRange(min: number, max: number): number {
+  return min + Math.random() * (max - min);
 }
 
 export class GalaxyParticleSystem {
-  private canvas: HTMLCanvasElement;
-  private ctx!: CanvasRenderingContext2D;
-  private particles: Particle[] = [];
-  private mouseX = 0;
-  private mouseY = 0;
-  private isMouseActive = false;
   private animationId: number | null = null;
-  private resizeObserver: ResizeObserver | null = null;
-  private themeObserver: MutationObserver | null = null;
-  private resizeHandler: (() => void) | null = null;
-  private mouseMoveHandler: ((e: MouseEvent) => void) | null = null;
-  private mouseLeaveHandler: (() => void) | null = null;
+  private cachedLogicalSize = { height: 0, width: 0 };
+  private cachedMaxDistance = 0;
+  private canvas: HTMLCanvasElement;
   private centerX = 0;
   private centerY = 0;
-  private mode: ParticleMode = 'galaxy';
-
-  private deviceCapabilities: DeviceCapabilities;
-  private qualityReductionTriggered = false;
-  
-  private isDisabled = false;
-
   private config = {
-    particleCount: 0,
-    speed: 0,
-    rotationSpeed: 0,
-    twinkleSpeed: 0,
-    mouseInfluence: 0,
     lineLinked: false,
+    linkDistance: 0,
+    maxLinks: 0,
+    mouseInfluence: 0,
+    particleCount: 0,
+    rotationSpeed: 0,
+    speed: 0,
+    twinkleSpeed: 0,
   };
-
-  private accentColor = '#A3E635';
-  private accentColorRgb: string = '';
-  private particleColors: string[] = [];
+  private ctx!: CanvasRenderingContext2D;
+  private deviceCapabilities: DeviceCapabilities;
+  private isDisabled = false;
   private isLightMode = false;
+  private isMouseActive = false;
+  private mode: ParticleMode = 'galaxy';
+  private modeSettings: ModeSettings;
+  private mouseLeaveHandler: (() => void) | null = null;
+  private mouseMoveHandler: ((event: MouseEvent) => void) | null = null;
+  private mouseX = 0;
+  private mouseY = 0;
+  private particleColors: string[] = [];
+  private particles: Particle[] = [];
+  private pointerFine = false;
+  private resizeHandler: (() => void) | null = null;
+  private resizeObserver: ResizeObserver | null = null;
   private textPrimary = '#FFFFFF';
   private textSecondary = '#A0A0A0';
-  
-  private cachedLogicalSize = { width: 0, height: 0 };
-  private cachedMaxDistance = 0;
+  private themeObserver: MutationObserver | null = null;
+  private visibilityHandler: (() => void) | null = null;
+  private accentColor = '#A3E635';
+  private accentColorRgb = '163, 230, 53';
 
   constructor(canvas: HTMLCanvasElement, mode: ParticleMode = 'galaxy') {
     this.canvas = canvas;
     this.mode = mode;
+    this.modeSettings = MODE_SETTINGS[mode];
     this.deviceCapabilities = this.detectDeviceCapabilities();
 
     if (this.deviceCapabilities.isLowEnd) {
       this.isDisabled = true;
-      logger.debug('[ParticleSystem] Disabled on low-end device');
+      logger.debug('[ParticleSystem] Disabled on constrained device');
       return;
     }
 
@@ -122,433 +301,748 @@ export class GalaxyParticleSystem {
     if (!context) throw new Error('Could not get 2D context');
     this.ctx = context;
 
+    this.updateThemeColors();
     this.initializeConfig();
     this.setupCanvas();
     this.setupEventListeners();
-    this.createParticles();
     this.animate();
-    this.monitorBatteryStatus();
   }
 
   private detectDeviceCapabilities(): DeviceCapabilities {
     const browserNavigator = navigator as NavigatorCapabilities;
-    const memory = browserNavigator.deviceMemory ?? 4;
-    const cores = navigator.hardwareConcurrency || 4;
     const connection =
       browserNavigator.connection ||
       browserNavigator.mozConnection ||
       browserNavigator.webkitConnection;
+    const memory = browserNavigator.deviceMemory ?? 4;
+    const cores = navigator.hardwareConcurrency || 4;
     const connectionType = connection?.effectiveType || 'unknown';
-    const isLowEnd = memory < 4 || cores < 4 || connectionType === 'slow-2g' || connectionType === '2g';
+    const saveData = connection?.saveData === true;
+
+    const isLowEnd =
+      saveData ||
+      memory < 4 ||
+      cores < 4 ||
+      connectionType === 'slow-2g' ||
+      connectionType === '2g';
 
     return { isLowEnd };
   }
 
-  private async monitorBatteryStatus() {
-    try {
-      const browserNavigator = navigator as NavigatorCapabilities;
-      if (typeof browserNavigator.getBattery === 'function') {
-        const battery = await browserNavigator.getBattery();
-        this.deviceCapabilities.batteryLevel = battery.level;
-
-        if (battery.level < 0.2 && !battery.charging) this.reduceQuality('battery');
-
-        battery.addEventListener('levelchange', () => {
-          this.deviceCapabilities.batteryLevel = battery.level;
-          if (battery.level < 0.2 && !battery.charging && !this.qualityReductionTriggered) {
-            this.reduceQuality('battery');
-          }
-        });
-      }
-    } catch (e) {}
-  }
-
-  private initializeConfig() {
+  private initializeConfig(): void {
     const width = window.innerWidth;
+    const height = window.innerHeight || 900;
     const isMobile = width < CONSTANTS.MOBILE_BREAKPOINT;
-    const isTablet = width < CONSTANTS.TABLET_BREAKPOINT && width >= CONSTANTS.MOBILE_BREAKPOINT;
+    const isTablet =
+      width < CONSTANTS.TABLET_BREAKPOINT && width >= CONSTANTS.MOBILE_BREAKPOINT;
+    const areaFactor = clamp((width * height) / (1440 * 900), 0.78, 1.12);
 
-    // Default counts
-    let baseCount = 200;
-    if (isMobile) baseCount = 50;
-    else if (isTablet) baseCount = 100;
+    let baseCount = 78;
+    if (isMobile) baseCount = 32;
+    else if (isTablet) baseCount = 54;
 
-    // Mode specific adjustments
-    switch (this.mode) {
-      case 'network':
-      case 'ai':
-        baseCount = Math.floor(baseCount * 0.7); // Lines are expensive
-        this.config.lineLinked = true;
-        break;
-      case 'flow':
-      case 'sys':
-        baseCount = Math.floor(baseCount * 1.2);
-        break;
-      case 'data':
-      case 'articles':
-        baseCount = Math.floor(baseCount * 0.5); // Larger elements
-        break;
-      case 'about':
-        baseCount = Math.floor(baseCount * 0.8);
-        this.config.lineLinked = true;
-        break;
-    }
-
-    this.config.particleCount = baseCount;
-    this.config.speed = isMobile ? 0.1 : 0.2;
-    this.config.rotationSpeed = 0.0002;
-    this.config.twinkleSpeed = 0.03;
-    this.config.mouseInfluence = isMobile ? 0.3 : 0.8;
-
-    this.updateThemeColors();
+    this.config.particleCount = Math.max(
+      16,
+      Math.floor(baseCount * this.modeSettings.countScale * areaFactor),
+    );
+    this.config.speed = this.modeSettings.baseSpeed * (isMobile ? 0.88 : 1);
+    this.config.rotationSpeed = this.config.speed * 0.035;
+    this.config.twinkleSpeed = 0.012;
+    this.config.mouseInfluence = this.modeSettings.mouseInfluence * (isMobile ? 0.72 : 1);
+    this.config.lineLinked = this.modeSettings.lineLinked;
+    this.config.linkDistance = this.modeSettings.linkDistance * (isMobile ? 0.86 : 1);
+    this.config.maxLinks = isMobile
+      ? Math.max(1, this.modeSettings.maxLinks - 1)
+      : this.modeSettings.maxLinks;
   }
 
-  private reduceQuality(reason: string) {
-    if (this.qualityReductionTriggered) return;
-    this.qualityReductionTriggered = true;
-    this.config.particleCount = Math.floor(this.config.particleCount * 0.5);
-    this.particles = this.particles.slice(0, this.config.particleCount);
-    logger.debug(`[ParticleSystem] Quality reduced due to ${reason}`);
-  }
-
-  private updateThemeColors() {
+  private updateThemeColors(): void {
     const root = document.documentElement;
     const computedStyle = getComputedStyle(root);
 
-    this.accentColor = computedStyle.getPropertyValue('--accent-green').trim() || '#A3E635';
-    this.textPrimary = computedStyle.getPropertyValue('--text-primary').trim() || '#FFFFFF';
-    this.textSecondary = computedStyle.getPropertyValue('--text-secondary').trim() || '#A0A0A0';
+    this.accentColor =
+      computedStyle.getPropertyValue('--accent-green').trim() || '#A3E635';
+    this.textPrimary =
+      computedStyle.getPropertyValue('--text-primary').trim() || '#FFFFFF';
+    this.textSecondary =
+      computedStyle.getPropertyValue('--text-secondary').trim() || '#A0A0A0';
     this.isLightMode = root.classList.contains('light');
     this.accentColorRgb = this.hexToRgb(this.accentColor);
 
-    this.particleColors = this.isLightMode 
-      ? ['#1F2937', '#374151', '#4B5563'] 
-      : [this.textPrimary, this.textSecondary, this.accentColor];
+    this.particleColors = this.isLightMode
+      ? ['#1F2937', '#334155', '#475569']
+      : [this.textPrimary, this.textSecondary, 'rgba(255,255,255,0.7)'];
   }
 
-  private setupCanvas() {
+  private setupCanvas(): void {
     const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
       const rect = this.canvas.getBoundingClientRect();
-      this.canvas.width = rect.width * dpr;
-      this.canvas.height = rect.height * dpr;
+      const logicalWidth = Math.floor(rect.width);
+      const logicalHeight = Math.floor(rect.height);
+
+      if (!logicalWidth || !logicalHeight) return;
+
+      const previousWidth = this.cachedLogicalSize.width;
+      const previousHeight = this.cachedLogicalSize.height;
+      const dpr = Math.min(window.devicePixelRatio || 1, CONSTANTS.MAX_DPR);
+      this.canvas.width = Math.round(logicalWidth * dpr);
+      this.canvas.height = Math.round(logicalHeight * dpr);
       this.ctx.setTransform(1, 0, 0, 1, 0, 0);
       this.ctx.scale(dpr, dpr);
       this.updateCanvasCache();
+      this.initializeConfig();
+
+      const sizeChanged =
+        !this.particles.length ||
+        Math.abs(previousWidth - this.cachedLogicalSize.width) > 2 ||
+        Math.abs(previousHeight - this.cachedLogicalSize.height) > 2;
+
+      if (sizeChanged) {
+        this.createParticles();
+      }
     };
 
-    resize();
     this.resizeHandler = resize;
+    resize();
+
     window.addEventListener('resize', resize, { passive: true });
-    
+
     if (this.canvas.parentElement) {
       this.resizeObserver = new ResizeObserver(resize);
       this.resizeObserver.observe(this.canvas.parentElement);
     }
   }
 
-  private updateCanvasCache() {
-    const dpr = window.devicePixelRatio || 1;
+  private updateCanvasCache(): void {
+    const dpr = Math.min(window.devicePixelRatio || 1, CONSTANTS.MAX_DPR);
     this.cachedLogicalSize = {
-      width: this.canvas.width / dpr,
       height: this.canvas.height / dpr,
+      width: this.canvas.width / dpr,
     };
     this.centerX = this.cachedLogicalSize.width / 2;
     this.centerY = this.cachedLogicalSize.height / 2;
     this.cachedMaxDistance = Math.sqrt(this.centerX ** 2 + this.centerY ** 2);
   }
 
-  private createParticles() {
-    this.particles = [];
+  private setupEventListeners(): void {
+    this.pointerFine = window.matchMedia('(pointer: fine)').matches;
+
+    if (this.pointerFine) {
+      this.mouseMoveHandler = (event: MouseEvent) => {
+        const rect = this.canvas.getBoundingClientRect();
+        this.mouseX = event.clientX - rect.left;
+        this.mouseY = event.clientY - rect.top;
+        this.isMouseActive =
+          this.mouseX >= 0 &&
+          this.mouseY >= 0 &&
+          this.mouseX <= rect.width &&
+          this.mouseY <= rect.height;
+      };
+
+      this.mouseLeaveHandler = () => {
+        this.isMouseActive = false;
+      };
+
+      document.addEventListener('mousemove', this.mouseMoveHandler, { passive: true });
+      document.addEventListener('mouseleave', this.mouseLeaveHandler);
+    }
+
+    this.themeObserver = new MutationObserver(() => {
+      this.updateThemeColors();
+      this.applyThemeToParticles();
+    });
+    this.themeObserver.observe(document.documentElement, {
+      attributeFilter: ['class'],
+      attributes: true,
+    });
+
+    this.visibilityHandler = () => {
+      if (document.visibilityState === 'hidden') {
+        if (this.animationId !== null) {
+          cancelAnimationFrame(this.animationId);
+          this.animationId = null;
+        }
+        return;
+      }
+
+      if (this.animationId === null && !this.isDisabled) {
+        this.animate();
+      }
+    };
+
+    document.addEventListener('visibilitychange', this.visibilityHandler);
+  }
+
+  private createParticles(): void {
     const { width, height } = this.cachedLogicalSize;
-    
-    for (let i = 0; i < this.config.particleCount; i++) {
-      const rand = Math.random();
-      let type: Particle['type'] = 'star';
-      let shape: Particle['shape'] = 'circle';
-      let color = this.particleColors[Math.floor(Math.random() * this.particleColors.length)];
-      
-      // Mode specific shapes and types
-      if (this.mode === 'data') {
-        shape = Math.random() > 0.7 ? 'square' : 'circle';
-        type = 'data-bit';
-      } else if (this.mode === 'articles') {
-        shape = 'square'; // Document pages
-        type = 'data-bit';
-      } else if (this.mode === 'logic') {
-        shape = 'star';
-        type = 'node';
-      } else if (this.mode === 'ai' || this.mode === 'about') {
-        type = 'node';
-        if (rand < 0.2) color = this.accentColor;
-      } else if (this.mode === 'network') {
-        type = 'node';
-      }
+    if (!width || !height) return;
 
-      const x = Math.random() * width;
-      const y = Math.random() * height;
-      
-      let baseRadius = Math.random() * 1.5 + 0.5;
-      
-      // Contextual radius adjustments
-      if (this.mode === 'data') baseRadius = Math.random() * 3 + 1;
-      if (this.mode === 'articles') baseRadius = Math.random() * 4 + 2;
-      if ((this.mode === 'ai' || this.mode === 'about') && type === 'node') baseRadius = Math.random() * 2 + 1;
-      if (this.mode === 'expand') baseRadius = Math.random() * 2 + 0.5;
+    this.particles = [];
 
-      const orbitalSpeed = this.config.speed * (0.5 + Math.random() * 0.5);
+    for (let index = 0; index < this.config.particleCount; index += 1) {
+      const spawn = this.getSpawnPoint(index, this.config.particleCount);
+      const shape = this.pickShape(this.modeSettings.shapes);
+      const baseRadius = randomInRange(
+        this.modeSettings.radius[0],
+        this.modeSettings.radius[1],
+      );
+      const isAccent = Math.random() < this.modeSettings.accentProbability;
+      const speed = randomInRange(0.8, 1.25);
       const angle = Math.random() * Math.PI * 2;
+      const rotation = Math.random() * Math.PI * 2;
+      const distanceFromCenter = Math.sqrt(
+        (spawn.x - this.centerX) ** 2 + (spawn.y - this.centerY) ** 2,
+      );
 
-      // Special handling for galaxy spiral
-      let startX = x;
-      let startY = y;
-      let distFromCenter = Math.sqrt((x - this.centerX)**2 + (y - this.centerY)**2);
-      
-      if (this.mode === 'galaxy') {
-        const spiralAngle = angle + (distFromCenter / this.cachedMaxDistance) * Math.PI * 2 * CONSTANTS.SPIRAL_TIGHTNESS;
-        startX = this.centerX + Math.cos(spiralAngle) * distFromCenter;
-        startY = this.centerY + Math.sin(spiralAngle) * distFromCenter;
-      } else if (this.mode === 'expand') {
-        // Start near center
-        startX = this.centerX + (Math.random() - 0.5) * 100;
-        startY = this.centerY + (Math.random() - 0.5) * 100;
-      } else if (this.mode === 'articles') {
-        // Start from bottom
-        startX = x;
-        startY = height + Math.random() * 100;
-      }
-
-      this.particles.push({
-        x: startX,
-        y: startY,
-        vx: Math.cos(angle) * orbitalSpeed,
-        vy: Math.sin(angle) * orbitalSpeed,
-        radius: baseRadius,
-        baseRadius,
-        opacity: Math.random() * 0.5 + 0.2,
-        baseOpacity: Math.random() * 0.5 + 0.2,
-        twinklePhase: Math.random() * Math.PI * 2,
-        twinkleSpeed: this.config.twinkleSpeed * (0.5 + Math.random() * 0.5),
-        color,
-        type,
-        shape,
-        rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * this.config.rotationSpeed,
-        distanceFromCenter: distFromCenter,
+      const particle: Particle = {
+        anchorX: spawn.anchorX,
+        anchorY: spawn.anchorY,
         angle,
-        pulsePhase: Math.random() * Math.PI * 2
-      });
+        baseOpacity: randomInRange(
+          this.modeSettings.opacity[0],
+          this.modeSettings.opacity[1],
+        ),
+        baseRadius,
+        clusterIndex: spawn.clusterIndex,
+        color: this.getParticleColor(isAccent),
+        distanceFromCenter,
+        isAccent,
+        opacity: randomInRange(
+          this.modeSettings.opacity[0],
+          this.modeSettings.opacity[1],
+        ),
+        pulsePhase: Math.random() * Math.PI * 2,
+        radius: baseRadius,
+        rotation,
+        rotationSpeed: (Math.random() - 0.5) * 0.01,
+        shape,
+        speed,
+        stepAxis: Math.random() > 0.5 ? 'x' : 'y',
+        stepDirection: Math.random() > 0.5 ? 1 : -1,
+        twinklePhase: Math.random() * Math.PI * 2,
+        twinkleSpeed: this.config.twinkleSpeed * randomInRange(0.8, 1.3),
+        vx: Math.cos(angle) * this.config.speed * 0.12,
+        vy: Math.sin(angle) * this.config.speed * 0.12,
+        x: spawn.x,
+        y: spawn.y,
+      };
+
+      this.seedModeSpecificState(particle, width, height);
+      this.particles.push(particle);
     }
   }
 
-  private setupEventListeners() {
-    this.mouseMoveHandler = (e: MouseEvent) => {
-      const rect = this.canvas.getBoundingClientRect();
-      this.mouseX = (e.clientX - rect.left);
-      this.mouseY = (e.clientY - rect.top);
-      this.isMouseActive = true;
-    };
-    this.mouseLeaveHandler = () => {
-      this.isMouseActive = false;
-    };
-
-    document.addEventListener('mousemove', this.mouseMoveHandler, { passive: true });
-    document.addEventListener('mouseleave', this.mouseLeaveHandler);
-
-    this.themeObserver = new MutationObserver(() => this.updateThemeColors());
-    this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-  }
-
-  private updateParticles() {
-    const { width, height } = this.cachedLogicalSize;
-    const influenceRadius = Math.min(width, height) * CONSTANTS.MOUSE_INFLUENCE_RADIUS_FACTOR;
-
-    this.particles.forEach(p => {
-      // 1. Base Movement Logic
-      switch (this.mode) {
-        case 'galaxy':
-          p.angle += this.config.rotationSpeed * 5;
-          const targetX = this.centerX + Math.cos(p.angle) * p.distanceFromCenter;
-          const targetY = this.centerY + Math.sin(p.angle) * p.distanceFromCenter;
-          p.vx += (targetX - p.x) * CONSTANTS.SPIRAL_CORRECTION_STRENGTH;
-          p.vy += (targetY - p.y) * CONSTANTS.SPIRAL_CORRECTION_STRENGTH;
-          break;
-          
-        case 'network':
-          p.vx += (Math.random() - 0.5) * 0.01;
-          p.vy += (Math.random() - 0.5) * 0.01;
-          break;
-          
-        case 'flow':
-          p.vx += 0.05;
-          p.vy += Math.sin(p.x * 0.01) * 0.02;
-          if (p.vx > 1.5) p.vx = 1.5;
-          break;
-          
-        case 'data':
-          p.vy += 0.1;
-          p.vx = (Math.random() - 0.5) * 0.05;
-          if (p.vy > 2) p.vy = 2;
-          break;
-          
-        case 'waves':
-          p.vx = 0.8;
-          p.y += Math.sin(p.x * 0.005 + p.twinklePhase * 0.5) * 0.5;
-          break;
-          
-        case 'logic':
-          if (Math.random() < 0.02) {
-            if (Math.random() > 0.5) {
-              p.vx = (Math.random() > 0.5 ? 1 : -1) * 0.5;
-              p.vy = 0;
-            } else {
-              p.vx = 0;
-              p.vy = (Math.random() > 0.5 ? 1 : -1) * 0.5;
-            }
-          }
-          break;
-          
-        case 'sys':
-          const baseAngle = Math.atan2(p.y - this.centerY, p.x - this.centerX);
-          p.vx = -Math.sin(baseAngle) * 0.5;
-          p.vy = Math.cos(baseAngle) * 0.5;
-          break;
-          
-        case 'ai':
-          p.vx += (Math.random() - 0.5) * 0.02;
-          p.vy += (Math.random() - 0.5) * 0.02;
-          break;
-          
-        case 'expand':
-          const originX = this.isMouseActive ? this.mouseX : this.centerX;
-          const originY = this.isMouseActive ? this.mouseY : this.centerY;
-          const dxExpand = p.x - originX;
-          const dyExpand = p.y - originY;
-          const distExpand = Math.sqrt(dxExpand * dxExpand + dyExpand * dyExpand);
-          
-          if (distExpand > 0) {
-            p.vx += (dxExpand / distExpand) * 0.03;
-            p.vy += (dyExpand / distExpand) * 0.03;
-          }
-          
-          p.opacity = p.baseOpacity * Math.max(0, 1 - (distExpand / this.cachedMaxDistance));
-          if (distExpand > this.cachedMaxDistance || distExpand === 0) {
-            p.x = originX + (Math.random() - 0.5) * 20;
-            p.y = originY + (Math.random() - 0.5) * 20;
-            p.vx = 0; p.vy = 0;
-          }
-          break;
-          
-        case 'articles':
-          // Pages drifting upwards like leaves the wind
-          p.vy -= 0.02;
-          p.vx += Math.sin(p.y * 0.01 + p.twinklePhase) * 0.01;
-          if (p.vy < -1.5) p.vy = -1.5;
-          p.rotationSpeed = (Math.random() - 0.5) * 0.02;
-          p.rotation += p.rotationSpeed;
-          break;
-          
-        case 'about':
-          // Constellation-like gentle drifting
-          p.vx += (Math.random() - 0.5) * 0.005;
-          p.vy += (Math.random() - 0.5) * 0.005;
-          const dxAbout = this.centerX - p.x;
-          const dyAbout = this.centerY - p.y;
-          p.vx += dxAbout * 0.00001;
-          p.vy += dyAbout * 0.00001;
-          break;
+  private seedModeSpecificState(
+    particle: Particle,
+    width: number,
+    height: number,
+  ): void {
+    switch (this.mode) {
+      case 'galaxy': {
+        particle.distanceFromCenter = randomInRange(
+          this.cachedMaxDistance * 0.12,
+          this.cachedMaxDistance * 0.92,
+        );
+        particle.angle = Math.random() * Math.PI * 2;
+        particle.x = this.centerX + Math.cos(particle.angle) * particle.distanceFromCenter;
+        particle.y =
+          this.centerY +
+          Math.sin(particle.angle) * particle.distanceFromCenter * 0.82;
+        particle.anchorX = particle.x;
+        particle.anchorY = particle.y;
+        break;
       }
 
-      // 2. Mouse Interaction
-      if (this.isMouseActive && this.mode !== 'expand') {
-        const dx = this.mouseX - p.x;
-        const dy = this.mouseY - p.y;
-        const distSq = dx * dx + dy * dy;
-        const influenceRadiusSq = influenceRadius * influenceRadius;
-        
-        if (distSq < influenceRadiusSq) {
-          const dist = Math.sqrt(distSq);
-          const force = (1 - dist / influenceRadius) * this.config.mouseInfluence;
+      case 'sys': {
+        particle.distanceFromCenter = randomInRange(
+          this.cachedMaxDistance * 0.16,
+          this.cachedMaxDistance * 0.52,
+        );
+        particle.angle = Math.random() * Math.PI * 2;
+        particle.x = this.centerX + Math.cos(particle.angle) * particle.distanceFromCenter;
+        particle.y =
+          this.centerY +
+          Math.sin(particle.angle) * particle.distanceFromCenter * 0.68;
+        particle.anchorX = particle.x;
+        particle.anchorY = particle.y;
+        break;
+      }
+
+      case 'flow': {
+        particle.x = randomInRange(-width * 0.22, width * 0.15);
+        particle.y = randomInRange(0, height);
+        particle.anchorY = particle.y;
+        particle.vx = randomInRange(0.18, 0.4);
+        particle.vy = 0;
+        break;
+      }
+
+      case 'data': {
+        particle.x = particle.anchorX + randomInRange(-6, 6);
+        particle.y = randomInRange(-height * 0.08, height * 1.08);
+        particle.vx = 0;
+        particle.vy = randomInRange(0.08, 0.22);
+        break;
+      }
+
+      case 'waves': {
+        particle.x = randomInRange(-CONSTANTS.BOUNDARY_OFFSET, width + CONSTANTS.BOUNDARY_OFFSET);
+        particle.y = particle.anchorY;
+        particle.vx = 0;
+        particle.vy = 0;
+        break;
+      }
+
+      case 'expand': {
+        particle.x = this.centerX + randomInRange(-24, 24);
+        particle.y = this.centerY + randomInRange(-24, 24);
+        particle.anchorX = this.centerX;
+        particle.anchorY = this.centerY;
+        particle.vx = 0;
+        particle.vy = 0;
+        break;
+      }
+
+      case 'articles': {
+        particle.y = height + randomInRange(24, 140);
+        particle.vx = randomInRange(-0.05, 0.05);
+        particle.vy = randomInRange(-0.35, -0.16);
+        break;
+      }
+
+      default:
+        break;
+    }
+  }
+
+  private getSpawnPoint(
+    index: number,
+    count: number,
+  ): { anchorX: number; anchorY: number; clusterIndex: number; x: number; y: number } {
+    const { width, height } = this.cachedLogicalSize;
+    let x = Math.random() * width;
+    let y = Math.random() * height;
+    let anchorX = x;
+    let anchorY = y;
+    let clusterIndex = 0;
+
+    switch (this.modeSettings.spawn) {
+      case 'rings': {
+        const angle = Math.random() * Math.PI * 2;
+        const radiusFactor =
+          this.mode === 'sys'
+            ? randomInRange(0.16, 0.54)
+            : randomInRange(0.14, 0.92);
+        const radius = this.cachedMaxDistance * radiusFactor;
+        anchorX = this.centerX + Math.cos(angle) * radius;
+        anchorY =
+          this.centerY +
+          Math.sin(angle) * radius * (this.mode === 'sys' ? 0.68 : 0.82);
+        x = anchorX;
+        y = anchorY;
+        break;
+      }
+
+      case 'grid': {
+        const columns = Math.max(4, Math.round(Math.sqrt(count * 1.4)));
+        const rows = Math.max(3, Math.ceil(count / columns));
+        const cellWidth = width / columns;
+        const cellHeight = height / rows;
+        const column = index % columns;
+        const row = Math.floor(index / columns);
+        anchorX =
+          (column + 0.5) * cellWidth + randomInRange(-cellWidth * 0.22, cellWidth * 0.22);
+        anchorY =
+          (row + 0.5) * cellHeight + randomInRange(-cellHeight * 0.22, cellHeight * 0.22);
+        x = anchorX;
+        y = anchorY;
+        break;
+      }
+
+      case 'left': {
+        anchorX = randomInRange(-width * 0.22, width * 0.15);
+        anchorY = randomInRange(height * 0.14, height * 0.86);
+        x = anchorX;
+        y = anchorY;
+        break;
+      }
+
+      case 'columns': {
+        const columnCount = width < CONSTANTS.MOBILE_BREAKPOINT ? 4 : 7;
+        const column = Math.floor(Math.random() * columnCount);
+        const cellWidth = width / columnCount;
+        anchorX =
+          (column + 0.5) * cellWidth + randomInRange(-cellWidth * 0.12, cellWidth * 0.12);
+        anchorY = randomInRange(-height * 0.06, height * 1.06);
+        x = anchorX;
+        y = anchorY;
+        break;
+      }
+
+      case 'bands': {
+        const bands = [height * 0.34, height * 0.5, height * 0.68];
+        clusterIndex = index % bands.length;
+        anchorX = randomInRange(-CONSTANTS.BOUNDARY_OFFSET, width + CONSTANTS.BOUNDARY_OFFSET);
+        anchorY = bands[clusterIndex] + randomInRange(-18, 18);
+        x = anchorX;
+        y = anchorY;
+        break;
+      }
+
+      case 'cluster': {
+        const clusters =
+          this.mode === 'about'
+            ? [
+                { x: width * 0.22, y: height * 0.24 },
+                { x: width * 0.78, y: height * 0.22 },
+                { x: width * 0.34, y: height * 0.68 },
+                { x: width * 0.72, y: height * 0.62 },
+              ]
+            : [
+                { x: width * 0.28, y: height * 0.26 },
+                { x: width * 0.72, y: height * 0.24 },
+                { x: width * 0.52, y: height * 0.62 },
+              ];
+        clusterIndex = index % clusters.length;
+        anchorX = clusters[clusterIndex].x + randomInRange(-28, 28);
+        anchorY = clusters[clusterIndex].y + randomInRange(-28, 28);
+        x = anchorX;
+        y = anchorY;
+        break;
+      }
+
+      case 'center': {
+        anchorX = this.centerX;
+        anchorY = this.centerY;
+        x = this.centerX + randomInRange(-24, 24);
+        y = this.centerY + randomInRange(-24, 24);
+        break;
+      }
+
+      case 'bottom': {
+        anchorX = randomInRange(0, width);
+        anchorY = height + randomInRange(24, 140);
+        x = anchorX;
+        y = anchorY;
+        break;
+      }
+    }
+
+    return { anchorX, anchorY, clusterIndex, x, y };
+  }
+
+  private updateParticles(): void {
+    const { width, height } = this.cachedLogicalSize;
+    const influenceRadius = Math.min(width, height) * CONSTANTS.MOUSE_INFLUENCE_RADIUS_FACTOR;
+    const influenceRadiusSq = influenceRadius * influenceRadius;
+
+    for (const particle of this.particles) {
+      particle.twinklePhase += particle.twinkleSpeed;
+      particle.pulsePhase += 0.01 * particle.speed;
+
+      switch (this.mode) {
+        case 'galaxy': {
+          particle.angle += this.config.rotationSpeed * particle.speed;
+          const targetX =
+            this.centerX + Math.cos(particle.angle) * particle.distanceFromCenter;
+          const targetY =
+            this.centerY +
+            Math.sin(particle.angle) * particle.distanceFromCenter * 0.82;
+          particle.vx += (targetX - particle.x) * 0.012;
+          particle.vy += (targetY - particle.y) * 0.012;
+          break;
+        }
+
+        case 'network': {
+          particle.vx +=
+            (particle.anchorX - particle.x) * 0.018 + (Math.random() - 0.5) * 0.01;
+          particle.vy +=
+            (particle.anchorY - particle.y) * 0.018 + (Math.random() - 0.5) * 0.01;
+          break;
+        }
+
+        case 'flow': {
+          const targetY =
+            particle.anchorY +
+            Math.sin(particle.x * 0.018 + particle.pulsePhase) * (12 + particle.baseRadius * 3);
+          particle.vx += this.config.speed * 0.12 * particle.speed;
+          particle.vy += (targetY - particle.y) * 0.024;
+          break;
+        }
+
+        case 'data': {
+          particle.vx += (particle.anchorX - particle.x) * 0.04;
+          particle.vy += this.config.speed * 0.09 * particle.speed;
+          particle.rotation += particle.rotationSpeed;
+          break;
+        }
+
+        case 'waves': {
+          particle.x += this.config.speed * 2.1 * particle.speed;
+          particle.y =
+            particle.anchorY +
+            Math.sin(particle.x * 0.014 + particle.pulsePhase) *
+              (12 + particle.baseRadius * 4);
+          particle.vx = 0;
+          particle.vy = 0;
+          break;
+        }
+
+        case 'logic': {
+          if (Math.random() < 0.012) {
+            particle.stepAxis = particle.stepAxis === 'x' ? 'y' : 'x';
+            particle.stepDirection = particle.stepDirection === 1 ? -1 : 1;
+          }
+
+          const stepAmplitude = 18 + particle.baseRadius * 6;
+          const targetX =
+            particle.stepAxis === 'x'
+              ? particle.anchorX +
+                Math.sin(particle.pulsePhase * 1.4) * stepAmplitude * particle.stepDirection
+              : particle.anchorX;
+          const targetY =
+            particle.stepAxis === 'y'
+              ? particle.anchorY +
+                Math.cos(particle.pulsePhase * 1.4) * stepAmplitude * particle.stepDirection
+              : particle.anchorY;
+          particle.vx += (targetX - particle.x) * 0.045;
+          particle.vy += (targetY - particle.y) * 0.045;
+          break;
+        }
+
+        case 'sys': {
+          particle.angle += this.config.rotationSpeed * (0.78 + particle.speed);
+          const orbitRadius =
+            particle.distanceFromCenter + Math.sin(particle.pulsePhase) * 8;
+          const targetX = this.centerX + Math.cos(particle.angle) * orbitRadius;
+          const targetY =
+            this.centerY + Math.sin(particle.angle) * orbitRadius * 0.68;
+          particle.vx += (targetX - particle.x) * 0.02;
+          particle.vy += (targetY - particle.y) * 0.02;
+          break;
+        }
+
+        case 'ai': {
+          const pulseOffset = 10 + Math.sin(particle.pulsePhase) * 12;
+          const targetX =
+            particle.anchorX + Math.cos(particle.pulsePhase) * pulseOffset;
+          const targetY =
+            particle.anchorY + Math.sin(particle.pulsePhase) * pulseOffset;
+          particle.vx +=
+            (targetX - particle.x) * 0.02 + (Math.random() - 0.5) * 0.012;
+          particle.vy +=
+            (targetY - particle.y) * 0.02 + (Math.random() - 0.5) * 0.012;
+          break;
+        }
+
+        case 'expand': {
+          const originX = this.isMouseActive ? this.mouseX : this.centerX;
+          const originY = this.isMouseActive ? this.mouseY : this.centerY;
+          const dx = particle.x - originX;
+          const dy = particle.y - originY;
+          const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+
+          particle.vx += (dx / distance) * 0.03 * particle.speed;
+          particle.vy += (dy / distance) * 0.03 * particle.speed;
+          particle.opacity = clamp(
+            particle.baseOpacity * (1 - distance / (this.cachedMaxDistance * 0.9)),
+            0.02,
+            particle.baseOpacity,
+          );
+
+          if (distance > this.cachedMaxDistance * 0.82) {
+            this.reseedExpandingParticle(particle, originX, originY);
+          }
+          break;
+        }
+
+        case 'articles': {
+          particle.vx += Math.sin(particle.pulsePhase) * 0.01;
+          particle.vy -= this.config.speed * 0.06 * particle.speed;
+          particle.rotation += particle.rotationSpeed * 1.4;
+          break;
+        }
+
+        case 'about': {
+          const targetX =
+            particle.anchorX + Math.cos(particle.pulsePhase * 0.8) * 10;
+          const targetY =
+            particle.anchorY + Math.sin(particle.pulsePhase * 0.7) * 10;
+          particle.vx +=
+            (targetX - particle.x) * 0.018 + (Math.random() - 0.5) * 0.004;
+          particle.vy +=
+            (targetY - particle.y) * 0.018 + (Math.random() - 0.5) * 0.004;
+          break;
+        }
+      }
+
+      if (this.isMouseActive && this.pointerFine && this.mode !== 'expand') {
+        const dx = this.mouseX - particle.x;
+        const dy = this.mouseY - particle.y;
+        const distanceSq = dx * dx + dy * dy;
+
+        if (distanceSq < influenceRadiusSq) {
+          const distance = Math.sqrt(distanceSq) || 1;
+          const force =
+            (1 - distance / influenceRadius) * this.config.mouseInfluence;
           const angle = Math.atan2(dy, dx);
 
           switch (this.mode) {
             case 'galaxy':
-              // Black hole: suck in and swirl tangentially
-              p.vx += Math.cos(angle) * force * 0.5;
-              p.vy += Math.sin(angle) * force * 0.5;
-              p.vx += Math.cos(angle + Math.PI/2) * force * 0.8;
-              p.vy += Math.sin(angle + Math.PI/2) * force * 0.8;
+              particle.vx += Math.cos(angle + Math.PI / 2) * force * 0.22;
+              particle.vy += Math.sin(angle + Math.PI / 2) * force * 0.22;
               break;
-              
+
             case 'network':
-            case 'ai':
             case 'about':
-              // Strong attraction
-              p.vx += Math.cos(angle) * force * 0.8;
-              p.vy += Math.sin(angle) * force * 0.8;
+              particle.vx += Math.cos(angle) * force * 0.18;
+              particle.vy += Math.sin(angle) * force * 0.18;
               break;
-              
+
             case 'flow':
-              // Slipstream: boost X velocity
-              p.vx += force * 1.5;
-              p.opacity = Math.min(1, p.baseOpacity + force);
+              particle.vx += force * 0.3;
+              particle.opacity = Math.min(1, particle.baseOpacity + force * 0.35);
               break;
-              
+
             case 'data':
             case 'articles':
-              // Deflector shield umbrella / scatter
-              p.vx -= Math.cos(angle) * force * 2;
-              p.vy -= Math.max(0, Math.sin(angle) * force * 2);
-              if (this.mode === 'articles') {
-                 p.rotationSpeed += (Math.random() - 0.5) * force;
-              }
+              particle.vx -= Math.cos(angle) * force * 0.36;
+              particle.vy -= Math.sin(angle) * force * 0.22;
               break;
-              
+
             case 'waves':
-              // Resonance disruption
-              p.y += Math.sin(p.x * 0.05 + p.twinklePhase) * force * 10;
-              p.opacity = Math.min(1, p.baseOpacity * (1 + force * 2));
+              particle.y += Math.sin(particle.x * 0.05 + particle.pulsePhase) * force * 4;
               break;
-              
+
             case 'logic':
-              // Avoidance (force orthogonal scatter)
               if (Math.abs(dx) > Math.abs(dy)) {
-                p.vx = (dx > 0 ? -1 : 1) * force * 3;
-                p.vy = 0;
+                particle.vx -= Math.sign(dx) * force * 0.34;
               } else {
-                p.vx = 0;
-                p.vy = (dy > 0 ? -1 : 1) * force * 3;
+                particle.vy -= Math.sign(dy) * force * 0.34;
               }
               break;
-              
+
             case 'sys':
-              // Orbit the mouse like a gear
-              p.vx = -Math.sin(angle) * force * 3;
-              p.vy = Math.cos(angle) * force * 3;
+              particle.vx += -Math.sin(angle) * force * 0.24;
+              particle.vy += Math.cos(angle) * force * 0.24;
+              break;
+
+            case 'ai':
+              particle.vx += Math.cos(angle) * force * 0.26;
+              particle.vy += Math.sin(angle) * force * 0.26;
               break;
           }
         }
       }
 
-      // 3. Apply Velocity
-      p.x += p.vx;
-      p.y += p.vy;
-
-      // 4. Wrap-Around (excluding expand mode)
-      if (this.mode !== 'expand') {
-        this.applyBoundaryWrap(p, width, height);
+      if (this.mode !== 'waves') {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
       }
 
-      // 5. Damping
-      p.vx *= CONSTANTS.DAMPING_FACTOR;
-      p.vy *= CONSTANTS.DAMPING_FACTOR;
-      
-      // 6. Natural Twinkle
-      this.applyNaturalTwinkle(p);
-    });
+      this.recycleParticleIfNeeded(particle, width, height);
+      particle.vx *= this.mode === 'logic' ? 0.82 : CONSTANTS.DAMPING_FACTOR;
+      particle.vy *= this.mode === 'logic' ? 0.82 : CONSTANTS.DAMPING_FACTOR;
+      this.applyNaturalTwinkle(particle);
+    }
   }
 
-  private draw() {
+  private recycleParticleIfNeeded(
+    particle: Particle,
+    width: number,
+    height: number,
+  ): void {
+    switch (this.mode) {
+      case 'flow':
+        if (particle.x > width + CONSTANTS.BOUNDARY_OFFSET) {
+          particle.x = -CONSTANTS.BOUNDARY_OFFSET;
+          particle.y = randomInRange(0, height);
+          particle.anchorY = particle.y;
+          particle.vx = randomInRange(0.12, 0.24);
+          particle.vy = 0;
+        }
+        break;
+
+      case 'data':
+        if (particle.y > height + CONSTANTS.BOUNDARY_OFFSET) {
+          particle.y = -CONSTANTS.BOUNDARY_OFFSET;
+          particle.x = particle.anchorX + randomInRange(-6, 6);
+          particle.vx = 0;
+          particle.vy = randomInRange(0.08, 0.18);
+        }
+        break;
+
+      case 'waves':
+        if (particle.x > width + CONSTANTS.BOUNDARY_OFFSET) {
+          particle.x = -CONSTANTS.BOUNDARY_OFFSET;
+        }
+        break;
+
+      case 'articles':
+        if (particle.y < -CONSTANTS.BOUNDARY_OFFSET) {
+          particle.y = height + randomInRange(24, 140);
+          particle.x = randomInRange(0, width);
+        }
+        break;
+
+      case 'expand':
+        break;
+
+      default:
+        if (
+          particle.x < -width * 0.25 ||
+          particle.x > width * 1.25 ||
+          particle.y < -height * 0.25 ||
+          particle.y > height * 1.25
+        ) {
+          particle.x = particle.anchorX;
+          particle.y = particle.anchorY;
+          particle.vx = 0;
+          particle.vy = 0;
+        }
+        break;
+    }
+  }
+
+  private reseedExpandingParticle(
+    particle: Particle,
+    originX: number,
+    originY: number,
+  ): void {
+    particle.x = originX + randomInRange(-20, 20);
+    particle.y = originY + randomInRange(-20, 20);
+    particle.vx = 0;
+    particle.vy = 0;
+    particle.opacity = particle.baseOpacity;
+  }
+
+  private applyNaturalTwinkle(particle: Particle): void {
+    const twinkle = Math.sin(particle.twinklePhase);
+
+    switch (this.mode) {
+      case 'flow':
+        particle.opacity = particle.baseOpacity * (0.78 + Math.abs(twinkle) * 0.26);
+        break;
+
+      case 'waves':
+        particle.opacity = particle.baseOpacity * (0.86 + twinkle * 0.08);
+        break;
+
+      case 'sys':
+      case 'ai':
+        particle.opacity = particle.baseOpacity * (0.74 + twinkle * 0.18);
+        break;
+
+      case 'expand':
+        break;
+
+      default:
+        particle.opacity = particle.baseOpacity * (0.78 + twinkle * 0.18);
+        break;
+    }
+  }
+
+  private draw(): void {
     const { width, height } = this.cachedLogicalSize;
     this.ctx.clearRect(0, 0, width, height);
 
@@ -556,156 +1050,218 @@ export class GalaxyParticleSystem {
       this.drawLinks();
     }
 
-    this.particles.forEach(p => {
+    for (const particle of this.particles) {
       this.ctx.save();
-      this.ctx.globalAlpha = p.opacity;
-      this.ctx.fillStyle = p.color;
-      
-      if (p.shape === 'square') {
-        if (this.mode === 'articles') {
-          // Draw floating rotated "pages"
-          this.ctx.translate(p.x, p.y);
-          this.ctx.rotate(p.rotation);
-          this.ctx.fillRect(-p.radius, -p.radius * 1.5, p.radius * 2, p.radius * 3);
-          // Inner page content representation
-          this.ctx.fillStyle = this.isLightMode ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)';
-          this.ctx.fillRect(-p.radius * 0.6, -p.radius * 1.0, p.radius * 1.2, p.radius * 0.2);
-          this.ctx.fillRect(-p.radius * 0.6, -p.radius * 0.5, p.radius * 1.2, p.radius * 0.2);
-          this.ctx.fillRect(-p.radius * 0.6, 0, p.radius * 0.8, p.radius * 0.2);
-        } else {
-          this.ctx.fillRect(p.x - p.radius, p.y - p.radius, p.radius * 2, p.radius * 2);
-        }
-      } else if (p.shape === 'star') {
-        this.drawStar(p.x, p.y, 5, p.radius * 2, p.radius);
-      } else {
-        this.ctx.beginPath();
-        this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        this.ctx.fill();
+      this.ctx.globalAlpha = clamp(particle.opacity, 0, 1);
+      this.ctx.fillStyle = particle.color;
+
+      switch (particle.shape) {
+        case 'square':
+          this.ctx.fillRect(
+            particle.x - particle.radius,
+            particle.y - particle.radius,
+            particle.radius * 2,
+            particle.radius * 2,
+          );
+          break;
+
+        case 'diamond':
+          this.ctx.translate(particle.x, particle.y);
+          this.ctx.rotate(Math.PI / 4 + particle.rotation * 0.25);
+          this.ctx.fillRect(
+            -particle.radius,
+            -particle.radius,
+            particle.radius * 2,
+            particle.radius * 2,
+          );
+          break;
+
+        case 'bar':
+          this.ctx.translate(particle.x, particle.y);
+          this.ctx.rotate(particle.rotation * 0.45);
+          this.ctx.fillRect(
+            -particle.radius * 1.8,
+            -particle.radius * 0.32,
+            particle.radius * 3.6,
+            particle.radius * 0.64,
+          );
+          break;
+
+        case 'page':
+          this.drawPageParticle(particle);
+          break;
+
+        default:
+          this.ctx.beginPath();
+          this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+          this.ctx.fill();
+          break;
       }
+
       this.ctx.restore();
-    });
+    }
   }
 
-  private drawLinks() {
-    this.ctx.save();
-    
-    // 1. Draw connections between particles
-    for (let i = 0; i < this.particles.length; i++) {
-      for (let j = i + 1; j < this.particles.length; j++) {
-        const p1 = this.particles[i];
-        const p2 = this.particles[j];
-        const dx = p1.x - p2.x;
-        const dy = p1.y - p2.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+  private drawPageParticle(particle: Particle): void {
+    this.ctx.translate(particle.x, particle.y);
+    this.ctx.rotate(particle.rotation);
+    this.ctx.fillRect(
+      -particle.radius,
+      -particle.radius * 1.35,
+      particle.radius * 2,
+      particle.radius * 2.7,
+    );
+    this.ctx.fillStyle = this.isLightMode
+      ? 'rgba(15, 23, 42, 0.18)'
+      : 'rgba(255, 255, 255, 0.16)';
+    this.ctx.fillRect(
+      -particle.radius * 0.6,
+      -particle.radius * 0.8,
+      particle.radius * 1.2,
+      particle.radius * 0.18,
+    );
+    this.ctx.fillRect(
+      -particle.radius * 0.6,
+      -particle.radius * 0.36,
+      particle.radius * 1.2,
+      particle.radius * 0.18,
+    );
+    this.ctx.fillRect(
+      -particle.radius * 0.6,
+      particle.radius * 0.08,
+      particle.radius * 0.78,
+      particle.radius * 0.18,
+    );
+  }
 
-        if (dist < CONSTANTS.LINK_DISTANCE) {
-          const opacity = (1 - dist / CONSTANTS.LINK_DISTANCE) * CONSTANTS.LINK_OPACITY_MAX;
-          this.ctx.strokeStyle = this.getLinkStrokeStyle(opacity);
-          this.ctx.lineWidth = 0.5;
-          this.ctx.beginPath();
-          this.ctx.moveTo(p1.x, p1.y);
-          this.ctx.lineTo(p2.x, p2.y);
-          this.ctx.stroke();
-        }
+  private drawLinks(): void {
+    if (!this.config.lineLinked || this.config.linkDistance <= 0) return;
+
+    const maxDistanceSq = this.config.linkDistance ** 2;
+    this.ctx.save();
+
+    for (let index = 0; index < this.particles.length; index += 1) {
+      const particle = this.particles[index];
+      let connections = 0;
+
+      for (
+        let otherIndex = index + 1;
+        otherIndex < this.particles.length && connections < this.config.maxLinks;
+        otherIndex += 1
+      ) {
+        const other = this.particles[otherIndex];
+        const dx = particle.x - other.x;
+        const dy = particle.y - other.y;
+        const distanceSq = dx * dx + dy * dy;
+
+        if (distanceSq > maxDistanceSq) continue;
+
+        const opacity =
+          (1 - distanceSq / maxDistanceSq) * (this.mode === 'ai' ? 0.34 : 0.22);
+        this.ctx.strokeStyle = this.getLinkStrokeStyle(
+          opacity,
+          this.mode === 'ai',
+        );
+        this.ctx.lineWidth = this.mode === 'ai' ? 1 : 0.7;
+        this.ctx.beginPath();
+        this.ctx.moveTo(particle.x, particle.y);
+        this.ctx.lineTo(other.x, other.y);
+        this.ctx.stroke();
+        connections += 1;
       }
     }
-    
-    // 2. Draw active connections to the mouse cursor for relevant modes
-    if (this.isMouseActive && (this.mode === 'network' || this.mode === 'ai' || this.mode === 'about')) {
+
+    if (
+      this.isMouseActive &&
+      (this.mode === 'network' || this.mode === 'ai' || this.mode === 'about')
+    ) {
       const { width, height } = this.cachedLogicalSize;
-      const influenceRadius = Math.min(width, height) * CONSTANTS.MOUSE_INFLUENCE_RADIUS_FACTOR;
-      
-      for (let i = 0; i < this.particles.length; i++) {
-        const p = this.particles[i];
-        const dx = this.mouseX - p.x;
-        const dy = this.mouseY - p.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        if (dist < influenceRadius) {
-          const opacity = (1 - dist / influenceRadius) * (this.mode === 'ai' ? 0.8 : 0.5);
-          this.ctx.strokeStyle = this.getLinkStrokeStyle(opacity, this.mode === 'ai');
-          this.ctx.lineWidth = this.mode === 'ai' ? 1.5 : 0.8;
-          this.ctx.beginPath();
-          this.ctx.moveTo(this.mouseX, this.mouseY);
-          this.ctx.lineTo(p.x, p.y);
-          this.ctx.stroke();
-        }
+      const influenceRadius =
+        Math.min(width, height) * CONSTANTS.MOUSE_INFLUENCE_RADIUS_FACTOR;
+
+      for (const particle of this.particles) {
+        const dx = this.mouseX - particle.x;
+        const dy = this.mouseY - particle.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance >= influenceRadius) continue;
+
+        const opacity =
+          (1 - distance / influenceRadius) * (this.mode === 'ai' ? 0.42 : 0.26);
+        this.ctx.strokeStyle = this.getLinkStrokeStyle(
+          opacity,
+          this.mode === 'ai',
+        );
+        this.ctx.lineWidth = this.mode === 'ai' ? 1.15 : 0.8;
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.mouseX, this.mouseY);
+        this.ctx.lineTo(particle.x, particle.y);
+        this.ctx.stroke();
       }
     }
-    
+
     this.ctx.restore();
   }
 
-  private drawStar(cx: number, cy: number, spikes: number, outerRadius: number, innerRadius: number) {
-    let rot = Math.PI / 2 * 3;
-    let x = cx;
-    let y = cy;
-    let step = Math.PI / spikes;
-
-    this.ctx.beginPath();
-    this.ctx.moveTo(cx, cy - outerRadius);
-    for (let i = 0; i < spikes; i++) {
-        x = cx + Math.cos(rot) * outerRadius;
-        y = cy + Math.sin(rot) * outerRadius;
-        this.ctx.lineTo(x, y);
-        rot += step;
-
-        x = cx + Math.cos(rot) * innerRadius;
-        y = cy + Math.sin(rot) * innerRadius;
-        this.ctx.lineTo(x, y);
-        rot += step;
-    }
-    this.ctx.lineTo(cx, cy - outerRadius);
-    this.ctx.closePath();
-    this.ctx.fill();
-  }
-
-  private animate() {
+  private animate(): void {
     if (this.isDisabled) return;
     this.updateParticles();
     this.draw();
     this.animationId = requestAnimationFrame(() => this.animate());
   }
 
+  private applyThemeToParticles(): void {
+    for (const particle of this.particles) {
+      particle.color = this.getParticleColor(particle.isAccent);
+    }
+  }
+
+  private pickShape(shapes: readonly ParticleShape[]): ParticleShape {
+    return shapes[Math.floor(Math.random() * shapes.length)];
+  }
+
+  private getParticleColor(isAccent: boolean): string {
+    if (isAccent) return this.accentColor;
+
+    return this.particleColors[
+      Math.floor(Math.random() * this.particleColors.length)
+    ];
+  }
+
   private hexToRgb(hex: string): string {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : '255, 255, 255';
+    const normalized = hex.replace('#', '');
+    const isShort = normalized.length === 3;
+    const value = isShort
+      ? normalized
+          .split('')
+          .map((part) => part + part)
+          .join('')
+      : normalized;
+    const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(value);
+
+    return result
+      ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
+      : '255, 255, 255';
   }
 
-  private applyBoundaryWrap(particle: Particle, width: number, height: number): void {
-    if (particle.x < -CONSTANTS.BOUNDARY_OFFSET) {
-      particle.x = width + CONSTANTS.BOUNDARY_OFFSET;
-    }
-    if (particle.x > width + CONSTANTS.BOUNDARY_OFFSET) {
-      particle.x = -CONSTANTS.BOUNDARY_OFFSET;
-    }
-    if (particle.y < -CONSTANTS.BOUNDARY_OFFSET) {
-      particle.y = height + CONSTANTS.BOUNDARY_OFFSET;
-    }
-    if (particle.y > height + CONSTANTS.BOUNDARY_OFFSET) {
-      particle.y = -CONSTANTS.BOUNDARY_OFFSET;
-    }
-  }
-
-  private applyNaturalTwinkle(particle: Particle): void {
-    particle.twinklePhase += particle.twinkleSpeed;
-    if (this.mode !== 'expand' && this.mode !== 'flow' && this.mode !== 'waves') {
-      particle.opacity = particle.baseOpacity * (Math.sin(particle.twinklePhase) * 0.2 + 0.8);
-    }
-  }
-
-  private getLinkStrokeStyle(opacity: number, preferAccentInLightMode: boolean = false): string {
+  private getLinkStrokeStyle(
+    opacity: number,
+    preferAccentInLightMode = false,
+  ): string {
     if (!this.isLightMode) {
-      return `rgba(${this.accentColorRgb},${opacity})`;
+      return `rgba(${this.accentColorRgb}, ${opacity})`;
     }
 
     return preferAccentInLightMode
-      ? `rgba(${this.accentColorRgb},${opacity})`
-      : `rgba(0,0,0,${opacity})`;
+      ? `rgba(${this.accentColorRgb}, ${opacity})`
+      : `rgba(15, 23, 42, ${opacity})`;
   }
 
-  public destroy() {
-    if (this.animationId) cancelAnimationFrame(this.animationId);
+  public destroy(): void {
+    if (this.animationId !== null) {
+      cancelAnimationFrame(this.animationId);
+    }
+
     this.resizeObserver?.disconnect();
     this.themeObserver?.disconnect();
 
@@ -722,6 +1278,11 @@ export class GalaxyParticleSystem {
     if (this.mouseLeaveHandler) {
       document.removeEventListener('mouseleave', this.mouseLeaveHandler);
       this.mouseLeaveHandler = null;
+    }
+
+    if (this.visibilityHandler) {
+      document.removeEventListener('visibilitychange', this.visibilityHandler);
+      this.visibilityHandler = null;
     }
   }
 }

@@ -146,7 +146,7 @@ const webPageSchema = {
     </script>
   </head>
   <body
-    class="min-h-screen bg-primary transition-colors duration-normal scrollbar-hide"
+    class="min-h-screen bg-primary transition-colors duration-normal scrollbar-hide site-body-flow"
     data-enable-calendar-widgets={enableCalendarWidgets ? "true" : "false"}
     data-enable-tab-engagement={enableTabEngagement ? "true" : "false"}
   >
@@ -175,7 +175,7 @@ const webPageSchema = {
     <Navigation />
     <main
       id="main-content"
-      class="relative z-content"
+      class="relative z-content site-main-flow"
       style="padding-top: var(--nav-current-height); min-height: calc(100vh - var(--nav-current-height));"
     >
       <slot />
