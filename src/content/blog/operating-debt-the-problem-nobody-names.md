@@ -10,7 +10,7 @@ slug: operating-debt-the-problem-nobody-names
 pillar: Operating Debt
 contentPillar: ["Operating Debt", "Anti-Patterns"]
 targetAudience: ["CTO", "COO", "Analytics Leader"]
-wordCount: 710
+wordCount: 720
 readingTimeMin: 4
 ctaType: question
 linkedinPostRef: "linkedin/2026-04-23.md"
@@ -26,21 +26,23 @@ It's operating debt.
 
 ## What operating debt actually is
 
-Operating debt is the accumulated cost of analytics work that was never designed to produce decisions. It starts small: a dashboard gets built to answer a specific question. The question gets answered. Nobody retires the dashboard. Three months later, a second dashboard gets built for a related question. Now you have two dashboards, two sets of numbers, and nobody agrees on which one is right.
+Operating debt is the accumulated cost of analytics work that was never designed to produce decisions.
 
-This compounds. A new analyst joins and builds their own version of the truth. A new VP requests a new dashboard. The data team, buried in dashboard assembly, doesn't have bandwidth to question whether the dashboards are producing decisions.
+It starts small: a dashboard gets built to answer a specific question. The question gets answered. Nobody retires the dashboard. Three months later, a second dashboard gets built for a related question. Now you have two dashboards, two sets of numbers, and nobody agrees on which one is right.
 
-The tell: your metric review meetings spend more time arguing about definitions than discussing what to do next.
+This compounds. A new analyst joins and builds their own version of the truth. A new VP requests a new dashboard. The data team, buried in dashboard assembly, doesn't have the bandwidth to question whether any of it is producing decisions.
 
-## The three signals it's accumulating
+> The tell is in the metric review: the meeting that has become a negotiation over which spreadsheet is authoritative, before any decision gets made.
 
-**Your analysts are reconciliation layers, not interpreters.** They spend most of their time pulling data, reconciling numbers, and distributing reports — not spotting patterns or surfacing anomalies. This is operating debt at the human level.
+## The four signals it's accumulating
 
-**Every metric review is a negotiation before it's a decision.** Not "here's what the data shows" — "which version of the data are we using?" The CFO's office is on a different number than the COO's office. They don't find out until the board meeting.
+Your analysts are reconciliation layers, not interpreters. They spend most of their time pulling data, reconciling numbers, and distributing reports — not spotting patterns or surfacing anomalies. This is operating debt at the human level.
 
-**Decision speed hasn't changed, but your dashboard count has.** You have more data, more dashboards, more analytics headcount. Nobody can name a decision that's happened faster than it did six months ago. That's the debt compounding.
+Every metric review is a negotiation before it's a decision. Not "here's what the data shows" — "which version of the data are we using?" The CFO's office is on a different number than the COO's office. They don't find out until the board meeting.
 
-**The moment you retire an old dashboard, the anxiety starts.** Not relief — anxiety. Because now nobody knows which version of the truth they're supposed to be working from. The dashboard wasn't tracking a decision. It was tracking a negotiation that never concluded.
+Decision speed hasn't changed, but your dashboard count has. You have more data, more dashboards, more analytics headcount. Nobody can name a decision that happened faster than it did six months ago. That's the debt compounding.
+
+The moment you retire an old dashboard, the anxiety starts. Not relief — anxiety. Because now nobody knows which version of the truth they're supposed to be working from. The dashboard wasn't tracking a decision. It was tracking a negotiation that never concluded.
 
 ## Why tooling doesn't fix it
 
@@ -54,6 +56,6 @@ The fix has to start at the operating layer: what decisions do we make, from wha
 
 This isn't a project with a start and an end date. It's an ongoing discipline: retiring dashboards that aren't tied to live decisions, locking metric definitions before building new reporting, requiring that every new data initiative be tied to a specific decision it enables.
 
-The companies that have done this well share a common thread: they shifted from thinking "we have a data team" to thinking "we have decision infrastructure." That reframe changes how every new dashboard request gets evaluated. It changes what the weekly metric review is actually for.
+The companies that have done this well share a common thread: they shifted from thinking "we have a data team" to thinking "we have decision infrastructure." That reframe changes how every new dashboard request gets evaluated.
 
 If that sounds like something your organization is ready to take seriously — let's talk about where the drag starts.

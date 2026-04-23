@@ -1,6 +1,6 @@
 ---
 title: "The Gap Between Your Analytics Maturity and Your Decision Speed Is Not a Data Problem"
-description: "More dashboards, more data teams, more BI investment — and roughly the same decision speed as three years ago. The reason is in your operating model."
+description: "More dashboards, more data teams, more BI investment — and roughly the same decision speed as three years ago. The reason is structural."
 publishDate: 2026-04-23
 heroImage: /images/blog/decision-velocity.png
 tags: ["Decision Intelligence", "Operating Model", "Analytics"]
@@ -10,7 +10,7 @@ slug: decision-velocity-why-data-hasnt-made-your-org-faster
 pillar: Decision Velocity
 contentPillar: ["Decision Velocity", "CODE Principles"]
 targetAudience: ["CTO", "COO", "CFO", "Analytics Leader"]
-wordCount: 730
+wordCount: 735
 readingTimeMin: 4
 ctaType: statement
 linkedinPostRef: "linkedin/2026-04-23.md"
@@ -22,13 +22,17 @@ Three years ago, your executive team reviewed monthly reports in a two-hour meet
 
 Nothing is faster. Some things are more visible. The decisions themselves haven't changed in speed or quality.
 
-This is the gap that nobody names in public, because naming it requires admitting that the analytics investment didn't produce the return that was promised.
+This is the gap nobody names in public, because naming it requires admitting that the analytics investment didn't produce the return that was promised.
 
 ## The constraint isn't data volume
 
-The standard response to slow decisions is more data: better dashboards, faster pipelines, AI-assisted forecasting. Some of that is warranted. But the organizations that have genuinely improved their decision velocity didn't do it by adding data capacity. They did it by redesigning the operating model around decisions.
+The standard response to slow decisions is more data: better dashboards, faster pipelines, AI-assisted forecasting. Some of that is warranted.
 
-The actual constraint isn't the volume of data. It's how information moves from where it's generated to where a decision gets made. The problem surfaces in three predictable places.
+But the organizations that have genuinely improved their decision velocity didn't do it by adding data capacity. They did it by redesigning the operating model around decisions.
+
+> The question isn't "what data do we have?" It's "what decision do we need to make, and what information does it actually require?"
+
+That reframe sounds simple. It isn't. It requires agreeing on what the decision actually is, who makes it, what information it requires, and what happens if the timeline slips. Most organizations have never had that conversation explicitly.
 
 ## Where decision velocity dies
 
@@ -38,13 +42,11 @@ The definition problem: the same metric means something different to the CFO tha
 
 The handoff problem: the data team produces an analysis. The executive team receives it. Nobody is formally responsible for the transition from "here's what the data shows" to "here's what we're doing about it." That transition happens in a meeting that was already too long, or it doesn't happen, or it happens informally in a way that leaves no audit trail.
 
-Each of these is a process failure, not a technology failure. Your analytics infrastructure can be excellent and the decision velocity can still be slow, because the infrastructure was built to answer questions nobody formally asked.
+Each of these is a process failure, not a technology failure. Your analytics infrastructure can be excellent and the decision velocity can still be slow — because the infrastructure was built to answer questions nobody formally asked.
 
 ## What the fix actually looks like
 
-A decision-centered operating model starts from a specific question: what does a faster decision actually look like in this part of the business? For one client, that meant getting the COO from "I need to review the numbers" to "I can approve or reject the allocation by Thursday morning" — a specific, named decision with a deadline and an owner.
-
-That reframe sounds simple. It isn't. It requires agreeing on what the decision actually is, who makes it, what information it requires, and what happens if the timeline slips. Most organizations have never had that conversation explicitly. The analytics work happens in the absence of it.
+For one client, redesigning around decisions meant getting the COO from "I need to review the numbers" to "I can approve or reject the allocation by Thursday morning" — a specific, named decision with a deadline and an owner.
 
 When organizations take this seriously, the weekly review shortens because the definitions are fixed and everybody agreed on them before the meeting started. The data team stops reconciling and starts analyzing. The decision that used to require three meetings and two follow-up emails happens in one session, with a clear owner and a documented outcome.
 

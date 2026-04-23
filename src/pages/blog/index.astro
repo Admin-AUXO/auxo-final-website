@@ -83,42 +83,24 @@ const archiveYearFormatter = new Intl.DateTimeFormat("en-US", {
           <!-- Featured card -->
           <div data-reveal="fade-up" data-reveal-delay="60">
             <a href={getBlogPostUrl(featuredPost.slug)} class="blog-featured-card group">
-              <!-- Left: date + tags -->
-              <div class="blog-featured-card__left">
-                <div class="blog-featured-card__date">
-                  <span class="blog-featured-card__day">
-                    {archiveDateFormatter.format(featuredPost.data.publishDate)}
-                  </span>
-                  <span class="blog-featured-card__year">
-                    {archiveYearFormatter.format(featuredPost.data.publishDate)}
-                  </span>
+              {featuredPost.data.heroImage && (
+                <div class="blog-featured-card__image">
+                  <img
+                    src={featuredPost.data.heroImage}
+                    alt={featuredPost.data.title}
+                    width="960"
+                    height="540"
+                    loading="eager"
+                  />
                 </div>
-                <p class="blog-featured-card__tags">
-                  {featuredPost.data.tags.join(" / ")}
-                </p>
-                {featuredPost.data.heroImage && (
-                  <div class="blog-featured-card__thumbnail">
-                    <img
-                      src={featuredPost.data.heroImage}
-                      alt=""
-                      width="320"
-                      height="180"
-                      loading="lazy"
-                    />
-                  </div>
-                )}
-              </div>
-
-              <!-- Right: content -->
+              )}
               <div class="blog-featured-card__body">
                 <p class="blog-featured-card__meta">
                   {formatBlogDate(featuredPost.data.publishDate)}
                   <span aria-hidden="true"> &bull; </span>
                   {formatReadingTime(getReadingTimeMinutes(featuredPost.body))}
                   <span aria-hidden="true"> &bull; </span>
-                  {featuredPost.data.description.split(" ").length > 12
-                    ? featuredPost.data.description.split(" ").slice(0, 12).join(" ") + "..."
-                    : featuredPost.data.description}
+                  {featuredPost.data.tags.slice(0, 2).join(" / ")}
                 </p>
                 <h2 class="blog-featured-card__title">{featuredPost.data.title}</h2>
                 <p class="blog-featured-card__description">{featuredPost.data.description}</p>

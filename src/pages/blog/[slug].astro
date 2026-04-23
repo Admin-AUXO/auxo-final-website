@@ -9,7 +9,6 @@ import { siteData } from "@/data/content";
 import "@/styles/sections/blog-content.css";
 import "@/styles/sections/blog-pages.css";
 import {
-  extractBlogHeadings,
   formatBlogDate,
   formatReadingTime,
   getBlogPostUrl,
@@ -30,7 +29,6 @@ const allPosts = sortByPublishDate(await getCollection("blog"));
 const { Content } = await entry.render();
 const formattedPublishDate = formatBlogDate(entry.data.publishDate);
 const readingTime = formatReadingTime(getReadingTimeMinutes(entry.body));
-const articleSections = extractBlogHeadings(entry.body);
 const currentIndex = allPosts.findIndex((post) => post.slug === entry.slug);
 const newerPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 const olderPost =
@@ -61,176 +59,156 @@ const articleSchema = {
   description={entry.data.description}
 >
   <StructuredData type="Article" data={articleSchema} />
+
+  <!-- ═══════════════════════════════════════════════════
+       HERO IMAGE — full width, above everything
+  ═══════════════════════════════════════════════════ -->
+  {entry.data.heroImage && (
+    <div class="blog-article-full-image">
+      <img
+        src={entry.data.heroImage}
+        alt={`Visual for: ${entry.data.title}`}
+        width="1536"
+        height="860"
+        loading="eager"
+      />
+    </div>
+  )}
+
+  <!-- ═══════════════════════════════════════════════════
+       HEADER — centered, clean
+  ═══════════════════════════════════════════════════ -->
   <SectionContainer
     id="blog-header"
     padding="lg"
     background="default"
-    class="blog-page blog-article-page relative overflow-hidden pt-28 lg:pt-32 pb-12 lg:pb-14"
+    class="blog-page blog-article-page relative overflow-hidden pt-16 pb-10"
   >
     <div class="absolute inset-0 -z-10 pointer-events-none">
-      <div class="absolute inset-0 bg-gradient-to-b from-theme-surface/94 via-theme-surface/76 to-theme-surface"></div>
-      <div class="absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-accent-green/10 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-theme-surface/96 via-theme-surface/80 to-theme-surface"></div>
     </div>
     <BackgroundDecorations gradients={["top"]} patterns={["grid"]} />
 
     <div class="grid-container relative z-10">
-      <div class="col-span-full blog-article-hero">
+      <div class="col-span-full">
+
+        <!-- Back link -->
         <a href="/blog" class="blog-back-link" data-reveal="fade-up">
-          <Icon name="mdi:arrow-left" class="w-4 h-4 transition-transform duration-300" />
-          Back to all insights
+          <Icon name="mdi:arrow-left" class="w-4 h-4" />
+          All insights
         </a>
 
-        <!-- Hero image — full-width conceptual visual -->
-        {entry.data.heroImage && (
-          <div class="blog-article-hero-image" data-reveal="fade-up">
-            <img
-              src={entry.data.heroImage}
-              alt={`Visual for: ${entry.data.title}`}
-              width="1536"
-              height="1024"
-              loading="eager"
-            />
-          </div>
-        )}
-
-        <!-- Single centered column for the header -->
-        <div class="blog-article-header">
-          <div class="blog-article-header__meta" data-reveal="fade-up" data-reveal-delay="60">
-            <p class="blog-kicker">AUXO Journal</p>
-            <div class="blog-article-header__meta-row">
-              <span class="blog-article-hero__meta-term">Published</span>
-              <time
-                class="blog-article-hero__meta-value"
-                datetime={entry.data.publishDate.toISOString()}
-              >
-                {formattedPublishDate}
-              </time>
-            </div>
-            <div class="blog-article-header__meta-row">
-              <span class="blog-article-hero__meta-term">Read time</span>
-              <span class="blog-article-hero__meta-value">{readingTime}</span>
-            </div>
-          </div>
-
-          <p class="blog-article-hero__tags" data-reveal="fade-up" data-reveal-delay="90">
-            {entry.data.tags.join(" / ")}
-          </p>
-
-          <h1
-            class="blog-article-hero__title"
-            data-reveal="fade-up"
-            data-reveal-delay="120"
+        <!-- Meta strip: date / read time / tags -->
+        <div class="blog-article-meta-strip" data-reveal="fade-up" data-reveal-delay="60">
+          <time
+            class="blog-article-meta-item"
+            datetime={entry.data.publishDate.toISOString()}
           >
-            {entry.data.title}
-          </h1>
-
-          <p
-            class="blog-article-hero__dek"
-            data-reveal="fade-up"
-            data-reveal-delay="180"
-          >
-            {entry.data.description}
-          </p>
+            {formattedPublishDate}
+          </time>
+          <span class="blog-article-meta-dot" aria-hidden="true">·</span>
+          <span class="blog-article-meta-item">{readingTime}</span>
+          <span class="blog-article-meta-dot" aria-hidden="true">·</span>
+          <span class="blog-article-meta-item">{entry.data.tags[0]}</span>
         </div>
+
+        <!-- Title -->
+        <h1
+          class="blog-article-display-title"
+          data-reveal="fade-up"
+          data-reveal-delay="120"
+        >
+          {entry.data.title}
+        </h1>
+
+        <!-- Dek -->
+        <p
+          class="blog-article-dek"
+          data-reveal="fade-up"
+          data-reveal-delay="180"
+        >
+          {entry.data.description}
+        </p>
+
+        <!-- Share strip -->
+        <div class="blog-article-share-strip" data-reveal="fade-up" data-reveal-delay="220">
+          <span class="blog-share-label">Share</span>
+          <button id="share-twitter" class="blog-share-btn" type="button">
+            <Icon name="mdi:twitter" class="w-4 h-4" />
+            Post
+          </button>
+          <button id="share-linkedin" class="blog-share-btn" type="button">
+            <Icon name="mdi:linkedin" class="w-4 h-4" />
+            LinkedIn
+          </button>
+          <button id="share-copy" class="blog-share-btn" type="button">
+            <Icon name="mdi:clipboard-text-outline" class="w-4 h-4" />
+            Copy link
+          </button>
+        </div>
+
       </div>
     </div>
   </SectionContainer>
 
+  <!-- ═══════════════════════════════════════════════════
+       BODY — single centered column
+  ═══════════════════════════════════════════════════ -->
   <SectionContainer
     id="blog-content"
     padding="normal"
     background="elevated"
-    class="blog-page relative"
+    class="blog-page"
   >
-    <!-- 3-column layout: TOC sidebar | article centered | empty -->
     <div class="grid-container relative z-10">
-      <div class="col-span-full blog-article-layout">
+      <div class="col-span-full">
 
-        <!-- Sticky TOC + Share sidebar, floats left of content -->
-        <aside class="blog-article-sidebar" aria-label="Article navigation">
-          <div class="blog-article-sidebar__inner" data-reveal="fade-right">
-            {articleSections.length > 0 && (
-              <div class="blog-sidebar-section">
-                <p class="blog-rail__label">In this article</p>
-                <nav class="blog-article-toc" aria-label="Table of contents">
-                  {articleSections.slice(0, 5).map((section) => (
-                    <a
-                      href={`#${section.id}`}
-                      class:list={{
-                        "blog-article-toc__link": true,
-                        "blog-article-toc__link--sub": section.level === 3,
-                      }}
-                    >
-                      {section.text}
-                    </a>
-                  ))}
-                </nav>
-              </div>
-            )}
+        <article class="blog-article-body" data-reveal="fade-up">
+          <Content />
 
-            <div class="blog-sidebar-section blog-article-share">
-              <p class="blog-rail__label">Share</p>
-              <div class="blog-share-controls">
-                <button id="share-twitter" class="blog-share-button" type="button">
-                  <Icon name="mdi:twitter" class="w-4 h-4" />
-                  Post
-                </button>
-                <button id="share-linkedin" class="blog-share-button" type="button">
-                  <Icon name="mdi:linkedin" class="w-4 h-4" />
-                  LinkedIn
-                </button>
-                <button id="share-copy" class="blog-share-button" type="button">
-                  <Icon name="mdi:clipboard-text-outline" class="w-4 h-4" />
-                  Copy link
-                </button>
-              </div>
+          <div class="blog-article-afterword">
+            <div class="blog-article-afterword__text">
+              <p>Ready to work backward from the decisions your organization actually needs to make?</p>
             </div>
+            <a href="/contact" class="blog-article-afterword__cta">
+              Talk to AUXO
+              <Icon name="mdi:arrow-right" class="w-4 h-4" />
+            </a>
           </div>
-        </aside>
+        </article>
 
-        <!-- Centered article column -->
-        <div class="blog-article-center">
-          <article class="blog-content blog-article-shell" data-reveal="fade-up">
-            <Content />
+        <!-- Prev / Next navigation -->
+        <nav class="blog-article-nav" aria-label="Article navigation">
+          {newerPost && (
+            <a href={getBlogPostUrl(newerPost.slug)} class="blog-article-nav__item blog-article-nav__item--prev">
+              <span class="blog-article-nav__dir">
+                <Icon name="mdi:arrow-left" class="w-4 h-4" />
+                Newer
+              </span>
+              <span class="blog-article-nav__title">{newerPost.data.title}</span>
+            </a>
+          )}
 
-            <div class="blog-article-afterword">
-              <p>Need help turning the argument into an actual operating plan?</p>
-              <a href="/contact">Talk to AUXO</a>
-            </div>
-          </article>
-
-          <div class="blog-article-nav">
-            {newerPost && (
-              <a href={getBlogPostUrl(newerPost.slug)} class="blog-article-nav__link">
-                <div class="blog-article-nav__copy">
-                  <span class="blog-article-nav__eyebrow">Newer insight</span>
-                  <span class="blog-article-nav__title">{newerPost.data.title}</span>
-                </div>
+          {olderPost && (
+            <a href={getBlogPostUrl(olderPost.slug)} class="blog-article-nav__item blog-article-nav__item--next">
+              <span class="blog-article-nav__dir">
+                Older
                 <Icon name="mdi:arrow-right" class="w-4 h-4" />
-              </a>
-            )}
+              </span>
+              <span class="blog-article-nav__title">{olderPost.data.title}</span>
+            </a>
+          )}
 
-            {olderPost && (
-              <a href={getBlogPostUrl(olderPost.slug)} class="blog-article-nav__link">
-                <div class="blog-article-nav__copy">
-                  <span class="blog-article-nav__eyebrow">Older insight</span>
-                  <span class="blog-article-nav__title">{olderPost.data.title}</span>
-                </div>
-                <Icon name="mdi:arrow-right" class="w-4 h-4" />
-              </a>
-            )}
-
-            {!newerPost && !olderPost && (
-              <a href="/blog" class="blog-article-nav__link">
-                <div class="blog-article-nav__copy">
-                  <span class="blog-article-nav__eyebrow">Archive</span>
-                  <span class="blog-article-nav__title">Back to all insights</span>
-                </div>
-                <Icon name="mdi:arrow-right" class="w-4 h-4" />
-              </a>
-            )}
-          </div>
-        </div>
+          {!newerPost && !olderPost && (
+            <a href="/blog" class="blog-article-nav__item blog-article-nav__item--back">
+              <span class="blog-article-nav__dir">
+                <Icon name="mdi:arrow-left" class="w-4 h-4" />
+                All insights
+              </span>
+              <span class="blog-article-nav__title">Back to the journal</span>
+            </a>
+          )}
+        </nav>
 
       </div>
     </div>
