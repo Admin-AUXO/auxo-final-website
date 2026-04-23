@@ -3,6 +3,18 @@ title: "Operating Debt: The Analytics Problem Nobody Names"
 description: "Why your data team is busy but your business isn't making faster decisions — and what the fix looks like."
 publishDate: 2026-04-23
 tags: ["Decision Intelligence", "Operating Model", "Analytics"]
+type: blog-post
+status: live
+slug: operating-debt-the-problem-nobody-names
+pillar: Operating Debt
+contentPillar: ["Operating Debt", "Anti-Patterns"]
+targetAudience: ["Analytics Leader", "CTO", "COO"]
+wordCount: 680
+readingTimeMin: 3
+ctaType: question
+linkedinPostRef: "linkedin/2026-04-23.md"
+websiteUrl: https://auxodata.com/blog/operating-debt-the-problem-nobody-names/
+publishedToWebsite: true
 ---
 
 Most companies with a data team have a specific kind of problem, and almost none of them name it directly.

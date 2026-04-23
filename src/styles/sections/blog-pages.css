@@ -60,7 +60,7 @@
   font-weight: 800;
   letter-spacing: -0.055em;
   line-height: 0.92;
-  max-width: 18ch;
+  max-width: 22ch;
   text-wrap: balance;
 }
 
@@ -373,7 +373,7 @@
 .blog-stream__title {
   font-size: clamp(1.6rem, 3vw, 2.4rem);
   font-weight: 750;
-  max-width: 18ch;
+  max-width: 24ch;
   transition: color var(--duration-fast) var(--easing-standard);
 }
 
@@ -416,7 +416,29 @@
 }
 
 .blog-back-link {
+  background: rgb(var(--accent-green-rgb), 0.08);
+  border: 1px solid rgb(var(--accent-green-rgb), 0.22);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
   justify-self: start;
+  padding: 0.35rem 0.85rem 0.35rem 0.6rem;
+  transition: background var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.blog-back-link:hover {
+  background: rgb(var(--accent-green-rgb), 0.16);
+  color: var(--accent-green);
+  border-color: rgb(var(--accent-green-rgb), 0.4);
+}
+
+.blog-back-link svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
 }
 
 .blog-article-hero__rail {
@@ -449,7 +471,7 @@
 .blog-article-hero__title {
   font-size: clamp(2.7rem, 6vw, 5.4rem);
   font-weight: 800;
-  max-width: 12ch;
+  max-width: 20ch;
   text-wrap: balance;
 }
 
@@ -536,9 +558,42 @@
 }
 
 .blog-article-afterword {
-  border-top: 1px solid rgb(var(--accent-green-rgb), 0.12);
+  border-top: 1px solid rgb(var(--accent-green-rgb), 0.2);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1rem;
   margin-top: 2.75rem;
-  padding-top: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: rgb(var(--accent-green-rgb), 0.05);
+  border-radius: 1rem;
+}
+
+.blog-article-afterword p {
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.blog-article-afterword a {
+  background: var(--accent-green);
+  border-radius: 999px;
+  color: #0a0a0a;
+  display: inline-flex;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 800;
+  padding: 0.5rem 1.1rem;
+  text-decoration: none;
+  transition: opacity var(--duration-fast) var(--easing-standard);
+  white-space: nowrap;
+}
+
+.blog-article-afterword a:hover {
+  opacity: 0.85;
+  color: #0a0a0a;
 }
 
 .blog-article-nav {

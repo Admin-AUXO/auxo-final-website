@@ -3,6 +3,18 @@ title: "Decision Velocity: Why More Data Hasn't Made Your Organization Faster"
 description: "Most leadership teams have more analytics than three years ago and roughly the same decision speed. The reason isn't technical."
 publishDate: 2026-04-23
 tags: ["Decision Intelligence", "Operating Model", "Analytics"]
+type: blog-post
+status: live
+slug: decision-velocity-why-data-hasnt-made-your-org-faster
+pillar: Decision Velocity
+contentPillar: ["Decision Velocity", "CODE Principles"]
+targetAudience: ["CTO", "COO", "CFO", "Analytics Leader"]
+wordCount: 720
+readingTimeMin: 3
+ctaType: statement
+linkedinPostRef: "linkedin/2026-04-23.md"
+websiteUrl: https://auxodata.com/blog/decision-velocity-why-data-hasnt-made-your-org-faster/
+publishedToWebsite: true
 ---
 
 Three years ago, your executive team reviewed monthly reports in a two-hour meeting and made three major resource allocation decisions. Today you have real-time dashboards, a BI platform that cost more than you wanted to admit, and a data team of four. And you still make three major resource allocation decisions per quarter — in the same two-hour monthly meeting.
