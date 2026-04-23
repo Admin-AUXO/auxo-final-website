@@ -2,6 +2,7 @@
 title: "Operating Debt: The Analytics Problem Nobody Names"
 description: "Why your data team is busy but your business isn't making faster decisions — and what the fix looks like."
 publishDate: 2026-04-23
+heroImage: /images/blog/operating-debt.png
 tags: ["Decision Intelligence", "Operating Model", "Analytics"]
 type: blog-post
 status: live

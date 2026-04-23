@@ -2,6 +2,7 @@
 title: "The Future of Analytics in 2026"
 description: "How companies are leveraging automated data pipelines and AI to unlock new revenue streams."
 publishDate: 2026-02-26
+heroImage: /images/blog/future-of-analytics.png
 tags: ["AI", "Data Strategy", "Automation"]
 ---
 

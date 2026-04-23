@@ -52,6 +52,7 @@ const articleSchema = {
       url: `${siteData.url}/logo.svg`,
     },
   },
+  image: entry.data.heroImage ? `${siteData.url}${entry.data.heroImage}` : undefined,
 };
 ---
 
@@ -78,6 +79,19 @@ const articleSchema = {
           <Icon name="mdi:arrow-left" class="w-4 h-4 transition-transform duration-300" />
           Back to all insights
         </a>
+
+        <!-- Hero image — full-width conceptual visual -->
+        {entry.data.heroImage && (
+          <div class="blog-article-hero-image" data-reveal="fade-up">
+            <img
+              src={entry.data.heroImage}
+              alt={`Visual for: ${entry.data.title}`}
+              width="1536"
+              height="1024"
+              loading="eager"
+            />
+          </div>
+        )}
 
         <!-- Single centered column for the header -->
         <div class="blog-article-header">

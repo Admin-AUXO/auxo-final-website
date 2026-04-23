@@ -2,6 +2,7 @@
 title: "Decision Velocity: Why More Data Hasn't Made Your Organization Faster"
 description: "Most leadership teams have more analytics than three years ago and roughly the same decision speed. The reason isn't technical."
 publishDate: 2026-04-23
+heroImage: /images/blog/decision-velocity.png
 tags: ["Decision Intelligence", "Operating Model", "Analytics"]
 type: blog-post
 status: live
