@@ -61,6 +61,9 @@ const editorialPillars = [
   title="Insights & Blog | AUXO Data Labs"
   description="Editorial analysis, strategic briefings, and applied data thinking from AUXO Data Labs."
 >
+  <!-- ═══════════════════════════════════════════════════
+       MASTHEAD — centered constrained header
+  ═══════════════════════════════════════════════════ -->
   <SectionContainer
     id="blog-hero"
     padding="lg"
@@ -74,9 +77,10 @@ const editorialPillars = [
     <BackgroundDecorations gradients={["hero"]} patterns={["grid"]} />
 
     <div class="grid-container relative z-10">
-      <div class="col-span-full blog-masthead">
-        <div class="blog-masthead__intro">
-          <p class="blog-kicker" data-reveal="fade-up">AUXO Journal</p>
+      <div class="col-span-full">
+        <!-- Centered constrained intro block -->
+        <div class="blog-masthead blog-masthead--centered" data-reveal="fade-up">
+          <p class="blog-kicker">AUXO Journal</p>
           <h1 class="blog-masthead__title" data-reveal="fade-up" data-reveal-delay="60">
             Signals for teams that need <span>clearer decisions</span>, not more dashboard theater.
           </h1>
@@ -86,8 +90,9 @@ const editorialPillars = [
           </p>
         </div>
 
+        <!-- Stats row — centered below the intro -->
         {stats.length > 0 && (
-          <div class="blog-masthead__ledger" data-reveal="fade-left" data-reveal-delay="180">
+          <div class="blog-masthead-stats" data-reveal="fade-up" data-reveal-delay="180">
             {stats.map((stat) => (
               <div class="blog-masthead__stat">
                 <span class="blog-masthead__stat-label">{stat.label}</span>
@@ -100,6 +105,9 @@ const editorialPillars = [
     </div>
   </SectionContainer>
 
+  <!-- ═══════════════════════════════════════════════════
+       FEATURED POST — centered constrained ledger
+  ═══════════════════════════════════════════════════ -->
   <SectionContainer
     id="blog-featured"
     padding="normal"
@@ -107,73 +115,68 @@ const editorialPillars = [
     class="blog-page"
   >
     <div class="grid-container relative z-10">
-      {featuredPost ? (
-        <div class="col-span-full blog-ledger">
-          <div>
-            <p class="blog-section-label mb-4" data-reveal="fade-up">Lead story</p>
+      <div class="col-span-full">
+        {featuredPost ? (
+          <div class="blog-featured-wrap" data-reveal="fade-up">
+            <p class="blog-section-label mb-6">Lead story</p>
             <a
               href={getBlogPostUrl(featuredPost.slug)}
-              class="blog-ledger__story group"
-              data-reveal="fade-up"
+              class="blog-featured-card group"
             >
-              <div class="blog-ledger__timeline">
-                <span class="blog-ledger__date">
+              <div class="blog-featured-card__date">
+                <span class="blog-featured-card__day">
                   {archiveDateFormatter.format(featuredPost.data.publishDate)}
                 </span>
-                <span class="blog-ledger__year">
+                <span class="blog-featured-card__year">
                   {archiveYearFormatter.format(featuredPost.data.publishDate)}
                 </span>
               </div>
 
-              <div class="blog-ledger__content">
-                <p class="blog-ledger__meta">
+              <div class="blog-featured-card__body">
+                <p class="blog-featured-card__meta">
                   {formatBlogDate(featuredPost.data.publishDate)}
-                  <span aria-hidden="true"> • </span>
+                  <span aria-hidden="true"> &bull; </span>
                   {formatReadingTime(getReadingTimeMinutes(featuredPost.body))}
                 </p>
-                <p class="blog-ledger__tags">{featuredPost.data.tags.join(" / ")}</p>
-                <h2 class="blog-ledger__title">{featuredPost.data.title}</h2>
-                <p class="blog-ledger__description">{featuredPost.data.description}</p>
+                <p class="blog-featured-card__tags">{featuredPost.data.tags.join(" / ")}</p>
+                <h2 class="blog-featured-card__title">{featuredPost.data.title}</h2>
+                <p class="blog-featured-card__description">{featuredPost.data.description}</p>
+                <span class="blog-featured-card__cta">
+                  Read article
+                  <Icon name="mdi:arrow-right" class="w-4 h-4 transition-transform duration-300" />
+                </span>
               </div>
-
-              <span class="blog-ledger__cta">
-                Read article
-                <Icon name="mdi:arrow-right" class="w-4 h-4 transition-transform duration-300" />
-              </span>
             </a>
-          </div>
 
-          <div class="blog-ledger__rail" data-reveal="fade-left" data-reveal-delay="120">
-            <div class="grid gap-3">
-              <p class="blog-rail__label">Signal map</p>
-              <div class="blog-topic-list">
-                {uniqueTags.map((tag) => (
-                  <span>{tag}</span>
-                ))}
+            <!-- Signal map + intent — shown below on mobile, beside on desktop -->
+            <div class="blog-featured-rail">
+              <div class="blog-featured-rail__section">
+                <p class="blog-rail__label">Signal map</p>
+                <div class="blog-topic-list">
+                  {uniqueTags.map((tag) => (
+                    <span>{tag}</span>
+                  ))}
+                </div>
+              </div>
+              <div class="blog-featured-rail__section">
+                <p class="blog-rail__label">Editorial intent</p>
+                <p class="blog-rail__copy">
+                  This page should read like an analysis desk: one lead story, a clear archive, and no plastic card cemetery pretending to be content strategy.
+                </p>
+              </div>
+              <div class="blog-inline-links">
+                <a href={createUrl("services")} class="blog-inline-link">
+                  Explore services
+                  <Icon name="mdi:arrow-right" class="w-4 h-4" />
+                </a>
+                <a href={createUrl("contact")} class="blog-inline-link">
+                  Talk to AUXO
+                  <Icon name="mdi:arrow-right" class="w-4 h-4" />
+                </a>
               </div>
             </div>
-
-            <div class="grid gap-3">
-              <p class="blog-rail__label">Editorial intent</p>
-              <p class="blog-rail__copy">
-                This page should read like an analysis desk: one lead story, a clear archive, and no plastic card cemetery pretending to be content strategy.
-              </p>
-            </div>
-
-            <div class="blog-inline-links">
-              <a href={createUrl("services")} class="blog-inline-link">
-                Explore services
-                <Icon name="mdi:arrow-right" class="w-4 h-4" />
-              </a>
-              <a href={createUrl("contact")} class="blog-inline-link">
-                Talk to AUXO
-                <Icon name="mdi:arrow-right" class="w-4 h-4" />
-              </a>
-            </div>
           </div>
-        </div>
-      ) : (
-        <div class="col-span-full">
+        ) : (
           <div class="blog-stream__empty text-center">
             <Icon
               name="mdi:note-edit"
@@ -182,11 +185,14 @@ const editorialPillars = [
             <h2 class="text-2xl font-bold text-theme-primary mb-2">No posts yet</h2>
             <p class="text-theme-secondary">Check back soon for new insights from our team.</p>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   </SectionContainer>
 
+  <!-- ═══════════════════════════════════════════════════
+       MANIFESTO + ARCHIVE — centered constrained
+  ═══════════════════════════════════════════════════ -->
   <SectionContainer
     id="blog-archive"
     padding="normal"
@@ -194,99 +200,106 @@ const editorialPillars = [
     class="blog-page"
   >
     <div class="grid-container relative z-10">
-      <div class="col-span-full blog-manifesto mb-12">
-        <div class="blog-manifesto__intro">
-          <p class="blog-section-label">Editorial brief</p>
-          <h2 class="blog-manifesto__title">
-            Built to read like analysis, not a brochure with a content budget.
-          </h2>
+      <div class="col-span-full">
+
+        <!-- Editorial brief — centered -->
+        <div class="blog-manifesto" data-reveal="fade-up">
+          <div class="blog-manifesto__intro">
+            <p class="blog-section-label">Editorial brief</p>
+            <h2 class="blog-manifesto__title">
+              Built to read like analysis, not a brochure with a content budget.
+            </h2>
+            <p class="blog-stream-copy">
+              The archive should surface what AUXO sees, why it matters commercially, and what a serious operator should do next.
+            </p>
+          </div>
+
+          <div class="blog-manifesto__points">
+            {editorialPillars.map((pillar, index) => (
+              <div
+                class="blog-manifesto__point"
+                data-reveal="fade-up"
+                data-reveal-delay={index * 80}
+              >
+                <div class="flex items-center gap-3">
+                  <span class="blog-manifesto__index">{String(index + 1).padStart(2, "0")}</span>
+                  <Icon name={pillar.icon} class="w-5 h-5 text-accent-green flex-shrink-0" />
+                </div>
+                <h3 class="text-xl font-extrabold text-theme-primary font-display">
+                  {pillar.title}
+                </h3>
+                <p class="blog-manifesto__description">{pillar.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Archive header -->
+        <div class="blog-stream-header" data-reveal="fade-up">
+          <div>
+            <p class="blog-section-label">Archive</p>
+            <h2 class="blog-stream-title mt-3">Recent dispatches</h2>
+          </div>
           <p class="blog-stream-copy">
-            The archive should surface what AUXO sees, why it matters commercially, and what a serious operator should do next.
+            Newest first. Clear chronology. No fake masonry. No card parade.
           </p>
         </div>
 
-        <div class="blog-manifesto__points">
-          {editorialPillars.map((pillar, index) => (
-            <div
-              class="blog-manifesto__point"
-              data-reveal="fade-up"
-              data-reveal-delay={index * 80}
-            >
-              <div class="flex items-center gap-3">
-                <span class="blog-manifesto__index">{String(index + 1).padStart(2, "0")}</span>
-                <Icon name={pillar.icon} class="w-5 h-5 text-accent-green flex-shrink-0" />
+        <!-- Archive stream — centered list -->
+        <div class="blog-archive-stream" data-reveal="fade-up">
+          {archivePosts.length > 0 ? (
+            <div class="blog-stream">
+              {archivePosts.map((post, index) => (
+                <a
+                  href={getBlogPostUrl(post.slug)}
+                  class="blog-stream__item group"
+                  data-reveal="fade-up"
+                  data-reveal-delay={index * 90}
+                >
+                  <div class="blog-stream__count">{String(index + 2).padStart(2, "0")}</div>
+                  <div class="blog-stream__date">
+                    <span class="blog-stream__date-main">
+                      {archiveDateFormatter.format(post.data.publishDate)}
+                    </span>
+                    <span class="blog-stream__date-year">
+                      {archiveYearFormatter.format(post.data.publishDate)}
+                    </span>
+                  </div>
+                  <div class="blog-stream__body">
+                    <p class="blog-stream__tags">{post.data.tags.join(" / ")}</p>
+                    <h3 class="blog-stream__title">{post.data.title}</h3>
+                    <p class="blog-stream__description">{post.data.description}</p>
+                  </div>
+                  <div class="blog-stream__meta">
+                    <span>{formatReadingTime(getReadingTimeMinutes(post.body))}</span>
+                    <span class="blog-stream__cta">
+                      <Icon name="mdi:arrow-right" class="w-4 h-4 transition-transform duration-300" />
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <div class="blog-stream__empty">
+              <div class="max-w-2xl">
+                <h2 class="text-3xl font-extrabold text-theme-primary font-display mb-3">
+                  More essays are coming. The page just stopped looking like placeholder furniture.
+                </h2>
+                <p class="text-theme-secondary font-body leading-relaxed">
+                  The archive is still young, so the lead story does the heavy lifting until more articles arrive.
+                </p>
               </div>
-              <h3 class="text-xl font-extrabold text-theme-primary font-display">
-                {pillar.title}
-              </h3>
-              <p class="blog-manifesto__description">{pillar.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div class="col-span-full blog-stream-header mb-6">
-        <div>
-          <p class="blog-section-label">Archive</p>
-          <h2 class="blog-stream-title mt-3">Recent dispatches</h2>
-        </div>
-        <p class="blog-stream-copy">
-          Newest first. Clear chronology. No fake masonry. No card parade.
-        </p>
-      </div>
-
-      <div class="col-span-full">
-        {archivePosts.length > 0 ? (
-          <div class="blog-stream">
-            {archivePosts.map((post, index) => (
               <a
-                href={getBlogPostUrl(post.slug)}
-                class="blog-stream__item group"
-                data-reveal="fade-up"
-                data-reveal-delay={index * 90}
+                href={featuredPost ? getBlogPostUrl(featuredPost.slug) : createUrl("contact")}
+                class="blog-inline-link"
               >
-                <div class="blog-stream__count">{String(index + 2).padStart(2, "0")}</div>
-                <div class="blog-stream__date">
-                  <span class="blog-stream__date-main">
-                    {archiveDateFormatter.format(post.data.publishDate)}
-                  </span>
-                  <span class="blog-stream__date-year">
-                    {archiveYearFormatter.format(post.data.publishDate)}
-                  </span>
-                </div>
-                <div class="blog-stream__body">
-                  <p class="blog-stream__tags">{post.data.tags.join(" / ")}</p>
-                  <h3 class="blog-stream__title">{post.data.title}</h3>
-                  <p class="blog-stream__description">{post.data.description}</p>
-                </div>
-                <div class="blog-stream__meta">
-                  <span>{formatReadingTime(getReadingTimeMinutes(post.body))}</span>
-                  <span class="blog-stream__cta">
-                    <Icon name="mdi:arrow-right" class="w-4 h-4 transition-transform duration-300" />
-                  </span>
-                </div>
+                {featuredPost ? "Read the latest insight" : "Talk to AUXO"}
+                <Icon name="mdi:arrow-right" class="w-4 h-4" />
               </a>
-            ))}
-          </div>
-        ) : (
-          <div class="blog-stream__empty">
-            <div class="max-w-2xl">
-              <h2 class="text-3xl font-extrabold text-theme-primary font-display mb-3">
-                More essays are coming. The page just stopped looking like placeholder furniture.
-              </h2>
-              <p class="text-theme-secondary font-body leading-relaxed">
-                The archive is still young, so the lead story does the heavy lifting until more articles arrive.
-              </p>
             </div>
-            <a
-              href={featuredPost ? getBlogPostUrl(featuredPost.slug) : createUrl("contact")}
-              class="blog-inline-link"
-            >
-              {featuredPost ? "Read the latest insight" : "Talk to AUXO"}
-              <Icon name="mdi:arrow-right" class="w-4 h-4" />
-            </a>
-          </div>
-        )}
+          )}
+        </div>
+
       </div>
     </div>
   </SectionContainer>

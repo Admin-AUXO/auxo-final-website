@@ -79,61 +79,44 @@ const articleSchema = {
           Back to all insights
         </a>
 
-        <div class="blog-article-hero__grid">
-          <div class="blog-article-hero__rail" data-reveal="fade-up" data-reveal-delay="60">
+        <!-- Single centered column for the header -->
+        <div class="blog-article-header">
+          <div class="blog-article-header__meta" data-reveal="fade-up" data-reveal-delay="60">
             <p class="blog-kicker">AUXO Journal</p>
-
-            <div class="blog-article-hero__meta">
-              <div class="blog-article-hero__meta-row">
-                <span class="blog-article-hero__meta-term">Published</span>
-                <time
-                  class="blog-article-hero__meta-value"
-                  datetime={entry.data.publishDate.toISOString()}
-                >
-                  {formattedPublishDate}
-                </time>
-              </div>
-              <div class="blog-article-hero__meta-row">
-                <span class="blog-article-hero__meta-term">Read time</span>
-                <span class="blog-article-hero__meta-value">{readingTime}</span>
-              </div>
-              <div class="blog-article-hero__meta-row">
-                <span class="blog-article-hero__meta-term">Sections</span>
-                <span class="blog-article-hero__meta-value">{articleSections.length || 1}</span>
-              </div>
+            <div class="blog-article-header__meta-row">
+              <span class="blog-article-hero__meta-term">Published</span>
+              <time
+                class="blog-article-hero__meta-value"
+                datetime={entry.data.publishDate.toISOString()}
+              >
+                {formattedPublishDate}
+              </time>
             </div>
-
-            {articleSections.length > 0 && (
-              <div class="blog-article-preview">
-                <p class="blog-rail__label">In this article</p>
-                {articleSections.slice(0, 4).map((section) => (
-                  <a href={`#${section.id}`}>{section.text}</a>
-                ))}
-              </div>
-            )}
+            <div class="blog-article-header__meta-row">
+              <span class="blog-article-hero__meta-term">Read time</span>
+              <span class="blog-article-hero__meta-value">{readingTime}</span>
+            </div>
           </div>
 
-          <div class="blog-article-hero__main">
-            <p class="blog-article-hero__tags" data-reveal="fade-up" data-reveal-delay="90">
-              {entry.data.tags.join(" / ")}
-            </p>
+          <p class="blog-article-hero__tags" data-reveal="fade-up" data-reveal-delay="90">
+            {entry.data.tags.join(" / ")}
+          </p>
 
-            <h1
-              class="blog-article-hero__title"
-              data-reveal="fade-up"
-              data-reveal-delay="120"
-            >
-              {entry.data.title}
-            </h1>
+          <h1
+            class="blog-article-hero__title"
+            data-reveal="fade-up"
+            data-reveal-delay="120"
+          >
+            {entry.data.title}
+          </h1>
 
-            <p
-              class="blog-article-hero__dek"
-              data-reveal="fade-up"
-              data-reveal-delay="180"
-            >
-              {entry.data.description}
-            </p>
-          </div>
+          <p
+            class="blog-article-hero__dek"
+            data-reveal="fade-up"
+            data-reveal-delay="180"
+          >
+            {entry.data.description}
+          </p>
         </div>
       </div>
     </div>
@@ -145,28 +128,33 @@ const articleSchema = {
     background="elevated"
     class="blog-page relative"
   >
+    <!-- 3-column layout: TOC sidebar | article centered | empty -->
     <div class="grid-container relative z-10">
-      {articleSections.length > 0 && (
-        <aside class="col-span-full lg:col-span-3 blog-article-sidebar">
-          <div class="blog-article-sidebar__inner" data-reveal="fade-right">
-            <div class="grid gap-3">
-              <p class="blog-rail__label">Article map</p>
-              <nav class="blog-article-toc" aria-label="Table of contents">
-                {articleSections.map((section) => (
-                  <a
-                    href={`#${section.id}`}
-                    class:list={{
-                      "blog-article-toc__link": true,
-                      "blog-article-toc__link--sub": section.level === 3,
-                    }}
-                  >
-                    {section.text}
-                  </a>
-                ))}
-              </nav>
-            </div>
+      <div class="col-span-full blog-article-layout">
 
-            <div class="blog-article-share">
+        <!-- Sticky TOC + Share sidebar, floats left of content -->
+        <aside class="blog-article-sidebar" aria-label="Article navigation">
+          <div class="blog-article-sidebar__inner" data-reveal="fade-right">
+            {articleSections.length > 0 && (
+              <div class="blog-sidebar-section">
+                <p class="blog-rail__label">In this article</p>
+                <nav class="blog-article-toc" aria-label="Table of contents">
+                  {articleSections.slice(0, 5).map((section) => (
+                    <a
+                      href={`#${section.id}`}
+                      class:list={{
+                        "blog-article-toc__link": true,
+                        "blog-article-toc__link--sub": section.level === 3,
+                      }}
+                    >
+                      {section.text}
+                    </a>
+                  ))}
+                </nav>
+              </div>
+            )}
+
+            <div class="blog-sidebar-section blog-article-share">
               <p class="blog-rail__label">Share</p>
               <div class="blog-share-controls">
                 <button id="share-twitter" class="blog-share-button" type="button">
@@ -185,55 +173,51 @@ const articleSchema = {
             </div>
           </div>
         </aside>
-      )}
 
-      <div
-        class:list={[
-          "col-span-full",
-          articleSections.length > 0
-            ? "lg:col-span-8 lg:col-start-5"
-            : "lg:col-span-8 lg:col-start-3",
-        ]}
-      >
-        <article class="blog-content blog-article-shell" data-reveal="fade-up">
-          <Content />
+        <!-- Centered article column -->
+        <div class="blog-article-center">
+          <article class="blog-content blog-article-shell" data-reveal="fade-up">
+            <Content />
 
-          <div class="blog-article-afterword">
-            Need help turning the argument into an actual operating plan? <a href="/contact">Talk to AUXO</a>.
+            <div class="blog-article-afterword">
+              <p>Need help turning the argument into an actual operating plan?</p>
+              <a href="/contact">Talk to AUXO</a>
+            </div>
+          </article>
+
+          <div class="blog-article-nav">
+            {newerPost && (
+              <a href={getBlogPostUrl(newerPost.slug)} class="blog-article-nav__link">
+                <div class="blog-article-nav__copy">
+                  <span class="blog-article-nav__eyebrow">Newer insight</span>
+                  <span class="blog-article-nav__title">{newerPost.data.title}</span>
+                </div>
+                <Icon name="mdi:arrow-right" class="w-4 h-4" />
+              </a>
+            )}
+
+            {olderPost && (
+              <a href={getBlogPostUrl(olderPost.slug)} class="blog-article-nav__link">
+                <div class="blog-article-nav__copy">
+                  <span class="blog-article-nav__eyebrow">Older insight</span>
+                  <span class="blog-article-nav__title">{olderPost.data.title}</span>
+                </div>
+                <Icon name="mdi:arrow-right" class="w-4 h-4" />
+              </a>
+            )}
+
+            {!newerPost && !olderPost && (
+              <a href="/blog" class="blog-article-nav__link">
+                <div class="blog-article-nav__copy">
+                  <span class="blog-article-nav__eyebrow">Archive</span>
+                  <span class="blog-article-nav__title">Back to all insights</span>
+                </div>
+                <Icon name="mdi:arrow-right" class="w-4 h-4" />
+              </a>
+            )}
           </div>
-        </article>
-
-        <div class="blog-article-nav">
-          {newerPost && (
-            <a href={getBlogPostUrl(newerPost.slug)} class="blog-article-nav__link">
-              <div class="blog-article-nav__copy">
-                <span class="blog-article-nav__eyebrow">Newer insight</span>
-                <span class="blog-article-nav__title">{newerPost.data.title}</span>
-              </div>
-              <Icon name="mdi:arrow-right" class="w-4 h-4" />
-            </a>
-          )}
-
-          {olderPost && (
-            <a href={getBlogPostUrl(olderPost.slug)} class="blog-article-nav__link">
-              <div class="blog-article-nav__copy">
-                <span class="blog-article-nav__eyebrow">Older insight</span>
-                <span class="blog-article-nav__title">{olderPost.data.title}</span>
-              </div>
-              <Icon name="mdi:arrow-right" class="w-4 h-4" />
-            </a>
-          )}
-
-          {!newerPost && !olderPost && (
-            <a href="/blog" class="blog-article-nav__link">
-              <div class="blog-article-nav__copy">
-                <span class="blog-article-nav__eyebrow">Archive</span>
-                <span class="blog-article-nav__title">Back to all insights</span>
-              </div>
-              <Icon name="mdi:arrow-right" class="w-4 h-4" />
-            </a>
-          )}
         </div>
+
       </div>
     </div>
   </SectionContainer>
