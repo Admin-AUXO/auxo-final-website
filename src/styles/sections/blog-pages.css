@@ -24,7 +24,7 @@
 }
 
 /* ─── ARTICLE — FULL-WIDTH HERO ─────────────── */
-/* Full-bleed: spans 100vw regardless of parent container */
+/* Spec: 1440x500px source image = 2.88:1 ultra-cinematic ratio */
 .blog-article-full-image {
   width: 100vw;
   position: relative;
@@ -34,17 +34,16 @@
   margin-right: -50vw;
   line-height: 0;
   overflow: hidden;
-  aspect-ratio: 3 / 1;
-  min-height: 280px;
-  max-height: 540px;
-  background: #0a0a0a; /* match the dark page background */
+  aspect-ratio: 50 / 17; /* ~2.94:1, matches 1440x500 source */
+  max-height: 560px;
+  background: #0a0a0a;
 }
 
 .blog-article-full-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center center;
   display: block;
 }
 
@@ -705,7 +704,7 @@
 @media (width <= 767px) {
   .blog-article-full-image {
     aspect-ratio: 16 / 9;
-    max-height: none;
+    max-height: 320px;
   }
 
   .blog-article-full-image img {
