@@ -1,7 +1,7 @@
 ---
 title: "The GCC Data Rush: Why More Infrastructure Hasn't Produced Better Decisions"
 description: "GCC companies are investing in analytics infrastructure faster than ever. Decision speed hasn't kept pace. The reason is structural — and the fix is not another dashboard."
-publishDate: 2026-04-23
+publishDate: 2026-04-22
 heroImage: /images/blog/future-of-analytics.png
 tags: ["Decision Intelligence", "Operating Model", "Analytics", "GCC", "MENA"]
 type: blog-post

@@ -1,7 +1,7 @@
 ---
 title: "The Gap Between Your Analytics Maturity and Your Decision Speed Is Not a Data Problem"
 description: "More dashboards, more data teams, more BI investment — and roughly the same decision speed as three years ago. The reason is structural."
-publishDate: 2026-04-23
+publishDate: 2026-04-20
 heroImage: /images/blog/decision-velocity.png
 tags: ["Decision Intelligence", "Operating Model", "Analytics"]
 type: blog-post
