@@ -2,6 +2,7 @@
 title: "The Decision Architecture Problem: Why Your AI Investment Needs a Decision Layer"
 description: "Most companies building AI infrastructure will discover the same problem: the compute is there, but the decision layer underneath it isn't."
 publishDate: 2026-04-18
+heroImage: /images/blog/decision-architecture-problem.png
 tags: ["Decision Intelligence", "Operating Model", "Analytics"]
 ---
 
