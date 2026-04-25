@@ -15,9 +15,12 @@ ctaType: question
 linkedinPostRef: "linkedin/2026-04-25.md"
 websiteUrl: https://auxodata.com/blog/mena-growth-paradox-decisions/
 publishedToWebsite: true
+coverImage: ./mena-growth-paradox-cover.png
 ---
 
 McKinsey's State of Grocery Retail MENA 2026 contains a finding that should concern every operator in the Gulf: confidence is up, store openings are up, and revenue growth has slowed. More activity. Less result.
+
+![The MENA Growth Paradox: rising confidence and store openings, but flat revenue growth](./mena-growth-paradox-cover.png)
 
 This is the growth paradox — and it's not a data problem.
 
