@@ -15,8 +15,8 @@ import {
 } from "@/lib/blog";
 
 const allPosts = sortByPublishDate(await getCollection("blog"));
-const featuredPost = allPosts[allPosts.length - 1] ?? null;
-const archivePosts = allPosts.slice(0, -1);
+const featuredPost = allPosts[0] ?? null;
+const archivePosts = allPosts.slice(1);
 const uniqueTags = [...new Set(allPosts.flatMap((post) => post.data.tags))];
 const archiveDateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
